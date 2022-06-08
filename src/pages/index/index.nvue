@@ -1,0 +1,148 @@
+<template>
+	<tm-app ref="app">
+		<tm-navbar title="TMUI全平台库" hide-home></tm-navbar>
+		<tm-sticky :offset="offset">
+			<template v-slot:sticky>
+				<tm-sheet blur :margin="[0, 0]">
+					<view class="flex-row flex-row-center-start pb-10">
+						<tm-image :width="108" :height="67.5" :src="logoimg"></tm-image>
+						<view class="pl-16">
+							<tm-text _class="text-weight-b" :font-size="36" label="TMUI 3.0.2"></tm-text>
+							<tm-text color="grey" label="全端兼容vue3 TypeScript pinia组件库"></tm-text>
+						</view>
+					</view>
+					<tm-input placeholder="组件中文/英文名称" :border="1" showClear prefix="tmicon-search" v-model="str"
+						@search='search' searchLabel="搜索组件"></tm-input>
+				</tm-sheet>
+			</template>
+			<tm-sheet :round="3" :margin="[32, 32]">
+				<tm-text :font-size="24" _class="font-weight-b" label="分类导航"></tm-text>
+				<tm-divider></tm-divider>
+				<tm-grid :col="3" :width="630">
+					<tm-grid-item url="../changyong/index" :height="180" >
+						<tm-icon color="primary" _class="pb-10" :font-size="52" name="tmicon-layergroup-fill"></tm-icon>
+						<tm-text :font-size="28" _class="font-weight-b" label="通用组件"></tm-text>
+						<tm-text color="grey" :font-size="22" _class="font-weight-b" label="高频常用组件"></tm-text>
+					</tm-grid-item>
+					<tm-grid-item url="../layout/index" :height="180"  >
+						<tm-icon color="blue" _class="pb-10" :font-size="52" name="tmicon-map-fill"></tm-icon>
+						<tm-text :font-size="28" _class="font-weight-b" label="布局组件"></tm-text>
+						<tm-text color="grey" :font-size="22" _class="font-weight-b" label="高频常用组件"></tm-text>
+					</tm-grid-item>
+					<tm-grid-item url="../showdata/index" :height="180" >
+						<tm-icon color="pink" _class="pb-10" :font-size="52" name="tmicon-paperplane-fill"></tm-icon>
+						<tm-text :font-size="28" _class="font-weight-b" label="展示组件"></tm-text>
+						<tm-text color="grey" :font-size="22" _class="font-weight-b" label="常见数据展示"></tm-text>
+					</tm-grid-item>
+					<tm-grid-item url="../form/index" :height="180" >
+						<tm-icon color="orange" _class="pb-10" :font-size="52" name="tmicon-commentdots-fill"></tm-icon>
+						<tm-text :font-size="28" _class="font-weight-b" label="表单录入"></tm-text>
+						<tm-text color="grey" :font-size="22" _class="font-weight-b" label="数据提交类"></tm-text>
+					</tm-grid-item>
+					<tm-grid-item url="../fankui/index" :height="180" count="NEW">
+						<tm-icon color="green" _class="pb-10" :font-size="52" name="tmicon-lightbulb-fill"></tm-icon>
+						<tm-text :font-size="28" _class="font-weight-b" label="反馈类型"></tm-text>
+						<tm-text color="grey" :font-size="22" _class="font-weight-b" label="提示弹层类组件"></tm-text>
+					</tm-grid-item>
+					<tm-grid-item url="../daohang/index" :height="180" count="NEW">
+						<tm-icon color="teal" _class="pb-10" :font-size="52" name="tmicon-flag-fill"></tm-icon>
+						<tm-text :font-size="28" _class="font-weight-b" label="导航类型"></tm-text>
+						<tm-text color="grey" :font-size="22" _class="font-weight-b" label="分页导航类"></tm-text>
+					</tm-grid-item>
+					<tm-grid-item @click="warinToast" :height="180" dot>
+						<tm-icon color="red" _class="pb-10" :font-size="52" name="tmicon-box-fill"></tm-icon>
+						<tm-text :font-size="28" _class="font-weight-b" label="业务型组件"></tm-text>
+						<tm-text color="grey" :font-size="22" _class="font-weight-b" label="优惠券导购类"></tm-text>
+					</tm-grid-item>
+					<tm-grid-item url="../other/index" :height="180">
+						<tm-icon color="cyan" _class="pb-10" :font-size="52" name="tmicon-smile-fill"></tm-icon>
+						<tm-text :font-size="28" _class="font-weight-b" label="其它"></tm-text>
+						<tm-text color="grey" :font-size="22" _class="font-weight-b" label="功能型组件"></tm-text>
+					</tm-grid-item>
+					<tm-grid-item url="../chart/index" :height="180" count="NEW">
+						<tm-icon color="blue-grey" _class="pb-10" :font-size="52" name="tmicon-borderbottom-fill">
+						</tm-icon>
+						<tm-text :font-size="28"  _class="font-weight-b" label="图表组件"></tm-text>
+						<tm-text color="grey" :font-size="22" _class="font-weight-b" label="Echarts 5.3.2"></tm-text>
+					</tm-grid-item>
+					
+				</tm-grid>
+			</tm-sheet>
+			<tm-cell showAvatar :round="3" :titleFontSize="30" title="行动支持" rightText="看广告赚积分">
+				<template v-slot:avatar>
+					<tm-icon color="orange" :font-size="38" name="tmicon-heart-fill"></tm-icon>
+				</template>
+			</tm-cell>
+			<view class="py-32 mx-32">
+				<tm-divider color="grey-2" label="tmui 3.0.0 原生渲染，全端兼容"></tm-divider>
+			</view>
+		</tm-sticky>
+
+		<tm-float-button @click="onChangeDark" :btn="{ icon: 'tmicon-ios-sunny', fontColor: 'white' }">
+		</tm-float-button>
+		<tm-message ref="msg"></tm-message>
+	</tm-app>
+</template>
+<script lang="ts" setup>
+import {
+	ref,
+	getCurrentInstance
+} from "vue"
+import {
+	onShow,
+	onLoad
+} from "@dcloudio/uni-app";
+import tmApp from "@/tmui/components/tm-app/tm-app.vue"
+import tmSheet from "@/tmui/components/tm-sheet/tm-sheet.vue"
+import tmButton from "@/tmui/components/tm-button/tm-button.vue"
+import tmFloatButton from "@/tmui/components/tm-float-button/tm-float-button.vue"
+import tmMessage from "@/tmui/components/tm-message/tm-message.vue"
+import tmInput from "@/tmui/components/tm-input/tm-input.vue"
+import tmSticky from "@/tmui/components/tm-sticky/tm-sticky.vue"
+import tmDivider from "@/tmui/components/tm-divider/tm-divider.vue"
+import tmIcon from "@/tmui/components/tm-icon/tm-icon.vue"
+import tmGridItem from "@/tmui/components/tm-grid-item/tm-grid-item.vue"
+import tmGrid from "@/tmui/components/tm-grid/tm-grid.vue"
+import tmNavbar from "@/tmui/components/tm-navbar/tm-navbar.vue"
+import tmCell from "@/tmui/components/tm-cell/tm-cell.vue"
+import tmImage from "@/tmui/components/tm-image/tm-image.vue"
+import tmText from "@/tmui/components/tm-text/tm-text.vue"
+
+import logoimg from "@/static/logo.png"
+const {
+	proxy
+} = getCurrentInstance();
+const str = ref("")
+const offset = ref('0px');
+// #ifdef H5
+offset.value = '44px';
+// #endif
+function onChangeDark() {
+	proxy.$refs.app.setDark()
+}
+
+function search() {
+	if (str.value.trim() === "") {
+		proxy.$refs.msg.show({
+			model: "error",
+			text: "不能为空",
+			mask: true
+		})
+		return;
+	}
+	uni.navigateTo({
+		url: "search?key=" + str.value
+	})
+}
+
+function warinToast() {
+	proxy.$refs.msg.show({
+		model: "wait",
+		text: "还未开放",
+		mask: true
+	})
+}
+
+
+
+</script>

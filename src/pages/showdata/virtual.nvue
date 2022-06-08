@@ -1,0 +1,42 @@
+<template>
+	<tm-app>
+		<tm-sheet>
+			<tm-text :font-size="30" _class="font-weight-b" label="基础示例,更多见文档，以下是展示超过1900张图片的列表，也不卡。超高性能的虚拟列表。"></tm-text>
+			<tm-divider></tm-divider>
+			<view class="flex flex-col flex-col-top-center">
+			<tm-virtual-list :width="626" :height="800" :data="imglist" :itemHeight="160">
+					<template v-slot:default="{data}">
+						<tm-image-group >
+							<tm-image :padding="[5,5]" preview :width="750" :height="150" :src="item" 
+							v-for="(item,index) in data" :key="index"></tm-image>
+						</tm-image-group>
+					</template>
+				</tm-virtual-list>
+			</view>
+		</tm-sheet>
+		
+
+	</tm-app>
+</template>
+<script lang="ts" setup>
+import {
+	ref
+} from "vue";
+import {
+	onShow,
+	onLoad
+} from "@dcloudio/uni-app";
+import tmApp from "@/tmui/components/tm-app/tm-app.vue"
+import tmSheet from "@/tmui/components/tm-sheet/tm-sheet.vue"
+import tmText from "@/tmui/components/tm-text/tm-text.vue"
+import tmImageGroup from "@/tmui/components/tm-image-group/tm-image-group.vue"
+import tmImage from "@/tmui/components/tm-image/tm-image.vue"
+import tmVirtualList from "@/tmui/components/tm-virtual-list/tm-virtual-list.vue"
+import tmDivider from "@/tmui/components/tm-divider/tm-divider.vue"
+	const imglist = ref([])
+	for(let i=0;i<1900;i++){
+		imglist.value.push('https://picsum.photos/636/150?id='+i)
+	}
+
+
+</script>

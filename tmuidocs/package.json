@@ -1,0 +1,26 @@
+{
+  "name": "tmui.design",
+  "version": "3.0.0",
+  "description": "tmui",
+  "main": "index.js",
+  "scripts": {
+    "dev": "vuepress dev",
+    "build": "vuepress build"
+  },
+  "keywords": [
+    "tmui",
+    "design"
+  ],
+  "author": "tmzdy",
+  "license": "ISC",
+  "devDependencies": {
+    "@vuepress/plugin-active-header-links": "^2.0.0-beta.46",
+    "@vuepress/plugin-docsearch": "^2.0.0-beta.38",
+    "@vuepress/plugin-register-components": "^2.0.0-beta.46",
+    "@vuepress/plugin-toc": "^2.0.0-beta.46",
+    "vuepress": "^2.0.0-beta.38"
+  },
+  "dependencies": {
+    "vuepress-plugin-copy-code2": "^2.0.0-beta.72"
+  }
+}
