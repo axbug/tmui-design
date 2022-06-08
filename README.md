@@ -1,18 +1,13 @@
----
-title: 关于tmUi3.0的介绍
----
 
-<dirtoc></dirtoc>
+
+#  关于 tm-ui 的介绍
 
 ##### 开发指南 tmui.design
+##### TMUI 3.0 by tm-vuefity 3.0
 
-# TMUI 3.0 by tm-vuefity 3.0
+### [开发文档](https://tmui.design/)
 
-<webview url="https://tmui.design/h5/#/"></webview>
-
-### :couplekiss: 介绍
-
-```tm-vuetify```已发布10月余，亦即将终止更新，将直接更新至tm-vuetify2.0版本，代表着vue2版本的结束。迎来```tmui3.0```!<br>
+```tm-vuetify 2.0```已发布10月余，亦即将终止更新，将直接更新至tm-vuetify2.0版本，代表着vue2版本的结束。迎来```tmui3.0```!<br>
 我拥抱新技术，将使得新的```tmui3.0```组件库变得更为可靠，性能更为强劲，个性化更丰富。<br>
 自```apple```在2019年发布了暗黑模式、跟随扁平潮流以来。现在一个APP如果没有一套可靠暗黑模式将会在未来被淘汰出局，
 也不会得到更多的关注。扁平化带来了多主题的适配更为方便快捷，可以让各APP拥有自主的品牌色彩，以及更多的细节配色，而
@@ -26,6 +21,8 @@ title: 关于tmUi3.0的介绍
 - 各组件样式设置丰富，不局限，尽量能做到千人千面。
 - 各组件经过微信开发工具的性能测试>=96分以上
 
+```tm-vuetify 2.0 ``` [点我查看](https://ext.dcloud.net.cn/plugin?id=5949)
+**本文档是tmui3.0 即tm-vuetify的3.0版本**
 
 ### :rage: 注意事项
 
