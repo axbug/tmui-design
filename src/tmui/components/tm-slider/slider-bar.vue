@@ -8,13 +8,18 @@
      props.direction=='horizontal'?'flex flex-col':'flex flex-row absolute'
     ]"
     >
-        <tm-sheet :round="10" unit="px" :color="props.color" linear="right" :width="props.direction=='horizontal'?props.width:_sizePx" :height="props.direction=='horizontal'?_sizePx:props.width" :margin="[0,0]" :padding="[0,0]"></tm-sheet>
+        <tm-sheet :followTheme="props.followTheme" :round="10" unit="px" :color="props.color" linear="right" :width="props.direction=='horizontal'?props.width:_sizePx" :height="props.direction=='horizontal'?_sizePx:props.width" :margin="[0,0]" :padding="[0,0]"></tm-sheet>
     </view>
 </template>
 <script lang="ts" setup>
 import { computed } from 'vue';
 import tmSheet from '../tm-sheet/tm-sheet.vue';
 const props = defineProps({
+	//是否跟随全局主题的变换而变换
+	followTheme: {
+		type: [Boolean, String],
+		default: true
+	},
    size:{
         type:Number,
         default:6

@@ -1,11 +1,14 @@
 <template>
     <view @click.stop="nodeClick" class="flex  px-24" :class="[_value['disabled'] ? 'opacity-5' : '']">
         <view :userInteractionEnabled="false" class="flex flex-row flex-between ">
-            <tm-text :color="isSelected ? props.color : ''"  :label="_value.text"></tm-text>
+            <tm-text :followTheme="isSelected?props.followTheme:false" :color="isSelected ? props.color : ''"  :label="_value.text"></tm-text>
             <view :font-size="30" class="flex flex-row flex-row-center-end">
-                <tm-icon :font-size="28" v-if="isSelected" :color="isSelected ? props.color : ''" name="tmicon-check">
+                <tm-icon :followTheme="isSelected?props.followTheme:false" :font-size="28" v-if="isSelected" 
+				:color="isSelected ? props.color : ''" name="tmicon-check">
                 </tm-icon>
-                <tm-icon :font-size="22" v-if="!isSelected&&_value['children']" name="tmicon-angle-right" color="grey-1"></tm-icon>
+                <tm-icon  :font-size="22" 
+				v-if="!isSelected&&_value['children']" name="tmicon-angle-right" 
+				color="grey-1"></tm-icon>
             </view>
         </view>
         <tm-divider></tm-divider>
@@ -20,6 +23,10 @@ import { childrenData } from "./interface"
 const { proxy } = getCurrentInstance();
 const emits = defineEmits(['click'])
 const props = defineProps({
+	followTheme: {
+		type: [Boolean,String],
+		default: true
+	},
     /**
      * 导入的数据
      */

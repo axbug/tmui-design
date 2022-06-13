@@ -23,7 +23,7 @@
 											:label="item['title']"></tm-text>
 									</view>
 							
-									<view v-if="item['content']" class="flex-12">
+									<view v-if="item['content']" class="flex-12 overflow">
 										<tm-text @click="emits('click',$event)" :fontSize="26" :_class="'text-overflow-'+props.maxLine"
 											:_style="{lineHeight:'34rpx'}" :label="item['content']"></tm-text>
 										<tm-text v-if="len>1" _class="pt-24" :label="`${activeIndex+1}/${len}`"></tm-text>

@@ -14,11 +14,13 @@
             :margin="[0,0]"
             :padding="[0,0]"
             _class="flex-center"
+			:followTheme="props.followTheme"
             >
                 <tm-text :userInteractionEnabled="false" v-if="item.value!==''" :label="item.value" :color="props.fontColor" :font-size="props.fontSize"></tm-text>
                 <tm-icon :userInteractionEnabled="false" v-if="item.value==''&&index!==_valueLen" :color="props.fontColor" name="tmicon-ios-remove"></tm-icon>
                 	<!-- #ifndef APP-NVUE -->
                     <tm-sheet
+					:followTheme="props.followTheme"
                     :userInteractionEnabled="false"
                     paren-class="tmSkeletonLine"
                     v-if="item.value==''&&index===_valueLen"
@@ -30,7 +32,7 @@
                     </tm-sheet>
                     <!-- #endif -->
                     <!-- #ifdef APP-NVUE -->
-                    <inputinit v-if="item.value==''&&index===_valueLen" :size="_size" :color="(props.fontColor||props.color)"></inputinit>
+                    <inputinit :followTheme="props.followTheme" v-if="item.value==''&&index===_valueLen" :size="_size" :color="(props.fontColor||props.color)"></inputinit>
                     <!-- #endif -->
             </tm-sheet>
         </view>
@@ -46,6 +48,10 @@ import inputinit from './inputinit.vue';
 const emits = defineEmits(["click"])
 const props = defineProps({
     ...custom_props,
+	followTheme:{
+		type:[Boolean,String],
+		default:true
+	},
     size:{
         type:Number,
         default:100

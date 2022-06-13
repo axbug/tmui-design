@@ -8,7 +8,7 @@
 			:padding="[0,0]" 
 			:round='props.round' 
 			:shadow="item.page=='...'?0:props.shadow" 
-			:followTheme="computedCurrent==item.page?true:false"
+			:followTheme="computedCurrent==item.page?props.followTheme:false"
 			:followDark="props.followDark"
 			:dark="props.dark"
 			:text="props.text"
@@ -69,6 +69,10 @@
 	import { getCurrentInstance, computed, ref, provide, inject , onUpdated, onMounted, onUnmounted, nextTick ,watch } from 'vue';
 	const emits = defineEmits(['update:current','change'])
 	const props = defineProps({
+		followTheme:{
+			type:[Boolean,String],
+			default:false
+		},
 		total: {
 			type: Number,
 			default:0,
@@ -115,11 +119,7 @@
 			type:String,
 			default:'white'
 		},
-		//是否跟随全局主题的变换而变换
-		followTheme: {
-			type: [Boolean,String],
-			default: true
-		},
+		
 		followDark: {
 			type: [Boolean,String],
 			default: true

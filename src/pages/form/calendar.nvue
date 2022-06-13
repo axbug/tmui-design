@@ -27,7 +27,7 @@
 		</tm-sheet>
 		<tm-cell @click="showdate=true" title="请选择时间" :right-text="dateStr"></tm-cell>
 		<tm-calendar :multiple="multiple" color="red" v-model:show="showdate" v-model:model-str="dateStr" :model="modeltype"></tm-calendar>
-
+		<view style="height: 100rpx;"></view>
 	</tm-app>
 </template>
 <script lang="ts" setup>

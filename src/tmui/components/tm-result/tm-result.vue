@@ -1,20 +1,21 @@
 <template>
 	<view class="flex flex-col flex-col-center-center pa-32" >
 		<tm-translate name="zoom" :delay="300">
-			<tm-sheet  :dark="props.dark" :followTheme="props.followTheme" :followDark="props.followDark" _class="flex-center flex-row rounded" :width="160" :height="160" :round="25" :color="icon_color" text>
-				<tm-icon _style="line-height:normal" :dark="props.dark" :followTheme="props.followTheme" :followDark="props.followDark" :fontSize="80" :name="icon_rp"></tm-icon>
+			<tm-sheet  :dark="props.dark" :followTheme="false"
+			 :followDark="props.followDark" _class="flex-center flex-row rounded" :width="160" :height="160" :round="25" :color="icon_color" text>
+				<tm-icon _style="line-height:normal" :dark="props.dark"  :followDark="props.followDark" :fontSize="80" :name="icon_rp"></tm-icon>
 			</tm-sheet>
 		</tm-translate>
 		<view class="flex flex-col flex-center pb-10">
-			<tm-text  :dark="props.dark" :followTheme="props.followTheme" :followDark="props.followDark" _class="text-weight-b" :fontSize="34" :label="icon_title"></tm-text>
+			<tm-text  :dark="props.dark"  :followDark="props.followDark" _class="text-weight-b" :fontSize="34" :label="icon_title"></tm-text>
 		</view>
 		<view class="flex flex-col flex-center pb-24">
-			<tm-text  :dark="props.dark" :followTheme="props.followTheme" :followDark="props.followDark" _class="opacity-6 " :fontSize="24" :label="icon_subtitle"></tm-text>
+			<tm-text  :dark="props.dark"  :followDark="props.followDark" _class="opacity-6 " :fontSize="24" :label="icon_subtitle"></tm-text>
 		</view>
 		<view v-if="props.showBtn" hover-class="opacity-6" @click="emits('click',$event)" class="flex flex-col flex-center " >
 			<slot name="default">
 				<tm-sheet  :userInteractionEnabled="false" :height="64" :dark="dark" :followTheme="props.followTheme" :followDark="props.followDark" :shadow="3" linear="right"  :color="icon_color" _style="cursor: pointer;" :round="4" :width="420" _class="flex-center" :margin="[0,32]">
-					<tm-text   :dark="props.dark" _class="text-size-n" :followTheme="props.followTheme" :followDark="props.followDark" :label="btnText"></tm-text>
+					<tm-text   :dark="props.dark" _class="text-size-n" :followDark="props.followDark" :label="btnText"></tm-text>
 				</tm-sheet>
 			</slot>
 		</view>

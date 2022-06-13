@@ -2,7 +2,7 @@
 <template>
 	<tm-app  ref="app" color="grey-5">
 		<tm-form ref="form" v-model="show" >
-			<tm-form-item label="身份证号码" field="nameuser.a">
+			<tm-form-item label="身份证号码" field="nameuser.a" :rules="{required:true}">
 				<tm-input :inputPadding="[0,0]" v-model="show.nameuser.a" :transprent="true" :showBottomBotder="false"></tm-input>
 			</tm-form-item>
 			<tm-form-item label="选择日期" field="cale" :rules="{required:true}">
@@ -14,8 +14,12 @@
 					placeholder="请选择所在地区地址" disabled :transprent="true" :showBottomBotder="false"></tm-input>
 			</tm-form-item>
 			<tm-form-item label="时间选择" field="time" :rules="{required:true}">
-				<tm-input :inputPadding="[0,0]" :model-value.sync="show.timeStr" @click="showTimePickerView=!showTimePickerView" suffix="tmicon-angle-right"
-					placeholder="请选择时间" disabled :transprent="true" :showBottomBotder="false"></tm-input>
+				<tm-input :inputPadding="[0,0]" v-model="show.timeStr" 
+				@click="showTimePickerView=!showTimePickerView" 
+				suffix="tmicon-angle-right"
+					placeholder="请选择时间" disabled 
+					:transprent="true" 
+					:showBottomBotder="false"></tm-input>
 			</tm-form-item>
 			<tm-form-item label="弹出选择" field="time" :rules="{required:true}">
 				<tm-input :inputPadding="[0,0]" :model-value.sync="show.pickerStr" @click="showPicker=!showPicker" suffix="tmicon-angle-right"
@@ -52,7 +56,8 @@
 			</tm-form-item>
 
 			<tm-form-item label="上传截图" field="upload" :rules="{required:true,message:'请上传'}">
-				<tm-upload :rows="3" :width="420" url="https://mockapi.eolink.com/tNYKNA7ac71aa90bcbe83c5815871a5b419601e96a5524d/upload"
+				<tm-upload
+				:rows="3" :width="420" url="https://mockapi.eolink.com/tNYKNA7ac71aa90bcbe83c5815871a5b419601e96a5524d/upload"
 					v-model="show.upload"></tm-upload>
 			</tm-form-item>
 			<tm-form-item :border="false">
@@ -70,7 +75,7 @@
 		</tm-form>
 		<tm-calendar v-model="show.cale" v-model:show="showCal" :default-value="show.cale"></tm-calendar>
 		<tm-city-picker v-model="show.city" v-model:model-str="show.cityStr" v-model:show="showCity" :default-value="show.city"></tm-city-picker>
-		<tm-time-picker v-model="show.time" v-model:model-str="show.timeStr" v-model:show="showTimePickerView" :default-value="show.time"></tm-time-picker>
+		<tm-time-picker v-model="show.time" v-model:model-str="show.timeStr" v-model:show="showTimePickerView" :default-value="show.timeStr"></tm-time-picker>
 		<tm-picker :columns="pickerlist" v-model="show.pickerIndex" v-model:model-str="show.pickerStr" v-model:show="showPicker" :default-value="show.pickerIndex"></tm-picker>
 	</tm-app>
 </template>
@@ -119,8 +124,8 @@
 	])
 	const show = ref({
 		cale: ["2022-1-4"],
-		time:'2022-1-1',
-		timeStr:'',
+		time:'2022-1-9',
+		timeStr:'2022-1-5',
 		radio: "",
 		pickerIndex:[],
 		pickerStr:"",

@@ -1,38 +1,54 @@
 <template>
-	<tm-sheet 
-	 :height='50'
-	 :width='_width'
-	 :round='24'
-	 unit='px'
-	 _class='flex-center flex '
-	 :_style="_styletop"
-	 :transprent="_transprent" :color="props.color" :border="0"  :margin="[0,0]" 
-	 :padding="_padding" hover-class="opacity-7"
-	 @click="itemClick"
-	 >
-		<tm-badge
-		:fontSize="20"
-		 :color="c_font_style.dotColor" 
-		 :eventPenetrationEnabled="true" 
-		 :dot="props.dot" :count="props.count" 
-		 :icon="props.dotIcon" 
-		 :maxCount="props.maxCount">
-			<view  class="flex flex-col flex-col-center-center " :style="{width:65+'px',height:'32px'}">
-				<slot>
-					<tm-icon  
+	<view style="height: 75px;" :style="{'padding-top':(tmTabbarItemSafe?0:15)+'px'}">
+		<tm-sheet
+		 :height='60'
+		 :width='_width'
+		 :round='24'
+		 unit='px'
+		 _class='flex-center flex '
+		 :_style="_styletop"
+		 :followTheme="_btnTop.value&&props.followTheme"
+		 :transprent="_transprent" :color="props.color" :border="0"  :margin="[0,0]" 
+		 :padding="_padding" 
+		 @click="itemClick"
+		 >
+			<tm-badge
+			 :fontSize="20"
+			 :color="c_font_style.dotColor" 
+			 :eventPenetrationEnabled="true" 
+			 :dot="props.dot" :count="props.count" 
+			 :icon="props.dotIcon" 
+			 :maxCount="props.maxCount">
+				<view  :class="[_active?'anifun':'']" class="flex flex-col flex-col-center-center " :style="{width:65+'px',height:'30px'}">
+					<slot>
+						<tm-icon 
+						 v-if="!_load"
+						_style="line-height: normal;" 
+						:color="_color" 
+						:font-size="c_font_style.iconSize" 
+						:name="(_active?c_font_style.icon:(c_font_style.unicon||c_font_style.icon))"></tm-icon>
+						
+					</slot>
+					<tm-icon
+					v-if="_load"
+					spin
 					_style="line-height: normal;" 
 					:color="_color" 
 					:font-size="c_font_style.iconSize" 
-					:name="(_active?c_font_style.icon:(c_font_style.unicon||c_font_style.icon))"></tm-icon>
+					name="tmicon-loading"></tm-icon>
 					
-				</slot>
-			</view>
-		</tm-badge>
-		<tm-text v-if="c_font_style.text!==''" :color="_color" _class="pt-4" :font-size="c_font_style.textSize" :label='c_font_style.text'></tm-text>
-	</tm-sheet>
+				</view>
+			</tm-badge>
+			<tm-text v-if="c_font_style.text!==''" :color="_color" _class="pb-0" :font-size="c_font_style.textSize" :label='c_font_style.text'></tm-text>
+		</tm-sheet>
+	</view>
 </template>
 
 <script lang="ts" setup>
+	/**
+	 * 底部导航栏项目
+	 * @description 只能放置在tm-tabbar中。
+	 */
 	import tmBadge from "../tm-badge/tm-badge.vue";
 	import tmText from "../tm-text/tm-text.vue";
 	import tmIcon from "../tm-icon/tm-icon.vue";
@@ -40,23 +56,36 @@
 	import {
 		custom_props,
 	} from '../../tool/lib/minxs';
+	import { useTmpiniaStore } from '../../tool/lib/tmpinia';
+	const store = useTmpiniaStore();
 	import { getCurrentInstance, computed,watchEffect, ref, provide, inject , onUpdated, onMounted, onUnmounted, nextTick ,watch, PropType } from 'vue';
+	/**
+	 * click 项目被点击时触发。
+	 * beforeClick点击切换之前执行，如果返回false或者Promise<false>时，将阻止链接的切换。如果没有提供url链接地地址将只作为切换使用。
+	 */
 	const emits = defineEmits(["click","beforeClick"])
 	const {proxy} = getCurrentInstance();
 	const props = defineProps({
 		...custom_props,
+		followTheme:{
+			type:[Boolean,String],
+			default:true
+		},
 		transprent:{
 			type:Boolean,
 			default:true,
 		},
+		//背景主题色
 		color:{
 			type:String,
 			default:'white'
 		},
+		//默认的文字主题
 		fontColor:{
 			type:String,
 			default:'grey-darken-1'
 		},
+		//激活后的主题色。
 		activeColor:{
 			type:String,
 			default:'primary'
@@ -126,21 +155,26 @@
 		beforeClick:{
 			type:[Function,Boolean],
 			default:()=>false
+		},
+		load:{
+			type:[Boolean, String],
+			default:false
 		}
 	})
-	
+	const _btnTop = computed(()=>props.btnTop)
 	const _transprent = computed(()=>{
-		if(props.btnTop===true) return false;
-		return props.transprent;
+		if(_btnTop.value===true) return false;
+		return true;
 	})
 	const _styletop = computed(()=>{
-		if(props.btnTop===true) return 'top:-15px';
+		if(_btnTop.value===true) return 'top:-15px';
 		return '';
 	})
 	
 	const _padding = computed(()=>{
 		return [0,0];
 	})
+	const _load = ref(props.load)
 	const _active = ref(props.active||false)
 	const c_font_style = computed(()=>{
 		return {dotColor:props.dotColor,text:props.text,icon:props.icon,textSize:props.textSize,iconSize:props.iconSize,unicon:props.unicon}
@@ -148,12 +182,19 @@
 	const uid = uni.$tm.u.getUid(1);
 	const tmTabbarWidth = inject("tmTabbarWidth",computed(()=>50))
 	const _width = computed(()=>{
-		if(props.btnTop===true) return 50;
+		if(_btnTop.value===true) return 60;
 		return tmTabbarWidth.value;
 	})
 	const nowUrl = inject("tmTabbarUrl",computed(()=>""))
+	const nowUid = inject("tmTabbarUid",computed(()=>""))
+	const tmTabbarItemSafe = inject("tmTabbarItemSafe",false)
 	const _color = computed(()=>{
-		if(_active.value===true) return props.activeColor
+		if(_active.value===true&&!_btnTop.value){
+			if(store.tmStore.color&&props.followTheme){
+				return store.tmStore.color
+			}
+			return props.activeColor
+		} 
 		return props.fontColor
 	})
 	
@@ -175,31 +216,35 @@
 		}
 	})
 	function setActive(){
-		if(typeof nowUrl.value == 'undefined' || nowUrl.value==""){
-			return;
+		if(nowUid.value==uid){
+			_active.value=true
+		}else{
+			_active.value=false
 		}
-		_active.value=nowUrl.value==props.url?true:false;
-		
 	}
 	
-	
-	watch([nowUrl,()=>props.active],()=>{
+	watch([nowUid,()=>props.active],()=>{
 		setActive()
 	})
+	watch([()=>props.load],()=>{
+		_load.value = props.load
+	})
 	async function itemClick(){
-		emits("click");
+		if(_load.value) return;
 		if (typeof props.beforeClick === 'function') {
-		    uni.showLoading({title:"...",mask:true})
+			_load.value = true
 		    let p = await props.beforeClick();
 		    if(typeof p === 'function'){
 		        p = await p();
 		    }
-		    uni.hideLoading();
+		    _load.value = false
 		    if (!p) return;
 		}
 		if(parent){
-		    parent.setNowurl(props.url)
+		    parent.setNowurl(props.url,uid)
 		}
+		emits("click");
+		
 		nextTick(()=>{
 			setActive()
 			if(props.url=="") return
@@ -245,5 +290,20 @@
 </script>
 
 <style scoped>
-
+/* #ifndef APP-NVUE */
+.anifun{
+	animation: scale 0.2s ease;
+}
+@keyframes scale {
+	0%{
+		transform: scale(0.9);
+	}
+	50%{
+		transform: scale(1.1);
+	}
+	100%{
+		transform: scale(1);
+	}
+}
+/* #endif */
 </style>

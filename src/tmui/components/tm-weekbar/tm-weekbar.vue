@@ -6,8 +6,8 @@
             </view>
             <view class="flex-1 flex flex-row" style="width:0px">
                 <view @click.stop="changeDate(item.date)" :class="[item.date == _value ?'':'opacity-7']" class="flex-1 flex flex-col flex-col-center-center" v-for="(item,index) in nowWeekDayArray" :key="index">
-                    <tm-text :color="item.date == _value ?props.activeColor:''" :userInteractionEnabled="false" :font-size="23" :label="weekStr[index]"></tm-text>
-                    <tm-text :color="item.date == _value ?props.activeColor:''" :userInteractionEnabled="false" :font-size="23" :label="item.str"></tm-text>
+                    <tm-text  :color="item.date == _value&&!props.followTheme ?props.activeColor:''" :userInteractionEnabled="false" :font-size="23" :label="weekStr[index]"></tm-text>
+                    <tm-text  :color="item.date == _value&&!props.followTheme  ?props.activeColor:''" :userInteractionEnabled="false" :font-size="23" :label="item.str"></tm-text>
                 </view>
             </view>
             <view @click.stop="nexWeek" class="opacity-7">
@@ -37,6 +37,10 @@ import isSameOrBefore from "../../tool/dayjs/esm/plugin/isSameOrBefore/index"
 const emits = defineEmits(["change","update:modelValue"])
 const props = defineProps({
     ...custom_props,
+	followTheme: {
+		type: [Boolean, String],
+		default: true
+	},
     transprent:{
         type:Boolean,
         default:false

@@ -26,6 +26,7 @@
 				unit='px'
 			>
 				<view class="statusHeight" :style="{height:statusBarHeight+'px'}"></view>
+				
 				<view class="flex flex-row flex-1 flex-row flex-row-center-betweent ">
 					<view class="flex-row flex flex-row-center-start pl-24" :style="{width:_leftWidth+'rpx'}">
 						<tm-icon _class="pointer" @click="goback" v-if="_pages>1" name="tmicon-angle-left"></tm-icon>
@@ -63,6 +64,10 @@
 	const {proxy} = getCurrentInstance();
 	const props = defineProps({
 		...custom_props,
+		followTheme:{
+			type:[Boolean,String],
+			default:true
+		},
 		transprent:{
 			type: [Boolean,String],
 			default: false
@@ -79,13 +84,17 @@
 			type: [Number, String],
 			default: 0
 		},
+		shadow: {
+			type: [Number, String],
+			default: 1
+		},
+		borderDirection:{
+			type:String,
+			default:"bottom"
+		},
 		round: {
 			type: [Number, String],
 			default: 0
-		},
-		shadow: {
-			type: [Number],
-			default: 1
 		},
 		margin: {
 			type:Array as PropType<Array<number>>,
@@ -134,7 +143,11 @@
 		homePath:{
 			type: [String],
 			default: "/pages/index/index"
-		}
+		},
+		blur:{
+			type:Boolean,
+			default:false
+		},
 	})
 
 	const _height = computed(()=>props.height)
@@ -149,7 +162,7 @@
 	const _title = computed(()=>props.title)
 	const _fontColor = computed(()=>props.fontColor)
 	const _homeColor = computed(()=>props.homeColor)
-	const _blur = computed(()=>props.linear!=''?false:true)
+	const _blur = computed(()=>props.blur)
 	const _pages = ref(0)
 	onMounted(()=>{
 		_pages.value = getCurrentPages().length;

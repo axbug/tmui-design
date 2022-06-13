@@ -130,7 +130,10 @@
                 </view>
                 <slot name="right">
                     <view v-if="propsDetail.search || propsDetail.searchLabel" class="pl-16">
-                        <TmButton @click="searchClick" :color="props.focusColor" :font-size="24" :height="_height - 11"
+                        <TmButton :followTheme="props.followTheme"
+						 @click="searchClick" 
+						:color="props.focusColor" :font-size="24" 
+						:height="_height - 11"
                             :padding="[16, 0]" block :margin="[0, 0]" :icon="propsDetail.search"
                             :label="propsDetail.searchLabel"></TmButton>
                     </view>
@@ -162,6 +165,10 @@ const emits = defineEmits(["focus", "blur", "confirm", "input", "update:modelVal
 const { proxy } = getCurrentInstance()
 const props = defineProps({
     ...custom_props,
+	followTheme: {
+		type: [Boolean,String],
+		default: true
+	},
     color: {
         type: String,
         default: 'grey-4'
@@ -383,7 +390,13 @@ const _requiredError = ref(false)
 const _foucsActive = ref(false)
 const _color = computed(() => {
     let color = props.color;
-    if (_foucsActive.value) color = props.focusColor;
+    if (_foucsActive.value){
+		if(props.followTheme&&store.tmStore.color){
+			 color = store.tmStore.color;
+		}else{
+			color = props.focusColor;
+		}
+	} 
     if (_requiredError.value) color = 'red';
     return color;
 })
@@ -430,6 +443,7 @@ function changeSeePassword() {
 function focus() {
     _foucsActive.value = true;
     emits("focus")
+	pushFormItem();
 }
 function blur() {
     _foucsActive.value = false;
@@ -437,7 +451,6 @@ function blur() {
     emits("blur")
 }
 function confirm() {
-
     emits("confirm", _value.value)
 }
 function inputHandler(e) {
@@ -445,9 +458,10 @@ function inputHandler(e) {
     _value.value = e.detail.value;
     emits("input", e.detail.value)
     emits("update:modelValue", e.detail.value)
+	
     return e.detail.value;
 }
-
+watch(_value,()=>uni.$tm.u.debounce(()=>pushFormItem(),350))
 //设置当前状态。
 //type:1,错误，2正常状态，3，正确。
 function setStatus(type: number, message: string) {
@@ -466,7 +480,7 @@ async function pushFormItem(isCheckVail = true) {
                 isRe = rulesObj.value.validator;
             }
             if (typeof rulesObj.value.validator !== 'function') {
-                isRe = String(_value.value).length == 0
+                isRe = String(_value.value).length == 0 || typeof _value.value === null ?true:false;
             }
             _requiredError.value = isRe;
         }

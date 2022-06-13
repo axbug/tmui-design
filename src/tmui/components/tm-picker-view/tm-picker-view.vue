@@ -1,6 +1,6 @@
 <template>
     <view class="flex flex-row" >
-		<pickerPanelVue @end="emits('end')" @start="emits('start')" :dataKey="props.dataKey" @change="pickerChange($event,index)" :col="_colIndex[index]" v-for="(item,index) in _data" :data="item" :key="index" :height="props.height" class="flex-1"></pickerPanelVue>
+		<pickerPanelVue :followTheme="props.followTheme" @end="emits('end')" @start="emits('start')" :dataKey="props.dataKey" @change="pickerChange($event,index)" :col="_colIndex[index]" v-for="(item,index) in _data" :data="item" :key="index" :height="props.height" class="flex-1"></pickerPanelVue>
     </view>
 </template>
 <script lang="ts" setup>
@@ -20,6 +20,10 @@ import pickerPanelVue from './picker-panel.vue';
  */
 const emits = defineEmits(["change","update:modelValue","update:modelStr","end","start"])
 const props = defineProps({
+	followTheme: {
+		type: [Boolean,String],
+		default: true
+	},
     height:{
 		type:Number,
 		default:450

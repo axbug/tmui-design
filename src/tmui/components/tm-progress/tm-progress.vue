@@ -5,7 +5,7 @@
 			class=" flex relative flex flex-col overflow  ">
 			<view class="relative">
 				<tm-sheet no-level :round="props.round" 
-					:followTheme="props.followTheme" :dark="props.dark" :margin="[0, 0]" :width="props.width"
+					:followTheme="false" :dark="props.dark" :margin="[0, 0]" :width="props.width"
 					:height="props.height" :color="props.bgColor" :padding="[0, 0]">
 				</tm-sheet>
 			</view>
@@ -184,7 +184,7 @@ const isDark = computed(() => computedDark(props, tmcfg.value));
 //计算主题
 const tmcomputed = computed<cssstyle>(() => computedTheme(props, isDark.value));
 
-const _bgColor = computed(()=>computedTheme({...props,color:props.bgColor}, isDark.value).backgroundColor)
+const _bgColor = computed(()=>computedTheme({...props,color:props.bgColor,followTheme:false}, isDark.value).backgroundColor)
 const txtcolor = tool.getColor(props.color).value;
 const darkcolor = tmcomputed.value.backgroundColor
 const activeWidth = computed(() => {

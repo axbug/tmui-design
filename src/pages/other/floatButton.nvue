@@ -3,8 +3,8 @@
         <tm-sheet>
             <tm-text :font-size="24" _class="font-weight-b" label="基础示例，更多属性和功能见文档"></tm-text>
         </tm-sheet>
-		<tm-float-button position="tr" :btn="{ icon: 'tmicon-reply',linear:'bottom', fontColor: 'white' }"></tm-float-button>
-		<tm-float-button position="bc" :btn="{ icon: 'tmicon-plus',linear:'bottom',color:'green',fontColor: 'black' }"></tm-float-button>
+		<tm-float-button position="tr" :btn="{ icon: 'tmicon-reply',linear:'bottom' }"></tm-float-button>
+		<tm-float-button position="bc" :btn="{ icon: 'tmicon-plus',linear:'bottom',color:'green' }"></tm-float-button>
     </tm-app>
 </template>
 <script lang="ts" setup>

@@ -1,31 +1,36 @@
 <template>
-	<view class="fixed l-0 b-0 " :style="{ width: _width + 'px', height: 95 + 'px',transform:`translateY(${props.bottom}rpx)` }">
+	<view class="fixed l-0 b-0" :style="{ width: _width + 'px', height: _totalBarHeight + 'px',transform:`translateY(${props.bottom}rpx)` }">
+		
+		
 		<tm-sheet
 			@click="emits('click', $event)"
 			:blur="_blur"
 			:color="props.color"
 			_class="relative"
-			_style="top:25px;"
+			_style="top:15px;"
 			:followTheme="props.followTheme"
 			:dark="props.dark"
 			:round="props.round"
 			:shadow="props.shadow"
 			:outlined="props.outlined"
-			:border="1"
+			:border="0"
 			borderDirection="top"
 			:text="props.text"
-			:transprent="props.transprent"
+			:transprent="false"
 			:linear="props.linear"
 			:linearDeep="props.linearDeep"
 			:margin="[0, 0]"
 			:padding="[0, 0]"
-			:height="70"
+			:height="_BarHeight"
 			:width="_width"
 			unit="px"
 		>
-			<view class="relative barcont flex flex-row flex-row-center-center flex-around" :style="{ width: _width + 'px', height: 50 + 'px' }"><slot></slot></view>
-			<view v-if="props.showSafe" class="statusHeight" :style="{ height: '20px' }"></view>
+			
 		</tm-sheet>
+		<view class="absolute flex flex-col" :style="{ width: _width + 'px', height: _totalBarHeight + 'px'}">
+			<view class="relative barcont flex flex-row flex-row-center-center flex-around flex-1" 
+			:style="{ width: _width + 'px'}"><slot></slot></view>
+		</view>
 	</view>
 </template>
 
@@ -78,17 +83,33 @@ const props = defineProps({
 	//是否显示安全区域
 	showSafe:{
 		type: [Boolean],
-		default: true
+		default: false
 	}
 	
 });
 const _width = uni.upx2px(props.width)||uni.getSystemInfoSync().windowWidth;
 const _blur = computed(()=>props.blur)
 const _activeUrl:Ref<string> = ref(undefined)
+const _activeUid:Ref<string> = ref(undefined)
 const tmTabbarId = "tmTabbarId";
 const _cachlist = ref([])
-function setNowurl(url:string){
+const _showSafe = ref(props.showSafe)
+const win_bottom = uni.getSystemInfoSync().safeAreaInsets.bottom;
+if(win_bottom>0){
+	_showSafe.value = true;
+}
+
+const _totalBarHeight = computed(()=>{
+	if(_showSafe.value) return 90;
+	return 75
+})
+const _BarHeight = computed(()=>{
+	if(_showSafe.value) return 75;
+	return 60
+})
+function setNowurl(url:string,nowuid:number){
 	_activeUrl.value = url;
+	_activeUid.value = nowuid;
 }
 function pushKey(uid:number){
 	_cachlist.value = [...new Set([..._cachlist.value,uid])]
@@ -98,8 +119,10 @@ function delKey(uid:number){
 }
 defineExpose({tmTabbarId,setNowurl,pushKey,delKey})
 provide('tmTabbarUrl',computed(()=>_activeUrl.value))
+provide('tmTabbarUid',computed(()=>_activeUid.value))
 provide('tmTabbarWidth',computed(()=>Math.ceil(_width/_cachlist.value.length)))
 provide('tmTabbarItemList',computed(()=>_cachlist.value))
+provide('tmTabbarItemSafe',_showSafe.value)
 </script>
 
 <style>

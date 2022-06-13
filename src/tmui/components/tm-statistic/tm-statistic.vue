@@ -1,13 +1,13 @@
 <template>
 	<view class="flex flex-row flex-row-bottom-center">
 		<slot name="prefix">
-			<tm-text :color="props.color" :font-size="props.fontSize*0.7" :label="props.prefix"></tm-text>
+			<tm-text :followTheme="props.followTheme" :color="props.color" :font-size="props.fontSize*0.7" :label="props.prefix"></tm-text>
 		</slot>
 		<slot name="default">
-			<tm-text _class="px-12" :color="props.color" :font-size="props.fontSize" :label="displayValue"></tm-text>
+			<tm-text :followTheme="props.followTheme" _class="px-12" :color="props.color" :font-size="props.fontSize" :label="displayValue"></tm-text>
 		</slot>
 		<slot name="suffix">
-			<tm-text :color="props.color" :font-size="props.fontSize*0.7" :label="props.suffix"></tm-text>
+			<tm-text :followTheme="props.followTheme" :color="props.color" :font-size="props.fontSize*0.7" :label="props.suffix"></tm-text>
 		</slot>
 	</view>
 </template>
@@ -36,6 +36,11 @@
 	import tmText from "../tm-text/tm-text.vue"
 	const emits = defineEmits(['mountedCallback','callback'])
 	const props = defineProps({
+		//是否跟随全局主题的变换而变换
+		followTheme: {
+			type: [Boolean,String],
+			default: true
+		},
 		fontSize:{
 			type:Number,
 			default:30

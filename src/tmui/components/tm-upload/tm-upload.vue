@@ -19,7 +19,7 @@
                 </tm-sheet>
             </view>
             <view v-if="!_disabledAdd"  class="ma-5" :style="{width:(itemWidth-10)+'rpx'}">
-                <tm-sheet :round="2"  @click="chooseFile" color="primary" text :padding="[0,0]" :margin="[0,0]" _class="flex-center" :height="itemHeight-10" >
+                <tm-sheet :followTheme="props.followTheme" :round="2"  @click="chooseFile" color="primary" text :padding="[0,0]" :margin="[0,0]" _class="flex-center" :height="itemHeight-10" >
                      <tm-icon :font-size="42" :userInteractionEnabled="false" name="tmicon-plus"></tm-icon>
                 </tm-sheet>
             </view>
@@ -33,7 +33,7 @@
  * 上传
  * @description 图片上传组件。
  */
-import { computed ,ref,PropType, Ref, watch, nextTick,getCurrentInstance,inject  } from 'vue'
+import { computed ,ref,PropType, Ref,unref, watch,toRaw, nextTick,getCurrentInstance,inject  } from 'vue'
 import {file,fileConfig,statusCode,uploadfile} from "./upload"
 import tmImage from '../tm-image/tm-image.vue';
 import tmText from '../tm-text/tm-text.vue';
@@ -41,6 +41,11 @@ import tmIcon from '../tm-icon/tm-icon.vue';
 import tmSheet from '../tm-sheet/tm-sheet.vue';
 const {proxy} = getCurrentInstance();
 const props = defineProps({
+	//是否跟随全局主题的变换而变换
+	followTheme: {
+		type: [Boolean, String],
+		default: true
+	},
     width:{
         type:Number,
         default:700
@@ -132,7 +137,7 @@ const props = defineProps({
  * @method succcess 一个文件上传成功后立即执行， 返回：file,fileList
  * @method fail 一个文件上传失败后立即执行， 返回：file,fileList
  * @method complete 所有文件上传完成， 返回：file,fileList
- * @method change 文件列表增加或者减少,文件状态的改变， 返回：file,fileList
+ * @method change 文件列表增加或者减少,文件状态的改变， 返回：fileList
  * @method remove 一个文件被移除时触发。file,fileList
  * @method uploadComplete i当前任务所有文件上传结束时触发。fileList
  */
@@ -151,13 +156,12 @@ const _disabledAdd = computed(()=>{
 const _uploadObj = new uploadfile({hostUrl:props.url,autoUpload:props.autoUpload,fileList:addSuccess(props.defaultValue),header:props.header,formData:props.formData,maxFile:props.maxFile,maxSize:props.maxSize})
 _filelist.value = [..._uploadObj.filelist];
 emits("update:modelValue",_filelist.value)
-
 watch([()=>props.header,()=>props.maxFile,()=>props.maxSize,()=>props.formData],()=>{
     _uploadObj.setConfig({hostUrl:props.url,header:props.header,formData:props.formData,maxFile:props.maxFile,maxSize:props.maxSize})
 },{deep:true})
 //添加已上传文件列表。
 function addSuccess(fileList:Array<file>= []){
-    
+    fileList =  toRaw(fileList)
     let fl = fileList.map(e=>{
         let _itemfile:file = {url:""};
         if(typeof e == 'string'){
@@ -207,20 +211,21 @@ _uploadObj.beforeStart = async function (item:file) {
 }
 //任何一个文件上传结束时都会触发。
 _uploadObj.complete = function(item:file){
-    emits("complete",item,_filelist.value);
+	_filelist.value = [..._uploadObj.filelist]
+    emits("complete",toRaw(item),toRaw(_filelist.value));
     emits("update:modelValue",_filelist.value)
 	pushFormItem(true)
 }
 //自动监听加入已上传文件到列表中。
 watch(()=>props.modelValue,()=>{
-	if(props.modelValue.length==0){
+	let fl = Array.isArray(props.modelValue)?props.modelValue:[];
+	if(fl.length==0){
 		_filelist.value = [];
 		_uploadObj.filelist = [];
 	}else{
-		_uploadObj.addFile(addSuccess(props.modelValue))
+		_uploadObj.addFile(addSuccess(fl))
 		_filelist.value = [..._uploadObj.filelist]
 	}
-    
 })
 _uploadObj.uploadComplete = function(filelist){
     emits("uploadComplete",filelist);
@@ -229,25 +234,24 @@ _uploadObj.success = function(item,fileList){
      let index =  _filelist.value.findIndex(el=>el.uid==item.uid)
     if(index>-1){
 		 _filelist.value.splice(index,1,item)
-		 emits("success",item,_filelist.value)
-		 emits("change",_filelist.value)
+		 emits("success",toRaw(item),toRaw(_filelist.value))
+		 emits("change",toRaw(_filelist.value))
+		
 	}
 }
 _uploadObj.fail = function(item){
 	let index =  _filelist.value.findIndex(el=>el.uid==item.uid)
 	if(index>-1){
 		 _filelist.value.splice(index,1,item)
-		 emits("fail",item,_filelist.value)
-		 emits("change",_filelist.value)
+		 emits("fail",toRaw(item),toRaw(_filelist.value))
+		 emits("change",toRaw(_filelist.value))
 	}
 	
 }
 function chooseFile(){
     _uploadObj.chooesefile().then(fileList=>{
-        const fl = uni.$tm.u.deepClone(fileList);
-        _filelist.value.push(...fl)
-        emits("change",fl)
-        emits("update:modelValue",fl)
+        _filelist.value.push(...fileList)
+        emits("update:modelValue",_filelist.value)
     })
 }
 
@@ -259,9 +263,11 @@ async function deletedFile(item:file){
         }
         if (!p) return false;
     }
-   _filelist.value = _uploadObj.delete(item);
-   emits("remove",item)
-   emits("change",_filelist.value)
+  const delfilelist = _uploadObj.delete(item);
+   _filelist.value = [...delfilelist];
+   emits("remove",toRaw(item))
+   emits("update:modelValue",_filelist.value)
+   emits("change",toRaw(_filelist.value))
    pushFormItem()
     
 }
@@ -277,6 +283,7 @@ const rulesObj = inject("tmFormItemRules",computed<rulesItem>(()=>{
         validator:false
     }
 }))
+
 //父级方法。
 let parentFormItem = proxy.$parent
 while (parentFormItem) {
@@ -299,10 +306,10 @@ async function pushFormItem(isCheckVail = true){
                 isRe =  rulesObj.value.validator;
             }
             if(typeof rulesObj.value.validator !== 'function'){
-                isRe = successFile.length==0
+                isRe = successFile.length==0?true:false;
             }
         }else{
-            isRe = successFile.length==0
+            isRe = false
         }
 		
         parentFormItem.pushCom({
@@ -314,7 +321,6 @@ async function pushFormItem(isCheckVail = true){
     }
 }
 pushFormItem(false)
-
 const tmFormFun = inject("tmFormFun",computed(()=>""))
 watch(tmFormFun,()=>{
     if(tmFormFun.value=='reset'){
@@ -323,6 +329,13 @@ watch(tmFormFun,()=>{
 		emits('update:modelValue',[])
 		pushFormItem(false)
     }
+	if(tmFormFun.value=='validate'){
+		pushFormItem(true)
+	}
+	if(tmFormFun.value=='clearValidate'){
+		pushFormItem(false)
+	}
+	
 })
 
 /** -----------end------------ */

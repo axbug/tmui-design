@@ -24,6 +24,7 @@
 	:blur="props.blur"
 	_class="flex flex-row flex-center pointer">
 		<button 
+		
 		@click="onclick"
 		@touchstart="touchstart" 
 		@touchend="touchend" 
@@ -100,6 +101,10 @@ const props = defineProps({
 	transprent:{
 		type:Boolean,
 		default:false
+	},
+	followTheme:{
+		type:Boolean,
+		default:true
 	},
 	/**
 	 * mini,normal,middle,large

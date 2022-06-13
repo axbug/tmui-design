@@ -47,8 +47,8 @@
 	_dotPosition == 'left' ? { left: '0px', top: '0px', width: `${60}rpx`, height: `${props.height}rpx` } : '',
 	_dotPosition == 'right' ? { right: '0px', top: '0px', width: `${60}rpx`, height: `${props.height}rpx` } : '',
 ]">
-				<tm-sheet :margin="[10, 10]" :padding="[0, 0]" :round="10" @click="dotClick(index)"
-					:color="_current == index ? 'primary' : 'white'" v-for="(item, index) in _list" :key="index" :width="18"
+				<tm-sheet :margin="[10, 10]" :follow-theme="_current == index?props.followTheme:false"  :padding="[0, 0]" :round="10" @click="dotClick(index)"
+					:color="_current == index ? props.color: 'white'" v-for="(item, index) in _list" :key="index" :width="18"
 					:height="18"></tm-sheet>
 			</view>
 			<!-- rect -->
@@ -76,7 +76,7 @@
 ]">
 				<tm-sheet :round="index == 0 || index == _list.length - 1 ? 10 : 0"
 					:margin="_dotPosition == 'left' || _dotPosition == 'right' ? [10, 0] : [0, 10]" :padding="[0, 0]"
-					@click="dotClick(index)" :color="_current == index ? 'primary' : 'white'" v-for="(item, index) in _list"
+					@click="dotClick(index)" :follow-theme="_current == index?props.followTheme:false" :color="_current == index ? props.color: 'white'" v-for="(item, index) in _list"
 					:key="index" :width="_dotPosition == 'left' || _dotPosition == 'right' ? 6 : 36"
 					:height="_dotPosition == 'left' || _dotPosition == 'right' ? 36 : 6"></tm-sheet>
 			</view>
@@ -135,6 +135,14 @@ import { listItem, listItemType } from "./interface"
 const { proxy } = getCurrentInstance()
 const emits = defineEmits(["change"])
 const props = defineProps({
+	followTheme:{
+		type:Boolean,
+		default:true
+	},
+	color:{
+		type:String,
+		default:"primary"
+	},
 	width: {
 		type: Number,
 		default: 750

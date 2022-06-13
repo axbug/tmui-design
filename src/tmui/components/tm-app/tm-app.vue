@@ -97,6 +97,7 @@ const props = defineProps({
 });
 // 设置响应式全局组件库配置表。
 const tmcfg = computed<tmVuetify>(() => store.tmStore);
+
 //自定义样式：
 // const customCSSStyle = computed(()=>computedStyle(props));
 //自定类
@@ -136,6 +137,9 @@ if(sysinfo.safeArea.top>0){
 }else{
 	view_height.value = sysinfo.safeArea.height - Math.abs(statusBarHeight);
 }
+
+
+
 // #endif
 
 
@@ -172,6 +176,20 @@ function setAppStyle() {
 		userSelect:true,
 		webviewBGTransparent:true
 	})
+	// app安卓下设置底部虚拟区域的颜色。
+	if(uni.getSystemInfoSync().osName =='android'){
+		var Color = plus.android.importClass("android.graphics.Color");    
+		    plus.android.importClass("android.view.Window");    
+		    var mainActivity = plus.android.runtimeMainActivity();    
+		    var window_android = mainActivity.getWindow();    
+		   
+			if(appConfig.dark){
+				 window_android.setNavigationBarColor(Color.BLACK);  
+			}else{
+				 window_android.setNavigationBarColor(Color.WHITE);  
+			}
+	}
+
 	// #endif
 	// #ifdef H5
 	document.body.style.background = appConfig.value.theme;

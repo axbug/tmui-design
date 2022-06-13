@@ -175,12 +175,14 @@ function confirm(e: Array<string | number>) {
     isConfirm.value = true;
     proxy.$refs.drawer.close();
 }
+
+const win_bottom = uni.getSystemInfoSync().safeAreaInsets.bottom
 const dHeight = computed(() => {
-    if (_modelType.value == 'day') return 940
-    if (_modelType.value == 'rang') return 940
-    if (_modelType.value == 'week') return 800
-    if (_modelType.value == 'month') return 740
-    if (_modelType.value == 'year') return 640
-    return 600
+    if (_modelType.value == 'day') return 880+win_bottom
+    if (_modelType.value == 'rang') return 900+win_bottom
+    if (_modelType.value == 'week') return 740+win_bottom
+    if (_modelType.value == 'month') return 720+win_bottom
+    if (_modelType.value == 'year') return 620+win_bottom
+    return 600+win_bottom
 })
 </script>

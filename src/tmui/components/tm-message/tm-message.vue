@@ -24,6 +24,7 @@
 	 * 消息提示
 	 * @description 消息提示，属于全局阻断式提醒，会打断用户操作。
 	 */
+	import {language} from "../../tool/lib/language"
 	import tmSheet from "../tm-sheet/tm-sheet.vue";
 	import tmText from "../tm-text/tm-text.vue";
 	import tmIcon from "../tm-icon/tm-icon.vue";
@@ -70,46 +71,48 @@
 	const dark_ref = ref(null)
 	onUnmounted(()=>clearTimeout(uid.value))
 	watch(()=>props.mask,(val)=>showmask.value=val)
+	
 	const modelIcon = computed(()=>{
+		
 		return {
 				load: {
 					icon: 'tmicon-loading',
 					color: 'primary',
-					text: '加载中'
+					text: language("message.load.text")
 				},
 				error: {
 					icon: 'tmicon-times-circle',
 					color: 'red',
-					text: '操作错误'
+					text: language("message.error.text")
 				},
 				info: {
 					icon: 'tmicon-info-circle',
-					text: '提示信息',
+					text: language("message.info.text"),
 					color: 'black'
 				},
 				warn: {
 					icon: 'tmicon-exclamation-circle',
-					text: '警告信息',
+					text: language("message.warn.text"),
 					color: 'orange'
 				},
 				quest: {
 					icon: 'tmicon-question-circle',
-					text: '似乎有问题',
+					text: language("message.quest.text"),
 					color: 'pink'
 				},
 				success: {
 					icon: 'tmicon-check-circle',
-					text: '操作成功',
+					text: language("message.success.text"),
 					color: 'green'
 				},
 				disabled: {
 					icon: 'tmicon-ban',
-					text: '禁止操作',
+					text: language("message.disabled.text"),
 					color: 'red'
 				},
 				wait: {
 					icon: 'tmicon-ios-alarm',
-					text: '请稍候..',
+					text: language("message.wait.text"),
 					color: 'black'
 				}
 		}
@@ -144,14 +147,13 @@
 			//显示所需要的参数
 			let arg = typeof arguments[0] ==='object'?arguments[0]:{};
 			let { duration, icon, text, color, dark, model ,mask} = arg;
-			model_ref.value = model??model_ref.value;
+			model_ref.value = typeof model=="undefined"?model_ref.value:model;
 			icon_ref.value = icon = icon??modelIcon.value[model_ref.value].icon;
 			text_ref.value = text = text??modelIcon.value[model_ref.value].text;
 			color_ref.value = color = color??modelIcon.value[model_ref.value].color;
 			showmask.value = typeof mask ==='boolean' ?mask:showmask.value
 			if (dark === true) {
 				bgColor.value = 'black';
-				
 			}
 			if(typeof dark !== 'boolean'){
 				dark = store.tmStore.dark;

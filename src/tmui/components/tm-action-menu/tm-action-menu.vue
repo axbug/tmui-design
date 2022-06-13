@@ -30,6 +30,7 @@
 					<tm-text :font-size="24" label="请选择"></tm-text>
 				</tm-sheet>
 				<tm-button
+					:followTheme="false"
 					:disabled="item.disabled"
 					@click="change(item)"
 					v-for="(item, index) in _list"
@@ -45,6 +46,7 @@
 				></tm-button>
 			</view>
 			<tm-button
+				:followTheme="false"
 				@click="cancel"
 				label="取消"
 				:font-size="28"
@@ -82,6 +84,7 @@ interface listitem {
 }
 const { proxy } = getCurrentInstance();
 const props = defineProps({
+
 	list: {
 		type: Array as PropType<Array<listitem> | Array<string>>,
 		default: () => [],

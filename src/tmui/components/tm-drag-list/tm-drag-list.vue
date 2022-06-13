@@ -22,11 +22,11 @@
                         <tm-text _class=" pl-24" :font-size="30" :label="item.text"></tm-text>
                     </view>
                     <view :style="{ height: (h - 1) + 'px', width: '100rpx' }" @touchstart.stop.prevent="m_start($event, index)"
-                        @longpress="m_start_longpress(index)" @mousedown="m_start($event, index)"
+                        @longpress="m_start_longpress(index)"  @mousedown="m_start($event, index)"
                         @touchmove.stop.prevent="m_move($event, index)" @mousemove.stop.prevent="m_move($event, index)"
                         @touchend="m_end($event, index)" @mouseup="m_end($event, index)"
                         class="flex-shrink flex flex-row flex-row-center-center opacity-3">
-                        <tm-icon :userInteractionEnabled="false" name="tmicon-menu"></tm-icon>
+                        <tm-icon   :userInteractionEnabled="false" name="tmicon-menu"></tm-icon>
                     </view>
                 </tm-sheet>
             </view>
@@ -112,6 +112,7 @@ function jishunTopData() {
     })
 }
 function m_start_longpress(index:number) {
+    console.log(222)
     endDrage.value = false;
     nowMove_index.value = index;
     // #ifdef APP-NVUE
@@ -121,13 +122,15 @@ function m_start_longpress(index:number) {
         }
     })
     // #endif
+    
 }
 
 function m_start(event:Event, index:number) { 
+    
     event.preventDefault()
     event.stopPropagation()
     if (props.disabled) return;
-    // #ifdef H5
+    // #ifndef APP-NVUE
     endDrage.value = false;
     nowMove_index.value = index;
     // #endif

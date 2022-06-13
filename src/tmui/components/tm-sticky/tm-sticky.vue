@@ -1,7 +1,7 @@
 <template>
     <view>
         <view class="tm-sticky flex flex-col" :style="[
-            props.model == 'top' ? { top: `${_offset}` } : '',
+            props.model == 'top' ? { top: `${_offset}`} : '',
             props.model == 'left' ? { left: `${_offset}` } : '',
             { 'z-index': props.zIndex }
         ]">

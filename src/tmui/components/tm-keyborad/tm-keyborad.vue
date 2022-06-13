@@ -1,12 +1,12 @@
 <template>
     <tm-drawer ref="drawer" @open="drawerOpen" 
 	@close="drawerClose" @update:show = "showPop=$event" :show="showPop" :dark="isDark" 
-	:follow-dark="props.followDark" :follow-theme="false" :height="600"
+	:follow-dark="props.followDark" :follow-theme="false" :height="dHeight"
         :hide-header="true" color="grey-3" :mask="false">
-        <keyborad-number :random="props.random" :color="props.color" v-if="_typemodel=='number'" @change="change" @confirm="confirm" :model-value="_value" @update:modelValue="_value = $event" :dark="isDark" class="flex-1"></keyborad-number>
-        <keyborad-pass :random="props.random" :color="props.color" v-if="_typemodel=='password'" @change="change" @confirm="confirm" :model-value="_value" @update:modelValue="_value = $event" :dark="isDark" class="flex-1"></keyborad-pass>
-        <keyborad-car :random="props.random" :color="props.color" v-if="_typemodel=='car'" @change="change" @confirm="confirm" :model-value="_value" @update:modelValue="_value = $event" :dark="isDark" class="flex-1"></keyborad-car>
-        <keyborad-card :random="props.random" :color="props.color" v-if="_typemodel=='card'" @change="change" @confirm="confirm" :model-value="_value" @update:modelValue="_value = $event" :dark="isDark" class="flex-1"></keyborad-card>
+        <keyborad-number :followTheme="props.followTheme" :random="props.random" :color="props.color" v-if="_typemodel=='number'" @change="change" @confirm="confirm" :model-value="_value" @update:modelValue="_value = $event" :dark="isDark" class="flex-1"></keyborad-number>
+        <keyborad-pass :followTheme="props.followTheme" :random="props.random" :color="props.color" v-if="_typemodel=='password'" @change="change" @confirm="confirm" :model-value="_value" @update:modelValue="_value = $event" :dark="isDark" class="flex-1"></keyborad-pass>
+        <keyborad-car :followTheme="props.followTheme" :random="props.random" :color="props.color" v-if="_typemodel=='car'" @change="change" @confirm="confirm" :model-value="_value" @update:modelValue="_value = $event" :dark="isDark" class="flex-1"></keyborad-car>
+        <keyborad-card :followTheme="props.followTheme" :random="props.random" :color="props.color" v-if="_typemodel=='card'" @change="change" @confirm="confirm" :model-value="_value" @update:modelValue="_value = $event" :dark="isDark" class="flex-1"></keyborad-card>
     </tm-drawer>
 </template>
 <script lang="ts" setup>
@@ -24,6 +24,10 @@ const emits=defineEmits(["change","confirm","update:show","update:modelValue"])
 const {proxy} = getCurrentInstance();
 const props = defineProps({
     ...custom_props,
+	followTheme: {
+		type: [Boolean,String],
+		default: true
+	},
 	/**
 	 * password | card | car | number
 	 * 密码     | 身份证|  车牌 | 数字键盘
@@ -87,4 +91,10 @@ function confirm(){
 	emits("confirm",toRaw(_value.value))
 	proxy.$refs.drawer.close()
 }
+
+const win_bottom = uni.getSystemInfoSync().safeAreaInsets.bottom
+const dHeight = computed(() => {
+    
+    return 520+win_bottom
+})
 </script>

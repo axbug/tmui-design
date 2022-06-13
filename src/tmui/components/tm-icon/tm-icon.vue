@@ -6,6 +6,7 @@
 		<!-- #ifndef APP-NVUE -->
 		<text 
 			@click="clickhandle"
+			@longpress="emits('longpress',$event)"
 			:class="[spinComputed ? 'spin' : '', 'text-size-n d-inline-block', 'tmicon ', prefx, iconComputed, customClass]"
 			:style="[fontSizeComputed, { color: textColor ,lineHeight: props.fontSize + 'rpx',}, customCSSStyle]"
 			v-if="!isImg"
@@ -15,6 +16,7 @@
 		<text
 			ref="icon"
 			@click="clickhandle"
+			@longpress="emits('longpress',$event)"
 			:class="[spinComputed ? 'spin' : '', 'text-size-n d-inline-block ', 'tmicon', customClass]"
 			:style="[{ fontFamily: 'tmicon', lineHeight: props.fontSize + 'rpx', color: textColor }, fontSizeComputed, customCSSStyle]"
 			v-if="!isImg"
@@ -24,6 +26,7 @@
 		<!-- #endif  -->
 		<image
 			@click="clickhandle"
+			@longpress="emits('longpress',$event)"
 			ref="icon"
 			v-if="isImg"
 			:src="iconComputed"
@@ -76,7 +79,7 @@ const props = defineProps({
 	}
 });
 
-const emits = defineEmits(['click']);
+const emits = defineEmits(['click','longpress']);
 const { proxy} = getCurrentInstance();
 // 设置响应式全局组件库配置表。
 const tmcfg = computed<tmVuetify>(() => store.tmStore);
@@ -95,6 +98,7 @@ function clickhandle(e: Event): void {
 //从父应用组件中获取自动文字色。
 const appTextColor = inject("appTextColor",computed(()=>undefined));
 const textColor = computed(() => {
+	if(props.followTheme&&store.tmStore.color) return store.tmStore.color;
 	let isColorHex = theme.isCssColor(props.color);
 	//如果当前是自定义颜色值，直接返回。
 	if (isColorHex) return props.color;

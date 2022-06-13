@@ -50,6 +50,10 @@ const {proxy} = getCurrentInstance();
 const emits = defineEmits(['update:modelValue','change','click'])
 const props = defineProps({
     ...custom_props,
+	followTheme: {
+		type: [Boolean,String],
+		default: true
+	},
     size:{
         type:Number,
         default:42

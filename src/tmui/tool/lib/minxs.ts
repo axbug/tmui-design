@@ -1,26 +1,15 @@
-// #ifdef APP-PLUS-NVUE
-import { initVueI18n } from '@dcloudio/uni-i18n';
-import en from '../../locale/en.json';
-import zhHans from '../../locale/zh-Hans.json';
-const messages = {
-	en,
-	'zh-Hans': zhHans
-};
-let i18nConfig = {
-	locale: uni.getLocale(), // 获取已设置的语言
-	messages
-};
-const { t } = initVueI18n(i18nConfig);
-// #endif
+
 import colors from '../theme/theme';
 import { cssDirection, linearDirection, linearDeep, borderStyle, cssstyle, tmVuetify } from './interface';
 import { computed,ref } from "vue"
+import { useTmpiniaStore } from './tmpinia';
+const store = useTmpiniaStore();
 //自定义props
 export const custom_props = {
 	//自定义的样式属性
 	_style: {
 		type: [Array, String, Object],
-		default: () => { }
+		default: () => []
 	},
 	//自定义类名
 	_class: {
@@ -35,7 +24,7 @@ export const custom_props = {
 	//是否跟随全局主题的变换而变换
 	followTheme: {
 		type: [Boolean, String],
-		default: true
+		default: false
 	},
 	//暗黑
 	dark: {
@@ -226,8 +215,10 @@ export const computedTheme = (props: any, dark:boolean):cssstyle => {
 		console.error('不支持自定义组件上的颜色值，请在theme/theme.js中添加自定义的颜色值为主题。当前已切换为primary主题。');
 	}
 	let defaultColorName = color || 'primary';
-	var theme = new colors.themeColors();
-	
+	if(props?.followTheme==true&&store.tmStore.color){
+		defaultColorName = store.tmStore.color;
+	}
+	var theme = new colors.themeColors(store.tmStore.colorList);
 	let c = theme.getTheme({
 		colorname: defaultColorName,
 		dark: dark,

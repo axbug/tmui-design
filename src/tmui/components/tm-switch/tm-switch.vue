@@ -43,9 +43,9 @@
 			_class="flex flex-center"
 			>
 				
-			   <tm-icon v-if="_load" :font-size="viewSize.fontSize" :color="props.color" :userInteractionEnabled="false" name="tmicon-loading" spin></tm-icon>
+			   <tm-icon :followTheme="props.followTheme" v-if="_load" :font-size="viewSize.fontSize" :color="props.color" :userInteractionEnabled="false" name="tmicon-loading" spin></tm-icon>
 			   <tmTranslate name="zoom" v-if="!_load&&_value">
-				   <tm-icon :font-size="viewSize.fontSize" :color="props.color"  :userInteractionEnabled="false" :name="props.barIcon"></tm-icon>
+				   <tm-icon :followTheme="props.followTheme" :font-size="viewSize.fontSize" :color="props.color"  :userInteractionEnabled="false" :name="props.barIcon"></tm-icon>
 			   </tmTranslate>
 			</tm-sheet>
 		</view>
@@ -74,6 +74,11 @@ const emits = defineEmits(['update:modelValue','change','click'])
 const {proxy} = getCurrentInstance();
 const props = defineProps({
 	...custom_props,
+	//是否跟随全局主题的变换而变换
+	followTheme: {
+		type: [Boolean, String],
+		default: true
+	},
 	margin:{
 		type:Array as PropType<Array<number>>,
 		default:()=>[0,0]

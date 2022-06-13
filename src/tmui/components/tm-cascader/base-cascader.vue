@@ -3,11 +3,11 @@
     <view  class="flex" >
         <scroll-view v-if="tmCascaderShowIndex==props.level" :style="[{ height: `${props.height}rpx` }]" scroll-y>
             <view v-for="(item,index) in _value" :key="index">
-                <nodeCellVue :level="props.level"   :data="item"></nodeCellVue>
+                <nodeCellVue :followTheme="props.followTheme" :level="props.level"   :data="item"></nodeCellVue>
                
             </view>
         </scroll-view>
-        <BaseCascader :level="_level" v-if="nextChildData.length>0" :height="props.height" :color="props.color" :data="nextChildData" ></BaseCascader>
+        <BaseCascader :followTheme="props.followTheme" :level="_level" v-if="nextChildData.length>0" :height="props.height" :color="props.color" :data="nextChildData" ></BaseCascader>
     </view>
 </template>
 <script lang="ts" setup>
@@ -17,6 +17,10 @@ import BaseNode from './base-node.vue';
 import nodeCellVue from './node-cell.vue';
 import {childrenData} from "./interface"
 const props = defineProps({
+	followTheme: {
+		type: [Boolean,String],
+		default: true
+	},
     /**
      * 导入的数据
      */

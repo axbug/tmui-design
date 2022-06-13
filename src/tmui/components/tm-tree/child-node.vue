@@ -1,6 +1,6 @@
 <template>
     <view class="flex flex-row flex-row-center-start">
-        <TmCheckbox closeAni v-if="showCheckbox" :color="nodeData['color']" :indeterminate="_indeterminate"  @change="checkboxChange" :disabled="nodeData['disabled']" v-model="_checked"  :value="nodeData[props.fieldNames.id]"></TmCheckbox>
+        <TmCheckbox :followTheme="props.followTheme"  closeAni v-if="showCheckbox" :color="nodeData['color']" :indeterminate="_indeterminate"  @change="checkboxChange" :disabled="nodeData['disabled']" v-model="_checked"  :value="nodeData[props.fieldNames.id]"></TmCheckbox>
     </view>
 </template>
 <script lang="ts" setup>
@@ -10,6 +10,10 @@ import { baseNodeData } from "./interface";
 const {proxy} = getCurrentInstance();
 
 const props = defineProps({
+	followTheme: {
+		type: [Boolean,String],
+		default: true
+	},
     /**
      * 数据
     * @description 生成树结构的数据。结构必须要有id字段。当然可以通过field-names来映射，如果你的唯一标识字段不是Id的话。

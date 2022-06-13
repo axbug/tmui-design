@@ -28,8 +28,8 @@ onLoad((obj: any) => {
         dkey.value = obj?.key??"lineChart";
     }
 })
-
 function chartInit(chart: ECharts) {
     chart.setOption(chartdata[dkey.value])
 }
+
 </script>

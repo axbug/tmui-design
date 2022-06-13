@@ -38,8 +38,8 @@
             <view  class="flex flex-row flex-row-center-center" :style="[{height:'98rpx'}]" v-for="(item,index) in _data" :key="index">
                 <tm-sheet @click="clickWeek(item2)" :height="98" :shadow="0" :round="0" :border="item2.extra.color&&isSelected(item2.dateStr)?1:0" 
 				_class="flex-row" class="flex-1" paren-class="flex-1" 
-				:text="item2.extra.color?true:isSelected(item2.dateStr)"
-				:color="item2.extra.color?item2.extra.color:(isSelected(item2.dateStr)?props.color:'white')" 
+				:text=" (startOrAnd(item2.dateStr)==1||startOrAnd(item2.dateStr)==2||startOrAnd(item2.dateStr)==3?false:(item2.extra.color?true:isSelected(item2.dateStr)))"
+				:color="(item2.extra.color?item2.extra.color:(isSelected(item2.dateStr)?props.color:'white'))" 
 				:margin="[0,0]" :padding="[0,0]"
                 v-for="(item2,index2) in item" :key="index2"
                 >

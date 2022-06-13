@@ -25,24 +25,24 @@
 			
 			>
 				<tm-icon v-if="props.icon" :name="props.icon"  
-				:followDark="props.followDark" :followTheme="props.followTheme" 
+				:followDark="props.followDark" 
 				:fontSize="wh.fontSize" :dark="props.dark" :userInteractionEnabled="false"></tm-icon>
 				
 				<view class="flex-1 flex flex-center" >
 					<slot name="default">
 					<tm-text
 						:_class="props.icon?'pl-10':''"
-						:fontSize="wh.fontSize" :followTheme="props.followTheme"  
+						:fontSize="wh.fontSize" 
 						:followDark="props.followDark"
 						:userInteractionEnabled="false"
 						:dark="props.dark" :label="props.label"></tm-text>
 					</slot>
 				</view>
 				<view @click.stop="" >
-					<tm-icon @click="closeTag" :followDark="props.followDark" :followTheme="props.followTheme" v-if="props.closable&&!loading" _class="pl-10" :fontSize="wh.fontSize*0.8" name="tmicon-times" :dark="props.dark"></tm-icon>
+					<tm-icon @click="closeTag" :followDark="props.followDark"  v-if="props.closable&&!loading" _class="pl-10" :fontSize="wh.fontSize*0.8" name="tmicon-times" :dark="props.dark"></tm-icon>
 				</view>
 				<view :userInteractionEnabled="false" v-if="loading" class=" pl-10 flex flex-center flex-row" style="line-height: 0;">
-					<tm-icon :followDark="props.followDark"  :followTheme="followTheme"  :fontSize="wh.fontSize*0.8" name="tmicon-loading" spin :dark="dark">
+					<tm-icon :followDark="props.followDark"    :fontSize="wh.fontSize*0.8" name="tmicon-loading" spin :dark="dark">
 					</tm-icon>
 				</view>
 				
@@ -88,6 +88,10 @@
 	// 混淆props共有参数
 	const props = defineProps({
 		...custom_props,
+		followTheme: {
+			type: [Boolean,String],
+			default: true
+		},
 		transprent:{
 			type: [Boolean,String],
 			default: false

@@ -5,7 +5,7 @@
     props.direction == 'horizontal'?{width:props.size+'rpx',height:props.size+'rpx',transform:`translateX(${_x}px)`,top:'0px'}:'',
     props.direction == 'vertical'?{width:props.size+'rpx',height:props.size+'rpx',transform:`translateY(${_x}px)`,left:0+'rpx',top:'0px'}:'',
     ]">
-        <tm-sheet text  :border="4"  :userInteractionEnabled="false" :color="props.color" :round="24" :width="props.size" :height="props.size" :margin="[0,0]" :padding="[0,0]"></tm-sheet>
+        <tm-sheet :followTheme="props.followTheme" text  :border="4"  :userInteractionEnabled="false" :color="props.color" :round="24" :width="props.size" :height="props.size" :margin="[0,0]" :padding="[0,0]"></tm-sheet>
     </view>
    
 </template>
@@ -15,6 +15,11 @@ import tmSheet from '../tm-sheet/tm-sheet.vue';
 
 const emits = defineEmits(['movestart','moveing','moveend'])
 const props = defineProps({
+	//是否跟随全局主题的变换而变换
+	followTheme: {
+		type: [Boolean, String],
+		default: true
+	},
    size:{
         type:Number,
         default:32

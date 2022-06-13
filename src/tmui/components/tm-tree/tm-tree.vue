@@ -1,6 +1,6 @@
 <template>
     <view>
-        <base-node-vue :fieldNames="props.fieldNames" :data="listData"></base-node-vue>
+        <base-node-vue :followTheme="props.followTheme" :fieldNames="props.fieldNames" :data="listData"></base-node-vue>
     </view>
 </template>
 <script lang="ts" setup>
@@ -20,6 +20,10 @@ import { getNodeRouter,treeFlat,queryNodeIsParent ,queryParentNode} from "./util
  */
 const emits = defineEmits(['node-click','check','expand','update:selectedId','update:expandedId'])
 const props = defineProps({
+	followTheme: {
+		type: [Boolean,String],
+		default: true
+	},
     color:{
         type:String,
         default:'primary'

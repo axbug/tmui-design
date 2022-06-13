@@ -18,9 +18,10 @@
 					:dark="isDark" 
 					:color="_color"  
 					:followDark="followDark" 
-					
+					:followTheme="props.followTheme"
 					:name="props.icon"></tm-icon>
-					<tm-text   :dark="isDark"  :followDark="followDark" 
+					<tm-text  
+					:followTheme="props.followTheme" :dark="isDark"  :followDark="followDark" 
 					:color="_color"  
 						_class="mt-16" :label="props.tip"></tm-text>
 			</view>
@@ -51,6 +52,10 @@
 	// 混淆props共有参数
 	const props = defineProps({
 		...custom_props,
+		followTheme:{
+			type:[Boolean,String],
+			default:true
+		},
 		color:{
 			type:String,
 			default:"primary"

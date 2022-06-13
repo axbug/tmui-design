@@ -24,6 +24,10 @@ const emits = defineEmits(["change","end","start"])
 const { proxy } = getCurrentInstance();
 const store = useTmpiniaStore();
 const props = defineProps({
+	followTheme: {
+		type: [Boolean,String],
+		default: true
+	},
     col:{
         type:Number,
         default:0,

@@ -4,7 +4,7 @@
         <tm-picker-view :height="560" @end="aniover = true" @start="aniover = false" :value="_colIndex"
             @update:modelValue="_colIndex = $event" @update:model-str="_colStr = $event" :model-str="_colStr"
             :default-value="_colIndex" :columns="_data"></tm-picker-view>
-        <tm-sheet :color="props.color" :linear="props.linear" :linear-deep="props.linearDeep" @click="confirm" :round="props.btnRound" _class="flex-center" >
+        <tm-sheet :followTheme="props.followTheme" :color="props.color" :linear="props.linear" :linear-deep="props.linearDeep" @click="confirm" :round="props.btnRound" _class="flex-center" >
             <tm-text  :userInteractionEnabled="false" label="确认选择"></tm-text>
         </tm-sheet>
     </tm-drawer>
@@ -41,7 +41,10 @@ const {proxy} = getCurrentInstance()
 const emits = defineEmits(["update:show", "update:modelValue", "update:modelStr", "confirm", "cancel"])
 const props = defineProps({
     ...custom_props,
-    
+    followTheme: {
+    	type: [Boolean,String],
+    	default: true
+    },
     //v-model以selectedModel为索引的值结果。
     modelValue: {
         type: Array as PropType<Array<string | number>>,

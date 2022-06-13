@@ -10,12 +10,12 @@
             :height="props.direction=='horizontal'?props.height:_sliderBarCssHeight" 
             :width="props.direction=='horizontal'?_sliderBarCssWidth:props.height" :margin="[0,0]" 
             :padding="[0,0]"></tm-sheet>
-            <slider-bar :class="[props.direction=='horizontal'?'flex-col-center-start':'flex-row-center-center']" 
+            <slider-bar :followTheme="props.followTheme" :class="[props.direction=='horizontal'?'flex-col-center-start':'flex-row-center-center']" 
             :direction="props.direction" :color="props.color" :size="props.height" :x="_barLet" 
             :width="_barWidth"></slider-bar>
-            <slider-mask :color="props.color"  v-if="props.showLabel" :size="props.buttonSize" :step="props.step" :min="props.min" :max="props.max" :width="_sliderBarCssWidth"  :height="_sliderBarCssHeight" :direction="props.direction"></slider-mask>
-            <slider-button  :direction="props.direction" ref="btn0" :color="props.color" :x="btnPos[0].x"  @movestart="butnMoveStart($event,0)" @moveing="butnMove($event,0)" @moveend="butnMoveEnd($event,0)" :size="props.buttonSize"></slider-button>
-            <slider-button  :direction="props.direction" v-if="isDablue" ref="btn1" :color="props.color" :x="btnPos[1].x"  @movestart="butnMoveStart($event,1)" @moveing="butnMove($event,1)" @moveend="butnMoveEnd($event,1)" :size="props.buttonSize"></slider-button>
+            <slider-mask :followTheme="props.followTheme" :color="props.color"  v-if="props.showLabel" :size="props.buttonSize" :step="props.step" :min="props.min" :max="props.max" :width="_sliderBarCssWidth"  :height="_sliderBarCssHeight" :direction="props.direction"></slider-mask>
+            <slider-button :followTheme="props.followTheme"  :direction="props.direction" ref="btn0" :color="props.color" :x="btnPos[0].x"  @movestart="butnMoveStart($event,0)" @moveing="butnMove($event,0)" @moveend="butnMoveEnd($event,0)" :size="props.buttonSize"></slider-button>
+            <slider-button  :followTheme="props.followTheme" :direction="props.direction" v-if="isDablue" ref="btn1" :color="props.color" :x="btnPos[1].x"  @movestart="butnMoveStart($event,1)" @moveing="butnMove($event,1)" @moveend="butnMoveEnd($event,1)" :size="props.buttonSize"></slider-button>
             
         </view>
         <view v-if="props.showLabel" :class=" [props.direction=='vertical'?'flex-col':'flex-row']"  >
@@ -64,6 +64,11 @@ const dom = uni.requireNativePlugin('dom')
 const {proxy} = getCurrentInstance();
 const emits = defineEmits(["update:modelValue",'change'])
 const props = defineProps({
+	//是否跟随全局主题的变换而变换
+	followTheme: {
+		type: [Boolean, String],
+		default: true
+	},
     //竖向时这个是高度。
     width:{
         type:Number,

@@ -10,7 +10,7 @@
 				!props.transprent ? tmcomputed.shadowColor : '',
 				customCSSStyle,
 			]" :class="[round_rp, 'flex flex-col overflow ', customClass]">
-				<view v-if="!props.closable && !props.hideHeader"
+				<view v-if="!props.closeable && !props.hideHeader"
 					class="flex flex-row flex-row-center-center flex-between  px-24 " style="height:44px">
 					<view class="flex-4 flex-shrink">
 						<tm-text v-if="!props.hideCancel" @click="cancel" :label="props.cancelText"></tm-text>
@@ -26,7 +26,7 @@
 							:name="ok_loading ? 'tmicon-jiazai_dan' : 'tmicon-times-circle-fill'"></tm-icon>
 					</view>
 				</view>
-				<view v-if="props.closable && !props.hideHeader"
+				<view v-if="props.closeable && !props.hideHeader"
 					class="flex flex-row flex-row-center-center flex-between  px-24 " style="height:44px">
 
 					<view class="flex-9 pr-32 ">
@@ -69,7 +69,7 @@ const props = defineProps({
 	//抽屉放置的位置
 	placement: {
 		type: String,
-		default: 'bottom' //top|left|right|bottom
+		default: 'bottom' //top|left|right|bottom|center
 	},
 	show: {
 		type: [Boolean, String],
@@ -102,7 +102,7 @@ const props = defineProps({
 		default: false
 	},
 	//如果显示关闭。标题栏被替换为左标题右关闭按钮。
-	closable: {
+	closeable: {
 		type: [Boolean, String],
 		default: false
 	},

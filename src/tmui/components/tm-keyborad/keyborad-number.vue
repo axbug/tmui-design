@@ -46,7 +46,7 @@
                 <view class="flex-6 flex flex-row">
                     <tmSheet 
                     @click="confirm"
-                    :follow-theme="false"
+                    :follow-theme="props.followTheme"
                     :follow-dark="false" :dark="_dark"
                     :color="props.color"
                     :round="2"
@@ -69,6 +69,10 @@ import tmSheet from "../tm-sheet/tm-sheet.vue";
 import tmIcon from "../tm-icon/tm-icon.vue";
 const emits = defineEmits(["update:modelValue","change","confirm"])
 const props = defineProps({
+	followTheme: {
+		type: [Boolean,String],
+		default: true
+	},
     /** 是否随机键盘 */
     random:{
         type:Boolean,

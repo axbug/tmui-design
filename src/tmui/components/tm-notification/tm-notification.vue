@@ -76,6 +76,10 @@
 	const {proxy} = getCurrentInstance();
 	const props = defineProps({
 		...custom_props,
+		followTheme:{
+			type:[Boolean,String],
+			default:true
+		},
 		transprent:{
 			type: [Boolean,String],
 			default: false

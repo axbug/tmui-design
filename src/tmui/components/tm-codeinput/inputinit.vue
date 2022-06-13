@@ -1,6 +1,6 @@
 <template>
     <view ref="dombg">
-        <tm-sheet :text="false" :userInteractionEnabled="false" :width="6" :color="props.color" :height="_size / 2"
+        <tm-sheet :followTheme="props.followTheme" :text="false" :userInteractionEnabled="false" :width="6" :color="props.color" :height="_size / 2"
         :margin="[0, 0]" :padding="[0, 0]">
         </tm-sheet>
     </view>
@@ -13,6 +13,10 @@ const animation = uni.requireNativePlugin('animation')
 // #endif
 const {proxy} = getCurrentInstance();
 const props = defineProps({
+	followTheme:{
+		type:[Boolean,String],
+		default:true
+	},
     color: {
         type: String,
         default: "primary"

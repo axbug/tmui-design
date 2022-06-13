@@ -134,6 +134,7 @@ watch(()=>props.modelValue,(newval,oldval)=>{
 	_nowtime.value = DayJs(props.modelValue)
 	emits('update:modelStr',_nowtime.value.format(props.format))
 })
+
 onMounted(()=>{
 	nextTick(()=>{
 		emits('update:modelValue',_nowtime.value.format(props.format))

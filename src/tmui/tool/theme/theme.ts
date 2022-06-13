@@ -94,11 +94,11 @@ class themeColors {
 		});
 		if (isHand.length > 0) {
 			console.error('已存在相关颜色名称!!!');
-			return;
+			return this.colors;
 		}
 		if(!value){
 			console.error('颜色值必填!!!');
-			return;
+			return this.colors;
 		}
 		let rgba = colortool.cssToRgba(value);
 		let color:colorThemeType ={
@@ -165,6 +165,7 @@ class themeColors {
 		let isGrey = false
 		//当前颜色对象。
 		let nowColor = { ...this.colors[index] };
+		
 		//黑
 		if (nowColor.hsla.h == 0 && nowColor.hsla.s == 0 && nowColor.hsla.l == 0) {
 			isBlack = true;
@@ -262,7 +263,7 @@ class themeColors {
 
 		//text
 		if (config.text) {
-			
+			txcolor.l = 90;
 			if(isGrey){
 				txcolor.l = 15;
 			}else{
@@ -271,9 +272,16 @@ class themeColors {
 			if (config.dark) {
 				txcolor.l = 50;
 			}
+			if (isBlack) {
+				txcolor.l = 90
+			}
+			if (isWhite) {
+				txcolor.l = 15
+			}
 			if (nowColor.hsla.h == 0 && nowColor.hsla.s == 0 && config.dark) {
 				txcolor.l = 90;
 			}
+			
 			
 			css.textColor = colortool.rgbaToCss(colortool.hslaToRgba(txcolor));
 			css.border = css.textColor;

@@ -2,7 +2,6 @@
     <tm-drawer  :round="props.round" ref="drawer" :height="dHeight" @update:show="_show = $event" :show="_show" @close="close" @open="open"
         title="请选择时间" :closable="true" @ok="confirm">
          <tm-time-view
-          
             :height="dHeight-260"
             @update:model-value="_value = $event" 
             :model-value="_value"
@@ -160,9 +159,6 @@ function close() {
 function open() {
     emits("open")
 }
-// watchEffect(() => {
-    
-// })
 
 watchEffect(() => {
     _show.value = props.show;

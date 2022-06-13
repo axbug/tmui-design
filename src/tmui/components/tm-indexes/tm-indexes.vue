@@ -11,7 +11,7 @@
 			<tm-sheet no-level :round="10" color="white" :shadow="2" :margin="[0,0]" :padding="[0,0]" :width="40" >
 				<view @click="navClick(item)" hover-class="opacity-5"   class="flex-center flex"
 					v-for="(item,index) in navright" :key="index" style="width: 40rpx;height: 40rpx;">
-					<tm-text @click="navClick(item)" :color="_cureent_id==item.id?props.color:''" :font-size="20" :label="item.text"></tm-text>
+					<tm-text @click="navClick(item)" :followTheme="_cureent_id==item.id?props.followTheme:false" :color="_cureent_id==item.id?props.color:''" :font-size="20" :label="item.text"></tm-text>
 				</view>
 			</tm-sheet >
 		</view>
@@ -23,7 +23,7 @@
 		]">
 			<tm-sheet v-if="_cureent_item!=null" _class="flex flex-center" :shadow="5" :margin="[24,24]" :padding="[0,0]" 
 			:width="100" :height="100" :round="20">
-				<tm-text :color="props.color" :font-size="36" :label="_cureent_item.text"></tm-text>
+				<tm-text :followTheme="props.followTheme" :color="props.color" :font-size="36" :label="_cureent_item.text"></tm-text>
 			</tm-sheet>
 		</view>
 		
@@ -60,6 +60,10 @@
 	const {proxy} = getCurrentInstance()
 	const emits = defineEmits(["nav-click"])
 	const props = defineProps({
+		followTheme:{
+			type:Boolean,
+			default:true
+		},
 		width: {
 			type: Number,
 			default: 0
@@ -92,6 +96,7 @@
 	let _timeid = uni.$tm.u.getUid(1)
 	const _isClickNavIng = ref(false)//是否点按导航中
 	const parentLeft = ref(0)
+
 	// #ifdef APP-NVUE
 	_isNvue.value = true;
 	// #endif

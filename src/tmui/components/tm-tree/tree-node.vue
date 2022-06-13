@@ -1,7 +1,7 @@
 <template>
     <view class="flex flex-row flex-row-center-start">
-        <childNode v-if="!props.data['children']" :fieldNames="props.fieldNames" :data="props.data"></childNode>
-        <parentNode v-if="props.data['children']"  :fieldNames="props.fieldNames" :data="props.data"></parentNode>
+        <childNode :followTheme="props.followTheme"  v-if="!props.data['children']" :fieldNames="props.fieldNames" :data="props.data"></childNode>
+        <parentNode :followTheme="props.followTheme"  v-if="props.data['children']"  :fieldNames="props.fieldNames" :data="props.data"></parentNode>
         <TmIcon _class="pr-16" :color="nodeData['color']" :font-size="28" v-if="nodeData['icon']" :name="nodeData['icon']"></TmIcon>
         <TmText :font-size="28" :label="nodeData.text"></TmText>
     </view>
@@ -18,6 +18,10 @@ import { treeFlat } from './util';
 const {proxy} = getCurrentInstance();
 
 const props = defineProps({
+	followTheme: {
+		type: [Boolean,String],
+		default: true
+	},
     /**
      * 数据
     * @description 生成树结构的数据。结构必须要有id字段。当然可以通过field-names来映射，如果你的唯一标识字段不是Id的话。

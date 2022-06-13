@@ -113,13 +113,15 @@ function getIndexNow(){
     let index  = tmArray.value.findIndex(el=>el==_nowtimeValue.value[props.timeType]());
     if(index==-1) index=0;
     if(index>=tmArray.value.length) index = tmArray.value.length-1
-    colIndex.value = index
+	// #ifdef H5
+	colIndex.value = -1
+	// #endif
+	colIndex.value = index
 }
 function rangeTimeArray(){
     let _start = DayJs(props.start);
     let _end = DayJs(props.end);
     let intdate = 0
-    
     if(props.timeType=='date'){
         intdate = 1;
     }
@@ -133,6 +135,7 @@ function rangeTimeArray(){
     }else if(props.timeType=='month'){
        setd(timeDetailType.year,false)
     }else if(props.timeType=='date'){
+		
        setd(timeDetailType.month,false)
     }else if(props.timeType=='hour'){
        setd(timeDetailType.day,false)
@@ -148,13 +151,13 @@ function rangeTimeArray(){
         if(_nowtimeValue.value.isSameOrBefore(_start,type)){
             // 这是开始的数字。
             intdate = _start[props.timeType]();
+			
             tmArray.value = rangeNumber(intdate,getEndNumber(_start,true));
         }else if(_nowtimeValue.value.isSameOrAfter(_end,type)){
-            
             tmArray.value = rangeNumber(intdate,getEndNumber(_end,isno));
         }else if(_nowtimeValue.value.isBetween(_start,_end,props.timeType,'()')){
             tmArray.value = rangeNumber(intdate,getEndNumber(_nowtimeValue.value,true));
-            return
+            
         }
     }
     

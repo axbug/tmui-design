@@ -5,11 +5,15 @@ import { tmVuetify,wxshareConfig } from './interface'
 let pdefault_cookies_color = u.getCookie('setTmVuetifyColor')||"";
 let pdefault_cookies_black = u.getCookie('setTmVuetifyBlack')
 let pdefault_cookies_local = u.getCookie('setTmVuetifyLocal')||'zh-Hans';
+let pdefault_cookies_colorArrayList = u.getCookie('colorArrayList');
 let dark = typeof pdefault_cookies_black === 'boolean' ? pdefault_cookies_black : false;
-let themeObj = new themeColor.themeColors();
+let themeObj = new themeColor.themeColors()
+if(pdefault_cookies_colorArrayList){
+	themeObj = new themeColor.themeColors(pdefault_cookies_colorArrayList)
+}
 const colorArray = themeObj.colors;
 const os = uni.getSystemInfoSync().platform
-
+u.setCookie('colorArrayList', colorArray)
 // 为 store state 声明类型
 export interface State {
 	tmVuetify: tmVuetify
@@ -75,11 +79,21 @@ export const useTmpiniaStore = defineStore('tmpinia', {
 		setTmVuetifyTheme(color:string) {
 			let defaultColorName = color
 			if (!defaultColorName || defaultColorName == ""||themeColor.isCssColor(defaultColorName)) {
-				defaultColorName = 'primary';
-				console.error('不支持自定义组件上的颜色值，请在theme/theme.js中添加自定义的颜色值为主题。当前已切换为primary主题。');
+				defaultColorName = '';
 			}
 			this.tmStore = {...this.tmStore,color:defaultColorName};
 			u.setCookie('setTmVuetifyColor', defaultColorName)
+		},
+		//添加一个主题
+		setTmVuetifyAddTheme(colorName:string,color:string,isSet=true) {
+			this.tmStore = {
+				...this.tmStore,
+				colorList: themeObj.add(colorName,color)
+			}
+			u.setCookie('colorArrayList', this.tmStore.colorList);
+			if(isSet){
+				this.setTmVuetifyTheme(colorName)
+			}
 		},
 		setTmLocal(language:string){
 			language = language || 'zh-Hans';

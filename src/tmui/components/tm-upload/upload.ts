@@ -86,13 +86,11 @@ export class uploadfile {
 	delete(item:file){
 		let index = this.filelist.findIndex(el=>el.uid == item.uid);
 		if(index>-1){
-			
 			let p = [...this.filelist]
 			p.splice(index,1)
-			
 			this.filelist = [...p];
-			console.log(p)
 		}
+		 
 		return this.filelist;
 	}
 	setFileStatus(item:file){
@@ -151,6 +149,7 @@ export class uploadfile {
 						rj("chooesefileAfter:函数过滤，没有返回文件列表。")
 						return;
 					}
+					
 					t.filelist.push(...isreadyChoose)
 					
 					t.chooesefileSuccess(isreadyChoose);

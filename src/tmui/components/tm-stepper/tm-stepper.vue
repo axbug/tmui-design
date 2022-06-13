@@ -2,7 +2,7 @@
     <view class="flex flex-row" :style="[{ width: `${props.width}rpx`, height: `${props.height}rpx` }]">
         <tmSheet text :transprent="props.circular" :followTheme="false" _class="flex flex-row" :color="props.bgColor" :margin="[0, 0]" :padding="[0, 0,]">
             <view :class="[!props.circular?``:`round-${10}`, 'overflow', props.disabled || isJianDisabled ? 'opacity-5' : '']">
-                <tmSheet :round="props.circular?10:props.round" :linear="props.linear" :linear-deep="props.linearDeep" @click="setStep('-')" @longpress="longpressEvent('-')" @touchend="endlongpressEvent('-')"
+                <tmSheet :followTheme="props.followTheme" :round="props.circular?10:props.round" :linear="props.linear" :linear-deep="props.linearDeep" @click="setStep('-')" @longpress="longpressEvent('-')" @touchend="endlongpressEvent('-')"
                     _class="flex-center" :color="props.color" :margin="[0, 0]" :padding="[0, 0,]" :height="height"
                     :width="props.height">
                     <tm-icon :userInteractionEnabled="false" :font-size="22" name="tmicon-minus"></tm-icon>
@@ -15,7 +15,7 @@
                 type="number" />
 
             <view :class="[!props.circular?``:`round-${10}`, 'overflow', props.disabled || isAddDisabled ? 'opacity-5' : '']">
-                <tmSheet :round="props.circular?10:props.round" :linear="props.linear" :linear-deep="props.linearDeep" @click="setStep('+')" @longpress="longpressEvent('+')" @touchend="endlongpressEvent('+')"
+                <tmSheet :followTheme="props.followTheme" :round="props.circular?10:props.round" :linear="props.linear" :linear-deep="props.linearDeep" @click="setStep('+')" @longpress="longpressEvent('+')" @touchend="endlongpressEvent('+')"
                     :_class="'flex-center'" :color="props.color" :margin="[0, 0]" :padding="[0, 0,]" :height="height"
                     :width="props.height">
                     <tm-icon :userInteractionEnabled="false" :font-size="22" name="tmicon-plus"></tm-icon>
@@ -43,6 +43,11 @@ import { useTmpiniaStore } from '../../tool/lib/tmpinia';
 const store = useTmpiniaStore();
 const props = defineProps({
     ...custom_props,
+	//是否跟随全局主题的变换而变换
+	followTheme: {
+		type: [Boolean, String],
+		default: true
+	},
     width: {
         type: [Number],
         default: 210

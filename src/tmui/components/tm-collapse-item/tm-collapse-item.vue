@@ -1,19 +1,19 @@
 <template>
 	<view class="flex flex-col " :class="[disabled ? 'opacity-7' : '']">
 		<tm-sheet @click="openAndClose"  :color="props.color" :text="disabled" :border="cborder" :linear="props.linear"
-			:linearDeep="props.linearDeep" :followTheme="props.followTheme" :dark="props.dark"
-			:followDark="props.followDark" borderDirection="bottom" :margin="props.margin" :padding="props.padding"
+			:linearDeep="props.linearDeep"  :dark="props.dark"
+			:followDark="props.followDark" :followTheme="props.followTheme" borderDirection="bottom" :margin="props.margin" :padding="props.padding"
 			:height="88">
 			<view :userInteractionEnabledn="false" class="flex-row-center-start flex-row ">
 				<slot name="icon" :data="{ isActive: isActive }">
-					<tm-icon :dark="props.dark" :followTheme="props.followTheme" :followDark="props.followDark"
+					<tm-icon :dark="props.dark"  :followDark="props.followDark"
 						 :color="isActive ? props.activeColor : ''"
 						:name="isActive ? 'tmicon-sort-down' : 'tmicon-caret-right'" :font-size="24" _class="pr-16"
 						_style="line-height:88rpx;"></tm-icon>
 				</slot>
 				<view class="flex flex-row flex-12" style="width:0px">
 					<slot name="title" :data="{ isActive: isActive }">
-						<tm-text  :dark="props.dark" :followTheme="props.followTheme" :followDark="props.followDark"
+						<tm-text  :dark="props.dark"  :followDark="props.followDark"
 							:fontSize="30" :color="isActive ? props.activeColor : ''"
 							_style="line-height:88rpx;" :label="props.title"></tm-text>
 					</slot>

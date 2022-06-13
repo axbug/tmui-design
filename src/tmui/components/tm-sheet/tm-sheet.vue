@@ -108,7 +108,7 @@ const props = defineProps({
     type: Boolean,
     default: false
   },
-  //是否开启磨砂背景。
+  //是否开启磨砂背景。只有是黑白灰色系才能使用。
   blur: {
     type: Boolean,
     default: false
@@ -137,7 +137,11 @@ const customClass = computed(() => computedClass(props));
 const isDark = computed(() => computedDark(props, tmcfg.value));
 //计算主题
 const tmcomputed = computed<cssstyle>(() => {
-  return computedTheme({...props,blur:_blur.value}, isDark.value);
+	let text = props.text;
+  if(_blur.value&&tmcfg.value.os == 'ios'){
+	  text = true;
+  }
+  return computedTheme({...props,blur:_blur.value,text:text}, isDark.value);
 });
 const _isNvue = ref(false)
 // #ifdef APP-NVUE
@@ -233,7 +237,9 @@ const c_h = computed(() => {
   return h;
 })
 // 设置响应式主题文字色。
-let textColor = computed(() => tmcomputed.value.textColor);
+let textColor = computed(() => {
+	return tmcomputed.value.textColor
+});
 provide("appTextColor", textColor);
 </script>
 

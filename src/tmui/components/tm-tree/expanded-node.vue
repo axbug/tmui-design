@@ -5,7 +5,7 @@
             <slot></slot>
         </view>
         <view v-if="_item['children']&&_checked" >
-            <base-node-vue  :fieldNames="props.fieldNames" :data="_item['children']"></base-node-vue>
+            <base-node-vue :followTheme="props.followTheme"  :fieldNames="props.fieldNames" :data="_item['children']"></base-node-vue>
         </view>
     </view>
 </template>
@@ -17,6 +17,10 @@ import baseNodeVue from "./base-node.vue";
 import { baseNodeData } from './interface';
 const { proxy } = getCurrentInstance();
 const props = defineProps({
+	followTheme: {
+		type: [Boolean,String],
+		default: true
+	},
     data: {
         type: Object,
         default: () => { },

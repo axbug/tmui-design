@@ -6,17 +6,18 @@
                 class="flex flex-row flex-row-center-start">
                 <view v-for="(item, index) in _idArrays" :key="index" class="flex flex-row flex-row-center-start">
                     <view >
-                        <tm-text  :fontSize="28" _class="text-overflow-1" 
+                        <tm-text :followTheme="_activeIndex == index?props.followTheme:false" :fontSize="28" _class="text-overflow-1" 
                         :color="_activeIndex == index? props.activeColor : ''"
                         :label="item" @click="tabClick(index)"></tm-text>
                        
                     </view>
                     <view  class="mx-10" v-if="index < _idArrays.length-1">
-                        <tm-text label="/" :fontSize="24" :color="props.activeColor" >
+                        <tm-text :followTheme="props.followTheme" label="/" :fontSize="24" :color="props.activeColor" >
                         </tm-text>
                     </view>
                 </view>
-                <tm-text :color="_activeIndex == _nowLevel? props.activeColor : ''" v-if="_nowLevel==_idArrays.length" :fontSize="28" _class="ml-10" label=">请选择" @click="tabClick(_nowLevel)"></tm-text>
+                <tm-text :followTheme="_activeIndex == _nowLevel?props.followTheme:false" :color="_activeIndex == _nowLevel? props.activeColor : ''" 
+				v-if="_nowLevel==_idArrays.length" :fontSize="28" _class="ml-10" label=">请选择" @click="tabClick(_nowLevel)"></tm-text>
             </view>
 
         </tm-sheet>
@@ -25,7 +26,7 @@
             <slot></slot>
         </view>
         <view style="height:16rpx"></view>
-        <BaseCascader :color="props.activeColor" :height="props.height - 120 - slotTabHeigth" :data="listData"></BaseCascader>
+        <BaseCascader :followTheme="props.followTheme" :color="props.activeColor" :height="props.height - 120 - slotTabHeigth" :data="listData"></BaseCascader>
     </tm-sheet>
 </template>
 <script lang="ts" setup>
@@ -48,6 +49,10 @@ import {getNodeRouterData,queryNodeIsParent} from "./util"
  */
 const emits = defineEmits(['update:modelValue','tab-click','cell-click','change'])
 const props = defineProps({
+	followTheme: {
+		type: [Boolean,String],
+		default: true
+	},
     /**
      * 导入的数据
      */

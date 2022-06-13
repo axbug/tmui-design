@@ -5,6 +5,8 @@
       :border="props.border" :borderStyle="props.borderStyle" :borderDirection="props.borderDirection"
       :text="props.text" :transprent="props.transprent" :linear="props.linear" :linearDeep="props.linearDeep"
       :width="props.width" :height="props.height" :margin="props.margin" :padding="props.padding"
+	  :_class="props._class"
+	  :_style="props._style"
       hover-class="opacity-6">
       <view :userInteractionEnabled="true" class="flex flex-row flex-row-center-center"
         :class="[_computedValue.url ? 'url' : '']">
@@ -175,6 +177,7 @@ const props = defineProps({
     type: [String],
     default: cssDirection.bottom,
   },
+  //显示下边线
   bottomBorder: {
     type: [Boolean],
     default: false,
