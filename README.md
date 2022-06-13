@@ -36,9 +36,15 @@
 **用户群需要回答问题，答案为：tm-vuetify** <br>
 ![用户群](https://jx2d.cn/yuwuimages/tmUI%E7%94%A8%E6%88%B7%E7%BE%A4%E7%BE%A4%E8%81%8A%E4%BA%8C%E7%BB%B4%E7%A0%81.png)
 
+### 3.0.4新功能特性快速了解 
+
+![3.0.4](https://vkceyugu.cdn.bspapp.com/VKCEYUGU-f5b1722f-8766-40af-a22a-acc454202a37/86bce318-d3a0-4c88-8e9c-cd764fed81e1.gif)
+![3.0.4](https://vkceyugu.cdn.bspapp.com/VKCEYUGU-f5b1722f-8766-40af-a22a-acc454202a37/f33285fd-5f26-4092-95a2-2fe8f4aee2ed.gif)
+
+
 ----
 
-[安卓DEMO安装包](https://vkceyugu.cdn.bspapp.com/VKCEYUGU-f5b1722f-8766-40af-a22a-acc454202a37/fdc1c33f-83dc-4079-b3b9-7960e2c2d9da.apk)
+[安卓3.0.4安装包](https://gitee.com/LYTB/tmui-design/releases/3.0.4)
 
 ----
 
