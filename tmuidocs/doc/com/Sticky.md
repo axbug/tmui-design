@@ -40,7 +40,15 @@ title: tmui 3.0 组件库
 无
 
 ### :corn: slot插槽
-默认default
+默认default：为显示的默认内容。
+插槽：sticky，用于悬浮。
+```vue
+<template v-slot:sticky>
+<view>
+这里面是悬浮的内容
+</view>
+</template>
+```
 
 ### :couplekiss: 文档贡献
 此页文档由[Kyour](https://github.com/kyour-cn)贡献，如果对该框架感兴趣的可以参与我们一同进步！
