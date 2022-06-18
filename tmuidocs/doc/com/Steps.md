@@ -60,6 +60,14 @@ title: tmui 3.0 组件库
 | update:current | --- | --- | 即v-model:current |
 | step-click | --- | index | 当点击步骤时触发。 |
 
+### :seedling: Steps-item 参数
+| color| [String ] | '' | 当前的主题，默认使用父组件的值 |
+| activeColor| [String ] | '' | 激活时的主题，默认使用父组件的值 |
+| title| [String ] | '' | 标题 |
+| label| [String ] | '' | 标题下方的描述文字 |
+| icon| [String ] | '' | 显示步骤图标，图标名称 |
+| size| [Number] | '' | 圆点的大小。 |
+
 ### :corn: slot插槽
 
 默认default
