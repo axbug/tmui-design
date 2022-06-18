@@ -66,3 +66,6 @@ props属性表
 | padding | Array | [32,0] | 内间距[x,y]x=左右，y=上下 |
 | height | Number | 100 | 高度，单位rpx |
 | title | [String,Number] | '' | 分类标题 |
+
+### 贡献者
+Mr.童
