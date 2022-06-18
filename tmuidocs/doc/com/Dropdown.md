@@ -50,10 +50,19 @@ title: tmui 3.0 组件库
 | color | String | 'white' |  |
 | width | Number | 0 | 宽度，单位rpx |
 | position | String | bc | tl上左，tc中，tr右。bc下左，bl中，br右。 |
-| list | Array | [] | 下拉选项的数据 |
+| list | Array | [] | 下拉选项的数据，格式见下方 |
 | rangKey | String | "text" |  |
 | disabled | Boolean | false | 是否禁用 |
 
+list数组数据格式：
+```ts
+export interface itemList {
+    text:string,
+    iconColor?:string,
+    icon?:string,
+    [prop:string]:any
+}
+```
 
 ### :rose: 事件
 | 事件名 | 参数 | 返回数据 | 描述 |
