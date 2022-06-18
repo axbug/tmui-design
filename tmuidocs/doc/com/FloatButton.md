@@ -45,6 +45,37 @@ title: tmui 3.0 组件库
 
 如果clickHidnActions为false,点击子按钮后不会隐藏按钮。始终保持展开子按钮
 
+btn主按钮和子按钮数据格式如下：
+```ts
+//按钮的位置
+export enum positionType {
+    tl = 'tl',
+    tc = 'tc',
+    tr = 'tr',
+    bl = 'bl',
+    bc = 'bc',
+    br = 'br',
+}
+//子菜单弹出的位置
+export enum popDir {
+    l = 'left',
+    t = 'top',
+    b = 'bottom',
+    r = 'right'
+}
+
+export interface actionsItem {
+    icon:string,
+    label?:string,
+    iconSize?:number,
+    fontSize?:number,
+    color?:string,//背景
+    fontColor?:string,
+    linear?:string,
+    linearDeep?:string
+}
+
+```
 ### :rose: 事件
 | 事件名    | 参数  | 返回数据 | 描述  |
 |--------|-----|------|-----|
