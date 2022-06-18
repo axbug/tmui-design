@@ -65,3 +65,6 @@ title: tmui 3.0 组件库
 | value | String | '' | 标签值 |
 | color | String | '' | 标签文字颜色 |
 | fontSize | Number | 23 | 标签文字大小 |
+
+### 贡献者
+Mr.童
