@@ -58,7 +58,11 @@ title: tmui 3.0 组件库
 | click |  |  |  |
 | close |  |  |  |
 ### :corn: slot插槽
-左侧内容left, 中间default,右侧：right
+| 名称 | 数据名称 | 数据类型 | 说明 |
+| --- | --- | --- | --- |
+| left | --- | --- | 左侧插槽 |
+| default | --- | --- | 中间插槽 |
+| right | --- | --- | 右侧插槽 |
 
 ### :green_salad: ref方法
 无
