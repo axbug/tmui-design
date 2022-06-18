@@ -50,7 +50,7 @@ title: tmui 3.0 组件库
 | avatarSize | Number | 60 | 头像大小 |
 | avatarRound | Number | 10 | 头像圆角 |
 | border | [Number] | 0 | 边线宽度 |
-| borderDirection | [String] | cssDirection.bottom | 边线方向 |
+| borderDirection | [String as cssDirection ] | bottom | 边线方向 |
 | bottomBorder | [Boolean] | false | 是否显示下边线 |
 | url | String | "" | 当有链接地址时，将打开链接 |
 
@@ -60,7 +60,7 @@ title: tmui 3.0 组件库
 | @click |  |  | 点击组件时触发。 |
 
 ### :corn: slot插槽
-| 属性名称 | 类型 | 数据 | 说明 |
+| 插槽名称 | 类型 | 数据 | 说明 |
 | --- | --- | --- | --- |
 | avatar |  |  | 自定义头像 |
 | title |  |  | 自定义左侧标题部分的内容 |
