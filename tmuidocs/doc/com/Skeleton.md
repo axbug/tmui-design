@@ -27,13 +27,14 @@ title: tmui 3.0 组件库
 | --- | --- | --- | --- | --- |
 | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
 
-### :seedling: 参数
+### :seedling: Skeleton参数
 本组件含有公共属性 [公共属性](/doc/spec/组件公共样式.md)
 | 参数名 | 类型 | 默认值 | 描述 |
 | :--: | :--: | :--: | :-- |
 | height | Number | 60 | 高度，单位rpx |
 | rows | Number | 3 | 行数 |
 | model | String | line | 类型；可选值：line,rect,card,chat |
+
 
 ### :rose: 事件
 无
@@ -50,7 +51,7 @@ title: tmui 3.0 组件库
 本元素组件自由的组合出你想要的任意加载造型，这对自定义骨架形状非常有用。
 
 
-### :seedling: 参数
+### :seedling: Skeleton-Line参数
 本组件含有公共属性 [公共属性](/doc/spec/组件公共样式.md)
 | 参数名 | 类型 | 默认值 | 描述 |
 | :--: | :--: | :--: | :-- |
@@ -58,6 +59,7 @@ title: tmui 3.0 组件库
 | dark | [Boolean,String] | false |  |
 | followTheme | [Boolean,String] | true | 是否跟随全局主题的变换而变换 |
 | followDark | [Boolean,String] | true | 是否跟随主题全局切换暗黑模式 |
+| round| Number | 3 | 圆角0-25 |
 
 ### :rose: 事件
 无
