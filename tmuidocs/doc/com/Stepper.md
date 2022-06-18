@@ -30,6 +30,13 @@ Stepper 步进器是应用在数值较少且变动较精确的数值输入场景
 ### :seedling: 参数
 
 本组件含有公共属性 [公共属性](/doc/spec/组件公共样式.md)
+
+:::tips 温馨提示
+
++，-按钮，长按时可以持续增减。
+
+:::
+
 | 参数名 | 类型 | 默认值 | 描述 |
 | :--: | :--: | :--: | :-- |
 | width | Number | 210 | 组件宽度 |
@@ -49,7 +56,7 @@ Stepper 步进器是应用在数值较少且变动较精确的数值输入场景
 | min | Number | 0 | 可输入的最小数值 |
 | modelValue / v-model | Number | null | 步进器双向绑定值 |
 | defaultValue | Number | null | 步进器默认值 |
-| beforeEnter | Function / Boolean | true | 按钮增加或者 减少前执行，返回 fase取消当前操作 |
+| beforeEnter | Function / Boolean | true | 按钮增加或者减少前执行的勾子函数，返回 fase取消当前操作，可以是Promise\<boolean\> |
 
 ### :rose: 事件
 
