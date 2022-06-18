@@ -41,7 +41,7 @@ title: tmui 3.0 组件库
 本组件含有公共属性 [公共属性](/doc/spec/组件公共样式.md)
 | 参数名 | 类型 | 默认值 | 描述 |
 | :--: | :--: | :--: | :-- |
-| list | Array | [] | ()=>[],required:true |  |
+| list | Array | [] | [] |  |
 | rangKey | String | 'text' |  |
 | modelValue | Boolean | false |  |
 | color | String | "white" |  |
@@ -52,6 +52,15 @@ title: tmui 3.0 组件库
 | update:modelValue |  | false/true | v-model:显示和隐藏 |
 | change |  | listitem | 当点击项目时触发，返回listitem数据 |
 | cancel |  |  | 点击取消时触发 |
+
+list[]格式为listitem 如下：
+```ts
+interface listitem {
+	text ? : string,
+	disabled ? : boolean,
+	[prop: string]: any;
+}
+```
 
 ### :corn: slot插槽
 
