@@ -35,7 +35,7 @@ title: tmui 3.0 组件库
 | align        | String  | flex-center      | 内容的对齐方式的类   |
 | bgColor      | String  | rgba(0,0,0,0.35) | 当前组件的主题     |
 | zIndex       | Number  | 120              | 显示优先层级      |
-| show         | Boolean | false            | 是否显示        |
+| show         | Boolean | false            | 是否显示，双向绑定v-model:show        |
 | overlayClick | Boolean | true             | 遮罩层可点击      |
 | transprent   | Boolean | false            | 是否透明效果      |
 | duration     | Number  | 300              | 弹出动画的时间（毫秒） |
@@ -46,7 +46,7 @@ title: tmui 3.0 组件库
 | click       |      |         |                  |
 | open        |      |         | 显示抽屉             |
 | close       |      |         | 关闭抽屉             |
-| update:show | show | Boolean | 显示状态（更新v-model值） |
+| update:show | show | Boolean | 显示状态（更新v-model:show值） |
 
 ### :corn: slot插槽
 默认default
