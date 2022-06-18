@@ -36,8 +36,8 @@ title: tmui 3.0 组件库
 | name | String | fade | 动画效果名称，可选值 fade,left,right,up,down,zoom|
 | autoPlay | Boolean | true | 是否自动播放动画 |
 | disabled | Boolean | false | 是否禁用 |
-| height | [Number,String] | 0 | 高度，单位rpx |
-| width | [Number,String] | 0 | 宽度，单位rpx |
+| height | [Number,String] | 0 | 高度，单位rpx,0表示自动宽高 |
+| width | [Number,String] | 0 | 宽度，单位rpx,0表示自动宽高 |
 | reverse | [Boolean,String] | false | 是否反向动画 |
 ### :rose: 事件
 | 事件名 | 参数 | 返回数据 | 描述 |
