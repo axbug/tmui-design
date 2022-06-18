@@ -34,7 +34,7 @@ title: tmui 3.0 组件库
 |-----------|-----------------|----------|---------------------------|
 | color     | String          | grey-3   | 颜色                        |
 | vertical  | Boolean, String | false    | 是否纵向展示                    |
-| height    | Number          | 26       | 高度                        |
+| height    | Number          | 26       | 高度（只有为纵向时起作用。）                        |
 | label     | String          | ''       | 文字内容                      |
 | fontColor | String          | grey-1   | 文字颜色                      |
 | align     | String          | center   | 文字位置 可选：left,right,center |
