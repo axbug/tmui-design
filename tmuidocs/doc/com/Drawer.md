@@ -34,7 +34,7 @@ title: tmui 3.0 组件库
 |--------------|----------------|---------|-----------------------------------------|
 | mask         | Boolean        | true    | 是否显示遮罩                                  |
 | placement    | String         | top     | 抽屉放置的位置 可选：top,left,right,bottom,center |
-| show         | Boolean        | false   | 是否显示                                    |
+| show         | Boolean        | false   | 是否显示双向绑定可使用v-model:show                                    |
 | width        | Number         | 500     | 宽                                       |
 | height       | Number         | 600     | 高                                       |
 | round        | Number, String | 12      | 圆角像素                                    |
@@ -60,7 +60,7 @@ title: tmui 3.0 组件库
 | close       |      |         | 关闭抽屉             |
 | ok          |      |         | 确认按钮             |
 | cancel      |      |         | 取消按钮             |
-| update:show | show | Boolean | 显示状态（更新v-model值） |
+| update:show | show | Boolean | 显示状态（更新v-model:show值） |
 
 ### :corn: slot插槽
 默认default
