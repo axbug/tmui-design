@@ -9,6 +9,8 @@ title: tmui 3.0 组件库
 # 图片裁剪 Cropimg
 使用该组件可快速实现图片的裁剪，用于头像、资料上传等场景。
 
+注意：nvue中还未实现，兼容中。因为在nvue中canvas无法导入本地图片，uniapp bug。我在寻找其它代替方案。
+
 ---
 
 ### :hot_pepper: 示例
