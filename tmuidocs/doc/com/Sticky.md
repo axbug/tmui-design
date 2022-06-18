@@ -33,7 +33,7 @@ title: tmui 3.0 组件库
 | 参数名    | 类型            | 默认值 | 描述          |
 |--------|---------------|-----|-------------|
 | model  | String        | top | 可选：left,top |
-| offset | String,Number | 0px | 距离顶部间隙      |
+| offset | String,Number | 0 | 距离顶部间隙，单位px      |
 | zIndex | Number        | 50  | 层级，对于nvue无效 |
 
 ### :rose: 事件
