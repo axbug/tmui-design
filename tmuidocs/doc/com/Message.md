@@ -1,0 +1,49 @@
+---
+title: tmui 3.0 组件库
+---
+
+<dirtoc></dirtoc>
+
+##### 组件库文档 tmui.design
+
+# 全局提示 Message
+消息提示弹出层，用于向用户反馈执行结果等场景。
+
+---
+
+### :hot_pepper: 示例
+
+<webview url="https://tmui.design/h5/#/pages/fankui/message"></webview>
+
+::: details 示例模板
+
+@[code vue](pages/fankui/message.nvue)
+
+:::
+
+### :hot_pepper: 兼容性
+
+| APP-VUE            | APP-NVUE           | 小程序                | WEB/H5             | VUE3/TS            |
+|--------------------|--------------------|--------------------|--------------------|--------------------|
+| :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
+
+### :seedling: 参数
+
+| 参数名      | 类型      | 默认值  | 描述                 |
+|----------|---------|------|--------------------|
+| mask     | Boolean | true | 是否显示遮罩             |
+| duration | Number  | 1300 | 自动关闭时,需要显示多久关闭（毫秒） |
+
+### :rose: 事件
+| 事件名   | 参数  | 返回数据 | 描述  |
+|-------|-----|------|-----|
+| click |     |      |     |
+
+### :green_salad: ref方法
+| 方法名   | 参数  | 返回值 | 描述  |
+|-------|-----|-----|-----|
+| open  |     |     | 显示  |
+| close |     |     | 隐藏  |
+
+### :couplekiss: 文档贡献
+此页文档由[Kyour](https://github.com/kyour-cn)贡献，如果对该框架感兴趣的可以参与我们一同进步！
