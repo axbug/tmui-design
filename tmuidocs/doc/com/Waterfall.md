@@ -47,9 +47,9 @@ tm-waterfall-item
 ### :seedling: 参数
 | 参数名   | 类型     | 默认值   | 描述   |
 |-------|--------|-------|------|
-| img   | String | ''    | 封面图片 |
+| img   | String | ''    | 封面图片，可以为空 |
 | color | String | white | 主题颜色 |
-| round | Number | 0     | 圆角像素 |
+| round | Number | 0     | 圆角，0-25 |
 
 ### :rose: 事件
 | 事件名       | 参数  | 返回数据  | 描述    |
