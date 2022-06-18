@@ -34,8 +34,8 @@ title: tmui 3.0 组件库
 |--------------|--------------------|---------|---------------|
 | followTheme  | Boolean            | true    | 是否跟随主题        |
 | transprent   | Boolean            | false   | 是否透明效果        |
-| round        | Number             | 0       | 圆角像素          |
-| shadow       | Number             | 3       | 阴影像素          |
+| round        | Number             | 0       | 圆角 ，0-25         |
+| shadow       | Number             | 3       | 阴影 ，0-25         |
 | defaultValue | String,Date,Number | ''      | 默认日期值,留空为当前日期 |
 | modelValue   | String,Date,Number | ''      | 选中日期值         |
 | color        | String             | white   | 主题颜色          |
