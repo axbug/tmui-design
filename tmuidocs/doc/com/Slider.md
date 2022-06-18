@@ -40,8 +40,8 @@ Slider 滑块是一个用于输入数值，或区域选择数值的组件
 | bgColor | String | grey-4 | 按钮右侧滑块条的颜色 |
 | max | Number | 100 | 滑块可选值的最大数值 |
 | min | Number | 0 | 滑块可选值的最小数值 |
-| modelValue / v-model | Number | null | 步进器双向绑定值 |
-| defaultValue | Number | null | 步进器默认值 |
+| modelValue / v-model | :[Array,Number]| 0 | 双向绑定值必须与defaultValue 相同 |
+| defaultValue | :[Array,Number]| 0 | 步进器默认值,必须与modelValue 类型相同，当提供为数组比如[0,25],此时该组件会变成双滑块，如果是一个数字为单滑块。 |
 | formart | Function | modelValue | 是一个函数，返回值为按钮上方显示的标签内容，默认与modelValue内容相同 |
 | showLabel | Boolean | false | 为true时step有效，会显示标签 |
 | step | Number | 5 |  需要显示的步骤标签 |
