@@ -42,8 +42,31 @@ title: tmui 3.0 组件库
 ### :green_salad: ref方法
 | 方法名   | 参数  | 返回值 | 描述  |
 |-------|-----|-----|-----|
-| open  |     |     | 显示  |
-| close |     |     | 隐藏  |
+| show  |  config:object   |     | 显示,参数格式见下方  |
+| hide |     |     | 隐藏  |
+
+```ts
+export enum modelType {
+	load = "load",
+	error = "error",
+	info = "info",
+	warn = "warn",
+	quest = "quest",
+	success = "success",
+	disabled = "disabled",
+	wait = "wait"
+}
+export interface config {
+	 duration?:number, //显示的时长
+	 icon?:string, //显示的图标
+	 text?:string, //显示的文本
+	 color?:string, //显示的主题
+	 dark?:boolean, //是否暗黑
+	 model?:modelType ,//模式见上方modelType
+	 mask?:boolean //是否显示黑色遮罩。
+}
+
+```
 
 ### :couplekiss: 文档贡献
 此页文档由[Kyour](https://github.com/kyour-cn)贡献，如果对该框架感兴趣的可以参与我们一同进步！
