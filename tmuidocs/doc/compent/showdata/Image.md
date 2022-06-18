@@ -31,8 +31,8 @@ title: tmui 3.0 组件库
 本组件含有公共属性 [公共属性](/doc/spec/组件公共样式.md)
 | 参数名 | 类型 | 默认值 | 描述 |
 | :--: | :--: | :--: | :-- |
-| margin | Array | ()=>[0,0] | 外间距[x,y]x=左右，y=上下 |
-| padding | Array | ()=>[0,0] | 内间距[x,y]x=左右，y=上下 |
+| margin | Array | [0,0] | 外间距[x,y]x=左右，y=上下 |
+| padding | Array | [0,0] | 内间距[x,y]x=左右，y=上下 |
 | color | String | 'white' | 边框颜色 |
 | transprent | [Boolean,String] | true | 是否透明 |
 | border | Number | 0 | 边框宽度 |
@@ -47,7 +47,7 @@ title: tmui 3.0 组件库
 | extraPosition | String | 'in' | in:叠加图片上显示,out：图片下方显示 |
 | delete | [Boolean,String] | false | 展示关闭删除按钮。 |
 | allowDelete | [Boolean,String] | true | 是否允许点击delete图标关闭自己，如果为false,将仅触发delete事件，本身图片不会被关闭。 |
-| model | String | 'scaleToFill' | 图片绽放模式，同官方阅读：[https://uniapp.dcloud.io/component/image.html](https://uniapp.dcloud.io/component/image.html) |
+| model | String | 'scaleToFill' | 图片缩放模式，同官方阅读：[https://uniapp.dcloud.io/component/image.html](https://uniapp.dcloud.io/component/image.html) |
 | unit | String | 'rpx' | 单位 |
 
 ### :rose: 事件
@@ -66,7 +66,7 @@ title: tmui 3.0 组件库
 ### :green_salad: ref方法
 无
 
-### :green_salad: 图片组image-group
+### :green_salad: 图片组 image-group
 :::warning 特别提醒
   它不能单独使用，必须和tm-image配合使用。        
 :::
@@ -74,3 +74,6 @@ props属性表
 | 参数名 | 类型 | 默认值 | 描述 |
 | :--: | :--: | :--: | :-- |
 | width | [Number, String] | 0 | 默认为0,宽度自动。 |
+
+### 贡献者
+Mr.童
