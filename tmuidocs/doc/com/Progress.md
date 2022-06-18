@@ -46,7 +46,7 @@ title: tmui 3.0 组件库
 | dark | [Boolean] | false | 黑暗模式，可选值：false,true |
 | linear | [String] | 无 |直线形图表开始结束方向，left:右->左，right:左->右。top:下->上，bottom:上->下 |
 | linearDeep | [String] | light  | light,dark,accent亮系渐变和深色渐变 |
-| round | [Number,String] | 3 | 线条端点样式 |
+| round | [Number,String] | 3 | 直线线条圆角 |
 | showBar | [Boolean,String] | false | 显示数值点 |
 | disabled | Boolean | false | 是否禁用 |
 
