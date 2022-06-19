@@ -32,15 +32,25 @@ title: tmui 3.0 组件库
 | 参数名 | 类型 | 默认值 | 描述 |
 | :--: | :--: | :--: | :-- |
 | followTheme | [Boolean,String] | true | 是否跟随主题 |
-| data | Array | [] | 导入的数据 |
+| data | Array | [] | 导入的数据，格式下见下方 |
 | defaultValue | Array | [] | 默认选中的数据 |
-| modelValue | Array | [] | 双向绑定输入数据 |
+| modelValue | Array | [] | 双向绑定输入数据，同v-model |
 | height | Number | 650 | 高度，单位rpx |
 | activeColor | String | primary | 激活状态下的颜色。 |
 | color | String | white | 背景主题 |
-| beforeTabClick | [Function,Boolean] | false | 点击tab切换之前执行的勾子函数。可以是promise.返回假，即阻切换。真切换正常。方便动态加载数据。 |
+| beforeTabClick | [Function,Boolean] | false | 点击tab切换之前执行的勾子函数。可以是promise.返回假时阻止切换。为true时，切换正常。方便动态加载数据。 |
 | beforeCellClick | [Function,Boolean] | false | 点击列表中项目时再自动切换到下一项时之前执行的勾子函数，方便动态加载数据。 |
-| slotTabHeigth | Number | 0 | 介于tab和下面选项中间的插槽区域。如果想自定内容在这这间，可以设置高度，将会显示 。 |
+| slotTabHeigth | Number | 0 | 介于tab和下面选项中间的插槽区域。如果想自定内容在这之间，可以设置高度，将会显示 。 |
+
+data[]格式如下：
+```ts
+export interface childrenData {
+    id:number|string,
+    text:string,
+    disabled?:boolean,
+    children?:Array<childrenData>
+}
+```
 
 ### :rose: 事件
 | 事件名 | 参数 | 返回数据 | 描述 |
@@ -52,14 +62,7 @@ title: tmui 3.0 组件库
 
 
 ### :corn: slot插槽
-默认default
+默认default，介于tab和下面选项之间的区域插槽。
 
 ### :green_salad: ref方法
-| 方法名 | 参数 | 返回值 | 描述 |
-| :--: | :--: | :--: | :-- |
-| pushValue | key, level, id | - | key: childrenData, level: number, id: string/number |
-| addActiveIndex | level | - | level:number |
-| tmCascaderName | - | - | - |
-| getValueStr | - | `Array<string>` | 返回当前选中的数据字符串路径 |
-| getValueObject | - | - | 返回当前选中的数据对象数组 |
-| endSelected | - | - | - |
+无
