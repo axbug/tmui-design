@@ -58,7 +58,7 @@ title: tmui 3.0 组件库
 ### :rose: 事件
 | 事件名 | 参数 | 返回数据 | 描述 |
 | --- | --- | --- | --- |
-| update:activeName | 当前key | - | 当前选中项的key值 |
+| update:activeName | 当前key | - | 当前选中项的key值,v-model:active-name |
 | change | 当前key | - | 当前选中项的key值 |
 | click |  |  |  |
 
@@ -66,13 +66,8 @@ title: tmui 3.0 组件库
 默认default
 
 ### :green_salad: ref方法
-| 方法名 | 参数 | 返回值 | 描述 |
-| :--: | :--: | :--: | :-- |
-| pushKey | tab项 | - | 添加一个项目到当前tabs |
-| changeKey | key值 | - | 改变被触发的tab |
-| unbindKey | key值  | - | 移除key所在的tab |
-| setTitle | tab项 | - |  |
-| tmTabsId |  |  |  |
+
+无
 
 # 选项卡面板 Tabs-Pane
 不可以单独使用，必须放置在tm-tabs组件中使用。

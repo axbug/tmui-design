@@ -41,10 +41,22 @@ title: tmui 3.0 组件库
 | defaultExpandedId | Array | ()=>[] | 默认展开的父节点 |
 | selectedId | Array | ()=>[] | 选中的节点。 |
 | defaultSelectedId | Array | ()=>[] | 默认选中的节点 |
-| data | Array | ()=>[],required:true | 生成树结构的数据。结构必须要有id字段。当然可以通过field-names来映射，如果你的唯一标识字段不是Id的话。 |
+| data | Array | ()=>[],required:true | 结构见下方,生成树结构的数据。结构必须要有id字段。当然可以通过field-names来映射，如果你的唯一标识字段不是Id的话。 |
 | fieldNames | Object | ()=>{return{id:'id',text:'text'}} | 数据结构字段的映射表 |
 | showLine | [Boolean,String] | true | 显示连线 |
 
+tree,data数据结构：
+```ts
+export interface baseNodeData {
+    icon?:string,//节点图标。
+    color?:string,//节点颜色主题
+    disabled?:boolean,//节点是否禁用
+    text:string,//节点标题
+    id:number|string,//节点标识
+    checked?:boolean,
+    expanded?:boolean //是否父节点打开。
+}
+```
 
 ### :rose: 事件
 | 事件名 | 参数 | 返回数据 | 描述 |
@@ -61,15 +73,6 @@ title: tmui 3.0 组件库
 ### :green_salad: ref方法
 | 方法名 | 参数 | 返回值 | 描述 |
 | :--: | :--: | :--: | :-- |
-| TreeParaentName | - | - | three节点名称 |
-| onUnSelected | key:Array\<string\|number\> |  |  |
-| onSelected | key:Array\<string\|number\> |  |  |
-| onCheck |e: baseNodeData |  |  |
-| onExpand | e: any |  |  |
-| onUnExpand | e: any |  |  |
-| onSelectedParent |key:Array\<string\|number\>  |  |  |
-| onUnSelectedParent | key:Array\<string\|number\> |  |  |
-| getAllListData |-  |  |  所有节点数据|
 | checkAll |checked:boolean  |  | 改变所有节点状态,true时选中所有节点,false时取消所有节点 |
 | checkNode |key 节点id,checked 节点状态  |  | 注意，如果指定的是父节点，将会选中他的所有节节点，反之取消它所有的子节点 |
 | expandAll |checked 指定节点打开还是状态的状态。  |  | 展开或者关闭所有父节点状态 |
