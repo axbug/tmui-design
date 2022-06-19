@@ -68,6 +68,7 @@ title: tmui 3.0 组件库
 | autoBlur | Boolean | true | 自动失去焦点 |
 | holdKeyboard | Boolean | false |  |
 | adjustPosition | Boolean | true | 是否上推键盘 |
+| focus | Boolean | false | 是否聚焦 |
 
 ### :rose: 事件
 | 事件名 | 参数 | 返回数据 | 描述 |
