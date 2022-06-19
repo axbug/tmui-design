@@ -86,6 +86,6 @@ export interface rulesItem {
 }
 ```
 
-### 贡献者
+### :couplekiss: 文档贡献
+此页文档由[Sunlight](https://gitee.com/rzg)贡献，如果对该框架感兴趣的可以参与我们一同进步！
 
-[Sunlight](https://gitee.com/rzg)
