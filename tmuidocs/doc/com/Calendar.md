@@ -31,10 +31,10 @@ title: tmui 3.0 组件库
 本组件含有公共属性 [公共属性](/doc/spec/组件公共样式.md)
 | 参数名 | 类型 | 默认值 | 描述 |
 | :--: | :--: | :--: | :-- |
-| show | Boolean | false | 显示 |
+| show | Boolean | false | 显示,双向绑定，同v-model:show |
 | defaultValue | `Array<String/Number/Date>` | [] | 默认值，数组 |
-| modelValue | `Array<String/Number/Date>` | [] | 绑定对象 |
-| modelStr | String | '' | 单向绑定输入展示日期，此字段用来在页面上展示。只向外输出。|
+| modelValue | `Array<String/Number/Date>` | [] | 绑定对象,同v-model |
+| modelStr | String | '' | 同v-model:model-str,单向绑定输出展示日期，此字段用来在页面上展示。只向外输出。|
 | model | String | day | 日期模式：day : 单个日期选择模式（可多选，需要设置multiple=true; week :按周选择模式。month :按月选择模式。year :按年选择模式。rang :按日期范围选择模式。  |
 | color | String | primary | 主题色 |
 | linear | String | '' | 线性的 |
@@ -43,16 +43,25 @@ title: tmui 3.0 组件库
 | end | [String,Number,Date] | '' | 有效的可选时间，大于此时间，不允许选中。 |
 | disabledDate | `Array<String/Number/Date>` | [] | 被禁用的日期数组。如:["2022-1-1","2022-5-1"] |
 | multiple | Boolean | false | 是否允许多选。 |
-| dateStyle | `Array<dateItemStyle>` | [] | 设定单个日期的样式。 |
+| dateStyle | `Array<dateItemStyle>` | [] | 设定单个日期的样式,格式见下方。 |
 | max | Number | 999 | 当multiple=true时，可以选择的最大日期数量。 |
 
+dateItemStyle格式：
+```ts
+export interface dateItemStyle {
+    date?:string,//日期
+    text?:boolean,//浅色背景。
+    color?:string,//主题色.
+    extra?:string,//额外的内容，在日期下方显示的文本。
+}
+```
 
 ### :rose: 事件
 | 事件名 | 参数 | 返回数据 | 描述 |
 | --- | --- | --- | --- |
-| update:modelValue | - | modelValue | 绑定当前的时间。 |
-| update:modelStr | - | - | 更新页面展示日期 |
-| update:show | - | - | 更新显示状态 |
+| update:modelValue | - | modelValue | 绑定当前的时间。同v-model |
+| update:modelStr | - | - | 更新页面展示日期，v-model:model-str |
+| update:show | - | - | 更新显示状态，v-model:show |
 | confirm | `e: Array<string/number>` | - | 当点击确认时触发 |
 | click | `e: Array<string/number>` | - | 日期被选中时触发，注意禁用的日期不会触发 。 |
 | change | `e: Array<string/number>` | - | 当切换年或者月的时候触发。 |
@@ -67,10 +76,9 @@ title: tmui 3.0 组件库
 本组件含有公共属性 [公共属性](/doc/spec/组件公共样式.md)
 | 参数名 | 类型 | 默认值 | 描述 |
 | :--: | :--: | :--: | :-- |
-| show | Boolean | false | 显示 |
 | defaultValue | `Array<String/Number/Date>` | [] | 默认值，数组 |
-| modelValue | `Array<String/Number/Date>` | [] | 绑定对象 |
-| modelStr | String | '' | 单向绑定输入展示日期，此字段用来在页面上展示。只向外输出。|
+| modelValue | `Array<String/Number/Date>` | [] | 绑定对象，v-model:model |
+| modelStr | String | '' | 单向绑定输出展示日期，此字段用来在页面上展示。只向外输出。v-model:model-str|
 | model | String | day | 日期模式：day : 单个日期选择模式（可多选，需要设置multiple=true; week :按周选择模式。month :按月选择模式。year :按年选择模式。rang :按日期范围选择模式。  |
 | color | String | primary | 主题色 |
 | linear | String | '' | 线性的 |
@@ -79,7 +87,7 @@ title: tmui 3.0 组件库
 | end | [String,Number,Date] | '' | 有效的可选时间，大于此时间，不允许选中。 |
 | disabledDate | `Array<String/Number/Date>` | [] | 被禁用的日期数组。如["2022-1-1","2022-5-1"] |
 | multiple | Boolean | false | 是否允许多选 |
-| dateStyle | `Array<dateItemStyle>` | [] | 设定单个日期的样式 |
+| dateStyle | `Array<dateItemStyle>` | [] | 设定单个日期的样式，格式见上方 |
 | max | Number | 999 | 当multiple=true时，可以选择的最大日期数量 |
 
 ### :rose: CalendarView事件
@@ -87,7 +95,6 @@ title: tmui 3.0 组件库
 | --- | --- | --- | --- |
 | update:modelValue | - | modelValue | 绑定当前的时间。 |
 | update:modelStr | - | - | 更新页面展示日期 |
-| update:show | - | - | 更新显示状态 |
 | confirm | `e: Array<string/number>` | - | 当点击确认时触发 |
 | click | `e: Array<string/number>` | - | 日期被选中时触发，注意禁用的日期不会触发 。 |
 | change | `e: Array<string/number>` | - | 当切换年或者月的时候触发。 |
