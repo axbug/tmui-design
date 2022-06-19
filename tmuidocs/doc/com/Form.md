@@ -74,12 +74,18 @@ title: tmui 3.0 组件库
 | field | String | '' | 如果在forom绑定的model为深层对象，这里的名称需要如下:比如model = {a:2,b:{c:333}}，如果想绑定c,则field = "b.c" |
 | help | String | '' | 表单底部的单项注意说明。 |
 | required | Boolean | false | 是否必填 |
-| rules | Object | {validator:false,required:false} | 检验规则 |
+| rules | Object | rulesItem | 检验规则,格式见下方 |
 | border | Boolean | null | 显示下划线。 |
 
-### :green_salad: FormItem的ref方法
-| 方法名 | 参数 | 返回值 | 描述 |
-| :--: | :--: | :--: | :-- |
-| pushCom | - | - | 预先推送。 |
-| delCom | - | - | - |
-| tmFormComnameFormItem | - | - | tmFormComnameFormItem |
+rulesItem 格式如下：
+```ts
+export interface rulesItem {
+    validator?:Function|boolean,//检验函数。可以是Promise异步回调。
+    required?:boolean,//是否必填。
+    message?:string,//检验不合格时的文本
+}
+```
+
+### 贡献者
+
+[Sunlight](https://gitee.com/rzg)
