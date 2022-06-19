@@ -1,0 +1,85 @@
+---
+title: tmui 3.0 组件库
+---
+
+<dirtoc></dirtoc>
+
+##### 组件库文档 tmui.design
+
+# 表单 Form
+表单包含 输入框, 单选框, 下拉选择, 多选框 等用户输入的组件。 使用表单，您可以收集、验证和提交数据。。
+
+---
+
+### :hot_pepper: 示例
+
+<webview url="https://tmui.design/h5/#/pages/form/form"></webview>
+
+::: details 示例模板
+
+@[code vue](pages/form/form.nvue)
+
+:::
+
+### :hot_pepper: 兼容性
+
+| APP-VUE | APP-NVUE | 小程序 | WEB/H5 | VUE3/TS |
+| --- | --- | --- | --- | --- |
+| :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
+
+### :seedling: 参数
+本组件含有公共属性 [公共属性](/doc/spec/组件公共样式.md)
+| 参数名 | 类型 | 默认值 | 描述 |
+| :--: | :--: | :--: | :-- |
+| modelValue | Object | true | 绑定对象值 |
+| margin | `Array<number>` | [32,24] | 外间距[x,y]x=左右，y=上下 |
+| padding | `Array<number>` | [16,0] | 内间距[x,y]x=左右，y=上下 |
+| layout | String | horizontal | 表单标签是竖还是横排列:vertical,horizontal。 |
+| labelWidth | Number | 160 | 如果为0表示自动宽度。 |
+| labelAlign | String | left | 标签对齐方式 |
+| border | Boolean | true | 显示下划线。 |
+
+
+### :rose: 事件
+| 事件名 | 参数 | 返回数据 | 描述 |
+| --- | --- | --- | --- |
+| submit | - | - | 表单提交函数 |
+| reset | - | - | 重置表单函数 |
+| validate | - | - | 执行表单检验，不会返回任何值。 |
+| clearValidate | - | - | 清除验证函数 |
+| update:modelValue | - | - | 更新表单绑定值 |
+
+
+### :corn: slot插槽
+默认default
+
+### :green_salad: ref方法
+| 方法名 | 参数 | 返回值 | 描述 |
+| :--: | :--: | :--: | :-- |
+| submit | - | - | 提交表单 |
+| reset | - | - | 重置表单 |
+| validate | - | - | 手动校验表单 |
+| clearValidate | - | - | 清除校验状态 |
+| pushKey | item:formItem | - | - |
+| delKey | item:formItem | - | - |
+| tmFormComnameId | - | - | tmFormId |
+
+### :seedling: FormItem参数
+本组件含有公共属性 [公共属性](/doc/spec/组件公共样式.md)
+| 参数名 | 类型 | 默认值 | 描述 |
+| :--: | :--: | :--: | :-- |
+| label | String | '' | 显示名称 |
+| margin | `Array<number>` | [12,12] | 外间距[x,y]x=左右，y=上下 |
+| padding | `<Array<number>` | [0,0] | 内间距[x,y]x=左右，y=上下 |
+| field | String | '' | 如果在forom绑定的model为深层对象，这里的名称需要如下:比如model = {a:2,b:{c:333}}，如果想绑定c,则field = "b.c" |
+| help | String | '' | 表单底部的单项注意说明。 |
+| required | Boolean | false | 是否必填 |
+| rules | Object | {validator:false,required:false} | 检验规则 |
+| border | Boolean | null | 显示下划线。 |
+
+### :green_salad: FormItem的ref方法
+| 方法名 | 参数 | 返回值 | 描述 |
+| :--: | :--: | :--: | :-- |
+| pushCom | - | - | 预先推送。 |
+| delCom | - | - | - |
+| tmFormComnameFormItem | - | - | tmFormComnameFormItem |
