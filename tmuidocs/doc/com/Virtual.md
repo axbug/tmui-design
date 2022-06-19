@@ -33,15 +33,15 @@ title: tmui 3.0 组件库
 | :--: | :--: | :--: | :-- |
 | width | Number | 300, | 宽度，单位rpx |
 | height | Number | 500, | 高度，单位rpx |
-| itemHeight | Number | 0,required:true, | 预估项目的高度 |
-| data | Array\<string\>,图片列表 | []| 虚拟列表数据 |
+| itemHeight | Number | 0,required:true, | 项目的高度 |
+| data | Array\<string\> | []| 虚拟列表数据 |
 
 
 ### :rose: 事件
 无
 
 ### :corn: slot插槽
-默认default
+默认default，插槽数据名称：data,类型Arrray<any>;
 
 ### :green_salad: ref方法
 无
