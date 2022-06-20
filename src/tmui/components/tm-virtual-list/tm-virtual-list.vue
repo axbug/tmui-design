@@ -49,7 +49,7 @@ const props = defineProps({
     },
     data: {
         type: Array,
-        default: () => { },
+        default: () => [],
     },
 });
 const _itemHeight = uni.upx2px(props.itemHeight);

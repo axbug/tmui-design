@@ -7,24 +7,24 @@
 <template>
     <tm-sheet :margin="[0, 0]" :padding="[0, 0]">
         <!-- 按日选择的日期，可单选，多选。 -->
-        <range-day ref="rDay" @confirm="confirm" @click-day="click" @change="change" @update:model-value="_value = $event"
+        <range-day :followTheme="props.followTheme" ref="rDay" @confirm="confirm" @click-day="click" @change="change" @update:model-value="_value = $event"
             :model-value="_value" :default-value="_value" v-if="_modelType == 'rang'" :dateStyle="props.dateStyle"
             :disabledDate="props.disabledDate"  :start="props.start"
             :end="props.end" :color="props.color" :linear="props.linear" :linearDeep="props.linearDeep"></range-day>
-        <month-day ref="Day" @confirm="confirm" @click-day="click" @change="change" @update:model-value="_value = $event"
+        <month-day :followTheme="props.followTheme" ref="Day" @confirm="confirm" @click-day="click" @change="change" @update:model-value="_value = $event"
             :model-value="_value" :default-value="_value" v-if="_modelType == 'day'" :dateStyle="props.dateStyle"
             :disabledDate="props.disabledDate" :max="props.max" :multiple="props.multiple" :start="props.start"
             :end="props.end" :color="props.color" :linear="props.linear" :linearDeep="props.linearDeep"></month-day>
         <!-- 按年选择 -->
-        <year-du ref="Year" @confirm="confirm" @click-year="click" @change="change" @update:model-value="_value = $event"
+        <year-du :followTheme="props.followTheme" ref="Year" @confirm="confirm" @click-year="click" @change="change" @update:model-value="_value = $event"
             :model-value="_value" :default-value="_value" v-if="_modelType == 'year'" :start="props.start"
             :end="props.end" :color="props.color" :linear="props.linear" :linearDeep="props.linearDeep"></year-du>
         <!-- 按月选择 -->
-        <month-year ref="Month" @confirm="confirm" @click-month="click" @change="change" @update:model-value="_value = $event"
+        <month-year :followTheme="props.followTheme" ref="Month" @confirm="confirm" @click-month="click" @change="change" @update:model-value="_value = $event"
             :model-value="_value" :default-value="_value" v-if="_modelType == 'month'" :start="props.start"
             :end="props.end" :color="props.color" :linear="props.linear" :linearDeep="props.linearDeep"></month-year>
         <!-- 按周选择时段 -->
-        <week-day ref="Week" @confirm="confirm" @click-week="click" @change="change" @update:model-value="_value = $event"
+        <week-day :followTheme="props.followTheme" ref="Week" @confirm="confirm" @click-week="click" @change="change" @update:model-value="_value = $event"
             :model-value="_value" :default-value="_value" v-if="_modelType == 'week'" :start="props.start"
             :end="props.end" :color="props.color" :linear="props.linear" :linearDeep="props.linearDeep"></week-day>
     </tm-sheet>
@@ -56,6 +56,10 @@ const emits = defineEmits(["update:modelValue","update:modelStr", "confirm", "cl
 
 const props = defineProps({
     ...custom_props,
+	followTheme:{
+		type:Boolean,
+		default:true
+	},
     /**
      * 数组
      */

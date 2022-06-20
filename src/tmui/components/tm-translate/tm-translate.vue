@@ -5,7 +5,7 @@
 		<view v-if="isLoadEl" ref="nvueElAni" :animation="animationData" :class="[
 			'flex-col flex',
 			animationName+reverseAniPrefxname,customClass
-		]">
+		]" >
 			<slot name="default"></slot>
 		</view>
 	</view>
@@ -152,7 +152,7 @@
 
 	function stop() {
 		if (props.disabled == true) return;
-		clearTimeout(props.tmid.value);
+		clearTimeout(tmid.value);
 		animationStatus.value = 0;
 	}
 
@@ -289,8 +289,8 @@
 		})
 
 	}
-
 	
+
 	function noNvueAmations() {
 
 		animationData.value = null;
@@ -300,7 +300,7 @@
 			var animation = uni.createAnimation({
 				duration: durationtos.value,
 				timingFunction: 'ease',
-				delay: 20
+				delay: 40
 			});
 			
 			clearTimeout(tmid.value)
@@ -372,6 +372,7 @@
 </script>
 
 <style scoped>
+
 	.fade {
 		opacity: 0;
 	}

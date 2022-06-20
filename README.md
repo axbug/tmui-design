@@ -5,12 +5,9 @@
 ##### 开发指南 tmui.design
 ##### TMUI 3.0 by tm-vuefity 3.0
 
-### [开发文档](https://tmui.design/)
+### [tmui3.0开发文档](https://tmui.design/)
 
-自```apple```在2019年发布了暗黑模式、跟随扁平潮流以来。现在一个APP如果没有一套可靠暗黑模式将会在未来被淘汰出局，
-也不会得到更多的关注。扁平化带来了多主题的适配更为方便快捷，可以让各APP拥有自主的品牌色彩，以及更多的细节配色，而
-不是仅仅局限于大多数组件库的一个强调色。我要以品牌色为主，而自动生成更为细节化的配色方案。<br>
-因此我的TMUI库本着上面的思想展开，将有以下可见的优势方案执行未来的发展：
+ TMUI 3.0有以下可见的优势方案执行未来的发展：
 - 暗黑模式更为可靠
 - 主题配置更为简单
 - 组件库精细化打磨
@@ -19,26 +16,31 @@
 - 各组件样式设置丰富，不局限，尽量能做到千人千面。
 - 各组件经过微信开发工具的性能测试>=96分以上
 
-```tm-vuetify 2.0 ``` [点我查看](https://ext.dcloud.net.cn/plugin?id=5949)
-**本文档是tmui3.0 即tm-vuetify的3.0版本**
+[tmui2.0文档](https://ext.dcloud.net.cn/plugin?id=5949)
 
-### :rage: 注意事项
+### [注意事项](https://ext.dcloud.net.cn/plugin?name=tm-ui)
 
-- :white_check_mark: 请注意：暂不开放贡献。
-- :white_check_mark: 如果你只是想体验和使用讨论请加用户群
-- :white_check_mark: 提出建议和bug,请访问码云代码库：[点击打开](https://gitee.com/LYTB/tmui-design)
+- 请注意：如果想贡献，请进入用户群联系作者，告诉我你想贡献什么。贡献什么无所谓，只要是贡献，就值得尊敬！
+- 如果你只是想体验和使用讨论请加用户群
+- 提出建议和bug,请访问码云代码库：[点击打开](https://gitee.com/LYTB/tmui-design)
 ，并反馈相关bug或者建议.
 
 ---
+### [贡献者](https://tmui.design/doc/start/%E8%B4%A1%E7%8C%AE%E8%80%85.html#%E8%B4%A1%E7%8C%AE%E4%BA%BA%E5%91%98)
+在伟大的无私贡献人员帮助下，使得此开源项目的可持续性发展更加的持久。他/她们理应得到展示，并为大家所知。不管是如何的贡献，哪怕很小的一部分也值得称赞！！<br>
+点击图片查看更多
+
+[![](https://vkceyugu.cdn.bspapp.com/VKCEYUGU-f5b1722f-8766-40af-a22a-acc454202a37/ef8a8962-1153-44c9-aee5-6a616996e595.jpg)](https://tmui.design/doc/start/%E8%B4%A1%E7%8C%AE%E8%80%85.html)
 
 **用户群需要回答问题，答案为：tm-vuetify** <br>
 ![用户群](https://jx2d.cn/yuwuimages/tmUI%E7%94%A8%E6%88%B7%E7%BE%A4%E7%BE%A4%E8%81%8A%E4%BA%8C%E7%BB%B4%E7%A0%81.png)
+
+----
 
 ### 3.0.4新功能特性快速了解 
 
 ![3.0.4](https://vkceyugu.cdn.bspapp.com/VKCEYUGU-f5b1722f-8766-40af-a22a-acc454202a37/86bce318-d3a0-4c88-8e9c-cd764fed81e1.gif)
 ![3.0.4](https://vkceyugu.cdn.bspapp.com/VKCEYUGU-f5b1722f-8766-40af-a22a-acc454202a37/f33285fd-5f26-4092-95a2-2fe8f4aee2ed.gif)
-
 
 ----
 

@@ -2,24 +2,17 @@
 	<tm-app>
 		<tm-sheet>
 			<tm-text :font-size="24" _class="font-weight-b" label="基础示例,更多见文档"></tm-text>
-			<tm-text color="red" :font-size="24" _class="font-weight-b"
-				label="此组件在暗黑模式下不兼容，因为与uniapp属性冲突（应该是uniapp的bug），正在适配中"></tm-text>
 			<tm-divider></tm-divider>
 			<tm-picker-view :columns="citydate"></tm-picker-view>
 		</tm-sheet>
 		<tm-cell @click="showdate = true" title="请选择水果种类" :right-text="dateStr || '请选择'"></tm-cell>
-		<tm-picker v-model:show="showdate" :columns="citydate3" v-model="pickydata" v-model:model-str="dateStr">
+		<tm-picker @confirm="pickok" v-model:show="showdate" :columns="citydate3" v-model="pickydata" v-model:model-str="dateStr">
 		</tm-picker>
 		<tm-sheet>
 			<tm-text :font-size="24" _class="font-weight-b" label="多级联动,更多属性请自行看文档"></tm-text>
-			<tm-text color="red" :font-size="24" _class="font-weight-b"
-				label="兼容在不同级子级为为空，比如1级有子级，第二1级又没子级，也不会报错。避免了有时数据子级不完整的情况。"></tm-text>
 			<tm-divider></tm-divider>
 			<tm-picker-view :columns="citydate2"></tm-picker-view>
-
 		</tm-sheet>
-
-
 		<view class="py-32"></view>
 	</tm-app>
 </template>
@@ -41,15 +34,17 @@ const citydate = ref([
 ])
 const citydate2 = ref([
 	{ text: "苹果", id: 0, children: [{ text: "香蕉", id: 10 }, { text: "香蕉2", id: 122 }] },
-	{ text: "本级没有子级", id: 1 },
-	{ text: "越南水果", id: 0, children: [{ text: "苹果2222", id: 10 }, { text: "香蕉", id: 12 }] },
+	{ text: "子级", id: 1 , children: [{ text: "香蕉", id: 10 }, { text: "香蕉2", id: 122 }] },
+	{ text: "越南水果", id: 2, children: [{ text: "苹果2222", id: 10 }, { text: "香蕉", id: 12 }] },
 ])
 const citydate3 = ref([
 	{ text: "苹果", id: 0, children: [{ text: "香蕉", id: 10 }, { text: "香蕉2", id: 122 }] },
-	{ text: "苹果", id: 0, children: [{ text: "香蕉", id: 10 }, { text: "香蕉2", id: 122 }] },
-	{ text: "越南水果", id: 0, children: [{ text: "苹果2222", id: 10 }, { text: "香蕉", id: 12 }] },
+	{ text: "苹果", id: 1, children: [{ text: "香蕉", id: 10 }, { text: "香蕉2", id: 122 }] },
+	{ text: "越南水果", id: 3, children: [{ text: "苹果2222", id: 10 }, { text: "香蕉", id: 12 }] },
 ])
 const showdate = ref(false)
 
-
+function pickok(e){
+	console.log(e)
+}
 </script>

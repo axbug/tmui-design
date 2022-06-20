@@ -1,12 +1,12 @@
 <template>
 	<!-- #ifndef APP-NVUE -->
-	<view class="tmSkeletonLine flex-12 my-10 round-4" :style="[
+	<view class="tmSkeletonLine flex-12 my-10 " :class="[`round-${props.round}`]" :style="[
 		{ backgroundColor: isDark ? '#1e1e1e' : '#ebebeb' },
 		{ paddingTop: props.height / 2 + 'rpx', paddingBottom: props.height / 2 + 'rpx' },
 	]"></view>
 	<!-- #endif -->
 	<!-- #ifdef APP-NVUE -->
-	<view ref="dombg" class="tmSkeletonLine flex-12 my-10 round-4" :style="[
+	<view ref="dombg" class="tmSkeletonLine flex-12 my-10  " :class="[`round-${props.round}`]"  :style="[
 		{ backgroundColor: isDark ? '#1e1e1e' : '#ebebeb' },
 		{ paddingTop: props.height / 2 + 'rpx', paddingBottom: props.height / 2 + 'rpx' },
 	]"></view>
@@ -52,7 +52,12 @@ const props = defineProps({
 	followDark: {
 		type: [Boolean, String],
 		default: true
-	}
+	},
+	//圆角。
+	round: {
+		type: Number,
+		default: 4
+	},
 });
 const {proxy} = getCurrentInstance();
 // 设置响应式全局组件库配置表。

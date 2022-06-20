@@ -5,7 +5,7 @@
 			<view class="flex-row flex-row-center-start pb-10">
 				<tm-image :width="108" :height="67.5" :src="logoimg"></tm-image>
 				<view class="pl-16 flex-1" style="width:0px">
-					<tm-text _class="text-weight-b" :font-size="36" label="TMUI 3.0.4"></tm-text>
+					<tm-text _class="text-weight-b" :font-size="36" label="TMUI 3.0.5"></tm-text>
 					<tm-text _class="opacity-6" :label="language('index.search.subtext')"></tm-text>
 				</view>
 			</view>
@@ -111,7 +111,7 @@
 			<tm-divider color="grey-2" :label="language('index.com.bottom')"></tm-divider>
 		</view>
 
-		<tm-float-button @click="onChangeDark" :btn="{ icon: 'tmicon-ios-sunny'}">
+		<tm-float-button  @click="onChangeDark" :btn="{ icon: 'tmicon-ios-sunny',linear:'top'}">
 		</tm-float-button>
 		<tm-message ref="msg"></tm-message>
 		<tm-drawer v-model:show="showCustom" placement="center" hideHeader :height="450" :width="600">
@@ -119,7 +119,7 @@
 				<view class="text-align-center py-24"><tm-text _class="text-weight-b" :font-size="32" label="自定义主题"></tm-text></view>
 				<tm-input prefixLabel="颜色值" placeholder="请输入颜色值,比如:#FF00FF" :border="1" showClear v-model="showCustomColor" ></tm-input>
 				<tm-input prefixLabel="颜色名称" :margin="[0,24]" placeholder="字母,如:darkGreen" :border="1" showClear v-model="showCustomName" ></tm-input>
-				<tm-button @click="changeCustomColor" block label="确认切换"></tm-button>
+				<tm-button  @click="changeCustomColor" block label="确认切换"></tm-button>
 			</view>
 		</tm-drawer>
 	</tm-app>
@@ -214,4 +214,5 @@
 		store.setTmVuetifyAddTheme(showCustomName.value,showCustomColor.value) 
 	}
 	
+
 </script>

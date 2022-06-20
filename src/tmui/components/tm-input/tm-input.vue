@@ -327,7 +327,11 @@ const props = defineProps({
         type: Boolean,
         default: true
     },
-
+	//默认的聚集状态
+	focus: {
+        type: Boolean,
+        default: false
+    },
 
 })
 
@@ -352,6 +356,7 @@ const _inputPadding = computed(() => {
 })
 const propsDetail = computed(() => {
     return {
+		focus:props.focus,
         prefix: props.prefix,
         prefixLabel: props.prefixLabel,
         fontSize: props.fontSize,
@@ -387,7 +392,10 @@ const isDark = computed(() => computedDark(props, tmcfg.value));
 //当前是否显示检验错误状态？
 const _requiredError = ref(false)
 //是否聚焦中。
-const _foucsActive = ref(false)
+const _foucsActive = ref(props.focus||false)
+watch(()=>props.focus,()=>{
+	_foucsActive.value = props.focus
+})
 const _color = computed(() => {
     let color = props.color;
     if (_foucsActive.value){

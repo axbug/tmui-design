@@ -42,10 +42,10 @@
                         <tm-text :font-size="24" :label="item"></tm-text>
                     </view>
                 </view>
-                <tm-sheet no-level @click="clickWeek(item)" :height="66" :shadow="0" :round="10"  
+                <tm-sheet  no-level @click="clickWeek(item)" :height="66" :shadow="0" :round="10"  
 				_class="flex-row" class="flex-6" paren-class="flex-6" 
 				:text="_weekNum==item"
-				:color="_weekNum==item?props.color:'grey-4'" 
+				:color="_weekNum==item?_color:'grey-4'" 
                 
 				:margin="[0,4]" :padding="[0,0]">
                     <view :userInteractionEnabled="false"   style="width:62rpx" :class="[item2.isNowIn?'':'opacity-5']" class="flex-1 flex-center" v-for="(item2,index2) in _data[index]" :key="index2" >
@@ -77,7 +77,8 @@ import isoWeek from "../../tool/dayjs/esm/plugin/isoWeek/index"
 import isSameOrBefore from "../../tool/dayjs/esm/plugin/isSameOrBefore/index"
 import isBetween from "../../tool/dayjs/esm/plugin/isBetween/index"
 import {weekItem} from "./interface"
-
+import { useTmpiniaStore } from '../../tool/lib/tmpinia';
+const store = useTmpiniaStore();
 /**
  * 事件说明
  * v-model 绑定当前的周次时间开始和结束时间。
@@ -87,6 +88,10 @@ import {weekItem} from "./interface"
  */
 const emits = defineEmits(["update:modelValue","confirm","click-week","change"])
 const props = defineProps({
+	followTheme:{
+		type:Boolean,
+		default:true
+	},
     //默认显示的日期，自动转换为当前的周次。只会取第一个时间判断当前周次。
     defaultValue:{
         type:Array as PropType<Array<String|Number|Date>>,
@@ -129,6 +134,10 @@ const props = defineProps({
         type:Boolean,
         default:false
     }
+})
+const _color = computed(()=>{
+	if(props.followTheme&&store.tmStore.color) return store.tmStore.color;
+	return props.color
 })
 const DayJs = dayjs.default;
 DayJs.extend(isoWeek)

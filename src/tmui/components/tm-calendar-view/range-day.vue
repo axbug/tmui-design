@@ -36,10 +36,10 @@
         </view>
         <view class="flex flex-col">
             <view  class="flex flex-row flex-row-center-center" :style="[{height:'98rpx'}]" v-for="(item,index) in _data" :key="index">
-                <tm-sheet @click="clickWeek(item2)" :height="98" :shadow="0" :round="0" :border="item2.extra.color&&isSelected(item2.dateStr)?1:0" 
+                <tm-sheet  @click="clickWeek(item2)" :height="98" :shadow="0" :round="0" :border="item2.extra.color&&isSelected(item2.dateStr)?1:0" 
 				_class="flex-row" class="flex-1" paren-class="flex-1" 
 				:text=" (startOrAnd(item2.dateStr)==1||startOrAnd(item2.dateStr)==2||startOrAnd(item2.dateStr)==3?false:(item2.extra.color?true:isSelected(item2.dateStr)))"
-				:color="(item2.extra.color?item2.extra.color:(isSelected(item2.dateStr)?props.color:'white'))" 
+				:color="(item2.extra.color?item2.extra.color:(isSelected(item2.dateStr)?_color:'white'))" 
 				:margin="[0,0]" :padding="[0,0]"
                 v-for="(item2,index2) in item" :key="index2"
                 >
@@ -78,7 +78,8 @@ import isBetween from "../../tool/dayjs/esm/plugin/isBetween/index"
 import minMax from "../../tool/dayjs/esm/plugin/minMax/index"
 import tmDivider from "../tm-divider/tm-divider.vue";
 import {monthDayItem,dateItemStyle} from "./interface"
-
+import { useTmpiniaStore } from '../../tool/lib/tmpinia';
+const store = useTmpiniaStore();
 /**
  * 事件说明
  * v-model 绑定当前的周次时间开始和结束时间。
@@ -88,6 +89,10 @@ import {monthDayItem,dateItemStyle} from "./interface"
  */
 const emits = defineEmits(["update:modelValue","confirm","click-day","change"])
 const props = defineProps({
+	followTheme:{
+		type:Boolean,
+		default:true
+	},
     //默认显示的日期
     defaultValue:{
         type:Array as PropType<Array<String|Number|Date>>,
@@ -142,6 +147,10 @@ const props = defineProps({
         default:false
     }
 
+})
+const _color = computed(()=>{
+	if(props.followTheme&&store.tmStore.color) return store.tmStore.color;
+	return props.color
 })
 const DayJs = dayjs.default;
 DayJs.extend(isoWeek)

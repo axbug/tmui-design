@@ -77,14 +77,14 @@ const props = defineProps({
     //选项值，选中后返回的值。
     value:{
         type:[String,Number,Boolean],
-        default:true,
+        default:'',
     },
     /**
      * v-model双向绑定，如果选中后以数组形式给出value值。
      */
     modelValue:{
         type:[String,Number,Boolean],
-        default:false
+        default:''
     },
     label:{
         type:[String,Number],
@@ -160,10 +160,10 @@ function callBack(e){
 }
 function vailChecked(){
     let checked_val = false;
-    if(props.modelValue==props.value&&typeof props.value !='undefined' && props.value!='' && props.modelValue !=''){
+    if(props.modelValue===props.value&&typeof props.value !=='undefined' && props.value!=='' && props.modelValue !==''){
         checked_val = true;
     }
-    if(props.value==_groupCheckedVal.value&&_groupCheckedVal.value!=''&&props.value!=''){
+    if(props.value===_groupCheckedVal.value&&_groupCheckedVal.value!==''&&props.value!==''){
         checked_val = true;
     }
     return checked_val;

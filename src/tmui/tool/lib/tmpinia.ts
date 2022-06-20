@@ -9,6 +9,7 @@ let pdefault_cookies_colorArrayList = u.getCookie('colorArrayList');
 let dark = typeof pdefault_cookies_black === 'boolean' ? pdefault_cookies_black : false;
 let themeObj = new themeColor.themeColors()
 if(pdefault_cookies_colorArrayList){
+	pdefault_cookies_colorArrayList = [...new Set([...themeObj.colors,...pdefault_cookies_colorArrayList])]
 	themeObj = new themeColor.themeColors(pdefault_cookies_colorArrayList)
 }
 const colorArray = themeObj.colors;

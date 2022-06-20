@@ -57,8 +57,16 @@ title: tmui 3.0 组件库
 无
 | 方法名 | 参数 | 返回值 | 描述 |
 | :--: | :--: | :--: | :-- |
-| show | 无 | 无 | 手动显示 |
+| show | showOpts | 无 | 手动显示 |
 | hide | 无 | 无 | 手动隐藏 |
+
+showOpts格式如下：
+```ts
+export interface showOpts{
+    label?:string,
+    icon?:string
+}
+```
 
 ### :couplekiss: 文档贡献
 此页文档由ygy贡献([git](https://gitee.com/ygy-promise),[github](https://github.com/ygy-97))，如果对该框架感兴趣的可以参与我们一同进步！

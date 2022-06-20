@@ -7,6 +7,10 @@
 			<view class="pb-24">
 				<tm-text :label="str?str:'请选择'"></tm-text>
 			</view>
+			<tm-radio-group v-model="radio">
+				<tm-radio :value="true" label="True"></tm-radio>
+				<tm-radio :value="false" label="False"></tm-radio>
+			</tm-radio-group>
 			<tm-radio-group v-model="radiolist">
 				<tm-radio value="apple" label="苹果"></tm-radio>
 				<tm-radio color="orange" value="banner" label="香蕉"></tm-radio>
@@ -41,7 +45,7 @@ import tmIcon from "@/tmui/components/tm-icon/tm-icon.vue"
 import tmDivider from "@/tmui/components/tm-divider/tm-divider.vue"
 import tmRadio from "@/tmui/components/tm-radio/tm-radio.vue"
 import tmRadioGroup from "@/tmui/components/tm-radio-group/tm-radio-group.vue"
-
+const radio = ref(null)
 const radiolist = ref('banner')
 const str = computed(()=>radiolist.value)
 function beforChecked(){

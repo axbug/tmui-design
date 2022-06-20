@@ -23,7 +23,7 @@
  * 级联选择（弹层）
  * @description 这是弹出式级联
  */
-import { PropType, Ref, ref, watchEffect,getCurrentInstance, computed } from "vue"
+import { PropType, Ref, ref, watchEffect,getCurrentInstance, computed, toRaw } from "vue"
 import { custom_props } from "../../tool/lib/minxs";
 import tmDrawer from '../tm-drawer/tm-drawer.vue';
 import { columnsItem } from "../tm-picker-view/interface"
@@ -146,7 +146,7 @@ setVal()
 function confirm() {
     if (!aniover.value) return
     setVal();
-    emits("confirm", props.modelValue)
+    emits("confirm", toRaw(_colIndex.value))
     proxy.$refs.drawer.close();
 }
 function cancel() {

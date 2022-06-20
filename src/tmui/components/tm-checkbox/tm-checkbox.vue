@@ -170,10 +170,10 @@ watch(tmFormFun,()=>{
 
 function vailChecked(){
     let checked_val = false;
-    if(props.modelValue==props.value&&typeof props.value !='undefined' && props.value!='' && props.modelValue !=''){
+    if(props.modelValue===props.value&&typeof props.value !=='undefined' && props.value!=='' && props.modelValue !==''){
         checked_val = true;
     }
-    let index  = _groupCheckedVal.value.findIndex(el=>el==props.value)
+    let index  = _groupCheckedVal.value.findIndex(el=>el===props.value)
     if(index>-1){
         checked_val = true;
     }

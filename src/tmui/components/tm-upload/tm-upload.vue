@@ -272,7 +272,54 @@ async function deletedFile(item:file){
     
 }
 
-
+function clear(){
+    _uploadObj.filelist = [];
+    _filelist.value = [];
+    emits("update:modelValue",[])
+    pushFormItem()
+}
+//fileId标识id.
+function del(fileId:number|string){
+    let index = _uploadObj.filelist.findIndex(el=>el.uid == fileId);
+    if(index>-1){
+        const item = _uploadObj.filelist[index];
+        const delfilelist = _uploadObj.delete(item);
+        _filelist.value = [...delfilelist];
+        emits("remove",toRaw(item))
+        emits("update:modelValue",_filelist.value)
+        emits("change",toRaw(_filelist.value))
+        pushFormItem()
+    }
+}
+function getFailList(){
+    return _uploadObj.filelist.filter(el=>el.statusCode != statusCode.fail&&el.statusCode != statusCode.max);
+}
+function getSuccessList(){
+    return _uploadObj.filelist.filter(el=>el.statusCode != statusCode.success);
+}
+function clearFail(){
+    const list= _uploadObj.filelist.filter(el=>el.statusCode != statusCode.fail&&el.statusCode != statusCode.max);
+     _uploadObj.filelist = list;
+     _filelist.value = [...list]
+     emits("update:modelValue",_filelist.value)
+}
+/**
+ * ref 手动调用的方法
+ * start 开始上传
+ * stop 停止上传
+ * clear 清除所有文件
+ * del 删除某一项文件。
+ * getFailList 获取上传失败的文件列表。
+ * getSuccessList 获取上传成功的文件列表
+ * clearFail 清除上传失败的文件（只要标识不是成功的都会删除）
+ */
+defineExpose({start:()=>{
+	_uploadObj.start()
+},stop:()=>{
+	_uploadObj.stop()
+},
+clear,del,getFailList,clearFail
+})
 
 /** -----------form专有------------ */
 //父级方法。

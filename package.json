@@ -1,6 +1,6 @@
 {
   "name": "tmui",
-  "version": "3.0.0",
+  "version": "3.0.5",
   "scripts": {
     "dev:app": "uni -p app",
     "dev:custom": "uni -p",

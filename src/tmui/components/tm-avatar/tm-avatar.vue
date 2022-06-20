@@ -1,10 +1,9 @@
 <template>
-	<view ref="avatar" class="flex-col flex "  :class="[`mx-${props.margin[0]} my-${props.margin[1]}`]" :style="{width:width+'rpx',height:height+'rpx'}" >
+	<view ref="avatar" class="flex-col flex "  :class="[trigger?'trigger':'',`mx-${props.margin[0]} my-${props.margin[1]}`]" :style="{width:width+'rpx',height:height+'rpx'}" >
 		<tm-sheet
 		@click="emits('click',$event)"
-		
 		:color="props.color"
-		:_class="[customClass,'flex-center flex-col',trigger?'trigger':'']"
+		:_class="[customClass,'flex-center flex-col']"
 		:_style="[customCSSStyle,{flexShrink: 1}]"
 		:followTheme="props.followTheme"
 		:dark="props.dark"

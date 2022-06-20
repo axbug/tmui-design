@@ -9,6 +9,7 @@ import { colortool } from './colortool';
 import { cssStyleConfig, cssstyle, colorThemeType, cssDirection , linearDirection,linearDeep, borderStyle, rgba, hsla } from '../lib/interface';
 //导入用户自定义的主题色值。
 import { theme } from '@/theme/index';
+
 var colors: Array<colorThemeType> = [];
 var colorObj: any = {
 	red: '#ff2414',
@@ -197,7 +198,7 @@ class themeColors {
 		let bghsl = { ...nowColor.hsla };
 		if(config.dark){
 			if(nowColor.hsla.h != 0 && nowColor.hsla.s != 0){
-				bghsl.l=45
+				bghsl.l=40
 			}
 		}
 		if(config.blur){
@@ -246,7 +247,11 @@ class themeColors {
 		if (config.outlined) {
 			txcolor.l = 50;
 			if (config.dark) {
-				txcolor.l = 40;
+				txcolor.l = 55;
+			}else{
+				if (nowColor.hsla.h > 45 && nowColor.hsla.h < 90 && nowColor.hsla.h!=0&&nowColor.hsla.s!=0) {
+					txcolor.l = 20;
+				}
 			}
 			if ((isBlack || isWhite) && config.dark) {
 				txcolor.l = 100
@@ -268,9 +273,13 @@ class themeColors {
 				txcolor.l = 15;
 			}else{
 				txcolor.l = 55;
+				if (nowColor.hsla.h > 45 && nowColor.hsla.h < 90 && nowColor.hsla.h!=0&&nowColor.hsla.s!=0) {
+					txcolor.l = 20;
+				}
+				
 			}
 			if (config.dark) {
-				txcolor.l = 50;
+				txcolor.l = 55;
 			}
 			if (isBlack) {
 				txcolor.l = 90
@@ -289,10 +298,10 @@ class themeColors {
 			let n_hsl = { h: nowColor.hsla.h, s: nowColor.hsla.s, l: 96, a: nowColor.hsla.a };
 			if (config.dark) {
 				if(nowColor.hsla.h != 0 && nowColor.hsla.s != 0){
-					n_hsl.l = 15;
+					n_hsl.l = 12;
 					n_hsl.s = 35;
 				}else{
-					n_hsl.l = 15;
+					n_hsl.l = 12;
 					n_hsl.s = 0;
 				}
 				
@@ -359,18 +368,22 @@ class themeColors {
 				liner_color_1.s = nowColor.hsla.s;
 				if (config.linearDeep == 'light') {
 					liner_color_1.l = 70;
-					liner_color_2.l = 50;
+					liner_color_1.s = 100;
+					liner_color_2.l = 45;
+					liner_color_2.s = 100;
 
 				} else if (config.linearDeep == 'dark') {
-					liner_color_1.l = 60;
-					liner_color_2.l = 35;
+					liner_color_1.l = 70;
+					liner_color_1.s = 50;
+					liner_color_2.l = 45;
+					liner_color_2.s = 100;
 				} else if (config.linearDeep == 'accent') {
-					liner_color_1.h = liner_color_1.h - 8;//色相需要往前偏移加强色系
-					liner_color_1.s = liner_color_1.s + 25;//饱和度需要加强
-					liner_color_1.l = 58;
-					liner_color_2.l = 58;
-					liner_color_2.h = liner_color_2.h + 33;//偏移30度的色相，相当于35度的搭配色进行渐变
-					liner_color_2.s = liner_color_2.s + 25;//同样饱和度加强20
+					liner_color_1.h = liner_color_1.h - 0;//色相需要往前偏移加强色系
+					liner_color_1.s = 85;//饱和度需要加强
+					liner_color_1.l = 55;
+					liner_color_2.l = 65;
+					liner_color_2.h = liner_color_2.h - 35;//偏移30度的色相搭配色进行渐变
+					liner_color_2.s = 85;//饱和度需要加强
 				}
 
 			}
@@ -389,6 +402,11 @@ class themeColors {
 					s:(liner_color_1.s+liner_color_2.s)/2,
 					l:(liner_color_1.l+liner_color_2.l)/2,
 					a:(liner_color_1.a+liner_color_2.a)/2
+				}
+				if (!config.dark) {
+					if (nowColor.hsla.h > 45 && nowColor.hsla.h < 90 && nowColor.hsla.h!=0&&nowColor.hsla.s!=0) {
+						txcolor.l = 20;
+					}
 				}
 				css.backgroundColor = colortool.rgbaToCss(colortool.hslaToRgba(newBgcolor));
 				css.gradientColor = [color_t_1, color_t_2]

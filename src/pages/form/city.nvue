@@ -2,8 +2,6 @@
 	<tm-app>
 		<tm-sheet>
 			<tm-text :font-size="24" _class="font-weight-b" label="基础示例,更多见文档"></tm-text>
-			<tm-text color="red" :font-size="24" _class="font-weight-b"
-				label="此组件在暗黑模式下不兼容，因为与uniapp属性冲突（应该是uniapp的bug），正在适配中"></tm-text>
 			<tm-divider></tm-divider>
 			<tm-city-cascader></tm-city-cascader>
 		</tm-sheet>

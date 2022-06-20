@@ -107,6 +107,7 @@ function nvuegetClientRect() {
         dom.getComponentRect(proxy.$refs.contentbody, function (res) {
             if (res?.size) {
                 css_nvue_size.value = [res.size.width, res.size.height];
+				
                 if (res.size.height >= maxHeight.value) {
                     isMaxheight.value = true;
                 }
@@ -120,14 +121,15 @@ function nvuegetClientRect() {
         // #endif
         // #ifndef APP-PLUS-NVUE
         uni.createSelectorQuery().in(proxy).select('.contentbody').boundingClientRect(res => {
-            if (res.height >= maxHeight.value) {
-                isMaxheight.value = true;
-                if (res.height == 0) {
-                    nvuegetClientRect()
-                } else {
-                    isInit.value = true
-                }
-            }
+			if(res.height==0){
+				nvuegetClientRect()
+			}else{
+				if (res.height >= maxHeight.value) {
+				    isMaxheight.value = true;
+				}
+				 isInit.value = true
+			}
+            
         }).exec();
         // #endif
     })

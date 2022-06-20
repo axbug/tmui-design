@@ -1,29 +1,48 @@
 <template>
 	<!-- background:linear-gradient(180deg,rgba(255,255,255,0.95),rgba(255,255,255,0.6)),linear-gradient(0deg, rgba(255,255,255,0.95), rgba(255,255,255,0.6)) -->
 <!-- :mask-style="isDark?'background:linear-gradient(0deg,rgba(0,0,0,0.4),rgba(0,0,0,0),rgba(0,0,0,0.4))':'background:rgba(255,255,255,0)'" -->
-	<view class="flex-1">
+	<view class="flex-1 relative" :style="{height:props.height+'rpx'}">
+		<!-- #ifndef APP-NVUE -->
 		<picker-view  :value="[colIndex]" @change="colchange" :style="[{height:props.height+'rpx'}]"
 		:mask-style="maskStyle"
-        >
-            <picker-view-column
-            :style="[{height:props.height+'rpx'}]">
-                <view  v-for="(item,index) in tmArray" :key="index" class="flex"  style="justify-content: center;height:34px;align-items:center">
-                    <TmText :font-size="30" :dark="isDark" v-if="props.timeType!='month'" :label="item+props.suffix"></TmText>
-                    <TmText :font-size="30" :dark="isDark" v-if="props.timeType=='month'" :label="(item+1)+props.suffix"></TmText>
-                </view>
-            </picker-view-column>
-        </picker-view>
+		>
+		    <picker-view-column
+		    :style="[{height:props.height+'rpx'}]">
+		        <view  v-for="(item,index) in tmArray" :key="index" class="flex"  style="justify-content: center;height:34px;align-items:center">
+		            <TmText :font-size="30" :dark="isDark" v-if="props.timeType!='month'" :label="item+props.suffix"></TmText>
+		            <TmText :font-size="30" :dark="isDark" v-if="props.timeType=='month'" :label="(item+1)+props.suffix"></TmText>
+		        </view>
+		    </picker-view-column>
+		</picker-view>
+		<!-- #endif -->
+		<!-- #ifdef APP-NVUE -->
+		<picker-view ref="picker"  :value="[colIndex]" @change="colchange" :style="[{height:props.height+'rpx'}]"
+		>
+		    <picker-view-column
+		    :style="[{height:props.height+'rpx'}]">
+		        <view  v-for="(item,index) in tmArray" :key="index" class="flex"  style="justify-content: center;height:34px;align-items:center">
+		            <TmText :font-size="30" :dark="isDark" v-if="props.timeType!='month'" :label="item+props.suffix"></TmText>
+		            <TmText :font-size="30" :dark="isDark" v-if="props.timeType=='month'" :label="(item+1)+props.suffix"></TmText>
+		        </view>
+		    </picker-view-column>
+		</picker-view>
+		<view v-if="isDark" :userInteractionEnabled="false" class="top absolute l-0 t-0" :style="{height:maskHeight+'px',width:maskWidth+'px'}"></view>
+		<view v-if="isDark" :userInteractionEnabled="false" class="bottom absolute l-0 b-0" :style="{height:maskHeight+'px',width:maskWidth+'px'}"></view>
+		<!-- #endif -->
 	</view>
 </template>
 <script lang="ts" setup>
 import { useTmpiniaStore } from '../../tool/lib/tmpinia';
-import { computed, PropType, Ref, watchEffect,ref,getCurrentInstance,nextTick,onMounted,watch, toRaw } from 'vue';
+import { computed, PropType, Ref,onUpdated, watchEffect,ref,getCurrentInstance,nextTick,onMounted,watch, toRaw } from 'vue';
 import { showDetail,coltimeData,timeDetailType } from './interface'
 import * as dayjs from "../../tool/dayjs/esm/index"
 import isSameOrBefore from '../../tool/dayjs/esm/plugin/isSameOrBefore/index';
 import isSameOrAfter from '../../tool/dayjs/esm/plugin/isSameOrAfter/index';
 import isBetween from '../../tool/dayjs/esm/plugin/isBetween/index';
 import TmText from '../tm-text/tm-text.vue';
+// #ifdef APP-PLUS-NVUE
+const dom = uni.requireNativePlugin('dom')
+// #endif
 dayjs.default.extend(isBetween)
 dayjs.default.extend(isSameOrBefore)
 dayjs.default.extend(isSameOrAfter)
@@ -79,6 +98,10 @@ const tmArray:Ref<Array<number>> = ref([]);
 const _nowtimeValue = computed(()=>DayJs(props.nowtime))
 const colIndex  = ref(0)
 const isDark = computed(() => store.tmStore.dark);
+const maskHeight = computed(()=>{
+	return (uni.upx2px(props.height)-34)/2
+})
+const maskWidth = ref(0)
 const maskStyle = computed(()=>{
 		let str_white = 'background-image:linear-gradient(rgba(255,255,255,0.95),rgba(255,255,255,0.6)),linear-gradient(rgba(255,255,255,0.6),rgba(255,255,255,0.95))'
 	let str_black = 'background-image:linear-gradient(rgba(17, 17, 17, 1.0),rgba(106, 106, 106, 0.2)),linear-gradient(rgba(106, 106, 106, 0.2),rgba(17, 17, 17, 1.0))'
@@ -103,12 +126,14 @@ watch([()=>props.nowtime],(newval,oldval)=>{
     rangeTimeArray();
 })
 onMounted(()=>{
+	nvuegetClientRect()
     nextTick(()=>{
         setTimeout(()=>{
             rangeTimeArray()
         },50)
     })
 })
+onUpdated(()=>nvuegetClientRect())
 function getIndexNow(){
     let index  = tmArray.value.findIndex(el=>el==_nowtimeValue.value[props.timeType]());
     if(index==-1) index=0;
@@ -194,5 +219,30 @@ function colchange(e:any){
    
 }
 
+function nvuegetClientRect() {
+    nextTick(function () {
+        // #ifdef APP-PLUS-NVUE
+        dom.getComponentRect(proxy.$refs.picker, function (res) {
+            if (res?.size) {
+                maskWidth.value = res.size.width;
+				
+                if (res.size.width == 0) {
+                    nvuegetClientRect()
+                }
+            }
+        })
+        // #endif
+        
+    })
 
+}
 </script>
+<style scoped>
+	.top{
+		background-image: linear-gradient(to bottom,rgba(17, 17, 17, 1),rgba(36, 36, 36, 0.6));  
+	}
+	.bottom{
+		background-image: linear-gradient(to top,rgba(17, 17, 17, 1),rgba(36, 36, 36, 0.6));  
+		
+	}
+</style>

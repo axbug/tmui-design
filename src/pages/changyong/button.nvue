@@ -30,11 +30,12 @@
         <tm-sheet>
             <tm-text :font-size="24" _class="font-weight-b" label="渐变样式,更多属性见文档"></tm-text>
 			<tm-divider></tm-divider>
-            <tm-button loading linear="left" block label="light 加载中"></tm-button>
-            <tm-button disabled linear="left" linearDeep="dark" block label="dark 被禁用"></tm-button>
+            <tm-button loading linear="right" block label="light 加载中"></tm-button>
+            <tm-button  linear="right" linearDeep="dark" block label="dark 被禁用"></tm-button>
+            <tm-button disabled linear="right" linearDeep="dark" block label="dark 被禁用"></tm-button>
             <tm-button linear="right" linearDeep="accent" block label="accent"></tm-button>
-            <tm-button color="pink" linear="top" linearDeep="accent" block label="accent"></tm-button>
-            <tm-button color="orange" linear="left" linearDeep="accent" block label="accent top"></tm-button>
+            <tm-button color="pink" linear="right" linearDeep="accent" block label="accent"></tm-button>
+            <tm-button color="orange" linear="right" linearDeep="accent" block label="accent top"></tm-button>
         </tm-sheet>
     </tm-app>
 </template>

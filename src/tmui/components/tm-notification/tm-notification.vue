@@ -72,6 +72,7 @@
 		custom_props,
 	} from '../../tool/lib/minxs';
 	import { getCurrentInstance, computed, ref, provide, inject , onUpdated, onMounted, onUnmounted, nextTick ,watch, PropType } from 'vue';
+import { showOpts } from "./interface";
 	const emits = defineEmits(['click','close'])
 	const {proxy} = getCurrentInstance();
 	const props = defineProps({
@@ -121,7 +122,6 @@
 		label:{
 			type:String,
 			default:"",
-			required:true
 		},
 		icon:{
 			type:String,
@@ -144,7 +144,9 @@
 			get:()=>labelProxy.value,
 			set:(val)=>{
 				labelProxy.value = val;
-				showDom.value = true;
+				if(props.label!==""){
+					showDom.value = true;
+				}
 				nextTick(function(){
 					if(proxy.$refs?.tranmatioan){
 						proxy.$refs.tranmatioan.play();
@@ -156,7 +158,9 @@
 		get:()=>iconProxy.value,
 		set:(val)=>{
 			iconProxy.value = val;
-			showDom.value = true;
+			if(props.label!==""){
+				showDom.value = true;
+			}
 			nextTick(function(){
 				if(proxy.$refs?.tranmatioan){
 					proxy.$refs.tranmatioan.play();
@@ -249,9 +253,9 @@
 		},props.duration)
 	}
 	//手动显示
-	function show(){
+	function show(arg:showOpts){
 		if(!isEnd.value) return
-		let {icon,label} = arguments[0]||{};
+		let {icon,label} = arg||{};
 		if(!icon&&!label){
 			showDom.value = true;
 			reverse.value=true;

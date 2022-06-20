@@ -122,7 +122,7 @@ const _activeColor = computed(() => {
 const _typeModel = computed(() => parent.$props.type)
 
 const status_obj = {
-	wati: {
+	wait: {
 		color: _activeColor.value,
 		icon: "tmicon-clock-fill"
 	},

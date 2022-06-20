@@ -3,7 +3,7 @@
 	no-level
 	:_style="[{opacity:isclickOn||_disabled?0.7:1}]" 
 	hover-class="bhover"
-	:round="props.round" 
+	:round="btnSize.round" 
 	:width="btnSize.w" 
 	:height="btnSize.h" 
 	:padding="props.padding" 
@@ -55,7 +55,7 @@
 		:style="[{height:btnSize.h+'rpx'},customCSSStyle]" 
 		style="border: 0px solid rgba(0, 0, 0, 0);background: rgba(0, 0, 0, 0);border-radius: 0px;">
 			<slot>
-				<tm-icon :userInteractionEnabled="false" :_class="_label?'pr-10':''" :fontSize="btnSize.fontSize*0.9" :name="_icon"></tm-icon>
+				<tm-icon v-if="_icon" :userInteractionEnabled="false" :_class="_label?'pr-10':''" :fontSize="btnSize.fontSize*0.9" :name="_icon"></tm-icon>
 				<tm-text :userInteractionEnabled="false" :fontSize="btnSize.fontSize" :label="_label"></tm-text>
 			</slot>
 		</button>
@@ -145,7 +145,7 @@ const props = defineProps({
 	},
 	round:{
 		type:Number,
-		default:2
+		default:3
 	},
 	loading:{
 		type:Boolean,
@@ -231,19 +231,24 @@ const _disabled = computed(()=>props.disabled)
 const _label = computed(()=>props.label)
 const _icon = computed(()=>props.icon)
 const sizeObj = {
-	block:{w:0,h:88,fontSize:30},
-	mini:{w:88,h:50,fontSize:22},
-	normal:{w:220,h:88,fontSize:28},
-	middle:{w:310,h:88,fontSize:30},
-	large:{w:500,h:88,fontSize:34},
+	block:{w:0,h:88,fontSize:30,round:3},
+	mini:{w:88,h:50,fontSize:22,round:2},
+	normal:{w:220,h:88,fontSize:28,round:3},
+	middle:{w:310,h:88,fontSize:30,round:3},
+	large:{w:500,h:88,fontSize:34,round:3},
 }
 const btnSize = computed(()=>{
 	let fontSize = props.fontSize||0;
 	
 	if(props.block){
-		return {w:0,h:props.height||sizeObj.block.h,fontSize:fontSize||sizeObj.block.fontSize}
+		return {w:0,h:props.height||sizeObj.block.h,fontSize:fontSize||sizeObj.block.fontSize,round:props.round}
 	}
-	return {w:props.width||sizeObj[props.size].w ,h:props.height||sizeObj[props.size].h,fontSize:fontSize||sizeObj[props.size].fontSize}
+	return {
+		w:props.width||sizeObj[props.size].w ,
+		h:props.height||sizeObj[props.size].h,
+		fontSize:fontSize||sizeObj[props.size].fontSize,
+		round:props.round,
+	}
 })
 
 
