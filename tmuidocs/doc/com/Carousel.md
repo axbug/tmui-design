@@ -42,7 +42,7 @@ title: tmui 3.0 组件库
 | rangKey | String | url | 图片列表object数组时，需要提供图片地址的键值。 |
 | defaultValue | Number | 0 |  |
 | dotPosition | String | bottom | 指示点的位置：top,left,right,bottom |
-| align | String | center | 内容居对齐，左，中，右，在dotPosition为left,right时，align的left和right表示，上下对齐 |
+| align | String | center | 内容居对齐，左left，中center，右right，在dotPosition为left,right时，align的left和right表示，上下对齐 |
 | model | String | number | 指示点的样式：dot,number,rect |
 | interval | Number | 5000 | 自动切换时间间隔 |
 | duration | Number | 500 | 滑动动画时长 |
