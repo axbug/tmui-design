@@ -38,7 +38,7 @@ title: tmui 3.0 组件库
 | margin | Array | [0,0] | 外间距[x,y]x=左右，y=上下 |
 | padding | Array | [0,0] | 内间距[x,y]x=左右，y=上下 |
 | transprent | Boolean,String | false |  |
-| label | String |  | 当填入信息时即显示数字角标 |
+| label | String |  | 状态文本模式，需要配合,status为true时展现，具体见示例 |
 | fontSize | Number | 22 | 自动匹配字体大小，单位rpx |
 | status | Boolean, String | false | 为真时，隐藏插槽数据，展现状态文本模式。 |
 | dot | Boolean, String | false | 使用点。优先级高于label数字展示。 |
