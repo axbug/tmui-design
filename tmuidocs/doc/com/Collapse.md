@@ -30,20 +30,21 @@ title: tmui 3.0 组件库
 
 ### :seedling: 参数
 ## Collapse
-本组件含有公共属性 [公共属性](/doc/spec/组件公共样式.md)
+
 | 参数名 | 类型 | 默认值 | 描述 |
 | :--: | :--: | :--: | :-- |
-| activeKey | Array | [] | 当前展开并激活的面板 |
-| defaultActiveKey | Array | [] | 默认展开的面板 |
+| activeKey | Array | [] | 当前展开并激活的面板,为下面的CollapseItem的name字段合集 |
+| defaultActiveKey | Array | [] | 默认展开的面板,为下面的CollapseItem的name字段合集 |
 | accordion | Boolean,String | false | 是否设置为单个面板展开，默认fase，允许 多个面板同时展开 |
 | border | Number,String | 2 | 边框 |
 
 ## CollapseItem
+本组件含有公共属性 [公共属性](/doc/spec/组件公共样式.md)
 | 参数名 | 类型 | 默认值 | 描述 |
 | :--: | :--: | :--: | :-- |
 | color | String | white | 主题色 |
 | title | String |  | 面板标题 |
-| name | Number, String |  | 标识，用来展开和关闭的标识 |
+| name | Number, String |  | 必填，标识，用来展开和关闭的标识,Collapse的activeKey，defaultActiveKey数组标识就是此值 |
 | activeColor | String | primary |  |
 | margin | Array | [0, 0] | 外间距[x,y]x=左右，y=上下 |
 | padding | Array | [32, 0] | 内间距[x,y]x=左右，y=上下 |
