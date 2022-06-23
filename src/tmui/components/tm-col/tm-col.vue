@@ -55,7 +55,7 @@
 	//是否暗黑模式。
 	const isDark = computed(() => computedDark(props, tmcfg.value));
 	//计算主题
-	const tmcomputed = computed<cssstyle>(() => computedTheme(props, isDark.value));
+	const tmcomputed = computed<cssstyle>(() => computedTheme(props, isDark.value,tmcfg.value));
 	const TmRowWidth = inject('TmRowWidth',computed(()=>0))
 	const TmRowColumn = inject('TmRowColumn',computed(()=>0))
 	const TmRowGutter = inject('TmRowGutter',computed(()=>0))

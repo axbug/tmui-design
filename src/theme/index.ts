@@ -3,5 +3,5 @@ export const theme = {
 	//比如："primary": "#FF0000"
 	//名称如果与自带主题相同，将会覆盖。
 	// "primary": "#FF0000"
-	
+	// error:"#ff0000"
  }

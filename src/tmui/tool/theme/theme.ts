@@ -146,6 +146,18 @@ class themeColors {
 			console.error('颜色名称必填');
 			config.colorname = 'primary';
 		}
+		let index = this.colors.findIndex(el => el.name == config.colorname);
+		if(index==-1){
+			console.error('主题不存在，默认为primary');
+			config.colorname = 'primary';
+		}
+		let isBlack = false;
+		let isWhite = false;
+		let isBlackAndWhite = false;//是否是黑白色系之间。
+		let isGrey = false
+		//当前颜色对象。
+		let nowColor = { ...this.colors[index] };
+		
 		config.borderWidth = isNaN(parseInt(String(config['borderWidth']))) ? 0 : config['borderWidth'];
 		config.borderStyle = config['borderStyle'] ? config['borderStyle'] : 'solid';
 		config.borderDirection = config['borderDirection'] || cssDirection.all;
@@ -157,16 +169,7 @@ class themeColors {
 		config.outlined = typeof config['outlined'] == 'boolean' ? config['outlined'] : false;
 		config.text = typeof config['text'] == 'boolean' ? config['text'] : false;
 		config.blur = typeof config['blur'] == 'boolean' ? config['blur'] : false;
-		
-		
-		let index = this.colors.findIndex(el => el.name == config.colorname);
-		let isBlack = false;
-		let isWhite = false;
-		let isBlackAndWhite = false;//是否是黑白色系之间。
-		let isGrey = false
-		//当前颜色对象。
-		let nowColor = { ...this.colors[index] };
-		
+
 		//黑
 		if (nowColor.hsla.h == 0 && nowColor.hsla.s == 0 && nowColor.hsla.l == 0) {
 			isBlack = true;
@@ -335,12 +338,10 @@ class themeColors {
 			
 			let liner_color_1 = { h: 0, s: 0, l: 0, a: nowColor.hsla.a };
 			let liner_color_2 = { h: 0, s: 0, l: 0, a: nowColor.hsla.a };
-
-			let dir_str =  linearDirection[config.linearDirection];
+			let dir_str =   linearDirection[config.linearDirection];
 			//先计算渐变的亮色系。
 			// 先算白或者黑
 			// 如果是白
-
 			if (nowColor.hsla.h == 0 && nowColor.hsla.s == 0 && nowColor.hsla.l == 100) {
 				//白。
 				if (config.linearDeep == 'light') {

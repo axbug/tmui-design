@@ -42,6 +42,7 @@ export interface cssStyleConfig {
 	blur?:boolean
 }
 
+
 //输入主题的属性css样式表。
 export interface cssstyle {
     colorname?: string,//颜色名称

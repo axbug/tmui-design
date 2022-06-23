@@ -1,12 +1,12 @@
 <template>
-	<tm-overlay :transprent="!showMask"  :_style="{zIndex:'500 !important'}" :overlayClick="false" v-model:show="showValue">
+	<tm-overlay :transprent="!showMask"  :_style="zindex" :overlayClick="false" v-model:show="showValue">
 		<tm-translate @end="msgOver" :reverse="reverse" ref="tranAni" name="zoom" :duration="150" :auto-play="false">
 			<tm-sheet blur :_style="props._style"  
 			:_class="props._class" :color="bgColor" 
-			:border="1" :shadow="6" 
+			:border="1" :shadow="10" 
 			:width="300"
 			:height="300"
-			:margin="[30,30]" :round="12"  :padding="[24, 0]">
+			:margin="[40,40]" :round="12"  :padding="[24, 0]">
 				<view class="flex flex-center flex-col ma-30" style="line-height: normal">
 					<tm-translate name="zoom" :delay="200">
 						<tm-icon _style="line-height: normal" style="line-height: normal" _class="pa-10" :spin="model_ref == 'load'" 
@@ -72,7 +72,12 @@
 	const dark_ref = ref(false)
 	onUnmounted(()=>clearTimeout(uid.value))
 	watch(()=>props.mask,(val)=>showMask.value=val)
-	
+	// #ifdef APP-NVUE
+	const zindex = "";
+	// #endif
+	// #ifndef APP-NVUE
+	const zindex = {zIndex:'500 !important'}
+	// #endif
 	const modelIcon = computed(()=>{
 		
 		return {
@@ -122,12 +127,13 @@
 	function msgOver(){
 			proxy.$refs.tranAni.stop()
 			proxy.$refs.tranAni.reset()
-			uni.$tm.u.throttle(()=>{
+			clearTimeout(uid.value)
+			uid.value = setTimeout(function() {
 				if (dur.value > 0 && model_ref.value != 'load'){
 					reverse.value = false;
-					showValue .value= false
+					showValue.value= false;
 				}
-			},dur.value,false)
+			}, dur.value);
 	}
 		//显示
 	function show(argFs:config) {
@@ -157,11 +163,9 @@
 			
 			showValue.value = true;
 			reverse.value = false;
-			
-
 			clearTimeout(uid.value);
 			uid.value = setTimeout(() => {
-				proxy.$refs.tranAni.stop()
+				// proxy.$refs.tranAni.stop()
 				// nextTick(()=>proxy.$refs.tranAni.play())
 				clearTimeout(uid.value);
 				uid.value = setTimeout(() => {

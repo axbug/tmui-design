@@ -13,7 +13,7 @@ if(pdefault_cookies_colorArrayList){
 	themeObj = new themeColor.themeColors(pdefault_cookies_colorArrayList)
 }
 const colorArray = themeObj.colors;
-const os = uni.getSystemInfoSync().platform
+const os = uni.getSystemInfoSync()?.platform??""
 u.setCookie('colorArrayList', colorArray)
 // 为 store state 声明类型
 export interface State {
@@ -60,11 +60,12 @@ export const useTmpiniaStore = defineStore('tmpinia', {
 		},
 		setTmVuetifyDark(dark:boolean) {
 			dark = typeof dark !=='boolean'?false:dark;
+			u.setCookie('setTmVuetifyBlack', dark)
 			this.tmStore = {
 				...this.tmStore,
 				dark: dark
 			}
-			u.setCookie('setTmVuetifyBlack', dark)
+			
 		},
 		setWxShare(cfg:wxshareConfig) {
 			let pcf = cfg || {};
@@ -82,8 +83,8 @@ export const useTmpiniaStore = defineStore('tmpinia', {
 			if (!defaultColorName || defaultColorName == ""||themeColor.isCssColor(defaultColorName)) {
 				defaultColorName = '';
 			}
-			this.tmStore = {...this.tmStore,color:defaultColorName};
 			u.setCookie('setTmVuetifyColor', defaultColorName)
+			this.tmStore = {...this.tmStore,color:defaultColorName};
 		},
 		//添加一个主题
 		setTmVuetifyAddTheme(colorName:string,color:string,isSet=true) {

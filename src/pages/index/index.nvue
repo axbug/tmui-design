@@ -5,7 +5,7 @@
 			<view class="flex-row flex-row-center-start pb-10">
 				<tm-image :width="108" :height="67.5" :src="logoimg"></tm-image>
 				<view class="pl-16 flex-1" style="width:0px">
-					<tm-text _class="text-weight-b" :font-size="36" label="TMUI 3.0.5"></tm-text>
+					<tm-text _class="text-weight-b" :font-size="36" label="TMUI 3.0.6"></tm-text>
 					<tm-text _class="opacity-6" :label="language('index.search.subtext')"></tm-text>
 				</view>
 			</view>
@@ -202,6 +202,7 @@
 	}
 	
 	function changeCustomColor(){
+		console.log(1)
 		if(!showCustomColor.value||!showCustomName.value){
 			proxy.$refs.msg.show({
 				model: "error",
@@ -213,6 +214,6 @@
 		showCustom.value=false;
 		store.setTmVuetifyAddTheme(showCustomName.value,showCustomColor.value) 
 	}
-	
 
+	
 </script>

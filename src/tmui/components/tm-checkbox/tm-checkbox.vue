@@ -1,7 +1,7 @@
 <template>
     <view class="flex flex-row" :class="[_disabled?'opacity-5':'']">
         <view @click="hanlerClick"  class="flex flex-row flex-row-center-start flex-1">
-            <slot name="default" :data="_checked">
+           
                 <tm-sheet
                 :linear="props.linear"
                 :linearDeep="props.linearDeep"
@@ -36,8 +36,9 @@
                         <tm-icon  v-if="props.indeterminate" :font-size="props.size*0.54" name="tmicon-minus" ></tm-icon>
                     </view>
                 </tm-sheet>
-                <tm-text  :userInteractionEnabled="false" :font-size="props.fontSize" :label="props.label"></tm-text>
-            </slot>
+                <slot>
+                    <tm-text  :userInteractionEnabled="false" :font-size="props.fontSize" :label="props.label"></tm-text>
+                </slot>
         </view>
     </view>
 </template>

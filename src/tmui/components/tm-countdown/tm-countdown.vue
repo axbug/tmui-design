@@ -1,6 +1,6 @@
 <template>
     <view class="flex flex-row">
-        <slot name="default" :data="time_data">
+        <slot name="default" :data="{data:time_data,finish:isfinish}">
             <tm-text :color="props.color" :label="text"></tm-text>
         </slot>
     </view>
@@ -40,7 +40,8 @@ let time_data = computed(():timeFormar =>
     formatTime(props.time - now.value)
 );
 
-const isfinish = computed(() => now.value == props.time);
+const isfinish = computed(() => now.value == props.time||now.value ===0);
+
 const text = computed<string>(() => {
     let ps = props.format;
     ps = ps.replace(/(DD)/g, String(time_data.value.day));
@@ -82,7 +83,6 @@ function start() {
             emits("end");
             return;
         }
-
         now.value = lst;
         emits("change", time_data);
     }, 50);

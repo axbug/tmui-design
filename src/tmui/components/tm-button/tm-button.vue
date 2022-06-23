@@ -263,7 +263,7 @@ function touchend(e){
 }
 
 function onclick(e){
-		if(FormParent!=null && typeof FormParent !='undefined'&&formtype.value){
+		if(FormParent!=null && typeof FormParent !='undefined'&&formtype.value&&!props.loading){
 			FormParent[formtype.value]();
 		}
 		emits('click', e);

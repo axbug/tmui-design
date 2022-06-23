@@ -2,8 +2,8 @@
 import colors from '../theme/theme';
 import { cssDirection, linearDirection, linearDeep, borderStyle, cssstyle, tmVuetify } from './interface';
 import { computed,ref } from "vue"
-import { useTmpiniaStore } from './tmpinia';
-const store = useTmpiniaStore();
+// import { useTmpiniaStore } from './tmpinia';
+// const store = useTmpiniaStore();
 //自定义props
 export const custom_props = {
 	//自定义的样式属性
@@ -40,21 +40,21 @@ export const custom_props = {
 	 * 圆角
 	 */
 	round: {
-		type: [Number, String],
+		type: [Number],
 		default: 0
 	},
 	/**
 	 * 投影，安卓上只有黑灰投影。
 	 */
 	shadow: {
-		type: [Number, String],
+		type: [Number],
 		default: 0,//4
 	},
 	/**
 	 * 是否镂空背景。
 	 */
 	outlined: {
-		type: [Boolean, String],
+		type: [Boolean],
 		default: false
 	},
 	/**
@@ -199,7 +199,7 @@ export const computedStyle = (props: any): object => {
 	return {};
 }
 //主题样式表
-export const computedTheme = (props: any, dark:boolean):cssstyle => {
+export const computedTheme = (props: any, dark:boolean,store:any):cssstyle => {
 	const color = props.color;
 	const border = props.border;
 	const shadow = props.shadow;
@@ -215,10 +215,12 @@ export const computedTheme = (props: any, dark:boolean):cssstyle => {
 		console.error('不支持自定义组件上的颜色值，请在theme/theme.js中添加自定义的颜色值为主题。当前已切换为primary主题。');
 	}
 	let defaultColorName = color || 'primary';
-	if(props?.followTheme==true&&store.tmStore.color){
-		defaultColorName = store.tmStore.color;
+	
+	if(props?.followTheme==true&&store.color){
+		defaultColorName = store.color;
 	}
-	var theme = new colors.themeColors(store.tmStore.colorList);
+	
+	var theme = new colors.themeColors(store.colorList);
 	let c = theme.getTheme({
 		colorname: defaultColorName,
 		dark: dark,

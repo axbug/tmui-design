@@ -182,9 +182,9 @@ const tmcfg = computed<tmVuetify>(() => store.tmStore);
 //是否暗黑模式。
 const isDark = computed(() => computedDark(props, tmcfg.value));
 //计算主题
-const tmcomputed = computed<cssstyle>(() => computedTheme(props, isDark.value));
+const tmcomputed = computed<cssstyle>(() => computedTheme(props, isDark.value,tmcfg.value));
 
-const _bgColor = computed(()=>computedTheme({...props,color:props.bgColor,followTheme:false}, isDark.value).backgroundColor)
+const _bgColor = computed(()=>computedTheme({...props,color:props.bgColor,followTheme:false}, isDark.value,tmcfg.value).backgroundColor)
 const txtcolor = tool.getColor(props.color).value;
 const darkcolor = tmcomputed.value.backgroundColor
 const activeWidth = computed(() => {

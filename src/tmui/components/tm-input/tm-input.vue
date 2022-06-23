@@ -27,7 +27,7 @@
                     :style="[{ width: '0px' }]">
                     <!-- <view @click.stop="emits('click',$event)" class=" l-0 t-0 flex-1 " :style="{height: `${_height}rpx`,background:'red'}"></view> -->
                     <input class="flex-1" :userInteractionEnabled="false" v-if="propsDetail.type != 'textarea'"
-                        :value="_value" @focus="focus" @blur="blur" @confirm="confirm" @input="inputHandler"
+                        :value="_value" :focus="propsDetail.focus" @focus="focus" @blur="blur" @confirm="confirm" @input="inputHandler"
                         @keyboardheightchange="emits('keyboardheightchange')" :password="showPasswordText"
                         :maxlength="propsDetail.maxlength" :disabled="propsDetail.disabled"
                         :cursorSpacing="propsDetail.cursorSpacing" :confirmType="propsDetail.confirmType"
@@ -43,7 +43,7 @@
                         ]" :placeholder-style="`fontSize:${propsDetail.fontSize_px}px`" />
 
                     <textarea :userInteractionEnabled="false" v-if="propsDetail.type == 'textarea'" :value="_value"
-                        @focus="focus" @blur="blur" @confirm="confirm" @input="inputHandler"
+                        :focus="propsDetail.focus" @focus="focus" @blur="blur" @confirm="confirm" @input="inputHandler"
                         @keyboardheightchange="emits('keyboardheightchange')" :maxlength="propsDetail.maxlength"
                         :password="showPasswordText" :disabled="propsDetail.disabled"
                         :placeholder="propsDetail.placeholder" :cursorSpacing="propsDetail.cursorSpacing"
@@ -62,7 +62,7 @@
                 <view v-if="isAndroid" class="flex-1 relative flex-row flex " :style="[{ width: '0px' }]">
                     <!-- <view @click.stop="emits('click',$event)" class=" l-0 t-0 flex-1 " :style="{height: `${_height}rpx`,background:'red'}"></view> -->
                     <input class="flex-1" @click="emits('click', $event)" :userInteractionEnabled="false"
-                        v-if="propsDetail.type != 'textarea'" :value="_value" @focus="focus" @blur="blur"
+                        v-if="propsDetail.type != 'textarea'" :value="_value" :focus="propsDetail.focus" @focus="focus" @blur="blur"
                         @confirm="confirm" @input="inputHandler" @keyboardheightchange="emits('keyboardheightchange')"
                         :password="showPasswordText" :disabled="propsDetail.disabled"
                         :cursorSpacing="propsDetail.cursorSpacing" :confirmType="propsDetail.confirmType"
@@ -79,7 +79,7 @@
                         ]" :placeholder-style="`fontSize:${propsDetail.fontSize_px}px`" />
 
                     <textarea @click="emits('click', $event)" :userInteractionEnabled="false"
-                        v-if="propsDetail.type == 'textarea'" :value="_value" @focus="focus" @blur="blur"
+                        v-if="propsDetail.type == 'textarea'" :value="_value" :focus="propsDetail.focus" @focus="focus" @blur="blur"
                         @confirm="confirm" @input="inputHandler" @keyboardheightchange="emits('keyboardheightchange')"
                         :password="showPasswordText" :disabled="propsDetail.disabled"
                         :placeholder="propsDetail.placeholder" :cursorSpacing="propsDetail.cursorSpacing"
@@ -412,7 +412,7 @@ const _color = computed(() => {
 const tmcomputed = computed(() => {
     const _props =
         { ...props, color: _color.value }
-    return computedTheme(_props, isDark.value)
+    return computedTheme(_props, isDark.value,tmcfg.value)
 });
 
 //显示密码和关闭密码。

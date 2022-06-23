@@ -92,7 +92,7 @@ const tmcfg = computed<tmVuetify>(() => store.tmStore);
 // props_cust.value.borderDirection=borderDir.value
 const isDark = computed(() => computedDark({ ...props, borderDirection: borderDir.value }, tmcfg.value));
 //计算主题
-const tmcomputed = computed(() => computedTheme({ ...props, borderDirection: borderDir.value }, isDark.value));
+const tmcomputed = computed(() => computedTheme({ ...props, borderDirection: borderDir.value }, isDark.value,tmcfg.value));
 </script>
 
 <style>

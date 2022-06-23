@@ -202,7 +202,7 @@
 	//是否暗黑模式。
 	const isDark = computed(() => computedDark(props, tmcfg.value));
 	//计算主题
-	const tmcomputed = computed<cssstyle>(() => computedTheme(props, isDark.value));
+	const tmcomputed = computed<cssstyle>(() => computedTheme(props, isDark.value,tmcfg.value));
 	const syswidth = ref(0);
 	const sysheight = ref(0);
 	const reverse = ref(true);

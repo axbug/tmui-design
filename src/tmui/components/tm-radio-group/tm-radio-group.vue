@@ -1,5 +1,5 @@
 <template>
-  <view class="flex" :class="[props.direction=='row'?'flex-row flex-row-center-start flex-wrap':'flex-col']" :style="{flexWrap:'wrap'}">
+  <view class="flex" :class="[props.direction=='row'?'flex-row flex-row-center-start flex-wrap':'flex-col']">
   <slot></slot>
   </view>
 </template>

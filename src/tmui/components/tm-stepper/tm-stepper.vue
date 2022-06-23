@@ -139,7 +139,7 @@ const tmcfg = computed<tmVuetify>(() => store.tmStore);
 //是否暗黑模式。
 const isDark = computed(() => computedDark(props, tmcfg.value));
 //计算主题
-const tmcomputed = computed<cssstyle>(() => computedTheme({...props,color:props.bgColor,text:true}, isDark.value));
+const tmcomputed = computed<cssstyle>(() => computedTheme({...props,color:props.bgColor,text:true}, isDark.value,tmcfg.value));
 
 let timeid: number = NaN;
 

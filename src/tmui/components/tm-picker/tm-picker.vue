@@ -62,8 +62,8 @@ const props = defineProps({
 	},
     //默认选中的索引值。
 	defaultValue:{
-		type:Array as PropType<Array<number>>,
-		default:()=>[2]
+		type:Array as PropType<Array<number|string>>,
+		default:()=>[]
 	},
     //赋值和选值方式
     //name:名称模式赋值和选择
@@ -140,7 +140,7 @@ function closeDrawer(e: boolean) {
 function drawerOpen(){
     emits("open")
 }
-getIndexBymodel(_data.value, props.selectedModel, 0, props.modelValue)
+getIndexBymodel(_data.value, props.selectedModel, 0, props.defaultValue)
 setVal()
 //点击确认了地区。
 function confirm() {

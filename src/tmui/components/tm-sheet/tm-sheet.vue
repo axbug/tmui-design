@@ -141,7 +141,7 @@ const tmcomputed = computed<cssstyle>(() => {
   if(_blur.value&&tmcfg.value.os == 'ios'){
 	  text = true;
   }
-  return computedTheme({...props,blur:_blur.value,text:text}, isDark.value);
+  return computedTheme({...props,blur:_blur.value,text:text}, isDark.value,tmcfg.value);
 });
 const _isNvue = ref(false)
 // #ifdef APP-NVUE

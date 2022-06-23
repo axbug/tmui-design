@@ -82,7 +82,8 @@
 	const width = ref(0);
 	const height = ref(0);
 	const top = ref(0);
-	
+	const isAniing = ref(false)
+	let timids=uni.$tm.u.getUid(1);
 	const {windowTop,windowWidth,windowHeight,safeArea,statusBarHeight} = uni.getSystemInfoSync();
 	const sysinfo = uni.getSystemInfoSync();
 	width.value = windowWidth;
@@ -146,7 +147,10 @@
 	function fadeInNvue(off:boolean = false) {
 		if(off==false){
 			if(showMask.value==off) return;
-			uni.$tm.u.debounce(function(){
+			// if(isAniing.value==true) return;
+			// isAniing.vale = true;
+			clearTimeout(timids)
+			timids = setTimeout(function() {
 				var testEl = proxy.$refs.overlay;
 				  animation.transition(testEl, {
 					  styles: {
@@ -159,14 +163,16 @@
 				  },()=>{
 					  showMask.value = off;
 					  emits('close');
-					  
 					  emits('update:show', false);
+					  // isAniing.vale = false;
 				  })
-			},props.duration,true)
+			}, props.duration);
+			
 		}else{
 			showMask.value = off;
 			emits('open');
-			nextTick(function(){
+			clearTimeout(timids)
+			timids = setTimeout(function() {
 				var testEl = proxy.$refs.overlay;
 				  animation.transition(testEl, {
 					  styles: {
@@ -179,7 +185,8 @@
 				  },()=>{
 					  
 				  })
-			})
+			}, 50);
+	
 			
 		}
 		
@@ -204,7 +211,10 @@
 			emits('open');
 		}
 	}
-	watch(()=>props.show,(newval)=>open(newval))
+	watch(()=>props.show,(newval)=>{
+		
+		open(newval)
+	})
 	defineExpose({close:close,open:open})
 </script>
 

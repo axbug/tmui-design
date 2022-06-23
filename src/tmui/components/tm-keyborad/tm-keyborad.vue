@@ -12,7 +12,6 @@
 <script lang="ts" setup>
 import { ref,computed, watch, toRaw,getCurrentInstance } from "vue"
 import { custom_props, computedDark } from '../../tool/lib/minxs';
-
 import tmDrawer from '../tm-drawer/tm-drawer.vue';
 import keyboradNumber from "./keyborad-number.vue";
 import keyboradCard from "./keyborad-card.vue";
