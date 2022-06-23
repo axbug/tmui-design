@@ -451,7 +451,7 @@ function changeSeePassword() {
 function focus() {
     _foucsActive.value = true;
     emits("focus")
-	pushFormItem();
+	// pushFormItem();
 }
 function blur() {
     _foucsActive.value = false;

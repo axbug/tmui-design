@@ -1,11 +1,18 @@
 <template>
 	<tm-app ref="app">
-		<tm-navbar :title="language('index.com.navtitle')" :shadow="0" hide-home></tm-navbar>
+		<tm-navbar :title="language('index.com.navtitle')"  :shadow="0" hide-home>
+			<template v-slot:left>
+				<view class="flex flex-center flex-row">
+					<navigator url="settheme" class="pl-10 pr-12"><tm-icon :font-size="32" name="tmicon-cog-fill"></tm-icon></navigator>
+					<tm-icon @click="onChangeDark" :color="store.tmStore.dark?'yellow':''" _class="pl-32" :font-size="42" name="tmicon-ios-sunny"></tm-icon>
+				</view>
+			</template>
+		</tm-navbar>
 		<tm-sheet  :margin="[0, 0]" :followTheme="true">
 			<view class="flex-row flex-row-center-start pb-10">
 				<tm-image :width="108" :height="67.5" :src="logoimg"></tm-image>
 				<view class="pl-16 flex-1" style="width:0px">
-					<tm-text _class="text-weight-b" :font-size="36" label="TMUI 3.0.6"></tm-text>
+					<tm-text _class="text-weight-b" :font-size="36" label="TMUI 3.0.61"></tm-text>
 					<tm-text _class="opacity-6" :label="language('index.search.subtext')"></tm-text>
 				</view>
 			</view>

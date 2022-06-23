@@ -19,7 +19,16 @@
 			"style": {
 				"navigationBarTitleText": "搜索组件"
 			}
-		}
+		},{
+            "path" : "pages/index/settheme",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "设置主题",
+                "enablePullDownRefresh": false,
+				"navigationStyle": "custom"
+            }
+            
+        }
 
 	],
 	"subPackages": [

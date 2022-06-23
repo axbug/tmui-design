@@ -172,13 +172,15 @@
 		// #endif
 
 		// #ifdef APP-NVUE ||  APP-VUE
-		plus.webview.currentWebview().setStyle({
-			background: appConfig.value.theme,
-			backgroundColorTop: appConfig.value.theme,
-			backgroundColorBottom: appConfig.value.theme,
-			userSelect: true,
-			webviewBGTransparent: true
-		})
+		if(plus?.webview?.currentWebview()?.setStyle){
+			plus.webview.currentWebview().setStyle({
+				background: appConfig.value.theme,
+				backgroundColorTop: appConfig.value.theme,
+				backgroundColorBottom: appConfig.value.theme,
+				userSelect: true,
+				webviewBGTransparent: true
+			})
+		}
 		// app安卓下设置底部虚拟区域的颜色。
 		if (uni.getSystemInfoSync().osName == 'android') {
 			var Color = plus.android.importClass("android.graphics.Color");
