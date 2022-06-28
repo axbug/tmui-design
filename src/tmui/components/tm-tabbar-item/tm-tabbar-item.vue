@@ -159,6 +159,11 @@
 		load:{
 			type:[Boolean, String],
 			default:false
+		},
+		//自定项目数据，在执行beforeClick时，会返回给函数内部
+		data:{
+			type:[Object,String,Number],
+			default:()=>undefined
 		}
 	})
 	const _btnTop = computed(()=>props.btnTop)
@@ -233,9 +238,9 @@
 		if(_load.value) return;
 		if (typeof props.beforeClick === 'function') {
 			_load.value = true
-		    let p = await props.beforeClick();
+		    let p = await props.beforeClick(props.data);
 		    if(typeof p === 'function'){
-		        p = await p();
+		        p = await p(props.data);
 		    }
 		    _load.value = false
 		    if (!p) return;

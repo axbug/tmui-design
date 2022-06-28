@@ -51,7 +51,7 @@ const { proxy } = getCurrentInstance();
 const props = defineProps({
 	...custom_props,
 	transprent: {
-		type: [Boolean, String],
+		type: [Boolean],
 		default: false
 	},
 	color: {
@@ -63,7 +63,7 @@ const props = defineProps({
 		default: false
 	},
 	round: {
-		type: [Number, String],
+		type: [Number],
 		default: 0
 	},
 	shadow: {
@@ -89,12 +89,12 @@ const props = defineProps({
 });
 const _width = uni.upx2px(props.width)||uni.getSystemInfoSync().windowWidth;
 const _blur = computed(()=>props.blur)
-const _activeUrl:Ref<string> = ref(undefined)
-const _activeUid:Ref<string> = ref(undefined)
+const _activeUrl= ref("")
+const _activeUid= ref("")
 const tmTabbarId = "tmTabbarId";
-const _cachlist = ref([])
+const _cachlist:Ref<Array<string|number>> = ref([])
 const _showSafe = ref(props.showSafe)
-const win_bottom = uni.getSystemInfoSync().safeAreaInsets.bottom;
+const win_bottom = uni.getSystemInfoSync()?.safeAreaInsets?.bottom??0;
 if(win_bottom>0){
 	_showSafe.value = true;
 }
@@ -109,7 +109,7 @@ const _BarHeight = computed(()=>{
 })
 function setNowurl(url:string,nowuid:number){
 	_activeUrl.value = url;
-	_activeUid.value = nowuid;
+	_activeUid.value = String(nowuid);
 }
 function pushKey(uid:number){
 	_cachlist.value = [...new Set([..._cachlist.value,uid])]
