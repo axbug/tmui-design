@@ -132,7 +132,7 @@
 	const customClass = computed(()=>computedClass(props));
 	//让出多少蹑以显示角标。
 	const istext = computed(()=>{
-		return isNaN(parseInt(props.count));
+		return isNaN(parseInt(String(props.count)));
 	})
 	const show = computed(()=>{
 		if(!props.dot&&!props.icon&&!props.count) return false
@@ -157,7 +157,7 @@
 				t:10
 			};
 		}
-		if(isNaN(parseInt(props.count))){
+		if(isNaN(parseInt(String(props.count)))){
 			return {
 				w:0,
 				h:0,

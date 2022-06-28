@@ -29,8 +29,8 @@ export interface hsla {
 export interface cssStyleConfig {
     colorname: string,//颜色名称
     borderWidth?: number,//边线宽度
-    borderDirection?: cssDirection,//边线的方向
-    linearDirection?: linearDirection,//渐变的方向.
+    borderDirection?: cssDirectionType,//边线的方向
+    linearDirection?: linearDirectionType,//渐变的方向.
     linearDeep?: linearDeep,//light,dark,亮系渐变和深色渐变。
     shadow?: number,//投影的大小，
     round?: number,//圆角大小
@@ -74,6 +74,7 @@ export interface colorThemeType {
     csscolor?: string
 }
 //主题方向
+export type cssDirectionType = "left"|"right"|"top"|"bottom"|"all"|"leftright"|"topbottom"|"topleft"|"topright"|"bottomleft"|"bottomright"|"x"|"y";
 export enum cssDirection {
     left = "left",
     right = "right",
@@ -88,6 +89,7 @@ export enum cssDirection {
     all = "all"
 }
 //渐变方向
+export type linearDirectionType= "left"|"right"|"top"|"bottom"|""
 export enum linearDirection {
     left = "to left",
     right = "to right",
@@ -96,6 +98,7 @@ export enum linearDirection {
     none = ""
 }
 //渐变的颜色类型
+export type linearDeepType = "light"|"dark"|"accent"
 export enum linearDeep {
     /**
      * 亮色
@@ -111,6 +114,7 @@ export enum linearDeep {
     accent = "accent",
 }
 // 边线样式
+export type borderStyleType = "solid"|"dashed"|"dotted";
 export enum borderStyle {
     solid = 'solid',
     dashed = 'dashed',
@@ -138,4 +142,30 @@ export interface tmVuetify {
     //当前的语言
     local:string
     os:string
+}
+
+export type fetchConfigResponseType= "arraybuffer"|"text";
+export type fetchConfigDataType = "json"|"text";
+export type fetchConfigMethod= "GET"|"POST"|"PUT"|"DELETE"|"CONNECT"|"HEAD"|"OPTIONS"|"TRACE";
+
+export interface fetchConfigSuccessType{
+    data:object|string|ArrayBuffer,
+    statusCode:number,
+    header:object,
+    cookies:Array<string>
+}
+export interface fetchConfig {
+    url?:string,
+    data?:object|string|ArrayBuffer,
+    header?:object,
+    method?:fetchConfigMethod,
+    timeout?:number,
+    dataType?:fetchConfigDataType,
+    responseType?:fetchConfigResponseType,
+    sslVerify?:boolean,
+    withCredentials?:boolean,
+    firstIpv4?:boolean,
+    success?:Function,
+    fail?:Function,
+    complete?:Function
 }

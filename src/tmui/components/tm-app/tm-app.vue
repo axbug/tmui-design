@@ -35,7 +35,7 @@
 		watchEffect,
 		ref,
 		watch,
-		onBeforeMount
+		onBeforeMount,ComponentInternalInstance
 	} from 'vue';
 	import {
 		useTmpiniaStore
@@ -55,7 +55,7 @@
 	const store = useTmpiniaStore();
 	const {
 		proxy
-	} = getCurrentInstance()
+	} = <ComponentInternalInstance>getCurrentInstance()
 	// 混淆props共有参数
 	const props = defineProps({
 		...custom_props,
@@ -117,7 +117,7 @@
 		statusBarHeight,
 		windowTop
 	} = uni.getSystemInfoSync()
-	const sysinfo = uni.getSystemInfoSync()
+	const sysinfo:UniApp.GetSystemInfoResult = uni.getSystemInfoSync()
 	// 视察的宽。
 	const view_width = ref(safeArea?.width || windowWidth);
 	//视窗的高度。
@@ -134,20 +134,12 @@
 	// #endif
 	// #ifdef APP 
 	// 如果存在导航栏？
-	if (sysinfo.safeArea.top > 0) {
+	if ((sysinfo?.safeArea?.top||0) > 0) {
 		view_height.value = sysinfo.screenHeight
 	} else {
-		view_height.value = sysinfo.safeArea.height - Math.abs(statusBarHeight);
+		view_height.value = (sysinfo?.safeArea?.height||0) - Math.abs(statusBarHeight||0);
 	}
-
-
-
 	// #endif
-
-
-
-
-
 	// //https://picsum.photos/750/1440
 	let appConfig = ref({
 		width: view_width,
@@ -168,7 +160,7 @@
 			backgroundColor: appConfig.value.theme,
 			backgroundColorBottom: appConfig.value.theme,
 			backgroundColorTop: appConfig.value.theme
-		}).catch(e => {});
+		})
 		// #endif
 
 		// #ifdef APP-NVUE ||  APP-VUE
@@ -186,9 +178,9 @@
 			var Color = plus.android.importClass("android.graphics.Color");
 			plus.android.importClass("android.view.Window");
 		 var mainActivity = plus.android.runtimeMainActivity();
-			var window_android = mainActivity.getWindow();
+			var window_android = mainActivity?.getWindow();
 
-			if (appConfig.dark) {
+			if (appConfig.value.dark) {
 				window_android.setNavigationBarColor(Color.BLACK);
 			} else {
 				window_android.setNavigationBarColor(Color.WHITE);
@@ -197,34 +189,34 @@
 
 		// #endif
 		// #ifdef H5
-		document.body.style.background = appConfig.value.theme;
+		document.body.style.background = appConfig.value.theme||"";
 		// #endif
 
 		if (isDark.value) {
 			uni.setNavigationBarColor({
 				backgroundColor: appConfig.value.theme,
 				frontColor: '#ffffff'
-			}).catch(e => {});
+			})
 			uni.setTabBarStyle({
 				backgroundColor: '#000000',
 				borderStyle: '#1a1a1a',
 				color: '#ffffff'
-			}).catch(e => {});
+			}).catch(e=>{})
 		} else {
 			uni.setNavigationBarColor({
 				backgroundColor: props.navbar.background,
 				frontColor: props.navbar.fontColor
-			}).catch(e => {});
+			}).catch(e=>{})
 			uni.setTabBarStyle({
 				backgroundColor: props.navbar.background,
 				borderStyle: '#888888',
 				color: props.navbar.fontColor
-			}).catch(e => {});
+			}).catch(e=>{})
 		}
 		
 		isSetThemeOk.value = true;
 	}
-	setAppStyle()
+	// setAppStyle()
 	// let textColor = ref(tmcomputed.value.textColor);
 	//向下子组件传递，相关参数，可代替store使用。
 	provide('appTextColor', computed(() => tmcomputed.value.textColor));

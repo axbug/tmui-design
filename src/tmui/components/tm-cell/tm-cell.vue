@@ -80,7 +80,8 @@ import tmImage from "../tm-image/tm-image.vue";
 import tmDivider from "../tm-divider/tm-divider.vue";
 import {
   getCurrentInstance,
-  computed
+  computed,
+	PropType
 } from "vue";
 import {
   cssDirection,
@@ -92,19 +93,19 @@ const emits = defineEmits(["click"]);
 const props = defineProps({
   ...custom_props,
   shadow: {
-    type: [Number, String],
+    type: [Number],
     default: 0,
   },
   round: {
-    type: [Number, String],
+    type: [Number],
     default: 0,
   },
   margin: {
-    type: Array,
+    type: Array as PropType<Array<number>>,
     default: () => [32, 0],
   },
   padding: {
-    type: Array,
+    type: Array as PropType<Array<number>>,
     default: () => [24, 24],
   },
   height: {
@@ -112,7 +113,7 @@ const props = defineProps({
     default: 0,
   },
   transprent: {
-    type: [Boolean, String],
+    type: [Boolean],
     default: false,
   },
   color: {
@@ -188,7 +189,7 @@ const props = defineProps({
     default: "",
   },
 });
-function cellClick(e) {
+function cellClick(e:any) {
   emits("click", e);
   if (props.url !== '') {
     try {

@@ -7,7 +7,7 @@
 <template>
   <view v-if="_blue_sheet" :blurEffect="_blurEffect" @click="emits('click', $event)" @longpress="longpress" @touchend="touchend"
     @touchstart="touchstart" @touchcancel="touchcancel" @mousedown="mousedown" @mouseup="mouseup"
-    @mouseleave="mouseleave" :elevation="props.shadow" :class="[
+    @mouseleave="mouseleave" :class="[
       'flex flex-col', parenClass_p,
       `mx-${_margin[0]}`,
       `my-${_margin[1]}`,

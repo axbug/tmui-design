@@ -467,9 +467,10 @@ export function isIdCard (val:string|number) {
     var parity = [ 1, 0, 'X', 9, 8, 7, 6, 5, 4, 3, 2 ];
     var code = val.substring(17);
     if(p.test(val)) {
-        var sum = 0;
+        var sum:number = 0;
         for(var i=0;i<17;i++) {
-            sum += val[i]*factor[i];
+			let id:number|string|any = val[i]
+            sum += id*factor[i];
         }
         if(parity[sum % 11] == code.toUpperCase()) {
             return true;

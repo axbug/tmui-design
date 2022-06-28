@@ -3,6 +3,7 @@
         <tm-sheet>
 			<tm-text label="点击中间+按钮可以体验异步加载动态效果."></tm-text>
 		</tm-sheet>
+		<view style="height:2000px"></view>
 		<tm-tabbar >
 			<tm-tabbar-item count="HOT"   open-type='reLaunch' url='/pages/index/index' text="首页" icon='tmicon-collection-fill'></tm-tabbar-item>
 			<tm-tabbar-item  url='/pages/form/index' text="表单" icon='tmicon-cog-fill'></tm-tabbar-item>

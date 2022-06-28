@@ -38,7 +38,7 @@
 	/**
 	 * 卡片
 	 */
-	import { computed} from 'vue';
+	import { computed, PropType} from 'vue';
 	import { custom_props, computedClass, computedStyle} from '../../tool/lib/minxs';
 	import tmSheet from "../tm-sheet/tm-sheet.vue";
 	import tmText from "../tm-text/tm-text.vue";
@@ -46,11 +46,11 @@
 	const props = defineProps({
 		...custom_props,
 		shadow:{
-			type: [Number, String],
+			type: [Number],
 			default: 2
 		},
 		round: {
-			type: [Number, String],
+			type: [Number],
 			default: 4
 		},
 		border: {
@@ -58,15 +58,15 @@
 			default: 0
 		},
 		margin: {
-		  type: Array,
+		  type: Array as PropType<Array<number>>,
 		  default: () => [32,16],
 		},
 		padding: {
-		  type: Array,
+		  type: Array as PropType<Array<number>>,
 		  default: () => [16, 0],
 		},
 		transprent: {
-			type: [Boolean, String],
+			type: [Boolean],
 			default: false
 		},
 		color: {

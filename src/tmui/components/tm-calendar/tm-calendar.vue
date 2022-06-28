@@ -17,12 +17,12 @@
  * 日历(弹层式)
  * @description 用法见：tm-calendar-view组件，与其一致的用法。
  */
-import { computed, ref, watch, PropType, Ref, getCurrentInstance, nextTick, watchEffect } from "vue"
+import { computed, ref, watch, PropType, Ref, getCurrentInstance, nextTick, watchEffect, ComponentInternalInstance } from "vue"
 import { custom_props, computedTheme, computedClass, computedStyle, computedDark } from '../../tool/lib/minxs';
 import tmCalendarView from "../tm-calendar-view/tm-calendar-view.vue";
 import tmDrawer from "../tm-drawer/tm-drawer.vue";
 import { monthDayItem, dateItemStyle, monthYearItem, weekItem, yearItem } from "../tm-calendar-view/interface"
-const { proxy } = getCurrentInstance();
+const { proxy } = <ComponentInternalInstance>getCurrentInstance();
 /**
  * 事件说明
  * v-model 绑定当前的时间。
@@ -173,10 +173,10 @@ function confirm(e: Array<string | number>) {
     emits("confirm", e)
     emits("update:modelValue", e)
     isConfirm.value = true;
-    proxy.$refs.drawer.close();
+    proxy?.$refs?.drawer?.close();
 }
 
-const win_bottom = uni.getSystemInfoSync().safeAreaInsets.bottom
+const win_bottom = uni.getSystemInfoSync()?.safeAreaInsets?.bottom??0
 const dHeight = computed(() => {
     if (_modelType.value == 'day') return 880+win_bottom
     if (_modelType.value == 'rang') return 900+win_bottom

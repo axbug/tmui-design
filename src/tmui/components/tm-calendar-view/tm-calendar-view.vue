@@ -44,7 +44,7 @@ import monthDay from "./month-day.vue";
 import rangeDay from "./range-day.vue";
 import tmSheet from '../tm-sheet/tm-sheet.vue';
 import { monthDayItem, dateItemStyle, monthYearItem, weekItem, yearItem } from "./interface"
-const {proxy} = getCurrentInstance();
+const {proxy} = <any>getCurrentInstance();
 /**
  * 事件说明
  * v-model 绑定当前的时间。
@@ -168,7 +168,7 @@ function getRefs(){
  */
 
 defineExpose({
-    setDefault:(e)=>{
+    setDefault:(e:Event)=>{
         nextTick(()=>getRefs().setDefault(e))
     },
     nextYear:()=>{

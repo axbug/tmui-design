@@ -134,7 +134,7 @@ function initNode(once:boolean=false){
     let ls_ids = Array.isArray(moisref)?moisref:[];
     _value.value = ls_ids.length==0?'':ls_ids[ls_ids.length-1]
     if(_value.value==''||typeof _value.value == 'undefined') return;
-    let isParent = queryNodeIsParent(isProxy(props.data)?toRaw(props.data):props.data,_value.value,[],'id')
+    let isParent = queryNodeIsParent(isProxy(props.data)?toRaw(props.data):props.data,_value.value,'id')
     //父节点不能选中。
     if(isParent) return;
     _idArrays.value = moisref;
@@ -180,7 +180,7 @@ function endSelected(){
 }
 watch(()=>props.modelValue,()=>{
 	if(props.modelValue.length==0){
-		_value.value = [];
+		_value.value = "";
 		save_value_obj.value = [];
 		_idArrays.value = [];
 		_activeIndex.value = 0;

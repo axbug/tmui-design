@@ -44,7 +44,7 @@
 	 * 头像
 	 * @description 也可以搭配头像组形成头像组合。tm-avatar-group
 	 */
-	import { getCurrentInstance, computed, ref, provide, inject , onUpdated, onMounted, onUnmounted, nextTick ,watch } from 'vue';
+	import { getCurrentInstance, computed, ref, provide, inject , onUpdated, onMounted, onUnmounted, nextTick ,watch, PropType } from 'vue';
 	import { cssstyle, tmVuetify,colorThemeType } from '../../tool/lib/interface';
 	import { custom_props, computedTheme, computedClass, computedStyle, computedDark } from '../../tool/lib/minxs';
 	import tmSheet from "../tm-sheet/tm-sheet.vue";
@@ -54,7 +54,7 @@
 	const props = defineProps({
 		...custom_props,
 		size: {
-			type: [Number, String],
+			type: [Number],
 			default: 90
 		},
 		//是否开启交互，在pc端有用，鼠标移上去变成手型
@@ -83,11 +83,11 @@
 			default: 0
 		},
 		margin: {
-		  type: Array,
+		  type: Array as PropType<Array<number>>,
 		  default: () => [0, 0],
 		},
 		padding: {
-		  type: Array,
+		  type: Array as PropType<Array<number>>,
 		  default: () => [0, 0],
 		},
 		transprent: {
@@ -120,8 +120,8 @@
 	const height = computed(()=>props.size??90)
 	const fontSize = computed(()=>{
 		if(props.fontSize) return props.fontSize;
-		if(props.label) return parseInt(width.value)*0.4
-		if(props.icon) return parseInt(width.value)*0.7
+		if(props.label) return parseInt(String(width.value))*0.4
+		if(props.icon) return parseInt(String(width.value))*0.7
 		return props.size??90;
 	})
 	const imgsize = computed(()=>{

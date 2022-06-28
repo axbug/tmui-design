@@ -131,8 +131,8 @@ import {
 
 import tmImage from "../tm-image/tm-image.vue"
 import tmSheet from "../tm-sheet/tm-sheet.vue"
-import { listItem, listItemType } from "./interface"
-const { proxy } = getCurrentInstance()
+import { listItem, listItemType,listItemTypeStr } from "./interface"
+const { proxy } = <any>getCurrentInstance()
 const emits = defineEmits(["change"])
 const props = defineProps({
 	followTheme:{
@@ -160,11 +160,11 @@ const props = defineProps({
 		default: () => [0,0]
 	},
 	list: {
-		type: Array as PropType<Array<string | listeItem>>,
+		type: Array as PropType<Array<string | listItem>>,
 		default: () => []
 	},
 	rangKey: {
-		type: String,
+		type: String as PropType<listItemTypeStr>,
 		default: 'url'
 	},
 	defaultValue: {
@@ -262,8 +262,8 @@ const _model = computed(() => props.model)
 const _dotPosition = computed(() => props.dotPosition)
 const _align = computed(() => props.align)
 const _autoplay = computed(()=>props.autoplay)
-function sliderChange(e) {
-	_current.value = e.detail.current;
+function sliderChange(e:any) {
+	_current.value = e?.detail?.current;
 	nextTick(() => {
 		emits("change", _current.value)
 		let vobj = uni.createVideoContext('video', proxy)

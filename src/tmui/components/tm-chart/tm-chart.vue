@@ -96,7 +96,7 @@
 	const _width = computed(() => props.width)
 	const _height = computed(() => props.height)
 	let ctx = null
-	let chart = null
+	let chart:echarts.ECharts|null = null
 	const pixelRatio = uni.getSystemInfoSync().pixelRatio
 	const is2d = ref(false)
 	// #ifdef MP-WEIXIN || MP-ALIPAY || MP-QQ 
@@ -106,7 +106,7 @@
 	
 	isPc.value = uni.getSystemInfoSync().deviceType == 'pc'?true:false;
 	
-	function wrapEvent(e) {
+	function wrapEvent(e:Event) {
 		if (!e) return;
 		if (!e.preventDefault) {
 			e.preventDefault = function() {};
@@ -135,10 +135,10 @@
 
 	//appvue,h5,和其它平台。
 	function appvueH5Other() {
-		echarts.registerPreprocessor(option => {
+		echarts.registerPreprocessor((option:any) => {
 			if (option && option.series) {
 				if (option.series.length > 0) {
-					option.series.forEach(series => {
+					option.series.forEach((series:echarts.SeriesOption) => {
 						series.progressive = 0;
 					});
 				} else if (typeof option.series === 'object') {
@@ -171,10 +171,10 @@
 	}
 	//支付宝和微信，QQ 支持2d渲染。
 	function MpWeix_init() {
-		echarts.registerPreprocessor(option => {
+		echarts.registerPreprocessor((option:any) => {
 			if (option && option.series) {
 				if (option.series.length > 0) {
-					option.series.forEach(series => {
+					option.series.forEach((series:echarts.SeriesOption) => {
 						series.progressive = 0;
 					});
 				} else if (typeof option.series === 'object') {
@@ -225,7 +225,7 @@
 		const w = uni.upx2px(_width.value);
 		const h = uni.upx2px(_height.value);
 		
-		const canvas = new WxCanvas(ctx, canvasId.value, false)
+		const canvas = new WxCanvas(ctx, canvasId.value, false,)
 		echarts.setCanvasCreator(() => {
 			return canvas;
 		});

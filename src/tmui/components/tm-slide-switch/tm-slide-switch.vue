@@ -112,7 +112,9 @@
 			disabled: props.disabled
 		};
 	});
+	//宽度。
 	const _cellwidth = computed(()=>uni.upx2px(attr.value.width))
+	//总实际宽度。
 	const _cellwidthTotal = computed(()=>_cellwidth.value*2)
 	const list = computed(() => {
 		let lp = props.action.map(el => {
@@ -162,6 +164,9 @@
 	}
 	const onChange = (e: Event) => {
 		_x.value = e.detail.x
+		// #ifndef MP
+		_mX.value = _x.value
+		// #endif
 		if(_isDrag.value==true&&e.detail.source=='touch'&&_isCloseAni.value===true){
 			_old_x.value = _x.value
 		}
@@ -172,10 +177,13 @@
 	}
 	const endDrag = () => {
 		let x_c =  Math.abs(_old_x.value) - Math.abs(_x.value);
+		
 		_old_x.value = _x.value;
-
+		
 		if(x_c!==0){
-			_mX.value = _cellwidth.value-1
+			// #ifndef MP
+			_mX.value =  _cellwidth.value-1
+			// #endif
 		}
 		uni.$tm.u.throttle(() => {
 			if (x_c > 0) {
@@ -200,7 +208,7 @@
 				emits("update:open-status", false)
 			}
 			_isCloseAni.value = false;
-		},5,false)
+		},50,false)
 	}
 	const onclick = (e: Event) => {
 		emits("click", e)

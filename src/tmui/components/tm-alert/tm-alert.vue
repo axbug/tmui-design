@@ -103,29 +103,29 @@ import tmIcon from "../tm-icon/tm-icon.vue";
 import tmTranslate from "../tm-translate/tm-translate.vue";
 import { itemType } from "./interface";
 import { custom_props } from "../../tool/lib/minxs";
-import { getCurrentInstance, computed, ref, onMounted, onUnmounted, PropType } from "vue";
+import { getCurrentInstance, computed, ref, onMounted, onUnmounted, PropType, ComponentInternalInstance } from "vue";
 const emits = defineEmits(["click"]);
-const { proxy } = getCurrentInstance();
+const { proxy } = <ComponentInternalInstance>getCurrentInstance();
 const props = defineProps({
   ...custom_props,
   transprent: {
-    type: [Boolean, String],
+    type: [Boolean],
     default: false,
   },
   border: {
-    type: [Number, String],
+    type: [Number],
     default: 0,
   },
   round: {
-    type: [Number, String],
+    type: [Number],
     default: 2,
   },
   margin: {
-    type: Array,
+    type: Array as PropType<Array<number>>,
     default: () => [32, 24],
   },
   padding: {
-    type: Array,
+    type: Array as PropType<Array<number>>,
     default: () => [24, 24],
   },
   content: {
@@ -209,6 +209,6 @@ function next() {
 }
 
 function close() {
-  proxy.$refs?.bodyani.play();
+    proxy?.$refs?.bodyani.play();
 }
 </script>

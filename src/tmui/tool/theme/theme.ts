@@ -6,9 +6,9 @@
  * @copyright tmzdy|tmui|https://tmui.design
  */
 import { colortool } from './colortool';
-import { cssStyleConfig, cssstyle, colorThemeType, cssDirection , linearDirection,linearDeep, borderStyle, rgba, hsla } from '../lib/interface';
+import { cssStyleConfig, cssstyle, colorThemeType, cssDirection , linearDirection,linearDeep,linearDirectionType } from '../lib/interface';
 //导入用户自定义的主题色值。
-import { theme } from '@/theme/index';
+import { theme } from '../../../theme/index';
 
 var colors: Array<colorThemeType> = [];
 var colorObj: any = {
@@ -339,6 +339,7 @@ class themeColors {
 			let liner_color_1 = { h: 0, s: 0, l: 0, a: nowColor.hsla.a };
 			let liner_color_2 = { h: 0, s: 0, l: 0, a: nowColor.hsla.a };
 			let dir_str =   linearDirection[config.linearDirection];
+			
 			//先计算渐变的亮色系。
 			// 先算白或者黑
 			// 如果是白

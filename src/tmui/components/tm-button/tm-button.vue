@@ -3,9 +3,9 @@
 	no-level
 	:_style="[{opacity:isclickOn||_disabled?0.7:1}]" 
 	hover-class="bhover"
-	:round="btnSize.round" 
-	:width="btnSize.w" 
-	:height="btnSize.h" 
+	:round="btnSizeObj.round" 
+	:width="btnSizeObj.w" 
+	:height="btnSizeObj.h" 
 	:padding="props.padding" 
 	:margin="props.margin"
 	:color="props.color" 
@@ -52,11 +52,11 @@
 		hover-stop-propagation hover-class="buttonHover" 
 		class="button flex-1  flex-center" 
 		:class="[customClass]"
-		:style="[{height:btnSize.h+'rpx'},customCSSStyle]" 
+		:style="[{height:btnSizeObj.h+'rpx'},customCSSStyle]" 
 		style="border: 0px solid rgba(0, 0, 0, 0);background: rgba(0, 0, 0, 0);border-radius: 0px;">
 			<slot>
-				<tm-icon v-if="_icon" :userInteractionEnabled="false" :_class="_label?'pr-10':''" :fontSize="btnSize.fontSize*0.9" :name="_icon"></tm-icon>
-				<tm-text :userInteractionEnabled="false" :fontSize="btnSize.fontSize" :label="_label"></tm-text>
+				<tm-icon v-if="_icon" :userInteractionEnabled="false" :_class="_label?'pr-10':''" :fontSize="btnSizeObj.fontSize*0.9" :name="_icon"></tm-icon>
+				<tm-text :userInteractionEnabled="false" :fontSize="btnSizeObj.fontSize" :label="_label"></tm-text>
 			</slot>
 		</button>
 	</tm-sheet>
@@ -68,7 +68,8 @@
  * @description 属性与原生按钮一致，对于微信登录授权进行了便捷封装。
  * @slot default 默认插槽。
  */
-import {computed,PropType,ref,getCurrentInstance } from "vue"
+import {btnSize} from "./interface"
+import {computed,PropType,ref,getCurrentInstance, ComponentInternalInstance } from "vue"
 import tmSheet from "../tm-sheet/tm-sheet.vue"
 import tmText from "../tm-text/tm-text.vue"
 import tmIcon from "../tm-icon/tm-icon.vue";
@@ -95,7 +96,7 @@ const emits = defineEmits(
 	'launchapp',
 	'contact'
 ])
-const {proxy} = getCurrentInstance();
+const {proxy} = <ComponentInternalInstance>getCurrentInstance();
 const props = defineProps({
 	...custom_props,
 	transprent:{
@@ -110,7 +111,7 @@ const props = defineProps({
 	 * mini,normal,middle,large
 	 */
 	size:{
-		type:String,
+		type:String as PropType<btnSize>,
 		default:'normal'
 	},
 	fontSize:{
@@ -209,9 +210,10 @@ const props = defineProps({
 /** -----------form专有------------ */
 const formtype = computed(()=>props.formType)
 //父级方法。
-let FormParent = null;
+let FormParent:any = null;
+
 if(formtype.value=='reset'||formtype.value=='submit'){
-	FormParent = proxy.$parent
+	FormParent = proxy?.$parent
 	while (FormParent) {
 		if (FormParent?.tmFormComnameId == 'tmFormId' || !FormParent) {
 			break;
@@ -237,12 +239,13 @@ const sizeObj = {
 	middle:{w:310,h:88,fontSize:30,round:3},
 	large:{w:500,h:88,fontSize:34,round:3},
 }
-const btnSize = computed(()=>{
+const btnSizeObj = computed(()=>{
 	let fontSize = props.fontSize||0;
 	
 	if(props.block){
 		return {w:0,h:props.height||sizeObj.block.h,fontSize:fontSize||sizeObj.block.fontSize,round:props.round}
 	}
+	
 	return {
 		w:props.width||sizeObj[props.size].w ,
 		h:props.height||sizeObj[props.size].h,
@@ -253,16 +256,16 @@ const btnSize = computed(()=>{
 
 
 
-function touchstart(e){
+function touchstart(e:Event){
 	isclickOn.value = true
 	emits("touchstart",e)
 }
-function touchend(e){
+function touchend(e:Event){
 	isclickOn.value = false
 	emits("touchend",e)
 }
 
-function onclick(e){
+function onclick(e:Event){
 		if(FormParent!=null && typeof FormParent !='undefined'&&formtype.value&&!props.loading){
 			FormParent[formtype.value]();
 		}
@@ -279,10 +282,9 @@ function onclick(e){
 			// #ifdef MP-WEIXIN
 			uni.getUserProfile({
 				desc: '需要获取用户信息',
-				lang: 'zh',
+				lang: "zh_CN",
 				complete: function (userProfile) {
 					if(userProfile.errMsg !='getUserProfile:ok'){
-						
 						uni.showToast({
 							title:userProfile.errMsg,icon:'error',mask:true
 						})
