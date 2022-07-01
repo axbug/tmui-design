@@ -24,13 +24,14 @@
 			:padding="[wh.px,wh.py]"
 			
 			>
-				<tm-icon v-if="props.icon" :name="props.icon"  
+				<tm-icon :color="_fontColor" v-if="props.icon" :name="props.icon"  
 				:followDark="props.followDark" 
 				:fontSize="wh.fontSize" :dark="props.dark" :userInteractionEnabled="false"></tm-icon>
 				
 				<view class="flex-1 flex flex-center" >
 					<slot name="default">
 					<tm-text
+						:color="_fontColor"
 						:_class="props.icon?'pl-10':''"
 						:fontSize="wh.fontSize" 
 						:followDark="props.followDark"
@@ -39,10 +40,10 @@
 					</slot>
 				</view>
 				<view @click.stop="" >
-					<tm-icon @click="closeTag" :followDark="props.followDark"  v-if="props.closable&&!loading" _class="pl-10" :fontSize="wh.fontSize*0.8" name="tmicon-times" :dark="props.dark"></tm-icon>
+					<tm-icon :color="_fontColor" @click="closeTag" :followDark="props.followDark"  v-if="props.closable&&!loading" _class="pl-10" :fontSize="wh.fontSize*0.8" name="tmicon-times" :dark="props.dark"></tm-icon>
 				</view>
 				<view :userInteractionEnabled="false" v-if="loading" class=" pl-10 flex flex-center flex-row" style="line-height: 0;">
-					<tm-icon :followDark="props.followDark"    :fontSize="wh.fontSize*0.8" name="tmicon-loading" spin :dark="dark">
+					<tm-icon :color="_fontColor" :followDark="props.followDark"    :fontSize="wh.fontSize*0.8" name="tmicon-loading" spin :dark="dark">
 					</tm-icon>
 				</view>
 				
@@ -154,6 +155,10 @@
 		label:{
 			type:[String],
 			default:''
+		},
+		fontColor:{
+			type:String,
+			default:""
 		}
 	});
 	const emits = defineEmits(['click','close','change','update:checked']);
@@ -166,6 +171,7 @@
 	const show = ref(true)
 	//是否选中。
 	const _checked_ = ref(false)
+	const _fontColor = computed(()=>props.fontColor)
 	//是否加载中.
 	const loading = computed(()=>props.load)
 	const checked_com = computed({
