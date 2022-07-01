@@ -23,8 +23,9 @@
 	 * 如果想知道生成的属性请查看：qrOpts类型属性。
 	 * 更改任意属性，都将会导致重绘
 	 */
-	import {getCurrentInstance, computed, ref, provide, inject, onUpdated, onMounted, onUnmounted, nextTick, watch } from 'vue';
+	import {getCurrentInstance, computed, ref, PropType, inject, onUpdated, onMounted, onUnmounted, nextTick, watch } from 'vue';
 	import {qrOpts,qrOptsDefault} from "./interface";
+	import CanvasRenderingContext2D from './gcanvas/context-2d/RenderingContext.js';
 	import {qr} from "./drawing";
 	// #ifdef APP-NVUE
 	import {
@@ -47,8 +48,8 @@
 	// #ifndef MP-WEIXIN || MP-ALIPAY || MP-QQ
 	canvasId.value = "tm" + uni.$tm.u.getUid(5);
 	// #endif
-	let ctx = null
-	let canvas2d = null
+	let ctx:CanvasRenderingContext2D;
+	let canvas2d:HTMLCanvasElement
 	let opts = computed(()=>{
 		return {...qrOptsDefault,...props.option}
 	})
@@ -121,8 +122,61 @@
 		});
 		return canvasObj.getContext('2d')
 	}
-	
-	// qr(qrOptsDefault)
+	function save():Promise<string> {
+		return new Promise((su, fa) => {
+			if (!ctx){
+				uni.showToast({title:"初始化失败",icon:"none"})
+				fa("初始化失败")
+				return;
+			}
+			let size = props.option.size??0;
+			// #ifdef APP-NVUE
+			uni.showLoading({title:'...'})
+			// ctx.getImageData(0,0,props.width,props.height,function(res:imageData){
+			// 	console.log(ArrayBufferToBase64(res.data).length)
+			// 	fa(true)
+			// 	uni.hideLoading()
+			// })
+			
+			ctx.toTempFilePath(0,0,size,size,uni.upx2px(size),uni.upx2px(size),"png",1,function(res){
+				uni.hideLoading()
+				console.log(res.errMsg)
+				if(res.errMsg=="canvasToTempFilePath:ok"){
+					su(res.tempFilePath)
+				}else{
+					fa(res.errMsg)
+				}
+				
+			})
+			
+			// #endif
+			
+			// #ifndef APP-NVUE
+			
+			uni.canvasToTempFilePath(
+				{
+					x: 0,
+					y: 0,
+					width:uni.upx2px(size),
+					height: uni.upx2px(size),
+					canvasId: canvasId.value,
+					canvas:canvas2d,
+					success: function(res) {
+						// 在H5平台下，tempFilePath 为 base64
+						su(res.tempFilePath);
+					},
+					fail: res => {
+						fa(res);
+					}
+				},
+				
+			);
+			
+			// #endif
+		});
+	}
+	//保存二维码图片。
+	defineExpose({save})
 </script>
 
 <style>
