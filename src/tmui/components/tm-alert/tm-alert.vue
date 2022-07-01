@@ -68,7 +68,7 @@
                       :label="item['content']"
                     ></tm-text>
                     <tm-text
-                      v-if="len > 1"
+                      v-if="len > 1&&props.showDot"
                       _class="pt-24"
                       :label="`${activeIndex + 1}/${len}`"
                     >
@@ -160,6 +160,10 @@ const props = defineProps({
     type: [Number],
     default: 1,
   },
+  showDot:{
+    type: Boolean,
+    default: false
+  }
 });
 const activeIndex = ref(0);
 const showBody = ref(true);
