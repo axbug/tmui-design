@@ -45,10 +45,16 @@
                     <textarea :userInteractionEnabled="false" v-if="propsDetail.type == 'textarea'" :value="_value"
                         :focus="propsDetail.focus" @focus="focus" @blur="blur" @confirm="confirm" @input="inputHandler"
                         @keyboardheightchange="emits('keyboardheightchange')" :maxlength="propsDetail.maxlength"
-                        :password="showPasswordText" :disabled="propsDetail.disabled"
+                        :disabled="propsDetail.disabled"
                         :placeholder="propsDetail.placeholder" :cursorSpacing="propsDetail.cursorSpacing"
                         :confirmType="propsDetail.confirmType" :confirmHold="propsDetail.confirmHold"
                         :autoBlur="propsDetail.autoBlur" :holdKeyboard="propsDetail.holdKeyboard"
+						:cursor="propsDetail.cursor"
+						:show-confirm-bar="propsDetail.showConfirmBar"
+						:selectionStart="propsDetail.selectionStart"
+						:selectionEnd="propsDetail.selectionEnd"
+						:disable-default-padding="propsDetail.disableDefaultPadding"
+						:fixed="propsDetail.fixed"
                         :adjustPosition="propsDetail.adjustPosition" :type="propsDetail.type" :style="[
                             {
                                 height: `${_height}rpx`, width: 'auto', 'word-break': 'break-word',
@@ -77,15 +83,22 @@
                                 'fontSize': `${propsDetail.fontSize_px}px`
                             },
                         ]" :placeholder-style="`fontSize:${propsDetail.fontSize_px}px`" />
-
                     <textarea @click="emits('click', $event)" :userInteractionEnabled="false"
                         v-if="propsDetail.type == 'textarea'" :value="_value" :focus="propsDetail.focus" @focus="focus" @blur="blur"
                         @confirm="confirm" @input="inputHandler" @keyboardheightchange="emits('keyboardheightchange')"
-                        :password="showPasswordText" :disabled="propsDetail.disabled"
+                        :disabled="propsDetail.disabled"
                         :placeholder="propsDetail.placeholder" :cursorSpacing="propsDetail.cursorSpacing"
                         :confirmType="propsDetail.confirmType" :confirmHold="propsDetail.confirmHold"
                         :autoBlur="propsDetail.autoBlur" :holdKeyboard="propsDetail.holdKeyboard"
                         :adjustPosition="propsDetail.adjustPosition" :maxlength="propsDetail.maxlength"
+						:autoHeight="propsDetail.autoHeight"
+						:cursor="propsDetail.cursor"
+						:show-confirm-bar="propsDetail.showConfirmBar"
+						:selectionStart="propsDetail.selectionStart"
+						:selectionEnd="propsDetail.selectionEnd"
+						:disable-default-padding="propsDetail.disableDefaultPadding"
+						:fixed="propsDetail.fixed"
+						
                         :type="propsDetail.type" :style="[
                             {
                                 height: `${_height}rpx`, width: 'auto', 'word-break': 'break-word',
@@ -332,7 +345,30 @@ const props = defineProps({
         type: Boolean,
         default: false
     },
-
+	cursor: {
+	    type: Number,
+	    default: 0
+	},
+	showConfirmBar: {
+	    type: Boolean,
+	    default: true
+	},
+	selectionStart: {
+	    type: Number,
+	    default: -1
+	},
+	selectionEnd: {
+	    type: Number,
+	    default: -1
+	},
+	disableDefaultPadding: {
+	    type: Boolean,
+	    default: false
+	},
+	fixed:{
+	    type: Boolean,
+	    default: false
+	},
 })
 
 let parentFormItem = proxy.$parent
@@ -378,7 +414,13 @@ const propsDetail = computed(() => {
         autoBlur: props.autoBlur,
         holdKeyboard: props.holdKeyboard,
         adjustPosition: props.adjustPosition,
-        type: props.type,
+		type: props.type,
+        cursor: props.cursor,
+        showConfirmBar: props.showConfirmBar,
+        selectionStart: props.selectionStart,
+        selectionEnd: props.selectionEnd,
+        disableDefaultPadding: props.disableDefaultPadding,
+        fixed: props.fixed
     }
 })
 // 设置响应式全局组件库配置表。
