@@ -1,5 +1,5 @@
 <template>
-	<view class="flex" style="height: 75px;" :style="{'padding-top':(30)+'px'}">
+	<view class="flex flex-col flex-col-top-center" style="height: 75px;" >
 		<tm-sheet
 		 :height='60'
 		 :width='_width'
@@ -28,7 +28,7 @@
 					<slot>
 						<tm-icon 
 						 v-if="!_load"
-						_style="line-height: normal;" 
+						_style="line-height: 0px;" 
 						:color="_color" 
 						:font-size="c_font_style.iconSize" 
 						:name="(_active?c_font_style.icon:(c_font_style.unicon||c_font_style.icon))"></tm-icon>
@@ -37,7 +37,7 @@
 					<tm-icon
 					v-if="_load"
 					spin
-					_style="line-height: normal;" 
+					_style="line-height: 0px;" 
 					:color="_color" 
 					:font-size="c_font_style.iconSize" 
 					name="tmicon-loading"></tm-icon>
@@ -177,8 +177,8 @@
 		return true;
 	})
 	const _styletop = computed(()=>{
-		if(_btnTop.value===true) return 'top:-20px';
-		return '';
+		if(_btnTop.value!==true) return 'top:15px';
+		return 'top:0px';
 	})
 	
 	const _padding = computed(()=>{

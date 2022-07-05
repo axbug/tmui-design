@@ -26,8 +26,8 @@
 		>
 			
 		</tm-sheet>
-		<view class="absolute flex flex-col l-0 t-0" :style="{ width: _width + 'px', height: _totalBarHeight + 'px',top:'-15px'}">
-			<view class="relative barcont flex flex-row flex-row-center-center flex-around flex-1" 
+		<view class="absolute flex flex-col l-0 " :style="{ width: _width + 'px', height: _totalBarHeight + 'px'}">
+			<view class="relative barcont flex flex-row flex-row-top-center flex-around flex-1" 
 			:style="{ width: _width + 'px'}"><slot></slot></view>
 		</view>
 	</view>
