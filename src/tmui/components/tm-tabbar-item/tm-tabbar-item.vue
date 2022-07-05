@@ -1,14 +1,19 @@
 <template>
-	<view style="height: 75px;" :style="{'padding-top':(tmTabbarItemSafe?0:15)+'px'}">
+	<view class="flex" style="height: 75px;" :style="{'padding-top':(30)+'px'}">
 		<tm-sheet
 		 :height='60'
 		 :width='_width'
 		 :round='24'
 		 unit='px'
 		 _class='flex-center flex '
+		 parenClass="relative"
+		 class="relative"
 		 :_style="_styletop"
 		 :followTheme="_btnTop.value&&props.followTheme"
-		 :transprent="_transprent" :color="props.color" :border="0"  :margin="[0,0]" 
+		 :transprent="_transprent" 
+		 :color="props.color" 
+		 :border="0"  
+		 :margin="[0,0]" 
 		 :padding="_padding" 
 		 @click="itemClick"
 		 >
@@ -172,7 +177,7 @@
 		return true;
 	})
 	const _styletop = computed(()=>{
-		if(_btnTop.value===true) return 'top:-15px';
+		if(_btnTop.value===true) return 'top:-20px';
 		return '';
 	})
 	

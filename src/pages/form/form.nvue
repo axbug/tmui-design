@@ -126,7 +126,7 @@
 		cale: ["2022-1-4"],
 		time:'2022-1-9',
 		timeStr:'2022-1-5',
-		radio: "",
+		radio: "bonaer",
 		pickerIndex:[],
 		pickerStr:"",
 		checkbox: ["bonaer"],

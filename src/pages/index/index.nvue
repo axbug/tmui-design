@@ -1,5 +1,6 @@
 <template>
 	<tm-app ref="app">
+		
 		<tm-navbar :title="language('index.com.navtitle')"  :shadow="0" hide-home>
 			<template v-slot:left>
 				<view class="flex flex-center flex-row">
@@ -12,7 +13,7 @@
 			<view class="flex-row flex-row-center-start pb-10">
 				<tm-image :width="108" :height="67.5" :src="logoimg"></tm-image>
 				<view class="pl-16 flex-1" style="width:0px">
-					<tm-text _class="text-weight-b" :font-size="36" label="TMUI 3.0.61"></tm-text>
+					<tm-text _class="text-weight-b" :font-size="36" label="TMUI 3.0.7"></tm-text>
 					<tm-text _class="opacity-6" :label="language('index.search.subtext')"></tm-text>
 				</view>
 			</view>
@@ -43,7 +44,7 @@
 			<tm-text :font-size="24" _class="font-weight-b" :label="language('index.com.title')"></tm-text>
 			<tm-divider></tm-divider>
 			<tm-grid :col="3" :width="630">
-				<tm-grid-item url="../changyong/index" :height="180">
+				<tm-grid-item url="../changyong/index" :height="180" :count="3" color="primary">
 					<tm-icon color="primary" _class="pb-10" :font-size="52" name="tmicon-layergroup-fill"></tm-icon>
 					<tm-text :font-size="28" _class="font-weight-b" :label="language('index.com.tongyong')"></tm-text>
 					<tm-text color="grey" :font-size="22" _class="font-weight-b"
@@ -61,13 +62,13 @@
 					<tm-text color="grey" :font-size="22" _class="font-weight-b" :label="language('index.com.showSub')">
 					</tm-text>
 				</tm-grid-item>
-				<tm-grid-item url="../form/index" :height="180">
+				<tm-grid-item url="../form/index" :height="180" dot color="green">
 					<tm-icon color="orange" _class="pb-10" :font-size="52" name="tmicon-commentdots-fill"></tm-icon>
 					<tm-text :font-size="28" _class="font-weight-b" :label="language('index.com.form')"></tm-text>
 					<tm-text color="grey" :font-size="22" _class="font-weight-b" :label="language('index.com.formSub')">
 					</tm-text>
 				</tm-grid-item>
-				<tm-grid-item url="../fankui/index" :height="180" count="NEW">
+				<tm-grid-item url="../fankui/index" :height="180" count="YES">
 					<tm-icon color="green" _class="pb-10" :font-size="52" name="tmicon-lightbulb-fill"></tm-icon>
 					<tm-text :font-size="28" _class="font-weight-b" :label="language('index.com.fd')"></tm-text>
 					<tm-text color="grey" :font-size="22" _class="font-weight-b" :label="language('index.com.fdSub')">
@@ -79,7 +80,7 @@
 					<tm-text color="grey" :font-size="22" _class="font-weight-b" :label="language('index.com.navSub')">
 					</tm-text>
 				</tm-grid-item>
-				<tm-grid-item @click="warinToast" :height="180" dot>
+				<tm-grid-item url="../yewu/index" :height="180" count="HOT" color="orange">
 					<tm-icon color="red" _class="pb-10" :font-size="52" name="tmicon-box-fill"></tm-icon>
 					<tm-text :font-size="28" _class="font-weight-b" :label="language('index.com.yewu')"></tm-text>
 					<tm-text color="grey" :font-size="22" _class="font-weight-b" :label="language('index.com.yewuSub')">
@@ -91,7 +92,7 @@
 					<tm-text color="grey" :font-size="22" _class="font-weight-b"
 						:label="language('index.com.otherSub')"></tm-text>
 				</tm-grid-item>
-				<tm-grid-item url="../chart/index" :height="180" count="NEW">
+				<tm-grid-item url="../chart/index" :height="180" count="CHAR">
 					<tm-icon color="blue-grey" _class="pb-10" :font-size="52" name="tmicon-borderbottom-fill">
 					</tm-icon>
 					<tm-text :font-size="28" _class="font-weight-b" :label="language('index.com.tubiao')"></tm-text>
@@ -164,6 +165,7 @@
 	import tmText from "@/tmui/components/tm-text/tm-text.vue"
 	import tmDrawer from "@/tmui/components/tm-drawer/tm-drawer.vue"
 	import logoimg from "@/static/logo.png"
+	import { share } from "@/tmui/tool/lib/share"
 	const {
 		proxy
 	} = getCurrentInstance();
@@ -174,6 +176,7 @@
 	function onChangeDark() {
 		proxy.$refs.app.setDark()
 	}
+	
 	function search() {
 		if (str.value.trim() === "") {
 			proxy.$refs.msg.show({

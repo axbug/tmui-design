@@ -10,7 +10,6 @@
                 </tm-tabs-pane>
             </tm-tabs>
         </tm-sheet>
-
         <tm-sheet>
             <tm-text :font-size="24" _class="font-weight-b" label="下面的示例为单独使用"></tm-text>
             <tm-divider></tm-divider>

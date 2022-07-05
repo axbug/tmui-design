@@ -2,6 +2,7 @@
 	
 </script>
 <style>
+	
 	/* #ifdef APP-NVUE */
 	@import './tmui/scss/nvue.css';
 	/* #endif */
@@ -20,6 +21,10 @@
 	body.pages-index-index uni-page-body,
 	body {
 		padding-bottom: 0 !important;
+		
+	}
+	text{
+		font-family:"sans-serif";
 	}
 	/* #endif */
 </style>

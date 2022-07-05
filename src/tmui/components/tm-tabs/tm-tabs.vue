@@ -14,7 +14,13 @@
 			:height="props.itemHeight + modelStyle.border + props.gutter"
 			:_class="['flex-center flex-row nonvue', cstomClass]" :_style="props._style" :width="props.width">
 			<!-- #ifndef APP-NVUE -->
-			<scroll-view :scroll-with-animation="true" :scroll-into-view="_scrollToId" :scroll-x="true" :show-scrollbar="false" enable-flex class="tableHeader flex-row">
+			<scroll-view 
+			:style="[{ width: `${props.width}rpx`, height: `${props.itemHeight}rpx` }]"
+			:scroll-with-animation="true" 
+			:scroll-into-view="_scrollToId" 
+			:scroll-x="true" 
+			:show-scrollbar="false" 
+			enable-flex class="tableHeader flex-row">
 				<view class="flex flex-row nowrap  nonvue" :class="[_align]"
 					:style="[{ width: `${props.width}rpx`, height: `${props.itemHeight}rpx` }]">
 					<view :id="tabsid+item.key" v-for="(item, index) in cacheTabs"  :key="index">

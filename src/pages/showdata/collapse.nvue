@@ -7,17 +7,17 @@
             <tm-collapse-item title="面板标题2" name="2">
                 <tm-text :font-size="28" _class="font-weight-b" label="这是折叠面板这是折叠面板这是折叠面板这是折叠面板这是折叠面板"></tm-text>
             </tm-collapse-item>
-            <tm-collapse-item title="面板标题3，允许嵌套使用，展开嵌套面板" name="3">
-                <tm-collapse :defaultActiveKey="['1']">
+            <tm-collapse-item left-icon="tmicon-check-circle-fill" title="面板标题3，允许嵌套使用，展开嵌套面板" name="3">
+                <tm-collapse iconPos="right" :defaultActiveKey="['1']">
                     <tm-collapse-item title="面板标题1" name="1">
                         <tm-text :font-size="28" _class="font-weight-b" label="这是折叠面板这是折叠面板这是折叠面板这是折叠面板这是折叠面板">
                         </tm-text>
                     </tm-collapse-item>
-                    <tm-collapse-item title="面板标题2" name="2">
+                    <tm-collapse-item left-icon="tmicon-times-circle" left-icon-color="red" title="面板标题2" name="2">
                         <tm-text :font-size="28" _class="font-weight-b" label="这是折叠面板这是折叠面板这是折叠面板这是折叠面板这是折叠面板">
                         </tm-text>
                     </tm-collapse-item>
-                    <tm-collapse-item title="面板标题3" name="3">
+                    <tm-collapse-item   left-icon="tmicon-gem" left-icon-color="green" title="面板标题3" name="3">
                         <tm-text :font-size="28" _class="font-weight-b" label="这是折叠面板这是折叠面板这是折叠面板这是折叠面板这是折叠面板">
                         </tm-text>
                     </tm-collapse-item>

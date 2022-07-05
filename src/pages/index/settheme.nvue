@@ -36,7 +36,6 @@
 	onMounted(()=>showlist())
 	function showlist (){
 		list.value = [...store.tmStore.colorList];
-		console.log(store.tmStore.colorList.length)
 	}
 	
 	function setTheme(colorname: string) {

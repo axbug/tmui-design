@@ -188,6 +188,7 @@ class themeColors {
 		}
 		
 		let css:cssstyle = {};
+		css.color = nowColor.value;
 		css.config = { ...config };
 		css.isBlackAndWhite = isBlackAndWhite;
 		css.gradientColor = []

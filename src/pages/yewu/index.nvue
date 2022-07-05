@@ -18,11 +18,7 @@ import tmCell from "@/tmui/components/tm-cell/tm-cell.vue"
 import tmDivider from "@/tmui/components/tm-divider/tm-divider.vue"
 import logoimg from "@/static/logo.png"
 const list = ref([
-    { path: "/pages/other/codeinput", title: "验证码输入框 Codeinput" },
-    { path: "/pages/other/cropimg", title: "图片裁剪 Cropimg" },
-    { path: "/pages/other/floatButton", title: "悬浮按钮 FloatButton" },
-    { path: "/pages/other/sticky", title: "吸顶 Sticky" },
-    { path: "/pages/other/signBoard", title: "签名板 SignBoard" },
+    { path: "/pages/yewu/coupon", title: "优惠券 Coupon" }
 ])
 
 </script>

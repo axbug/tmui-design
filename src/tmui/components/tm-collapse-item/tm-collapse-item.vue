@@ -1,28 +1,41 @@
 <template>
-	<view class="flex flex-col " :class="[disabled ? 'opacity-7' : '']">
+	<view class="flex flex-col overflow" :class="[disabled ? 'opacity-7' : '']">
 		<tm-sheet @click="openAndClose"  :color="props.color" :text="disabled" :border="cborder" :linear="props.linear"
 			:linearDeep="props.linearDeep"  :dark="props.dark"
 			:followDark="props.followDark" :followTheme="props.followTheme" borderDirection="bottom" :margin="props.margin" :padding="props.padding"
-			:height="88">
+			>
 			<view :userInteractionEnabledn="false" class="flex-row-center-start flex-row ">
-				<slot name="icon" :data="{ isActive: isActive }">
-					<tm-icon :dark="props.dark"  :followDark="props.followDark"
+				<view v-if="_tmCollapseIconPos=='left'" class="pr-16 flex-center">
+					<tm-icon  :dark="props.dark"  :followDark="props.followDark"
 						 :color="isActive ? props.activeColor : ''"
-						:name="isActive ? 'tmicon-sort-down' : 'tmicon-caret-right'" :font-size="24" _class="pr-16"
-						_style="line-height:88rpx;"></tm-icon>
+						:name="isActive ? 'tmicon-sort-down' : 'tmicon-caret-right'" :font-size="24"
+						></tm-icon>
+				</view>
+				<slot name="icon">
+					<view class="flex flex-center pr-16">
+						<tm-icon style="line-height:0px" :color="_leftIconColor" :font-size="24" :name="_leftIcon"></tm-icon>
+					</view>
 				</slot>
-				<view class="flex flex-row flex-12" style="width:0px">
+				<view class="flex  flex-1" style="width:0px">
 					<slot name="title" :data="{ isActive: isActive }">
-						<tm-text  :dark="props.dark"  :followDark="props.followDark"
+						<tm-text _class=""  :dark="props.dark"  :followDark="props.followDark"
 							:fontSize="30" :color="isActive ? props.activeColor : ''"
-							_style="line-height:88rpx;" :label="props.title"></tm-text>
+							 :label="props.title"></tm-text>
 					</slot>
+				</view>
+				<view v-if="_tmCollapseIconPos=='right'" class="pl-16  flex-center" style="width:50rpx">
+					<tm-icon  :dark="props.dark"  :followDark="props.followDark"
+						 :color="isActive ? props.activeColor : ''"
+						:name="isActive ? 'tmicon-sort-down' : 'tmicon-caret-right'" :font-size="24"
+						></tm-icon>
 				</view>
 			</view>
 		</tm-sheet>
 		
-		<view v-if="isActive" class="px-24 pt-24 pb-24">
-			<slot></slot>
+		<view v-if="isActive" class="px-24 pt-24 pb-24  flex overflow">
+			<view class="flex content"  :class="[ isActiveAfter?'on':'']">
+				<slot></slot>
+			</view>
 		</view>
 	</view>
 </template>
@@ -37,6 +50,8 @@ import {
 	computed,
 	ref,
 	inject,
+	watchEffect,
+	nextTick,
 } from 'vue';
 import tmSheet from "../tm-sheet/tm-sheet.vue";
 import tmText from "../tm-text/tm-text.vue";
@@ -72,14 +87,26 @@ const props = defineProps({
 	},
 	padding: {
 		type: Array,
-		default: () => [32, 0],
+		default: () => [32, 24],
 	},
 	disabled: {
 		type: [Boolean, String],
 		default: false
 	},
+	leftIcon:{
+		type: [String],
+		default: ''
+	},
+	//默认为自动的activeColor颜色。
+	leftIconColor:{
+		type: [String],
+		default: ''
+	}
 })
 const _activekeyArray = inject("tmCollapseKeyList", computed(()=>[]))
+const _tmCollapseIconPos = inject("tmCollapseIconPos", computed(()=>"left"))
+const _leftIcon = computed(()=>props.leftIcon)
+const isActiveAfter = ref(false)
 //父级方法。
 let parent = proxy.$parent
 
@@ -94,18 +121,27 @@ if(parent){
 	//向父级缓存本子组件的key值。
 	parent.pushKey(props.name)
 }
-
-
 const cborder = ref(props.border ? props.border : parent.border);
-
-
 const isActive = computed(() => {
 	let index = _activekeyArray.value.findIndex(el => {
 		return el == props.name;
 	})
 	return index > -1;
 })
-
+const _leftIconColor = computed(()=>{
+	if(props.leftIconColor) return props.leftIconColor;
+	if(props.leftIconColor===""&&props.activeColor!==""&&isActive.value) return props.activeColor;
+	return ""
+})
+watchEffect(()=>{
+	if(isActive.value){
+		setTimeout(function() {
+			isActiveAfter.value = true;
+		}, 20);
+	}else{
+		isActiveAfter.value = false
+	}
+})
 function openAndClose(e) {
 	emits("click", e)
 	if (props.disabled) return;
@@ -113,5 +149,24 @@ function openAndClose(e) {
 }
 </script>
 
-<style>
+<style scoped>
+/* #ifndef APP-NVUE */
+.content{
+	transition-duration: 1s;
+	transition-timing-function:linear;
+	transition-delay: 0ms;
+	transition-property: max-height;
+	max-height: 0px;
+	overflow: hidden;
+	box-sizing: border-box;
+	will-change: max-height;
+}
+.content.on{
+	max-height:1000px;
+}
+.content.off{
+	max-height:0px;
+}
+/* #endif */
+
 </style>

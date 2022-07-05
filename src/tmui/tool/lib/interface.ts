@@ -62,6 +62,7 @@ export interface cssstyle {
     disablecolor?: string,//禁用的项目或者表单暗黑下
     textDisableColor?: string,//文本禁用色.暗黑下
     isBlackAndWhite?:boolean,//该主题是否是黑白色系。
+    color?:string//原始颜色未处理过的。
 }
 
 //颜色主题对象。

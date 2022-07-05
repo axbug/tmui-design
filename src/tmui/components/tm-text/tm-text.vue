@@ -1,7 +1,7 @@
 <template>
-  <view class="flex " style="line-height: 0">
+  <view :render-whole="true" class="flex " style="line-height: 0">
     <!-- #ifdef APP-PLUS-NVUE -->
-    <text @click="emits('click', $event)" :selectable="selectable" :user-select="selectable"
+    <text :render-whole="true" @click="emits('click', $event)" :selectable="selectable" :user-select="selectable"
       :class="[_fontSize ? '' : 'text-size-m', customClass]" :style="[
         {
           lineHeight:
@@ -82,7 +82,6 @@ const textColor = computed(() => {
   //如果定义了颜色，但不是值，而是主题色，则返回对应的主题文本色。
   if (props.color && !isColorHex) {
     let nowcolor: colorThemeType = theme.getColor(props.color);
-
     return nowcolor.csscolor;
   }
   if (!appTextColor) {

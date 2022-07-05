@@ -55,8 +55,8 @@
 		:style="[{height:btnSizeObj.h+'rpx'},customCSSStyle]" 
 		style="border: 0px solid rgba(0, 0, 0, 0);background: rgba(0, 0, 0, 0);border-radius: 0px;">
 			<slot>
-				<tm-icon v-if="_icon" :userInteractionEnabled="false" :_class="_label?'pr-10':''" :fontSize="btnSizeObj.fontSize*0.9" :name="_icon"></tm-icon>
-				<tm-text :userInteractionEnabled="false" :fontSize="btnSizeObj.fontSize" :label="_label"></tm-text>
+				<tm-icon v-if="_icon" :userInteractionEnabled="false"  :color="_fontColor"  :_class="_label?'pr-10':''" :fontSize="btnSizeObj.fontSize*0.9" :name="_icon"></tm-icon>
+				<tm-text :userInteractionEnabled="false" :color="_fontColor" :fontSize="btnSizeObj.fontSize"  :label="_label"></tm-text>
 			</slot>
 		</button>
 	</tm-sheet>
@@ -79,23 +79,23 @@ import {custom_props,computedClass,computedStyle} from "../../tool/lib/minxs";
  * @description 事件属性与原生 一 致
  * @links 见官网：https://uniapp.dcloud.io/component/button.html
  */
-const emits = defineEmits(
-[
-	"click",
-	"touchstart",
-	'touchmove',
-	'touchcancel',
-	'touchend',
-	'tap',
-	'longpress',
-	'getphonenumber',
-	'getuserinfo',
-	'getUserProfile',
-	'error',
-	'opensetting',
-	'launchapp',
-	'contact'
-])
+const emits = defineEmits<{
+  (e: 'click', event: Event|TouchEvent): void
+  (e: 'touchstart', event: Event|TouchEvent): void
+  (e: 'touchmove', event: Event|TouchEvent): void
+  (e: 'touchcancel', event: Event|TouchEvent): void
+  (e: 'touchend', event: Event|TouchEvent): void
+  (e: 'tap', event: Event|TouchEvent): void
+  (e: 'longpress', event: Event|TouchEvent): void
+  (e: 'getphonenumber', event: any): void
+  (e: 'getuserinfo', event: any): void
+  (e: 'getUserProfile', event: any): void
+  (e: 'error', event: any): void
+  (e: 'opensetting', event: any): void
+  (e: 'launchapp', event: any): void
+  (e: 'contact', event: any): void
+}>()
+
 const {proxy} = <ComponentInternalInstance>getCurrentInstance();
 const props = defineProps({
 	...custom_props,
@@ -117,6 +117,10 @@ const props = defineProps({
 	fontSize:{
 		type:Number,
 		default:0
+	},
+	fontColor:{
+		type:String,
+		default:""
 	},
 	margin:{
 		type:Array as PropType<Array<number>>,
@@ -253,7 +257,7 @@ const btnSizeObj = computed(()=>{
 		round:props.round,
 	}
 })
-
+const _fontColor = computed(()=>props.fontColor)
 
 
 function touchstart(e:Event){

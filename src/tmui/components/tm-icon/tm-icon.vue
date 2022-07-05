@@ -1,5 +1,5 @@
 <template>
-	<view class="flex flex-row flex-row-center-center" 
+	<view :render-whole="true" class="flex flex-row flex-row-center-center" 
 	:style="[{ marginRight: custom_space_size[0] + 'rpx', 
 	marginBottom: custom_space_size[1] + 'rpx' }]"
 	>
@@ -13,7 +13,7 @@
 		></text>
 		<!-- #endif  -->
 		<!-- #ifdef APP-NVUE || APP-PLUS-NVUE -->
-		<text
+		<text :render-whole="true"
 			ref="icon"
 			@click="clickhandle"
 			@longpress="emits('longpress',$event)"
@@ -24,7 +24,7 @@
 			{{ iconComputed }}
 		</text>
 		<!-- #endif  -->
-		<image
+		<image :render-whole="true"
 			@click="clickhandle"
 			@longpress="emits('longpress',$event)"
 			ref="icon"

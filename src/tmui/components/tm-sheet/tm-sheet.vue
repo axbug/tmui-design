@@ -5,7 +5,7 @@
  * @Description: 文件
 -->
 <template>
-  <view v-if="_blue_sheet" :blurEffect="_blurEffect" @click="emits('click', $event)" @longpress="longpress" @touchend="touchend"
+  <view :render-whole="true" v-if="_blue_sheet" :blurEffect="_blurEffect" @click="emits('click', $event)" @longpress="longpress" @touchend="touchend"
     @touchstart="touchstart" @touchcancel="touchcancel" @mousedown="mousedown" @mouseup="mouseup"
     @mouseleave="mouseleave" :class="[
       'flex flex-col', parenClass_p,
@@ -25,7 +25,7 @@
   !_transprent && _blur ? { 'backdrop-filter': 'blur(10px)' } : '',
   customCSSStyle,
 ]">
-    <view :class="['flex  flex-col flex-1', customClass]" :style="contStyle_p">
+    <view :render-whole="true" :class="['flex  flex-col flex-1', customClass]" :style="contStyle_p">
       <slot></slot>
     </view>
   </view>

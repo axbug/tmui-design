@@ -63,9 +63,9 @@ const props = defineProps({
 	}
 })
 const _modelVal = ref({})
-watchEffect(()=>_modelVal.value = props.modelValue);
 //备份，重置时，使用。
 const _backModelVal = {...props.modelValue}
+watchEffect(()=>_modelVal.value = props.modelValue);
 //收集的字段。状态。它与_modelVal是有区别的，用户提供的字段，不一定就会在页面中存在，需要与已经渲染的字段进行匹配
 const _callBackModelVal:Ref<Array<formItem>> = ref([])
 const tmFormComnameId = "tmFormId"
@@ -83,16 +83,17 @@ provide("tmFormLabelWidth",computed(()=>props.labelWidth))
 provide("tmFormLabelAlign",computed(()=>props.labelAlign))
 provide("tmFormLayout",computed(()=>props.layout))
 provide("tmFormBorder",computed(()=>props.border))
+let timid = 56321326898746;
 function reset(){
     formFunCallBack.value = ""
     nextTick(()=>{
         formFunCallBack.value = 'reset'
-        nextTick(()=>{
+        clearTimeout(timid)
+        timid = setTimeout(function() {
             emits("reset")
             emits("update:modelValue",{..._backModelVal})
-        })
+        }, 200);
     })
-    
 }
 function clearValidate(){
     formFunCallBack.value = ""
@@ -121,7 +122,6 @@ function submit(){
              _callBackModelVal.value.forEach(el=>{
                setObjectVal(data,el.field,el.value)
             })
-            console.log({data:data,validate:isPass})
             //validate是否检验通过。
             emits("submit",{data:data,validate:isPass})
         })

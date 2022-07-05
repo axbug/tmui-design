@@ -4,14 +4,14 @@
 			:style="[tmcomputed.borderCss, props.vertical ? { width: '0px', height: props.height + 'rpx' } : '']"
 			:class="[props.vertical ? `mx-${props.margin[0]}` : `my-${props.margin[1]}`]"></view>
 		<view v-if="label && !props.vertical" class="flex flex-row flex-center">
-			<view :style="[tmcomputed ? { backgroundColor: tmcomputed.border, height: props.border + 'rpx' } : '']"
+			<view :style="[tmcomputed ? { backgroundColor: (props.realColor?tmcomputed.color:tmcomputed.border), height: props.border + 'rpx' } : '']"
 				:class="[`my-${props.margin[1]}`, align == 'left' ? 'flex-2' : '', align == 'right' ? 'flex-10' : '', align == 'center' ? 'flex-1' : '']">
 			</view>
 			<view :class="[(isDark ? 'opacity-4' : '')]">
 				<tm-text :fontSize="26" :dark="isDark" :followTheme="props.followTheme" :color="props.fontColor"
 					:label="props.label" :_class="['mx-32']"></tm-text>
 			</view>
-			<view :style="[tmcomputed ? { backgroundColor: tmcomputed.border, height: props.border + 'rpx' } : '']"
+			<view :style="[tmcomputed ? { backgroundColor:(props.realColor?tmcomputed.color:tmcomputed.border), height: props.border + 'rpx' } : '']"
 				:class="[`my-${props.margin[1]}`, align == 'left' ? 'flex-10' : '', align == 'right' ? 'flex-2' : '', align == 'center' ? 'flex-1' : '']">
 			</view>
 		</view>
@@ -51,7 +51,7 @@ const props = defineProps({
 		default: 'grey-1'
 	},
 	vertical: {
-		type: [Boolean, String],
+		type: [Boolean],
 		default: false
 	},
 	height: {
@@ -74,7 +74,11 @@ const props = defineProps({
 		type: [Number],
 		default: 1
 	},
-
+	//使用原始颜色为线条色，而不使用计算过的颜色值。
+	realColor:{
+		type: [Boolean],
+		default: false
+	}
 });
 //线的方向。
 const borderDir = computed(() => props.vertical ? 'left' : 'bottom');

@@ -61,7 +61,7 @@ import {
 const {
 	proxy
 } = getCurrentInstance();
-const emits = defineEmits(['load', 'error', 'click', 'delete'])
+const emits = defineEmits(['load', 'error', 'click', 'delete','close'])
 const props = defineProps({
 	...custom_props,
 	//外部间隙
@@ -115,12 +115,12 @@ const props = defineProps({
 	},
 	//是否开启预览。
 	preview: {
-		type: [Boolean, String],
+		type: [Boolean],
 		default: false
 	},
 	//是否开启图片额外插槽显示内容。
 	extra: {
-		type: [Boolean, String],
+		type: [Boolean],
 		default: false
 	},
 	extraPosition: {
@@ -129,12 +129,12 @@ const props = defineProps({
 	},
 	//展示关闭删除按钮。
 	delete: {
-		type: [Boolean, String],
+		type: [Boolean],
 		default: false
 	},
 	//是否允许点击delete图标关闭自己，如果为false,将仅触发delete事件，本身图片不会被关闭。
 	allowDelete: {
-		type: [Boolean, String],
+		type: [Boolean],
 		default: true
 	},
 	//图片绽放模式。
@@ -226,13 +226,14 @@ async function del() {
 	if (proxy.$refs?.aniplay) {
 		proxy.$refs.aniplay.play();
 	} else {
-
 		isRmove.value = true;
+		emits("close", props.src)
 	}
 }
 
 function aniEnd() {
 	isRmove.value = true;
+	emits("close", props.src)
 }
 </script>
 

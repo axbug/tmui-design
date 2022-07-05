@@ -9,15 +9,18 @@
         !isH5&&(BtnPos == 'tl'||BtnPos == 'tc'||BtnPos == 'tr')?{top:'0px'}:'',
         parent_style
     ]">
-
+        <!-- 主按钮 -->
         <view :style="[{width:(props.width)+'rpx',height:(props.height)+'rpx'}]" class="flex-center">
-            <tm-button :followTheme="props.followTheme" @click="onclick" _class="flex flex-col flex-col-center-center" :shadow="3" 
+            <tm-sheet :transprent="true" :padding="[0,0]" :margin="[0,0]" :color="_btn.color">
+                <tm-button :followTheme="props.followTheme" @click="onclick" _class="flex flex-col flex-col-center-center" :shadow="3" 
             :linear="_btn.linear" :linear-deep="_btn.linearDeep" :color="_btn.color" :margin="[0, 0]" 
             :round="16" :padding="[0, 0]" :width="props.width-12" :height="props.height-12">
                     <tm-icon :userInteractionEnabled="false" :follow-dark="false" :color="_btn.fontColor" :name="_btn.icon" :font-size="_btn.iconSize"></tm-icon>
                     <tm-text :userInteractionEnabled="false" :follow-dark="false" :color="_btn.fontColor" v-if="_btn.label" :label="_btn.label" :font-size="_btn.fontSize"></tm-text>
             </tm-button>
+            </tm-sheet>
         </view>
+        <!-- 子菜单 -->
         <view :userInteractionEnabled="showActions" v-if="_actionsItem.length>0&&showActions" class="absolute flex " :style="[AcionPos_xy]">
             <view :style="[{width:(props.width)+'rpx',height:(props.height)+'rpx'}]" class="flex-center">
                 <tm-sheet

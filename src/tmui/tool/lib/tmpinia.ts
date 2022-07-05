@@ -13,7 +13,7 @@ if(pdefault_cookies_colorArrayList){
 	themeObj = new themeColor.themeColors([...themeObj.colors,...result2])
 }
 const colorArray = themeObj.colors;
-const os = uni.getSystemInfoSync()?.platform??""
+const os = uni.getSystemInfoSync()?.osName??""
 u.setCookie('colorArrayList', colorArray)
 // 为 store state 声明类型
 export interface State {

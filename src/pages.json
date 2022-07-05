@@ -19,152 +19,171 @@
 			"style": {
 				"navigationBarTitleText": "搜索组件"
 			}
-		},{
-            "path" : "pages/index/settheme",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "设置主题",
-                "enablePullDownRefresh": false,
+		}, {
+			"path": "pages/index/settheme",
+			"style": {
+				"navigationBarTitleText": "设置主题",
+				"enablePullDownRefresh": false,
 				"navigationStyle": "custom"
-            }
-            
-        }
+			}
+
+		}
 
 	],
-	"subPackages": [
-		{
-			"root": "pages/chart",
-			"pages": [
-				{
+	"subPackages": [{
+			"root": "pages/yewu",
+			"pages": [{
 					"path": "index",
 					"style": {
-						"navigationBarTitleText": "Echarts图表"
+						"navigationBarTitleText": "业务营销"
 					}
-				},{
-					"path": "chart",
+				}, {
+					"path": "coupon",
 					"style": {
-						"navigationBarTitleText": "图表示例"
+						"navigationBarTitleText": "优惠券 Coupon"
 					}
+
 				}
+
 			]
+		},
+		{
+			"root": "pages/chart",
+			"pages": [{
+				"path": "index",
+				"style": {
+					"navigationBarTitleText": "图表 Echarts"
+				}
+			}, {
+				"path": "chart",
+				"style": {
+					"navigationBarTitleText": "图表示例"
+				}
+			}]
 		},
 		{
 			"root": "pages/other",
-			"pages": [
-				{
-					"path": "index",
-					"style": {
-						"navigationBarTitleText": "其它组件"
-					}
-				},{
-					"path": "cropimg",
-					"style": {
-						"navigationBarTitleText": "图片裁剪 Cropimg"
-					}
-				},{
-					"path": "floatButton",
-					"style": {
-						"navigationBarTitleText": "悬浮按钮 FloatButton"
-					}
-				},{
-					"path": "sticky",
-					"style": {
-						"navigationBarTitleText": "吸顶 Sticky"
-					}
-				},{
-					"path": "codeinput",
-					"style": {
-						"navigationBarTitleText": "验证码输入框 Codeinput"
-					}
+			"pages": [{
+				"path": "index",
+				"style": {
+					"navigationBarTitleText": "其它组件"
 				}
-			]
+			}, {
+				"path": "cropimg",
+				"style": {
+					"navigationBarTitleText": "图片裁剪 Cropimg"
+				}
+			}, {
+				"path": "floatButton",
+				"style": {
+					"navigationBarTitleText": "悬浮按钮 FloatButton"
+				}
+			}, {
+				"path": "sticky",
+				"style": {
+					"navigationBarTitleText": "吸顶 Sticky"
+				}
+			}, {
+				"path": "codeinput",
+				"style": {
+					"navigationBarTitleText": "验证码输入框 CodeInput"
+				}
+			}, {
+				"path": "signBoard",
+				"style": {
+					"navigationBarTitleText": "签名板 SignBoard",
+					"disableScroll": true
+				}
+			}]
 		},
 		{
 			"root": "pages/daohang",
-			"pages": [
-				{
-					"path": "index",
-					"style": {
-						"navigationBarTitleText": "导航类组件"
-					}
-				},{
-					"path": "actionMenu",
-					"style": {
-						"navigationBarTitleText": "底部操作栏 ActionMenu"
-					}
-				},{
-					"path": "navbar",
-					"style": {
-						"navigationBarTitleText": "标题导航栏 Navbar",
-						"navigationStyle": "custom"
-					}
-				},{
-					"path": "segtab",
-					"style": {
-						"navigationBarTitleText": "分段器 Segtab"
-					}
-				},{
-					"path": "dropdown",
-					"style": {
-						"navigationBarTitleText": "下拉选项 Dropdown"
-					}
-				},{
-					"path": "pagination",
-					"style": {
-						"navigationBarTitleText": "分页 Pagination"
-					}
-				},{
-					"path": "steps",
-					"style": {
-						"navigationBarTitleText": "步骤条 Steps"
-					}
-				},{
-					"path": "tabbar",
-					"style": {
-						"navigationBarTitleText": "底部导航 Tabbar"
-					}
+			"pages": [{
+				"path": "index",
+				"style": {
+					"navigationBarTitleText": "导航类组件"
 				}
-			]
+			}, {
+				"path": "actionMenu",
+				"style": {
+					"navigationBarTitleText": "底部操作栏 ActionMenu"
+				}
+			}, {
+				"path": "navbar",
+				"style": {
+					"navigationBarTitleText": "标题导航栏 Navbar",
+					"navigationStyle": "custom"
+				}
+			}, {
+				"path": "segtab",
+				"style": {
+					"navigationBarTitleText": "分段器 Segtab"
+				}
+			}, {
+				"path": "dropdown",
+				"style": {
+					"navigationBarTitleText": "下拉选项 Dropdown"
+				}
+			}, {
+				"path": "pagination",
+				"style": {
+					"navigationBarTitleText": "分页 Pagination"
+				}
+			}, {
+				"path": "steps",
+				"style": {
+					"navigationBarTitleText": "步骤条 Steps"
+				}
+			}, {
+				"path": "tabbar",
+				"style": {
+					"navigationBarTitleText": "底部导航 Tabbar"
+				}
+			}]
 		},
 		{
 			"root": "pages/fankui",
-			"pages": [
-				{
+			"pages": [{
 					"path": "index",
 					"style": {
 						"navigationBarTitleText": "反馈组件"
 					}
-				},{
+				}, {
 					"path": "alert",
 					"style": {
 						"navigationBarTitleText": "警告提示 Alert"
 					}
-				},{
+				}, {
+					"path": "rollNotice",
+					"style": {
+						"navigationBarTitleText": "滚动通知 RollNotice"
+					}
+				}, {
 					"path": "drawer",
 					"style": {
 						"navigationBarTitleText": "抽屉 Drawer"
 					}
-				},{
+				}, {
 					"path": "overlay",
 					"style": {
 						"navigationBarTitleText": "遮罩 Overlay"
 					}
-				},{
+				}, {
 					"path": "darglist",
 					"style": {
-						"navigationBarTitleText": "列表拖动排序 DragList" 
+						"navigationBarTitleText": "列表拖动排序 DragList"
 					}
-				},{
+				}, {
 					"path": "progress",
 					"style": {
 						"navigationBarTitleText": "进度条 Progress"
 					}
-				},{
+				}, {
 					"path": "spin",
 					"style": {
 						"navigationBarTitleText": "加载中 Spin"
 					}
-				},{
+				}, {
 					"path": "skeleton",
 					"style": {
 						"navigationBarTitleText": "骨架屏 Skeleton"
@@ -193,17 +212,15 @@
 					"style": {
 						"navigationBarTitleText": "动效 Translate"
 					}
+				}, {
+					"path": "slideSwitch",
+					"style": {
+						"navigationBarTitleText": "滑动开关 slideSwitch",
+						"enablePullDownRefresh": false
+					}
+
 				}
-			    ,{
-                    "path" : "slideSwitch",
-                    "style" :                                                                                    
-                {
-                    "navigationBarTitleText": "滑动开关 slideSwitch",
-                    "enablePullDownRefresh": false
-                }
-                
-                }
-            ]
+			]
 		},
 		{
 			"root": "pages/form",
@@ -230,12 +247,12 @@
 					"style": {
 						"navigationBarTitleText": "城市选择 City"
 					}
-				},{
+				}, {
 					"path": "form",
 					"style": {
 						"navigationBarTitleText": "表单 Form"
 					}
-				},{
+				}, {
 					"path": "picker",
 					"style": {
 						"navigationBarTitleText": "选择器 Picker"

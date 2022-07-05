@@ -31,6 +31,7 @@ const list = ref([
     { path: "/pages/fankui/skeleton", title: "骨架屏 Skeleton" },
     { path: "/pages/fankui/translate", title: "动效 Translate" },
     { path: "/pages/fankui/notification", title: "通知提醒 Notification" },
+    { path: "/pages/fankui/rollNotice", title: "滚动通知 RollNotice" },
     
 
 ])

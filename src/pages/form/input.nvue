@@ -5,7 +5,7 @@
 			<tm-divider></tm-divider>
 			<tm-input ></tm-input>
 			<tm-input :margin="[0,24]" password placeholder="请输入密码,显示隐藏内容"  prefix="tmicon-lock-fill" ></tm-input>
-			<tm-input showCharNumber :maxlength="100" :border="1" color="grey-5" :height="150" type="textarea"></tm-input>
+			<tm-input v-model="testtext" confirm-hold confirm-type="换行" showCharNumber :maxlength="100" :border="1" color="grey-5" :height="150" type="textarea"></tm-input>
 		</tm-sheet>
 		<tm-sheet>
 			<tm-text :font-size="24" _class="font-weight-b" label="一些其它常见示例"></tm-text>
@@ -41,4 +41,5 @@ import tmDivider from "@/tmui/components/tm-divider/tm-divider.vue"
 const modeltype = ref('day')
 const dateStr = ref('')
 const showdate = ref(false)
+const testtext = ref("哈哈")
 </script>

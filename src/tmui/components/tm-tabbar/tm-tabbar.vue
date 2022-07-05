@@ -1,13 +1,12 @@
 <template>
-	<view class="fixed l-0 b-0" :style="{ width: _width + 'px', height: _totalBarHeight + 'px',transform:`translateY(${props.bottom}rpx)` }">
-		
-		
+	<view class="fixed l-0 b-0  flex" :style="{ width: _width + 'px', height: _totalBarHeight + 'px',transform:`translateY(${props.bottom}rpx)` }">
 		<tm-sheet
 			@click="emits('click', $event)"
 			:blur="_blur"
 			:color="props.color"
-			_class="relative"
-			_style="top:15px;"
+			parenClass="relative"
+			class="relative"
+			style="top:15px;"
 			:followTheme="props.followTheme"
 			:dark="props.dark"
 			:round="props.round"
@@ -27,7 +26,7 @@
 		>
 			
 		</tm-sheet>
-		<view class="absolute flex flex-col" :style="{ width: _width + 'px', height: _totalBarHeight + 'px'}">
+		<view class="absolute flex flex-col l-0 t-0" :style="{ width: _width + 'px', height: _totalBarHeight + 'px',top:'-15px'}">
 			<view class="relative barcont flex flex-row flex-row-center-center flex-around flex-1" 
 			:style="{ width: _width + 'px'}"><slot></slot></view>
 		</view>
@@ -87,14 +86,15 @@ const props = defineProps({
 	}
 	
 });
-const _width = uni.upx2px(props.width)||uni.getSystemInfoSync().windowWidth;
+let sys = uni.getSystemInfoSync();
+const _width = uni.upx2px(props.width)||(sys?.windowWidth??0);
 const _blur = computed(()=>props.blur)
 const _activeUrl= ref("")
 const _activeUid= ref("")
 const tmTabbarId = "tmTabbarId";
 const _cachlist:Ref<Array<string|number>> = ref([])
 const _showSafe = ref(props.showSafe)
-const win_bottom = uni.getSystemInfoSync()?.safeAreaInsets?.bottom??0;
+const win_bottom =sys?.safeAreaInsets?.bottom??0;
 if(win_bottom>0){
 	_showSafe.value = true;
 }

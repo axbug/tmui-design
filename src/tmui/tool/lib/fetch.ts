@@ -35,6 +35,10 @@ function request(cog:fetchConfig = config,complete?:Function,beforeRequest?:Func
             withCredentials:newConfig.withCredentials,
             firstIpv4:newConfig.firstIpv4,
             async success(result) {
+				if(result.statusCode !==200){
+					reject(result)
+					return;
+				}
                 if(typeof afterRequest === 'function'){
                     let opts = await afterRequest(result);
                     if(typeof opts !=='object'){
@@ -55,10 +59,10 @@ function request(cog:fetchConfig = config,complete?:Function,beforeRequest?:Func
         })
     })
 }
+var beforeRequest:Function = (val:fetchConfig)=>val;
+var afterRequest:Function = (val:fetchConfig)=>val;
 export class fetchNet {
-    beforeRequest:Function = (val:fetchConfig)=>val;
-    afterRequest:Function = (val:fetchConfig)=>val;
-    
+
     /**
      * 构建新的请求
      * @param cog 请示配置见：fetchConfig
@@ -68,18 +72,18 @@ export class fetchNet {
     constructor(cog:fetchConfig,beforeRequest?:Function,afterRequest?:Function){
         config = {...config,...(cog||{})};
         if(typeof beforeRequest == 'function'){
-            this.beforeRequest = beforeRequest;
+            beforeRequest = beforeRequest;
         }
         if(typeof afterRequest == 'function'){
-            this.afterRequest = afterRequest;
+            afterRequest = afterRequest;
         }
     }
-    static get(url:string,data:object={},method:fetchConfigMethod ="GET",opts:fetchConfig={}){
-        let cfg:fetchConfig =  {...config,...(opts||{}),url:url,method:method,data:data};
+    static get(url:string,data:object={},opts:fetchConfig={}){
+        let cfg:fetchConfig =  {...config,...(opts||{}),url:url,method:"GET",data:data};
         return request(cfg)
     }
-    static post(url:string,data:object={},method:fetchConfigMethod ="POST",opts:fetchConfig={}){
-        let cfg:fetchConfig =  {...config,...(opts||{}),url:url,method:method,data:data};
+    static post(url:string,data:object={},opts:fetchConfig={}){
+        let cfg:fetchConfig =  {...config,...(opts||{}),url:url,method:"POST",data:data};
         return request(cfg)
     }
     /**
@@ -87,8 +91,8 @@ export class fetchNet {
      * @param cog 配置
      * @param complete 访问结束后执行的函数
      */
-     request(cog:fetchConfig = config,complete?:Function){
+    static request(cog:fetchConfig = config,beforeFun?:Function,afterFun?:Function,complete?:Function){
         let newConfig = {...config,...cog}
-        return request(newConfig,complete,this.beforeRequest,this.afterRequest);
+        return request(newConfig,complete,(beforeFun||beforeRequest),(afterFun||afterRequest));
     }
 }

@@ -39,6 +39,11 @@
 		border:{
 			type:[Number,String],
 			default:2,
+		},
+		//项目展开和关闭图标的位置，可选left,right，默认是左left.
+		iconPos:{
+			type:String,
+			default:'left'
 		}
 	})
 	
@@ -75,6 +80,7 @@
 	emits("update:active-key",_activeKey.value)
 	defineExpose({tmCollapse:"tmCollapse",setKey:setKey,pushKey:pushKey,border:props.border})
 	provide("tmCollapseKeyList",computed(()=>_activeKey.value))
+	provide("tmCollapseIconPos",computed(()=>props.iconPos))
 </script>
 
 <style>

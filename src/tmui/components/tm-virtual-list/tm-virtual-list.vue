@@ -1,15 +1,30 @@
 <template>
-    <scroll-view :scroll-with-animation="true"  @scroll="scroll" :scroll-y="true" 
-	:style="[{height:_height+'px','overflow-anchor':'auto',width:`${props.width}rpx`}]">
-	<tm-translate>
-		<view class="flex flex-col relative" :style="[{height:totalHeight_rpx+'rpx'}]">
-		    <view class="absolute l-0 t-0 flex flex-col" :style="{transform:`translateY(${scrollTop}px)`,width:`${props.width}rpx`}">
-		        <slot name="default" :data="virtualData"></slot>
-		    </view>
-		</view>
-	</tm-translate>
-       
-    </scroll-view>
+    <view class="flex flex-col">
+        <scroll-view  :refresher-triggered="Loading"  @scrolltolower="pullEnd"  :scroll-with-animation="true"  @scroll="scroll" :scroll-y="true" 
+	    :style="[{height:rootHeight+'px','overflow-anchor':'auto',width:`${props.width}rpx`}]">
+            <tm-sheet :height="40" unit="px" v-if="Loading&&pullType=='top'"  :margin="[0,0]" _class="flex flex-col flex-col-center-center">
+                <tm-icon :color="props.color"  :font-size="24" v-if="status=='loading'" spin name="tmicon-loading"></tm-icon>
+                <view @click="reset('pullTop')" v-if="status=='error'" class="flex flex-row flex-center">
+                    <tm-icon :userInteractionEnabled="false" color="red" :font-size="24"  name="tmicon-times-circle-fill"></tm-icon>
+                    <tm-text :userInteractionEnabled="false" color="red" :font-size="24" _class="pl-16" label="加载失败,点我重试"></tm-text>
+                </view>
+            </tm-sheet>
+            <view class="flex flex-col relative" :style="[{height:totalHeight+'px'}]">
+                <view class="absolute l-0 t-0 flex flex-col" :style="{transform:`translateY(${offsetY}px)`,width:`${props.width}rpx`}">
+                    <slot name="default" :data="visibleItems"></slot>
+                </view>
+            </view>
+            <tm-sheet :height="40" unit="px" v-if="Loading&&pullType=='bottom'"  :margin="[0,0]" _class="flex flex-col flex-col-center-center">
+                <tm-icon :color="props.color" :font-size="24" v-if="status=='loading'" spin name="tmicon-loading"></tm-icon>
+                <view @click="reset('pullEnd')" v-if="status=='error'" class="flex flex-row flex-center">
+                    <tm-icon :userInteractionEnabled="false" color="red" :font-size="24"  name="tmicon-times-circle-fill"></tm-icon>
+                    <tm-text :userInteractionEnabled="false" color="red" :font-size="24" _class="pl-16" label="加载失败,点我重试"></tm-text>
+                </view>
+            </tm-sheet>
+        </scroll-view>
+        
+    </view>
+
 </template>
 <script lang="ts" setup>
 /**
@@ -30,8 +45,11 @@
 		imglist.value.push('https://picsum.photos/200/300?id='+i)
 	}
  */
-import { ref,computed,nextTick } from "vue";
-import tmTranslate from "../tm-translate/tm-translate.vue"
+import { ref,computed,nextTick, PropType, onMounted } from "vue";
+import tmSheet from "../tm-sheet/tm-sheet.vue";
+import tmIcon from "../tm-icon/tm-icon.vue";
+import tmText from "../tm-text/tm-text.vue";
+const emits = defineEmits(["pullEnd","pullStart","status"])
 const props = defineProps({
     width: {
         type: Number,
@@ -51,18 +69,93 @@ const props = defineProps({
         type: Array,
         default: () => [],
     },
+    //触底结束或者下拉刷新前执行，可以返回Promise<boolean>,真，结束触底操作，假触底加载中
+    load:{
+        type:[Function,Boolean],
+        default:()=>true
+    },
+    //首次加载渲染时，是否触发加载数据事件。
+    firstLoad:{
+        type:Boolean,
+        default:true
+    },
+    color:{
+        type:String,
+        default:"primary"
+    }
 });
-const _itemHeight = uni.upx2px(props.itemHeight);
-const _height = uni.upx2px(props.height);
-const _datalist = computed(()=>props.data)
-//总共显示的个数。
-const colNum = Math.ceil(_height / _itemHeight)
-const totalHeight = computed(()=>_datalist.value.length*_itemHeight);
-const totalHeight_rpx = computed(()=>_datalist.value.length*props.itemHeight);
-const totalWidth = computed(()=>uni.upx2px(props.width))
-const scrollHeight = ref(totalHeight.value);
+const rowHeight = uni.upx2px(props.itemHeight)
+const rootHeight = uni.upx2px(props.height)
 const scrollTop = ref(0)
-const newScrollTop = ref(0)
+const renderAhead = 2
+const rowCount = computed(()=>props.data.length)
+const childPositions = computed(()=>{
+    const results = [0];
+    for (let i = 1; i < rowCount.value; i++) {
+        results.push(results[i - 1] + rowHeight);
+    }
+    return results;
+})
+const totalHeight = computed(()=>{
+    return rowCount.value
+                ? childPositions.value[rowCount.value - 1] + rowHeight
+                : 0;
+})
+const firstVisibleNode = computed(()=>findStartNode())
+const startNode = computed(()=>Math.max(0, firstVisibleNode.value - renderAhead))
+const lastVisibleNode = computed(()=>findEndNode())
+const endNode = computed(()=>Math.min(rowCount.value - 1, lastVisibleNode.value +renderAhead))
+const visibleNodeCount = computed(()=>endNode.value - startNode.value + 1)
+const offsetY = computed(()=>childPositions.value[startNode.value])
+const visibleItems = computed(()=>{
+    return props.data.slice(
+        startNode.value,
+        startNode.value + visibleNodeCount.value,
+    );
+})
+
+const Loading = ref(false)
+const pullType = ref("")
+/**
+ * never 从未加载过。
+ */
+type status = "loading"|"error"|"success"|"never"
+const status = ref(props.status)
+
+function findStartNode() {
+    let startRange = 0;
+    let endRange = rowCount.value ? rowCount.value - 1 : rowCount.value;
+
+    while (endRange !== startRange) {
+        const middle = Math.floor((endRange - startRange) / 2 + startRange);
+
+        if (
+            childPositions.value[middle] <= scrollTop.value
+            && childPositions.value[middle + 1] > scrollTop.value
+        ) {
+            return middle;
+        }
+        if (middle === startRange) {
+            // edge case - start and end range are consecutive
+            return endRange;
+        }
+        if (childPositions.value[middle] <= scrollTop.value) {
+            startRange = middle;
+        } else {
+            endRange = middle;
+        }
+    }
+    return rowCount.value;
+}
+function findEndNode() {
+    let endNode;
+    for (endNode = firstVisibleNode.value; endNode < rowCount.value; endNode++) {
+        if (childPositions.value[endNode] > childPositions.value[ firstVisibleNode.value] + rootHeight) {
+            return endNode;
+        }
+    }
+    return endNode;
+}
 interface scrollDetailFace {
     deltaX: number,
     deltaY: number,
@@ -71,23 +164,73 @@ interface scrollDetailFace {
     scrollTop: number,
     scrollWidth:number,
 }
-const virtualData = ref([]);
-
 function scroll(e:any){
-    let _detail:scrollDetailFace = e.detail;
-    scrollHeight.value = _detail.scrollHeight;
-	newScrollTop.value = _detail.scrollTop<=0?0:_detail.scrollTop;
-    scrollTop.value = _detail.scrollTop - (_detail.scrollTop % _height);
-    rageData();
+   let detail:scrollDetailFace = e.detail;
+   scrollTop.value = detail.scrollTop
+   if(Math.ceil(scrollTop.value)<-80){
+        pullStart("pullStart")
+   }
+   if(Math.ceil(scrollTop.value)>=0&&status.value=="error"){
+        Loading.value=false;
+   }
 }
-function rageData(){
-    let start = Math.floor(newScrollTop.value / _itemHeight);
-	let chaliang = newScrollTop.value- scrollTop.value
-    let pushIndex = Math.floor(chaliang/ _itemHeight);
-    start = start <=0?0:start;
-    let end = start+colNum+pushIndex;
-    end = end >= _datalist.value.length?_datalist.value.length:end;
-    virtualData.value = <any>_datalist.value.slice(start,end)
+
+const pullStart = async (e:any)=>{
+    emits("pullStart")
+    if (typeof props.load === 'function') {
+        if(Loading.value) return;
+        pullType.value = "top"
+        Loading.value = true;
+        status.value = "loading"
+        let p = await props.load('top');
+        if(typeof p === 'function'){
+            p = await p('top');
+        }
+        if(!p){
+            status.value = "error"
+            return;
+        }
+        Loading.value = false;
+        status.value = "success"
+    }
 }
-rageData();
+
+
+const pullEnd = async (e:any)=>{
+    emits("pullEnd")
+    if (typeof props.load === 'function') {
+        if(Loading.value) return;
+        pullType.value = "bottom"
+        Loading.value = true;
+        status.value = "loading"
+        let p = await props.load('bottom');
+        if(typeof p === 'function'){
+            p = await p('bottom');
+        }
+        if(!p){
+            status.value = "error"
+            return;
+        }
+        Loading.value = false;
+        status.value = "success"
+    }
+}
+
+const reset = function(e:string){
+    Loading.value = false;
+    if(e=='pullEnd'){
+        pullEnd('bottom');
+    }else{
+        pullStart('top');
+    }
+}
+
+onMounted(()=>{
+    if(props.firstLoad){
+        pullStart('top')
+    }
+})
+
+
+
 </script>

@@ -7976,6 +7976,14 @@
   /* #endif */
   display: flex !important; }
 
+.flex-row-center-between {
+  justify-content: space-between !important;
+  align-items: center !important;
+  /* #ifndef APP-PLUS-NVUE */
+  align-content: center;
+  /* #endif */
+  display: flex !important; }
+
 .flex-col-top-start {
   justify-content: flex-start !important;
   align-items: flex-start !important;

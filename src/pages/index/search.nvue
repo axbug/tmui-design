@@ -116,6 +116,8 @@ const totalList = [
 	{ path: "/pages/changyong/text", title: "文本标签 Text" },
 	{ path: "/pages/daohang/navbar", title: "标题导航栏 Navbar" },
 	{ path: "/pages/daohang/tabbar", title: "底部导航 Tabbar" },
+    { path: "/pages/other/signBoard", title: "签名板 SignBoard" },
+	{ path: "/pages/fankui/rollNotice", title: "滚动通知 RollNotice" },
 	
 ]
 const result = ref([])

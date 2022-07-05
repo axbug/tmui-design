@@ -27,7 +27,7 @@
       <view ref="content" 
       :style="{animationDuration:_duration+'s',paddingLeft: (isNvue?0:_Left)+'rpx',width:_Left*list.length+'rpx'}" 
       class="aniRow flex-row flex-row-center-start">
-        <tm-text :font-size="props.fontSize" :color="props.fontColor" @click="emits('click',index)" v-for="(item,index) in _list" :key="index" :label="item" _class="pl-24 text-overflow-1"></tm-text>
+        <tm-text :font-size="props.fontSize" :color="props.fontColor" @click="emits('click',index)" v-for="(item,index) in _list" :key="index" :label="item" _class="pl-24"></tm-text>
       </view>
     </view>
     <view v-if="props.showRight" class="flex flex-row flex-row-center-end" style="width:40rpx">
