@@ -11,7 +11,7 @@ Upload 是一个常用的图片上传组件
 
 ---
 
-### :hot_pepper: 示例
+### :hot_pepper: 图片上传 Upload 示例
 
 <webview url="https://tmui.design/h5/#/pages/form/upload"></webview>
 

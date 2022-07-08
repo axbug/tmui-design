@@ -16,12 +16,12 @@ title: tmui 3.0 组件库
 
 ##### 组件库文档 tmui.design
 
-# 图标
+# 图标 Icon
 图标，提供了一个spin功能用于自动旋转图标在Nvue中使用原生动画
 
 ---
 
-### :hot_pepper: 示例
+### :hot_pepper: 图标 Icon 示例
 
 <webview url="https://tmui.design/h5/#/pages/changyong/icon"></webview>
 

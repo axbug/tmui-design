@@ -11,7 +11,7 @@ Stepper 步进器是应用在数值较少且变动较精确的数值输入场景
 
 ---
 
-### :hot_pepper: 示例
+### :hot_pepper: 步进器 Stepper 示例
 
 <webview url="https://tmui.design/h5/#/pages/form/stepper"></webview>
 

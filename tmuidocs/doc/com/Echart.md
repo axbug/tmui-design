@@ -25,7 +25,7 @@ title: tmui 3.0 组件库
 
 :::
 
-### :hot_pepper: 示例效果
+### :hot_pepper: 图表 Chart 示例效果
 
 <webview url="https://tmui.design/h5/#/pages/chart/index"></webview>
 

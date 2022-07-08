@@ -11,7 +11,7 @@ title: tmui 3.0 组件库
 
 ---
 
-### :hot_pepper: 示例
+### :hot_pepper: 标签 Tag 示例
 
 <webview url="https://tmui.design/h5/#/pages/showdata/tag"></webview>
 
@@ -43,6 +43,7 @@ title: tmui 3.0 组件库
 | load | [Boolean,String] | false | 标签是否处于加载中 |
 | size | [String] | 'm',xs\|s\|m\|n\|g\|lg  |标签尺寸|
 | fontSize | [Number,String] | 0 | 字体大小 |
+| fontColor<Badge type="danger" text="v3.0.63+" vertical="middle" /> | [String] | "" | 默认空表示自动配色，填写了主题色将强制使用填写的颜色。 |
 | closable | [Boolean,String] | false | 是否允许被关闭  |
 | icon | [String] | '' | 图标 |
 | label | [String] | '' | 文字 |

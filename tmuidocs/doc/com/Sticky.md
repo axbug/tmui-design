@@ -11,7 +11,7 @@ title: tmui 3.0 组件库
 
 ---
 
-### :hot_pepper: 示例
+### :hot_pepper: 吸顶 Sticky 示例
 
 <webview url="https://tmui.design/h5/#/pages/other/sticky"></webview>
 

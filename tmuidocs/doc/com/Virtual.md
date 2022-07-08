@@ -7,11 +7,12 @@ title: tmui 3.0 组件库
 ##### 组件库文档 tmui.design
 
 # 虚拟列表 Virtual
- 用来展示长列表数据使用，采用虚拟数据展示，只展示视窗内数据，其它不展示。因此上万条列表数据，也可以轻松展示。
+ 用来展示长列表数据使用，采用虚拟数据展示，只展示视窗内数据，其它不展示。因此上万条列表数据，也可以轻松展示。<br>
+ 已经集成了下拉，触底加载整数事件，封装的非常简单。只要提供load事件即可异步加载数据啦。
 
 ---
 
-### :hot_pepper: 示例
+### :hot_pepper: 虚拟列表 Virtual 示例
 
 <webview url="https://tmui.design/h5/#/pages/showdata/virtual"></webview>
 
@@ -29,19 +30,27 @@ title: tmui 3.0 组件库
 
 ### :seedling: 参数
 本组件含有公共属性 [公共属性](/doc/spec/组件公共样式.md)
+
 | 参数名 | 类型 | 默认值 | 描述 |
 | :--: | :--: | :--: | :-- |
-| width | Number | 300, | 宽度，单位rpx |
-| height | Number | 500, | 高度，单位rpx |
-| itemHeight | Number | 0,required:true, | 项目的高度 |
-| data | Array\<string\> | []| 虚拟列表数据 |
+| width | Number | 300 | 宽度，单位rpx |
+| height | Number | 500 | 高度，单位rpx |
+| itemHeight | Number | 0 | 项目的高度 |
+| color<Badge type="danger" text="v3.0.7+" vertical="middle" /> | String | "primary" | 加载图标的主题色 |
+| data | `Array<string>` | [] | 虚拟列表数据 |
+| firstLoad<Badge type="danger" text="v3.0.7+" vertical="middle" /> | Boolean` | true | 首次渲染时，是否触发load事件。 |
+| load<Badge type="danger" text="v3.0.7+" vertical="middle" /> | `Function,Boolean` | ()=>true | 数据加载事件 |
 
+**load**为数据加载事件,参数加载类型：bottom 触底加载, top 下拉加载 
 
 ### :rose: 事件
-无
+| 事件名 | 参数 | 返回数据 | 描述 |
+| --- | --- | --- | --- |
+| @pull-start<Badge type="danger" text="v3.0.7+" vertical="middle" /> | - | - | 下拉时触发 |
+| @pull-end<Badge type="danger" text="v3.0.7+" vertical="middle" /> | - | - | 触底时触发 |
 
 ### :corn: slot插槽
-默认default，插槽数据名称：data,类型Arrray<any>;
+默认default，插槽数据名称：data,类型`Arrray<any>`;
 
 ### :green_salad: ref方法
 无

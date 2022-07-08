@@ -11,7 +11,7 @@ Switch 开关是用于在两种状态下选择唯一一种状态或值的组件
 
 ---
 
-### :hot_pepper: 示例
+### :hot_pepper: 开关 Switch 示例
 
 <webview url="https://tmui.design/h5/#/pages/form/switch"></webview>
 

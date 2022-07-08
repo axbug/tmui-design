@@ -13,7 +13,7 @@ title: tmui 3.0 组件库
 
 
 
-### :hot_pepper: 示例
+### :hot_pepper: 知提醒 Notification 示例
 
 <webview url="https://tmui.design/h5/#/pages/fankui/notification"></webview>
 

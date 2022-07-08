@@ -16,12 +16,12 @@ title: tmui 3.0 组件库
 
 ##### 组件库文档 tmui.design
 
-# 步骤条
+# 步骤条 Steps
 步骤条，可以方便的预览逻辑，事务条理。需要配合tm-steps-item组件，必须放置tm-steps-item组件才能使用。
 
 ---
 
-### :hot_pepper: 示例
+### :hot_pepper: 步骤条 Steps 示例
 
 <webview url="https://tmui.design/h5/#/pages/daohang/steps"></webview>
 

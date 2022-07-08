@@ -11,7 +11,7 @@ title: tmui 3.0 组件库
 
 ---
 
-### :hot_pepper: 示例效果
+### :hot_pepper: 折叠面板 Collapse 示例效果
 
 <webview url="https://tmui.design/h5/#/pages/showdata/collapse"></webview>
 
@@ -37,6 +37,7 @@ title: tmui 3.0 组件库
 | defaultActiveKey | Array | [] | 默认展开的面板,为下面的CollapseItem的name字段合集 |
 | accordion | Boolean,String | false | 是否设置为单个面板展开，默认fase，允许 多个面板同时展开 |
 | border | Number,String | 2 | 边框 |
+| iconPos | String | "left" | 展开图标的位置，可选left/right |
 
 ## CollapseItem
 本组件含有公共属性 [公共属性](/doc/spec/组件公共样式.md)
@@ -45,10 +46,13 @@ title: tmui 3.0 组件库
 | color | String | white | 主题色 |
 | title | String |  | 面板标题 |
 | name | Number, String |  | 必填，标识，用来展开和关闭的标识,Collapse的activeKey，defaultActiveKey数组标识就是此值 |
-| activeColor | String | primary |  |
+| activeColor | String | primary | 激活时的颜色主题 |
 | margin | Array | [0, 0] | 外间距[x,y]x=左右，y=上下 |
 | padding | Array | [32, 0] | 内间距[x,y]x=左右，y=上下 |
-| disabled | Boolean, String | false | 面板是否可以打开或收起 |
+| disabled | Boolean | false | 面板是否可以打开或收起 |
+| leftIcon | String | "" | 标题前的图标 |  
+| leftIconColor | String | "" | 标题前的图标主题颜色，默认为空即自动配色，当激活时，使用activeColor。如果本属性不为空，将始终使用本属性颜色主题。 |  
+
 
 ### :rose: 事件
 ## Collapse
@@ -62,7 +66,9 @@ title: tmui 3.0 组件库
 | click |  |  |  |
 
 ### :corn: slot插槽
-默认default
+CollapseItem含有<br>
+插槽：title 标题插槽<br>
+icon 即标题前图标插槽
 
 ### :green_salad: ref方法
 无

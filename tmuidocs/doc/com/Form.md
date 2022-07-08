@@ -11,7 +11,7 @@ title: tmui 3.0 组件库
 
 ---
 
-### :hot_pepper: 示例
+### :hot_pepper: 表单 Form 示例
 
 <webview url="https://tmui.design/h5/#/pages/form/form"></webview>
 
@@ -74,10 +74,13 @@ title: tmui 3.0 组件库
 | field | String | '' | 如果在forom绑定的model为深层对象，这里的名称需要如下:比如model = {a:2,b:{c:333}}，如果想绑定c,则field = "b.c" |
 | help | String | '' | 表单底部的单项注意说明。 |
 | required | Boolean | false | 是否必填 |
-| rules | Object | rulesItem | 检验规则,格式见下方 |
+| rules<Badge type="danger" text="v3.0.71+" vertical="middle" /> | Object | Array\<rulesItem\> | 检验规则,格式见下方 |
 | border | Boolean | null | 显示下划线。 |
+| showError<Badge type="danger" text="v3.0.71+" vertical="middle" /> | Boolean | null | 校验不通过的情况下，是否显示错误信息提示 |
 
-rulesItem 格式如下：
+**在3.0.71版本以前**rules只支持Object,之后支持Array\<rulesItem\>。为了向下兼容，之后的版本也是支持非数据校验函数。
+
+rules类型rulesItem 格式如下：
 ```ts
 export interface rulesItem {
     validator?:Function|boolean,//检验函数。可以是Promise异步回调。

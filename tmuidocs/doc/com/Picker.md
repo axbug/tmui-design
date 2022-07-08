@@ -11,7 +11,7 @@ Picker 选择器是一个提供基础单列数据选择以及可扩展为多级�
 
 ---
 
-### :hot_pepper: 示例
+### :hot_pepper: 选择器 Picker 示例
 
 <webview url="https://tmui.design/h5/#/pages/form/picker"></webview>
 

@@ -12,7 +12,7 @@ title: tmui 3.0 组件库
 
 ---
 
-### :hot_pepper: 示例
+### :hot_pepper: 底部导航栏 Tabbar 示例
 
 <webview url="https://tmui.design/h5/#/pages/daohang/tabbar"></webview>
 
@@ -67,7 +67,8 @@ title: tmui 3.0 组件库
 本组件含有公共属性 [公共属性](/doc/spec/组件公共样式.md)
 | 参数名 | 类型 | 默认值 | 描述 |
 | :--: | :--: | :--: | :-- |
-| followTheme | [Boolean, String] | true | 是否跟随主题，可选值：false, true |
+| blur | [Boolean] | false | 是否开启磨砂效果背景 |
+| followTheme | [Boolean] | true | 是否跟随主题，可选值：false, true |
 | transprent | Boolean | true | 是否透明 |
 | color | String | white | 背景主题色 |
 | fontColor | String | grey-darken-1 | 文字主题色 |
@@ -86,8 +87,9 @@ title: tmui 3.0 组件库
 | maxCount | [Number, String] | 99 | 最大数值 |
 | url | [String] | "" | 链接地址 |
 | openType | [String] | navigate | 链接打开方式同官方 |
-| beforeClick | [Function, Boolean] | ()=>false | 打开链接之前执行的勾子函数，返回fase阻止打开。也可以返回new Promise |
+| beforeClick | [Function, Boolean] | (data)=>false | 参数：data，为下方自行绑定到属性data上的数据。打开链接之前执行的勾子函数，返回fase阻止打开。也可以返回new Promise |
 | load | [Boolean, String] | false | 是否开启异步加载动效，可选值：false, true |
+| data<Badge type="danger" text="v3.0.63+" vertical="middle" /> | [Object,Number, String] | undefined | 自义绑定数据到项目上，beforeClick执行时，上下文参数 |
 
 ### :rose: 事件
 

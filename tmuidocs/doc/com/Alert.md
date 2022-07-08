@@ -11,7 +11,7 @@ title: tmui 3.0 组件库
 
 ---
 
-### :hot_pepper: 示例
+### :hot_pepper: 警告提示 Alert 示例
 
 <webview url="https://tmui.design/h5/#/pages/fankui/alert"></webview>
 
@@ -37,13 +37,14 @@ title: tmui 3.0 组件库
 | round       | Number, String | 0        | 圆角像素              |
 | margin      | Array          | [32, 24] | 外边距               |
 | padding     | Array          | [32, 24] | 内边距               |
-| content     | [item]         | []       | 主体内容数组（格式见下方说明）   |
+| content     | `[item]`         | []       | 主体内容数组（格式见下方说明）   |
 | autoPlay    | Boolean        | true     | 是否开启轮播（多个主体的情况有效） |
 | duration    | Number         | 3000     | 轮播间隔（毫秒）          |
 | closable    | Boolean        | true     | 是否显示关闭按钮          |
 | hidnAniName | String         | zoom     | 关闭窗体的动画           |
 | height      | Number         | 160      | 高度                |
 | maxLine     | Number         | 1        | 内容最大显示几行，超出变成省略号  |
+| showDot<Badge type="danger" text="v3.0.63+" vertical="middle" />     | Boolean        | false        | 是否显示底部的轮播数字序号，默认不显示  |
 
 - 主体内容数据参数
 ```javascript

@@ -16,12 +16,12 @@ title: tmui 3.0 组件库
 
 ##### 组件库文档 tmui.design
 
-# 文本
+# 文本 Text
 自带主题和常用属性，能根据全局主题和暗黑自动切换，必须放在tmSheet下，获得更好的主题适应能力。
 
 ---
 
-### :hot_pepper: 示例
+### :hot_pepper: 文本 Text 示例
 
 <webview url="https://tmui.design/h5/#/pages/changyong/text"></webview>
 

@@ -16,7 +16,7 @@ title: tmui 3.0 组件库
 
 ##### 组件库文档 tmui.design
 
-# 分页
+# 分页 Pagination
 分页按钮组
 
 ---

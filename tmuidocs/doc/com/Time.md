@@ -11,7 +11,7 @@ Time 时间选择器时一个用于选择事件的组件，常用于事件预约
 
 ---
 
-### :hot_pepper: 示例
+### :hot_pepper: 时间选择器 Time 示例
 
 <webview url="https://tmui.design/h5/#/pages/form/time"></webview>
 

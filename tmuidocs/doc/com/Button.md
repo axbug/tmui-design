@@ -11,7 +11,7 @@ title: tmui 3.0 组件库
 
 ---
 
-### :hot_pepper: 示例效果
+### :hot_pepper: 按钮 Button 示例
 
 <webview url="https://tmui.design/h5/#/pages/changyong/button"></webview>
 
@@ -36,6 +36,7 @@ title: tmui 3.0 组件库
 | followTheme | Boolean | true | 是否跟随全局主题 |
 | size | String | 'normal' | 按钮尺寸:mini,normal,middle,large |
 | fontSize | Number | 0 | 按钮文字大小，单位rpx |
+| fontColor<Badge type="danger" text="v3.0.63+" vertical="middle" /> | String | "" | 按钮文字/图标主题色，默认为空，自动配色 |
 | margin | ArrayasPropType\<Array\<number>> | ()=>[0,16] | 外间距[x,y]x=左右，y=上下 |
 | padding | ArrayasPropType\<Array\<number>> | ()=>[0,0] | 内间距[x,y]x=左右，y=上下 |
 | shadow | Number | 2 | 投影,0-25 |

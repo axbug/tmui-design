@@ -11,7 +11,7 @@ Slider 滑块是一个用于输入数值，或区域选择数值的组件
 
 ---
 
-### :hot_pepper: 示例
+### :hot_pepper: 滑块 Slider 示例
 
 <webview url="https://tmui.design/h5/#/pages/form/slider"></webview>
 

@@ -15,7 +15,7 @@ title: tmui 3.0 组件库
 
 <webview url="https://tmui.design/h5/#/pages/showdata/avatar"></webview>
 
-::: details 示例代码
+::: details 头像 Avatar 示例
 
 @[code vue](pages/showdata/avatar.nvue)
 

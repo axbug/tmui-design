@@ -11,7 +11,7 @@ title: tmui 3.0 组件库
 
 ---
 
-### :hot_pepper: 示例
+### :hot_pepper: 列表拖动排序 DragList 示例
 
 <webview url="https://tmui.design/h5/#/pages/fankui/darglist"></webview>
 

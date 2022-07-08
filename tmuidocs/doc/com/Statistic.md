@@ -11,7 +11,7 @@ title: tmui 3.0 组件库
 
 ---
 
-### :hot_pepper: 示例效果
+### :hot_pepper: 数值显示 Statistic 示例
 
 <webview url="https://tmui.design/h5/#/pages/showdata/statistic"></webview>
 

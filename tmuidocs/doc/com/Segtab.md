@@ -16,12 +16,12 @@ title: tmui 3.0 组件库
 
 ##### 组件库文档 tmui.design
 
-# 分段器选项卡
+# 分段器选项卡 Segtab
 从底部弹出的快速操作菜单栏，对于单项可选项目操作，非常有用，且便利。
 
 ---
 
-### :hot_pepper: 示例
+### :hot_pepper: 分段器选项卡 Segtab 示例
 
 <webview url="https://tmui.design/h5/#/pages/daohang/Segtab"></webview>
 

@@ -11,7 +11,7 @@ title: tmui 3.0 组件库
 
 ---
 
-### :hot_pepper: 示例效果
+### :hot_pepper: 二维码 Qrcode 示例
 
 <webview url="https://tmui.design/h5/#/pages/showdata/qrcode"></webview>
 
@@ -58,7 +58,12 @@ title: tmui 3.0 组件库
 默认default
 
 ### :green_salad: ref方法
-无
+
+**如果在安卓端nvue原生的情况下保存二维码有未知问题，请使用vue页面使用本组件。**
+
+| 方法名 | 参数 | 返回值 | 描述 |
+| :--: | :--: | :--: | :-- |
+| save<Badge type="danger" text="v3.0.63+" vertical="middle" /> | - | 图片路径string,h5端返回的是base64 | 保存当前生成的二维码图片 |
 
 ### :couplekiss: 文档贡献
 此页文档由[﹎wj潕钶取玳](https://gitee.com/dxwj)贡献，如果对该框架感兴趣的可以参与我们一同进步！

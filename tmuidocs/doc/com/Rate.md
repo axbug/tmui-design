@@ -11,7 +11,7 @@ Rate 评分是常见的评分组件，多用于售后等评价情景，本组件
 
 ---
 
-### :hot_pepper: 示例
+### :hot_pepper: 评分 Rate 示例
 
 <webview url="https://tmui.design/h5/#/pages/form/rate"></webview>
 
