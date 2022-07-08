@@ -175,9 +175,13 @@ border的其它辅助特性。``` round-方向-精细 ```
 | :--- | :--- | :--- |
 | 中左对齐 | 中对齐 | 中右对齐 |
 
-| flex-row-end-start | flex-row-end-center | flex-row-end-end 
+| flex-row-bottom-start | flex-row-bottom-center | flex-row-bottom-end 
 | :--- | :--- | :--- |
 | 底左对齐 | 底中对齐 | 底右对齐 |
+
+| flex-row-center-between |
+| :--- |
+| 上下居中，两边对齐。 |
 
 ### Flex-col排版
 
@@ -196,7 +200,7 @@ border的其它辅助特性。``` round-方向-精细 ```
 | :--- | :--- | :--- |
 | 中左对齐 | 中对齐 | 中右对齐 |
 
-| flex-col-end-start | flex-col-end-center | flex-col-end-end 
+| flex-col-bottom-start | flex-col-bottom-center | flex-col-bottom-end 
 | :--- | :--- | :--- |
 | 底左对齐 | 底中对齐 | 底右对齐 |
 
