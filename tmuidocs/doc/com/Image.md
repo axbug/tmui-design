@@ -36,6 +36,7 @@ title: tmui 3.0 组件库
 | color | String | 'white' | 边框颜色 |
 | transprent | [Boolean,String] | true | 是否透明 |
 | border | Number | 0 | 边框宽度 |
+| round| Number,String| 0 | 圆角, 0-25|
 | width | [Number,String] | 200,required:true | 宽度，单位rpx |
 | height | [Number,String] | 200,required:true | 高度，单位rpx |
 | src | String | "",required:true | 图片地址 |
