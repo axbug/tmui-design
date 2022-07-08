@@ -118,6 +118,7 @@ const totalList = [
 	{ path: "/pages/daohang/tabbar", title: "底部导航 Tabbar" },
     { path: "/pages/other/signBoard", title: "签名板 SignBoard" },
 	{ path: "/pages/fankui/rollNotice", title: "滚动通知 RollNotice" },
+	{ path: "/pages/other/barCode", title: "条形码 BarCode" },
 	
 ]
 const result = ref([])

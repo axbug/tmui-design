@@ -94,7 +94,16 @@
 					"navigationBarTitleText": "签名板 SignBoard",
 					"disableScroll": true
 				}
-			}]
+			}    ,{
+                    "path" : "barCode",
+                    "style" :                                                                                    
+                {
+                    "navigationBarTitleText": "条形码 BarCode",
+                    "enablePullDownRefresh": false
+                }
+                
+                }
+            ]
 		},
 		{
 			"root": "pages/daohang",

@@ -9,10 +9,10 @@
 			    <view>
 					<slot></slot>
 				</view>
-			    <view class="pt-12" v-if="tmFormFun=='validate'&&item.isRequiredError==true">
-					<tm-text color="red" :font-size="22" :label="item.message"></tm-text>
-				</view>
 			</view>
+		</view>
+		<view class="pt-12" v-if="tmFormFun=='validate'&&item.isRequiredError==true&&props.showError">
+			<tm-text color="red" :font-size="22" :label="item.message"></tm-text>
 		</view>
 		<view v-if="tmFormBorder">
 			<view :class="[`mt-${props.margin[1]*2}`]"></view>
@@ -20,7 +20,6 @@
 		</view>
     </tm-sheet>
 </template>
-
 <script lang="ts" setup>
 /**
  * 表单项目
@@ -66,7 +65,7 @@ const props = defineProps({
     },
     //检验规则
     rules:{
-        type:Object as PropType<rulesItem>,
+        type:Object as PropType<Array<rulesItem>|rulesItem>,
         default:()=>{
             return {validator:false,required:false};
         }
@@ -75,6 +74,10 @@ const props = defineProps({
 	border:{
 		type:Boolean,
 		default:null
+	},
+	showError:{
+		type:Boolean,
+		default:true
 	}
 	
 })
@@ -111,19 +114,31 @@ pushCom();
 onUnmounted(()=>{
     delCom();
 })
-
 provide('tmFormItemRules',computed(()=>{
-    let defaultrs:rulesItem = {
-        message:props?.rules?.message??"请填写必要的内容",
-        required:props.rules?.required??props.required,
-        validator:props.rules?.validator??false
-    }
+	let defaultrs:Array<rulesItem> = []
+	if(Array.isArray(props?.rules)){
+		props?.rules.forEach(el=>{
+            defaultrs.push(
+                {
+                    message:el?.message??"请填写必要的内容",
+                    required:el?.required??props.required,
+                    validator:el?.validator??false
+                }
+            )
+        })
+	}else{
+		defaultrs = [{
+		    message:props?.rules?.message??"请填写必要的内容",
+		    required:props.rules?.required??props.required,
+		    validator:props.rules?.validator??false
+		}]
+	}
     return defaultrs;
 }))
 //向父级推表单类组件。
-function pushCom(itemComval:inputPushItem={}){
+function pushCom(itemComval?:inputPushItem){
     if(parent){
-        item.value = {...item.value,...itemComval};
+        item.value = {...item.value,...(itemComval??{})};
         parent.pushKey({...item.value})
     }
 }
@@ -133,9 +148,7 @@ function delCom(){
     }
 }
 
-
 const tmFormFun = inject("tmFormFun",computed(()=>""))
-
 defineExpose({pushCom,delCom,tmFormComnameFormItem})
 </script>
 

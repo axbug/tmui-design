@@ -2,18 +2,18 @@
 <template>
 	<tm-app  ref="app" color="grey-5">
 		<tm-form ref="form" v-model="show" >
-			<tm-form-item label="身份证号码" field="nameuser.a" :rules="{required:true}">
+			<tm-form-item label="身份证号码" field="nameuser.a" :rules="[{required:true}]">
 				<tm-input :inputPadding="[0,0]" v-model="show.nameuser.a" :transprent="true" :showBottomBotder="false"></tm-input>
 			</tm-form-item>
-			<tm-form-item label="选择日期" field="cale" :rules="{required:true}">
+			<tm-form-item label="选择日期" field="cale" :rules="[{required:true,message:'请选择日期哦'}]">
 				<tm-input :inputPadding="[0,0]" :model-value.sync="show.cale[0]" @click="showCal=!showCal" suffix="tmicon-angle-right"
 					placeholder="请选择有效日期" disabled :transprent="true" :showBottomBotder="false"></tm-input>
 			</tm-form-item>
-			<tm-form-item label="选择地区" field="city" :rules="{required:true}">
+			<tm-form-item label="选择地区" field="city" :rules="[{required:true,message:'请选择地区'}]">
 				<tm-input :inputPadding="[0,0]" :model-value.sync="show.cityStr" @click="showCity=!showCity" suffix="tmicon-angle-right"
 					placeholder="请选择所在地区地址" disabled :transprent="true" :showBottomBotder="false"></tm-input>
 			</tm-form-item>
-			<tm-form-item label="时间选择" field="time" :rules="{required:true}">
+			<tm-form-item label="时间选择" field="time" :rules="[{required:true,message:'请选择时间'}]">
 				<tm-input :inputPadding="[0,0]" v-model="show.timeStr" 
 				@click="showTimePickerView=!showTimePickerView" 
 				suffix="tmicon-angle-right"
@@ -21,17 +21,18 @@
 					:transprent="true" 
 					:showBottomBotder="false"></tm-input>
 			</tm-form-item>
-			<tm-form-item label="弹出选择" field="time" :rules="{required:true}">
+			<tm-form-item label="弹出选择" field="time" :rules="[{required:true,message:'请选择水果种类'}]">
 				<tm-input :inputPadding="[0,0]" :model-value.sync="show.pickerStr" @click="showPicker=!showPicker" suffix="tmicon-angle-right"
 					placeholder="请选择你的水果种类" disabled :transprent="true" :showBottomBotder="false"></tm-input>
 			</tm-form-item>
-			<tm-form-item label="选择水果" field="radio" :rules="{required:true,message:'请选择'}">
+			<tm-form-item label="选择水果" field="radio" :rules="[{required:true,message:'请选择水果'}]">
 				<tm-radio-group v-model="show.radio">
 					<tm-radio label="苹果" value="apple"></tm-radio>
 					<tm-radio label="香焦" value="bonaer"></tm-radio>
 				</tm-radio-group>
 			</tm-form-item>
-			<tm-form-item label="多选文件" field="checkbox" :rules="{required:true,message:'请选择'}">
+
+			<tm-form-item label="多选水果种类" field="checkbox" :rules="[{required:true,message:'请选择'}]">
 				<tm-checkbox-group v-model="show.checkbox">
 					<tm-checkbox label="苹果" value="apple"></tm-checkbox>
 					<tm-checkbox label="香焦" value="bonaer"></tm-checkbox>
@@ -40,17 +41,21 @@
 					<tm-checkbox label="香焦" value="bonaer4"></tm-checkbox>
 				</tm-checkbox-group>
 			</tm-form-item>
-			<tm-form-item label="评分" field="rate" :rules="{required:true,message:'请选择'}">
+
+			<tm-form-item label="评分" field="rate" :rules="[{required:true,message:'请选择'}]">
 				<tm-rate v-model="show.rate"></tm-rate>
 			</tm-form-item>
+
 			<tm-form-item label="价格选择" field="slider"
-				:rules="{required:true,message:'请选择',validator:(val)=>val.reduce((a,b)=>Math.abs(a-b))!==0}">
+				:rules="[{required:true,message:'请选择',validator:(val)=>val.reduce((a,b)=>Math.abs(a-b))!==0}]">
 				<tm-slider :width="450" v-model="show.slider" :default-value="show.slider"></tm-slider>
 			</tm-form-item>
-			<tm-form-item label="分割选择" field="segtab" :rules="{required:true,message:'请选择'}">
+
+			<tm-form-item label="分割选择" field="segtab" :rules="[{required:true,message:'请选择'}]">
 				<tm-segtab :width="420" :list="[{text:'苹果'},{text:'香蕉'}]" v-model="show.segtab"
 					:default-value="show.segtab"></tm-segtab>
 			</tm-form-item>
+
 			<tm-form-item label="开关" field="switch" :rules="{required:true,message:'请选择'}">
 				<tm-switch v-model="show.switch"></tm-switch>
 			</tm-form-item>
@@ -60,6 +65,7 @@
 				:rows="3" :width="420" url="https://mockapi.eolink.com/tNYKNA7ac71aa90bcbe83c5815871a5b419601e96a5524d/upload"
 					v-model="show.upload"></tm-upload>
 			</tm-form-item>
+
 			<tm-form-item :border="false">
 				<view class=" flex flex-row">
 					<view class="flex-1 mr-32">
@@ -126,13 +132,13 @@
 		cale: ["2022-1-4"],
 		time:'2022-1-9',
 		timeStr:'2022-1-5',
-		radio: "bonaer",
+		radio: "",//bonaer
 		pickerIndex:[],
 		pickerStr:"",
-		checkbox: ["bonaer"],
+		checkbox: [],
 		rate: 0,
 		slider: [0, 50],
-		segtab: 1,
+		segtab: "",
 		switch: false,
 		upload: [],
 		city:[],

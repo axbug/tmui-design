@@ -4,7 +4,8 @@
   </view>
 </template>
 <script lang="ts" setup>
-import { computed , nextTick, provide ,ref ,watch ,getCurrentInstance,inject } from 'vue';
+import { computed , nextTick, provide ,ref ,watch ,getCurrentInstance,inject, toRaw } from 'vue';
+import { inputPushItem, rulesItem } from "./../tm-form-item/interface"
 const emits = defineEmits(['update:modelValue','change'])
 const {proxy} = getCurrentInstance()
 const props = defineProps({
@@ -67,12 +68,14 @@ function delKey(key:string|number|boolean){
 	pushFormItem()
 }
 /** -----------form专有------------ */
-const rulesObj = inject("tmFormItemRules",computed<rulesItem>(()=>{
-    return {
-        message:"请选择",
-        required:false,
-        validator:false
-    }
+const rulesObj = inject("tmFormItemRules",computed<Array<rulesItem>>(()=>{
+    return [
+        {
+            message:"请选择",
+            required:false,
+            validator:false
+        }
+    ]
 }))
 //父级方法。
 let parentFormItem = proxy.$parent
@@ -84,34 +87,80 @@ while (parentFormItem) {
        
     }
 }
-
-async function pushFormItem(isCheckVail = true){
-    if(parentFormItem){
-        let isRe = false;
-        if(isCheckVail&&rulesObj.value?.required===true){
-            if(typeof rulesObj.value.validator == 'function'){
-                isRe =await !rulesObj.value.validator(_mValue.value)
-            }else if(typeof rulesObj.value.validator == 'boolean'){
-                isRe =  rulesObj.value.validator;
-            }
-            if(typeof rulesObj.value.validator !== 'function'){
-                isRe = _mValue.value.length == 0
+const validate =(rules:Array<rulesItem>)=>{
+    rules = rules.map(el=>{
+        if(typeof el.validator === "function" && el.required===true){
+            return el
+        }else if(typeof el.validator === "boolean" && el.required===true){
+            return {
+                ...el,
+                validator:(val:string|number)=>{
+                    return String(val).length == 0?false:true
+                }
             }
         }else{
-            isRe = _mValue.value.length == 0
+            return {
+                ...el,
+                validator:(val:string|number)=>{
+                    return true
+                }
+            }
         }
-        parentFormItem.pushCom({
-            value:_mValue.value,
-            isRequiredError:isRe,//true,错误，false正常 检验状态
-            componentsName:'tm-checkbox-group',//表单组件类型。
-            message:rulesObj.value.message,//检验信息提示语。
+        
+    })
+    let rules_filter:Array<rulesItem> = rules.filter(el=>{
+        return typeof el.validator === "function" && el.required===true
+    })
+    let rules_fun:Array<Promise<rulesItem>> = rules_filter.map(el=>{
+        return new Promise(async (res,rej)=>{
+            if(typeof el.validator ==='function'){
+                let vr = await el.validator(_mValue.value)
+                if(vr){
+                    res({
+                        message:String(el.message),
+                        validator:true
+                    })
+                }else{
+                    rej({
+                        message:el.message,
+                        validator:false
+                    })
+                }
+            }else{
+                res({
+                    message:el.message,
+                    validator:true
+                })
+            }
         })
+    })
+    return Promise.all(rules_fun)
+}
+async function pushFormItem(isCheckVail = true){
+    if (parentFormItem) {
+        if (isCheckVail) {
+            validate(toRaw(rulesObj.value)).then(ev => {
+                parentFormItem.pushCom({
+                    value: _mValue.value,
+                    isRequiredError: false,//true,错误，false正常 检验状态
+                    componentsName: 'tm-checkbox-group',//表单组件类型。
+                    message: ev[0].message,//检验信息提示语。
+                })
+            }).catch(er => {
+                parentFormItem.pushCom({
+                    value: _mValue.value,
+                    isRequiredError: true,//true,错误，false正常 检验状态
+                    componentsName: 'tm-checkbox-group',//表单组件类型。
+                    message: er.message,//检验信息提示语。
+                })
+                
+            })
+        }
     }
 }
-pushFormItem(false)
+pushFormItem()
 
 /** -----------end------------ */
-
 
 provide("tmCheckedBoxDisabled",computed(()=>props.disabled))
 provide("tmCheckedBoxVal",computed(()=>_mValue.value))

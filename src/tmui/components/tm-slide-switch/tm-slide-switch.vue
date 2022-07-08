@@ -21,21 +21,23 @@
 					</tm-sheet>
 				</view>
 			</movable-view>
-			<movable-view :animation="_animation" 
+			<movable-view 
+			:animation="_animation" 
 			@click="onclick" 
 			@touchstart="startDrag" 
 			@mousedown="startDrag" 
 			@touchcancel="endDrag"
 			@touchend="endDrag" 
 			@mouseleave="endDrag" 
-			@mouseup="endDrag" :disabled="attr.disabled"
+			@mouseup="endDrag" 
+			:disabled="_disabled"
 			@change="onChange" :x="_mX" :style="{
 			width: attr.width + 'rpx',
 			height: attr.height + 'rpx'
 		}" class="flex  flex-1 flex-row flex-between absolute l-0 t-0" direction="horizontal">
 				<tm-sheet v-if="isRend" :shadow="0" :outlined="props.outlined" :borderStyle="props.borderStyle"
 					:borderDirection="props.borderDirection" :linearDeep="props.linearDeep" :linear="props.linear"
-					:round="props.round" :color="props.color" :text="attr.disabled" :transprent="props.transprent"
+					:round="props.round" :color="props.color" :text="_disabled" :transprent="props.transprent"
 					:width="attr.width" :height="attr.height" :margin="[0, 0]" :padding="[0, 0]">
 					<slot></slot>
 				</tm-sheet>
@@ -112,6 +114,10 @@
 			disabled: props.disabled
 		};
 	});
+	const _disabled = ref(props.disabled)
+	watchEffect(()=>{
+		_disabled.value = props.disabled
+	})
 	//宽度。
 	const _cellwidth = computed(()=>uni.upx2px(attr.value.width))
 	//总实际宽度。
@@ -171,6 +177,10 @@
 			_old_x.value = _x.value
 		}
 		_isDrag.value = false;
+		let maxLen = _cellwidth.value-maxWidth.value;
+		if(_x.value<maxLen){
+			_disabled.value=true;
+		}
 	}
 	const startDrag = () => {
 		_isDrag.value = true;
@@ -208,6 +218,9 @@
 				emits("update:open-status", false)
 			}
 			_isCloseAni.value = false;
+			if(!attr.value.disabled){
+				_disabled.value=false;
+			}
 		},50,false)
 	}
 	const onclick = (e: Event) => {

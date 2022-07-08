@@ -8,7 +8,7 @@
 			@click="clickhandle"
 			@longpress="emits('longpress',$event)"
 			:class="[spinComputed ? 'spin' : '', 'text-size-n d-inline-block', 'tmicon ', prefx, iconComputed, customClass]"
-			:style="[fontSizeComputed, { color: textColor ,lineHeight: props.fontSize + 'rpx',}, customCSSStyle]"
+			:style="[fontSizeComputed, { color: textColor }, customCSSStyle]"
 			v-if="!isImg"
 		></text>
 		<!-- #endif  -->
@@ -18,7 +18,7 @@
 			@click="clickhandle"
 			@longpress="emits('longpress',$event)"
 			:class="[spinComputed ? 'spin' : '', 'text-size-n d-inline-block ', 'tmicon', customClass]"
-			:style="[{ fontFamily: 'tmicon', lineHeight: props.fontSize + 'rpx', color: textColor }, fontSizeComputed, customCSSStyle]"
+			:style="[{ fontFamily: 'tmicon', color: textColor }, fontSizeComputed, customCSSStyle]"
 			v-if="!isImg"
 		>
 			{{ iconComputed }}

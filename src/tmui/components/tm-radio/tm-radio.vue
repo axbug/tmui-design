@@ -147,7 +147,6 @@
 				parent?.addKey("")
 			}
 			_checked.value = false
-
 		}
 	})
 
@@ -198,5 +197,6 @@
 	}
 	watch([() => props.modelValue, _groupCheckedVal], () => {
 		_checked.value = vailChecked()
+		
 	})
 </script>

@@ -57,7 +57,8 @@
  * 开关
  * @description 便捷的选择框。可以加载中，异步开关。
  */
-import { computed,ref,getCurrentInstance,onMounted,onUnmounted, watchEffect, watch, nextTick ,inject, PropType} from 'vue';
+import { computed,ref,getCurrentInstance,onMounted,toRaw, watchEffect, watch, nextTick ,inject, PropType} from 'vue';
+import { inputPushItem, rulesItem } from "./../tm-form-item/interface"
 import { custom_props } from '../../tool/lib/minxs';
 import tmSheet from '../tm-sheet/tm-sheet.vue';
 import tmText from '../tm-text/tm-text.vue';
@@ -198,7 +199,6 @@ if(props.defaultValue){
 	_value.value = props.defaultValue;
 	
 }
-let bindxToken:any = null;
 const _load = ref(false)
 watchEffect(()=>{
 	_load.value = props.load;
@@ -215,13 +215,11 @@ async function switchClick(){
         _load.value=false;
         if (!p) return;
     }
-	
 	_value.value = !_value.value
-
 	spinNvueAni(_value.value)
-	
 	emits('change',_value.value)
 	emits('update:modelValue',_value.value)
+	pushFormItem()
 }
 watch(()=>props.modelValue,(newval:boolean)=>{
 	_value.value = newval;
@@ -232,8 +230,9 @@ onMounted(()=>{
 })
 
 function spinNvueAni(reveser=false) {
-	// #ifdef APP-PLUS-NVUE
+	// #ifdef APP-NVUE
 	if (!proxy.$refs['switch']) return;
+	
 	var testEl = proxy.$refs.switch;
 	animation.transition(testEl, {
 		styles: {
@@ -241,7 +240,7 @@ function spinNvueAni(reveser=false) {
 			transformOrigin: 'center center'
 		},
 		duration: 200, //ms
-		timingFunction: 'ease-in-out',
+		timingFunction: 'ease-in',
 		delay: 0 //ms
 	},()=>{
 		
@@ -253,12 +252,14 @@ function spinNvueAni(reveser=false) {
 
 /** -----------form专有------------ */
 //父级方法。
-const rulesObj = inject("tmFormItemRules",computed<rulesItem>(()=>{
-    return {
-        message:"请选择",
-        required:false,
-        validator:false
-    }
+const rulesObj = inject("tmFormItemRules",computed<Array<rulesItem>>(()=>{
+    return [
+        {
+            message:"请选择",
+            required:false,
+            validator:false
+        }
+    ]
 }))
 //父级方法。
 let parentFormItem = proxy.$parent
@@ -270,27 +271,78 @@ while (parentFormItem) {
        
     }
 }
-
-async function pushFormItem(isCheckVail = true){
-    if(parentFormItem){
-        let isRe = false;
-        if(isCheckVail&&rulesObj.value?.required===true){
-            if(typeof rulesObj.value.validator == 'function'){
-                isRe =await !rulesObj.value.validator(_value.value)
-            }else if(typeof rulesObj.value.validator == 'boolean'){
-                isRe =  rulesObj.value.validator;
+const validate =(rules:Array<rulesItem>)=>{
+    rules = rules.map(el=>{
+        if(typeof el.validator === "function" && el.required===true){
+            return el
+        }else if(typeof el.validator === "boolean" && el.required===true){
+            return {
+                ...el,
+                validator:(val:boolean)=>{
+                    return val===true?true:false
+                }
             }
-            
+        }else{
+            return {
+                ...el,
+                validator:(val:string|number)=>{
+                    return true
+                }
+            }
         }
-        parentFormItem.pushCom({
-            value:_value.value,
-            isRequiredError:isRe,//true,错误，false正常 检验状态
-            componentsName:'tm-switch',//表单组件类型。
-            message:rulesObj.value.message,//检验信息提示语。
+        
+    })
+    let rules_filter:Array<rulesItem> = rules.filter(el=>{
+        return typeof el.validator === "function" && el.required===true
+    })
+    let rules_fun:Array<Promise<rulesItem>> = rules_filter.map(el=>{
+        return new Promise(async (res,rej)=>{
+            if(typeof el.validator ==='function'){
+                let vr = await el.validator(_value.value)
+                if(vr){
+                    res({
+                        message:String(el.message),
+                        validator:true
+                    })
+                }else{
+                    rej({
+                        message:el.message,
+                        validator:false
+                    })
+                }
+            }else{
+                res({
+                    message:el.message,
+                    validator:true
+                })
+            }
         })
+    })
+    return Promise.all(rules_fun)
+}
+async function pushFormItem(isCheckVail = true){
+	if (parentFormItem) {
+        if (isCheckVail) {
+            validate(toRaw(rulesObj.value)).then(ev => {
+                parentFormItem.pushCom({
+                    value: _value.value,
+                    isRequiredError: false,//true,错误，false正常 检验状态
+                    componentsName: 'tm-switch',//表单组件类型。
+                    message: ev[0].message,//检验信息提示语。
+                })
+            }).catch(er => {
+                parentFormItem.pushCom({
+                    value: _value.value,
+                    isRequiredError: true,//true,错误，false正常 检验状态
+                    componentsName: 'tm-switch',//表单组件类型。
+                    message: er.message,//检验信息提示语。
+                })
+                
+            })
+        }
     }
 }
-pushFormItem(false)
+pushFormItem()
 
 const tmFormFun = inject("tmFormFun",computed(()=>""))
 watch(tmFormFun,()=>{
@@ -304,19 +356,21 @@ watch(tmFormFun,()=>{
 /** -----------end------------ */
 </script>
 <style scoped>
+/* #ifndef APP-NVUE */
 	.base{
 		transform:'translateX(0%)'
 	}
 	.on{
-		/* #ifndef APP-NVUE */
+		
 		transform:translateX(calc(100% - 4rpx))
-		/* #endif */
+		
 	}
 	.off{
 		
-		/* #ifndef APP-NVUE */
+		
 		transform:translateX(0%)
-		/* #endif */
+		
 	}
+	/* #endif */
 </style>
 

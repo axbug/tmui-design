@@ -33,7 +33,8 @@
  * 上传
  * @description 图片上传组件。
  */
-import { computed ,ref,PropType, Ref,unref, watch,toRaw, nextTick,getCurrentInstance,inject  } from 'vue'
+import { computed ,ref,PropType, Ref, watch,toRaw, nextTick,getCurrentInstance,inject  } from 'vue'
+import { inputPushItem, rulesItem } from "./../tm-form-item/interface"
 import {file,fileConfig,statusCode,uploadfile} from "./upload"
 import tmImage from '../tm-image/tm-image.vue';
 import tmText from '../tm-text/tm-text.vue';
@@ -323,12 +324,14 @@ clear,del,getFailList,clearFail
 
 /** -----------form专有------------ */
 //父级方法。
-const rulesObj = inject("tmFormItemRules",computed<rulesItem>(()=>{
-    return {
-        message:"请选择",
-        required:false,
-        validator:false
-    }
+const rulesObj = inject("tmFormItemRules",computed<Array<rulesItem>>(()=>{
+    return [
+        {
+            message:"请选择图片上传",
+            required:false,
+            validator:false
+        }
+    ]
 }))
 
 //父级方法。
@@ -341,33 +344,80 @@ while (parentFormItem) {
        
     }
 }
-
-async function pushFormItem(isCheckVail = true){
-    if(parentFormItem){
-        let isRe = false;
-		let successFile = _filelist.value.filter(el=>el.statusCode===3);
-        if(isCheckVail&&rulesObj.value?.required===true){
-            if(typeof rulesObj.value.validator == 'function'){
-                isRe =await !rulesObj.value.validator(_filelist.value)
-            }else if(typeof rulesObj.value.validator == 'boolean'){
-                isRe =  rulesObj.value.validator;
-            }
-            if(typeof rulesObj.value.validator !== 'function'){
-                isRe = successFile.length==0?true:false;
+const validate =(rules:Array<rulesItem>)=>{
+    let successFile = _filelist.value.filter(el=>el.statusCode===3);
+    rules = rules.map(el=>{
+        if(typeof el.validator === "function" && el.required===true){
+            return el
+        }else if(typeof el.validator === "boolean" && el.required===true){
+            return {
+                ...el,
+                validator:(val:Array<file>)=>{
+                    return val.length == 0?false:true
+                }
             }
         }else{
-            isRe = false
+            return {
+                ...el,
+                validator:(val:Array<file>)=>{
+                    return true
+                }
+            }
         }
-		
-        parentFormItem.pushCom({
-            value:successFile,
-            isRequiredError:isRe,//true,错误，false正常 检验状态
-            componentsName:'tm-upload',//表单组件类型。
-            message:rulesObj.value.message,//检验信息提示语。
+        
+    })
+    let rules_filter:Array<rulesItem> = rules.filter(el=>{
+        return typeof el.validator === "function" && el.required===true
+    })
+    let rules_fun:Array<Promise<rulesItem>> = rules_filter.map(el=>{
+        return new Promise(async (res,rej)=>{
+            if(typeof el.validator ==='function'){
+                let vr = await el.validator(successFile)
+                if(vr){
+                    res({
+                        message:String(el.message),
+                        validator:true
+                    })
+                }else{
+                    rej({
+                        message:el.message,
+                        validator:false
+                    })
+                }
+            }else{
+                res({
+                    message:el.message,
+                    validator:true
+                })
+            }
         })
+    })
+    return Promise.all(rules_fun)
+}
+async function pushFormItem(isCheckVail = true){
+    if (parentFormItem) {
+        if (isCheckVail) {
+            let successFile = _filelist.value.filter(el=>el.statusCode===3);
+            validate(toRaw(rulesObj.value)).then(ev => {
+                parentFormItem.pushCom({
+                    value: successFile,
+                    isRequiredError: false,//true,错误，false正常 检验状态
+                    componentsName: 'tm-rate',//表单组件类型。
+                    message: ev[0].message,//检验信息提示语。
+                })
+            }).catch(er => {
+                parentFormItem.pushCom({
+                    value: successFile,
+                    isRequiredError: true,//true,错误，false正常 检验状态
+                    componentsName: 'tm-rate',//表单组件类型。
+                    message: er.message,//检验信息提示语。
+                })
+                
+            })
+        }
     }
 }
-pushFormItem(false)
+pushFormItem()
 const tmFormFun = inject("tmFormFun",computed(()=>""))
 watch(tmFormFun,()=>{
     if(tmFormFun.value=='reset'){

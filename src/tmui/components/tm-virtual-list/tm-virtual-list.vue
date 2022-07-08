@@ -45,7 +45,8 @@
 		imglist.value.push('https://picsum.photos/200/300?id='+i)
 	}
  */
-import { ref,computed,nextTick, PropType, onMounted } from "vue";
+import { ref,computed,Ref, PropType, onMounted } from "vue";
+import {scrollDetailFace,statusType} from "./interface"
 import tmSheet from "../tm-sheet/tm-sheet.vue";
 import tmIcon from "../tm-icon/tm-icon.vue";
 import tmText from "../tm-text/tm-text.vue";
@@ -119,8 +120,7 @@ const pullType = ref("")
 /**
  * never 从未加载过。
  */
-type status = "loading"|"error"|"success"|"never"
-const status = ref(props.status)
+const status:Ref<statusType> = ref("never")
 
 function findStartNode() {
     let startRange = 0;
@@ -156,14 +156,7 @@ function findEndNode() {
     }
     return endNode;
 }
-interface scrollDetailFace {
-    deltaX: number,
-    deltaY: number,
-    scrollHeight: number,
-    scrollLeft: number,
-    scrollTop: number,
-    scrollWidth:number,
-}
+
 function scroll(e:any){
    let detail:scrollDetailFace = e.detail;
    scrollTop.value = detail.scrollTop

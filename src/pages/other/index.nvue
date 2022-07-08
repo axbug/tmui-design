@@ -23,6 +23,7 @@ const list = ref([
     { path: "/pages/other/floatButton", title: "悬浮按钮 FloatButton" },
     { path: "/pages/other/sticky", title: "吸顶 Sticky" },
     { path: "/pages/other/signBoard", title: "签名板 SignBoard" },
+    { path: "/pages/other/barCode", title: "条形码 BarCode" },
 ])
 
 </script>

@@ -84,7 +84,7 @@
 				// #ifndef MP-WEIXIN || MP-ALIPAY || MP-QQ || APP-NVUE
 				ctx = await appvueH5Other();
 				// #endif
-				res()
+				res(true)
 			}, 150)
 		})
 	}

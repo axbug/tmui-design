@@ -50,7 +50,8 @@
 	 * 滑块
 	 * description 注意，如果想开启单滑块（默认），default-value=0单个值即可，如果想双滑块，值等于数组比如:=[0,5]
 	 */
-import {computed, ref,Ref,getCurrentInstance, watchEffect, watch,inject} from "vue"
+import {computed, ref,Ref,toRaw,getCurrentInstance, watchEffect, watch,inject} from "vue"
+import { inputPushItem, rulesItem } from "./../tm-form-item/interface"
 import sliderBar from "./slider-bar.vue"
 import sliderButton from "./slider-button.vue"
 import tmSheet from '../tm-sheet/tm-sheet.vue';
@@ -319,12 +320,14 @@ function getDomRectBound(){
 
 /** -----------form专有------------ */
 //父级方法。
-const rulesObj = inject("tmFormItemRules",computed<rulesItem>(()=>{
-    return {
-        message:"请正确取值",
-        required:false,
-        validator:false
-    }
+const rulesObj = inject("tmFormItemRules",computed<Array<rulesItem>>(()=>{
+    return [
+        {
+            message:"请选择",
+            required:false,
+            validator:false
+        }
+    ]
 }))
 //父级方法。
 let parentFormItem = proxy.$parent
@@ -336,41 +339,86 @@ while (parentFormItem) {
        
     }
 }
-
-async function pushFormItem(isCheckVail = true){
-    if(parentFormItem){
-        let isRe = false;
-		let _valueSlider = getValue();
-        if(isCheckVail&&rulesObj.value?.required===true){
-            if(typeof rulesObj.value.validator == 'function'){
-                isRe =await !rulesObj.value.validator(_valueSlider)
-            }else if(typeof rulesObj.value.validator == 'boolean'){
-                isRe =  rulesObj.value.validator;
-            }
-            if(typeof rulesObj.value.validator !== 'function'){
-				// 如果不提供检验函数，默认值不为0。
-				if(isDablue.value){
-					isRe = _valueSlider.reduce((a,b)=>a+b)==0
-				}else{
-					isRe = _valueSlider==0
-				}
+const validate =(rules:Array<rulesItem>)=>{
+    rules = rules.map(el=>{
+        if(typeof el.validator === "function" && el.required===true){
+            return el
+        }else if(typeof el.validator === "boolean" && el.required===true){
+            return {
+                ...el,
+                validator:(val:string|number|Array<string|number>)=>{
+                    if(Array.isArray(val)){
+                        return val.reduce((a,b)=>Number(a)+Number(b))==0
+                    }else{
+                        return Number(val)==0
+                    }
+                }
             }
         }else{
-            if(isDablue.value){
-            	isRe =_valueSlider.reduce((a,b)=>a+b)==0
-            }else{
-            	isRe = _valueSlider==0
+            return {
+                ...el,
+                validator:(val:string|number)=>{
+                    return true
+                }
             }
         }
-        parentFormItem.pushCom({
-            value:_valueSlider,
-            isRequiredError:isRe,//true,错误，false正常 检验状态
-            componentsName:'tm-slider',//表单组件类型。
-            message:rulesObj.value.message,//检验信息提示语。
+        
+    })
+    let rules_filter:Array<rulesItem> = rules.filter(el=>{
+        return typeof el.validator === "function" && el.required===true
+    })
+    let _valueSlider = getValue();
+    let rules_fun:Array<Promise<rulesItem>> = rules_filter.map(el=>{
+        return new Promise(async (res,rej)=>{
+            if(typeof el.validator ==='function'){
+                let vr = await el.validator(_valueSlider)
+                if(vr){
+                    res({
+                        message:String(el.message),
+                        validator:true
+                    })
+                }else{
+                    rej({
+                        message:el.message,
+                        validator:false
+                    })
+                }
+            }else{
+                res({
+                    message:el.message,
+                    validator:true
+                })
+            }
         })
-    }
+    })
+    return Promise.all(rules_fun)
 }
-pushFormItem(false)
+
+async function pushFormItem(isCheckVail = true){
+    if (parentFormItem) {
+        if (isCheckVail) {
+            let _valueSlider = getValue();
+            validate(toRaw(rulesObj.value)).then(ev => {
+                parentFormItem.pushCom({
+                    value: _valueSlider,
+                    isRequiredError: false,//true,错误，false正常 检验状态
+                    componentsName: 'tm-rate',//表单组件类型。
+                    message: ev[0].message,//检验信息提示语。
+                })
+            }).catch(er => {
+                parentFormItem.pushCom({
+                    value: _valueSlider,
+                    isRequiredError: true,//true,错误，false正常 检验状态
+                    componentsName: 'tm-slider',//表单组件类型。
+                    message: er.message,//检验信息提示语。
+                })
+                
+            })
+        }
+    }
+    
+}
+pushFormItem()
 
 const tmFormFun = inject("tmFormFun",computed(()=>""))
 watch(tmFormFun,()=>{

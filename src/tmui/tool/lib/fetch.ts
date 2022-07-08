@@ -13,7 +13,7 @@ let config:fetchConfig={
     withCredentials:false,
     firstIpv4:false
 }
-function request(cog:fetchConfig = config,complete?:Function,beforeRequest?:Function,afterRequest?:Function){
+function request(cog:fetchConfig = config,complete?:Function,beforeRequest?:Function,afterRequest?:Function):Promise<UniApp.GeneralCallbackResult>{
     let newConfig = {...config,...cog}
     return new Promise(async (resolve,reject)=>{
         if(typeof beforeRequest === 'function'){
