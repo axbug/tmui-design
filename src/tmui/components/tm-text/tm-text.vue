@@ -5,9 +5,9 @@
       :class="[_fontSize ? '' : 'text-size-m', customClass]" :style="[
         {
           lineHeight:
-            (_fontSize ? _fontSize * 1.3 : 42) + 'rpx', color: textColor
+            (_fontSize ? _fontSize * 1.3 : 42) + props.unit, color: textColor
         },
-        _fontSize ? { fontSize: _fontSize + 'rpx' } : '',
+        _fontSize ? { fontSize: _fontSize + props.unit } : '',
         customCSSStyle,
       ]">{{ _label }}</text>
     <!-- #endif -->
@@ -15,9 +15,9 @@
     <view><text @click="emits('click', $event)" :selectable="selectable" :user-select="selectable"
         :class="[fontSize ? '' : 'text-size-m', customClass]" :style="[
           {
-            lineHeight: (_fontSize ? _fontSize * 1.3 : 42) + 'rpx', color: textColor
+            lineHeight: (_fontSize ? _fontSize * 1.3 : 42) + props.unit, color: textColor
           },
-          _fontSize ? { fontSize: _fontSize + 'rpx' } : '',
+          _fontSize ? { fontSize: _fontSize + props.unit } : '',
           customCSSStyle,
         ]">
         <slot>{{ _label }}</slot>
@@ -56,6 +56,10 @@ const props = defineProps({
     type: [Boolean, String],
     default: false
   },
+  unit: {
+    type: String,
+    default: 'rpx'
+  }
 });
 const emits = defineEmits(["click"]);
 
