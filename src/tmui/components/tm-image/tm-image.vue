@@ -1,9 +1,9 @@
 <template>
 
-	<tm-translate :width="img_width+props.unit" v-if="!isRmove" @end="aniEnd" ref="aniplay" :autoPlay="false" name="zoom"
+	<tm-translate :width="img_width + (props.padding[0] * 2) + props.unit" v-if="!isRmove" @end="aniEnd" ref="aniplay" :autoPlay="false" name="zoom"
 		reverse>
 		<tm-sheet :color="props.color" :transprent="props.transprent" :margin="props.margin" :round="props.round"
-			:border="props.border" :padding="[props.padding[0],0]" :class="['round-' + props.round]" :width="img_width"
+			:border="props.border" :padding="[props.padding[0],0]" :class="['round-' + props.round]" :width="img_width - (props.padding[0] * 2)"
 			:unit="props.unit">
 			<view :class="[`pb-${props.padding[1]}`]">
 				<image v-if="loading" :src="img_src" style="width: 10px;height: 10px;opacity: 0;transform:translateX(120000px)" @load="imageLoad"
