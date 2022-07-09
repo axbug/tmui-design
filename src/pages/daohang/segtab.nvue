@@ -18,7 +18,7 @@
         <tm-sheet >
             <tm-text :fontSize="24" _class="font-weight-b" label="渐变"></tm-text>
             <tm-divider></tm-divider>
-            <tm-segtab :width="636" bgColor="blue-grey" :followDark="false" linear="bottom" color="white" activeColor="black" :list="list" defaultValue="2"></tm-segtab>
+            <tm-segtab :width="636" bgColor="blue-grey" :followDark="false" linear="right" color="white" activeColor="black" :list="list" defaultValue="2"></tm-segtab>
         </tm-sheet>
     </tm-app>
 </template>

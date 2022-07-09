@@ -5,11 +5,11 @@
 		</tm-sheet>
 		<view style="height:2000px"></view>
 		<tm-tabbar >
-			<tm-tabbar-item count="HOT"   open-type='reLaunch' url='/pages/index/index' text="首页" icon='tmicon-collection-fill'></tm-tabbar-item>
-			<tm-tabbar-item  url='/pages/form/index' text="表单" icon='tmicon-cog-fill'></tm-tabbar-item>
-			<tm-tabbar-item :beforeClick="laodingfun" :data="'中间项'" btn-top fontColor="white" activeColor="white" linear="bottom" color="primary" icon="tmicon-plus"></tm-tabbar-item>
-			<tm-tabbar-item url='/pages/fankui/index' text="反馈分类" unicon="tmicon-like" icon="tmicon-heart-fill"></tm-tabbar-item>
-			<tm-tabbar-item :count="8" url='/pages/chart/index' active text="图表中心" unicon="tmicon-account" icon="tmicon-userplus-fill"></tm-tabbar-item>
+			<tm-tabbar-item activeColor="orange" count="HOT"   open-type='reLaunch' url='/pages/index/index' text="首页" icon='tmicon-collection-fill'></tm-tabbar-item>
+			<tm-tabbar-item  activeColor="orange" url='/pages/form/index' text="表单" icon='tmicon-cog-fill'></tm-tabbar-item>
+			<tm-tabbar-item :shadow="2" :beforeClick="laodingfun" :data="'中间项'" btn-top fontColor="white" activeColor="white" linear="top" linearDeep="accent" color="yellow" icon="tmicon-plus"></tm-tabbar-item>
+			<tm-tabbar-item activeColor="orange" url='/pages/fankui/index' text="反馈分类" unicon="tmicon-like" icon="tmicon-heart-fill"></tm-tabbar-item>
+			<tm-tabbar-item  activeColor="orange" :count="8" url='/pages/chart/index' active text="图表中心" unicon="tmicon-account" icon="tmicon-userplus-fill"></tm-tabbar-item>
 		</tm-tabbar>
         
     </tm-app>

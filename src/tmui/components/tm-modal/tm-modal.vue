@@ -27,10 +27,9 @@
 				</scroll-view>
 				<view class="flex flex-row " :class="[props.splitBtn?'pa-32':'']" >
 					<view v-if="!props.hideCancel" class="flex-1  overflow ">
-						<tm-sheet :dark="props.dark"  :followTheme="true" :isDisabledRoundAndriod="true" @click="cancel" :height="80" :linear="props.cancelLinear"
+						<tm-sheet :dark="props.dark"  :followTheme="true" :isDisabledRoundAndriod="true" @click="cancel" :height="90" :linear="props.cancelLinear"
 							:linearDeep="props.cancelLlinearDeep"  text :color="props.cancelColor" :_class="[
 								'flex-center overflow',
-								
 							]"
 							:paren-class="props.splitBtn?('round-'+props.btnRound):'round-bl-'+props.round"
 							:margin="[0,0]" :padding="[0,0]">
@@ -39,7 +38,7 @@
 					</view>
 					<view v-if="props.splitBtn&&!props.hideCancel" class="overflow" style="width: 24rpx;"></view>
 					<view class="flex-1" :class="[okLoading?'opacity-5':'','overflow']">
-						<tm-sheet  :dark="props.dark" :followTheme="true" :isDisabledRoundAndriod="true" @click="ok"  :height="80" :linear="props.okLinear"
+						<tm-sheet  :dark="props.dark" :followTheme="true" :isDisabledRoundAndriod="true" @click="ok"  :height="90" :linear="props.okLinear"
 							:linearDeep="props.okLlinearDeep" :color="props.okColor" :margin="[0,0]"
 							:_class="[
 								'flex-center overflow',
@@ -97,7 +96,7 @@
 	  },
 	  height:{
 	  	type:Number,
-	  	default:400
+	  	default:450
 	  },
 	  round:{
 	  	type:Number,
@@ -106,7 +105,7 @@
 	  //弹出的动画时间单位ms.
 	  duration:{
 	  	type:Number,
-	  	default:300
+	  	default:250
 	  },
 	  //是否允许点击遮罩关闭
 	  overlayClick:{
@@ -251,7 +250,7 @@
 		if(props.splitBtn){
 			bas = uni.upx2px(64)
 		}
-		return (uni.upx2px(props.height)-44 - uni.upx2px(80)-bas)+'px'
+		return (uni.upx2px(props.height)-44 - uni.upx2px(90)-bas)+'px'
 	})
 	const align_rp = computed(()=>{
 		return 'flex-center'

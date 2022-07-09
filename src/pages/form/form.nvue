@@ -2,7 +2,7 @@
 <template>
 	<tm-app  ref="app" color="grey-5">
 		<tm-form ref="form" v-model="show" >
-			<tm-form-item label="身份证号码" field="nameuser.a" :rules="[{required:true}]">
+			<tm-form-item label="身份证号码" field="nameuser.a" :rules="[{required:true},{required:true,message:'请输入66',validator:(val)=>val=='66'}]">
 				<tm-input :inputPadding="[0,0]" v-model="show.nameuser.a" :transprent="true" :showBottomBotder="false"></tm-input>
 			</tm-form-item>
 			<tm-form-item label="选择日期" field="cale" :rules="[{required:true,message:'请选择日期哦'}]">

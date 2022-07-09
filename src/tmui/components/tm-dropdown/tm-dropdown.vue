@@ -87,9 +87,11 @@
 							]" :margin="[0,0]" :padding="[0,0]" :width="20" :height="20">
 							</tm-sheet>
 							<tm-sheet
+								
 								:color="props.color"
 								:_class="props._class"
 								:_style="[{zIndex:2,position:'relative',overflow:'hidden'}]"
+								:padding="[0,0]"
 								:followTheme="props.followTheme"
 								:dark="props.dark"
 								:round="props.round"
@@ -104,13 +106,19 @@
 								:linearDeep="props.linearDeep"
 								:width="props.width"
 								:margin="[0,0]">
-								<view @click.stop="emits('click',{index:index,data:item});show=false;" 
-								v-for="(item,index) in listData"  :key="index" class="pt-8 flex-center flex-1 flex-row" >
-									<view class="flex-row flex pb-8 flex-center px-12">
-										<tm-icon :color="item.iconColor" :dark="props.dark" :fontSize="62" cssClass="pr-10" v-if="item.icon" :name="item.icon"></tm-icon>
-										<tm-text :fontSize="32" :label="item.text"></tm-text>
+								<view style="height:8rpx"></view>
+								<view hover-class="opacity-7" @click.stop="onclick(index,item)" 
+								v-for="(item,index) in listData"  :key="index" class="flex-1 flex px-24  py-16" >
+									<view class="flex-row flex pb-12 flex-between px-12">
+										<view class="flex flex-row flex-row-center-start flex-1">
+											<tm-icon :color="item.iconColor" :dark="props.dark" :fontSize="36" _class="pr-12" v-if="item.icon" :name="item.icon"></tm-icon>
+											<tm-text :fontSize="32" :label="item.text"></tm-text>
+										</view>
+										<tm-icon font-size="22" _class="pl-24" name="tmicon-angle-right"></tm-icon>
 									</view>
 								</view>
+								<view style="height:8rpx"></view>
+
 							</tm-sheet>
 							<tm-sheet
 								:color="props.color"
@@ -127,7 +135,6 @@
 								:transprent="props.transprent"
 								:linear="props.linear"
 								:linearDeep="props.linearDeep"
-								
 								v-if="props.position=='tc'||props.position=='tl'||props.position=='tr'" :_style="[
 									{zIndex:1},
 								props.position=='tc'?{transform:' rotate(45deg) translateY(-8rpx) translateX(-8rpx)'}:{},
@@ -141,6 +148,7 @@
 							<tm-sheet
 							:color="props.color"
 							:_class="props._class"
+							
 							:followTheme="props.followTheme"
 							:dark="props.dark"
 							:round="0"
@@ -164,6 +172,7 @@
 							<tm-sheet
 								:color="props.color"
 								:_class="props._class"
+								:padding="[0,0]"
 								:_style="[{zIndex:2,position:'relative'}]"
 								:followTheme="props.followTheme"
 								:dark="props.dark"
@@ -179,13 +188,18 @@
 								:linearDeep="props.linearDeep"
 								:width="props.width"
 								:margin="[0,0]">
-									<view @click.stop="emits('click',{index:index,data:item});show=false;" 
-									v-for="(item,index) in listData" :key="index" class="pt-8 flex-center flex-1" >
-										<view class="flex-row flex pb-8 flex-center  px-12">
-											<tm-icon :color="item.iconColor" :dark="props.dark" :fontSize="62" cssClass="pr-10" v-if="item.icon" :name="item.icon"></tm-icon>
-											<tm-text :fontSize="32" :label="item.text"></tm-text>
+									<view style="height:8rpx"></view>
+									<view hover-class="opacity-7" @click.stop="onclick(index,item)" 
+									v-for="(item,index) in listData"  :key="index" class="flex-1 flex px-24  py-16" >
+										<view class="flex-row flex pb-12 flex-between px-12">
+											<view class="flex flex-row flex-row-center-start flex-1">
+												<tm-icon :color="item.iconColor" :dark="props.dark" :fontSize="36" _class="pr-12" v-if="item.icon" :name="item.icon"></tm-icon>
+												<tm-text :fontSize="32" :label="item.text"></tm-text>
+											</view>
+											<tm-icon font-size="22" _class="pl-24" name="tmicon-angle-right"></tm-icon>
 										</view>
 									</view>
+									<view style="height:8rpx"></view>
 							</tm-sheet>
 							<tm-sheet
 								:color="props.color"
@@ -241,20 +255,20 @@
 	const props = defineProps({
 		...custom_props,
 		border: {
-			type: [Number, String],
+			type: [Number],
 			default: 0
 		},
 		round: {
-			type: [Number, String],
+			type: [Number],
 			default: 3
 		},
 		transprent:{
-			type: [Boolean,String],
+			type: [Boolean],
 			default: false
 		},
 		color:{
 			type:String,
-			default:'white'
+			default:'grey-darken-4'
 		},
 		width:{
 			type:Number,
@@ -372,6 +386,10 @@
 	}
 	function closeDromenu(){
 		uni.$tm.u.debounce(()=>show.value=false,250)
+	}
+	function onclick(index:number,data:itemList){
+		emits('click',{index:index,data:data});
+		show.value=false;
 	}
 	
 </script>

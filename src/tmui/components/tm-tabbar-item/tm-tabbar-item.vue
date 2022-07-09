@@ -12,9 +12,15 @@
 		 :followTheme="_btnTop.value&&props.followTheme"
 		 :transprent="_transprent" 
 		 :color="props.color" 
-		 :border="0"  
 		 :margin="[0,0]" 
 		 :padding="_padding" 
+		 :shadow="props.shadow"
+		 :outlined="props.outlined"
+		 :border="props.border"
+		 :borderStyle="props.borderStyle"
+		 :borderDirection="props.borderDirection"
+		 :linear="props.linear"
+		 :linearDeep="props.linearDeep"
 		 @click="itemClick"
 		 >
 			<tm-badge
@@ -89,6 +95,10 @@
 		fontColor:{
 			type:String,
 			default:'grey-darken-1'
+		},
+		linear:{
+			type:String,
+			default:''
 		},
 		//激活后的主题色。
 		activeColor:{

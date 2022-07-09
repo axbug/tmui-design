@@ -9,7 +9,6 @@ import { colortool } from './colortool';
 import { cssStyleConfig, cssstyle, colorThemeType, cssDirection , linearDirection,linearDeep,linearDirectionType } from '../lib/interface';
 //导入用户自定义的主题色值。
 import { theme } from '../../../theme/index';
-
 var colors: Array<colorThemeType> = [];
 var colorObj: any = {
 	red: '#ff2414',
@@ -371,9 +370,11 @@ class themeColors {
 				liner_color_1.s = nowColor.hsla.s;
 				if (config.linearDeep == 'light') {
 					liner_color_1.l = 70;
-					liner_color_1.s = 100;
+					liner_color_1.s = 95;
+					liner_color_1.h -= 5;
 					liner_color_2.l = 45;
-					liner_color_2.s = 100;
+					liner_color_2.s = 95;
+					liner_color_2.h += 5;
 
 				} else if (config.linearDeep == 'dark') {
 					liner_color_1.l = 70;
@@ -381,12 +382,12 @@ class themeColors {
 					liner_color_2.l = 45;
 					liner_color_2.s = 100;
 				} else if (config.linearDeep == 'accent') {
-					liner_color_1.h = liner_color_1.h - 0;//色相需要往前偏移加强色系
-					liner_color_1.s = 85;//饱和度需要加强
+					liner_color_1.h -=0;//色相需要往前偏移加强色系
+					liner_color_1.s = 80;//饱和度需要加强
 					liner_color_1.l = 55;
 					liner_color_2.l = 65;
-					liner_color_2.h = liner_color_2.h - 35;//偏移30度的色相搭配色进行渐变
-					liner_color_2.s = 85;//饱和度需要加强
+					liner_color_2.h -=35;//偏移30度的色相搭配色进行渐变
+					liner_color_2.s = 80;//饱和度需要加强
 				}
 
 			}

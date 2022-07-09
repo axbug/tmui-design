@@ -26,7 +26,6 @@
                     borderStyle="dashed" size="normal" label="按钮"></tm-button>
             </view>
         </tm-sheet>
-
         <tm-sheet>
             <tm-text :font-size="24" _class="font-weight-b" label="渐变样式,更多属性见文档"></tm-text>
 			<tm-divider></tm-divider>
