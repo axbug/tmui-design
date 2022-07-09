@@ -31,7 +31,7 @@
 			v-if="isImg"
 			:src="iconComputed"
 			:class="[spinComputed ? 'spin' : '', customClass]"
-			:style="[{ width: (props.fontSize || 30) + 'rpx', height: (props.fontSize || 30) + 'rpx' }, customCSSStyle]"
+			:style="[{ width: (props.fontSize || 30) + props.unit, height: (props.fontSize || 30) + props.unit }, customCSSStyle]"
 		></image>
 	</view>
 </template>
@@ -76,7 +76,11 @@ const props = defineProps({
 	spin: {
 		type: [Boolean, String],
 		defalut: true
-	}
+	},
+  unit: {
+    type: String,
+    default: 'rpx'
+  }
 });
 
 const emits = defineEmits(['click','longpress']);
@@ -114,9 +118,9 @@ const textColor = computed(() => {
 //图标大小。
 const fontSizeComputed = computed(() => {
 	// #ifdef H5
-	if (props.fontSize < 24) return { transform: 'scale(0.8)', fontSize: (props.fontSize || 30) + 'rpx' };
+	if (props.fontSize < 24 && props.unit == 'rpx') return { transform: 'scale(0.8)', fontSize: (props.fontSize || 30) + props.unit };
 	// #endif
-	return { fontSize: (props.fontSize || 30) + 'rpx' };
+	return { fontSize: (props.fontSize || 30) + props.unit };
 });
 //图标前缀
 const prefx = computed(() => {

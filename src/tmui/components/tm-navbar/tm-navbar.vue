@@ -29,13 +29,13 @@
 				
 				<view class="flex flex-row flex-1 flex-row flex-row-center-betweent ">
 					<view class="flex-row flex flex-row-center-start pl-24" :style="{width:_leftWidth+'rpx'}">
-						<tm-icon _class="pointer" @click="goback" v-if="_pages>1" name="tmicon-angle-left"></tm-icon>
-						<tm-icon _class="pointer" @click="backhome" v-if="_pages==1&&!hideHome" :color="_homeColor" :font-size="37" name="tmicon-md-home"></tm-icon>
+						<tm-icon _class="pointer" @click="goback" v-if="_pages>1" name="tmicon-angle-left" :font-size="20" unit="px"></tm-icon>
+						<tm-icon _class="pointer" @click="backhome" v-if="_pages==1&&!hideHome" :color="_homeColor" :font-size="20" unit="px" name="tmicon-md-home"></tm-icon>
 						<slot name="left"></slot>
 					</view>
 					<view class=" flex flex-row-center-center" :style="{width:contentwidth+'px'}">
 						<slot>
-							<tm-text _class="text-weight-b text-overflow-1" :color="_fontColor" :font-size="props.fontSize" :label="_title"></tm-text>
+							<tm-text _class="text-weight-b text-overflow-1" :color="_fontColor" :font-size="props.fontSize" unit="px" :label="_title"></tm-text>
 						</slot>
 					</view>
 					<view class="flex-row flex flex-row-center-end  pr-24" :style="{width:_rightWidth+'rpx'}">
@@ -120,7 +120,7 @@
 		},
 		fontSize:{
 			type: [Number],
-			default: 30
+			default: 16
 		},
 		title:{
 			type: [String],
