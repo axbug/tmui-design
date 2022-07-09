@@ -18,7 +18,7 @@
       !isDisabledRoundAndriod ? `round-${props.round}` : '',
     ]" :style="[
   _height ? { height: _height + _padding[1] + props.unit } : '',
-  _width ? { width: _width + _padding[0] + props.unit } : '',
+  _width ? { width: _width + ( _padding[0] * 2 ) + props.unit } : '',
   tmcomputed.borderCss,
   _blur && store.tmStore.os == 'ios' &&_isNvue===true ? '' : _bgcolor,
   !_transprent && props.shadow > 0 ? tmcomputed.shadowColor : '',
