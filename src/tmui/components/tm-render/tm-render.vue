@@ -30,7 +30,7 @@
 	import {
 		enable,
 		WeexBridge,
-	} from '../tm-progress/gcanvas/index.js';
+	} from '../../tool/gcanvas/index.js';
 	// #endif
 	const { proxy } = getCurrentInstance();
 	const props = defineProps({

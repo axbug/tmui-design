@@ -43,9 +43,9 @@
 	 */
 import { number } from 'echarts';
 import { getCurrentInstance, computed, ref, ComponentInternalInstance, inject, onUpdated, onMounted, onUnmounted, nextTick, watch, ssrContextKey } from 'vue';
-import CanvasRenderingContext2D from './gcanvas/context-2d/RenderingContext.js';
+import CanvasRenderingContext2D from '../../tool/gcanvas/context-2d/RenderingContext.js';
 // #ifdef APP-NVUE 
-import {enable,WeexBridge} from "./gcanvas/index.js";
+import {enable,WeexBridge} from "../../tool/gcanvas/index.js";
 const dom = uni.requireNativePlugin('dom')
 // #endif
 

@@ -102,7 +102,15 @@
                     "enablePullDownRefresh": false
                 }
                 
-                }
+                },{
+				"path" : "watermark",
+				"style" :
+				{
+					"navigationBarTitleText": "页面水印",
+					"enablePullDownRefresh": false
+				}
+
+			}
             ]
 		},
 		{
