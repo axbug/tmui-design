@@ -33,6 +33,8 @@
                      <tm-text :label="item.text" :font-size="22"></tm-text>
                 </tm-grid-item>
             </tm-grid>
+            <tm-button v-if="!showAll" block label="展示所有图标" @click="onShowAll"></tm-button>
+
         </tm-sheet>
 
     </tm-app>
@@ -48,11 +50,15 @@ import tmIcon from "@/tmui/components/tm-icon/tm-icon.vue"
 import tmText from "@/tmui/components/tm-text/tm-text.vue"
 import tmGridItem from "@/tmui/components/tm-grid-item/tm-grid-item.vue"
 import tmGrid from "@/tmui/components/tm-grid/tm-grid.vue"
+import tmButton from "@/tmui/components/tm-button/tm-button.vue"
 import fontList from '@/tmui/tool/tmicon/iconfont.json';
+
+let showAll = ref(false);
+
 const list = ref([])
 onMounted(()=>{
     uni.showLoading({title:"...",mask:true})
-    let ls_list = fontList.glyphs.slice(0,30)
+    let ls_list = fontList.glyphs.slice(0,30);
     setTimeout(() => {
          for(let i =0;i<ls_list.length;i++){
             list.value.push({name:fontList.css_prefix_text + ls_list[i].font_class,text:ls_list[i].name})
@@ -61,6 +67,23 @@ onMounted(()=>{
     }, 100);
    
 })
+
+//显示全部图标
+const onShowAll = () => {
+    showAll.value = true;
+    let ls_list = fontList.glyphs;//全部显示
+
+    list.value = [];
+
+    uni.showLoading({title:"...",mask:true})
+
+    setTimeout(() => {
+        for(let i =0;i<ls_list.length;i++){
+            list.value.push({name:fontList.css_prefix_text + ls_list[i].font_class,text:ls_list[i].name})
+        }
+        uni.hideLoading()
+    }, 100);
+}
 
 function onclick(item){
     uni.setClipboardData({data:item.name}).then(()=>uni.showToast({title:"复制成功",icon:"none"}))
