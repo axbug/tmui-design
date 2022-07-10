@@ -85,11 +85,11 @@ import { useTmpiniaStore } from '../../tool/lib/tmpinia';
 import {
 	enable,
 	WeexBridge,
-} from './gcanvas/index.js';
+} from '../../tool/gcanvas/index.js';
 // #endif
 const store = useTmpiniaStore();
 const emits = defineEmits(['update:percent', 'change'])
-const { proxy } = getCurrentInstance();
+const { proxy }:any = getCurrentInstance();
 const vnodeCtx = proxy
 const props = defineProps({
 	...custom_props,
@@ -175,7 +175,7 @@ const canvasId = ref("canvasId")
 // #ifndef MP-WEIXIN || MP-ALIPAY || MP-QQ
 canvasId.value = "tm" + uni.$tm.u.getUid(5);
 // #endif
-let ctx = null
+let ctx:any = null
 const shadow_pr = computed(() => props.shadow * 4)
 // 设置响应式全局组件库配置表。
 const tmcfg = computed<tmVuetify>(() => store.tmStore);

@@ -24,7 +24,7 @@
 	 * 更改任意属性，都将会导致重绘
 	 */
 	import {getCurrentInstance, computed, ref, PropType, inject, onUpdated, onMounted, onUnmounted, nextTick, watch } from 'vue';
-	import CanvasRenderingContext2D from './gcanvas/context-2d/RenderingContext.js';
+	import CanvasRenderingContext2D from '../../tool/gcanvas/context-2d/RenderingContext.js';
 	import {drawBarCode,BarcodeObjType,Baroptions} from "./drawing";
 	import {JsBarcode} from "./jsbarcode/JsBarcode.js"
 	import JsBarcodeOptions from "./jsbarcode/options/defaults.js"
@@ -32,7 +32,7 @@
 	import {
 		enable,
 		WeexBridge,
-	} from '../tm-progress/gcanvas/index.js';
+	} from '../../tool/gcanvas/index.js';
 	// #endif
 	const { proxy } = getCurrentInstance();
 	const props = defineProps({

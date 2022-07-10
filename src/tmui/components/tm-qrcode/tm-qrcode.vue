@@ -25,13 +25,13 @@
 	 */
 	import {getCurrentInstance, computed, ref, PropType, inject, onUpdated, onMounted, onUnmounted, nextTick, watch } from 'vue';
 	import {qrOpts,qrOptsDefault} from "./interface";
-	import CanvasRenderingContext2D from './gcanvas/context-2d/RenderingContext.js';
+	import CanvasRenderingContext2D from '../../tool/gcanvas/context-2d/RenderingContext.js';
 	import {qr} from "./drawing";
 	// #ifdef APP-NVUE
 	import {
 		enable,
 		WeexBridge,
-	} from '../tm-progress/gcanvas/index.js';
+	} from '../../tool/gcanvas/index.js';
 	// #endif
 	const { proxy } = getCurrentInstance();
 	const props = defineProps({
