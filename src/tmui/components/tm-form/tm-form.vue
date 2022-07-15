@@ -109,22 +109,22 @@ function submit(){
     formFunCallBack.value = ''
     nextTick(()=>{
         formFunCallBack.value = 'validate'
-        nextTick(()=>{
-            let isPass = true;
-            for(let i=0,len=_callBackModelVal.value.length;i<len;i++){
-                if(_callBackModelVal.value[i].isRequiredError==true){
-                    isPass = false;
-                    break;
-                }
-            }
-            let data = {..._modelVal.value};
-            
-             _callBackModelVal.value.forEach(el=>{
-               setObjectVal(data,el.field,el.value)
-            })
-            //validate是否检验通过。
-            emits("submit",{data:data,validate:isPass})
-        })
+		let isPass = true;
+		let par = toRaw(_callBackModelVal.value);
+		uni.$tm.u.throttle(()=>{
+			for(let i=0,len=par.length;i<len;i++){
+			    if(par[i].isRequiredError==true){
+			        isPass = false;
+			        break;
+			    }
+			}
+			let data = {..._modelVal.value};
+			 par.forEach(el=>{
+			   setObjectVal(data,el.field,el.value)
+			})
+			//validate是否检验通过。
+			emits("submit",{data:data,validate:isPass})
+		},200,false)
     })
 }
 //执行表单检验，不会返回任何值。

@@ -13,6 +13,9 @@
 				</tm-col>
 			</tm-row>
            
+		   <view mt-32>
+			   <ad unit-id="adunit-d6c90eaaa098bf4d"></ad>
+		   </view>
         </view>
     </tm-app>
 </template>
@@ -26,13 +29,13 @@ import tmIcon from "@/tmui/components/tm-icon/tm-icon.vue"
 import tmCol from "@/tmui/components/tm-col/tm-col.vue"
 import tmImage from "@/tmui/components/tm-image/tm-image.vue"
 const list = ref([
-    { path: "/pages/chart/chart?key=lineChart", title: "lineChart" ,img:"https://fastly.jsdelivr.net/gh/apache/echarts-website@asf-site/examples/data/thumb/line-simple.webp?_v_=1652838344997"},
-    { path: "/pages/chart/chart?key=areaChart", title: "areaChart" ,img:"https://fastly.jsdelivr.net/gh/apache/echarts-website@asf-site/examples/data/thumb/area-basic.webp?_v_=1652838344997"},
-    { path: "/pages/chart/chart?key=areaChart2", title: "areaChart2" ,img:"https://fastly.jsdelivr.net/gh/apache/echarts-website@asf-site/examples/data/thumb/area-stack.webp?_v_=1652838344997"},
-    { path: "/pages/chart/chart?key=bar", title: "bar" ,img:"https://fastly.jsdelivr.net/gh/apache/echarts-website@asf-site/examples/data/thumb/bar-background.webp?_v_=1652838344997"},
-    { path: "/pages/chart/chart?key=pie", title: "pie" ,img:"https://fastly.jsdelivr.net/gh/apache/echarts-website@asf-site/examples/data/thumb/pie-borderRadius.webp?_v_=1652838344997"},
-    { path: "/pages/chart/chart?key=sca", title: "sca" ,img:"https://fastly.jsdelivr.net/gh/apache/echarts-website@asf-site/examples/data/thumb/scatter-simple.webp?_v_=1652838344997"},
-    { path: "/pages/chart/chart?key=gau", title: "gau" ,img:"https://fastly.jsdelivr.net/gh/apache/echarts-website@asf-site/examples/data/thumb/gauge-speed.webp?_v_=1652838344997"},
+    { path: "/pages/chart/chart?key=lineChart", title: "lineChart" ,img:"https://cdn.tmui.design/public/echart/lineChart.jpg"},
+    { path: "/pages/chart/chart?key=areaChart", title: "areaChart" ,img:"https://cdn.tmui.design/public/echart/areaChart.jpg"},
+    { path: "/pages/chart/chart?key=areaChart2", title: "areaChart2" ,img:"https://cdn.tmui.design/public/echart/areaChart2.jpg"},
+    { path: "/pages/chart/chart?key=bar", title: "bar" ,img:"https://cdn.tmui.design/public/echart/bar.jpg"},
+    { path: "/pages/chart/chart?key=pie", title: "pie" ,img:"https://cdn.tmui.design/public/echart/pie.jpg"},
+    { path: "/pages/chart/chart?key=sca", title: "sca" ,img:"https://cdn.tmui.design/public/echart/sca.jpg"},
+    { path: "/pages/chart/chart?key=gau", title: "gau" ,img:"https://cdn.tmui.design/public/echart/gau.jpg"},
 ])
 
 function navto(index:number){

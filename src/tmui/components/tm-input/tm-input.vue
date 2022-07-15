@@ -523,6 +523,7 @@ const validate =(rules:Array<rulesItem>)=>{
             return {
                 ...el,
                 validator:(val:string|number)=>{
+					
                     return String(val).length == 0 || typeof val === null ?false:true
                 }
             }
@@ -569,11 +570,12 @@ async function pushFormItem(isCheckVail = true) {
     if (parentFormItem) {
         if (isCheckVail) {
             validate(toRaw(rulesObj.value)).then(ev => {
+				
                 parentFormItem.pushCom({
                     value: _value.value,
                     isRequiredError: false,//true,错误，false正常 检验状态
                     componentsName: 'tm-input',//表单组件类型。
-                    message: ev[0].message,//检验信息提示语。
+                    message: ev.length==0?"":ev[0].message//检验信息提示语。
                 })
             }).catch(er => {
                 parentFormItem.pushCom({

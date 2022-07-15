@@ -133,6 +133,7 @@ provide('tmFormItemRules',computed(()=>{
 		    validator:props.rules?.validator??false
 		}]
 	}
+	
     return defaultrs;
 }))
 //向父级推表单类组件。

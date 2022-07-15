@@ -5,7 +5,6 @@
             以下示例，为官网复制过来，未作任何调试，因此可能样例中的属性未按照手机端调整。
             同时这个组件也是适配了PC端的。在PC页面也可以使用。
             "></tm-text>
-			<tm-text color="red" label="小程序包超过大小,不演示,请前往h5或者app中预览效果."></tm-text>
         </tm-sheet>
         <tm-chart :height="600" @onInit="chartInit"></tm-chart>
     </tm-app>

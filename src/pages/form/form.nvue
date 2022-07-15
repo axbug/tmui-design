@@ -1,29 +1,30 @@
-
 <template>
-	<tm-app  ref="app" color="grey-5">
-		<tm-form ref="form" v-model="show" >
-			<tm-form-item label="身份证号码" field="nameuser.a" :rules="[{required:true},{required:true,message:'请输入66',validator:(val)=>val=='66'}]">
-				<tm-input :inputPadding="[0,0]" v-model="show.nameuser.a" :transprent="true" :showBottomBotder="false"></tm-input>
+	<tm-app ref="app" color="grey-5">
+		<tm-form @submit="confirm" ref="form" v-model="show">
+			<tm-form-item label="身份证号码" field="nameuser.a"
+				:rules="[{required:true,message:'请输入66',validator:(val)=>val=='66'}]">
+				<tm-input :inputPadding="[0,0]" v-model="show.nameuser.a" :transprent="true" :showBottomBotder="false">
+				</tm-input>
 			</tm-form-item>
 			<tm-form-item label="选择日期" field="cale" :rules="[{required:true,message:'请选择日期哦'}]">
-				<tm-input :inputPadding="[0,0]" :model-value.sync="show.cale[0]" @click="showCal=!showCal" suffix="tmicon-angle-right"
-					placeholder="请选择有效日期" disabled :transprent="true" :showBottomBotder="false"></tm-input>
+				<tm-input :inputPadding="[0,0]" :model-value.sync="show.cale[0]" @click="showCal=!showCal"
+					suffix="tmicon-angle-right" placeholder="请选择有效日期" disabled :transprent="true"
+					:showBottomBotder="false"></tm-input>
 			</tm-form-item>
 			<tm-form-item label="选择地区" field="city" :rules="[{required:true,message:'请选择地区'}]">
-				<tm-input :inputPadding="[0,0]" :model-value.sync="show.cityStr" @click="showCity=!showCity" suffix="tmicon-angle-right"
-					placeholder="请选择所在地区地址" disabled :transprent="true" :showBottomBotder="false"></tm-input>
+				<tm-input :inputPadding="[0,0]" :model-value.sync="show.cityStr" @click="showCity=!showCity"
+					suffix="tmicon-angle-right" placeholder="请选择所在地区地址" disabled :transprent="true"
+					:showBottomBotder="false"></tm-input>
 			</tm-form-item>
 			<tm-form-item label="时间选择" field="time" :rules="[{required:true,message:'请选择时间'}]">
-				<tm-input :inputPadding="[0,0]" v-model="show.timeStr" 
-				@click="showTimePickerView=!showTimePickerView" 
-				suffix="tmicon-angle-right"
-					placeholder="请选择时间" disabled 
-					:transprent="true" 
+				<tm-input :inputPadding="[0,0]" v-model="show.timeStr" @click="showTimePickerView=!showTimePickerView"
+					suffix="tmicon-angle-right" placeholder="请选择时间" disabled :transprent="true"
 					:showBottomBotder="false"></tm-input>
 			</tm-form-item>
 			<tm-form-item label="弹出选择" field="time" :rules="[{required:true,message:'请选择水果种类'}]">
-				<tm-input :inputPadding="[0,0]" :model-value.sync="show.pickerStr" @click="showPicker=!showPicker" suffix="tmicon-angle-right"
-					placeholder="请选择你的水果种类" disabled :transprent="true" :showBottomBotder="false"></tm-input>
+				<tm-input :inputPadding="[0,0]" :model-value.sync="show.pickerStr" @click="showPicker=!showPicker"
+					suffix="tmicon-angle-right" placeholder="请选择你的水果种类" disabled :transprent="true"
+					:showBottomBotder="false"></tm-input>
 			</tm-form-item>
 			<tm-form-item label="选择水果" field="radio" :rules="[{required:true,message:'请选择水果'}]">
 				<tm-radio-group v-model="show.radio">
@@ -61,8 +62,8 @@
 			</tm-form-item>
 
 			<tm-form-item label="上传截图" field="upload" :rules="{required:true,message:'请上传'}">
-				<tm-upload
-				:rows="3" :width="420" url="https://mockapi.eolink.com/tNYKNA7ac71aa90bcbe83c5815871a5b419601e96a5524d/upload"
+				<tm-upload :rows="3" :width="420"
+					url="https://mockapi.eolink.com/tNYKNA7ac71aa90bcbe83c5815871a5b419601e96a5524d/upload"
 					v-model="show.upload"></tm-upload>
 			</tm-form-item>
 
@@ -80,9 +81,12 @@
 
 		</tm-form>
 		<tm-calendar v-model="show.cale" v-model:show="showCal" :default-value="show.cale"></tm-calendar>
-		<tm-city-picker v-model="show.city" v-model:model-str="show.cityStr" v-model:show="showCity" :default-value="show.city"></tm-city-picker>
-		<tm-time-picker v-model="show.time" v-model:model-str="show.timeStr" v-model:show="showTimePickerView" :default-value="show.timeStr"></tm-time-picker>
-		<tm-picker :columns="pickerlist" v-model="show.pickerIndex" v-model:model-str="show.pickerStr" v-model:show="showPicker" :default-value="show.pickerIndex"></tm-picker>
+		<tm-city-picker v-model="show.city" v-model:model-str="show.cityStr" v-model:show="showCity"
+			:default-value="show.city"></tm-city-picker>
+		<tm-time-picker v-model="show.time" v-model:model-str="show.timeStr" v-model:show="showTimePickerView"
+			:default-value="show.timeStr"></tm-time-picker>
+		<tm-picker :columns="pickerlist" v-model="show.pickerIndex" v-model:model-str="show.pickerStr"
+			v-model:show="showPicker" :default-value="show.pickerIndex"></tm-picker>
 	</tm-app>
 </template>
 <script lang="ts" setup>
@@ -122,31 +126,39 @@
 	const showCity = ref(false)
 	const showTimePickerView = ref(false)
 	const showPicker = ref(false)
-	const pickerlist = ref([
-		{text:"苹果"},
-		{text:"香蕉"},
-		{text:"李子"},
-		{text:"椰子"},
+	const pickerlist = ref([{
+			text: "苹果"
+		},
+		{
+			text: "香蕉"
+		},
+		{
+			text: "李子"
+		},
+		{
+			text: "椰子"
+		},
 	])
 	const show = ref({
 		cale: ["2022-1-4"],
-		time:'2022-1-9',
-		timeStr:'2022-1-5',
-		radio: "",//bonaer
-		pickerIndex:[],
-		pickerStr:"",
+		time: '2022-1-9',
+		timeStr: '2022-1-5',
+		radio: "", //bonaer
+		pickerIndex: [],
+		pickerStr: "",
 		checkbox: [],
 		rate: 0,
 		slider: [0, 50],
 		segtab: "",
 		switch: false,
 		upload: [],
-		city:[],
-		cityStr:"",
+		city: [],
+		cityStr: "",
 		nameuser: {
 			a: ""
 		}
 	})
-
-	
+	const confirm = (e)=>{
+		console.log(e)
+	}
 </script>

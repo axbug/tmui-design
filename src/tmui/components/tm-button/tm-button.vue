@@ -24,7 +24,6 @@
 	:blur="props.blur"
 	_class="flex flex-row flex-center pointer">
 		<button 
-		
 		@click="onclick"
 		@touchstart="touchstart" 
 		@touchend="touchend" 
@@ -32,7 +31,6 @@
 		@touchcancel="isclickOn=false;emits('touchcancel',$event)"
 		@touchmove="emits('touchmove',$event)"
 		@getphonenumber="emits('getphonenumber',$event)"
-		@getuserinfo="emits('getuserinfo',$event)"
 		@error="emits('error',$event)"
 		@opensetting="emits('opensetting',$event)"
 		@launchapp="emits('launchapp',$event)"
@@ -88,7 +86,7 @@ const emits = defineEmits<{
   (e: 'tap', event: Event|TouchEvent): void
   (e: 'longpress', event: Event|TouchEvent): void
   (e: 'getphonenumber', event: any): void
-  (e: 'getuserinfo', event: any): void
+  (e: 'getUserInfo', event: any): void
   (e: 'getUserProfile', event: any): void
   (e: 'error', event: any): void
   (e: 'opensetting', event: any): void
@@ -285,27 +283,27 @@ function onclick(e:Event){
 		if(props.openType=='getUserInfo' || props.openType == 'getUserProfile'){
 			// #ifdef MP-WEIXIN
 			uni.getUserProfile({
-				desc: '需要获取用户信息',
-				lang: "zh_CN",
-				complete: function (userProfile) {
+				desc: '用于完善会员资料',
+				success: function (userProfile) {
 					if(userProfile.errMsg !='getUserProfile:ok'){
 						uni.showToast({
 							title:userProfile.errMsg,icon:'error',mask:true
 						})
 						return;
 					}
-					emits('getuserinfo', userProfile);
+					emits('getUserInfo', userProfile);
 					emits('getUserProfile', userProfile);
 				},
 				fail: (error) => {
+					console.log(error)
 					uni.showToast({
-						title:error
+						icon:"none",
+						title:typeof error=="object"?error.errMsg:error
 					})
 				}
 			});
 			// #endif
 		}
-		
 		
 }
 

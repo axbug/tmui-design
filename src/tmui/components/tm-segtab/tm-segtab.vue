@@ -15,7 +15,7 @@
             <!-- #endif -->
             <!-- #ifndef APP-NVUE -->
             <view v-if="_cId!==''" class="relative flex flex-row  bgbtnpos"
-                :style="[{ transform: 'translateX(' + leftPos + 'px)', width: leftWidth + 'px' }]">
+                :style="[{ transform: 'translateX(' + leftPos + 'px)', width: (leftWidth+1) + 'px' }]">
                 <!-- left:leftPos+'px',width:leftWidth+'px' -->
                 <tm-sheet :follow-dark="props.followDark" :round="2" class="flex-1 flex flex-row" parenClass="flex-1" _class="flex-1 flex flex-row" :color="props.color" :margin="[0, 0]"
                     :padding="[0, 0]"></tm-sheet>
@@ -297,7 +297,7 @@ async function pushFormItem(isCheckVail = true){
                     value: _cId.value,
                     isRequiredError: false,//true,错误，false正常 检验状态
                     componentsName: 'tm-segtab',//表单组件类型。
-                    message: ev[0].message,//检验信息提示语。
+                    message: ev.length==0?"":ev[0].message,//检验信息提示语。
                 })
             }).catch(er => {
                 parentFormItem.pushCom({

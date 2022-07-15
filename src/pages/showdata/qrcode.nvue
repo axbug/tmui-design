@@ -52,11 +52,11 @@ function change(e) {
 	}else if(type===3){
 		cfig.value = {baseColor:["#FF0000","#FFFF00"],forgroundColor:"#000000",str:str.value}
 	}else if(type===4){
-		cfig.value = {logoImage:'https://vkceyugu.cdn.bspapp.com/VKCEYUGU-f5b1722f-8766-40af-a22a-acc454202a37/900cec0b-a271-407d-a908-9f2078a5f96f.png',str:str.value,logoWidth:30,logoHeight:30}
+		cfig.value = {logoImage:'https://cdn.tmui.design/public/design/logoCir.png',str:str.value,logoWidth:30,logoHeight:30}
 	}else if(type===5){
 		cfig.value = {border:0.1,str:str}
 	}else if(type===6){
-		cfig.value = {forgroundColor:"#FFFFFF",str:str,backgroundImage:'https://picsum.photos/220/220?id=0'}
+		cfig.value = {forgroundColor:"#FFFFFF",str:str,backgroundImage:'https://cdn.tmui.design/public/echart/qrbg.jpg'}
 	}
 
 	

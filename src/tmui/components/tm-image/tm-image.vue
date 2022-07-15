@@ -49,7 +49,7 @@ import {
 	getCurrentInstance,
 	computed,
 	ref,
-	inject,watch
+	inject,watch, PropType
 } from 'vue'
 import tmSheet from "../tm-sheet/tm-sheet.vue";
 import tmText from "..//tm-text/tm-text.vue";
@@ -66,12 +66,12 @@ const props = defineProps({
 	...custom_props,
 	//外部间隙
 	margin: {
-		type: Array,
+		type: Array as PropType<Array<number>>,
 		default: () => [0, 0]
 	},
 	//内部间隙
 	padding: {
-		type: Array,
+		type: Array as PropType<Array<number>>,
 		default: () => [0, 0]
 	},
 	color: {
@@ -87,12 +87,12 @@ const props = defineProps({
 		default: 0
 	},
 	width: {
-		type: [Number, String],
+		type: [Number],
 		default: 200,
 		required: true
 	},
 	height: {
-		type: [Number, String],
+		type: [Number],
 		default: 200,
 		required: true
 	},

@@ -1,7 +1,7 @@
 <template>
 	<view>
 		<view class="statusHeight" :style="{height:_barHeight+'px'}"></view>
-		<view class="fixed l-0 t-0 statusHeightTop" :style="{width:_width+'px',height:_barHeight+'px'}">
+		<view class="fixed l-0 t-0 statusHeightTop flex" :style="{width:_width+'px',height:_barHeight+'px'}">
 			<tm-sheet
 				@click="emits('click', $event)"
 				:blur="_blur"
@@ -23,19 +23,20 @@
 				:margin="props.margin"
 				:padding="props.padding"
 				:height='_barHeight'
+				:width="_width"
 				unit='px'
 			>
 				<view class="statusHeight" :style="{height:statusBarHeight+'px'}"></view>
 				
 				<view class="flex flex-row flex-1 flex-row flex-row-center-betweent ">
 					<view class="flex-row flex flex-row-center-start pl-24" :style="{width:_leftWidth+'rpx'}">
-						<tm-icon _class="pointer" @click="goback" v-if="_pages>1" name="tmicon-angle-left" :font-size="20" unit="px"></tm-icon>
-						<tm-icon _class="pointer" @click="backhome" v-if="_pages==1&&!hideHome" :color="_homeColor" :font-size="20" unit="px" name="tmicon-md-home"></tm-icon>
+						<tm-icon :unit="props.unit" :font-size="props.iconFontSize" _class="pointer" @click="goback" v-if="_pages>1" name="tmicon-angle-left"></tm-icon>
+						<tm-icon :unit="props.unit" _class="pointer" @click="backhome" v-if="_pages==1&&!hideHome" :color="_homeColor" :font-size="props.iconFontSize" name="tmicon-md-home"></tm-icon>
 						<slot name="left"></slot>
 					</view>
 					<view class=" flex flex-row-center-center" :style="{width:contentwidth+'px'}">
 						<slot>
-							<tm-text _class="text-weight-b text-overflow-1" :color="_fontColor" :font-size="props.fontSize" unit="px" :label="_title"></tm-text>
+							<tm-text :unit="props.unit" _class="text-weight-b text-overflow-1" :color="_fontColor" :font-size="props.fontSize" :label="_title"></tm-text>
 						</slot>
 					</view>
 					<view class="flex-row flex flex-row-center-end  pr-24" :style="{width:_rightWidth+'rpx'}">
@@ -81,11 +82,11 @@
 			default: false
 		},
 		border: {
-			type: [Number, String],
+			type: [Number],
 			default: 0
 		},
 		shadow: {
-			type: [Number, String],
+			type: [Number],
 			default: 1
 		},
 		borderDirection:{
@@ -93,7 +94,7 @@
 			default:"bottom"
 		},
 		round: {
-			type: [Number, String],
+			type: [Number],
 			default: 0
 		},
 		margin: {
@@ -120,7 +121,11 @@
 		},
 		fontSize:{
 			type: [Number],
-			default: 16
+			default: 30
+		},
+		iconFontSize:{
+			type: [Number],
+			default: 37
 		},
 		title:{
 			type: [String],
@@ -148,10 +153,14 @@
 			type:Boolean,
 			default:false
 		},
+		unit:{
+			type:String,
+			default:"rpx"
+		}
 	})
 
 	const _height = computed(()=>props.height)
-	const _width = uni.getSystemInfoSync().windowWidth
+	const _width = uni.getSystemInfoSync().screenWidth
 	const statusBarHeight = uni.getSystemInfoSync().statusBarHeight
 	const _barHeight = computed(()=>statusBarHeight+_height.value)
 	const _leftWidth = computed(()=>props.leftWidth)

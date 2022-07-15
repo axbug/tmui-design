@@ -4,7 +4,7 @@
 	@click.stop="close" 
 	:class="[bgColor_rp&&!props.transprent?'blurbg':'', align_rpx,' navbarheight flex flex-col  l-0  ',customClass,]" 
 	:style="[bgColor_rp&&!props.transprent ? { backgroundColor: showMask?bgColor_rp:'' } : '',{ position:'fixed'},
-		zIndex ? { zIndex: zIndex } : '', { width: width + 'px', height: height + 'px',},customCSSStyle, ]" 
+		zIndex ? { zIndex: zIndex } : '', { width: width + 'px', height: height + 'px',top:top+'px'},customCSSStyle, ]" 
 		:animation="animationData">
 		<slot></slot>
 	</view>
@@ -96,6 +96,7 @@
 	if(document.querySelector('.uni-page-head')){
 		top.value = windowTop
 		height.value = windowHeight
+		
 	}
 	// #endif
 	// #ifdef APP 
@@ -228,7 +229,7 @@
 	}
 	/* #ifndef APP-PLUS-NVUE */ 
 	.navbarheight{
-		top:var(--window-top);
+		/* top:var(--window-top); */
 	}
 	/* #endif */ 
 </style>

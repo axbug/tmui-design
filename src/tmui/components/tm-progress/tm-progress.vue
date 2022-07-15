@@ -89,7 +89,7 @@ import {
 // #endif
 const store = useTmpiniaStore();
 const emits = defineEmits(['update:percent', 'change'])
-const { proxy }:any = getCurrentInstance();
+const { proxy } = getCurrentInstance();
 const vnodeCtx = proxy
 const props = defineProps({
 	...custom_props,
@@ -175,7 +175,7 @@ const canvasId = ref("canvasId")
 // #ifndef MP-WEIXIN || MP-ALIPAY || MP-QQ
 canvasId.value = "tm" + uni.$tm.u.getUid(5);
 // #endif
-let ctx:any = null
+let ctx:UniApp.CanvasContext;
 const shadow_pr = computed(() => props.shadow * 4)
 // 设置响应式全局组件库配置表。
 const tmcfg = computed<tmVuetify>(() => store.tmStore);
@@ -366,9 +366,9 @@ function drawNvue_draw() {
 	}
 
 	let c = tmcomputed.value;
-	let bgColor =_bgColor.value;
+	let bgColor =_bgColor.value||"#f5f5f5";
 
-	let activeColor = tool.getColor(props.color).csscolor;
+	let activeColor = tool.getColor(props.color).csscolor||"#ff0000";
 	let strokeWidth = uni.upx2px(props.height);
 
 	//先绘制背景圆;
@@ -378,9 +378,9 @@ function drawNvue_draw() {
 	ctx.lineCap = "round";
 	ctx.beginPath();
 	if (props.semicircle) {
-		ctx.arc(center.x, center.y, center.r, -Math.PI, 0, props.semicircleFlip);
+		ctx.arc(center.x, center.y, center.r, -Math.PI, 0, props.semicircleFlip?true:false);
 	} else {
-		ctx.arc(center.x, center.y, center.r, 0, 2 * Math.PI, props.semicircleFlip);
+		ctx.arc(center.x, center.y, center.r, 0, 2 * Math.PI, props.semicircleFlip?true:false);
 	}
 	ctx.stroke();
 	ctx.closePath();

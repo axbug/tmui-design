@@ -23,6 +23,7 @@ function request(cog:fetchConfig = config,complete?:Function,beforeRequest?:Func
             }
             newConfig = {...newConfig,...opts};
         }
+		console.log(newConfig)
         uni.request({
             url:newConfig.url||"",
             data:newConfig.data,
@@ -69,13 +70,13 @@ export class fetchNet {
      * @param beforeRequest 访问前执行的函数，可以是Promise,你可以对执行前的参数进行修改之类的，将以你最新的修改参数为准进行请求。
      * @param afterRequest 访问后执行的函数，可以是Promise,提供请示后的数据，你可以在这里修改，返回，这样所有请求的数据返回后都为返回你修改后的数据。
      */
-    constructor(cog:fetchConfig,beforeRequest?:Function,afterRequest?:Function){
+    constructor(cog:fetchConfig,beforeRequestFun?:Function,afterRequesFunt?:Function){
         config = {...config,...(cog||{})};
-        if(typeof beforeRequest == 'function'){
-            beforeRequest = beforeRequest;
+        if(typeof beforeRequestFun == 'function'){
+            beforeRequest = beforeRequestFun;
         }
-        if(typeof afterRequest == 'function'){
-            afterRequest = afterRequest;
+        if(typeof afterRequesFunt == 'function'){
+            afterRequest = afterRequesFunt;
         }
     }
     static get(url:string,data:object={},opts:fetchConfig={}){

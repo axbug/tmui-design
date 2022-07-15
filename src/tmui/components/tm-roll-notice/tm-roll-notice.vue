@@ -4,7 +4,6 @@
   :padding="[24,0]" 
   :width="_width" 
   :height="props.height" 
-
   :color="props.color"
   :_style="props._style"
   :followTheme="props.followTheme"
@@ -27,7 +26,9 @@
       <view ref="content" 
       :style="{animationDuration:_duration+'s',paddingLeft: (isNvue?0:_Left)+'rpx',width:_Left*list.length+'rpx'}" 
       class="aniRow flex-row flex-row-center-start">
-        <tm-text :font-size="props.fontSize" :color="props.fontColor" @click="emits('click',index)" v-for="(item,index) in _list" :key="index" :label="item" _class="pl-24"></tm-text>
+        <view  class="flex-row flex-row-center-start" v-for="(item,index) in _list" :key="index" >
+          <tm-text _class="pl-24 nowrap" :font-size="props.fontSize" :color="props.fontColor" @click="emits('click',index)"  :label="item"></tm-text>
+        </view>
       </view>
     </view>
     <view v-if="props.showRight" class="flex flex-row flex-row-center-end" style="width:40rpx">
@@ -65,7 +66,7 @@ const props = defineProps({
   },
   width:{
     type:Number,
-    default:750
+    default:726
   },
   height:{
     type:Number,
@@ -177,7 +178,7 @@ function nvueani(){
     transform: translateX(0);
   }
   100%{
-    transform: translateX(-100%);
+    transform: translateX(-150%);
   }
 }
 /* #endif */

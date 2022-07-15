@@ -20,9 +20,20 @@ export default {
 		const {onShareAppMessage,onShareTimeline} = share()
 		app.mixin({
 			onShareAppMessage,
-			onShareTimeline
+			onShareTimeline,
 		})
 		// #endif
+		// #ifndef MP
+		// app.mixin({
+		// 	onResize() {
+		// 	    console.log(1)
+		// 	},
+		// 	mounted() {
+		// 		console.log(2)
+		// 	}
+		// })
+		// #endif
+		
 		app.config.globalProperties.tm = $tm;
 	}
 };

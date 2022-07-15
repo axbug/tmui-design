@@ -201,7 +201,7 @@ async function pushFormItem(isCheckVail = true){
                     value: _start.value,
                     isRequiredError: false,//true,错误，false正常 检验状态
                     componentsName: 'tm-rate',//表单组件类型。
-                    message: ev[0].message,//检验信息提示语。
+                    message: ev.length==0?"":ev[0].message,//检验信息提示语。
                 })
             }).catch(er => {
                 parentFormItem.pushCom({

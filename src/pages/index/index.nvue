@@ -13,7 +13,7 @@
 			<view class="flex-row flex-row-center-start pb-10">
 				<tm-image :width="108" :height="67.5" :src="logoimg"></tm-image>
 				<view class="pl-16 flex-1" style="width:0px">
-					<tm-text _class="text-weight-b" :font-size="36" label="TMUI 3.0.72"></tm-text>
+					<tm-text _class="text-weight-b" :font-size="36" label="TMUI 3.0.73"></tm-text>
 					<tm-text _class="opacity-6" :label="language('index.search.subtext')"></tm-text>
 				</view>
 			</view>
@@ -40,7 +40,7 @@
 				</tm-button>
 			</view>
 		</tm-sheet>
-		<tm-sheet :round="3" :margin="[32, 32]">
+		<tm-sheet :round="3" :margin="[32, 24]">
 			<tm-text :font-size="24" _class="font-weight-b" :label="language('index.com.title')"></tm-text>
 			<tm-divider></tm-divider>
 			<tm-grid :col="3" :width="630">
@@ -80,7 +80,7 @@
 					<tm-text color="grey" :font-size="22" _class="font-weight-b" :label="language('index.com.navSub')">
 					</tm-text>
 				</tm-grid-item>
-				<tm-grid-item url="../yewu/index" :height="180" count="HOT" color="orange">
+				<tm-grid-item :transprent="false" bg-color="red" text  url="../yewu/index" :height="180" count="HOT" color="orange">
 					<tm-icon color="red" _class="pb-10" :font-size="52" name="tmicon-box-fill"></tm-icon>
 					<tm-text :font-size="28" _class="font-weight-b" :label="language('index.com.yewu')"></tm-text>
 					<tm-text color="grey" :font-size="22" _class="font-weight-b" :label="language('index.com.yewuSub')">
@@ -92,7 +92,7 @@
 					<tm-text color="grey" :font-size="22" _class="font-weight-b"
 						:label="language('index.com.otherSub')"></tm-text>
 				</tm-grid-item>
-				<tm-grid-item url="../chart/index" :height="180" count="CHAR">
+				<tm-grid-item text url="../chart/index" :height="180" count="CHAR">
 					<tm-icon color="blue-grey" _class="pb-10" :font-size="52" name="tmicon-borderbottom-fill">
 					</tm-icon>
 					<tm-text :font-size="28" _class="font-weight-b" :label="language('index.com.tubiao')"></tm-text>
@@ -102,24 +102,27 @@
 
 			</tm-grid>
 		</tm-sheet>
-		<tm-cell @click="seLocal" showAvatar :round="3" :titleFontSize="30" :title="language('index.com.setLocal')"
-			:rightText="language('language')">
-			<template v-slot:avatar>
-				<tm-icon color="primary" :font-size="38" name="tmicon-resource"></tm-icon>
-			</template>
-		</tm-cell>
-		<tm-cell :margin="[32,16]" showAvatar :round="3" :titleFontSize="30" :title="language('index.com.love')"
+		
+		<tm-cell url="../wxaccount/user" :margin="[32,16]" showAvatar :round="3" :titleFontSize="30" :title="language('index.com.love')"
+			label="可登录模板市场"
 			:rightText="language('index.com.loveSub')">
 			<template v-slot:avatar>
 				<tm-icon color="orange" :font-size="38" name="tmicon-heart-fill"></tm-icon>
 			</template>
 		</tm-cell>
 
+		<tm-cell @click="seLocal" showAvatar :round="3" :titleFontSize="30" :title="language('index.com.setLocal')"
+			:rightText="language('language')">
+			<template v-slot:avatar>
+				<tm-icon color="primary" :font-size="38" name="tmicon-resource"></tm-icon>
+			</template>
+		</tm-cell>
+		
 		<view class="py-32 mx-32">
+			<ad unit-id="adunit-e065040f522746dc"></ad>
 			<tm-divider color="grey-2" :label="language('index.com.bottom')"></tm-divider>
 		</view>
-
-		<tm-float-button  @click="onChangeDark" :btn="{ icon: 'tmicon-ios-sunny',linear:'top'}">
+		<tm-float-button  @click="onChangeDark" :btn="{ icon: 'tmicon-ios-sunny',color:'pink',linear:'right'}">
 		</tm-float-button>
 		<tm-message ref="msg"></tm-message>
 		<tm-drawer v-model:show="showCustom" placement="center" hideHeader :height="450" :width="600">
@@ -137,11 +140,10 @@
 		ref,
 		getCurrentInstance,
 		nextTick
-
 	} from "vue"
 	import {
 		onShow,
-		onLoad
+		onLoad,
 	} from "@dcloudio/uni-app";
 	import {
 		language
@@ -225,4 +227,29 @@
 		store.setTmVuetifyAddTheme(showCustomName.value,showCustomColor.value) 
 	}
 
+
+	onLoad(()=>{
+		// #ifdef MP-WEIXIN
+		
+		// 在页面中定义插屏广告
+		let interstitialAd = null
+		
+		// 在页面onLoad回调事件中创建插屏广告实例
+		if (wx.createInterstitialAd) {
+		  interstitialAd = wx.createInterstitialAd({
+		    adUnitId: 'adunit-197d1e1914ce88ec'
+		  })
+		  interstitialAd.onLoad(() => {})
+		  interstitialAd.onError((err) => {})
+		  interstitialAd.onClose(() => {})
+		}
+		// 在适合的场景显示插屏广告
+		if (interstitialAd) {
+		  interstitialAd.show().catch((err) => {
+		    console.error(err)
+		  })
+		}
+		
+		// #endif
+	})
 </script>

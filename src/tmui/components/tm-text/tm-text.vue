@@ -78,7 +78,7 @@ const _fontSize = computed(() => Number(props.fontSize))
 //从父应用组件中获取自动文字色。
 const appTextColor = inject("appTextColor", computed(() => undefined));
 const textColor = computed(() => {
-  if(props.followTheme&&store.tmStore.color) return store.tmStore.color;
+  if (props.followTheme && store.tmStore.color) return store.tmStore.color;
   let isColorHex = theme.isCssColor(props.color);
   //如果当前是自定义颜色值，直接返回。
   if (isColorHex) return props.color;
@@ -93,7 +93,7 @@ const textColor = computed(() => {
     return 'rgba(34, 34, 34, 1.0)'
   }
   if (appTextColor.value) {
-	  return appTextColor.value
+    return appTextColor.value
   };
   return 'rgba(34, 34, 34, 1.0)';
 });

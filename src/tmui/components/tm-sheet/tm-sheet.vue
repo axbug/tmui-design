@@ -5,22 +5,22 @@
  * @Description: 文件
 -->
 <template>
-  <view :render-whole="true" v-if="_blue_sheet" :blurEffect="_blurEffect" @click="emits('click', $event)" @longpress="longpress" @touchend="touchend"
-    @touchstart="touchstart" @touchcancel="touchcancel" @mousedown="mousedown" @mouseup="mouseup"
-    @mouseleave="mouseleave" :class="[
+  <view :render-whole="true" v-if="_blue_sheet" :blurEffect="_blurEffect" @click="emits('click', $event)"
+    @longpress="longpress" @touchend="touchend" @touchstart="touchstart" @touchcancel="touchcancel"
+    @mousedown="mousedown" @mouseup="mouseup" @mouseleave="mouseleave" :class="[
       'flex flex-col', parenClass_p,
       `mx-${_margin[0]}`,
       `my-${_margin[1]}`,
       `px-${_padding[0]}`,
       `py-${_padding[1]}`,
       isLongPress ? props.hoverClass : '',
-	  props.hoverClass!=''&&props.hoverClass!='none'?'pointer':'',
+      props.hoverClass != '' && props.hoverClass != 'none' ? 'pointer' : '',
       !isDisabledRoundAndriod ? `round-${props.round}` : '',
     ]" :style="[
-  _height ? { height: _height + _padding[1] + props.unit } : '',
-  _width ? { width: _width + ( _padding[0] * 2 ) + props.unit } : '',
+  _height ? { height: _height + (_padding[1]*2) + props.unit } : '',
+  _width ? { width: _width + (_padding[0]*2) + props.unit } : '',
   tmcomputed.borderCss,
-  _blur && store.tmStore.os == 'ios' &&_isNvue===true ? '' : _bgcolor,
+  _blur && store.tmStore.os == 'ios' && _isNvue === true ? '' : _bgcolor,
   !_transprent && props.shadow > 0 ? tmcomputed.shadowColor : '',
   !_transprent && _blur ? { 'backdrop-filter': 'blur(10px)' } : '',
   customCSSStyle,
@@ -124,7 +124,7 @@ const _transprent = computed(() => props.transprent)
 const tmcfg = computed(() => store.tmStore);
 const _blur = computed(() => {
   //安卓平台没有这功能
-  if(tmcfg.value.os == 'android'&&_isNvue.value){
+  if (tmcfg.value.os == 'android' && _isNvue.value) {
     return false;
   }
   return props.blur
@@ -137,15 +137,15 @@ const customClass = computed(() => computedClass(props));
 const isDark = computed(() => computedDark(props, tmcfg.value));
 //计算主题
 const tmcomputed = computed<cssstyle>(() => {
-	let text = props.text;
-  if(_blur.value&&tmcfg.value.os == 'ios'){
-	  text = true;
+  let text = props.text;
+  if (_blur.value && tmcfg.value.os == 'ios') {
+    text = true;
   }
-  return computedTheme({...props,blur:_blur.value,text:text}, isDark.value,tmcfg.value);
+  return computedTheme({ ...props, blur: _blur.value, text: text }, isDark.value, tmcfg.value);
 });
 const _isNvue = ref(false)
 // #ifdef APP-NVUE
-_isNvue.value=true;
+_isNvue.value = true;
 // #endif
 const _margin = computed(() => props.margin)
 const _padding = computed(() => props.padding)
@@ -160,13 +160,13 @@ const _blurEffect = computed(() => {
   return 'none'
 })
 watch(() => isDark.value, () => {
-// #ifdef APP-NVUE
-//在ios下。如果切换带有磨砂效果时，如果不触发发更新视图，页面是不会更改。
-if(store.tmStore.os=='ios'&&_blur.value===true){
-  _blue_sheet.value = false;
-  nextTick(()=>_blue_sheet.value=true)
-}
-// #endif
+  // #ifdef APP-NVUE
+  //在ios下。如果切换带有磨砂效果时，如果不触发发更新视图，页面是不会更改。
+  if (store.tmStore.os == 'ios' && _blur.value === true) {
+    _blue_sheet.value = false;
+    nextTick(() => _blue_sheet.value = true)
+  }
+  // #endif
 
 })
 const _bgcolor = computed(() => {
@@ -238,19 +238,20 @@ const c_h = computed(() => {
 })
 // 设置响应式主题文字色。
 let textColor = computed(() => {
-	return tmcomputed.value.textColor
+  return tmcomputed.value.textColor
 });
 provide("appTextColor", textColor);
 </script>
 
 <style scoped>
-	
-	/* #ifdef H5 */
-	.pointer{
-		cursor: pointer;
-	}
-	.pointer:hover{
-		opacity: 0.7;
-	}
-	/* #endif */
+/* #ifdef H5 */
+.pointer {
+  cursor: pointer;
+}
+
+.pointer:hover {
+  opacity: 0.7;
+}
+
+/* #endif */
 </style>

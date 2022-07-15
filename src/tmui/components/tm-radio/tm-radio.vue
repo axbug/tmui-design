@@ -13,12 +13,15 @@
 				</tm-translate>
 				<tm-text v-if="!_is_radio" :font-size="props.fontSize" :label="props.label"></tm-text>
 			</tm-sheet>
-			<slot>
-				<view class="flex-1 flex-row flex-row-cneter-cneter" style="flex-wrap:wrap;">
-					<tm-text class="flex-1 flex-wrap" :userInteractionEnabled="false" v-if="_is_radio"
-						:font-size="props.fontSize" :label="props.label"></tm-text>
-				</view>
-			</slot>
+			<view :userInteractionEnabled="false">
+				<slot>
+					<view class="flex-1 flex-row flex-row-cneter-cneter" style="flex-wrap:wrap;">
+						<tm-text class="flex-1 flex-wrap"  v-if="_is_radio"
+							:font-size="props.fontSize" :label="props.label"></tm-text>
+					</view>
+				</slot>
+			</view>
+			
 		</view>
 	</view>
 </template>
@@ -114,7 +117,7 @@
 		icon: {
 			type: String,
 			default: "tmicon-check"
-		}
+		},
 
 	})
 

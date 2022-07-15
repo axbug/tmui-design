@@ -9,6 +9,7 @@
 			:style="[{ zIndex: 0, width: appConfig.width + 'px', height: appConfig.height + 'px' }]"
 		></image> -->
 		<!-- #endif -->
+	
 		<view v-if="isSetThemeOk" class="flex flex-col flex-1" :class="[blur ? 'blur' : '']" :style="[
 			{
 				zIndex: 1,
@@ -119,7 +120,7 @@
 	} = uni.getSystemInfoSync()
 	const sysinfo:UniApp.GetSystemInfoResult = uni.getSystemInfoSync()
 	// 视察的宽。
-	const view_width = ref(safeArea?.width || windowWidth);
+	const view_width = ref(sysinfo.windowWidth);
 	//视窗的高度。
 	let view_height = ref(windowHeight + (windowTop || 0));
 

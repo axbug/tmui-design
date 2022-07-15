@@ -7,10 +7,7 @@
 			<view class="pb-24">
 				<tm-text :label="str?str:'请选择'"></tm-text>
 			</view>
-			<tm-radio-group v-model="radio">
-				<tm-radio :value="true" label="True"></tm-radio>
-				<tm-radio :value="false" label="False"></tm-radio>
-			</tm-radio-group>
+			
 			<tm-radio-group v-model="radiolist">
 				<tm-radio value="apple" label="苹果"></tm-radio>
 				<tm-radio color="orange" value="banner" label="香蕉"></tm-radio>
@@ -32,7 +29,14 @@
 				<tm-radio  border-style="dashed"  color="green" value="other" label="其它水果"></tm-radio>
 			</tm-radio-group>
         </tm-sheet>
-        
+        <tm-sheet>
+             <tm-text :font-size="24" _class="font-weight-b" label="按钮样式"></tm-text>
+				<tm-divider></tm-divider>
+				<tm-radio-group model="button" v-model="radio">
+					<tm-radio :value="true" label="选我呀"></tm-radio>
+					<tm-radio :value="false" label="不要选我呀"></tm-radio>
+				</tm-radio-group>
+         </tm-sheet>
     </tm-app>
 </template>
 <script lang="ts" setup>
