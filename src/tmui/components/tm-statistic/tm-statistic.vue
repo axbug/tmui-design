@@ -4,7 +4,7 @@
 			<tm-text :followTheme="props.followTheme" :color="props.color" :font-size="props.fontSize*0.7" :label="props.prefix"></tm-text>
 		</slot>
 		<slot name="default">
-			<tm-text :followTheme="props.followTheme" :_class="['px-12',customClass]" :color="props.color" :font-size="props.fontSize" :label="displayValue"></tm-text>
+			<tm-text :followTheme="props.followTheme" :_class="[customClass || 'px-12']" :color="props.color" :font-size="props.fontSize" :label="displayValue"></tm-text>
 		</slot>
 		<slot name="suffix">
 			<tm-text :followTheme="props.followTheme" :color="props.color" :font-size="props.fontSize*0.7" :label="props.suffix"></tm-text>
