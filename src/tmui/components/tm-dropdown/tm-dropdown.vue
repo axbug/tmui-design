@@ -114,7 +114,7 @@
 											<tm-icon :color="item.iconColor" :dark="props.dark" :fontSize="36" _class="pr-12" v-if="item.icon" :name="item.icon"></tm-icon>
 											<tm-text :fontSize="32" :label="item.text"></tm-text>
 										</view>
-										<tm-icon font-size="22" _class="pl-24" name="tmicon-angle-right"></tm-icon>
+										<tm-icon :font-size="22" _class="pl-24" name="tmicon-angle-right"></tm-icon>
 									</view>
 								</view>
 								<view style="height:8rpx"></view>

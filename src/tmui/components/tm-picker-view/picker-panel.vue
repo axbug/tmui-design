@@ -11,8 +11,8 @@
 		    :style="[{height:props.height+'rpx'}]">
 		        <view :class="[item['disabled']?'opacity-5':'']"  v-for="(item,index) in _data" :key="index" class="flex"  
 				style="justify-content: center;height:34px;align-items:center">
-		            <TmText v-if="typeof item == 'string'" :font-size="30" :dark="isDark" :label="item"></TmText>
-		            <TmText v-if="typeof item == 'object'" :font-size="30" :dark="isDark" :label="item[props.dataKey]??''"></TmText>
+		            <TmText v-if="typeof item == 'string'" _class="text-align-center" :font-size="item.length>7?24:30"  :dark="isDark" :label="item"></TmText>
+		            <TmText v-if="typeof item == 'object'" _class="text-align-center" :font-size="item[props.dataKey].length>7?24:30" :dark="isDark" :label="(item[props.dataKey]||'')"></TmText>
 		        </view>
 		    </picker-view-column>
 		</picker-view>
@@ -26,8 +26,8 @@
 		    :style="[{height:props.height+'rpx'}]">
 		        <view :class="[item['disabled']?'opacity-5':'']"  v-for="(item,index) in _data" :key="index" class="flex"  
 				style="justify-content: center;height:34px;align-items:center">
-		            <TmText v-if="typeof item == 'string'" :font-size="30" :dark="isDark" :label="item"></TmText>
-		            <TmText v-if="typeof item == 'object'" :font-size="30" :dark="isDark" :label="item[props.dataKey]??''"></TmText>
+		            <TmText v-if="typeof item == 'string'" _class="text-align-center" :font-size="item.length>7?24:30"  :dark="isDark" :label="item"></TmText>
+		            <TmText v-if="typeof item == 'object'" _class="text-align-center" :font-size="item[props.dataKey].length>7?24:30" :dark="isDark" :label="(item[props.dataKey]||'')"></TmText>
 		        </view>
 		    </picker-view-column>
 		</picker-view>
@@ -50,7 +50,7 @@ const { proxy } = getCurrentInstance();
 const store = useTmpiniaStore();
 const props = defineProps({
 	followTheme: {
-		type: [Boolean,String],
+		type: [Boolean],
 		default: true
 	},
     col:{
@@ -67,8 +67,8 @@ const props = defineProps({
         default:600
 	},
     data:{
-        type:Object as PropType<Array<columnsItem>>,
-        default:()=>{},
+        type:Array as PropType<Array<columnsItem>>,
+        default:()=>[],
         required:true
     },
     //当columns项目中的data数据为对象时的key取值字段。
@@ -102,9 +102,9 @@ onMounted(()=>{
     //在微信小程序因为有渲染等待30ms，为了兼容统一全部等待30ms
     showDom.value=true;
 	nvuegetClientRect()
-    nextTick(()=>{
-        colIndex.value = props.col;
-    })
+    setTimeout(function() {
+		colIndex.value = props.col;
+	}, 50);
 })
 onUpdated(()=>nvuegetClientRect())
 watch(()=>props.col,()=>{

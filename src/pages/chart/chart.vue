@@ -7,7 +7,9 @@
             "></tm-text>
 			<tm-text color="red" label="小程序包超过大小,不演示,请前往h5或者app中预览效果."></tm-text>
         </tm-sheet>
+		<!-- #ifndef MP -->
         <tm-chart :height="600" @onInit="chartInit"></tm-chart>
+		<!-- #endif -->
     </tm-app>
 </template>
 <script lang="ts" setup>
@@ -20,6 +22,7 @@ import { onShow, onLoad } from "@dcloudio/uni-app";
 import tmApp from "@/tmui/components/tm-app/tm-app.vue"
 import tmSheet from "@/tmui/components/tm-sheet/tm-sheet.vue"
 import tmText from "@/tmui/components/tm-text/tm-text.vue"
+// #ifndef MP
 import tmChart from "@/tmui/components/tm-chart/tm-chart.vue"
 import { ECharts } from "echarts";
 import { chartdata } from "./chartdata";
@@ -32,5 +35,5 @@ onLoad((obj: any) => {
 function chartInit(chart: ECharts) {
     chart.setOption(chartdata[dkey.value])
 }
-
+// #endif
 </script>

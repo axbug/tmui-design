@@ -106,7 +106,7 @@ const props = defineProps({
 		default:true
 	},
 	/**
-	 * mini,normal,middle,large
+	 * mini,small,normal,middle,large
 	 */
 	size:{
 		type:String as PropType<btnSize>,
@@ -148,7 +148,7 @@ const props = defineProps({
 	},
 	round:{
 		type:Number,
-		default:3
+		default:0
 	},
 	loading:{
 		type:Boolean,
@@ -235,24 +235,25 @@ const _disabled = computed(()=>props.disabled)
 const _label = computed(()=>props.label)
 const _icon = computed(()=>props.icon)
 const sizeObj = {
-	block:{w:0,h:88,fontSize:30,round:3},
-	mini:{w:88,h:50,fontSize:22,round:2},
-	normal:{w:220,h:88,fontSize:28,round:3},
-	middle:{w:310,h:88,fontSize:30,round:3},
-	large:{w:500,h:88,fontSize:34,round:3},
+	block:{w:0,h:80,fontSize:28,round:3},
+	mini:{w:88,h:36,fontSize:20,round:2},
+	small:{w:120,h:56,fontSize:22,round:3},
+	normal:{w:220,h:80,fontSize:28,round:3},
+	middle:{w:360,h:80,fontSize:30,round:3},
+	large:{w:535,h:88,fontSize:32,round:4},
 }
 const btnSizeObj = computed(()=>{
 	let fontSize = props.fontSize||0;
 	
 	if(props.block){
-		return {w:0,h:props.height||sizeObj.block.h,fontSize:fontSize||sizeObj.block.fontSize,round:props.round}
+		return {w:0,h:props.height||sizeObj.block.h,fontSize:fontSize||sizeObj.block.fontSize,round:props.round||sizeObj.normal.round}
 	}
 	
 	return {
 		w:props.width||sizeObj[props.size].w ,
 		h:props.height||sizeObj[props.size].h,
 		fontSize:fontSize||sizeObj[props.size].fontSize,
-		round:props.round,
+		round:props.round||sizeObj[props.size].round,
 	}
 })
 const _fontColor = computed(()=>props.fontColor)

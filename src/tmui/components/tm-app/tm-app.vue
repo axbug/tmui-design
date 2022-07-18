@@ -56,7 +56,7 @@
 	const store = useTmpiniaStore();
 	const {
 		proxy
-	} = <ComponentInternalInstance>getCurrentInstance()
+	} = getCurrentInstance()
 	// 混淆props共有参数
 	const props = defineProps({
 		...custom_props,
@@ -74,6 +74,10 @@
 		color: {
 			type: String,
 			default: 'grey-4'
+		},
+		darkColor:{
+			type: String,
+			default: '#050505'
 		},
 		blur: {
 			type: [Boolean, String],
@@ -152,7 +156,7 @@
 
 	function setAppStyle() {
 		if (isDark.value) {
-			appConfig.value.theme = '#050505';
+			appConfig.value.theme = props.darkColor;
 		} else {
 			appConfig.value.theme = tmcomputed.value.backgroundColor;
 		}

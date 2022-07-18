@@ -4,14 +4,15 @@
             <tm-text :font-size="24" _class="font-weight-b" label="基本示例"></tm-text>
             <tm-divider></tm-divider>
             <view class="flex flex-row flex-wrap">
-                <tm-button :margin="[10, 10]" size="normal" :shadow="0" label="按钮"></tm-button>
-                <tm-button :margin="[10, 10]" :shadow="0" text size="normal" label="按钮"></tm-button>
-                <tm-button :margin="[10, 10]" :shadow="0" text :border="2" borderStyle="dashed" size="normal" label="按钮">
+                <tm-button :margin="[10, 10]" size="mini" :shadow="0" label="mini"></tm-button>
+                <tm-button :margin="[10, 10]" size="small" :shadow="0" label="small"></tm-button>
+                <tm-button :margin="[10, 10]" :shadow="0" text size="normal" label="normal"></tm-button>
+                <tm-button :margin="[10, 10]" :shadow="0" text :border="2" borderStyle="dashed" size="large" label="large">
                 </tm-button>
-                <tm-button :margin="[10, 10]" :shadow="0" outlined size="normal" label="按钮"></tm-button>
+                <tm-button :margin="[10, 10]" :shadow="0" outlined size="normal" label="normal"></tm-button>
                 <tm-button :margin="[10, 10]" transprent text :shadow="0" size="normal" label="透明背景"></tm-button>
             </view>
-            <tm-button block label="BLOCK自动宽"></tm-button>
+            <tm-button block label="block"></tm-button>
         </tm-sheet>
         <tm-sheet>
             <tm-text :font-size="24" _class="font-weight-b" label="带图标"></tm-text>

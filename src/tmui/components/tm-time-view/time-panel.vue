@@ -130,7 +130,7 @@ onMounted(()=>{
     nextTick(()=>{
         setTimeout(()=>{
             rangeTimeArray()
-        },50)
+        },60)
     })
 })
 onUpdated(()=>nvuegetClientRect())
@@ -153,8 +153,7 @@ function rangeTimeArray(){
     if(props.timeType=='year'){
         intdate = _start.year();
     }
-    
-   
+
     if(props.timeType=='year'){
        tmArray.value = rangeNumber(intdate,_end.year());
     }else if(props.timeType=='month'){

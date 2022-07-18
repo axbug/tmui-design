@@ -7,6 +7,9 @@
         <view class="py-32 mx-32">
             <tm-divider color="grey-2" label="tmui 3.0.0 原生渲染，全端兼容"></tm-divider>
         </view>
+        <view class="px-32">
+			<ad unit-id="adunit-d6c90eaaa098bf4d"></ad>
+		</view>
     </tm-app>
 </template>
 <script lang="ts" setup>

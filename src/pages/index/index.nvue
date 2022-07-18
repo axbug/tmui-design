@@ -13,7 +13,7 @@
 			<view class="flex-row flex-row-center-start pb-10">
 				<tm-image :width="108" :height="67.5" :src="logoimg"></tm-image>
 				<view class="pl-16 flex-1" style="width:0px">
-					<tm-text _class="text-weight-b" :font-size="36" label="TMUI 3.0.73"></tm-text>
+					<tm-text _class="text-weight-b" :font-size="36" label="TMUI 3.0.74"></tm-text>
 					<tm-text _class="opacity-6" :label="language('index.search.subtext')"></tm-text>
 				</view>
 			</view>
@@ -28,18 +28,23 @@
 			<tm-text :font-size="24" _class="font-weight-b" :label="language('index.com.themetext')"></tm-text>
 			<tm-divider></tm-divider>
 			<view class="flex flex-row flex-around">
-				<tm-button :width="100" color="yellow" size="mini" @click="setTheme('yellow')"
+				<tm-button :width="100" color="yellow" size="small" @click="setTheme('yellow')"
 					:label="language('index.com.themeGreen')"></tm-button>
-				<tm-button :width="100" color="blue" size="mini" @click="setTheme('blue')"
+				<tm-button :width="100" color="blue" size="small" @click="setTheme('blue')"
 					:label="language('index.com.themeBlue')"></tm-button>
-				<tm-button :width="100" color="red" size="mini" @click="setTheme('red')"
+				<tm-button :width="100" color="red" size="small" @click="setTheme('red')"
 					:label="language('index.com.themeRed')"></tm-button>
-				<tm-button color="brown" :shadow="0" :width="100" size="mini" @click="showCustom=true" :label="language('index.com.themeCustText')">
+				<tm-button color="brown" :shadow="0" :width="100" size="small" @click="showCustom=true" :label="language('index.com.themeCustText')">
 				</tm-button>
-				<tm-button :width="160" size="mini" @click="setTheme('')" :label="language('index.com.themeDefault')">
+				<tm-button :width="160" size="small" @click="setTheme('')" :label="language('index.com.themeDefault')">
 				</tm-button>
 			</view>
 		</tm-sheet>
+		<!-- #ifdef MP-WEIXIN -->
+		<view class="px-32">
+			<ad unit-id="adunit-8077b1c992ae8c8b"></ad>
+		</view>
+		<!-- #endif -->
 		<tm-sheet :round="3" :margin="[32, 24]">
 			<tm-text :font-size="24" _class="font-weight-b" :label="language('index.com.title')"></tm-text>
 			<tm-divider></tm-divider>
@@ -110,7 +115,6 @@
 				<tm-icon color="orange" :font-size="38" name="tmicon-heart-fill"></tm-icon>
 			</template>
 		</tm-cell>
-
 		<tm-cell @click="seLocal" showAvatar :round="3" :titleFontSize="30" :title="language('index.com.setLocal')"
 			:rightText="language('language')">
 			<template v-slot:avatar>
@@ -119,7 +123,6 @@
 		</tm-cell>
 		
 		<view class="py-32 mx-32">
-			<ad unit-id="adunit-e065040f522746dc"></ad>
 			<tm-divider color="grey-2" :label="language('index.com.bottom')"></tm-divider>
 		</view>
 		<tm-float-button  @click="onChangeDark" :btn="{ icon: 'tmicon-ios-sunny',color:'pink',linear:'right'}">
