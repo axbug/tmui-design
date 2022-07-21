@@ -33,7 +33,7 @@
 [![](https://vkceyugu.cdn.bspapp.com/VKCEYUGU-f5b1722f-8766-40af-a22a-acc454202a37/ef8a8962-1153-44c9-aee5-6a616996e595.jpg)](https://tmui.design/doc/start/%E8%B4%A1%E7%8C%AE%E8%80%85.html)
 
 **微信用户群** <br>
-![用户群](https://vkceyugu.cdn.bspapp.com/VKCEYUGU-f5b1722f-8766-40af-a22a-acc454202a37/2184a6c9-45cb-4dbf-9827-607a8f50db29.png)
+![用户群](https://cdn.tmui.design/public/design/weixinQR2.jpg)
 
 ----
 
