@@ -49,7 +49,8 @@ title: tmui 3.0 组件库
 | okLinear      | String         | ''      | left:右->左，right:左->右，top:下->上，bottom:上->下 |
 | okLlinearDeep | String         | accent  | 渐变深浅，可选：accent,light,dark                 |
 | btnRound      | Number         | 24      | 按钮圆角，只有在分享式按钮下才有作用                        |
-| hideCancel    | Function       | null    | 在关闭前执行的回调函数                               |
+| hideCancel    | Boolean        | false   | 是否不显示取消按钮                               |
+| beforeClose   | Function       | ()=>true    | 在关闭前执行的回调函数,思考出就Boolean或者Funciton,函数时返回false即阻止关闭。可以是异步Promise<boolean>                      |
 | content       | String         | ''      | 正文主体                                      |
 | disabled      | Boolean        | false   | 是否禁用                                      |
 
