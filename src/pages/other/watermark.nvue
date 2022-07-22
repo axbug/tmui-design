@@ -4,7 +4,7 @@
       <tm-text _class="text-weight-b" label="页面水印"></tm-text>
       <tm-text :font-size="24" label="简单点，满足就好"></tm-text>
     </tm-sheet>
-    <tm-watermark cross
+    <tm-watermark
                       selectable
                       :font-size="opts.fontSize"
                       :line-height="opts.lineHeight"
@@ -15,7 +15,12 @@
                       :y-offset="opts.yOffset"
                       :x-gap="opts.xGap"
                       :y-gap="opts.yGap"
-                      :rotate="opts.rotate" :content="opts.content">
+                      :rotate="opts.rotate" :content="opts.content"
+                      :image="opts.image"
+                      :image-width="opts.imageWidth"
+                      :image-height="opts.imageHeight"
+                      :image-opacity="opts.imageOpacity"
+    >
       <tm-sheet>
         <view class="flex flex-row flex-row-bottom-start">
           <tm-text label="属性设置"></tm-text>
@@ -37,6 +42,10 @@
         <tm-input :margin="[0,24]" prefixLabel="y 轴间隔" align="right" placeholder="请输入y 轴间隔" v-model.number="opts.yGap" type="number"></tm-input>
         <tm-input prefixLabel="x 轴偏移" align="right" placeholder="请输入x 轴偏移" v-model.number="opts.xOffset" type="number"></tm-input>
         <tm-input :margin="[0,24]" prefixLabel="y 轴偏移" align="right" placeholder="请输入y 轴偏移" v-model.number="opts.yOffset" type="number"></tm-input>
+        <tm-upload ref="up" :width="636" @change="handleUpload" :rows="1" :maxFile="1" url="https://mockapi.eolink.com/tNYKNA7ac71aa90bcbe83c5815871a5b419601e96a5524d/upload"></tm-upload>
+        <tm-input :margin="[0,24]" prefixLabel="图片宽度" align="right" placeholder="请输入图片宽度" v-model.number="opts.imageWidth" type="number"></tm-input>
+        <tm-input prefixLabel="图片高度" align="right" placeholder="请输入图片高度" v-model.number="opts.imageHeight" type="number"></tm-input>
+        <tm-input :margin="[0,24]" prefixLabel="图片透明度" align="right" placeholder="请输入图片透明度" v-model.number="opts.imageOpacity" type="number"></tm-input>
       </tm-sheet>
     </tm-watermark>
   </tm-app>
@@ -51,6 +60,15 @@ import TmRadio from "../../tmui/components/tm-radio/tm-radio.vue";
 import TmRadioGroup from "../../tmui/components/tm-radio-group/tm-radio-group.vue";
 import TmInput from "../../tmui/components/tm-input/tm-input.vue";
 import TmApp from "../../tmui/components/tm-app/tm-app.vue";
+import TmUpload from "../../tmui/components/tm-upload/tm-upload.vue";
 
-const opts = ref({content:'TMUI',fontSize:32,lineHeight:32,fullscreen:false, width:240, height:200,xGap:0,yGap:0,xOffset:24,yOffset:120,rotate:-20});
+const opts = ref({content:'TMUI',fontSize:12,lineHeight:12,fullscreen:false, width:60, height:60,xGap:0,yGap:0,xOffset:14,yOffset:30,rotate:-20
+  ,image:''
+  ,imageOpacity:0.24
+  ,imageWidth : 60
+  ,imageHeight : 60
+});
+function handleUpload(res){
+  opts.value.image = res[0].url;
+}
 </script>
