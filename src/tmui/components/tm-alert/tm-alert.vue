@@ -8,7 +8,7 @@
     :autoPlay="false"
   >
     <tm-sheet
-      :height="props.height"
+      :height="props.height-props.padding[1]*2"
       :color="props.color"
       :_class="_class"
       :_style="_style"
@@ -122,7 +122,7 @@ const props = defineProps({
   },
   margin: {
     type: Array as PropType<Array<number>>,
-    default: () => [32, 24],
+    default: () => [32, 12],
   },
   padding: {
     type: Array as PropType<Array<number>>,

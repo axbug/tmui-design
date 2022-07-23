@@ -12,15 +12,18 @@ PageJsonInit.pages.forEach(el=>{
 		custom:el?.style?.navigationStyle??"default"
 	})
 })
-PageJsonInit.subPackages.forEach(el=>{
-	let rootPath = el.root;
-	el.pages.forEach(el2=>{
-		pages.push({
-			path:rootPath+"/"+el2.path,
-			custom:el2?.style?.navigationStyle??"default"
+if(Array.isArray(PageJsonInit?.subPackages)){
+	PageJsonInit.subPackages.forEach(el=>{
+		let rootPath = el.root;
+		el.pages.forEach(el2=>{
+			pages.push({
+				path:rootPath+"/"+el2.path,
+				custom:el2?.style?.navigationStyle??"default"
+			})
 		})
 	})
-})
+}
+
 
 const $tm = {
 	tabBar:PageJsonInit?.tabBar??{
