@@ -1,6 +1,5 @@
 <template>
 	<tm-app ref="app">
-		
 		<tm-navbar :title="language('index.com.navtitle')"  :shadow="0" hide-home>
 			<template v-slot:left>
 				<view class="flex flex-center flex-row">
@@ -9,11 +8,12 @@
 				</view>
 			</template>
 		</tm-navbar>
+
 		<tm-sheet  :margin="[0, 0]" :followTheme="true">
 			<view class="flex-row flex-row-center-start pb-10">
 				<tm-image :width="108" :height="67.5" :src="logoimg"></tm-image>
 				<view class="pl-16 flex-1" style="width:0px">
-					<tm-text _class="text-weight-b" :font-size="36" label="TMUI 3.0.74"></tm-text>
+					<tm-text _class="text-weight-b" :font-size="36" label="TMUI 3.0.75"></tm-text>
 					<tm-text _class="opacity-6" :label="language('index.search.subtext')"></tm-text>
 				</view>
 			</view>
@@ -146,7 +146,7 @@
 	} from "vue"
 	import {
 		onShow,
-		onLoad,
+		onLoad,onInit
 	} from "@dcloudio/uni-app";
 	import {
 		language
@@ -178,6 +178,7 @@
 	const showCustomColor = ref("#60ab41")
 	const showCustomName = ref("darkGreen")
 	const showCustom = ref(false)
+	const test = ref(20);
 	function onChangeDark() {
 		proxy.$refs.app.setDark()
 	}
@@ -230,7 +231,7 @@
 		store.setTmVuetifyAddTheme(showCustomName.value,showCustomColor.value) 
 	}
 
-
+	
 	onLoad(()=>{
 		// #ifdef MP-WEIXIN
 		
@@ -254,5 +255,10 @@
 		}
 		
 		// #endif
+		
 	})
+onInit(()=>{
+	console.log('log')
+})
+	
 </script>

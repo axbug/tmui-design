@@ -10,7 +10,7 @@
     </tm-app>
 </template>
 <script lang="ts" setup>
-import { ref, getCurrentInstance } from "vue"
+import { ref, getCurrentInstance,onMounted } from "vue"
 import { onShow, onLoad } from "@dcloudio/uni-app";
 import tmApp from "@/tmui/components/tm-app/tm-app.vue"
 import tmDivider from "@/tmui/components/tm-divider/tm-divider.vue"

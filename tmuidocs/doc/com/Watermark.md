@@ -7,7 +7,7 @@ title: tmui 3.0 组件库
 ##### 组件库文档 tmui.design
 
 # 页面水印 Watermark
-给页面加个水印，或给组件加个水印。
+给页面加个水印，或给组件加个水印。[此组件，作者还未审核修改，目前权支持h5和web端，其它端待我有时间来适配下。]
 
 ---
 
@@ -25,7 +25,7 @@ title: tmui 3.0 组件库
 
 | APP-VUE | APP-NVUE | 小程序 | WEB/H5 | VUE3/TS |
 | --- | --- | --- | --- | --- |
-| :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
+| :x: | :x: | :x: | :heavy_check_mark: | :heavy_check_mark: |
 
 ### :seedling: 参数
 | 参数名           | 类型        | 默认值                               | 描述            |

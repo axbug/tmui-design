@@ -215,4 +215,6 @@ function next() {
 function close() {
     proxy?.$refs?.bodyani.play();
 }
+
+
 </script>

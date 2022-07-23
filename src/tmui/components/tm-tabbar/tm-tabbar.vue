@@ -1,7 +1,7 @@
 <template>
 	<view class="fixed l-0 b-0  flex" :style="{ width: _width + 'px', height: _totalBarHeight + 'px',transform:`translateY(${props.bottom}rpx)` }">
+		<!-- 			@click="emits('click', $event)"    -->
 		<tm-sheet
-			@click="emits('click', $event)"
 			:blur="_blur"
 			:color="props.color"
 			parenClass="relative"
@@ -45,7 +45,7 @@ import { custom_props } from '../../tool/lib/minxs';
 import { getCurrentInstance, computed,Ref, ref, provide, inject, onUpdated, onMounted, onUnmounted, nextTick, watch, PropType } from 'vue';
 import { useTmpiniaStore } from '../../tool/lib/tmpinia';
 const store = useTmpiniaStore();
-const emits = defineEmits(['click']);
+// const emits = defineEmits(['click']);
 const { proxy } = getCurrentInstance();
 const props = defineProps({
 	...custom_props,
@@ -139,7 +139,7 @@ provide('tmTabbarItemSafe',_showSafe.value)
 	display: flex;
 	flex-direction: row !important;
 	justify-content: space-around !important;
-	align-items: center !important;
+	align-items: flex-start;
 }
 /* #endif */
 </style>

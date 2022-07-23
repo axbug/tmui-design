@@ -6,20 +6,54 @@
             :style="{ width: `${defaultProps.width}rpx`, height: `${defaultProps.headerHeight}rpx` }">
             <!-- #ifndef APP-NVUE -->
             <view class="flex-1 flex-row flex-nowrap">
-                <tm-sheet  :border="_showBottomBorder?1:0" border-direction="bottom" :color="item.bgColor" :text="item.light" :_class="'flex flex-col ' + item.align"
-                    :height="defaultProps.headerHeight" :width="item.width" v-for="(item, index) in _col" :key="index"
-                    :margin="[0, 0]" :padding="[10, 6]">
-                    <tm-text _style="line-height:normal;" :font-size="26" _class="text-weight-b" :label="item.title">
-                    </tm-text>
+                <tm-sheet  :border="_showBottomBorder?1:0" border-direction="bottom" :color="item.bgColor" :text="item.light" 
+					:_class="'flex flex-col ' + item.align"
+                    :height="defaultProps.headerHeight-6" 
+					:width="item.width-10" v-for="(item, index) in _col" 
+					:key="index"
+                    :margin="[0, 0]" :padding="[10, 6]"
+					@click="headerClick(item.key,item.sort)"
+					>
+                    <view :style="{width:item.width-10+'rpx',height:defaultProps.headerHeight-6+'rpx'}" 
+					class="flex flex-row-center-center flex-row"
+					:class="[item.align]"
+					>
+						<view @click.stop="" class="flex-1 flex-center" style="width: 0px;">
+							<tm-text @click="headerClick(item.key,item.sort)" _style="line-height:normal;" :font-size="26" _class="text-weight-b text-align-center" :label="item.title">
+							</tm-text>
+						</view>
+						<view @click.stop="" v-if="item.sort" class="flex flex-col flex-col-center-center">
+							<tm-icon :lineHeight='11' @click="headerClick(item.key,item.sort)" :_class='(item.sortType=="asce"||item.sortType=="none"?"":"opacity-6")' :font-size="20" name='tmicon-sort-up'></tm-icon>
+							<tm-icon :lineHeight='11' @click="headerClick(item.key,item.sort)" :_class='(item.sortType=="desc"||item.sortType=="none"?"":"opacity-6")' :font-size="20" name='tmicon-sort-down'></tm-icon>
+						</view>
+					</view>
                 </tm-sheet>
             </view>
             <!-- #endif -->
             <!-- #ifdef APP-NVUE -->
-            <tm-sheet  :border="_showBottomBorder?1:0" border-direction="bottom" :color="item.bgColor" :text="item.light" :_class="'flex  ' + item.align"
-                :height="defaultProps.headerHeight" :width="item.width" v-for="(item, index) in _col" :key="index"
-                :margin="[0, 0]" :padding="[10, 6]">
-                <tm-text _style="line-height:normal;" :font-size="26" _class="text-weight-b"  :label="item.title">
-                </tm-text>
+            <tm-sheet  :border="_showBottomBorder?1:0" border-direction="bottom" :color="item.bgColor" :text="item.light"
+            	:_class="'flex flex-col ' + item.align"
+                :height="defaultProps.headerHeight-6" 
+            	:width="item.width-10" v-for="(item, index) in _col" 
+            	:key="index"
+                :margin="[0, 0]" :padding="[10, 6]"
+            	@click="headerClick(item.key,item.sort)"
+            	>
+                <view 
+				:userInteractionEnabled="false"
+				:style="{width:item.width-10+'rpx',height:defaultProps.headerHeight-6+'rpx'}" 
+            	class="flex flex-row-center-center flex-row"
+            	:class="[item.align]"
+            	>
+            		<view  @click.stop="" class="flex-1 flex" style="width: 0px;">
+            			<tm-text @click="headerClick(item.key,item.sort)"  _style="line-height:normal;" :font-size="26" _class="text-weight-b text-align-center" :label="item.title">
+            			</tm-text>
+            		</view>
+            		<view  @click.stop=""  v-if="item.sort" class="flex flex-col flex-col-center-center">
+            			<tm-icon :lineHeight='11' @click="headerClick(item.key,item.sort)"  :_class='(item.sortType=="asce"||item.sortType=="none"?"":"opacity-6")' :font-size="20" name='tmicon-sort-up'></tm-icon>
+            			<tm-icon :lineHeight='11' @click="headerClick(item.key,item.sort)"  :_class='(item.sortType=="desc"||item.sortType=="none"?"":"opacity-6")' :font-size="20" name='tmicon-sort-down'></tm-icon>
+            		</view>
+            	</view>
             </tm-sheet>
             <!-- #endif -->
 
@@ -31,12 +65,18 @@
             :style="[defaultProps.height ? { height: `${defaultProps.height}rpx` } : '', { width: `${defaultProps.width}rpx` }]">
 
             <view class="flex flex-row flex-nowrap" v-for="(item2, index2) in _tabel" :key="index2" :margin="[0, 0]">
-
-                <tm-sheet  :border="_showBottomBorder?1:0" border-direction="bottom" v-for="(item, key, index) in item2.data" :key="index" :margin="[0, 0]"
-                    :color="item2.color || _col[index]?.cellColor" :text="item2.light || _col[index]?.light"
-                    :_class="'flex flex-row ' + item2.align" :height="defaultProps.cellHeight" :width="item2.width"
+                <tm-sheet  
+				:border="_showBottomBorder?1:0" 
+				border-direction="bottom" v-for="(item, index) in item2.data" 
+				:key="index" 
+				:margin="[0, 0]"
+                :color="item.color" 
+				:text="item.light"
+                    :_class="'flex flex-row ' + item2.align" :height="defaultProps.cellHeight-6" :width="item.width-10"
                     :padding="[10, 6]">
-                    <tm-text :font-size="24" :label="item"></tm-text>
+                   <tm-text v-if="item.type=='text'" :font-size="24" :label="item.text"></tm-text>
+                   <tm-button @click="rowClick(index2,index)" :margin="[0,0]" size="small" :color="_col[index]?.bgColor" 
+				   :width="item.width-16" v-if="item.type=='button'" :font-size="24" :label="item.text"></tm-button>
                 </tm-sheet>
             </view>
 
@@ -55,11 +95,14 @@
                     { width: `${defaultProps.width}rpx` }
                 ]" v-for="(item2, index2) in _tabel" :key="index2" :margin="[0, 0]">
                 <view class="flex flex-row flex-nowrap">
-                    <tm-sheet :border="_showBottomBorder?1:0" border-direction="bottom" v-for="(item, key, index) in item2.data" :key="index" :margin="[0, 0]"
-                        :color="item2.color || _col[index].cellColor" :text="item2.light || _col[index].light"
-                        :_class="'flex ' + item2.align" :height="defaultProps.cellHeight" :width="item2.width"
+                    <tm-sheet :border="_showBottomBorder?1:0" border-direction="bottom" v-for="(item, index) in item2.data" :key="index" :margin="[0, 0]"
+                       :color="item.color"
+                       :text="item.light"
+                        :_class="'flex ' + item2.align" :height="defaultProps.cellHeight-6" :width="item.width-10"
                         :padding="[10, 6]">
-                        <tm-text :font-size="24" :label="item"></tm-text>
+                        <tm-text v-if="item.type=='text'" :font-size="24" :label="item.text"></tm-text>
+                        <tm-button  @click="rowClick(index2,index)" :margin="[0,0]" size="small" :color="_col[index]?.bgColor" :width="item.width-16" v-if="item.type=='button'" :font-size="24" :label="item.text"></tm-button>
+						
                     </tm-sheet>
                 </view>
             </scroll-view>
@@ -77,10 +120,13 @@
  * @description 本组件定位为简单展示使用，非专业表格组件，请知悉！
  * 大多数场景展示基本是简单的表格展示而非复杂的表格组件，因此这个场景使用还是很合理的。
  */
-import { headresItem, cellItem } from "./interface";
-import { computed, nextTick, onMounted, PropType, Ref, ref, toRaw, watchEffect } from "vue";
+import type { headresItem, cellItem,dataTypeArray } from "./interface";
+import { computed, nextTick, onMounted, PropType, Ref, ref, toRaw, watchEffect,watch } from "vue";
 import tmSheet from "../tm-sheet/tm-sheet.vue";
 import tmText from "../tm-text/tm-text.vue";
+import tmIcon from "../tm-icon/tm-icon.vue";
+import tmButton from "../tm-button/tm-button.vue";
+const emits = defineEmits(['rowClick'])
 const props = defineProps({
     showHeader:{
         type:Boolean,
@@ -165,28 +211,37 @@ function touchStartScroll(index) {
     scrollIndex.value = index;
     scrollDong.value = 'h';
 }
-watchEffect(()=>{
-    setColData()
-})
 
+onMounted(()=>{
+	nextTick(()=>setColData())
+})
+watch([()=>props.tableData,()=>props.header],()=>{
+	setColData()
+},{deep:true})
 function setColData() {
     _col.value = [];
     _tabel.value = [];
+	let defaultSort = 'none';
     props.header.forEach((el, index) => {
+		//这里的目的是，当有一列数据默认有排序，那么它后面全部默认都不能排序了，只能优先排序第一个数据。后期需要界面点击切换。
+		let defaultSort = el?.sortType??'none';
+		if(defaultSort!='none'){
+			defaultSort = 'none'
+		}
         _col.value.push({
             title: el?.title ?? "",
             width: el?.width ?? 145,
-            align: "flex-col-center-" + (el?.align||"center"),
+            align: "flex-row-center-" + (el?.align||"center"),
             sort: el?.sort ?? false,
             bgColor: el?.bgColor ?? 'white',
             cellColor: el?.cellColor ?? 'white',
             light: el?.light ?? false,
-            key: el?.key ?? String(index)
+            key: el?.key ?? String(index),
+			sortType:defaultSort
         })
     })
 
     props.tableData.forEach((el, index) => {
-        
         let d = el?.data ?? {};
         let keys = Object.keys(d);
         for(let ik=0,len=keys.length;ik<len;ik++){
@@ -199,20 +254,111 @@ function setColData() {
                     bgColor: 'white',
                     cellColor: 'white',
                     light: false,
-                    key:String(ik)
+                    key:String(ik),
+					sortType:'none'
                 })
             }
         }
-        _tabel.value.push({
-            color: el?.color ?? "",
-            light: el?.light ?? false,
-            data: el?.data ?? {},
+        let datakey = Object.keys(d);
+		let dataRuslt:Array<dataTypeArray> = [];
+		dataRuslt =  _col.value.map((el2,index)=>{
+			let color = 'white'
+			let light = false
+			if(typeof d[el2.key] !=='object'){
+				color = el?.color||_col.value[index]?.cellColor||color
+				light = el?.light||_col.value[index]?.light||light
+			}else{
+				color = d[el2.key]?.color||el?.color||_col.value[index]?.color||color;
+				light = d[el2.key]?.light||el?.light||_col.value[index]?.light||light;
+			}
+			let cel:dataTypeArray = {
+				key:el2.key,
+				text:typeof d[el2.key]!=='object'?d[el2.key]:d[el2.key]?.text??"",
+				type:typeof d[el2.key]!=='object'?"text":d[el2.key]?.type??"text",
+				width:_col.value[index]?.width??145,
+				light:light,
+				color:color,
+			}
+			if(typeof d[el.key] === 'object'){
+				cel = {...cel,...d[el.key]}
+			}
+			return cel
+		})
+		_tabel.value.push({
+            data:dataRuslt,
             align: el?.align ?? _col.value[index]?.align??"flex-row-center-center",
-            width: el?.width ?? _col.value[index]?.width??145,
             key: el?.key ?? String(index)
         })
     })
+	
 }
+function headerClick(key:string,isSort=false){
+	if(!isSort) return;
+	let valueArray = _col.value.filter(el=>el.key==key)
+	let keyDesc = valueArray[0].sortType;
+	if(!keyDesc||keyDesc=='none'){
+		sort(key,'desc')
+		return;
+	}
+	if(keyDesc=='none'){
+		sort(key,'desc')
+		return;
+	}
+	if(keyDesc=='desc'){
+		sort(key,'asce')
+		return;
+	}
+	if(keyDesc=='asce'){
+		sort(key,'none')
+		return;
+	}
+}
+//descKey需要排序的字段。
+function sort(descKey="",type='none'){
+	uni.showLoading({
+		title:"...",
+		mask:true
+	})
+	// 排序
+	if(type=='none'||descKey===""){
+		setColData();
+		uni.hideLoading()
+		return;
+	}
+	let lsTemp = _tabel.value.map((item,index)=>{
+		let valueArray = item.data.filter(el=>el.key==descKey)
+		return {
+			oldIndex:index,
+			value:valueArray[0].text
+		}
+	})
+	
+	//降序
+	if(type=='desc'){
+		lsTemp.sort((a,b)=>a.value-b.value)
+	}
+	//升序。
+	if(type=='asce'){
+		lsTemp.sort((a,b)=>b.value-a.value)
+	}
+	const backTable = toRaw(_tabel.value)
+	
+	nextTick(()=>{
+		_col.value = _col.value.map(el=>{
+			return {...el,sortType:el.key==descKey?type:el.sortType}
+		})
+		_tabel.value = lsTemp.map((el)=>{
+			return backTable[el.oldIndex]
+		})
+		uni.hideLoading()
+	})
+	
+}
+
+function rowClick(rowIndex:number,colIndex:number){
+	emits("rowClick",rowIndex,colIndex)
+}
+
 </script>
 <style>
 </style>

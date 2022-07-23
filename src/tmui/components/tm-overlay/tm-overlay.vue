@@ -52,7 +52,7 @@
 		},
 		zIndex: {
 			type: [Number, String],
-			default: 120
+			default: 401
 		},
 		show: {
 			type: Boolean,
@@ -101,11 +101,13 @@
 	// #endif
 	// #ifdef APP 
 	// 如果存在导航栏？
-	if(sysinfo.safeArea.top>0){
-		height.value = sysinfo.screenHeight
+	let appsys = uni.getWindowInfo();
+	if(appsys.safeArea.top>0){
+		height.value = appsys.screenHeight
 	}else{
-		height.value = sysinfo.safeArea.height - Math.abs(statusBarHeight);
+		height.value = appsys.safeArea.height-appsys.statusBarHeight-44+appsys.safeAreaInsets.bottom
 	}
+	
 	// #endif
 	const timeid = ref(uni.$tm.u.getUid(3));
 	const animationData = ref(null)

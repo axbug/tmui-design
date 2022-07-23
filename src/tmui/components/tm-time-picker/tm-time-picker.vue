@@ -2,7 +2,7 @@
     <tm-drawer  :round="props.round" ref="drawer" :height="dHeight" @update:show="_show = $event" :show="_show" @close="close" @open="open"
         title="请选择时间" :closable="true" @ok="confirm">
          <tm-time-view
-            :height="dHeight-260"
+            :height="dHeight-230"
             @update:model-value="_value = $event" 
             :model-value="_value"
             @update:model-str="_strvalue = $event" 
@@ -16,10 +16,16 @@
             :start="props.start"
             :end="props.end"
             ></tm-time-view>
-            <tm-sheet :color="props.color" :linear="props.linear" :linear-deep="props.linearDeep" @click="confirm" :round="props.btnRound" _class="flex-center" >
-                <tm-text  :userInteractionEnabled="false" label="确认选择"></tm-text>
-            </tm-sheet>
-			<view style="height: 24px;"></view>
+            <tm-button label="确认选择" 
+			block
+			:margin="[32,12]"
+			:color="props.color" 
+			:linear="props.linear" 
+			:linear-deep="props.linearDeep" 
+			@click="confirm" 
+			:round="props.btnRound">
+            </tm-button>
+			<view :style="{height: win_bottom+'px'}"></view>
     </tm-drawer>
 </template>
 <script lang="ts" setup>
@@ -33,6 +39,7 @@ import tmTimeView from "../tm-time-view/tm-time-view.vue";
 import tmDrawer from "../tm-drawer/tm-drawer.vue";
 import TmSheet from "../tm-sheet/tm-sheet.vue";
 import tmText from "../tm-text/tm-text.vue";
+import tmButton from "../tm-button/tm-button.vue";
 const { proxy } = getCurrentInstance();
 
 const emits = defineEmits(["update:modelValue", "update:modelStr", "update:show", "confirm","change", "cancel", "close", "open"])
@@ -141,7 +148,7 @@ const _show = ref(props.show)
 const isConfirm = ref(false)//是否点了确认按钮。
 const _value = ref(props.defaultValue)
 const _strvalue = ref("")
-
+const win_bottom = uni.getWindowInfo()?.safeAreaInsets?.bottom??0
 function close() {
     if (!isConfirm.value) {
         emits("cancel")
@@ -177,7 +184,8 @@ function confirm() {
     isConfirm.value = true;
     proxy.$refs.drawer.close();
 }
+
 const dHeight = computed(() => {
-    return props.height+80
+    return props.height+win_bottom+80
 })
 </script>

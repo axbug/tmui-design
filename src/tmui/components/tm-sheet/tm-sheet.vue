@@ -22,7 +22,7 @@
   tmcomputed.borderCss,
   _blur && store.tmStore.os == 'ios' && _isNvue === true ? '' : _bgcolor,
   !_transprent && props.shadow > 0 ? tmcomputed.shadowColor : '',
-  !_transprent && _blur ? { 'backdrop-filter': 'blur(10px)' } : '',
+  !_transprent && _blur ? { backdropFilter: 'blur(6px)' } : '',
   customCSSStyle,
 ]">
     <view :render-whole="true" :class="['flex  flex-col flex-1', customClass]" :style="contStyle_p">
@@ -80,7 +80,7 @@ const props = defineProps({
   },
   margin: {
     type: Array as PropType<Array<number>>,
-    default: () => [32, 24],
+    default: () => [32, 12],
   },
   padding: {
     type: Array as PropType<Array<number>>,
@@ -138,7 +138,7 @@ const isDark = computed(() => computedDark(props, tmcfg.value));
 //计算主题
 const tmcomputed = computed<cssstyle>(() => {
   let text = props.text;
-  if (_blur.value && tmcfg.value.os == 'ios') {
+  if (_blur.value && tmcfg.value.os == 'ios' && _isNvue.value) {
     text = true;
   }
   return computedTheme({ ...props, blur: _blur.value, text: text }, isDark.value, tmcfg.value);

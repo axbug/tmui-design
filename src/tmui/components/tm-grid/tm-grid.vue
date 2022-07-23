@@ -1,5 +1,5 @@
 <template>
-	<tm-sheet :round="props.round" :transprent="props.transprent" :color="props.color" :margin="[0, 0]" :padding="[0, 0]"
+	<tm-sheet :round="props.round" :width="props.width" :transprent="props.transprent" :color="props.color" :margin="[0, 0]" :padding="[0, 0]"
 		_class="flex flex-row flex-row-top-start" contStyle="flex-wrap:wrap;">
 		<slot></slot>
 	</tm-sheet>
@@ -63,7 +63,7 @@
 			type: string | number,
 	}
 	let _cachList: Ref < Array < arrayid >> = ref([]);
-	const _colWidth = computed(() => props.width / props.col);
+	const _colWidth = computed(() => Math.ceil(props.width / props.col-1));
 	provide("tmGridItemWidth", _colWidth.value + (props.showBorder ? 1 : 0));
 	provide("tmGridshowBorder", computed(() => props.showBorder));
 	provide("tmGridshowCachList", computed(() => _cachList.value));

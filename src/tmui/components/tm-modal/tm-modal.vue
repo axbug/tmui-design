@@ -26,30 +26,32 @@
 					</view>
 				</scroll-view>
 				<view class="flex flex-row " :class="[props.splitBtn?'pa-32':'']" >
-					<view v-if="!props.hideCancel" class="flex-1  overflow ">
-						<tm-sheet :dark="props.dark"  :followTheme="true" :isDisabledRoundAndriod="true" @click="cancel" :height="90" :linear="props.cancelLinear"
+					<view v-if="!props.hideCancel" class="flex-1  overflow "  style="height:90rpx">
+						<tm-sheet :dark="props.dark"  :followTheme="true" :isDisabledRoundAndriod="true" @click="cancel" 
+						:height="90" :linear="props.cancelLinear"
 							:linearDeep="props.cancelLlinearDeep"  text :color="props.cancelColor" :_class="[
-								'flex-center overflow',
+								'flex-center overflow flex',
 							]"
 							:paren-class="props.splitBtn?('round-'+props.btnRound):'round-bl-'+props.round"
 							:margin="[0,0]" :padding="[0,0]">
-							<tm-text @click.stop="cancel" :dark="props.dark" :followTheme="false" :userInteractionEnabled="false" :label="props.cancelText"></tm-text>
+							<tm-text _class="text-weight-b" _style="line-height:90rpx" @click.stop="cancel" :dark="props.dark" :followTheme="false" :userInteractionEnabled="false" :label="props.cancelText"></tm-text>
 						</tm-sheet>
 					</view>
 					<view v-if="props.splitBtn&&!props.hideCancel" class="overflow" style="width: 24rpx;"></view>
-					<view class="flex-1" :class="[okLoading?'opacity-5':'','overflow']">
-						<tm-sheet  :dark="props.dark" :followTheme="true" :isDisabledRoundAndriod="true" @click="ok"  :height="90" :linear="props.okLinear"
+					<view class="flex-1 flex" :class="[okLoading?'opacity-5':'','overflow']" style="height:90rpx">
+						<tm-sheet  :dark="props.dark" :followTheme="true" :isDisabledRoundAndriod="true" @click="ok"  
+						   :height="90" :linear="props.okLinear"
 							:linearDeep="props.okLlinearDeep" :color="props.okColor" :margin="[0,0]"
 							:_class="[
 								'flex-center overflow',
 							]"
 							:paren-class="props.splitBtn?('round-'+props.btnRound):'round-br-'+props.round"
 							:padding="[0,0]">
-							<view :userInteractionEnabled="false" class="flex flex-row">
+							<view :userInteractionEnabled="false" class="flex flex-row" >
 								<view v-if="okLoading" class="pr-10">
 									<tm-icon :userInteractionEnabled="false"  name="tmicon-loading" spin></tm-icon>
 								</view>
-								<tm-text @click.stop="ok" :dark="props.dark" :userInteractionEnabled="false" :label="props.okText"></tm-text>
+								<tm-text _class="text-weight-b" :dark="props.dark" :userInteractionEnabled="false" :label="props.okText"></tm-text>
 							</view>
 						</tm-sheet>
 					</view>
@@ -259,17 +261,19 @@
 	async function ok(){
 		if(props.disabled) return;
 		
-		if (typeof props.beforeClose === 'function') {
-			okLoading.value = true;
-			let p = await props.beforeClose();
-			if(typeof p === 'function'){
-				p = await p();
+		uni.$tm.u.debounce(async ()=>{
+			if (typeof props.beforeClose === 'function') {
+				okLoading.value = true;
+				let p = await props.beforeClose();
+				if(typeof p === 'function'){
+					p = await p();
+				}
+				okLoading.value = false;
+				if (!p) return;
 			}
-			okLoading.value = false;
-			if (!p) return;
-		}
-		emits("ok")
-		close()
+			emits("ok")
+			close()
+		},500,true)
 	}
 	 function cancel(){
 		if(props.disabled) return;

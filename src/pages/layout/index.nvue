@@ -22,7 +22,7 @@ const list = ref([
     { path: "/pages/layout/divider", title: "分割线 Divider" },
     { path: "/pages/layout/grid", title: "宫格 Grid" },
     { path: "/pages/layout/row", title: "布局 Row" },
-    { path: "/pages/layout/sheet", title: "基础容器 Sheet" },
+    { path: "/pages/layout/sheet", title: "基础容器 Sheet" }
 ])
 
 </script>

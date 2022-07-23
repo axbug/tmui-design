@@ -7,7 +7,7 @@
         :no-level="true" :round="2" :height="props.height" :color="props.bgColor" :width="props.width"
             _class="flex-row relative" :padding="[props.gutter, props.gutter]" :margin="[0, 0]">
             <!-- #ifdef APP-NVUE -->
-            <view v-if="_cId!==''" ref="tmBgEl" class="relative flex flex-row " :style="[{ width: leftWidth + 'px' }]">
+            <view v-if="_cId!==''" ref="tmBgEl" class="relative flex flex-row " :style="[{ width: (leftWidth+1) + 'px' }]">
                 <!-- left:leftPos+'px',width:leftWidth+'px' -->
                 <tm-sheet :follow-dark="props.followDark" :round="2"  class="flex-1" _class="flex-1" :color="props.color" :margin="[0, 0]"
                     :padding="[0, 0]"></tm-sheet>
@@ -183,14 +183,13 @@ function getDomRectBound(idx: number) {
     // #ifdef APP-NVUE
     dom.getComponentRect(proxy.$refs['tm-segtab'], function (PARENAREDS) {
         if (PARENAREDS?.size) {
-            let parentleft = (PARENAREDS.size.left ?? 0);
+            let parentleft = Math.floor((PARENAREDS.size.left ?? 0));
             dom.getComponentRect(proxy.$refs['tab_'][idx], function (res) {
                 if (res?.size) {
                     const { left, top, width } = res.size
                     let domx = getEl(proxy.$refs['tmBgEl']);
-                    leftWidth.value = (width ?? 0);
-                    leftPos.value = (left ?? 0) - uni.upx2px(props.gutter)-parentleft;
-                    
+                    leftWidth.value = Math.floor((width ?? 0));
+                    leftPos.value = Math.floor((left ?? 0) - uni.upx2px(props.gutter)-parentleft);
                     animation.transition(proxy.$refs['tmBgEl'], {
                         styles: {
                             transform: 'translateX('+leftPos.value +'px)',

@@ -2,8 +2,6 @@
     <tm-app>
         <tm-sheet :width="662">
             <tm-text label="签名板全端兼容，用于签名使用。请在下方书写"></tm-text>
-            <tm-text color="red" label="注意的是：因截止uniApp 3.5.0 sdk canvas自身有bug，导致h5端无法使用canvas书写。请待官方修复(除h5端都正常)。
-            安卓端实际测试保存签名时可能会有未知问题。(uniApp的canvas插件问题导致)"></tm-text>
             <tm-divider></tm-divider>
 			<tm-sign-board :line-color="colorNow" :line-width="lineWidth" ref="board" :width="638" :height="400"></tm-sign-board>
             <tm-divider></tm-divider>

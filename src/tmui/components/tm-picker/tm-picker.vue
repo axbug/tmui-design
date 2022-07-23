@@ -2,7 +2,8 @@
     <tm-drawer :round="props.round" ref="drawer" :height="dHeight" :closable="true" :overlayClick="aniover" v-if="showCity" @open="drawerOpen" @cancel="cancel" @ok="confirm"
         :show="showCity" @update:show="closeDrawer" title="请选择" ok-text="确认">
         <tm-picker-view 
-        :height="dHeight-260" 
+		:dataKey="props.dataKey"
+        :height="dHeight-230" 
         @end="aniover = true" 
         @start="aniover = false" 
         :value="_colIndex"
@@ -13,9 +14,16 @@
        :beforeChange="props.beforeChange"
        :columns="_data">
        </tm-picker-view>
-        <tm-sheet :color="props.color" :linear="props.linear" :linear-deep="props.linearDeep" @click="confirm" :round="props.btnRound" _class="flex-center" >
-            <tm-text  :userInteractionEnabled="false" label="确认选择"></tm-text>
-        </tm-sheet>
+        <tm-button label="确认选择"
+        block
+        :margin="[32,12]"
+        :color="props.color" 
+        :linear="props.linear" 
+        :linear-deep="props.linearDeep" 
+        @click="confirm" 
+        :round="props.btnRound">
+        </tm-button>
+        <view :style="{height: win_bottom+'px'}"></view>
     </tm-drawer>
 </template>
 <script lang="ts" setup>
@@ -30,6 +38,7 @@ import { columnsItem } from "../tm-picker-view/interface"
 import tmPickerView from "../tm-picker-view/tm-picker-view.vue";
 import TmSheet from "../tm-sheet/tm-sheet.vue";
 import tmText from "../tm-text/tm-text.vue";
+import tmButton from "../tm-button/tm-button.vue";
 
 const {proxy} = getCurrentInstance()
 
@@ -127,6 +136,7 @@ const _colIndex: Ref<Array<number>> = ref([])
 const _data = computed(()=>props.columns)
 const _colStr = ref('')
 const aniover = ref(true)
+const win_bottom = uni.getWindowInfo()?.safeAreaInsets?.bottom??0
 watchEffect(() => {
     showCity.value = props.show
 })
@@ -229,6 +239,6 @@ function getRouterId(list = [], parentIndex = 0): Array<string | number> {
     return p
 }
 const dHeight = computed(() => {
-    return props.height
+    return props.height+win_bottom+80
 })
 </script>

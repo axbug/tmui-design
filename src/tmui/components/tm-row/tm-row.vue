@@ -3,7 +3,7 @@
 		ref="tmRow"
 		@click.stop="emits('click',$event)"
 		class="flex tm-row " 
-		:class="['overflow ', `round-${props.round}`, customClass,`mx${props.margin[0]} my-${margin[1]}`]"
+		:class="['overflow ', `round-${props.round}`, customClass,`mx-${props.margin[0]} my-${margin[1]}`]"
 		:style="[
 			{flexDirection: 'row',flexWrap: 'wrap'},
 			props.height ? { height: props.height + 'rpx' } : '',
@@ -38,11 +38,12 @@
 			</tm-col>
 		</tm-row>
 	 */
-
 	import { getCurrentInstance, computed, ref, provide, inject , onUpdated, onMounted, onUnmounted, nextTick ,watch, PropType  } from 'vue';
 	import { cssstyle, tmVuetify,colorThemeType } from '../../tool/lib/interface';
 	import { custom_props, computedTheme, computedClass, computedStyle, computedDark } from '../../tool/lib/minxs';
 	import { useTmpiniaStore } from '../../tool/lib/tmpinia';
+	type justifyAlignType = "start"|"end"|"center"|"around"|"between"
+	type AlignAlignType = "start"|"end"|"center"|"stretch"
 	const store = useTmpiniaStore();
 	// #ifdef APP-PLUS-NVUE
 		const dom = uni.requireNativePlugin('dom')
@@ -77,12 +78,12 @@
 	 },
 	 //横向排列
 	 justify:{
-	 	type:String,
+	 	type:String as PropType<justifyAlignType>,
 	 	default:'start',//'start' | 'center' | 'end' | 'around' | 'between'
 	 },
 	 //纵向排列
 	 align:{
-	 	type:String,
+	 	type:String as PropType<AlignAlignType>,
 	 	default:'center',//'start' | 'center' | 'end' | 'stretch'
 	 },
 	 color: {
@@ -107,38 +108,21 @@
 	const width_px_rect = computed(()=>props.width)
 	const width_px_rect_rp = computed(()=>width_px_rect.value)
 	//横向对齐方式
-	enum justifyAlign {
-		start = "flex-start",
-		end = "flex-end",
-		center = "center",
-		around = "space-around",
-		between = "space-between",
+	const justifyAlign ={
+		start:"flex-start",
+		end: "flex-end",
+		center:"center",
+		around:"space-around",
+		between:"space-between",
 	}
-	
 	const justify_rp = computed(()=>justifyAlign[props.justify]||'start')
-	enum AlignAlign {
-		start = "flex-start",
-		end = "flex-end",
-		center = "center",
-		stretch = "stretch",
+	const AlignAlign = {
+		start:"flex-start",
+		end:"flex-end",
+		center:"center",
+		stretch:"stretch",
 	}
-	const align_rp = computed(()=>justifyAlign[props.align]||'start')
-	onUpdated(()=>{
-		// #ifndef APP-NVUE
-		// wxmpGetRect();
-		// #endif
-		// #ifdef APP-NVUE
-		// nvueGetRect();
-		// #endif
-	})
-	onMounted(()=>{
-		// #ifndef APP-NVUE
-		// wxmpGetRect();
-		// #endif
-		// #ifdef APP-NVUE
-		// nvueGetRect();
-		// #endif
-	})
+	const align_rp = computed(()=>AlignAlign[props.align]||'start')
 	function wxmpGetRect() {
 		if(props.width){
 			return 

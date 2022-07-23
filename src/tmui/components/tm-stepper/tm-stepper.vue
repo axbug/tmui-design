@@ -116,7 +116,7 @@ const props = defineProps({
     },
     min: {
         type: [Number],
-        default: 0
+        default: 3
     },
     //按钮增加或者 减少前执行，返回 fase取消当前操作。
     beforeEnter: {
@@ -147,6 +147,7 @@ const isJianDisabled = computed(() => {
     if (setVal.value <= props.min) return true;
     return false;
 })
+
 const isAddDisabled = computed(() => {
     if (setVal.value >= props.max) return true;
     return false;
@@ -190,8 +191,14 @@ async function setStep(ty: string) {
 
         if (ty == '+') {
             val += _setval
+			if (val > props.max) {
+			    val = props.max;
+			}
         } else {
             val -= _setval
+			if (val < props.min) {
+			    val = props.min;
+			}
         }
 
     } else {
@@ -199,8 +206,14 @@ async function setStep(ty: string) {
         val = parseInt(val)
         if (ty == '+') {
             val += props.step
+			if (val > props.max) {
+			    val = props.max;
+			}
         } else {
             val -= props.step
+			if (val < props.min) {
+			    val = props.min;
+			}
         }
     }
     val = Number(val.toFixed(props.fixed))

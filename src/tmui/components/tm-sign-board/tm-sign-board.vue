@@ -116,8 +116,8 @@ function drawNvue_init() {
 		setTimeout(function() {
 			dom.getComponentRect(proxy.$refs.tmspin, function(res) {
 				if(res?.size){
-					ctxLeft = res.size.left;
-					ctxTop = res.size.top;
+					ctxLeft = Math.floor(res.size.left);
+					ctxTop = Math.floor(res.size.top);
 					drawhd = new draw(ctx,uni.upx2px(props.width),uni.upx2px(props.height))
 				}
 				

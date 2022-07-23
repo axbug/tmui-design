@@ -176,9 +176,9 @@ function confirm(e: Array<string | number>) {
     proxy?.$refs?.drawer?.close();
 }
 
-const win_bottom = uni.getSystemInfoSync()?.safeAreaInsets?.bottom??0
+const win_bottom = uni.getWindowInfo()?.safeAreaInsets?.bottom??0
 const dHeight = computed(() => {
-    if (_modelType.value == 'day') return 880+win_bottom
+    if (_modelType.value == 'day') return 900+win_bottom
     if (_modelType.value == 'rang') return 900+win_bottom
     if (_modelType.value == 'week') return 740+win_bottom
     if (_modelType.value == 'month') return 720+win_bottom

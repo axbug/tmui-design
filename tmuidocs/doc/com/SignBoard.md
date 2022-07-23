@@ -11,9 +11,6 @@ title: tmui 3.0 组件库
 
 ---
 
-:::danger 提醒
-注意的是：因截止uniApp 3.5.0 sdk canvas自身有bug，导致h5端无法使用canvas书写。请待官方修复(除h5端都正常)
-:::
 
 ### :hot_pepper: 签名板 SignBoard 示例
 

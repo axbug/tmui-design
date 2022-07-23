@@ -246,14 +246,14 @@ const btnSizeObj = computed(()=>{
 	let fontSize = props.fontSize||0;
 	
 	if(props.block){
-		return {w:0,h:props.height||sizeObj.block.h,fontSize:fontSize||sizeObj.block.fontSize,round:props.round||sizeObj.normal.round}
+		return {w:0,h:props.height||sizeObj.block.h,fontSize:fontSize||sizeObj.block.fontSize,round:props.round==-1?0:(props.round||sizeObj.normal.round)}
 	}
 	
 	return {
 		w:props.width||sizeObj[props.size].w ,
 		h:props.height||sizeObj[props.size].h,
 		fontSize:fontSize||sizeObj[props.size].fontSize,
-		round:props.round||sizeObj[props.size].round,
+		round:props.round==-1?0:(props.round||sizeObj[props.size].round),
 	}
 })
 const _fontColor = computed(()=>props.fontColor)
@@ -331,9 +331,9 @@ function onclick(e:Event){
 .bhover{
 	opacity: 0.7;
 }
-	/* #ifdef H5 */
-	.bhover:hover{
-		opacity: 0.7;
-	}
-	/* #endif */
+/* #ifdef H5 */
+.bhover:hover{
+	opacity: 0.7;
+}
+/* #endif */
 </style>

@@ -40,14 +40,23 @@ import tmApp from "@/tmui/components/tm-app/tm-app.vue"
 ### :seedling: 参数
 本组件含有公共属性 [公共属性](/doc/spec/组件公共样式.md)
 
+:::tips 关于tabBar
+
+tabar<Badge type="danger" text="v3.0.75+" vertical="middle" />开始已经删除该属性。转而读取你的项目
+目录下的pages.json的配置，如果未配置将使用框架自带的配置颜色。因为该属性只对原生的tabBar起到切换主题作用。
+因此如果你使用自带的tabBar组件将不受影响。
+
+:::
+
 | 参数名 | 类型 | 默认值 | 描述 |
 | :--: | :--: | :--: | :-- |
 | theme | [String] | grey-5 | 当前应用主题(未开放) |
 | bgImg | [String] | https://picsum.photos/750/1448 | APP应用的背景图(未开放) |
 | color | [String] | grey-4 | 应用的背景颜色 |
+| darkColor<Badge type="danger" text="v3.0.74+" vertical="middle" /> | [String] | #050505 | 暗黑时的背景色值，只能是颜色值。 |
 | blur | [Boolean, String] | false | 模糊背景(未开放) |
 | navbar | [Object] | {background: '#ffffff',fontColor: '#000000'} | 标题导航配色|
-| tabar | [Object] | {background: '#ffffff',fontColor: '#222222'} | 底部导航配色|
+
 
 ### :rose: 事件
 

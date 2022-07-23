@@ -22,12 +22,10 @@
 		:margin="[0,0]"
 		:padding="props.padding"
 		>
-			<slot>
-				<tm-text :userInteractionEnabled="false" v-if="props.label&&!props.icon&&!props.img" :label="props.label" :font-size="fontSize"></tm-text>
-				<tm-icon :userInteractionEnabled="false" v-if="!props.label&&props.icon&&!props.img" :name="props.icon" :font-size="fontSize"></tm-icon>
-				<image :userInteractionEnabled="false" v-if="!props.label&&!props.icon&&props.img" :src="props.img" mode="scaleToFill" 
-				:style="{width:imgsize,height:imgsize}" :class="['round-'+props.round]"></image>
-			</slot>
+			<tm-text :userInteractionEnabled="false" v-if="props.label&&!props.icon&&!props.img" :label="props.label" :font-size="fontSize"></tm-text>
+			<tm-icon :userInteractionEnabled="false" v-if="!props.label&&props.icon&&!props.img" :name="props.icon" :font-size="fontSize"></tm-icon>
+			<image :userInteractionEnabled="false" v-if="!props.label&&!props.icon&&props.img" :src="props.img" mode="scaleToFill" 
+			:style="{width:imgsize,height:imgsize}" :class="['round-'+props.round]"></image>
 		</tm-sheet>
 		<view @click.stop="emits('click',$event)" v-if="props.triggerIcon" class="absolute flex flex-col-bottom-end b-0 r-0 " :style="{width:`${width}rpx`}">
 			<tm-sheet :userInteractionEnabled="false" :width="triggSize.size" :height="triggSize.size" 

@@ -27,7 +27,6 @@
 				"navigationStyle": "custom"
 			}
 		}
-	    
     ],
 	"subPackages": [
 		{
@@ -118,7 +117,16 @@
 						"enablePullDownRefresh": false
 					}
 				}
-			]
+			    ,{
+                    "path" : "scrollx",
+                    "style" :                                                                                    
+                {
+                    "navigationBarTitleText": "横向滚动 Scrollx",
+                    "enablePullDownRefresh": false
+                }
+                
+                }
+            ]
 		},
 		{
 			"root": "pages/daohang",
@@ -439,7 +447,8 @@
 						"navigationBarTitleText": "布局 Row"
 					}
 				}
-			]
+			    
+            ]
 		},
 		{
 			"root": "pages/showdata",
@@ -537,7 +546,8 @@
 				{
 					"path": "table",
 					"style": {
-						"navigationBarTitleText": "表格 Table"
+						"navigationBarTitleText": "表格 Table",
+						"disableScroll": true
 					}
 				},
 				{

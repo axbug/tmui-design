@@ -1,12 +1,20 @@
 <template>
-    <tm-drawer :round="props.round" ref="drawer" :height="820" :closable="true" :overlayClick="aniover" v-if="showCity" @open="drawerOpen" @cancel="cancel" @ok="confirm"
+    <tm-drawer :round="props.round" ref="drawer" 
+	:height="820" :closable="true" :overlayClick="aniover" v-if="showCity" @open="drawerOpen" @cancel="cancel" @ok="confirm"
         :show="showCity" @update:show="closeDrawer" title="请选择地区" ok-text="确认">
-        <tm-picker-view :height="560" @end="aniover = true" @start="aniover = false" :value="_colIndex"
+        <tm-picker-view :height="590" @end="aniover = true" @start="aniover = false" :value="_colIndex"
             @update:modelValue="_colIndex = $event" @update:model-str="_colStr = $event" :model-str="_colStr"
             :default-value="_colIndex" :columns="_data"></tm-picker-view>
-        <tm-sheet :followTheme="props.followTheme" :color="props.color" :linear="props.linear" :linear-deep="props.linearDeep" @click="confirm" :round="props.btnRound" _class="flex-center" >
-            <tm-text  :userInteractionEnabled="false" label="确认选择"></tm-text>
-        </tm-sheet>
+        <tm-button label="确认选择"
+        block
+        :margin="[32,12]"
+        :color="props.color" 
+        :linear="props.linear" 
+        :linear-deep="props.linearDeep" 
+        @click="confirm" 
+        :round="props.btnRound">
+        </tm-button>
+        <view :style="{height: win_bottom+'px'}"></view>
     </tm-drawer>
 </template>
 <script lang="ts" setup>
@@ -25,7 +33,7 @@ import { areaData } from "../../tool/static/area";
 import tmPickerView from "../tm-picker-view/tm-picker-view.vue";
 import TmSheet from "../tm-sheet/tm-sheet.vue";
 import tmText from "../tm-text/tm-text.vue";
-
+import tmButton from "../tm-button/tm-button.vue";
 const {proxy} = getCurrentInstance()
 
 /**
@@ -95,6 +103,8 @@ const _colIndex: Ref<Array<number>> = ref([])
 const _data = ref(chiliFormatCity_area())
 const _colStr = ref('')
 const aniover = ref(true)
+const win_bottom = uni.getWindowInfo()?.safeAreaInsets?.bottom??0;
+
 watchEffect(() => {
     showCity.value = props.show
 })

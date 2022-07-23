@@ -35,5 +35,6 @@ onLoad((obj: any) => {
 function chartInit(chart: ECharts) {
     chart.setOption(chartdata[dkey.value])
 }
+
 // #endif
 </script>

@@ -21,7 +21,7 @@
 			   <tm-image src="https://picsum.photos/450/150?id=36" :height="150" :width="450"></tm-image>
            </view>
        </tm-modal>
-       <tm-modal color="white" okColor="pink"  cancelColor="pink" okLinear="left" splitBtn title="信息框" content="关闭后会延迟关闭窗体" 
+       <tm-modal  @ok="test" color="white" okColor="pink"  cancelColor="pink" okLinear="left" splitBtn title="信息框" content="关闭后会延迟关闭窗体" 
        v-model:show="showWin3" :beforeClose="beforeClose"></tm-modal>
     </tm-app>
 </template>
@@ -45,5 +45,9 @@ function beforeClose(){
             res(true)
         }, 1500);
     })
+}
+
+function test(e){
+	console.log('ok事件点击')
 }
 </script>

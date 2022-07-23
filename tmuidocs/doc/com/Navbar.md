@@ -50,7 +50,9 @@ title: tmui 3.0 组件库
 | hideHome | Boolean | false | |
 | homePath | [String] | /pages/index/index | 返回首页的路径，注意：需要hideHome属性为false|
 | blur | Boolean | false | 背景磨砂,可选值：false,true;注意：当为渐变背景时,背景磨砂效果将会消失
-			 |
+| iconFontSize<Badge type="danger" text="v3.0.73+" vertical="middle" /> | [Number] | 37 | 返回图标，Home图标字号 |
+| unit<Badge type="danger" text="v3.0.73+" vertical="middle" /> | [String] | rpx | 字号单位 |
+
 
 ### :rose: 事件
 | 事件名 | 参数 | 返回数据 | 描述 |

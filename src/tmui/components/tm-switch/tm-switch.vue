@@ -1,5 +1,6 @@
 <template>
 	<tm-sheet 
+	@click="switchClick"
 	:no-level="!_value"
 	:followTheme="props.followTheme"
 	:followDark="props.followDark"
@@ -16,36 +17,31 @@
 	:_class="['flex relative flex-col',props.disabled?'opacity-4':'']" 
 	:text="_value?false:props.text"
 	:padding="[4,4]" :margin="props.margin">
-		<view class="flex flex-row flex-betwwen" :style="[{width:viewSize.coenteWidth+'rpx',height:viewSize.innerHeight+'rpx'}]">
+		<view :userInteractionEnabled="false" class="flex flex-row flex-betwwen" 
+		:style="[{width:viewSize.coenteWidth+'rpx',height:viewSize.innerHeight+'rpx'}]">
 			<view class="flex-1 flex-row flex-row-center-center"><tm-text :font-size="viewSize.fontSize" :label="props.label[0]"></tm-text></view>
 			<view class="flex-1 flex-row flex-row-center-center"><tm-text :font-size="viewSize.fontSize" :label="props.label[1]"></tm-text></view>
 		</view>
-		<view :class="['absolute base',_value?'on':'off',]" 
+		<view :userInteractionEnabled="false" :class="['absolute base',_value?'on':'off',]" 
 		ref="switch"
-		:style="[
-		{
+		:style="{
 			width:viewSize.innerWidth+'rpx',
-			'transition-duration':'0.200s',
-			'transition-timing-function':'ease',
-			'transition-property':'transform,width, height, background-color,',
-			
-		}]" 
+		}" 
 		class="flex flex-col">
-		
 			<tm-sheet
-			@click="switchClick"
+			:userInteractionEnabled="false"
 			:padding="[0,0]"
 			:margin="[0,0]"
 			:height="viewSize.innerHeight"
+			:width="viewSize.innerWidth"
 			:color="props.barColor"
 			:follow-dark="false"
 			:round="viewSize.round"
-			_class="flex flex-center"
+			_class="flex flex-center flex-row"
 			>
-				
-			   <tm-icon :followTheme="props.followTheme" v-if="_load" :font-size="viewSize.fontSize" :color="props.color" :userInteractionEnabled="false" name="tmicon-loading" spin></tm-icon>
+			   <tm-icon :followTheme="props.followTheme" v-if="_load" :font-size="viewSize.fontSize" :color="props.color"  name="tmicon-loading" spin></tm-icon>
 			   <tmTranslate name="zoom" v-if="!_load&&_value">
-				   <tm-icon :followTheme="props.followTheme" :font-size="viewSize.fontSize" :color="props.color"  :userInteractionEnabled="false" :name="props.barIcon"></tm-icon>
+				   <tm-icon :followTheme="props.followTheme" :font-size="viewSize.fontSize" :color="props.color"   :name="props.barIcon"></tm-icon>
 			   </tmTranslate>
 			</tm-sheet>
 		</view>
@@ -156,16 +152,14 @@ const viewSize = computed(()=>{
 	let width = 0;
 	let height = 0;
 	let fontSize = 24;
-	let gutter = 4;
+	let gutter = 1;
 	
 	let round = props.round;
 	if(props.width&&props.height){
 		width = props.width;
 		height = props.height;
 		fontSize = height*0.45
-		// #ifdef H5
-		gutter=6
-		// #endif
+		
 	}else{
 		if(props.size == 'normal'){
 			width = 100;
@@ -185,10 +179,10 @@ const viewSize = computed(()=>{
 	return {
 		width:width,
 		height:height,
-		innerHeight:(height-gutter),
-		innerWidth:(width)/2,
-		coenteWidth:width-gutter,
-		conentWidthPx:uni.upx2px(width-gutter-(width)/2),
+		innerHeight:(height-gutter*1),
+		innerWidth:(width)/2+gutter*2,
+		coenteWidth:width,
+		conentWidthPx:uni.upx2px(width-(width)/2),
 		fontSize:fontSize,
 		round:round
 	}
@@ -240,7 +234,7 @@ function spinNvueAni(reveser=false) {
 			transformOrigin: 'center center'
 		},
 		duration: 200, //ms
-		timingFunction: 'ease-in',
+		timingFunction: 'linear',
 		delay: 0 //ms
 	},()=>{
 		
@@ -358,18 +352,15 @@ watch(tmFormFun,()=>{
 <style scoped>
 /* #ifndef APP-NVUE */
 	.base{
-		transform:'translateX(0%)'
+		transform:translateX(0%);
+		transition: 0.2s linear;
+		left: 0;
 	}
 	.on{
-		
-		transform:translateX(calc(100% - 4rpx))
-		
+		left:calc(50% - 4rpx)
 	}
 	.off{
-		
-		
-		transform:translateX(0%)
-		
+		left:0
 	}
 	/* #endif */
 </style>

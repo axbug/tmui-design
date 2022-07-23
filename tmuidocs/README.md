@@ -28,5 +28,6 @@ features:
   - title: 高颜值
     details: 继承tm-vuetify2.0的传统，继续保持强劲的美观组件库。让主题，暗黑随性切换。
 footerHtml: true
-footer: <a href="https://tmui.design">tmui.design</a> | <a href="https://jx2d.cn" target="_blank">tm-vuetify 2.0</a> | 备案号：1955221-4
+footer: <a href="https://tmui.design">tmui.design</a> | <a href="https://jx2d.cn" target="_blank">tm-vuetify 2.0</a> |  <a href="https://beian.miit.gov.cn/#/Integrated/index" target="_blank">赣ICP备16005577号-4</a> <br><div style="margin-top:12px;"><span style="font-size:12px">友情链接：</span><a style="font-size:12px" href="https://www.diygw.com/" target="_blank">UniApp可视化源码</a></div>
+
 ---

@@ -1,10 +1,14 @@
 <template>
     <tm-app>
         <tm-sheet>
-            <tm-tabs :width="636" :height="300" default-name="4">
-                <tm-tabs-pane v-for="item in 20" :name="item" :title="'标题' + item">
+            <tm-tabs swiper :width="636" :height="500" default-name="4">
+                <tm-tabs-pane  v-for="item in 20" :name="item" :title="'标题' + item">
                     <tm-sheet :margin="[0, 0]">
-                        <tm-text :font-size="30" _class="font-weight-b" :label="item + '基础示例,更多见文档,本组件样式组合过多，只展示部分，更多需要你自己搭配出更多的样式属性'"></tm-text>
+						<tm-text :font-size="30" _class="font-weight-b"
+						color='red'
+						:label="item + ';本组件可以开启swiper属性，你现在可以尝试左右滑动。开启左右滑动，页面最好禁用滚动，以防与页面事件冲突。(当然是兼容了WEB pc端)'"></tm-text>
+                        <tm-text :font-size="30" _class="font-weight-b" 
+						:label="'也可以关闭swiper属性。如果开启，所有的tabs内容默认都显示的，因此请注意优化界面的流畅度。'"></tm-text>
                         <tm-divider></tm-divider>
                     </tm-sheet>
                 </tm-tabs-pane>

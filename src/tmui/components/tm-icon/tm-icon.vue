@@ -8,7 +8,7 @@
 			:class="[spinComputed ? 'spin' : '', 'text-size-n d-inline-block', 'tmicon ', prefx, iconComputed, customClass]"
 			:style="[fontSizeComputed, { color: textColor }, customCSSStyle]" v-if="!isImg"></text>
 		<!-- #endif  -->
-		<!-- #ifdef APP-NVUE || APP-PLUS-NVUE -->
+		<!-- #ifdef APP-NVUE-->
 		<text :render-whole="true" ref="icon" @click="clickhandle" @longpress="emits('longpress', $event)"
 			:class="[spinComputed ? 'spin' : '', 'text-size-n d-inline-block ', 'tmicon', customClass]"
 			:style="[{ fontFamily: 'tmicon', color: textColor }, fontSizeComputed, customCSSStyle]" v-if="!isImg">
@@ -36,7 +36,6 @@ import { useTmpiniaStore } from '../../tool/lib/tmpinia';
 import fontList from '../../tool/tmicon/iconfont.json';
 import { tmiconFont } from './tmicon';
 var domModule = weex.requireModule('dom');
-
 const Binding = uni.requireNativePlugin('bindingx');
 // #endif
 const store = useTmpiniaStore();
@@ -66,6 +65,11 @@ const props = defineProps({
 	unit: {
 		type: String,
 		default: 'rpx'
+	},
+	//-1表示自动
+	lineHeight:{
+		type: [Number],
+		default: -1
 	}
 });
 
@@ -104,9 +108,12 @@ const textColor = computed(() => {
 //图标大小。
 const fontSizeComputed = computed(() => {
 	// #ifdef H5
-	if (props.fontSize < 24 && props.unit == 'rpx') return { transform: 'scale(0.8)', fontSize: (props.fontSize || 30) + props.unit };
+	if (props.fontSize < 24 && props.unit == 'rpx') return { 
+		transform: 'scale(0.8)', fontSize: (props.fontSize || 30) + props.unit ,
+		lineHeight:props.lineHeight>-1?props.lineHeight + props.unit:(props.fontSize || 30) + props.unit
+		};
 	// #endif
-	return { fontSize: (props.fontSize || 30) + props.unit };
+	return { fontSize: (props.fontSize || 30) + props.unit,lineHeight:props.lineHeight>-1?props.lineHeight + props.unit:(props.fontSize || 30) + props.unit };
 });
 //图标前缀
 const prefx = computed(() => {

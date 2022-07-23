@@ -1,5 +1,10 @@
 <template>
     <tm-app>
+		<!-- #ifdef MP-WEIXIN -->
+		<view class="px-32">
+			<ad unit-id="adunit-d6c90eaaa098bf4d"></ad>
+		</view>
+		<!-- #endif -->
         <view class="ma-32 round-3 overflow">
             <tm-cell v-for="(item, index) in list" :key="index" :url="item.path" :margin="[0, 0]" :titleFontSize="30"
                 :title="item.title"> </tm-cell>
@@ -7,9 +12,7 @@
         <view class="py-32 mx-32">
             <tm-divider color="grey-2" label="tmui 3.0.0 原生渲染，全端兼容"></tm-divider>
         </view>
-        <view class="px-32">
-			<ad unit-id="adunit-d6c90eaaa098bf4d"></ad>
-		</view>
+        
     </tm-app>
 </template>
 <script lang="ts" setup>

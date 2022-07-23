@@ -4,7 +4,7 @@
 			<tm-text :followTheme="props.followTheme" :color="props.color" :font-size="props.fontSize*0.7" :label="props.prefix"></tm-text>
 		</slot>
 		<slot name="default">
-			<tm-text :followTheme="props.followTheme" :_class="[customClass || 'px-12']" :color="props.color" :font-size="props.fontSize" :label="displayValue"></tm-text>
+			<tm-text :followTheme="props.followTheme" _class="px-12" :color="props.color" :font-size="props.fontSize" :label="displayValue"></tm-text>
 		</slot>
 		<slot name="suffix">
 			<tm-text :followTheme="props.followTheme" :color="props.color" :font-size="props.fontSize*0.7" :label="props.suffix"></tm-text>
@@ -32,12 +32,10 @@
 	 * @example <tm-statistic :font-size="80" prefix="￥" suffix="元"></tm-statistic>
 	 */
 	import { requestAnimationFrame, cancelAnimationFrame } from './requestAnimationFrame';
-	import { computed,watch,watchEffect,onMounted,ref } from "vue"
+	import { computed,watch,watchEffect,onMounted,ref,onBeforeUnmount } from "vue"
 	import tmText from "../tm-text/tm-text.vue"
-  import {computedClass, custom_props} from "../../tool/lib/minxs";
 	const emits = defineEmits(['mountedCallback','callback'])
 	const props = defineProps({
-    ...custom_props,
 		//是否跟随全局主题的变换而变换
 		followTheme: {
 			type: [Boolean,String],
@@ -162,8 +160,6 @@
 	let rAF = null;
 	let timer = null;
 	const countDown = props.startVal > props.endVal?true:false;
-  //自定类
-  const customClass = computed(() => computedClass(props));
 	watch([()=>props.startVal,()=>props.endVal],()=>{
 		start();
 	})
@@ -178,6 +174,8 @@
 		}
 		emits('mountedCallback');
 	})
+	
+	onBeforeUnmount(()=>clearInterval(timer))
 	
 	function easingFn(t = 0, b = 0, c = 0, d = 0) {
 		let p = (c * (-Math.pow(2, (-10 * t) / d) + 1) * 1024) / 1023 + b;

@@ -76,6 +76,11 @@
 		reverse: {
 			type: [Boolean, String],
 			default: false
+		},
+		//每变动一次，就重置动画一下，这个属性不对外，特殊情况使用。
+		initByWechat:{
+			type:Boolean,
+			default:false
 		}
 	});
 	const emits = defineEmits(['start', 'end', 'click']);
@@ -125,6 +130,9 @@
 	//css3动画数据。
 	const animationData = ref(null);
 	let testid =99
+	watch(()=>props.initByWechat,()=>{
+		reset()
+	})
 	function init() {
 		nextTick(()=>{
 			isLoadEl.value = true;
@@ -154,10 +162,10 @@
 		if (props.disabled == true) return;
 		clearTimeout(tmid.value);
 		animationStatus.value = 0;
+		// noNvueAmationsReset()
 	}
 
 	function reset() {
-		if (props.disabled == true) return;
 		stop();
 		animationStatus.value = 0;
 	}
@@ -337,6 +345,10 @@
 				});
 			}
 			animationData.value = animation.export();
+			let detalTime = 50;
+			// #ifdef MP
+			detalTime=100
+			// #endif
 			tmid.value = setTimeout(function() {
 				if (animationName.value == 'fade') {
 					let opacity = computedReverse.value ? 0 : 1;
@@ -366,7 +378,7 @@
 					emits('end');
 					animationStatus.value = 2;
 				}, durationtos.value)
-			}, 20)
+			}, detalTime)
 		})
 	}
 </script>

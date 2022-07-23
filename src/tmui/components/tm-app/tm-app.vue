@@ -54,9 +54,7 @@
 		computedDark
 	} from '../../tool/lib/minxs';
 	const store = useTmpiniaStore();
-	const {
-		proxy
-	} = getCurrentInstance()
+	const {proxy} = <ComponentInternalInstance>getCurrentInstance()
 	// 混淆props共有参数
 	const props = defineProps({
 		...custom_props,
@@ -91,15 +89,6 @@
 					fontColor: '#000000'
 				};
 			}
-		},
-		tabar: {
-			type: Object,
-			default: () => {
-				return {
-					background: '#ffffff',
-					fontColor: '#222222'
-				};
-			}
 		}
 	});
 	// 设置响应式全局组件库配置表。
@@ -127,7 +116,14 @@
 	const view_width = ref(sysinfo.windowWidth);
 	//视窗的高度。
 	let view_height = ref(windowHeight + (windowTop || 0));
-
+	// let nowPage = getCurrentPages().pop()
+	// let isCustomHeader = false;
+	// for(let i=0;i<uni.$tm.pages.length;i++){
+	// 	if(nowPage.route==uni.$tm.pages[i].path&&uni.$tm.pages[i].custom=='custom'){
+	// 		isCustomHeader = true;
+	// 		break;
+	// 	}
+	// }
 	// #ifdef MP
 	view_height.value = windowHeight
 	// #endif
@@ -139,10 +135,11 @@
 	// #endif
 	// #ifdef APP 
 	// 如果存在导航栏？
-	if ((sysinfo?.safeArea?.top||0) > 0) {
-		view_height.value = sysinfo.screenHeight
-	} else {
-		view_height.value = (sysinfo?.safeArea?.height||0) - Math.abs(statusBarHeight||0);
+	let appsys = uni.getWindowInfo();
+	if(appsys.safeArea.top>0){
+		view_height.value = appsys.screenHeight
+	}else{
+		view_height.value = appsys.safeArea.height-appsys.statusBarHeight-44+appsys.safeAreaInsets.bottom
 	}
 	// #endif
 	// //https://picsum.photos/750/1440
@@ -182,7 +179,7 @@
 		if (uni.getSystemInfoSync().osName == 'android') {
 			var Color = plus.android.importClass("android.graphics.Color");
 			plus.android.importClass("android.view.Window");
-		 var mainActivity = plus.android.runtimeMainActivity();
+		 	var mainActivity = plus.android.runtimeMainActivity();
 			var window_android = mainActivity?.getWindow();
 
 			if (appConfig.value.dark) {
@@ -205,7 +202,8 @@
 			uni.setTabBarStyle({
 				backgroundColor: '#000000',
 				borderStyle: '#1a1a1a',
-				color: '#ffffff'
+				color: '#ffffff',
+				selectedColor:uni.$tm.tabBar.selectedColor||tmcomputed.value.textColor
 			}).catch(e=>{})
 		} else {
 			uni.setNavigationBarColor({
@@ -213,16 +211,16 @@
 				frontColor: props.navbar.fontColor
 			}).catch(e=>{})
 			uni.setTabBarStyle({
-				backgroundColor: props.navbar.background,
-				borderStyle: '#888888',
-				color: props.navbar.fontColor
+				backgroundColor: uni.$tm.tabBar.backgroundColor||props.navbar.background,
+				borderStyle: uni.$tm.tabBar.borderStyle||'#888888',
+				color: uni.$tm.tabBar.color||props.navbar.fontColor,
+				selectedColor:uni.$tm.tabBar.selectedColor||tmcomputed.value.textColor
 			}).catch(e=>{})
 		}
 		
 		isSetThemeOk.value = true;
 	}
-	// setAppStyle()
-	// let textColor = ref(tmcomputed.value.textColor);
+
 	//向下子组件传递，相关参数，可代替store使用。
 	provide('appTextColor', computed(() => tmcomputed.value.textColor));
 	//各个组件之间的间隙。
@@ -251,9 +249,11 @@
 		setDark: setDark
 	});
 	//监视全局主题并立即执行。
+	setAppStyle()
 	onBeforeMount(() => setAppStyle())
 	watch([()=>tmcfg.value.color, isDark], () => {
 		isSetThemeOk.value = false;
 		setAppStyle();
 	});
+	
 </script>

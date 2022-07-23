@@ -109,7 +109,7 @@
 								<view style="height:8rpx"></view>
 								<view hover-class="opacity-7" @click.stop="onclick(index,item)" 
 								v-for="(item,index) in listData"  :key="index" class="flex-1 flex px-24  py-16" >
-									<view class="flex-row flex pb-12 flex-between px-12">
+									<view class="flex-row flex pb-12 flex-between ">
 										<view class="flex flex-row flex-row-center-start flex-1">
 											<tm-icon :color="item.iconColor" :dark="props.dark" :fontSize="36" _class="pr-12" v-if="item.icon" :name="item.icon"></tm-icon>
 											<tm-text :fontSize="32" :label="item.text"></tm-text>
@@ -191,12 +191,12 @@
 									<view style="height:8rpx"></view>
 									<view hover-class="opacity-7" @click.stop="onclick(index,item)" 
 									v-for="(item,index) in listData"  :key="index" class="flex-1 flex px-24  py-16" >
-										<view class="flex-row flex pb-12 flex-between px-12">
+										<view class="flex-row flex pb-12 flex-between ">
 											<view class="flex flex-row flex-row-center-start flex-1">
 												<tm-icon :color="item.iconColor" :dark="props.dark" :fontSize="36" _class="pr-12" v-if="item.icon" :name="item.icon"></tm-icon>
 												<tm-text :fontSize="32" :label="item.text"></tm-text>
 											</view>
-											<tm-icon font-size="22" _class="pl-24" name="tmicon-angle-right"></tm-icon>
+											<tm-icon :font-size="22" _class="pl-24" name="tmicon-angle-right"></tm-icon>
 										</view>
 									</view>
 									<view style="height:8rpx"></view>

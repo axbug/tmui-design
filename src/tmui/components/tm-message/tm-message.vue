@@ -1,6 +1,6 @@
 <template>
-	<tm-overlay :transprent="!showMask"  :_style="zindex" :overlayClick="false" v-model:show="showValue">
-		<tm-translate @end="msgOver" :reverse="reverse" ref="tranAni" name="zoom" :duration="150" :auto-play="false">
+	<tm-overlay :transprent="!showMask"  :_style="zindex" :overlayClick="false" v-if="showValue" v-model:show="showValue">
+		<tm-translate :initByWechat="initByWechat" @end="msgOver" :reverse="reverse" ref="tranAni" name="zoom" :duration="150" :auto-play="false">
 			<tm-sheet blur :_style="props._style"  
 			:_class="props._class" :color="bgColor" 
 			:border="1" :shadow="10" 
@@ -67,9 +67,10 @@
 	const color_ref = ref('')
 	const reverse = ref(false)
 	const dur = ref(0)
-	const aniPlaying = ref(false)
+	const initByWechat = ref(true)
 	const showMask = ref(props.mask)
 	const dark_ref = ref(false)
+	
 	onUnmounted(()=>clearTimeout(uid.value))
 	watch(()=>props.mask,(val)=>showMask.value=val)
 	// #ifdef APP-NVUE
@@ -160,18 +161,12 @@
 				duration = props.duration;
 			}
 			dur.value = isNaN(parseInt(String(duration))) ? 1500 : parseInt(String(duration));
-			
-			showValue.value = true;
+			// initByWechat.value = !initByWechat.value;
 			reverse.value = false;
-			clearTimeout(uid.value);
-			uid.value = setTimeout(() => {
-				// proxy.$refs.tranAni.stop()
-				// nextTick(()=>proxy.$refs.tranAni.play())
-				clearTimeout(uid.value);
-				uid.value = setTimeout(() => {
-					proxy.$refs.tranAni.play()
-				}, 50);
-			}, 50);
+			showValue.value = true;
+			nextTick(()=>{
+				proxy.$refs.tranAni.play()
+			})
 		}
 	//隐藏
 	function hide(){

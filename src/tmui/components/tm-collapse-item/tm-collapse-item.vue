@@ -33,7 +33,7 @@
 		</tm-sheet>
 		
 		<view v-if="isActive" class="px-24 pt-24 pb-24  flex overflow">
-			<view class="flex content"  :class="[ isActiveAfter?'on':'']">
+			<view class="flex content flex-col flex-1"  :class="[ isActiveAfter?'on':'']">
 				<slot></slot>
 			</view>
 		</view>

@@ -46,7 +46,7 @@ title: tmui 3.0 组件库
 | color | String | '' | 图标颜色 |
 | name | String | '' | 图标名称 |
 | spin | [Boolean, String] | true | 是否使图标旋转 |
-
+| unit<Badge type="danger" text="v3.0.73+" vertical="middle" /> | [String] | rpx | 字号单位 |
 
 ### :rose: 事件
 | 事件名 | 参数 | 返回数据 | 描述 |

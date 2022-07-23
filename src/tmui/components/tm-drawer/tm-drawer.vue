@@ -1,10 +1,10 @@
 <template>
-	<tm-overlay :transprent="!props.mask" v-if="show" @click="clickClose" :align="align_rp" :overlayClick="false"
+	<tm-overlay :zIndex="props.zIndex" :transprent="!props.mask" v-if="props.show" @click="clickClose" :align="align_rp" :overlayClick="false"
 		v-model:show="props.show">
 		<tm-translate @end="animationClose" :reverse="reverse_rp" :width='anwidth' :height="anheight" ref="drawerANI"
 			:auto-play="false" :name="aniname" :duration="props.duration">
 			<view @click.stop="$event.stopPropagation()" :style="[
-				{ width: anwidth, height: anheight, },
+				{ width: anwidth, height: anheight },
 				!props.transprent ? tmcomputed.borderCss : '',
 				!props.transprent ? tmcomputed.backgroundColorCss : '',
 				!props.transprent ? tmcomputed.shadowColor : '',
@@ -140,6 +140,14 @@ const props = defineProps({
 	disabled: {
 		type: Boolean,
 		default: false
+	},
+	zIndex: {
+		type: [Number, String],
+		default: 401
+	},
+	unit:{
+		type:String,
+		default:'rpx'
 	}
 });
 const emits = defineEmits(['click', 'open', 'close', 'update:show', 'ok', 'cancel']);
@@ -201,24 +209,28 @@ const aniname = computed(() => {
 })
 const anwidth = computed(() => {
 	if (aniname.value == 'zoom') {
-		return props.width + 'rpx'
+		return props.width + props.unit
 	}
 	if (props.placement == 'left' || props.placement == 'right') {
-		return props.width + 'rpx'
+		return props.width + props.unit
 	}
 	return syswidth.value + 'px';
 })
 const anheight = computed(() => {
 	let wucha = 0
 	if (props.placement == 'top' || props.placement == 'bottom' || aniname.value == 'zoom') {
-		return (props.height + wucha) + 'rpx'
+		return (props.height + wucha) + props.unit
 	}
 	return (sysheight.value) + 'px';
 })
 const contentHeight = computed(() => {
 	let base_height = props.hideHeader ? 0 : 44;
 	if (props.placement == 'top' || props.placement == 'bottom' || aniname.value == 'zoom') {
-		return (uni.upx2px(props.height) - base_height) + 'px'
+		let h =props.height;
+		if (props.unit=='rpx') {
+			h=uni.upx2px(props.height);
+		}
+		return (h - base_height) + 'px'
 	}
 	return (sysheight.value - base_height) + 'px';
 })

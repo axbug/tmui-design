@@ -1,37 +1,41 @@
 <template>
-  <tm-sheet
-    v-if="isShow"
-    :transprent="props.transprent"
-    :color="props.color"
-    :followTheme="props.followTheme"
-    :followDark="props.followDark"
-    :dark="props.dark"
-    :round="props.round"
-    :shadow="props.shadow"
-    :outlined="props.outlined"
-    :border="props.border"
-    :borderStyle="props.borderStyle"
-    :borderDirection="props.borderDirection"
-    :text="props.text"
-    :linear="props.linear"
-    :linearDeep="props.linearDeep"
-    :_style="props._style"
-    :_class="props._class"
-    
-    :margin="[0, 0]"
-    :padding="[0, 0]"
-  >
-    <scroll-view
-      :scroll-y="_height ? true : false"
-      enable-flex
-      class="flex-col"
-      :style="[{ width: _width + 'rpx' }, _height ? { height: _height + 'rpx' } : '']"
-    >
-      <view>
-        <slot></slot>
-      </view>
-    </scroll-view>
-  </tm-sheet>
+	<tm-sheet
+	  v-if="isShow"
+	  :transprent="props.transprent"
+	  :color="props.color"
+	  :followTheme="props.followTheme"
+	  :followDark="props.followDark"
+	  :dark="props.dark"
+	  :round="props.round"
+	  :shadow="props.shadow"
+	  :outlined="props.outlined"
+	  :border="props.border"
+	  :borderStyle="props.borderStyle"
+	  :borderDirection="props.borderDirection"
+	  :text="props.text"
+	  :linear="props.linear"
+	  :linearDeep="props.linearDeep"
+	  :_style="props._style"
+	  :_class="props._class"
+	  :eventPenetrationEnabled="true"
+	  :margin="[0, 0]"
+	  :padding="[0, 0]"
+	  :width="_width"
+	  :height="_height"
+	>
+	  <scroll-view
+	    :scroll-y="_height ? true : false"
+	    enable-flex
+	    class="flex-col"
+	    :style="[{ width: _width + 'rpx' }, _height ? { height: _height + 'rpx' } : '']"
+	  >
+	    <view 
+		  class="flex">
+	      <slot></slot>
+	    </view>
+	  </scroll-view>
+	</tm-sheet>
+  
 </template>
 
 <script lang="ts" setup>
@@ -42,6 +46,7 @@
 import tmSheet from "../tm-sheet/tm-sheet.vue";
 import tmTranslate from "../tm-translate/tm-translate.vue";
 import {
+	ref,
   computed,
   watch,
   onUnmounted,
@@ -85,6 +90,11 @@ const props = defineProps({
     default: "",
   },
 });
+interface tabsobj {
+	key: string | number;
+	title: string;
+	icon ? : string;
+}
 //父级方法。
 let parent = proxy.$parent
 while (parent) {
@@ -110,10 +120,20 @@ const tabsActiveName: ComputedRef<string | number | undefined> = inject(
   "tabsActiveName",
   computed(() => undefined)
 );
+const tabsActiveCacheTabse = inject(
+  "tabsActiveCacheTabse",
+  computed<Array<tabsobj>>(() => {
+	  return []
+  })
+);
+const tabsSwiper = inject(
+  "tabsSwiper",
+  computed(()=>false));
+
 const isShow = computed<boolean>(() => {
-  if (tabsActiveName == undefined) return false;
-  if (tabsActiveName.value ==  _pname.value) return true;
-  return false;
+  if(tabsSwiper.value) return true;
+  if (tabsActiveName.value == undefined) return false;
+  return tabsActiveName.value==_pname.value?true:false;
 });
 
 watch([() => props.title, () => props.icon], () => {
@@ -122,6 +142,11 @@ watch([() => props.title, () => props.icon], () => {
 onUnmounted(() => {
   parent.unbindKey( _pname.value);
 });
+
+
+
 </script>
 
-<style></style>
+<style scoped>
+	
+</style>

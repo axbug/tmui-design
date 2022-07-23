@@ -45,7 +45,7 @@ title: tmui 3.0 组件库
 | fontSize | [Number,String] | 28 | 字体大小 |
 | color | String | "" | 字体颜色 |
 | selectable | [Boolean,String] | false | 是否可选 |
-
+| unit<Badge type="danger" text="v3.0.73+" vertical="middle" /> | [Number] | rpx | 字号单位 |
 
 ### :rose: 事件
 | 事件名 | 参数 | 返回数据 | 描述 |

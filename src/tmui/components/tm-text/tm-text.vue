@@ -45,7 +45,7 @@ const props = defineProps({
     default: ""
   },
   fontSize: {
-    type: [Number, String],
+    type: [Number],
     default: 28
   },
   color: {
@@ -53,7 +53,7 @@ const props = defineProps({
     default: ""
   },
   selectable: {
-    type: [Boolean, String],
+    type: [Boolean],
     default: false
   },
   unit: {

@@ -43,6 +43,7 @@ title: tmui 3.0 组件库
 | label | String | "" | 标题下方的描述 |
 | labelColor | String | "grey" | 标题下方文字的颜色 |
 | rightText | String | "" | 右边文字 |
+| rightTextSize<Badge type="danger" text="v3.0.75+" vertical="middle" /> | Number | 24 | 右边文字大小 |
 | rightIcon | String | "tmicon-angle-right" | 右图标名称，可以是图片地址 |
 | rightColor | String | "grey" | 右边文字颜色 |
 | showAvatar | Boolean | false | 是否显示头像 |

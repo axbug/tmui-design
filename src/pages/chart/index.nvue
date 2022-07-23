@@ -1,8 +1,10 @@
 <template>
     <tm-app>
+		<!-- #ifdef MP-WEIXIN -->
 		<view class="px-32">
 			<ad unit-id="adunit-d6c90eaaa098bf4d"></ad>
 		</view>
+		<!-- #endif -->
         <view class="ma-32" >
 			<tm-row :width="686" :column="2" transprent :gutter="10">
 				<tm-col @click="navto(index)" v-for="(item,index) in list" _class="mb-10 round-2" :key="index" :height="280">

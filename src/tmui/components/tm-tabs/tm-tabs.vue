@@ -1,12 +1,48 @@
 <template>
-	<view class="flex flex-col" :style="[
+	<view class="flex flex-col overflow" :style="[
       props.height&&isDulitabs==false ? { height: height + 'rpx' } : '',
       { width: props.width + 'rpx' },
     ]">
 	<!-- 此源码有uniapp bug.如果在nvue页面编译至h5平台时，开启enable-flexr后需要里面再套层view再写flex才能真正的开flex -->
 	<!-- 因此下面的内容作了条件编译分为nvue和非nvue -->
 	<!-- https://ask.dcloud.net.cn/question/143230 -->
-		<view v-if="_tabPos=='bottom'&&isDulitabs==false"><slot></slot></view>
+		<!-- #ifndef APP-NVUE -->
+		<view
+		@touchmove="onMove"
+		@touchend="onEnd" 
+		@touchstart="onStart"
+		@touchcancel="onEnd" 
+		
+		@mousemove="onMove"
+		@mouseup="onEnd"
+		@mouseleave="onEnd"
+		@mousedown="onStart"
+		ref="tabsDom"
+		:style="{width:props.swiper?`${totalWidth}px`:`${props.width}rpx`,transform:props.swiper?`translateX(${directoStyle}px)`:`translateX(0px)`}"
+		v-if="_tabPos=='bottom'&&isDulitabs==false" 
+		:class="[!isEndMove||isNvue?'tmTabsPane':'']" 
+		class="flex flex-row flex-nowrap  overflow">
+			<slot></slot>
+		</view>
+		<!-- #endif -->
+		<!-- #ifdef APP-NVUE -->
+		<!-- @touchmove="onMove"
+		@touchend="onEnd" 
+		@touchstart="onStart" -->
+		<view
+		@touchmove="onMove"
+		@touchend="onEnd" 
+		@touchcancel="onEnd" 
+		@touchstart="onStart"
+		
+		ref="tabsDom"
+		:style="{width:props.swiper?`${totalWidth}px`:`${props.width}rpx`,transform:`translateX(0px)`}"
+		v-if="_tabPos=='bottom'&&isDulitabs==false" 
+		class="flex flex-row flex-nowrap  overflow">
+			<slot></slot>
+		</view>
+		<!-- #endif -->
+		
 		<tm-sheet :transprent="props.transprent" :color="props.color" :followTheme="props.followTheme"
 			:dark="props.dark" :round="props.round" :shadow="props.shadow" :outlined="props.outlined"
 			:border="props.border" :borderStyle="props.borderStyle" :borderDirection="props.borderDirection"
@@ -78,7 +114,42 @@
 			</scroll-view>
 			<!-- #endif -->
 		</tm-sheet>
-		<view v-if="_tabPos=='top'&&isDulitabs==false"><slot></slot></view>
+		<!-- #ifndef APP-NVUE -->
+		<view
+		@touchmove="onMove"
+		@touchend="onEnd" 
+		@touchstart="onStart"
+		@touchcancel="onEnd" 
+		
+		@mousemove="onMove"
+		@mouseup="onEnd"
+		@mouseleave="onEnd"
+		@mousedown="onStart"
+		ref="tabsDom"
+		:style="{width:props.swiper?`${totalWidth}px`:`${props.width}rpx`,transform:props.swiper?`translateX(${directoStyle}px)`:`translateX(0px)`}"
+		v-if="_tabPos=='top'&&isDulitabs==false" 
+		:class="[!isEndMove||isNvue?'tmTabsPane':'']" 
+		class="flex flex-row flex-nowrap  overflow">
+			<slot></slot>
+		</view>
+		<!-- #endif -->
+		<!-- #ifdef APP-NVUE -->
+		<!-- @touchmove="onMove"
+		@touchend="onEnd" 
+		@touchstart="onStart" -->
+		<view
+		@touchmove="onMove"
+		@touchend="onEnd" 
+		@touchcancel="onEnd" 
+		@touchstart="onStart"
+		
+		ref="tabsDom"
+		:style="{width:props.swiper?`${totalWidth}px`:`${props.width}rpx`,transform:`translateX(0px)`}"
+		v-if="_tabPos=='top'&&isDulitabs==false" 
+		class="flex flex-row flex-nowrap  overflow">
+			<slot></slot>
+		</view>
+		<!-- #endif -->
 	</view>
 </template>
 <script lang="ts" setup>
@@ -97,7 +168,7 @@
 		ref,
 		provide,
 		watch,
-		toRaw,nextTick,onMounted, watchEffect, PropType
+		toRaw,nextTick,onMounted, watchEffect, PropType,getCurrentInstance,onUnmounted
 	} from "vue";
 	import tmSheet from "../tm-sheet/tm-sheet.vue";
 	import tmText from "../tm-text/tm-text.vue";
@@ -106,12 +177,19 @@
 		custom_props,
 		computedClass
 	} from "../../tool/lib/minxs";
+	// #ifdef APP-NVUE || APP-PLUS-NVUE
+	var dom = weex.requireModule('dom');
+	const Binding = uni.requireNativePlugin('bindingx');
+	const animation = uni.requireNativePlugin('animation')
+	// #endif
+	const {proxy} = getCurrentInstance()
 	//缓存已添加的项
 	interface tabsobj {
 		key: string | number;
 		title: string;
 		icon ? : string;
 	}
+	const bindxToken = ref(null);
 	const emits = defineEmits(["update:activeName", "change", "click"]);
 	const props = defineProps({
 		...custom_props,
@@ -209,6 +287,11 @@
 			type: String,
 			default: "left", //left:左对齐,right：右对齐,center：剧中,around：剧中均分
 		},
+		//是否启用pane滑动切换tabs。如果关闭有助于页面更顺畅。如果启用请不要大量内容。
+		swiper:{
+			type: Boolean,
+			default:false
+		}
 	});
 	const _align = computed(() => {
 		let align_list = {
@@ -265,6 +348,29 @@
 	const cacheTabs = ref < Array < tabsobj >> ([]);
 	const isDulitabs = computed(()=>props.list.length>0)
 	const tabsid = 'tabs_id_'+uni.$tm.u.getUid(1)+'_'
+	const isNvue = ref(false);
+	const totalWidth = computed(()=>uni.upx2px(cacheTabs.value.length*props.width))
+	// #ifdef APP-NVUE
+	isNvue.value=true;
+	// #endif
+	// 判断滑动方向及距离start------------------------------------------------
+	const _startx = ref(0);
+	const _starty = ref(0);
+	const _movex = ref(0);
+	const _movey = ref(0);
+	const _x = ref(0);
+	const _y = ref(0);
+	const directo = 'none'
+	const directoStyle= ref("")
+	const isEndMove = ref(true)
+	const maxLen = 80;//只有拖拉距离大于此值才会切换。
+	const activeIndex = computed(()=>cacheTabs.value.findIndex(el=>el.key==_active.value))
+	let ctxLeft = 0;
+	let ctxTop = 0;
+	let timeDetail = 1;//动画时长。
+	let isMoveEnb = false
+	// 判断滑动方向及距离end------------------------------------------------
+	
 	watchEffect(()=>{
 		cacheTabs.value = [];
 		props.list.forEach((el,index)=>{
@@ -288,7 +394,9 @@
 	}
 
 	function changeKey(key: string | number, isclick = true) {
+		isEndMove.value=true;
 		_active.value = key;
+		timeDetail=1;
 		emits("update:activeName", toRaw(_active.value));
 		emits("change", key);
 		if (isclick) {
@@ -322,14 +430,27 @@
 			changeKey(props.activeName, false);
 		}
 	);
+
 	onMounted(()=>{
 		setTimeout(()=>{
+			_scrollToId.value = tabsid+_active.value;
+			// #ifdef APP-NVUE
 			nextTick(()=>{
-				_scrollToId.value = tabsid+_active.value;
-				
-			})
+				dom.getComponentRect(proxy.$refs.tabsDom, function(res) {
+					if(res?.size){
+						ctxLeft = Math.floor(res.size.left);
+						ctxTop = Math.floor(res.size.top);
 			
+						spinNvueAniEnd(0,-uni.upx2px((activeIndex.value)*props.width),1)
+					}
+				})
+			})
+			// #endif
 		},300)
+	})
+	watchEffect(()=>{
+		directoStyle.value = uni.upx2px(-(activeIndex.value)*props.width);
+		spinNvueAniEnd(0,-uni.upx2px((activeIndex.value)*props.width),timeDetail)
 	})
 	watch(()=>_active.value,()=>{
 
@@ -344,6 +465,7 @@
 			
 		})
 	})
+	
 	defineExpose({
 		pushKey: pushKey,
 		changeKey: changeKey,
@@ -356,6 +478,10 @@
 		computed(() => _active.value)
 	);
 	provide(
+		"tabsActiveCacheTabse",
+		computed(() => cacheTabs.value)
+	);
+	provide(
 		"tabsWidth",
 		computed(() => props.width)
 	);
@@ -366,5 +492,232 @@
 			return props.height - props.itemHeight - props.gutter;
 		})
 	);
+	provide(
+		"tabsSwiper",
+		computed(() => props.swiper)
+	);
+	
+	function onStart(event:Event){
+		if(!props.swiper) return;
+		isEndMove.value=true;
+		isMoveEnb=true
+		if(event?.preventDefault) event?.preventDefault()
+		if(event?.stopPropagation) event?.stopPropagation()
+		if (event.type.indexOf('mouse')==-1&&event.changedTouches.length == 1) {
+			var touch = event.changedTouches[0];
+			if(typeof touch?.pageX !=='undefined'){
+				_startx.value = touch.pageX-ctxLeft
+				_starty.value = touch.pageY-ctxTop
+			}else{
+				_startx.value = touch.x
+				_starty.value = touch.y
+			}
+		}else{
+			_startx.value = event.pageX-event.currentTarget.offsetLeft-ctxLeft
+			_starty.value = event.pageY-event.currentTarget.offsetTop-ctxTop
+		}
+	}
+	function onMove(event:Event){
+		if(!props.swiper||isMoveEnb==false) return;
+		if(event?.preventDefault) event?.preventDefault()
+		if(event?.stopPropagation) event?.stopPropagation()
+		let nowx = 0;
+		let nowy = 0;
+		if (event.type.indexOf('mouse')==-1&&event.changedTouches.length == 1) {
+			var touch = event.changedTouches[0];
+			if(typeof touch?.pageX !=='undefined'){
+				nowx = touch.pageX-ctxLeft
+				nowy = touch.pageY-ctxTop
+			}else{
+				nowx = touch.x
+				nowy = touch.y
+			}
+		}else{
+			nowx = event.pageX-event.currentTarget.offsetLeft-ctxLeft
+			nowy = event.pageY-event.currentTarget.offsetTop-ctxTop
+		}
+		
+		_x.value = nowx - _startx.value;
+		_y.value = nowy - _starty.value;
+		
+		setDirXy(_x.value,_y.value)
+	}
+	function onEnd(event:Event){
+		
+		if(!props.swiper||!isMoveEnb) return;
+		isEndMove.value=false;
+		setDirXy(_x.value,_y.value,true)
+		isMoveEnb=false
+	}
+	
+	function setDirXy(x:number,y:number,isEnd=false){
+		const oldindex = activeIndex.value;
+		let nowLeft = uni.upx2px((activeIndex.value)*props.width)
+		directoStyle.value = x-nowLeft;
+		// #ifdef APP-NVUE
+		spinNvueAniEnd(-nowLeft,x,0)
+		// #endif
+		uni.$tm.u.debounce(()=>{
+			if(x>0&&Math.abs(x)>Math.abs(y)){
+				// console.log("right")
+				if(isEnd){
+					if(x<maxLen||activeIndex.value<=0){
+						directoStyle.value = -nowLeft;
+						
+					}else{
+						_active.value = cacheTabs.value[activeIndex.value-1].key;
+					}
+					// #ifdef APP-NVUE
+					nextTick(()=>{
+						if(oldindex==activeIndex.value){
+							uni.$tm.u.debounce(()=>{
+								timeDetail=250;
+								spinNvueAniEnd(-nowLeft-x,x,250)
+								nextTick(()=>{
+									_x.value=0;
+									_y.value=0;
+								})
+							},50)
+						}else{
+							timeDetail=250;
+						}
+					})
+					// #endif
+				}
+				// console.log(directoStyle.value)
+			}else if(x<0&&Math.abs(x)>Math.abs(y)){
+				// console.log("left")
+				if(isEnd){
+					if(Math.abs(x)<maxLen||activeIndex.value>=cacheTabs.value.length-1){
+						directoStyle.value = -nowLeft;
+					}else{
+						_active.value = cacheTabs.value[activeIndex.value+1].key;
+					}
+					// #ifdef APP-NVUE
+					nextTick(()=>{
+						if(oldindex==activeIndex.value){
+							uni.$tm.u.debounce(()=>{
+								timeDetail=250;
+								spinNvueAniEnd(-nowLeft-x,x,250)
+								nextTick(()=>{
+									_x.value=0;
+									_y.value=0;
+								})
+							},50)
+						}else{
+							timeDetail=250;
+						}
+					})
+					// #endif
+				}
+			}else if(y>0&&Math.abs(y)>Math.abs(x)){
+				// console.log("down")
+			}else if(y<0&&Math.abs(y)>Math.abs(x)){
+				// console.log("up")
+			}else{
+				// console.log("none")
+			}
+			
+		},60)
+	}
+	function onSwipe(e){
+		console.log(e)
+	}
+	function getEl(el) {
+		if (typeof el === 'string' || typeof el === 'number') return el;
+		if (WXEnvironment) {
+			return el.ref;
+		} else {
+			return el instanceof HTMLElement ? el : el.$el;
+		}
+	}
+	onUnmounted(() => {
+		// #ifdef APP-PLUS-NVUE
+		if (bindxToken.value) {
+			Binding.unbind({
+				token: bindxToken.value,
+				eventType: 'timing'
+			});
+		}
+		// #endif
+	});
+	function spinNvueAni() {
+		// #ifdef APP-NVUE
+		if (!proxy.$refs?.tabsDom) return;
+		let icon = getEl(proxy.$refs.tabsDom);
+		let nowLeft = uni.upx2px((activeIndex.value)*props.width)
+		let icon_bind = Binding.bind(
+			{
+				 anchor:icon,
+				 eventType:'pan',
+				props: [
+					{
+						element:icon, 
+						property:'transform.translateX',
+						expression:`linear(t,${nowLeft},x,0)`
+					}
+				]
+			},
+			function (res) {
+			}
+		);
+		// #endif
+	}
+	function spinNvueAniEnd(start:number,end:number,time=timeDetail) {
+		if(!props.swiper) return;
+		// #ifdef APP-NVUE
+		if (!proxy.$refs?.tabsDom) return;
+		 animation.transition(proxy.$refs.tabsDom, {
+			  styles: {
+				  transform: `translateX(${start+end}px)`,
+				  transformOrigin: 'center center'
+			  },
+			  duration: time, //ms
+			  timingFunction: 'linear',
+			  delay: 50 //ms
+		  },()=>{
+			 
+		  })
+		
+		
+		
+		
+		
+		
+		return;
+		
+		let icon = getEl(proxy.$refs.tabsDom);
+		let icon_bind = Binding.bind(
+			{
+				eventType: 'timing',
+				props: [
+					{
+						element:icon, 
+						property:'transform.translateX',
+						expression:`linear(t,${start},${end},${time})`
+					}
+				]
+			},
+			function (res) {
+				if (bindxToken.value) {
+					Binding.unbind({
+						token: res.token,
+						eventType: 'timing'
+					});
+				}
+			}
+		);
+		// #endif
+	}
+	
 </script>
+
+<style scoped>
+	.tmTabsPane{
+		transition-delay: 0;
+		transition-timing-function: linear;
+		transition-property: transform;
+		transition-duration: 0.2s;
+	}
+</style>
 

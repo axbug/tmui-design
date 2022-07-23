@@ -7,10 +7,10 @@
                 <tm-countdown ref="cu" :autoStart="false"></tm-countdown>
             </view>
             <view class="mt-32 flex flex-row flex-around">
-                <tm-button @click="actions('resinit')" size="mini" label="重置"></tm-button>
-                <tm-button @click="actions('start')" size="mini" :width="140" :height="50" :font-size="22" label="开始/继续" color="green"></tm-button>
-                <tm-button @click="actions('pause')" size="mini" label="暂停" color="orange"></tm-button>
-                <tm-button @click="actions('stop')" size="mini" label="结束"  color="red"></tm-button>
+                <tm-button @click="actions('resinit')" size="small" label="重置"></tm-button>
+                <tm-button @click="actions('start')" size="small" :width="140"  :font-size="22" label="开始/继续" color="green"></tm-button>
+                <tm-button @click="actions('pause')" size="small" label="暂停" color="orange"></tm-button>
+                <tm-button @click="actions('stop')" size="small" label="结束"  color="red"></tm-button>
             </view>
         </tm-sheet>
         

@@ -11,15 +11,15 @@
 			<view style="height: 24rpx;"></view>
 
 			<view class=" flex flex-col round-2 overflow mx-32">
-				<tm-sheet :margin="[0,0]" :padding="[0,10]" _class="flex-center opacity-5" no-level blur>
+				<tm-sheet :round="0" :margin="[0,0]" :padding="[0,10]" _class="flex-center opacity-5" no-level >
 					<tm-text :font-size="24" label="请选择"></tm-text>
 				</tm-sheet>
 				<tm-button :followTheme="false" :disabled="item.disabled" @click="change(item)"
 					v-for="(item, index) in _list" :key="index" :label="item.text" :font-size="28" :margin="[0, 0]"
-					color="white" block :shadow="0" :round="0" blur></tm-button>
+					color="white" block :shadow="0" :round="-1" ></tm-button>
 			</view>
 			<tm-button :followTheme="false" @click="cancel" label="取消" :font-size="28" :margin="[32, 8]" :color="_color"
-				block :shadow="0" blur></tm-button>
+				block :shadow="0" ></tm-button>
 		</view>
 	</tm-drawer>
 </template>

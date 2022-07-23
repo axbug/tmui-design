@@ -1,6 +1,7 @@
 <template>
-	<view @click="emits('click',$event)" class="flex flex-col" :class="[colWidth?'':'flex-1']" :style="[colWidth?{ width: colWidth+'rpx' }:'']">
-		
+	<view @click="emits('click',$event)" class="flex flex-col" 
+	:class="[colWidth?'':'flex-1']" 
+	:style="[colWidth?{ width: colWidth+'rpx' }:'']">
 		<view
 		:eventPenetrationEnabled="true"
 		:style="[
@@ -10,7 +11,7 @@
 			{alignItems:alignComputed,justifyContent:'center'},
 			customCSSStyle
 		]"
-		:class="[customClass]"
+		:class="['flex flex-col',customClass]"
 		><slot></slot></view>
 	</view>
 	

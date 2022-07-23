@@ -322,3 +322,32 @@ export function isDate(s:string|number|Date){
  */
 export function isEmail(s:string){
 ```
+### :tada: toast 提示信息
+
+<Badge type="danger" text="v3.0.75+" vertical="middle" />
+
+```ts
+/**
+ * 显示信息
+ * @param word 标题
+ * @param mask 不允许穿透
+ * @param icon 图标
+ */
+export function toast(word:string,mask:boolean=true,icon:any='none')
+```
+### :tada: getWindow 安全区高度(全屏)
+
+<Badge type="danger" text="v3.0.75+" vertical="middle" />
+
+```ts
+/**
+ * 获取屏幕窗口安全高度和宽度
+ * 注意是针对种屏幕的统一计算，统一高度，不再让uni获取有效高度而烦恼。
+ * 请一定要在onMounted或者onLoad中调用，否则不准确在h5端。
+ * @return {height,width}
+ */
+export function getWindow()
+```
+
+
+

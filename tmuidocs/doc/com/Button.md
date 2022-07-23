@@ -34,7 +34,7 @@ title: tmui 3.0 组件库
 | :--: | :--: | :--: | :-- |
 | transprent | Boolean | false | 是否透明 |
 | followTheme | Boolean | true | 是否跟随全局主题 |
-| size | String | 'normal' | 按钮尺寸:mini,normal,middle,large |
+| size | String | 'normal' | 按钮尺寸:mini,small,normal,middle,large |
 | fontSize | Number | 0 | 按钮文字大小，单位rpx |
 | fontColor<Badge type="danger" text="v3.0.63+" vertical="middle" /> | String | "" | 按钮文字/图标主题色，默认为空，自动配色 |
 | margin | ArrayasPropType\<Array\<number>> | ()=>[0,16] | 外间距[x,y]x=左右，y=上下 |
@@ -43,7 +43,7 @@ title: tmui 3.0 组件库
 | width | Number | 0 | 宽度，单位rpx |
 | height | Number | 0 | 高度，单位rpx |
 | block | Boolean | false | 使用按钮宽度自动100% |
-| round | Number | 2 | 圆角0-25，单位rpx |
+| round | Number | 2 | 圆角-1-25，单位rpx，如果想去除按钮圆角，请设置为-1 |
 | loading | Boolean | false | 使按钮加载状态，其它事件不会触发 |
 | disabled | Boolean | false | 是否禁用 |
 | url | String | '' | 页面地址，当提供时，点击会跳转到相应页面 |
@@ -71,7 +71,7 @@ title: tmui 3.0 组件库
 | tap |  |  |  |
 | longpress |  |  |  |
 | getphonenumber |  |  |  |
-| getuserinfo |  |  | [见文档](https://uniapp.dcloud.net.cn/component/button.html) |
+| getuserInfo |  |  | [见文档](https://uniapp.dcloud.net.cn/component/button.html) |
 | getUserProfile |  |  | [见文档](https://uniapp.dcloud.net.cn/component/button.html) |
 | error |  |  |  |
 | opensetting |  |  | [见文档](https://uniapp.dcloud.net.cn/component/button.html) |

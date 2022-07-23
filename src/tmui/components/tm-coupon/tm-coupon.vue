@@ -45,7 +45,7 @@
 				</view>
 				<view class="flex flex-row flex-row-center-end" style="width:150rpx;">
 					<slot name="btn">
-						<tm-button @click="emits('click',$event)" :disabled="_disable" :color="_disable?'grey-1':props.mainColor" :font-color="_disable?'grey':''" :text="props.btnTextMode" size="mini" :width="120"  :label="_btnLabel"></tm-button>
+						<tm-button @click="emits('click',$event)" :disabled="_disable" :color="_disable?'grey-1':props.mainColor" :font-color="_disable?'grey':''" :text="props.btnTextMode" size="small" :width="120"  :label="_btnLabel"></tm-button>
 					</slot>
 				</view>
 			</view>
