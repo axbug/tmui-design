@@ -170,7 +170,7 @@ async function setStep(ty: string) {
             title: '...',
             mask: true
         })
-        let p = await props.beforeEnter();
+        let p = await props.beforeEnter(ty);
         if (typeof p === 'function') {
             p = await p();
         }
