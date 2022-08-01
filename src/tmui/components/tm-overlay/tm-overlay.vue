@@ -94,9 +94,13 @@
 	// #ifdef H5
 	// 由于在h5端根本无法判断当前是使用了nav还是没有使用。只能判断当前dom了。
 	if(document.querySelector('.uni-page-head')){
-		top.value = windowTop
-		height.value = windowHeight
-		
+		if(document.querySelector('.uni-tabbar-bottom')){
+			height.value = safeArea.height
+		}else{
+			height.value = windowHeight
+		}
+	}else if(document.querySelector('.uni-tabbar-bottom')){
+		height.value = safeArea.height
 	}
 	// #endif
 	// #ifdef APP 
