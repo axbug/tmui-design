@@ -51,7 +51,7 @@ title: tmui 3.0 组件库
 | itemLinear | String | "" |  |
 | itemLinearDeep | String | "light" |  |
 | itemRound | Number | 0 | 圆角 |
-| align | String | "left" | left:左对齐,right：右对齐,center：剧中,around：剧中均分 |
+| align | String | "left" | left:左对齐,right：右对齐,center：居中,around：居中均分 |
 | swiper<Badge type="danger" text="v3.0.75+" vertical="middle" /> | [Boolean] | false | 是否启用左右滑动内容来切换tabs,开启后注意优化页面性能。 |
 
 ### :rose: 事件
