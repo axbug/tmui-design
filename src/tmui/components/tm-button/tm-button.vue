@@ -22,6 +22,7 @@
 	:border-style="props.borderStyle"
 	:border="props.border"
 	:blur="props.blur"
+  :unit="props.unit"
 	_class="flex flex-row flex-center pointer">
 		<button 
 		@click="onclick"
@@ -50,11 +51,11 @@
 		hover-stop-propagation hover-class="buttonHover" 
 		class="button flex-1  flex-center" 
 		:class="[customClass]"
-		:style="[{height:btnSizeObj.h+'rpx'},customCSSStyle]" 
+		:style="[{height:btnSizeObj.h+props.unit},customCSSStyle]"
 		style="border: 0px solid rgba(0, 0, 0, 0);background: rgba(0, 0, 0, 0);border-radius: 0px;">
 			<slot>
-				<tm-icon v-if="_icon" :userInteractionEnabled="false"  :color="_fontColor"  :_class="_label?'pr-10':''" :fontSize="btnSizeObj.fontSize*0.9" :name="_icon"></tm-icon>
-				<tm-text :userInteractionEnabled="false" :color="_fontColor" :fontSize="btnSizeObj.fontSize"  :label="_label"></tm-text>
+				<tm-icon v-if="_icon" :userInteractionEnabled="false"  :color="_fontColor"  :_class="_label?'pr-10':''" :unit="props.unit" :fontSize="btnSizeObj.fontSize*0.9" :name="_icon"></tm-icon>
+				<tm-text :userInteractionEnabled="false" :color="_fontColor" :fontSize="btnSizeObj.fontSize" :unit="props.unit"  :label="_label"></tm-text>
 			</slot>
 		</button>
 	</tm-sheet>
@@ -207,7 +208,11 @@ const props = defineProps({
 	sendMessageCard:{
 		type:String,
 		default:''
-	}
+	},
+  unit:{
+    type:String,
+    default:'rpx'
+  }
 })
 /** -----------form专有------------ */
 const formtype = computed(()=>props.formType)
@@ -234,26 +239,38 @@ const _load = computed(()=>props.loading)
 const _disabled = computed(()=>props.disabled)
 const _label = computed(()=>props.label)
 const _icon = computed(()=>props.icon)
-const sizeObj = {
-	block:{w:0,h:80,fontSize:28,round:3},
-	mini:{w:88,h:36,fontSize:20,round:2},
-	small:{w:120,h:56,fontSize:22,round:3},
-	normal:{w:220,h:80,fontSize:28,round:3},
-	middle:{w:360,h:80,fontSize:30,round:3},
-	large:{w:535,h:88,fontSize:32,round:4},
-}
+const sizeObj = computed(()=>{
+  if(props.unit == 'px'){
+    return {
+      block:{w:0,h:80,fontSize:28,round:3},
+      mini:{w:44,h:18,fontSize:10,round:2},
+      small:{w:60,h:28,fontSize:11,round:3},
+      normal:{w:110,h:40,fontSize:14,round:3},
+      middle:{w:180,h:40,fontSize:15,round:3},
+      large:{w:268,h:44,fontSize:16,round:4},
+    }
+  }
+  return {
+    block:{w:0,h:80,fontSize:28,round:3},
+    mini:{w:88,h:36,fontSize:20,round:2},
+    small:{w:120,h:56,fontSize:22,round:3},
+    normal:{w:220,h:80,fontSize:28,round:3},
+    middle:{w:360,h:80,fontSize:30,round:3},
+    large:{w:535,h:88,fontSize:32,round:4},
+  }
+})
 const btnSizeObj = computed(()=>{
 	let fontSize = props.fontSize||0;
 	
 	if(props.block){
-		return {w:0,h:props.height||sizeObj.block.h,fontSize:fontSize||sizeObj.block.fontSize,round:props.round==-1?0:(props.round||sizeObj.normal.round)}
+		return {w:0,h:props.height||sizeObj.value.block.h,fontSize:fontSize||sizeObj.value.block.fontSize,round:props.round==-1?0:(props.round||sizeObj.value.normal.round)}
 	}
 	
 	return {
-		w:props.width||sizeObj[props.size].w ,
-		h:props.height||sizeObj[props.size].h,
-		fontSize:fontSize||sizeObj[props.size].fontSize,
-		round:props.round==-1?0:(props.round||sizeObj[props.size].round),
+		w:props.width||sizeObj.value[props.size].w ,
+		h:props.height||sizeObj.value[props.size].h,
+		fontSize:fontSize||sizeObj.value[props.size].fontSize,
+		round:props.round==-1?0:(props.round||sizeObj.value[props.size].round),
 	}
 })
 const _fontColor = computed(()=>props.fontColor)
