@@ -6,7 +6,6 @@
             <tm-table @rowClick='onClick' :height="450" :width="638" :table-data="tableData" :header="header"></tm-table>
         </tm-sheet>
 
-
     </tm-app>
 </template>
 <script lang="ts" setup>

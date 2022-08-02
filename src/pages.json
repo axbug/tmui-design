@@ -566,6 +566,13 @@
 					}
 				},
 				{
+					"path": "datatable",
+					"style": {
+						"navigationBarTitleText": "数据表格 DataTable",
+						"disableScroll": true
+					}
+				},
+				{
 					"path": "tag",
 					"style": {
 						"navigationBarTitleText": "标签 Tag"
