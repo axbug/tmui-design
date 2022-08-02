@@ -55,6 +55,7 @@ title: tmui 3.0 组件库
 | disableTouch | Boolean | false |  |
 | touchable | Boolean | false |  |
 | indicatorDots | Boolean | true |  |
+| showLoad<Badge type="danger" text="v3.0.77+" vertical="middle" /> | Boolean | true | 是否显示加载动画 |
 
 ### :rose: 事件
 | 事件名 | 参数 | 返回数据 | 描述 |

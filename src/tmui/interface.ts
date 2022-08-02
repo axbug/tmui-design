@@ -23,7 +23,7 @@ interface fetchConfig {
     fail?:Function,
     complete?:Function
 }
-
+type openUrlType = "navigate"|"redirect"|"reLaunch"|"switchTab"|"navigateBack"
 declare interface Uni{
     /**
      * tmui3.0 函数库，更多请访问https://tmui.design
@@ -33,6 +33,8 @@ declare interface Uni{
 
 
 type tmUtil = {
+    //pagejson下的pages配置。
+	pages:Array<{path:string,custom:'custom'|'default'}>,
 	//pagejson下的配置。
 	tabBar:{
 		color: string,
@@ -152,7 +154,7 @@ type tmUtil = {
          * @param {String} key 键
          * @returns json/string
          */
-        getCookie(key:string):JSON|string,
+        getCookie(key:string):Object|string,
         /**
          * 向地址连接追加参数。
          * @param {string} uri 网址
@@ -180,7 +182,7 @@ type tmUtil = {
              * @param {Number} wait 延迟的时间
              * @param {Boolean} immediate 是否要立即执行
          */
-            debounce(func:Function, wait:number, immediate:boolean):void,
+            debounce(func:Function, wait?:number, immediate?:boolean):void,
             /**
          * 节流
          * 节流原理：在一定时间内，只能触发一次
@@ -189,7 +191,7 @@ type tmUtil = {
          * @param {Boolean} immediate 是否立即执行
          * @return void
          */
-            throttle(func:Function, wait:number, immediate:boolean):void,
+            throttle(func:Function, wait?:number, immediate?:boolean,timer?:number,flags?:boolean):void,
             /**
              * 深度克隆
              * @param obj Object 
@@ -270,7 +272,14 @@ type tmUtil = {
 			 * 请一定要在onMounted或者onLoad中调用，否则不准确在h5端。
 			 * @return {height,width}
 			 */
-			getWindow():{width:number,height:number}
+			getWindow():{width:number,height:number,top:number},
+
+            /**
+             * 打开页面路径
+             * @param url string 打开的页面路径
+             * @param type openUrlType "navigateTo"|"redirectTo"|"reLaunch"|"switchTab"
+             */
+            routerTo(url:string,type:openUrlType):void
             
     }
 }

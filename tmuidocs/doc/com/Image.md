@@ -50,6 +50,7 @@ title: tmui 3.0 组件库
 | allowDelete | [Boolean,String] | true | 是否允许点击delete图标关闭自己，如果为false,将仅触发delete事件，本身图片不会被关闭。 |
 | model | String | 'scaleToFill' | 图片缩放模式，同官方阅读：[https://uniapp.dcloud.io/component/image.html](https://uniapp.dcloud.io/component/image.html) |
 | unit | String | 'rpx' | 单位 |
+| showLoad<Badge type="danger" text="v3.0.77+" vertical="middle" /> | Boolean | true | 是否显示加载动画 |
 
 ### :rose: 事件
 | 事件名 | 参数 | 返回数据 | 描述 |

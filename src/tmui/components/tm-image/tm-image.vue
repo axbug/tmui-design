@@ -6,13 +6,13 @@
 			:border="props.border" :padding="[props.padding[0],0]" :class="['round-' + props.round]" :width="img_width - (props.padding[0] * 2)"
 			:unit="props.unit">
 			<view :class="[`pb-${props.padding[1]}`]">
-				<image v-if="loading" :src="img_src" style="width: 10px;height: 10px;opacity: 0;transform:translateX(120000px)" @load="imageLoad"
+				<image v-if="loading" :src="img_src" style="width: 10px;height: 10px;opacity: 0;transform:translateX(1200px)" @load="imageLoad"
 					@error="imageError" mode="scaleToFill"></image>
 				<image @click="imageClick" :class="['round-' + props.round]" v-if="!loading && !error" :src="img_src"
 					:style="[{ width: img_width + props.unit, height: img_height + props.unit }]" :mode="props.model"></image>
 				<view v-if="loading && !error" :style="[{ width: img_width + props.unit, height: img_height + props.unit }]"
 					class="flex flex-center opacity-3">
-					<tm-icon spin name="tmicon-loading"></tm-icon>
+					<tm-icon v-if="props.showLoad" :font-size="26" spin name="tmicon-loading"></tm-icon>
 				</view>
 				<view v-if="!loading && error" :style="[{ width: img_width + props.unit, height: img_height + props.unit }]"
 					class="flex flex-col flex-center opacity-5">
@@ -113,6 +113,11 @@ const props = defineProps({
 		type: String,
 		default: ''
 	},
+	//是否显示加载动画。
+	showLoad: {
+		type: Boolean,
+		default: true
+	},
 	//是否开启预览。
 	preview: {
 		type: [Boolean],
@@ -200,7 +205,7 @@ function imageLoad(event:Event) {
 }
 
 function imageError(event:Event) {
-	console.error("图片加载错:"+props.src)
+	console.error("图片加载错:"+props.src,event)
 	error.value = true;
 	loading.value = false;
 	emits('error', event)

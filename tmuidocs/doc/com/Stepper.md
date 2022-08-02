@@ -56,7 +56,7 @@ Stepper 步进器是应用在数值较少且变动较精确的数值输入场景
 | min | Number | 0 | 可输入的最小数值 |
 | modelValue / v-model | Number | null | 步进器双向绑定值 |
 | defaultValue | Number | null | 步进器默认值 |
-| beforeEnter | Function / Boolean | true | 按钮增加或者减少前执行的勾子函数，返回 fase取消当前操作，可以是Promise\<boolean\> |
+| beforeEnter | Function / Boolean | true | 返回参数(ty='+' / '-'):+表示增加按钮点击，-：表示减少按钮点击按钮增加或者减少前执行的勾子函数，返回 fase取消当前操作，可以是Promise\<boolean\> |
 
 ### :rose: 事件
 

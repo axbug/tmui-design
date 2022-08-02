@@ -45,8 +45,7 @@ import { custom_props } from '../../tool/lib/minxs';
 import { getCurrentInstance, computed,Ref, ref, provide, inject, onUpdated, onMounted, onUnmounted, nextTick, watch, PropType } from 'vue';
 import { useTmpiniaStore } from '../../tool/lib/tmpinia';
 const store = useTmpiniaStore();
-// const emits = defineEmits(['click']);
-const { proxy } = getCurrentInstance();
+const emits = defineEmits(["change","update:active"])
 const props = defineProps({
 	...custom_props,
 	transprent: {
@@ -83,6 +82,16 @@ const props = defineProps({
 	showSafe:{
 		type: [Boolean],
 		default: false
+	},
+	//动态激活项的索引-1表示不激活任何项。
+	active:{
+		type:Number,
+		default:-1
+	},
+	//是否自动选中。如果禁用，则用户通过active来切换选中值，否则，点击项目时自动选中。
+	autoSelect:{
+		type:Boolean,
+		default:true
 	}
 	
 });
@@ -94,6 +103,7 @@ const _activeUid= ref("")
 const tmTabbarId = "tmTabbarId";
 const _cachlist:Ref<Array<string|number>> = ref([])
 const _showSafe = ref(props.showSafe)
+const _activeIndex = ref(props.active)
 const win_bottom =sys?.safeAreaInsets?.bottom??0;
 if(win_bottom>0){
 	_showSafe.value = true;
@@ -122,7 +132,18 @@ provide('tmTabbarUrl',computed(()=>_activeUrl.value))
 provide('tmTabbarUid',computed(()=>_activeUid.value))
 provide('tmTabbarWidth',computed(()=>Math.ceil(_width/_cachlist.value.length)))
 provide('tmTabbarItemList',computed(()=>_cachlist.value))
+provide('tmTabbarItemActive',computed(()=>_activeIndex.value))
 provide('tmTabbarItemSafe',_showSafe.value)
+provide('tmTabbarItemAutoSelect',computed(()=>props.autoSelect))
+watch(()=>props.active,()=>{
+	if(props.active == _activeIndex.value) return;
+	_activeIndex.value = props.active
+})
+watch(_activeIndex,()=>{
+	
+	emits("change",_activeIndex.value)
+	emits("update:active",_activeIndex.value)
+})
 </script>
 
 <style>

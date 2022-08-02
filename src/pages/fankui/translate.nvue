@@ -6,7 +6,7 @@
             <tm-text color="red" _class="font-weight-b" label="一共6组动效，每组动效都可以反向播放。手动或者自动控制详见文档。本组件库所有动效都是由下面6组动效完成。"></tm-text>
             <tm-divider></tm-divider>
             <view class="flex flex-row flex-wrap ">
-                <tm-translate name="fade">
+                <tm-translate ref="translate" name="fade">
                     <tm-sheet color="blue" :padding="[0, 0]" :width="100" :height="100"></tm-sheet>
                 </tm-translate>
                 <tm-translate name="zoom">
@@ -39,6 +39,8 @@ import tmSheet from "@/tmui/components/tm-sheet/tm-sheet.vue"
 import tmText from "@/tmui/components/tm-text/tm-text.vue"
 import tmTranslate from "@/tmui/components/tm-translate/tm-translate.vue"
 import tmDivider from "@/tmui/components/tm-divider/tm-divider.vue"
-
-
+const translate = ref<InstanceType<typeof tmTranslate> | null>(null)
+setTimeout(function() {
+    translate.value.play()
+}, 1500);
 </script>

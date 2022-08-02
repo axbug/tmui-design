@@ -103,9 +103,9 @@ import tmIcon from "../tm-icon/tm-icon.vue";
 import tmTranslate from "../tm-translate/tm-translate.vue";
 import { itemType } from "./interface";
 import { custom_props } from "../../tool/lib/minxs";
-import { getCurrentInstance, computed, ref, onMounted, onUnmounted, PropType, ComponentInternalInstance } from "vue";
+import {computed, ref, onMounted, onUnmounted, PropType, ComponentInternalInstance, InjectionKey } from "vue";
+const bodyani = ref<InstanceType<typeof tmTranslate> | null>(null)
 const emits = defineEmits(["click"]);
-const { proxy } = <ComponentInternalInstance>getCurrentInstance();
 const props = defineProps({
   ...custom_props,
   transprent: {
@@ -213,7 +213,7 @@ function next() {
 }
 
 function close() {
-    proxy?.$refs?.bodyani.play();
+   bodyani.value?.play();
 }
 
 

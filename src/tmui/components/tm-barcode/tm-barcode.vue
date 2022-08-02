@@ -23,7 +23,7 @@
 	 * 如果想知道生成的属性请查看：Baroptions类型属性。
 	 * 更改任意属性，都将会导致重绘
 	 */
-	import {getCurrentInstance, computed, ref, PropType, inject, onUpdated, onMounted, onUnmounted, nextTick, watch } from 'vue';
+	import {getCurrentInstance, computed, ref, PropType, inject, ComponentInternalInstance, onMounted, nextTick, watch } from 'vue';
 	import CanvasRenderingContext2D from '../../tool/gcanvas/context-2d/RenderingContext.js';
 	import {drawBarCode,BarcodeObjType,Baroptions} from "./drawing";
 	import {JsBarcode} from "./jsbarcode/JsBarcode.js"
@@ -34,7 +34,8 @@
 		WeexBridge,
 	} from '../../tool/gcanvas/index.js';
 	// #endif
-	const { proxy } = getCurrentInstance();
+	const { proxy } = <ComponentInternalInstance>getCurrentInstance();
+
 	const props = defineProps({
 		option:{
 			type:Object as PropType<Baroptions>,
@@ -118,7 +119,7 @@
 		return Promise.resolve(uni.createCanvasContext(canvasId.value, vnodeCtx))
 	}
 	//支付宝和微信，QQ 支持2d渲染。
-	function MpWeix_init() {
+	function MpWeix_init():Promise<{ctx2d:CanvasRenderingContext2D,canvas:HTMLCanvasElement}> {
 		return new Promise((resolve,rej)=>{
 			const query = uni.createSelectorQuery().in(vnodeCtx)
 			query.select('#canvasId')
@@ -133,7 +134,6 @@
 					canvas.width = res[0].width * dpr
 					canvas.height = res[0].height * dpr
 					ctxvb.scale(dpr, dpr)
-					
 					resolve({ctx2d:ctxvb,canvas:canvas})
 				})
 		})

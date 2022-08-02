@@ -2,6 +2,7 @@
     <tm-app>
         <tm-sheet>
             <tm-text :font-size="24" _class="font-weight-b" label="基础示例"></tm-text>
+            <tm-divider color="black" realColor align="left" label="我在左边"></tm-divider>
             <tm-divider align="left" label="我在左边"></tm-divider>
             <tm-divider align="center" label="我在中间"></tm-divider>
             <tm-divider align="right" label="我在右边"></tm-divider>

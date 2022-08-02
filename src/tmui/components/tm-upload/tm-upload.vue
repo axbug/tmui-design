@@ -18,9 +18,11 @@
                     </tm-image>
                 </tm-sheet>
             </view>
-            <view v-if="!_disabledAdd"  class="ma-5" :style="{width:(itemWidth-10)+'rpx'}">
-                <tm-sheet :followTheme="props.followTheme" :round="2"  @click="chooseFile" color="primary" text :padding="[0,0]" :margin="[0,0]" _class="flex-center" :height="itemHeight-10" >
-                     <tm-icon :font-size="42" :userInteractionEnabled="false" name="tmicon-plus"></tm-icon>
+            <view  @click="chooseFile" v-if="!_disabledAdd"  class="ma-5" :style="{width:(itemWidth-10)+'rpx'}">
+                <tm-sheet :eventPenetrationEnabled="true" :followTheme="props.followTheme" :round="2"  color="primary" text :padding="[0,0]" :margin="[0,0]" _class="flex-center" :height="itemHeight-10" >
+                    <slot name="icon">
+						 <tm-icon :font-size="42" :userInteractionEnabled="false" name="tmicon-plus"></tm-icon>
+					</slot>
                 </tm-sheet>
             </view>
 

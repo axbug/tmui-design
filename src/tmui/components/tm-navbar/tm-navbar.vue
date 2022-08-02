@@ -30,7 +30,7 @@
 				
 				<view class="flex flex-row flex-1 flex-row flex-row-center-betweent ">
 					<view class="flex-row flex flex-row-center-start pl-24" :style="{width:_leftWidth+'rpx'}">
-						<tm-icon :unit="props.unit" :font-size="props.iconFontSize" _class="pointer" @click="goback" v-if="_pages>1" name="tmicon-angle-left"></tm-icon>
+						<tm-icon :unit="props.unit" :font-size="props.iconFontSize" _class="pointer" :color="_homeColor" @click="goback" v-if="_pages>1&&props.hideBack" name="tmicon-angle-left"></tm-icon>
 						<tm-icon :unit="props.unit" _class="pointer" @click="backhome" v-if="_pages==1&&!hideHome" :color="_homeColor" :font-size="props.iconFontSize" name="tmicon-md-home"></tm-icon>
 						<slot name="left"></slot>
 					</view>
@@ -144,10 +144,18 @@
 			type:Boolean,
 			default:false
 		},
+		hideBack:{
+			type:Boolean,
+			default:true
+		},
 		//返回首页的路径，默认/pages/index/index
 		homePath:{
 			type: [String],
 			default: "/pages/index/index"
+		},
+		beforeBack:{
+			type:[Boolean,Function],
+			default:()=>true
 		},
 		blur:{
 			type:Boolean,
@@ -160,7 +168,7 @@
 	})
 
 	const _height = computed(()=>props.height)
-	const _width = uni.getSystemInfoSync().screenWidth
+	const _width = uni.getSystemInfoSync().windowWidth
 	const statusBarHeight = uni.getSystemInfoSync().statusBarHeight
 	const _barHeight = computed(()=>statusBarHeight+_height.value)
 	const _leftWidth = computed(()=>props.leftWidth)
@@ -182,8 +190,37 @@
 			url:props.homePath
 		})
 	}
+	let timerId = NaN;
+	function debounce(func:Function, wait = 500, immediate = false) {
+	  // 清除定时器
+	  if (!isNaN(timerId)) clearTimeout(timerId);
+	  // 立即执行，此类情况一般用不到
+	  if (immediate) {
+	    var callNow = !timerId;
+	    timerId = setTimeout(() => {
+	      timerId = NaN;
+	    }, wait);
+	    if (callNow) typeof func === "function" && func();
+	  } else {
+	    // 设置定时器，当最后一次操作后，timeout不会再被清除，所以在延时wait毫秒后执行func回调方法
+	    timerId = setTimeout(() => {
+	      typeof func === "function" && func();
+	    }, wait);
+	  }
+	}
+	
 	const goback = ()=>{
-		uni.navigateBack({})
+		debounce(async ()=>{
+			console.log(112)
+			if (typeof props.beforeBack === 'function') {
+				let p = await props.beforeBack();
+				if(typeof p === 'function'){
+					p = await p();
+				}
+				if (!p) return;
+			}
+			uni.navigateBack({})
+		},250,true)
 	}
 </script>
 

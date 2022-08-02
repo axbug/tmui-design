@@ -41,10 +41,14 @@ title: tmui 3.0 组件库
 | width | [Number] | 0 | 宽度，单位rpx， 如果为0取当前窗口宽度 |
 | bottom | [Number] | 0 | 底部偏移，单位rpx|
 | showSafe | [Boolean] | false | 是否显示安全区域 |
+| autoSelect<Badge type="danger" text="v3.0.77+" vertical="middle" /> | [Boolean] | true | 是否自动通过点击项目来选中项目，默认：true自动。如果设置为false时，则可以通过下方的active双向绑定来手动切换选中项 |
+| active<Badge type="danger" text="v3.0.77+" vertical="middle" /> | Number | -1 | 当前活动荐的索引，从0开始，可以使用v-model:active来双向绑定切换选中项，必须autoSelect设置为false才起效  |
+
 
 ### :rose: 事件
-
-无
+| 方法名 | 参数 | 返回值 | 描述 |
+| :--: | :--: | :--: | :-- |
+| change<Badge type="danger" text="v3.0.77+" vertical="middle" /> | - | active | 通过手动切换选中值时触发本事件。 |
 
 ### :corn: slot插槽
 
@@ -71,7 +75,7 @@ title: tmui 3.0 组件库
 | color | String | white | 背景主题色 |
 | fontColor | String | grey-darken-1 | 文字主题色 |
 | activeColor | String | primary | 激活后的主题色 |
-| active | Boolean | false |当前是否是活动项  |
+| active | Boolean | false |当前是否是活动项，注意：它不是动态的，只是默认选中的项，它只能通过点击本组件项目来切换  |
 | btnTop | Boolean | false | 是否开启向上凸起的按钮 |
 | text | String | '' | 展示文字 |
 | icon | String | '' | 选中图标 |

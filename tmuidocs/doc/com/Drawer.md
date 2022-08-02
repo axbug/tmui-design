@@ -65,7 +65,8 @@ title: tmui 3.0 组件库
 | update:show | show | Boolean | 显示状态（更新v-model:show值） |
 
 ### :corn: slot插槽
-默认default
+默认default,内容插槽
+title <Badge type="danger" text="v3.0.77+" vertical="middle" />,标题插槽
 
 ### :green_salad: ref方法
 | 方法名   | 参数  | 返回值 | 描述  |

@@ -62,8 +62,7 @@ Upload 是一个常用的图片上传组件
 > 注意：complete事件是无论上传成功与失败都会返回，success与fail事件对等，之后是complete事件
 
 ### :corn: slot插槽
-
-无
+icon<Badge type="danger" text="v3.0.77+" vertical="middle" />:用来自定义显示，上传提示的图标，可以自定义图标或者text名称。
 
 ### :green_salad: ref方法
 

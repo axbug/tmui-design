@@ -228,9 +228,9 @@ class themeColors {
 		if(config.dark){
 			txcolor.l = 95;
 		}else{
-			if (nowColor.hsla?.l <= 60) {
+			if (nowColor.hsla?.l <= 65) {
 				txcolor.l = 95;
-			} else if (nowColor.hsla?.l > 60) {
+			} else {
 				if(isGrey){
 					txcolor.l = 10;
 				}else{

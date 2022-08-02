@@ -112,6 +112,10 @@ const props = defineProps({
     type: [Number],
     default: 0,
   },
+  width: {
+    type: [Number],
+    default: 0,
+  },
   transprent: {
     type: [Boolean],
     default: false,
@@ -126,7 +130,7 @@ const props = defineProps({
     default: "",
   },
   titleFontSize: {
-    type: [Number, String],
+    type: [Number],
     default: 28,
   },
   //标题下方的介绍

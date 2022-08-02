@@ -1,6 +1,6 @@
 <template>
-	<tm-overlay :transprent="!showMask"  :_style="zindex" :overlayClick="false" v-if="showValue" v-model:show="showValue">
-		<tm-translate :initByWechat="initByWechat" @end="msgOver" :reverse="reverse" ref="tranAni" name="zoom" :duration="150" :auto-play="false">
+	<tm-overlay :duration="0" :transprent="!showMask"  :_style="zindex" :overlayClick="false" v-if="showValue" v-model:show="showValue">
+		<tm-translate :initByWechat="initByWechat" @end="msgOver" :reverse="reverse" ref="tranAni" name="zoom" :duration="160" :auto-play="false">
 			<tm-sheet blur :_style="props._style"  
 			:_class="props._class" :color="bgColor" 
 			:border="1" :shadow="10" 
@@ -55,7 +55,7 @@
 		//自动关闭时,需要显示多久关闭,单位ms
 		duration: {
 			type: Number,
-			default: 1300
+			default: 1500
 		}
 	})
 	const uid = ref(uni.$tm.u.getUid(5))
@@ -77,7 +77,7 @@
 	const zindex = "";
 	// #endif
 	// #ifndef APP-NVUE
-	const zindex = {zIndex:'500 !important'}
+	const zindex = {zIndex:'1000 !important'}
 	// #endif
 	const modelIcon = computed(()=>{
 		
@@ -138,36 +138,38 @@
 	}
 		//显示
 	function show(argFs:config) {
-			//显示所需要的参数
-			let arg = argFs||{};
-			let { duration, icon, text, color, dark, model ,mask} = arg;
-			model_ref.value = typeof model=="undefined"?model_ref.value:model;
-			icon_ref.value = icon = icon??modelIcon.value[model_ref.value].icon;
-			text_ref.value = text = text??modelIcon.value[model_ref.value].text;
-			color_ref.value = color = color??modelIcon.value[model_ref.value].color;
-			showMask.value = typeof mask ==='boolean' ?mask:showMask.value
-			if (dark === true) {
-				bgColor.value = 'black';
-			}
-			if(typeof dark !== 'boolean'){
-				dark = store.tmStore.dark;
-			}
-			if(color_ref.value=='white'||color_ref.value=="black"){
-				color_ref.value=""
-			}
-			
-			dark_ref.value = dark;
-			if (typeof duration === 'undefined') {
-				duration = props.duration;
-			}
-			dur.value = isNaN(parseInt(String(duration))) ? 1500 : parseInt(String(duration));
-			// initByWechat.value = !initByWechat.value;
-			reverse.value = false;
-			showValue.value = true;
-			nextTick(()=>{
-				proxy.$refs.tranAni.play()
-			})
+		//显示所需要的参数
+		let arg = argFs||{};
+		let { duration, icon, text, color, dark, model ,mask} = arg;
+		model_ref.value = typeof model=="undefined"?model_ref.value:model;
+		icon_ref.value = icon = icon??modelIcon.value[model_ref.value].icon;
+		text_ref.value = text = text??modelIcon.value[model_ref.value].text;
+		color_ref.value = color = color??modelIcon.value[model_ref.value].color;
+		showMask.value = typeof mask ==='boolean' ?mask:showMask.value
+		if (dark === true) {
+			bgColor.value = 'black';
 		}
+		if(typeof dark !== 'boolean'){
+			dark = store.tmStore.dark;
+		}
+		if(color_ref.value=='white'||color_ref.value=="black"){
+			color_ref.value=""
+		}
+		
+		dark_ref.value = dark;
+		if (typeof duration === 'undefined') {
+			duration = props.duration;
+		}
+		dur.value = isNaN(parseInt(String(duration))) ? 1500 : parseInt(String(duration));
+		// initByWechat.value = !initByWechat.value;
+		reverse.value = false;
+		showValue.value = true;
+		setTimeout(()=>{
+			proxy.$refs.tranAni.play()
+		},25)
+	}
+
+	
 	//隐藏
 	function hide(){
 		showValue.value = false;

@@ -1,6 +1,7 @@
 <template>
-	<tm-overlay :zIndex="props.zIndex" :transprent="!props.mask" v-if="props.show" @click="clickClose" :align="align_rp" :overlayClick="false"
-		v-model:show="props.show">
+	<tm-overlay :duration="25" @open="OverLayOpen" :zIndex="props.zIndex" :transprent="!props.mask" 
+	v-if="_show" @click="clickClose" :align="align_rp"
+		:overlayClick="false" v-model:show="_show">
 		<tm-translate @end="animationClose" :reverse="reverse_rp" :width='anwidth' :height="anheight" ref="drawerANI"
 			:auto-play="false" :name="aniname" :duration="props.duration">
 			<view @click.stop="$event.stopPropagation()" :style="[
@@ -16,7 +17,7 @@
 						<tm-text v-if="!props.hideCancel" @click="cancel" :label="props.cancelText"></tm-text>
 					</view>
 					<view class="flex-8 px-32 flex-center">
-						<tm-text _class="text-overflow-1 opacity-7" :label="props.title"></tm-text>
+						<slot name="title"><tm-text _class="text-overflow-1 opacity-7" :label="props.title"></tm-text></slot>
 					</view>
 					<view class="flex-4 flex-shrink flex-row flex-row-center-end">
 						<tm-text :color="okColor" @click="ok" v-if="!ok_loading" :dark="props.dark"
@@ -30,7 +31,7 @@
 					class="flex flex-row flex-row-center-center flex-between  px-24 " style="height:44px">
 
 					<view class="flex-9 pr-32 ">
-						<tm-text _class="text-overflow-1 opacity-7" :dark="props.dark" :label="props.title"></tm-text>
+						<slot name="title"><tm-text _class="text-overflow-1 opacity-7" :dark="props.dark" :label="props.title"></tm-text></slot>
 					</view>
 					<view class="flex-3 flex-shrink flex-row flex-row-center-end">
 						<tm-icon @click="cancel" :dark="props.dark" :_class="isDark !== true ? 'opacity-3' : ''"
@@ -58,6 +59,7 @@ import { getCurrentInstance, computed, ref, provide, inject, onMounted, onUnmoun
 import { cssstyle, tmVuetify, colorThemeType } from '../../tool/lib/interface';
 import { custom_props, computedTheme, computedClass, computedStyle, computedDark } from '../../tool/lib/minxs';
 import { useTmpiniaStore } from '../../tool/lib/tmpinia';
+const drawerANI = ref<InstanceType<typeof tmTranslate> | null>(null)
 const store = useTmpiniaStore();
 const props = defineProps({
 	...custom_props,
@@ -72,7 +74,7 @@ const props = defineProps({
 		default: 'bottom' //top|left|right|bottom|center
 	},
 	show: {
-		type: [Boolean, String],
+		type: [Boolean],
 		default: false
 	},
 	width: {
@@ -145,9 +147,9 @@ const props = defineProps({
 		type: [Number, String],
 		default: 401
 	},
-	unit:{
-		type:String,
-		default:'rpx'
+	unit: {
+		type: String,
+		default: 'rpx'
 	}
 });
 const emits = defineEmits(['click', 'open', 'close', 'update:show', 'ok', 'cancel']);
@@ -161,13 +163,62 @@ const customClass = computed(() => computedClass(props));
 //是否暗黑模式。
 const isDark = computed(() => computedDark(props, tmcfg.value));
 //计算主题
-const tmcomputed = computed<cssstyle>(() => computedTheme(props, isDark.value,tmcfg.value));
+const tmcomputed = computed<cssstyle>(() => computedTheme(props, isDark.value, tmcfg.value));
 const syswidth = ref(0);
 const sysheight = ref(0);
 const reverse = ref(true);
 const aniEnd = ref(false);
-const flag = ref(null);
-const timeid = ref(null);
+const flag = ref(false);
+const timeid = ref(0);
+let timerId = NaN;
+let timerIdth = NaN
+let timerIdth_flas = false
+let _show = ref(props.show);
+function debounce(func: Function, wait = 500, immediate = false) {
+
+	// 清除定时器
+	if (!isNaN(timerId)) clearTimeout(timerId);
+	// 立即执行，此类情况一般用不到
+
+	if (immediate) {
+		var callNow = !timerId;
+		timerId = setTimeout(() => {
+			timerId = NaN;
+		}, wait);
+
+		if (callNow) typeof func === "function" && func();
+	} else {
+		// 设置定时器，当最后一次操作后，timeout不会再被清除，所以在延时wait毫秒后执行func回调方法
+		timerId = setTimeout(() => {
+			typeof func === "function" && func();
+		}, wait);
+	}
+}
+function throttle(func: Function, wait = 500, immediate = true) {
+
+	if (immediate) {
+		if (!timerIdth_flas) {
+
+			timerIdth_flas = true;
+			// 如果是立即执行，则在wait毫秒内开始时执行
+			typeof func === 'function' && func();
+
+			timerIdth = setTimeout(() => {
+				timerIdth_flas = false;
+			}, wait);
+		}
+	} else {
+		if (!timerIdth_flas) {
+			timerIdth_flas = true
+			// 如果是非立即执行，则在wait毫秒内的结束处执行
+			timerIdth = setTimeout(() => {
+				timerIdth_flas = false
+				typeof func === 'function' && func();
+			}, wait);
+		}
+
+	}
+};
 let { windowWidth, windowHeight, windowTop, safeArea, statusBarHeight, titleBarHeight } = uni.getSystemInfoSync();
 syswidth.value = windowWidth;
 sysheight.value = windowHeight;
@@ -178,17 +229,18 @@ sysheight.value = safeArea.height;
 sysheight.value = windowHeight;
 // #endif
 timeid.value = uni.$tm.u.getUid(4)
-if (props.show) {
+if (_show.value) {
 	reverse.value = false;
 }
 watch(() => props.show, (val) => {
+	_show.value = props.show
 	if (val) {
-		open();
+		opens();
 	} else {
 		close();
 	}
 })
-onMounted(() => open())
+onMounted(() => opens())
 const ok_loading = computed(() => props.okLoading)
 const round_rp = computed(() => {
 	if (aniname.value == 'left') return 'round-r-' + props.round;
@@ -226,9 +278,9 @@ const anheight = computed(() => {
 const contentHeight = computed(() => {
 	let base_height = props.hideHeader ? 0 : 44;
 	if (props.placement == 'top' || props.placement == 'bottom' || aniname.value == 'zoom') {
-		let h =props.height;
-		if (props.unit=='rpx') {
-			h=uni.upx2px(props.height);
+		let h = props.height;
+		if (props.unit == 'rpx') {
+			h = uni.upx2px(props.height);
 		}
 		return (h - base_height) + 'px'
 	}
@@ -254,59 +306,88 @@ const align_rp = computed(() => {
 
 function ok() {
 	if (props.disabled) return;
-	emits("ok")
-	close()
+	debounce(() => {
+		emits("ok")
+		close()
+	}, 500, true)
 }
 function cancel() {
 	if (props.disabled) return;
-	emits("cancel")
-	close()
+	debounce(() => {
+		emits("cancel")
+		close()
+	}, 500, true)
 }
-function open() {
+function OverLayOpen(){
+	debounce(() => {
+		
+		nextTick(function () {
+			if (!drawerANI.value) return;
+			
+			flag.value = true;
+			drawerANI.value?.play()
+			timeid.value = setTimeout(function () {
+				emits("open")
+				flag.value = false;
+			}, props.duration)
+		})
+	}, 500, true)
+}
+function opens() {
 	if (props.disabled) return;
 	if (flag.value) return;
 	aniEnd.value = false;
 	reverse.value = reverse.value === false ? true : false;
-	nextTick(function () {
-		if (!proxy?.$refs?.drawerANI) return;
-		flag.value = true;
-		proxy.$refs.drawerANI.play();
-		timeid.value = setTimeout(function () {
-			emits("open")
-			flag.value = false;
-		}, props.duration)
-	})
+}
+//外部调用。
+function open() {
+	_show.value=true;
+	if (props.disabled) return;
+	if (flag.value) return;
+	aniEnd.value = false;
+	reverse.value = reverse.value === false ? true : false;
 }
 function animationClose() {
 	aniEnd.value = true;
 }
+let timid = uni.$tm.u.getUid(1);
+let flags = false;
+
 //外部手动调用关闭方法
 function close() {
 	if (props.disabled) return;
 	if (flag.value) return;
-	uni.$tm.u.throttle(closeFun(),props.duration)
+	debounce(() => {
+		emits("cancel")
+		closeFun()
+	}, props.duration, true)
 }
 //内部通过点击遮罩关闭的方法.同时需要发送事件。
-function clickClose(e) {
+
+function clickClose(e:Event) {
 	if (props.disabled) return;
 	emits('click', e);
 	if (flag.value) return;
 	if (!props.overlayClick) return;
-	uni.$tm.u.throttle(cancel(),props.duration)
+	debounce(() => {
+		emits("cancel")
+		closeFun()
+	}, props.duration, true)
 }
 function closeFun() {
 	if (props.disabled) return;
 	if (flag.value) return;
 	nextTick(function () {
 		reverse.value = false;
-		if (!proxy?.$refs?.drawerANI) return;
+		if (!drawerANI.value) return;
 		flag.value = true;
 		nextTick(function () {
-			proxy.$refs.drawerANI.play();
+			drawerANI.value?.play();
 			timeid.value = setTimeout(function () {
 				if (aniEnd.value) {
 					emits("close")
 					emits("update:show", false)
+					_show.value=false;
 					flag.value = false;
 				}
 			}, props.duration)

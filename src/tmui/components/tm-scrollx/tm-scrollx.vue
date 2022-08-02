@@ -12,22 +12,29 @@
 			</view>
 		</scroll-view>
 		<!-- #endif -->
-		<view v-if="_showBar" class="absolute l-0 b-10 flex flex-center" :style="{width:props.width+'rpx',height:32+'rpx'}">
-			<tm-sheet no-level :round="6" :width="160" :height="8" :color="props.bgColor" :margin="[0,0]" :padding="[0,0]">
-				<view class="bar" :style="{
-					transform: `translateX(${left}px)`
-				}">
-					<tm-sheet :round="6"  :width="80" :height="8" :color="props.color"  :margin="[0,0]" :padding="[0,0]"></tm-sheet>
-				</view>
-			</tm-sheet>
+		<view v-if="_showBar" class="absolute l-0 b-10 flex " :class='alignKey[props.align]' :style="{width:props.width+'rpx',height:32+'rpx'}">
+			<view class="flex-1 pr-40" style="width:0px">
+				<slot name="barll"></slot>
+			</view>
+			<view class="px-32" style="width:164rpx;">
+				<tm-sheet no-level :round="6" :width="100" :height="8" :color="props.bgColor" :margin="[0,0]" :padding="[0,0]">
+					<view class="bar" :style="{
+						transform: `translateX(${left}px)`
+					}">
+						<tm-sheet :round="6"  :width="50" :height="8" :color="props.color"  :margin="[0,0]" :padding="[0,0]"></tm-sheet>
+					</view>
+				</tm-sheet>
+			</view>
 		</view>
 	</view>
 </template>
 
 <script lang="ts" setup>
-	import { ref,computed } from "vue"
+	import { ref,computed ,PropType} from "vue"
 	import tmSheet from "../tm-sheet/tm-sheet.vue";
 	import tmText from "../tm-text/tm-text.vue";
+	//居中，两边对齐。
+	type alignType = "center"|"between";
 	const props = defineProps({
 		width:{
 			type:Number,
@@ -50,13 +57,21 @@
 		},
 		color:{
 			type:String,
-			default:'red'
+			default:'primary'
+		},
+		align:{
+			type:String as PropType<alignType>,
+			default:'center'
 		}
 	})
 	const left = ref(0)
-	const totalWidth = uni.upx2px(80)
+	const totalWidth = uni.upx2px(50)
 	const totalContWidth = uni.upx2px(props.width)
 	const _showBar = computed(()=>props.showBar)
+	const alignKey = {
+		"center":"flex-center",
+		"between":"flex-row flex-row-center-between"
+	}
 	const onScroll = (e:Event)=>{
 		if(!_showBar.value) return;
 		let sL = e.detail.scrollLeft;

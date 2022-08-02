@@ -37,6 +37,7 @@ title: tmui 3.0 组件库
 | width | Number | 636 | 宽度，单位rpx |
 | height | Number | 300 | 高度，单位rpx |
 | showBar | Boolean | true | 是否显示滚动导航条 |
+| align | String | center | 底部导航对齐方式，可选:center/between |
 
 ### :rose: 事件
 无
@@ -45,6 +46,7 @@ title: tmui 3.0 组件库
 | 插槽名 | 数据 | 类型 | 描述 |
 | :--: | :--: | :--: | :-- |
 | default | - | - | 默认放置于滚动容器内内容 |
+| barll<Badge type="danger" text="v3.0.77+" vertical="middle" /> | - | - | 在底部导航条的左右，如果提供显示在左边。align=between时，内容会左右对齐。如果不提供时，导航条在左边对齐。 |
 
 ### :green_salad: ref方法
 无

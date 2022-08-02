@@ -92,7 +92,7 @@ uni.$tm.fetch.request(cog:fetchConfig = config,beforeFun?:Function,afterFun?:Fun
 
 ```
 
-其中beforeFun：访问请求前执行的勾子函数。可以是`Promise<fetchConfig>`，请一定要返回一个请求配置，可以直接返回 {}。这里的作用，主要是用来
+其中beforeFun：访问请求前执行的勾子函数。可以是`Promise<fetchConfig>`，请一定要返回一个请求配置，可以直接返回 {},也可以返回false，将阻止请求。这里的作用，主要是用来
 请求前的一些参数配置。
 ```ts
 beforeFun(cog:fetchConfig)

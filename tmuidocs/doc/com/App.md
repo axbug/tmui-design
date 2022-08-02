@@ -40,7 +40,7 @@ import tmApp from "@/tmui/components/tm-app/tm-app.vue"
 ### :seedling: 参数
 本组件含有公共属性 [公共属性](/doc/spec/组件公共样式.md)
 
-:::tips 关于tabBar
+:::tip 关于tabBar
 
 tabar<Badge type="danger" text="v3.0.75+" vertical="middle" />开始已经删除该属性。转而读取你的项目
 目录下的pages.json的配置，如果未配置将使用框架自带的配置颜色。因为该属性只对原生的tabBar起到切换主题作用。

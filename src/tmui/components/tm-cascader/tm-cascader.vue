@@ -34,7 +34,7 @@
  * 级联选择(点选)
  * @description 级联选择有很多用处，不管是地址选择，城市或者自定数据关联选择，都非常有用处。
  */
-import { computed, provide, ref, toRaw, watch,Ref, nextTick, isRef, isProxy } from 'vue';
+import { computed, provide, ref, toRaw, watch,Ref, nextTick, isRef, isProxy,PropType } from 'vue';
 import BaseCascader from './base-cascader.vue';
 import tmSheet from '../tm-sheet/tm-sheet.vue';
 import tmText from '../tm-text/tm-text.vue';
@@ -57,7 +57,7 @@ const props = defineProps({
      * 导入的数据
      */
     data: {
-        type: Array,
+        type: Array as PropType<Array<childrenData>>,
         default: () => [],
         required: true
     },
@@ -134,7 +134,7 @@ function initNode(once:boolean=false){
     let ls_ids = Array.isArray(moisref)?moisref:[];
     _value.value = ls_ids.length==0?'':ls_ids[ls_ids.length-1]
     if(_value.value==''||typeof _value.value == 'undefined') return;
-    let isParent = queryNodeIsParent(isProxy(props.data)?toRaw(props.data):props.data,_value.value,'id')
+    let isParent = queryNodeIsParent(toRaw(props.data),String(_value.value),'id')
     //父节点不能选中。
     if(isParent) return;
     _idArrays.value = moisref;
@@ -201,14 +201,14 @@ watch(()=>props.data,()=>{
 function getValueObject() {
     let [lastId] = _idArrays.value.reverse();
     let moisref = isProxy(props.data)?toRaw(props.data):props.data
-    let ar = getNodeRouterData(moisref,lastId,[],'id')
+    let ar = getNodeRouterData(moisref,String(lastId),[],'id')
     return ar;
 }
 /**
  * 返回当前选中的数据字符串路径
  */
 function getValueStr():Array<string> {
-    let ar = getValueObject();
+    let ar:Array<childrenData> = <Array<childrenData>>getValueObject();
     let str = ar.map(el=>el.text);
     return str;
 }

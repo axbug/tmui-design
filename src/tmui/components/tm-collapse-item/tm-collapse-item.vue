@@ -4,11 +4,11 @@
 			:linearDeep="props.linearDeep"  :dark="props.dark"
 			:followDark="props.followDark" :followTheme="props.followTheme" borderDirection="bottom" :margin="props.margin" :padding="props.padding"
 			>
-			<view :userInteractionEnabledn="false" class="flex-row-center-start flex-row ">
+			<view :style="{height:props.height+'rpx'}" :userInteractionEnabledn="false" class="flex-row-center-start flex-row ">
 				<view v-if="_tmCollapseIconPos=='left'" class="pr-16 flex-center">
-					<tm-icon  :dark="props.dark"  :followDark="props.followDark"
+					<tm-icon  _class="opacity-7" :dark="props.dark"  :followDark="props.followDark"
 						 :color="isActive ? props.activeColor : ''"
-						:name="isActive ? 'tmicon-sort-down' : 'tmicon-caret-right'" :font-size="24"
+						:name="isActive ?  _tmCollapseopenIcon : _tmCollapsecloseIcon" :font-size="24"
 						></tm-icon>
 				</view>
 				<slot name="icon">
@@ -23,16 +23,18 @@
 							 :label="props.title"></tm-text>
 					</slot>
 				</view>
-				<view v-if="_tmCollapseIconPos=='right'" class="pl-16  flex-center" style="width:50rpx">
-					<tm-icon  :dark="props.dark"  :followDark="props.followDark"
+				<slot name="rightLabel"></slot>
+				<view v-if="_tmCollapseIconPos=='right'" class="pl-16  flex-center" >
+					
+					<tm-icon  _class="opacity-7" :dark="props.dark"  :followDark="props.followDark"
 						 :color="isActive ? props.activeColor : ''"
-						:name="isActive ? 'tmicon-sort-down' : 'tmicon-caret-right'" :font-size="24"
+						:name="isActive ?  _tmCollapseopenIcon : _tmCollapsecloseIcon" :font-size="24"
 						></tm-icon>
 				</view>
 			</view>
 		</tm-sheet>
 		
-		<view v-if="isActive" class="px-24 pt-24 pb-24  flex overflow">
+		<view v-if="isActive" class="pb-24  flex overflow">
 			<view class="flex content flex-col flex-1"  :class="[ isActiveAfter?'on':'']">
 				<slot></slot>
 			</view>
@@ -52,6 +54,8 @@ import {
 	inject,
 	watchEffect,
 	nextTick,
+ComponentInternalInstance,
+PropType,
 } from 'vue';
 import tmSheet from "../tm-sheet/tm-sheet.vue";
 import tmText from "../tm-text/tm-text.vue";
@@ -60,7 +64,7 @@ import tmTranslate from "../tm-translate/tm-translate.vue";
 import {
 	custom_props,
 } from '../../tool/lib/minxs';
-const { proxy } = getCurrentInstance();
+const { proxy } = <ComponentInternalInstance>getCurrentInstance();
 const emits = defineEmits(['click'])
 const props = defineProps({
 	...custom_props,
@@ -72,6 +76,10 @@ const props = defineProps({
 		type: String,
 		default: ''
 	},
+	height: {
+		type: Number,
+		default: 80
+	},
 	//标识，用来展开和关闭的标识。
 	name: {
 		type: [Number, String],
@@ -82,13 +90,14 @@ const props = defineProps({
 		default: 'primary'
 	},
 	margin: {
-		type: Array,
+		type: Array as PropType<Array<number>>,
 		default: () => [0, 0],
 	},
 	padding: {
-		type: Array,
-		default: () => [32, 24],
+		type: Array as PropType<Array<number>>,
+		default: () => [24, 0],
 	},
+	
 	disabled: {
 		type: [Boolean, String],
 		default: false
@@ -105,10 +114,12 @@ const props = defineProps({
 })
 const _activekeyArray = inject("tmCollapseKeyList", computed(()=>[]))
 const _tmCollapseIconPos = inject("tmCollapseIconPos", computed(()=>"left"))
+const _tmCollapsecloseIcon = inject("tmCollapsecloseIcon", computed(()=>"tmicon-caret-right"))
+const _tmCollapseopenIcon = inject("tmCollapseopenIcon", computed(()=>"tmicon-sort-down"))
 const _leftIcon = computed(()=>props.leftIcon)
 const isActiveAfter = ref(false)
 //父级方法。
-let parent = proxy.$parent
+let parent:any = proxy?.$parent
 
 while (parent) {
     if(parent?.tmCollapse=='tmCollapse'||!parent){
@@ -119,9 +130,9 @@ while (parent) {
 }
 if(parent){
 	//向父级缓存本子组件的key值。
-	parent.pushKey(props.name)
+	parent?.pushKey(props.name)
 }
-const cborder = ref(props.border ? props.border : parent.border);
+const cborder = ref(props.border ? props.border : parent?.border);
 const isActive = computed(() => {
 	let index = _activekeyArray.value.findIndex(el => {
 		return el == props.name;
@@ -142,10 +153,10 @@ watchEffect(()=>{
 		isActiveAfter.value = false
 	}
 })
-function openAndClose(e) {
+function openAndClose(e:Event) {
 	emits("click", e)
 	if (props.disabled) return;
-	parent.setKey(props.name)
+	parent?.setKey(props.name)
 }
 </script>
 

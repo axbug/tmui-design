@@ -1,5 +1,5 @@
 <template>
-    <view class="tm-segtab relative flex flex-col" ref="tm-segtab" :style="{ width: props.width + 'rpx' }">
+    <view class="tm-segtab relative flex flex-col" ref="tm-segtab" :style="{ width: (props.width+props.gutter*2) + 'rpx' }">
         <tm-sheet
         :border="props.border"
         :linear="props.linear"

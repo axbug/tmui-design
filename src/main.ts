@@ -9,6 +9,6 @@ export function createApp() {
   app.use(tmui)
   return {
     app,
-    Pinia,
+    Pinia
   };
 }

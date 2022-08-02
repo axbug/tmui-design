@@ -55,6 +55,7 @@
 		ref,
 		onMounted,
 		nextTick,
+ComponentInternalInstance,
 	} from 'vue';
 	import WxCanvas from './canvasinit';
 	import * as echarts from "echarts";
@@ -71,7 +72,7 @@
 	// #endif
 	const {
 		proxy
-	} = getCurrentInstance();
+	} = <ComponentInternalInstance>getCurrentInstance();
 
 	const emits = defineEmits(['onInit','touchStart','touchMove','touchEnd','mousedown','mousemove','mouseup','click'])
 	const props = defineProps({
@@ -141,19 +142,19 @@
 		});
 		ctx = uni.createCanvasContext(canvasId.value, proxy);
 		if(!isPc.value){
-			const canvas = new WxCanvas(ctx, canvasId.value, false)
+			const canvas:any = new WxCanvas(ctx, canvasId.value, false,false)
 			echarts.setPlatformAPI({createCanvas:() => canvas});
-			chart = echarts.init(canvas, null, {
+			chart = echarts.init(canvas, "", {
 				width: uni.upx2px(_width.value),
 				height: uni.upx2px(_height.value),
 			});
 			canvas.setChart(chart);
 		}else{
-			const canvasNode = document.querySelector('#'+canvasId.value).getElementsByTagName("canvas")[0];
-			document.querySelector('#'+canvasId.value).removeChild(document.querySelector('#'+canvasId.value).getElementsByTagName("div")[0])
+			const canvasNode = document.querySelector('#'+canvasId.value)?.getElementsByTagName("canvas")[0];
+			document.querySelector('#'+canvasId.value)?.removeChild(<HTMLElement>document.querySelector('#'+canvasId.value)?.getElementsByTagName("div")[0])
 			ctx = canvasNode.getContext("2d")
-			const canvas = new WxCanvas(ctx, canvasId.value, false)
-			chart = echarts.init(canvasNode);
+			const canvas:any = new WxCanvas(ctx, canvasId.value, false,false)
+			chart = echarts.init(<HTMLElement>canvasNode);
 			chart.on("mousedown",(e)=>emits('mousedown',e))
 			chart.on("mousemove",(e)=>emits('mousemove',e))
 			chart.on("mouseup",(e)=>emits('mouseup',e))

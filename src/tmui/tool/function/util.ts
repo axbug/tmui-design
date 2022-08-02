@@ -313,7 +313,7 @@ export function getUid (length=12){
 	@param {Number} wait 延迟的时间
 	@param{Boolean} immediate 是否要立即执行
 */
-let timeout:number|null = null;
+var timeout= getUid(1)
 export function debounce(func:Function, wait = 500, immediate = false) {
   // 清除定时器
   if (timeout !== null) clearTimeout(timeout);
@@ -326,6 +326,7 @@ export function debounce(func:Function, wait = 500, immediate = false) {
     if (callNow) typeof func === "function" && func();
   } else {
     // 设置定时器，当最后一次操作后，timeout不会再被清除，所以在延时wait毫秒后执行func回调方法
+	timeout = getUid(1);
     timeout = setTimeout(() => {
       typeof func === "function" && func();
     }, wait);
@@ -340,8 +341,7 @@ export function debounce(func:Function, wait = 500, immediate = false) {
  * @param {Boolean} immediate 是否立即执行
  * @return null
  */
-let timer:number|null, flag:boolean;
-export function throttle(func:Function, wait = 500, immediate = true) {
+export function throttle(func:Function, wait = 500, immediate = true,timer=85688,flag=false) {
 	if (immediate) {
 		if (!flag) {
 			flag = true;
@@ -564,20 +564,65 @@ export function toast(word:string,mask:boolean=true,icon:any='none'){
  */
 export function getWindow(){
 	let appsys = uni.getWindowInfo();
+	const sysinfo = uni.getSystemInfoSync();
+	let top =0;
 	let height = appsys.windowHeight;
+	let nowPage = getCurrentPages().pop()
+	let isCustomHeader = false;
+	for(let i=0;i<uni.$tm.pages.length;i++){
+		if(nowPage?.route==uni.$tm.pages[i].path&&uni.$tm.pages[i].custom=='custom'){
+			isCustomHeader = true;
+			break;
+		}
+	}
 	// #ifdef H5
-	// 由于在h5端根本无法判断当前是使用了nav还是没有使用。只能判断当前dom了。
-	if (document.querySelector('.uni-page-head')) {
-		height -=44
-	}
-	// #endif
-	// #ifdef APP
-	// 如果存在导航栏？
-	if(appsys.safeArea.top>0){
-		height = appsys.screenHeight
+	if (isCustomHeader) {
+		height = sysinfo.windowHeight+44
 	}else{
-		height = appsys.safeArea.height-appsys.statusBarHeight-44+appsys.safeAreaInsets.bottom
+		top = 44
 	}
 	// #endif
-	return {height:height,width:appsys.windowWidth};
+	
+	// #ifdef APP-NVUE 
+	if(!isCustomHeader){
+		if(sysinfo.osName=="android"){
+			height = appsys.safeArea.height - 44 - appsys.safeAreaInsets.bottom
+		}else{
+			height = appsys.safeArea.height - 44
+		}
+	}else{
+		height= appsys.safeArea.height + appsys.statusBarHeight + appsys.safeAreaInsets.bottom
+	}
+	// #endif
+	// #ifdef APP-VUE 
+	if(!isCustomHeader){
+		height = appsys.safeArea.height - 44
+	}else{
+		height = appsys.safeArea.height + appsys.statusBarHeight + appsys.safeAreaInsets.bottom
+	}
+	// #endif
+	return {height:height,width:appsys.windowWidth,top:top};
+}
+type openUrlType = "navigate"|"redirect"|"reLaunch"|"switchTab"|"navigateBack"
+/**
+ * 
+ * @param url string 打开的页面路径
+ * @param type openUrlType "navigate"|"redirect"|"reLaunch"|"switchTab"|"navigateBack"
+ */
+export function routerTo(url:string,type:openUrlType='navigate'){
+	type openUrlTypeFun = "navigateTo"|"redirectTo"|"reLaunch"|"switchTab"|"navigateBack"
+	let funType = {
+		navigate:"navigateTo",
+		redirect:"redirectTo",
+		switchTab:"switchTab",
+		reLaunch:"reLaunch",
+		navigateBack:"navigateBack",
+	}
+	let fun= <openUrlTypeFun>funType[type];
+	uni[fun]({
+		url:url,
+		fail(result) {
+			console.error(result)
+		},
+	})
 }
