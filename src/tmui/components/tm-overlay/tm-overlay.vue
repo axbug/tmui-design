@@ -23,7 +23,8 @@
 		onMounted,
 		onUnmounted,
 		nextTick,
-		watch
+		watch,
+ComponentInternalInstance
 	} from 'vue';
 	import {
 		cssstyle,
@@ -52,7 +53,7 @@
 		},
 		zIndex: {
 			type: [Number, String],
-			default: 401
+			default: 999
 		},
 		show: {
 			type: Boolean,
@@ -72,9 +73,7 @@
 		},
 	});
 	const emits = defineEmits(['click', 'open', 'close', 'update:show']);
-	const {
-		proxy
-	} = getCurrentInstance();
+	const {proxy} = <ComponentInternalInstance>getCurrentInstance();
 	//自定义样式：
 	const customCSSStyle = computedStyle(props);
 	//自定类
@@ -84,39 +83,51 @@
 	const top = ref(0);
 	const isAniing = ref(false)
 	let timids=uni.$tm.u.getUid(1);
-	const {windowTop,windowWidth,windowHeight,safeArea,statusBarHeight} = uni.getSystemInfoSync();
 	const sysinfo = uni.getSystemInfoSync();
-	width.value = windowWidth;
-	height.value = windowHeight+(windowTop||0);
-	// #ifdef MP
-	height.value = windowHeight
-	// #endif
-	// #ifdef H5
-	// 由于在h5端根本无法判断当前是使用了nav还是没有使用。只能判断当前dom了。
-	if(document.querySelector('.uni-page-head')){
-		if(document.querySelector('.uni-tabbar-bottom')){
-			height.value = safeArea.height
-		}else{
-			height.value = windowHeight
+	width.value = sysinfo.windowWidth;
+	height.value = sysinfo.windowHeight;
+
+	let nowPage = getCurrentPages().pop()
+	let isCustomHeader = false;
+	for(let i=0;i<uni.$tm.pages.length;i++){
+		if(nowPage?.route==uni.$tm.pages[i].path&&uni.$tm.pages[i].custom=='custom'){
+			isCustomHeader = true;
+			break;
 		}
-	}else if(document.querySelector('.uni-tabbar-bottom')){
-		height.value = safeArea.height
-	}
-	// #endif
-	// #ifdef APP 
-	// 如果存在导航栏？
-	let appsys = uni.getWindowInfo();
-	if(appsys.safeArea.top>0){
-		height.value = appsys.screenHeight
-	}else{
-		height.value = appsys.safeArea.height-appsys.statusBarHeight-44+appsys.safeAreaInsets.bottom
 	}
 	
+
+	// #ifdef H5
+	if (isCustomHeader) {
+		height.value  = sysinfo.windowHeight+44
+	}else{
+		top.value = 44
+	}
 	// #endif
-	const timeid = ref(uni.$tm.u.getUid(3));
+	let appsys = uni.getWindowInfo();
+	// #ifdef APP-NVUE 
+	if(!isCustomHeader){
+		if(sysinfo.osName=="android"){
+			height.value = appsys.safeArea.height - 44 - appsys.safeAreaInsets.bottom
+		}else{
+			height.value = appsys.safeArea.height - 44
+		}
+	}else{
+		height.value = appsys.safeArea.height + appsys.statusBarHeight + appsys.safeAreaInsets.bottom
+	}
+	// #ifdef APP-VUE 
+	if(!isCustomHeader){
+		height.value = appsys.safeArea.height - 44
+	}else{
+		height.value = appsys.safeArea.height + appsys.statusBarHeight + appsys.safeAreaInsets.bottom
+	}
+	// #endif
+	// #endif
+	let timerId = NaN;
+	
 	const animationData = ref(null)
 	const showMask = ref(false)
-	onUnmounted(()=>clearTimeout(timeid.value))
+	onUnmounted(()=>clearTimeout(timerId))
 	const align_rpx = computed(()=>props.align)
 	const bgColor_rp = computed(()=>{
 		if(!props.bgColor|| props.transprent) return 'rgba(0,0,0,0)';
@@ -124,18 +135,47 @@
 	})
 	onMounted(()=>{
 		if(!props.show) return;
+		
 		open(props.show)
 	})
-
-	
-	function close(e) {
-		e.stopPropagation()
-		emits('click', e);
-		if(!props.overlayClick) return;
-		open(false)
+	function debounce(func:Function, wait = 500, immediate = false) {
+	  // 清除定时器
+	  if (!isNaN(timerId)) clearTimeout(timerId);
+	  // 立即执行，此类情况一般用不到
+	  if (immediate) {
+		var callNow = !timerId;
+		timerId = setTimeout(() => {
+		  timerId = NaN;
+		}, wait);
+		if (callNow) typeof func === "function" && func();
+	  } else {
+		// 设置定时器，当最后一次操作后，timeout不会再被清除，所以在延时wait毫秒后执行func回调方法
+		timerId = setTimeout(() => {
+		  typeof func === "function" && func();
+		}, wait);
+	  }
 	}
-	function open(off) {
-		let that = this;
+	
+	function close(e:Event) {
+		try{
+			e.stopPropagation()
+			e.stopImmediatePropagation()
+		}catch(e){
+			//TODO handle the exception
+		}
+		
+		emits('click', e);
+		if(timerId){
+			clearTimeout(timerId)
+			timerId = NaN
+		}
+		debounce(()=>{
+			
+			if(!props.overlayClick) return;
+			open(false)
+		},250,true)
+	}
+	function open(off:boolean) {
 		// #ifndef APP-PLUS-NVUE
 		fadeInVue(off);
 		// #endif
@@ -143,7 +183,7 @@
 		fadeInNvue(off);
 		// #endif
 	}
-	function getEl(el) {
+	function getEl(el:HTMLElement) {
 		if (typeof el === 'string' || typeof el === 'number') return el;
 		if (WXEnvironment) {
 			return el.ref;
@@ -199,24 +239,26 @@
 		
 	}
 	function fadeInVue(off = false) {
-		let animation = uni.createAnimation({
-			duration: props.duration,
-			timingFunction: 'ease',
-			delay: 0
-		});
-		animation.opacity(off ? 1 : 0).step();
-		animationData.value = animation.export();
-		if(off==false){
-			if(showMask.value==off) return;
-			uni.$tm.u.debounce(function(){
+		debounce(function(){
+			let animation = uni.createAnimation({
+				duration: props.duration,
+				timingFunction: 'ease',
+				delay: 0
+			});
+			animation.opacity(off ? 1 : 0).step();
+			animationData.value = animation.export();
+			if(off==false){
+				
+				if(showMask.value==off) return;
 				showMask.value = off;
 				emits('close');
 				emits('update:show', false);
-			},props.duration,false)
-		}else{
-			showMask.value=off
-			emits('open');
-		}
+			}else{
+				showMask.value=off
+				emits('open');
+			}
+		},props.duration,false)
+		
 	}
 	watch(()=>props.show,(newval)=>{
 		
@@ -233,9 +275,5 @@
 		/* #endif */ 
 		opacity: 0;
 	}
-	/* #ifndef APP-PLUS-NVUE */ 
-	.navbarheight{
-		/* top:var(--window-top); */
-	}
-	/* #endif */ 
+
 </style>

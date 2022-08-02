@@ -38,6 +38,8 @@ title: tmui 3.0 组件库
 | accordion | Boolean,String | false | 是否设置为单个面板展开，默认fase，允许 多个面板同时展开 |
 | border | Number,String | 2 | 边框 |
 | iconPos | String | "left" | 展开图标的位置，可选left/right |
+| openIcon<Badge type="danger" text="v3.0.77+" vertical="middle" /> | String | "tmicon-angle-up" | 打开时的图标 |
+| closeIcon<Badge type="danger" text="v3.0.77+" vertical="middle" /> | String | "tmicon-angle-down" | 关闭时的图标 |
 
 ## CollapseItem
 本组件含有公共属性 [公共属性](/doc/spec/组件公共样式.md)
@@ -52,7 +54,7 @@ title: tmui 3.0 组件库
 | disabled | Boolean | false | 面板是否可以打开或收起 |
 | leftIcon | String | "" | 标题前的图标 |  
 | leftIconColor | String | "" | 标题前的图标主题颜色，默认为空即自动配色，当激活时，使用activeColor。如果本属性不为空，将始终使用本属性颜色主题。 |  
-
+| height<Badge type="danger" text="v3.0.77+" vertical="middle" /> | Number | 80 | 标题的高度 |
 
 ### :rose: 事件
 ## Collapse
@@ -69,6 +71,7 @@ title: tmui 3.0 组件库
 CollapseItem含有<br>
 插槽：title 标题插槽<br>
 icon 即标题前图标插槽
+rightLabel <Badge type="danger" text="v3.0.77+" vertical="middle" /> 右边图标的文本插槽
 
 ### :green_salad: ref方法
 无

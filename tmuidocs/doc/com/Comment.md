@@ -32,8 +32,10 @@ title: tmui 3.0 组件库
 本组件含有公共属性 [公共属性](/doc/spec/组件公共样式.md)
 | 参数名 | 类型 | 默认值 | 描述 |
 | :--: | :--: | :--: | :-- |
-| shadow | Number, String | 0 | 卡片投影，0-26 |
-| round | Number, String | 4 | 卡片圆角，0-26 |
+| shadow | Number | 0 | 卡片投影，0-26 |
+| round | Number | 4 | 卡片圆角，0-26 |
+| width | Number | 0 | 0即自动 |
+| height | Number | 0 | 0即自动 |
 | border | Number | 0 | 边框 |
 | margin | Array | [32,8] | 外间距[x,y]x=左右，y=上下 |
 | padding | Array | [24, 24] | 内间距[x,y]x=左右，y=上下 |

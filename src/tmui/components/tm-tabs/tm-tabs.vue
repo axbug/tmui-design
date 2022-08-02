@@ -1,5 +1,5 @@
 <template>
-	<view class="flex flex-col overflow" :style="[
+	<view class="flex flex-col overflow " :style="[
       props.height&&isDulitabs==false ? { height: height + 'rpx' } : '',
       { width: props.width + 'rpx' },
     ]">
@@ -47,39 +47,51 @@
 			:dark="props.dark" :round="props.round" :shadow="props.shadow" :outlined="props.outlined"
 			:border="props.border" :borderStyle="props.borderStyle" :borderDirection="props.borderDirection"
 			:text="props.text" :linear="props.linear" :linearDeep="props.linearDeep" :margin="[0, 0]" :padding="[0, 0]"
-			:height="props.itemHeight + modelStyle.border + props.gutter"
+			:height="props.itemHeight + modelStyle.border + props.gutter+4"
 			:_class="['flex-center flex-row nonvue', cstomClass]" :_style="props._style" :width="props.width">
 			<!-- #ifndef APP-NVUE -->
 			<scroll-view 
-			:style="[{ width: `${props.width}rpx`, height: `${props.itemHeight}rpx` }]"
+	
+			:style="[{ width: `${props.width}rpx`, height: `${props.itemHeight+8}rpx` }]"
 			:scroll-with-animation="true" 
 			:scroll-into-view="_scrollToId" 
 			:scroll-x="true" 
 			:show-scrollbar="false" 
-			enable-flex class="tableHeader flex-row">
+			enable-flex class="tableHeader flex-row relative">
 				<view class="flex flex-row nowrap  nonvue" :class="[_align]"
-					:style="[{ width: `${props.width}rpx`, height: `${props.itemHeight}rpx` }]">
+					:style="[{height: `${props.itemHeight+4}rpx`}]">
 					<view :id="tabsid+item.key" v-for="(item, index) in cacheTabs"  :key="index">
 						<tm-sheet @click="changeKey(item.key)"  :round="props.itemRound" :linear="props.itemLinear" :linearDeep="props.itemLinearDeep"
 							borderDirection="bottom" :text="item.key == _active ? modelStyle.text : false"
 							:border="item.key == _active ? modelStyle.border : 0"
 							:transprent="item.key == _active ? modelStyle.transprent : true" :color="
 							props.activeColor && item.key == _active ? props.activeColor : props.color
-							" :width="props.itemWidth" _class="flex-center flex-row" 
+							" :width="props.itemWidth" _class="flex-col flex-col-center-center" 
 							:margin="[0, 0]" :padding="[20, 0]" :height="props.itemHeight">
-							<tm-icon :userInteractionEnabled="false" v-if="item.icon" _class="pr-5" 
-								:color="item.key == _active ? props.activeFontColor : props.unSelectedColor"
-								:font-size="item.key == _active ? props.activeFontSize : props.itemFontSize" :name="item.icon">
-							</tm-icon>
-							<tm-text :userInteractionEnabled="false" :font-size="item.key == _active ? props.activeFontSize : props.itemFontSize"
-							:_class="item.key == _active?'text-weight-b':''"
-								:color="item.key == _active ? props.activeFontColor : props.unSelectedColor"
-								:label="item.title">
-							</tm-text>
+							<view :style="[props.itemWidth>0?{width:props.itemWidth+'rpx'}:{}]" class="flex flex-col flex-col-center-center">
+								<view class="flex flex-row flex-center">
+									<tm-icon :userInteractionEnabled="false" v-if="item.icon" _class="pr-5"
+										:color="item.key == _active ? props.activeFontColor : props.unSelectedColor"
+										:font-size="item.key == _active ? props.activeFontSize : props.itemFontSize" :name="item.icon">
+									</tm-icon>
+									<tm-text :userInteractionEnabled="false" :font-size="item.key == _active ? props.activeFontSize : props.itemFontSize"
+									:_class="item.key == _active?'text-weight-b':''"
+										:color="item.key == _active ? props.activeFontColor : props.unSelectedColor"
+										:label="item.title">
+									</tm-text>
+								</view>
+							</view>
 						</tm-sheet>
 						
 					</view>
 					
+				</view>
+				<view class="anilineBar absolute l-0" :style="{ 
+					width: `${contentWidth}rpx`,height:'1px',
+					bottom:'2px',backgroundColor:props.showTabsLineAni?(store.tmStore.dark?'#616161':'#ebebeb'):'' }"
+				></view>
+				<view  v-if="props.showTabsLineAni&&props.itemWidth>0" class="anilineBar absolute l-0 b-2" :style="{transform:`translateX(${anitLineLeft}px)`}">
+					<tm-sheet :follow-dark="false" :color="props.tabsLineAniColor" :height="8" :width="40" :margin="[0,0]" :padding="[0,0]"></tm-sheet>
 				</view>
 			</scroll-view>
 			
@@ -87,9 +99,11 @@
 			
 			<!-- #ifdef APP-NVUE -->
 			
-			<scroll-view :scroll-into-view="_scrollToId" :scroll-x="true" :scroll-with-animation="true" :show-scrollbar="false" enable-flex class="flex-row" :class="[_align]"
-				:style="[{ width: `${props.width}rpx`, height: `${props.itemHeight}rpx` }]">
-				<view :id="tabsid+item.key" v-for="(item, index) in cacheTabs"  :key="index">
+			<scroll-view 
+			:scroll-into-view="_scrollToId" :scroll-x="true" :scroll-with-animation="true" 
+			:show-scrollbar="false" enable-flex class="flex-row" :class="[_align]"
+				:style="[{width:props.width+'rpx', height: `${props.itemHeight+4}rpx`}]">
+				<view :id="tabsid+item.key" v-for="(item, index) in cacheTabs"  :key="index" >
 					<tm-sheet  @click="changeKey(item.key)"  
 						:round="props.itemRound" 
 						:linear="props.itemLinear" 
@@ -110,6 +124,11 @@
 							:label="item.title">
 						</tm-text>
 					</tm-sheet>
+				</view>
+				<view class="anilineBar absolute l-0 b-0" :style="{ width: `${contentWidth}rpx`,height:'1px',
+					backgroundColor:props.showTabsLineAni?(store.tmStore.dark?'#616161':'#ebebeb'):'' }"></view>
+				<view v-if="props.showTabsLineAni&&props.itemWidth>0" class="anilineBar absolute l-0 b-0" :style="{transform:`translateX(${anitLineLeft-2}px)`}">
+					<tm-sheet  :follow-dark="false" :color="props.tabsLineAniColor" :height="8" :width="40" :margin="[0,0]" :padding="[0,0]"></tm-sheet>
 				</view>
 			</scroll-view>
 			<!-- #endif -->
@@ -177,6 +196,8 @@
 		custom_props,
 		computedClass
 	} from "../../tool/lib/minxs";
+	import { useTmpiniaStore } from '../../tool/lib/tmpinia';
+	const store = useTmpiniaStore();
 	// #ifdef APP-NVUE || APP-PLUS-NVUE
 	var dom = weex.requireModule('dom');
 	const Binding = uni.requireNativePlugin('bindingx');
@@ -255,7 +276,7 @@
 		},
 		activeFontSize: {
 			type: Number,
-			default: 30,
+			default: 28,
 		},
 		//选项卡样式模型
 		itemModel: {
@@ -291,6 +312,16 @@
 		swiper:{
 			type: Boolean,
 			default:false
+		},
+		//是否显示底部线条动画样式。
+		showTabsLineAni:{
+			type:Boolean,
+			default:false
+		},
+		//下面活动的横线的颜色。
+		tabsLineAniColor:{
+			type:String,
+			default:'primary'
 		}
 	});
 	const _align = computed(() => {
@@ -346,10 +377,23 @@
 	const tmTabsId = "tmTabsId"
 	const _tabPos = computed(()=>props.tabPos)
 	const cacheTabs = ref < Array < tabsobj >> ([]);
+
 	const isDulitabs = computed(()=>props.list.length>0)
 	const tabsid = 'tabs_id_'+uni.$tm.u.getUid(1)+'_'
 	const isNvue = ref(false);
 	const totalWidth = computed(()=>uni.upx2px(cacheTabs.value.length*props.width))
+	const contentWidth = computed(()=>{
+		let width = (props.itemWidth+40)*cacheTabs.value.length;
+		if(width<=props.width){
+			width = props.width;
+		}
+		return width;
+	})
+	// 线滚动动画。
+	const anitLineLeft = ref(0)
+
+
+	
 	// #ifdef APP-NVUE
 	isNvue.value=true;
 	// #endif
@@ -402,12 +446,29 @@
 		if (isclick) {
 			emits("click", key);
 		}
+		
 	}
 
 	function setTitle(o: tabsobj) {
 		let index: number = cacheTabs.value.findIndex((el) => el.key == o.key);
 		if (index > -1) {
 			cacheTabs.value.splice(index, 1, o);
+		}
+	}
+	
+	function setTabsBarLineLeft(key:string|number=""){
+		if(!props.showTabsLineAni) return;
+		let keybl = key||_active.value
+		let index = cacheTabs.value.findIndex(el=>el.key==keybl)
+		
+		if(index>-1){
+			let itemwidth = props.itemWidth+40;
+			let leftPx =uni.upx2px(itemwidth)*index+(uni.upx2px(itemwidth-40))/2
+			if(props.align=="center"){
+				leftPx = leftPx + uni.upx2px(props.width-(props.itemWidth+40)*cacheTabs.value.length)/2
+			}
+			
+			anitLineLeft.value = leftPx+2
 		}
 	}
 
@@ -446,6 +507,7 @@
 				})
 			})
 			// #endif
+			setTabsBarLineLeft(props.defaultName)
 		},300)
 	})
 	watchEffect(()=>{
@@ -453,16 +515,22 @@
 		spinNvueAniEnd(0,-uni.upx2px((activeIndex.value)*props.width),timeDetail)
 	})
 	watch(()=>_active.value,()=>{
-
+		
 		nextTick(()=>{
 			let index = cacheTabs.value.findIndex(el=>el.key == _active.value)
-			if(index-1>-1){
-				if(typeof cacheTabs.value[index-2] == 'undefined') return;
-				_scrollToId.value = tabsid+cacheTabs.value[index-2]?.key;
+			
+			if(index>-1){
+				if(typeof cacheTabs.value[index-2] !== 'undefined'){
+					_scrollToId.value = tabsid+cacheTabs.value[index-2]?.key;
+				}else{
+					_scrollToId.value = tabsid+cacheTabs.value[0]?.key;
+				}
+				
 			}else{
 				_scrollToId.value = tabsid+_active.value;
 			}
 			
+			setTabsBarLineLeft()
 		})
 	})
 	
@@ -577,7 +645,7 @@
 									_x.value=0;
 									_y.value=0;
 								})
-							},50)
+							},50,true)
 						}else{
 							timeDetail=250;
 						}
@@ -603,7 +671,7 @@
 									_x.value=0;
 									_y.value=0;
 								})
-							},50)
+							},50,true)
 						}else{
 							timeDetail=250;
 						}
@@ -618,7 +686,7 @@
 				// console.log("none")
 			}
 			
-		},60)
+		},60,true)
 	}
 	function onSwipe(e){
 		console.log(e)
@@ -714,6 +782,12 @@
 
 <style scoped>
 	.tmTabsPane{
+		transition-delay: 0;
+		transition-timing-function: linear;
+		transition-property: transform;
+		transition-duration: 0.2s;
+	}
+	.anilineBar{
 		transition-delay: 0;
 		transition-timing-function: linear;
 		transition-property: transform;

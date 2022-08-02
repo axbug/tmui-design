@@ -22,7 +22,7 @@ import { custom_props, computedTheme, computedClass, computedStyle, computedDark
 import tmCalendarView from "../tm-calendar-view/tm-calendar-view.vue";
 import tmDrawer from "../tm-drawer/tm-drawer.vue";
 import { monthDayItem, dateItemStyle, monthYearItem, weekItem, yearItem } from "../tm-calendar-view/interface"
-const { proxy } = <ComponentInternalInstance>getCurrentInstance();
+const drawer = ref<InstanceType<typeof tmDrawer> | null>(null)
 /**
  * 事件说明
  * v-model 绑定当前的时间。
@@ -173,7 +173,7 @@ function confirm(e: Array<string | number>) {
     emits("confirm", e)
     emits("update:modelValue", e)
     isConfirm.value = true;
-    proxy?.$refs?.drawer?.close();
+    drawer.value?.close();
 }
 
 const win_bottom = uni.getWindowInfo()?.safeAreaInsets?.bottom??0

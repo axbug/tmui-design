@@ -8,7 +8,6 @@ title: 自带JS工具库
 
 # JS工具库  <Badge type="danger" text="v3.0.5+" vertical="middle" />
 
-**文档还未完成**
 
 ### :tada: 如何调用
 
@@ -343,8 +342,8 @@ export function toast(word:string,mask:boolean=true,icon:any='none')
 /**
  * 获取屏幕窗口安全高度和宽度
  * 注意是针对种屏幕的统一计算，统一高度，不再让uni获取有效高度而烦恼。
- * 请一定要在onMounted或者onLoad中调用，否则不准确在h5端。
- * @return {height,width}
+ * 可以在任意js中使用。并且准确的计算出当前的安全高度。
+ * @return {height,width，top}
  */
 export function getWindow()
 ```

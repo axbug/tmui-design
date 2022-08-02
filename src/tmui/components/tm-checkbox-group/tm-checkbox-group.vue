@@ -4,10 +4,10 @@
   </view>
 </template>
 <script lang="ts" setup>
-import { computed , nextTick, provide ,ref ,watch ,getCurrentInstance,inject, toRaw } from 'vue';
+import { computed , nextTick, provide ,ref ,watch ,getCurrentInstance,inject, toRaw, ComponentInternalInstance } from 'vue';
 import { inputPushItem, rulesItem } from "./../tm-form-item/interface"
 const emits = defineEmits(['update:modelValue','change'])
-const {proxy} = getCurrentInstance()
+const {proxy} = <ComponentInternalInstance>getCurrentInstance()
 const props = defineProps({
     disabled:{
         type:Boolean,
@@ -78,7 +78,7 @@ const rulesObj = inject("tmFormItemRules",computed<Array<rulesItem>>(()=>{
     ]
 }))
 //父级方法。
-let parentFormItem = proxy.$parent
+let parentFormItem:any = proxy?.$parent
 while (parentFormItem) {
     if (parentFormItem?.tmFormComnameFormItem == 'tmFormComnameFormItem' || !parentFormItem) {
         break;

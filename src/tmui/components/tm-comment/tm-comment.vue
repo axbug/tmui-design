@@ -25,7 +25,7 @@
 			</view>
 			<view class="flex  flex-9 flex-col wh5">
 				<view class=" flex flex-row  " :class="[_align.time]">
-					<slot name="author"><tm-text @click="emits('author-click',$event)" :followTheme="props.followTheme" :dark="props.dark" :followDark="props.followDark" color="primary" :fontSize="26" :label="ctl.author"></tm-text></slot>
+					<slot name="author"><tm-text @click="emits('author-click',$event)" :followTheme="props.followTheme" :dark="props.dark" :followDark="props.followDark" :color="ctl.authorColor" :fontSize="26" :label="ctl.author"></tm-text></slot>
 					<slot name="time"><tm-text @click="emits('time-click',$event)" v-if="_time" :followTheme="props.followTheme" :dark="props.dark" :followDark="props.followDark" _class="pl-24 opacity-5" :fontSize="22" :label="_time"></tm-text></slot>
 				</view>
 				<view class="flex flex-col  py-12" >
@@ -59,7 +59,7 @@
 	 * @template default,author,time,content,actions
 	 * @emits ['avatar-click','author-click','content-click','time-click']
 	 */
-	import { getCurrentInstance, computed, ref, provide, inject , onUpdated, onMounted, onUnmounted, nextTick ,watch } from 'vue';
+	import { getCurrentInstance, computed, ref, provide, inject , onUpdated, onMounted, onUnmounted, nextTick ,watch, PropType } from 'vue';
 	import { cssstyle, tmVuetify,colorThemeType } from '../../tool/lib/interface';
 	import { custom_props, computedTheme, computedClass, computedStyle, computedDark } from '../../tool/lib/minxs';
 	import tmSheet from "../tm-sheet/tm-sheet.vue";
@@ -71,27 +71,35 @@
 	const props = defineProps({
 		...custom_props,
 		shadow:{
-			type: [Number, String],
+			type: [Number],
 			default: 0
 		},
 		round: {
-			type: [Number, String],
+			type: [Number],
 			default: 4
 		},
 		border: {
 			type: [Number],
 			default: 0
 		},
+		width: {
+			type: [Number],
+			default: 0
+		},
+		height: {
+			type: [Number],
+			default: 0
+		},
 		margin: {
-		  type: Array,
+		  type: Array as PropType<Array<number>>,
 		  default: () => [32,8],
 		},
 		padding: {
-		  type: Array,
+		  type: Array as PropType<Array<number>>,
 		  default: () => [24, 24],
 		},
 		transprent: {
-			type: [Boolean, String],
+			type: [Boolean],
 			default: false
 		},
 		color: {
@@ -100,7 +108,7 @@
 		},
 		//是否显示底部的边线。
 		borderBottom:{
-			type: [Boolean, String],
+			type: [Boolean],
 			default: false
 		},
 		author:{

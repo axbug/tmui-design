@@ -40,6 +40,7 @@
                  <tm-image  :padding="[2,2]" preview :width="155" :height="156" :src="'https://picsum.photos/312/312?id='+item" v-for="item in 14" :key="item"></tm-image>
             </tm-image-group>
         </tm-sheet>
+
     </tm-app>
 </template>
 <script lang="ts" setup>

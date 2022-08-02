@@ -36,7 +36,6 @@
 		@opensetting="emits('opensetting',$event)"
 		@launchapp="emits('launchapp',$event)"
 		@contact="emits('contact',$event)"
-		
 		:form-type="props.formType"
 		:openType="props.openType"
 		:appParameter="props.appParameter"
@@ -51,7 +50,7 @@
 		hover-stop-propagation hover-class="buttonHover" 
 		class="button flex-1  flex-center" 
 		:class="[customClass]"
-		:style="[{height:btnSizeObj.h+props.unit},customCSSStyle]"
+		:style="customCSSStyle" 
 		style="border: 0px solid rgba(0, 0, 0, 0);background: rgba(0, 0, 0, 0);border-radius: 0px;">
 			<slot>
 				<tm-icon v-if="_icon" :userInteractionEnabled="false"  :color="_fontColor"  :_class="_label?'pr-10':''" :unit="props.unit" :fontSize="btnSizeObj.fontSize*0.9" :name="_icon"></tm-icon>
@@ -231,7 +230,10 @@ if(formtype.value=='reset'||formtype.value=='submit'){
 }
 /** -----------end------------ */
 //自定义样式：
-const customCSSStyle = computed(()=>computedStyle(props));
+const customCSSStyle = computed(()=>
+{
+	return {height:btnSizeObj.value.h+ props.unit,...computedStyle(props)}
+});
 //自定类
 const customClass = computed(()=>computedClass(props));
 const isclickOn = ref(false);

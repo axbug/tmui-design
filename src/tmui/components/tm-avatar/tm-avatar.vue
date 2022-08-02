@@ -75,7 +75,7 @@
 			default:'',
 		},
 		round: {
-			type: [Number, String],
+			type: [Number],
 			default: 6
 		},
 		border: {

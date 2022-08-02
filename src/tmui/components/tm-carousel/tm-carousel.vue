@@ -12,14 +12,14 @@
 				:current="_current" :style="[
 					{ width: `${props.width}rpx`, height: `${props.height}rpx` }
 				]">
-				<swiper-item v-for="(item, index) in _list" :key="index" :style="[
+				<swiper-item @click="emits('click',index)" v-for="(item, index) in _list" :key="index" :style="[
 					{ width: `${props.width}rpx`, height: `${props.height}rpx` }
 				]">
-					<tm-image v-if="item.type == listItemType.img" :src="item.url" :width="props.width"
+					<tm-image :userInteractionEnabled="false" :showLoad="props.showLoad" v-if="item.type == listItemType.img" :src="item.url" :width="props.width"
 						:height="props.height"></tm-image>
-					<tm-image v-if="item.type == listItemType.video && item.img && _current != index" :src="item.img"
+					<tm-image :userInteractionEnabled="false" :showLoad="props.showLoad" v-if="item.type == listItemType.video && item.img && _current != index" :src="item.img"
 						:width="props.width" :height="props.height"></tm-image>
-					<video id="video" v-if="item.type == listItemType.video && _current === index" :src="item.url" :style="[
+					<video :userInteractionEnabled="false" id="video" v-if="item.type == listItemType.video && _current === index" :src="item.url" :style="[
 						{ width: `${props.width}rpx`, height: `${props.height}rpx` }
 					]" :autoplay="_current === index">
 					</video>
@@ -133,7 +133,7 @@ import tmImage from "../tm-image/tm-image.vue"
 import tmSheet from "../tm-sheet/tm-sheet.vue"
 import { listItem, listItemType,listItemTypeStr } from "./interface"
 const { proxy } = <any>getCurrentInstance()
-const emits = defineEmits(["change"])
+const emits = defineEmits(["change","click"])
 const props = defineProps({
 	followTheme:{
 		type:Boolean,
@@ -235,6 +235,11 @@ const props = defineProps({
 	indicatorDots: {
 		type: Boolean,
 		default: true
+	},
+	//是否显示加载动画
+	showLoad:{
+		type: Boolean,
+		default: true
 	}
 })
 const _list = computed(() => {
@@ -263,7 +268,9 @@ const _dotPosition = computed(() => props.dotPosition)
 const _align = computed(() => props.align)
 const _autoplay = computed(()=>props.autoplay)
 function sliderChange(e:any) {
-	_current.value = e?.detail?.current;
+	if(!_autoplay.value){
+		_current.value = e?.detail?.current;
+	}
 	nextTick(() => {
 		emits("change", _current.value)
 		let vobj = uni.createVideoContext('video', proxy)
@@ -271,8 +278,10 @@ function sliderChange(e:any) {
 	})
 }
 function dotClick(index: number) {
-
-	_current.value = index;
+	if(!_autoplay.value){
+		_current.value = index;
+	}
+	
 }
 </script>
 

@@ -36,7 +36,7 @@
 		watchEffect,
 		ref,
 		watch,
-		onBeforeMount,ComponentInternalInstance
+		onBeforeMount,ComponentInternalInstance, nextTick
 	} from 'vue';
 	import {
 		useTmpiniaStore
@@ -53,8 +53,23 @@
 		computedStyle,
 		computedDark
 	} from '../../tool/lib/minxs';
+		import {
+		onShow,
+		onLoad,onInit
+	} from "@dcloudio/uni-app";
+	import { useTmRouterAfter,useTmRouterBefore } from "../../../router/index"
+	//请在scr/目录下创建一个router/index.ts路由,见文档：https://tmui.design/doc/JSTool/router.html
 	const store = useTmpiniaStore();
 	const {proxy} = <ComponentInternalInstance>getCurrentInstance()
+	//路由守卫---------------------------------
+	let pages = getCurrentPages().pop()
+		nextTick(()=>{
+			useTmRouterBefore({path:pages?.route??"",context:proxy})
+		})
+		onLoad((opts:any)=>{
+			useTmRouterAfter({path:pages?.route??"",opts:opts,context:proxy})
+		})
+	// end-----------------------------------------
 	// 混淆props共有参数
 	const props = defineProps({
 		...custom_props,
@@ -104,44 +119,48 @@
 	const tmcomputed = computed < cssstyle > (() => computedTheme(props, isDark.value,tmcfg.value));
 	//返回应用背景和文件色值。
 
-	const {
-		safeArea,
-		windowWidth,
-		windowHeight,
-		statusBarHeight,
-		windowTop
-	} = uni.getSystemInfoSync()
 	const sysinfo:UniApp.GetSystemInfoResult = uni.getSystemInfoSync()
 	// 视察的宽。
 	const view_width = ref(sysinfo.windowWidth);
 	//视窗的高度。
-	let view_height = ref(windowHeight + (windowTop || 0));
-	// let nowPage = getCurrentPages().pop()
-	// let isCustomHeader = false;
-	// for(let i=0;i<uni.$tm.pages.length;i++){
-	// 	if(nowPage.route==uni.$tm.pages[i].path&&uni.$tm.pages[i].custom=='custom'){
-	// 		isCustomHeader = true;
-	// 		break;
-	// 	}
-	// }
-	// #ifdef MP
-	view_height.value = windowHeight
-	// #endif
+	let view_height = ref(sysinfo.windowHeight);
+
+	let nowPage = getCurrentPages().pop()
+	let isCustomHeader = false;
+	for(let i=0;i<uni.$tm.pages.length;i++){
+		if(nowPage?.route==uni.$tm.pages[i].path&&uni.$tm.pages[i].custom=='custom'){
+			isCustomHeader = true;
+			break;
+		}
+	}
 	// #ifdef H5
-	// 由于在h5端根本无法判断当前是使用了nav还是没有使用。只能判断当前dom了。
-	if (document.querySelector('.uni-page-head')) {
-		view_height.value = windowHeight
+	if (isCustomHeader) {
+		view_height.value  = sysinfo.windowHeight
 	}
 	// #endif
-	// #ifdef APP 
-	// 如果存在导航栏？
 	let appsys = uni.getWindowInfo();
-	if(appsys.safeArea.top>0){
-		view_height.value = appsys.screenHeight
+	// #ifdef APP-NVUE 
+	if(!isCustomHeader){
+		if(sysinfo.osName=="android"){
+			view_height.value = appsys.safeArea.height - 44 - appsys.safeAreaInsets.bottom
+		}else{
+			view_height.value = appsys.safeArea.height - 44
+		}
 	}else{
-		view_height.value = appsys.safeArea.height-appsys.statusBarHeight-44+appsys.safeAreaInsets.bottom
+		view_height.value = appsys.safeArea.height + appsys.statusBarHeight + appsys.safeAreaInsets.bottom
 	}
 	// #endif
+	// #ifdef APP-VUE 
+	if(!isCustomHeader){
+		view_height.value = appsys.safeArea.height - 44
+	}else{
+		view_height.value = appsys.safeArea.height + appsys.statusBarHeight + appsys.safeAreaInsets.bottom
+	}
+	// #endif
+
+	
+
+
 	// //https://picsum.photos/750/1440
 	let appConfig = ref({
 		width: view_width,

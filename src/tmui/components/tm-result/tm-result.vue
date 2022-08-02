@@ -1,21 +1,21 @@
 <template>
-	<view class="flex flex-col flex-col-center-center pa-32" >
-		<tm-translate name="zoom" :delay="300">
-			<tm-sheet  :dark="props.dark" :followTheme="false"
-			 :followDark="props.followDark" _class="flex-center flex-row rounded" :width="160" :height="160" :round="25" :color="icon_color" text>
+	<view @click="onClick" class="flex flex-col flex-col-center-center pa-32" >
+		<tm-translate :eventPenetrationEnabled="true" name="zoom" :delay="300">
+			<tm-sheet :dark="props.dark" :followTheme="false"
+			 :followDark="props.followDark" _class="flex-center flex-row rounded" :width="140" :height="140" :round="25" :color="icon_color" text>
 				<tm-icon _style="line-height:normal" :dark="props.dark"  :followDark="props.followDark" :fontSize="80" :name="icon_rp"></tm-icon>
 			</tm-sheet>
 		</tm-translate>
-		<view class="flex flex-col flex-center pb-10">
+		<view :eventPenetrationEnabled="true" class="flex flex-col flex-center pb-10">
 			<tm-text  :dark="props.dark"  :followDark="props.followDark" _class="text-weight-b" :fontSize="34" :label="icon_title"></tm-text>
 		</view>
-		<view class="flex flex-col flex-center pb-24">
+		<view :eventPenetrationEnabled="true" class="flex flex-col flex-center pb-24">
 			<tm-text  :dark="props.dark"  :followDark="props.followDark" _class="opacity-6 " :fontSize="24" :label="icon_subtitle"></tm-text>
 		</view>
-		<view v-if="props.showBtn" hover-class="opacity-6" @click="emits('click',$event)" class="flex flex-col flex-center " >
+		<view :eventPenetrationEnabled="true" v-if="props.showBtn" hover-class="opacity-6" class="flex flex-col flex-center " >
 			<slot name="default">
-				<tm-sheet  :userInteractionEnabled="false" :height="64" :dark="dark" :followTheme="props.followTheme" :followDark="props.followDark" :shadow="3" linear="right"  :color="icon_color" _style="cursor: pointer;" :round="4" :width="420" _class="flex-center" :margin="[0,32]">
-					<tm-text   :dark="props.dark" _class="text-size-n" :followDark="props.followDark" :label="btnText"></tm-text>
+				<tm-sheet :padding="[0,0]" @click="emits('click',$event)" :height="80" :dark="dark" :followTheme="props.followTheme" :followDark="props.followDark" :shadow="3" linear="right"  :color="icon_color" _style="cursor: pointer;" :round="4" :width="420" _class="flex-center" :margin="[0,32]">
+					<tm-text :userInteractionEnabled="false"  :dark="props.dark" _class="text-size-n" :followDark="props.followDark" :label="btnText"></tm-text>
 				</tm-sheet>
 			</slot>
 		</view>
@@ -32,7 +32,8 @@
 	import tmIcon from "../tm-icon/tm-icon.vue";
 	import tmTranslate from "../tm-translate/tm-translate.vue";
 	import { computed} from 'vue';
-	const emits = defineEmits(['click'])
+	//click为按钮事件，resultClick为整个组件点击事件。
+	const emits = defineEmits(['click','resultClick'])
 	const props = defineProps({
 		// empty,error,success,warning,lock,network
 		status:{
@@ -75,6 +76,11 @@
 		},
 		//是否显示底部的操作按钮。
 		showBtn:{
+			type:Boolean,
+			default:true
+		},
+		//是否禁用整个组件的点击事件。
+		clickDisabled:{
 			type:Boolean,
 			default:true
 		}
@@ -137,6 +143,10 @@
 		if(!props.status) return '';
 		return statusData[props.status].color||"";
 	})
+	const onClick = (e:Event)=>{
+		if(props.clickDisabled) return;
+		emits("resultClick",e)
+	}
 
 </script>
 

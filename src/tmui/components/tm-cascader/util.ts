@@ -1,5 +1,5 @@
 //返回 一个节点从父到子的路径数据组。
-export const getNodeRouterData = function (list=[],id='',prentId=[],idmap='id'){
+export const getNodeRouterData = function (list:Array<any>,id='',prentId=[],idmap='id'){
 	let p = [];
 	if(typeof prentId =='undefined'){
 		prentId=[];
@@ -24,7 +24,7 @@ export const getNodeRouterData = function (list=[],id='',prentId=[],idmap='id'){
 }
 
 //返回 一个节点从父到子的路径id组。
-export const getNodeRouter = function (list=[],id='',prentId=[],idmap='id'){
+export const getNodeRouter = function (list=[],id='',prentId=[],idmap='id'):string{
 	let p = [];
 	if(typeof prentId =='undefined'){
 		prentId=[];
@@ -45,7 +45,7 @@ export const getNodeRouter = function (list=[],id='',prentId=[],idmap='id'){
 		}
 		arr.pop()
 	}
-	return null
+	return ""
 }
 //平铺它所有的节点id为一维数组。
 export const treeFlat = function (arr=[],idmap='id') {
@@ -60,7 +60,7 @@ export const treeFlat = function (arr=[],idmap='id') {
 }
 
 //检查 一个节点是否是否父节点，并返回它下面的所有子节点。
-export const queryNodeIsParent = function (arr=[],id="",idmap='id') {
+export const queryNodeIsParent = function (arr:Array<any>=[],id="",idmap='id'):Array<any> {
 	
     let res = null;
 	for(let i=0,len=arr.length;i<len;i++){

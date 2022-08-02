@@ -31,7 +31,7 @@ title: tmui 3.0 组件库
 
 ::: details 示例代码
 
-@[code vue](pages/chart/chart.nvue)
+@[code vue](pages/chart/chart.vue)
 
 :::
 

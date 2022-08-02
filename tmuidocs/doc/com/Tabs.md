@@ -53,6 +53,7 @@ title: tmui 3.0 组件库
 | itemRound | Number | 0 | 圆角 |
 | align | String | "left" | left:左对齐,right：右对齐,center：居中,around：居中均分 |
 | swiper<Badge type="danger" text="v3.0.75+" vertical="middle" /> | [Boolean] | false | 是否启用左右滑动内容来切换tabs,开启后注意优化页面性能。 |
+| showTabsLineAni<Badge type="danger" text="v3.0.77+" vertical="middle" /> | [Boolean] | false | 是否启用底部边线，标题底部线段动画，点击某一项时，短线自动滑动到目标点 |
 
 ### :rose: 事件
 | 事件名 | 参数 | 返回数据 | 描述 |

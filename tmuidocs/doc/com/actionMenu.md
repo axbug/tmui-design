@@ -45,12 +45,15 @@ title: tmui 3.0 组件库
 | rangKey | String | 'text' |  |
 | modelValue | Boolean | false |  |
 | color | String | "white" |  |
+| activeFontColor | String | "primary" | 活动项的文字色，如果不提供使用默认 |
+| active | Number | NaN | 当前的活动项 |
+| allowClose | Boolean | true | 点按菜单后，是否允许关闭弹层。 |
 
 ### :rose: 事件
 | 事件名 | 参数 | 返回数据 | 描述 |
 | --- | --- | --- | --- |
 | update:modelValue |  | false/true | v-model:显示和隐藏 |
-| change |  | listitem | 当点击项目时触发，返回listitem数据 |
+| change |  | listitem | 当点击项目时触发，返回(listitem,index)数据 |
 | cancel |  |  | 点击取消时触发 |
 
 list[]格式为listitem 如下：

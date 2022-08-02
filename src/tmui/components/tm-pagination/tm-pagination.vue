@@ -130,11 +130,11 @@
 			default: false
 		},
 		round: {
-			type: [Number,String],
+			type: [Number],
 			default: 3
 		},
 		shadow: {
-			type: [Number,String],
+			type: [Number],
 			default: 2,
 		},
 		text: {

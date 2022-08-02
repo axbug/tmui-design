@@ -511,7 +511,25 @@ function inputHandler(e) {
 	
     return e.detail.value;
 }
-watch(_value,()=>uni.$tm.u.debounce(()=>pushFormItem(),350))
+let timerId = NaN;
+function debounce(func:Function, wait = 500, immediate = false) {
+  // 清除定时器
+  if (!isNaN(timerId)) clearTimeout(timerId);
+  // 立即执行，此类情况一般用不到
+  if (immediate) {
+	var callNow = !timerId;
+	timerId = setTimeout(() => {
+	  timerId = NaN;
+	}, wait);
+	if (callNow) typeof func === "function" && func();
+  } else {
+	// 设置定时器，当最后一次操作后，timeout不会再被清除，所以在延时wait毫秒后执行func回调方法
+	timerId = setTimeout(() => {
+	  typeof func === "function" && func();
+	}, wait);
+  }
+}
+watch(_value,()=>debounce(pushFormItem,350))
 
 //--------------以下是专门为form表单专用------------------
 const tmFormFun = inject("tmFormFun", computed(() => ""))

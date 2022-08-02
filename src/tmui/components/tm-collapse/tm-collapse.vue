@@ -44,6 +44,16 @@
 		iconPos:{
 			type:String,
 			default:'left'
+		},
+		//展开后的图标
+		openIcon:{
+			type:String,
+			default:'tmicon-angle-up'
+		},
+		//关闭后的图标
+		closeIcon:{
+			type:String,
+			default:'tmicon-angle-down'
 		}
 	})
 	
@@ -81,6 +91,8 @@
 	defineExpose({tmCollapse:"tmCollapse",setKey:setKey,pushKey:pushKey,border:props.border})
 	provide("tmCollapseKeyList",computed(()=>_activeKey.value))
 	provide("tmCollapseIconPos",computed(()=>props.iconPos))
+	provide("tmCollapseopenIcon",computed(()=>props.openIcon))
+	provide("tmCollapsecloseIcon",computed(()=>props.closeIcon))
 </script>
 
 <style>

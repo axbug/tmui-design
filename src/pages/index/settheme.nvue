@@ -24,7 +24,7 @@
 	import tmIcon from "@/tmui/components/tm-icon/tm-icon.vue"
 	import tmText from "@/tmui/components/tm-text/tm-text.vue"
 	import tmNavbar from "@/tmui/components/tm-navbar/tm-navbar.vue"
-	
+	import {onLoad,onInit} from "@dcloudio/uni-app";
 	import {
 		useTmpiniaStore
 	} from '@/tmui/tool/lib/tmpinia';
@@ -41,7 +41,9 @@
 	function setTheme(colorname: string) {
 		proxy.$refs.app.setTheme(colorname)
 	}
-	
+	onLoad(()=>{
+		console.log('--------')
+	})
 </script>
 
 <style>

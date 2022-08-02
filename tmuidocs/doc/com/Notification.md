@@ -42,7 +42,7 @@ title: tmui 3.0 组件库
 | padding | ArrayasPropType`<Array<number>>` | ()=>[24,16] | 内间距，[x,y]x=左右，y=上下 |
 | duration | Number | 2000 | 动画时长 |
 | offset | ArrayasPropType`<Array<number>>` | ()=>[32,32]//x,y | 偏移量，[x,y]x=左右，y=上下 |
-| placement | String | topLeft  | 位置，可选值：topLeft|topRight|bottomLeft|bottomRight|top|bottom |
+| placement | String | topLeft  | 位置，可选值：topLeft/topRight/bottomLeft/bottomRight/top/bottom |
 | label | String | "" | 展示的文字内容,注意：required:true,必传 |
 | icon | String | tmicon-info-circle-fill | 自定义图标 |
 ### :rose: 事件

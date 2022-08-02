@@ -54,8 +54,8 @@ const props = defineProps({
     default: false,
   },
   icon: {
-    type: [Boolean, String],
-    default: false,
+    type: [String],
+    default: "",
   },
   //如果count为数字时，显示数字角标，如果为string是显示文本角标。
   count: {

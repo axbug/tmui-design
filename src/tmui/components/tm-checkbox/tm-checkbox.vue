@@ -51,9 +51,11 @@ import tmSheet from '../tm-sheet/tm-sheet.vue';
 import tmIcon from '../tm-icon/tm-icon.vue';
 import tmText from '../tm-text/tm-text.vue';
 import tmTranslate from '../tm-translate/tm-translate.vue';
+import tmCheckboxGropup from '../tm-checkbox-group/tm-checkbox-group.vue';
 import { custom_props } from '../../tool/lib/minxs';
-import { ref ,computed,watch ,inject ,getCurrentInstance, watchEffect } from 'vue';
-const {proxy} = getCurrentInstance();
+import { ref ,computed,watch ,inject ,getCurrentInstance, watchEffect, ComponentInternalInstance } from 'vue';
+const CheckboxGropup = ref<InstanceType<typeof tmCheckboxGropup> | null>(null)
+const {proxy} = <ComponentInternalInstance>getCurrentInstance();
 const emits = defineEmits(['update:modelValue','change','click'])
 const props = defineProps({
     ...custom_props,
@@ -142,7 +144,7 @@ const tmCheckedBoxDisabled = inject('tmCheckedBoxDisabled',computed(()=>false));
 const tmCheckedBoxMax = inject('tmCheckedBoxMax',computed(()=>false));
 const _disabled = computed(()=>props.disabled||tmCheckedBoxDisabled.value)
 //父级方法。
-let parent = proxy.$parent
+let parent:any = <InstanceType<typeof tmCheckboxGropup> | null>proxy?.$parent
 while (parent) {
     if(parent?.checkBoxkeyId=='tmCheckBoxGroup'||!parent){
         break;

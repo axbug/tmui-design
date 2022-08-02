@@ -210,7 +210,7 @@
 					props: [{
 						element: elDom,
 						property: 'opacity',
-						expression: `easeOutSine(t,0,1,${durationtos.value})`
+						expression: `linear(t,0,1,${durationtos.value})`
 					}]
 				}
 			} else if (animationName.value == 'up') {
@@ -221,7 +221,7 @@
 						property: 'transform.translateY',
 						expression: computedReverse.value ?
 							`easeOutSine(t,-${height},${height},${durationtos.value})` :
-							`easeOutSine(t,${0},-${height},${durationtos.value})`
+							`linear(t,${0},-${height},${durationtos.value})`
 					}]
 				}
 			} else if (animationName.value == 'down') {
@@ -232,7 +232,7 @@
 						property: 'transform.translateY',
 						expression: computedReverse.value ?
 							`easeOutSine(t,${height},-${height},${durationtos.value})` :
-							`easeOutSine(t,${0},${height},${durationtos.value})`
+							`linear(t,${0},${height},${durationtos.value})`
 					}]
 				}
 			} else if (animationName.value == 'right') {
@@ -243,7 +243,7 @@
 						property: 'transform.translateX',
 						expression: computedReverse.value ?
 							`easeOutSine(t,${width},-${width},${durationtos.value})` :
-							`easeOutSine(t,${0},${width},${durationtos.value})`
+							`linear(t,${0},${width},${durationtos.value})`
 					}]
 				}
 			} else if (animationName.value == 'left') {
@@ -254,7 +254,7 @@
 						property: 'transform.translateX',
 						expression: computedReverse.value ?
 							`easeOutSine(t,-${width},${width},${durationtos.value})` :
-							`easeOutSine(t,${0},-${width},${durationtos.value})`
+							`linear(t,${0},-${width},${durationtos.value})`
 					}]
 				}
 			} else if (animationName.value == 'zoom') {
@@ -265,15 +265,15 @@
 							element: elDom,
 							property: 'transform.scale',
 							expression: computedReverse.value ?
-								`easeOutSine(t,1,-1,${durationtos.value})` :
-								`easeOutSine(t,0,1,${durationtos.value})`
+								`linear(t,1,-1,${durationtos.value})` :
+								`linear(t,0,1,${durationtos.value})`
 						},
 						{
 							element: elDom,
 							property: 'opacity',
 							expression: computedReverse.value ?
-								`easeOutSine(t,1,-1,${durationtos.value})` :
-								`easeOutSine(t,0,1,${durationtos.value})`
+								`linear(t,1,-1,${durationtos.value})` :
+								`linear(t,0,1,${durationtos.value})`
 						}
 					]
 				}
@@ -307,7 +307,7 @@
 		nextTick(function() {
 			var animation = uni.createAnimation({
 				duration: durationtos.value,
-				timingFunction: 'ease',
+				timingFunction: 'linear',
 				delay: 40
 			});
 			
@@ -345,9 +345,9 @@
 				});
 			}
 			animationData.value = animation.export();
-			let detalTime = 50;
+			let detalTime = 40;
 			// #ifdef MP
-			detalTime=100
+			detalTime=80
 			// #endif
 			tmid.value = setTimeout(function() {
 				if (animationName.value == 'fade') {

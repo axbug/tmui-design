@@ -25,13 +25,13 @@
  * 表单项目
  * @description 只能放置在tm-from里面，不限层级。但不能嵌套使用。
  */
-import { computed, PropType, provide,ref,getCurrentInstance, onUnmounted,Ref ,inject } from "vue";
+import { computed, PropType, provide,ref,getCurrentInstance, onUnmounted,Ref ,inject, ComponentInternalInstance } from "vue";
 import tmSheet from "../tm-sheet/tm-sheet.vue"
 import tmText from "../tm-text/tm-text.vue"
 import tmDivider from "../tm-divider/tm-divider.vue"
 import { rulesItem ,inputPushItem} from "./interface";
 import { formItem } from "./../tm-form/interface";
-const {proxy} = getCurrentInstance();
+const {proxy} = <ComponentInternalInstance>getCurrentInstance();
 const tmFormComnameFormItem = "tmFormComnameFormItem"
 const props = defineProps({
     label:{
@@ -65,9 +65,9 @@ const props = defineProps({
     },
     //检验规则
     rules:{
-        type:Object as PropType<Array<rulesItem>|rulesItem>,
+        type:[Object ,Array] as PropType<Array<rulesItem>|rulesItem>,
         default:()=>{
-            return {validator:false,required:false};
+            return [{validator:false,required:false}];
         }
     },
     //显示下划线。
@@ -100,7 +100,7 @@ const tmFormBorder = computed(()=>{
 })
 const _label = computed(()=>props.label)
 //父级方法。
-let parent = proxy.$parent
+let parent = proxy?.$parent
 while (parent) {
     if (parent?.tmFormComnameId == 'tmFormId' || !parent) {
         break;

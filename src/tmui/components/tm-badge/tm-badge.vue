@@ -1,6 +1,6 @@
 <template>
 
-	<view class=" flex "  :class="[props.status?'flex-row flex-row-center-center mx-8':'']" >
+	<view class=" flex relative"  :class="[props.status?'flex-row flex-row-center-center mx-8':'']" >
 		<view v-if="!props.status"><slot></slot></view>
 		<view v-if="show" :class="[
 			(_dot||_count||_icon)&&!props.status?'absolute flex-top-start-end r-0':'',
@@ -66,8 +66,7 @@
 			<tm-badge status dot  label="情况不秒呀." color="green"></tm-badge>
 		</view>
 	 */
-	import { getCurrentInstance, computed, ref, provide, inject , onUpdated, onMounted, onUnmounted, nextTick ,watch } from 'vue';
-	import { cssstyle, tmVuetify,colorThemeType } from '../../tool/lib/interface';
+	import { computed, ref, provide, inject , onUpdated, onMounted, onUnmounted, nextTick ,watch, PropType } from 'vue';
 	import { custom_props, computedTheme, computedClass, computedStyle, computedDark } from '../../tool/lib/minxs';
 	import tmSheet from "../tm-sheet/tm-sheet.vue";
 	import tmText from "../tm-text/tm-text.vue";
@@ -76,7 +75,7 @@
 	const props = defineProps({
 		...custom_props,
 		round: {
-			type: [Number, String],
+			type: [Number],
 			default: 6
 		},
 		border: {
@@ -84,15 +83,15 @@
 			default: 0
 		},
 		margin: {
-		  type: Array,
+		  type: Array as PropType<Array<number>>,
 		  default: () => [0,0],
 		},
 		padding: {
-		  type: Array,
+		  type: Array as PropType<Array<number>>,
 		  default: () => [0, 0],
 		},
 		transprent: {
-			type: [Boolean, String],
+			type: [Boolean],
 			default: false
 		},
 		label:{
@@ -105,16 +104,16 @@
 		},
 		//为真时，隐藏插槽数据，展现状态文本模式。
 		status:{
-			type:[Boolean, String],
+			type:[Boolean],
 			default:false
 		},
 		dot:{
-			type:[Boolean, String],
+			type:[Boolean],
 			default:false
 		},
 		icon:{
-			type:[Boolean, String],
-			default:false
+			type:[String],
+			default:""
 		},
 		//如果count为数字时，显示数字角标，如果为string是显示文本角标。
 		count:{
@@ -122,7 +121,7 @@
 			default:0
 		},
 		maxCount:{
-			type:[Number, String],
+			type:[Number],
 			default:999
 		},
 	})
@@ -181,6 +180,12 @@
 				t:10
 			};
 		}
+		return {
+				w:0,
+				h:0,
+				pr:0,
+				t:0
+			};
 		
 	})
 	const _icon = computed(()=>props.icon)

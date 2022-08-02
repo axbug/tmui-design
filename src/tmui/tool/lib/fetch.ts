@@ -13,7 +13,7 @@ let config:fetchConfig={
     withCredentials:false,
     firstIpv4:false
 }
-function request(cog:fetchConfig = config,complete?:Function,beforeRequest?:Function,afterRequest?:Function):Promise<UniApp.GeneralCallbackResult>{
+function request(cog:fetchConfig = config,complete?:Function,beforeRequest?:Function,afterRequest?:Function):Promise<UniApp.GeneralCallbackResult|UniApp.RequestSuccessCallbackResult>{
     let newConfig = {...config,...cog}
     return new Promise(async (resolve,reject)=>{
         if(typeof beforeRequest === 'function'){
@@ -92,8 +92,12 @@ export class fetchNet {
      * @param cog 配置
      * @param complete 访问结束后执行的函数
      */
-    static request(cog:fetchConfig = config,beforeFun?:Function,afterFun?:Function,complete?:Function){
+    static async request(cog:fetchConfig = config,beforeFun?:Function,afterFun?:Function,complete?:Function){
         let newConfig = {...config,...cog}
+        if(typeof beforeFun == 'function'){
+            let testFun = await beforeFun();
+            if(!testFun) return;
+        }
         return request(newConfig,complete,(beforeFun||beforeRequest),(afterFun||afterRequest));
     }
 }

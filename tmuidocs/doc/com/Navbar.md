@@ -47,7 +47,9 @@ title: tmui 3.0 组件库
 | title | [String] | 标题 | 标题文字 |
 | fontColor | [String] | "" | 字体颜色，默认为自动，提供了，将强制使用本主题色 |
 | homeColor | [String] | "" | 左侧icon颜色 |
-| hideHome | Boolean | false | |
+| hideHome | Boolean | false | 是否隐藏首页图标 |
+| hideBack | Boolean | false | 是否隐藏返回图标|
+| beforeBack | [Boolean,Function] | ()=>true | 是否隐藏返回图标,可以直接返回Boolean,或者Promise\<Boolean\> |
 | homePath | [String] | /pages/index/index | 返回首页的路径，注意：需要hideHome属性为false|
 | blur | Boolean | false | 背景磨砂,可选值：false,true;注意：当为渐变背景时,背景磨砂效果将会消失
 | iconFontSize<Badge type="danger" text="v3.0.73+" vertical="middle" /> | [Number] | 37 | 返回图标，Home图标字号 |

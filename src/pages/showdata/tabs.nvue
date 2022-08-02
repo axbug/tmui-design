@@ -1,7 +1,7 @@
 <template>
     <tm-app>
         <tm-sheet>
-            <tm-tabs swiper :width="636" :height="500" default-name="4">
+            <tm-tabs showTabsLineAni :item-width="110" swiper :width="636" :height="500" default-name="4">
                 <tm-tabs-pane  v-for="item in 20" :name="item" :title="'标题' + item">
                     <tm-sheet :margin="[0, 0]">
 						<tm-text :font-size="30" _class="font-weight-b"

@@ -16,7 +16,7 @@
                     :height="56" :font-size="24" label="居中"></tm-button>
             </view>
         </tm-sheet>
-        <tm-drawer :placement="pos" v-model:show="showWin"></tm-drawer>
+        <tm-drawer ref="ppp" :placement="pos" v-model:show="showWin"></tm-drawer>
     </tm-app>
 </template>
 <script lang="ts" setup>
@@ -30,5 +30,4 @@ import tmDivider from "@/tmui/components/tm-divider/tm-divider.vue"
 import tmDrawer from "@/tmui/components/tm-drawer/tm-drawer.vue"
 const showWin = ref(false)
 const pos = ref("bottom")
-
 </script>
