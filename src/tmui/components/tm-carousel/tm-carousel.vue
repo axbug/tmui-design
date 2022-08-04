@@ -268,9 +268,7 @@ const _dotPosition = computed(() => props.dotPosition)
 const _align = computed(() => props.align)
 const _autoplay = computed(()=>props.autoplay)
 function sliderChange(e:any) {
-	if(!_autoplay.value){
-		_current.value = e?.detail?.current;
-	}
+	_current.value = e?.detail?.current;
 	nextTick(() => {
 		emits("change", _current.value)
 		let vobj = uni.createVideoContext('video', proxy)
