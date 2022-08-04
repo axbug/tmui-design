@@ -308,15 +308,15 @@ function ok() {
 	if (props.disabled) return;
 	debounce(() => {
 		emits("ok")
-		close()
-	}, 500, true)
+		closeFun()
+	}, props.duration, true)
 }
 function cancel() {
 	if (props.disabled) return;
 	debounce(() => {
 		emits("cancel")
-		close()
-	}, 500, true)
+		closeFun()
+	}, props.duration, true)
 }
 function OverLayOpen(){
 	debounce(() => {
@@ -331,7 +331,7 @@ function OverLayOpen(){
 				flag.value = false;
 			}, props.duration)
 		})
-	}, 500, true)
+	}, props.duration, true)
 }
 function opens() {
 	if (props.disabled) return;
