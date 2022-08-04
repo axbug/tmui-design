@@ -38,6 +38,7 @@ const list = ref([
     { path: "/pages/showdata/table", title: "表格 Table" },
     { path: "/pages/showdata/tabs", title: "选项卡 Tabs" },
     { path: "/pages/showdata/tag", title: "标签 Tag" },
+    { path: "/pages/showdata/datatable", title: "数据表格 DataTable" },
     { path: "/pages/showdata/timeline", title: "时间轴 Timeline" },
     { path: "/pages/showdata/tree", title: "树 Tree" },
     { path: "/pages/showdata/virtual", title: "虚拟列表 Virtual" },
