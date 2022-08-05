@@ -41,7 +41,7 @@ title: tmui 3.0 组件库
 | duration      | Number         | 300     | 弹出动画的时间（毫秒）                               |
 | overlayClick  | Boolean        | true    | 是否允许点击遮罩关闭                                |
 | transprent    | Boolean        | false   | 是否透明效果                                    |
-| closeable     | Boolean        | false   | 是否显示关闭按钮（如果显示，标题栏被替换为左标题右关闭按钮）            |
+| closable      | Boolean        | false   | 是否显示关闭按钮（如果显示，将在标题栏右侧新增关闭按钮）            |
 | color         | String         | white   | 主题颜色                                      |
 | title         | String         | ''      | 标题                                        |
 | okText        | String         | 完成      | 确认按钮文字                                    |
