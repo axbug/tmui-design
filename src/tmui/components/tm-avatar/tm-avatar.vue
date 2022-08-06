@@ -1,5 +1,5 @@
 <template>
-	<view ref="avatar" class="flex-col flex "  :class="[trigger?'trigger':'',`mx-${props.margin[0]} my-${props.margin[1]}`]" :style="{width:width+'rpx',height:height+'rpx'}" >
+	<view ref="avatar" class="flex-col flex "  :class="[trigger?'trigger':'',`mx-${props.margin[0]} my-${props.margin[1]}`]" :style="{width:width+props.unit,height:height+props.unit}" >
 		<tm-sheet
 		@click="emits('click',$event)"
 		:color="props.color"
@@ -21,18 +21,21 @@
 		:height="height"
 		:margin="[0,0]"
 		:padding="props.padding"
+    :unit="props.unit"
 		>
-			<tm-text :userInteractionEnabled="false" v-if="props.label&&!props.icon&&!props.img" :label="props.label" :font-size="fontSize"></tm-text>
-			<tm-icon :userInteractionEnabled="false" v-if="!props.label&&props.icon&&!props.img" :name="props.icon" :font-size="fontSize"></tm-icon>
-			<image :userInteractionEnabled="false" v-if="!props.label&&!props.icon&&props.img" :src="props.img" mode="scaleToFill" 
-			:style="{width:imgsize,height:imgsize}" :class="['round-'+props.round]"></image>
+      <slot>
+        <tm-text :userInteractionEnabled="false" v-if="props.label&&!props.icon&&!props.img" :label="props.label" :font-size="fontSize" :unit="props.unit"></tm-text>
+        <tm-icon :userInteractionEnabled="false" v-if="!props.label&&props.icon&&!props.img" :name="props.icon" :font-size="fontSize" :unit="props.unit"></tm-icon>
+        <image :userInteractionEnabled="false" v-if="!props.label&&!props.icon&&props.img" :src="props.img" mode="scaleToFill"
+               :style="{width:imgsize,height:imgsize}" :class="['round-'+props.round]"></image>
+      </slot>
 		</tm-sheet>
-		<view @click.stop="emits('click',$event)" v-if="props.triggerIcon" class="absolute flex flex-col-bottom-end b-0 r-0 " :style="{width:`${width}rpx`}">
+		<view @click.stop="emits('click',$event)" v-if="props.triggerIcon" class="absolute flex flex-col-bottom-end b-0 r-0 " :style="{width:`${width}${props.unit}`}">
 			<tm-sheet :userInteractionEnabled="false" :width="triggSize.size" :height="triggSize.size" 
 			:_style="props.triggerStyle" :text="props.img?false:!props.text" :color="(props.triggerColor||props.color)" 
 			:transprent="false" :dark="props.dark" _class="flex-center " 
-			:margin="[0,0]" :padding="[0,0]" :round="24">
-				<tm-icon :name="props.triggerIcon" :font-size="triggSize.fontSize"></tm-icon>
+			:margin="[0,0]" :padding="[0,0]" :round="24" :unit="props.unit">
+				<tm-icon :name="props.triggerIcon" :font-size="triggSize.fontSize" :unit="props.unit"></tm-icon>
 			</tm-sheet>
 		</view>
 	</view>
@@ -111,6 +114,10 @@
 			type: [Number],
 			default: 0
 		},
+    unit:{
+      type:String,
+      default:'rpx'
+    }
 	})
 	//自定义样式：
 	const customCSSStyle = computed(()=>computedStyle(props));
