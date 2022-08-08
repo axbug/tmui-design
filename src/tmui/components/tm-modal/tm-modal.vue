@@ -10,9 +10,15 @@
 				!props.transprent ? tmcomputed.shadowColor : '',
 				customCSSStyle,
 			]" :class="[round_rp, 'flex flex-col overflow ', customClass]">
-				<view class="flex  flex-row flex-center  px-24 " style="height:44px">
-					<tm-text :dark="props.dark" :followTheme="false" _class="text-overflow-1 text-weight-b text-size-m"
+				<view class="flex flex-row px-24" style="height:44px" :class="[props.closable?'flex-between':'flex-center']">
+					<tm-text :dark="props.dark" :followTheme="false" _class="text-overflow-1 text-weight-b text-size-m" class="flex-center"
 						:label="props.title"></tm-text>
+					<tm-icon
+						v-if="closable"
+                        name="tmicon-times-circle-fill"
+                        :fontSize="32"
+                        @click="close"
+                    ></tm-icon>
 				</view>
 				<scroll-view scroll-y :style="[props.height ? { height: contentHeight } : '']">
 					<view class="px-32">
