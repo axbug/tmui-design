@@ -19,7 +19,7 @@
 						:font-size="c_font_style.iconSize" name="tmicon-loading"></tm-icon>
 
 				</view>
-			</tm-badge>{{_active}}
+			</tm-badge>
 			<tm-text v-if="c_font_style.text !== ''" :color="_color" _class="pb-0" :font-size="c_font_style.textSize"
 				:label='c_font_style.text'></tm-text>
 		</tm-sheet>
