@@ -158,6 +158,7 @@ ComponentInternalInstance
 	}
 	
 	function close(e:Event) {
+
 		try{
 			e.stopPropagation()
 			e.stopImmediatePropagation()

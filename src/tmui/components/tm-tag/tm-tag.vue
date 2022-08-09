@@ -3,6 +3,7 @@
 		<tm-translate @end="aniEnd" ref="anitag" name="zoom" reverse :autoPlay="false">
 			
 			<tm-sheet
+			hover-class="opacity-6"
 			@click="onclick"
 			:transprent="props.transprent"
 			:color="props.color"

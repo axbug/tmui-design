@@ -9,19 +9,20 @@
 				:autoplay="_autoplay"
 				:displayMultipleItems="props.displayMultipleItems" :skipHiddenItemLayout="props.skipHiddenItemLayout"
 				:disableTouch="props.disableTouch" :touchable="props.touchable" @change="sliderChange"
+				:class="`round-${props.round}`"
 				:current="_current" :style="[
 					{ width: `${props.width}rpx`, height: `${props.height}rpx` }
 				]">
-				<swiper-item @click="emits('click',index)" v-for="(item, index) in _list" :key="index" :style="[
+				<swiper-item :class="`round-${props.round}`" @click="emits('click',index)" v-for="(item, index) in _list" :key="index" :style="[
 					{ width: `${props.width}rpx`, height: `${props.height}rpx` }
 				]">
-					<tm-image :userInteractionEnabled="false" :showLoad="props.showLoad" v-if="item.type == listItemType.img" :src="item.url" :width="props.width"
+					<tm-image :round="props.round" :userInteractionEnabled="false" :showLoad="props.showLoad" v-if="item.type == listItemType.img" :src="item.url" :width="props.width"
 						:height="props.height"></tm-image>
-					<tm-image :userInteractionEnabled="false" :showLoad="props.showLoad" v-if="item.type == listItemType.video && item.img && _currentActive != index" :src="item.img"
+					<tm-image :round="props.round" :userInteractionEnabled="false" :showLoad="props.showLoad" v-if="item.type == listItemType.video && item.img && _currentActive != index" :src="item.img"
 						:width="props.width" :height="props.height"></tm-image>
 					<video :userInteractionEnabled="false" id="video" v-if="item.type == listItemType.video && _currentActive === index" :src="item.url" :style="[
 						{ width: `${props.width}rpx`, height: `${props.height}rpx` }
-					]" :autoplay="_currentActive === index">
+					]" :autoplay="_currentActive === index" :class="`round-${props.round}`">
 					</video>
 				</swiper-item>
 			</swiper>

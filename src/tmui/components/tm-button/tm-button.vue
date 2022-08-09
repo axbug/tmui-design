@@ -338,10 +338,12 @@ function onclick(e:Event){
 	background: rgba(0, 0, 0, 0);
 	border: 0px solid rgba(0, 0, 0, 0);
 	padding: 0px;
+	border-radius: 0px;
 }
 .button::after{
 	background: rgba(0, 0, 0, 0);
 	border: 0px solid rgba(0, 0, 0, 0);
+	border-radius: 0px;
 }
 .buttonHover{
 	background: rgba(0, 0, 0, 0);

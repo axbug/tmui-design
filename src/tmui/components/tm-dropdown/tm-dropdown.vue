@@ -52,7 +52,7 @@
 				]"
 				ref="content"
 				>
-					<tm-translate ref="aniDom" reverse :name="tarnslateName" :duration="120" :autoPlay="!isNvue">
+					<tm-translate ref="aniDom" reverse :name="tarnslateName" :duration="180" :autoPlay="!isNvue">
 						<view class="flex flex-col " :class="[
 							props.position=='tc'?'flex-col-center-center':'',
 							props.position=='tl'?'flex-col-top-start':'',

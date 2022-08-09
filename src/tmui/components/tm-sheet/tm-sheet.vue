@@ -8,13 +8,13 @@
   <view :render-whole="true" v-if="_blue_sheet" :blurEffect="_blurEffect" @click="emits('click', $event)"
     @longpress="longpress" @touchend="touchend" @touchstart="touchstart" @touchcancel="touchcancel"
     @mousedown="mousedown" @mouseup="mouseup" @mouseleave="mouseleave" :class="[
-      'flex flex-col noNvue', parenClass_p,
+      'flex flex-col noNvueBorder', parenClass_p,
       `mx-${_margin[0]}`,
       `my-${_margin[1]}`,
       `px-${_padding[0]}`,
       `py-${_padding[1]}`,
       isLongPress ? props.hoverClass : '',
-      props.hoverClass != '' && props.hoverClass != 'none' ? 'pointer' : '',
+	   props.hoverClass != '' && props.hoverClass != 'none' ? 'webpc':'',
       !isDisabledRoundAndriod ? `round-${props.round}` : '',
     ]" :style="[
   _height ? { height: _height + (_padding[1]*2) + props.unit } : '',
@@ -25,7 +25,7 @@
   !_transprent && _blur ? { backdropFilter: 'blur(6px)' } : '',
   customCSSStyle,
 ]">
-    <view :render-whole="true" :class="['flex  flex-col flex-1', customClass]" :style="contStyle_p">
+    <view :render-whole="true" :class="['flex noNvueBorder flex-col flex-1', customClass]" :style="contStyle_p">
       <slot></slot>
     </view>
   </view>
@@ -196,6 +196,7 @@ function touchstart(e: Event) {
 }
 function touchend(e: Event) {
   isLongPress.value = false;
+  console.log(isLongPress.value)
   emits('touchend', e)
 }
 function touchcancel(e: Event) {
@@ -218,20 +219,20 @@ function mouseleave(e: Event) {
 
 const c_w = computed(() => {
   let w = parseFloat(String(_width.value)) - parseFloat(String(props.padding[0]));
-  // #ifndef APP-NVUE
+  // #ifndef APPNVUE
   w = w - parseFloat(String(props.border)) * 2;
   // #endif
-  // #ifdef APP-NVUE
+  // #ifdef APPNVUE
   w = w - parseFloat(String(props.border));
   // #endif
   return w
 })
 const c_h = computed(() => {
   let h = parseFloat(String(_height.value)) - parseFloat(String(props.padding[1]));
-  // #ifndef APP-NVUE
+  // #ifndef APPNVUE
   h = h - parseFloat(String(props.border)) * 2;
   // #endif
-  // #ifdef APP-NVUE
+  // #ifdef APPNVUE
   h = h - parseFloat(String(props.border));
   // #endif
   return h;
@@ -245,18 +246,13 @@ provide("appTextColor", textColor);
 
 <style scoped>
 /* #ifdef H5 */
-.pointer {
-  cursor: pointer;
+.webpc{
+	cursor: pointer;
 }
-
-.pointer:hover {
-  opacity: 0.7;
-}
-
 /* #endif */
 /* #ifndef APP-NVUE */
-.noNvue{
-  box-sizing: border-box;
+.noNvueBorder{
+	box-sizing: border-box;
 }
 /* #endif */
 </style>
