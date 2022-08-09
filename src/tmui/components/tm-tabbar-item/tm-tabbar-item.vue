@@ -19,7 +19,7 @@
 						:font-size="c_font_style.iconSize" name="tmicon-loading"></tm-icon>
 
 				</view>
-			</tm-badge>
+			</tm-badge>{{_active}}
 			<tm-text v-if="c_font_style.text !== ''" :color="_color" _class="pb-0" :font-size="c_font_style.textSize"
 				:label='c_font_style.text'></tm-text>
 		</tm-sheet>
@@ -237,9 +237,15 @@ watch(tmTabbarItemActive, () => {
 	if (!tmTabbarItemAutoSelect.value) {
 		// 非自动选中，通过父组件的active来选中当前。
 		if (tmTabbarItemList.value[tmTabbarItemActive.value] == uid) {
-			_active.value = true
+			nextTick(()=>{
+				_active.value = true
+			})
+			
 		} else {
-			_active.value = false
+			nextTick(()=>{
+				_active.value = false
+			})
+			
 		}
 	}
 })
@@ -263,6 +269,7 @@ async function itemClick() {
 		if (parent) {
 			parent.setNowurl(props.url, uid)
 		}
+
 	}
 	nextTick(() => {
 		setActive()
