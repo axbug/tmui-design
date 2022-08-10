@@ -38,17 +38,23 @@
 
 ----
 
+### 版本预览
+
+![tmui3.0 预览](https://cdn.tmui.design/public/design/verHeji.jpg)
+
+----
+
+### 赞助项目，以持续更新
+
+如果帮到了你，适当的赞助有助力作者成果上的回报，报以项目的持续更新。
+
+![tmui3.0 赞助](https://cdn.tmui.design/public/design/payzhanzhu.jpg)
+
+----
+
 ### 3.0.4新功能特性快速了解 
 
 ![3.0.4](https://vkceyugu.cdn.bspapp.com/VKCEYUGU-f5b1722f-8766-40af-a22a-acc454202a37/86bce318-d3a0-4c88-8e9c-cd764fed81e1.gif)
 ![3.0.4](https://vkceyugu.cdn.bspapp.com/VKCEYUGU-f5b1722f-8766-40af-a22a-acc454202a37/f33285fd-5f26-4092-95a2-2fe8f4aee2ed.gif)
 
-----
-
-[安卓安装包]([安卓安装包](https://cdn.tmui.design/public/static/tmui.apk))
-
-----
-
-![tmui小程序预览](https://vkceyugu.cdn.bspapp.com/VKCEYUGU-f5b1722f-8766-40af-a22a-acc454202a37/718acb30-0164-42d6-90bd-b82a5acc122a.jpg)
-![H5预览](https://vkceyugu.cdn.bspapp.com/VKCEYUGU-f5b1722f-8766-40af-a22a-acc454202a37/65b5739c-fc71-45b7-9b02-5dc1629d33ce.png)
 ![tmui预览图](https://vkceyugu.cdn.bspapp.com/VKCEYUGU-f5b1722f-8766-40af-a22a-acc454202a37/0672c1be-2519-4e36-962b-072852193025.png)
