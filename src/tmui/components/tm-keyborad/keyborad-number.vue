@@ -1,8 +1,8 @@
 <template>
     <tmSheet :follow-theme="false" :follow-dark="false" :dark="_dark" color="white" :transprent="true"  :padding="[4,4]" :margin="[0,0]" _class="flex flex-col" paren-class="flex-1">
         <view class="flex-center flex-row" style="height:62rpx">
-            <tm-text v-if="!_value" :font-size="28" _class="text-weight-b" label="安全键盘放心输入"></tm-text>
-            <tm-text v-if="_value" :font-size="22" _class="text-weight-b pr-24" :label="_value"></tm-text>
+            <tm-text v-if="_value  && props.showContent" :font-size="22" _class="text-weight-b pr-24" :label="_value"></tm-text>
+		    <tm-text v-else :font-size="28" _class="text-weight-b" label="安全键盘放心输入"></tm-text>
         </view>
         <view class="flex flex-row">
             <view class="flex-5 flex flex-col">
@@ -89,6 +89,11 @@ const props = defineProps({
     color:{
 		type:String,
 		default:"primary"
+	},
+	//是否显示内容
+    showContent:{
+		type:Boolean,
+		default:true
 	}
 })
 const _dark = computed(()=>props.dark)

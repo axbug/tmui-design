@@ -3,10 +3,10 @@
 	@close="drawerClose" @update:show = "showPop=$event" :show="showPop" :dark="isDark" 
 	:follow-dark="props.followDark" :follow-theme="false" :height="dHeight"
         :hide-header="true" color="grey-3" :mask="false">
-        <keyborad-number :followTheme="props.followTheme" :random="props.random" :color="props.color" v-if="_typemodel=='number'" @change="change" @confirm="confirm" :model-value="_value" @update:modelValue="_value = $event" :dark="isDark" class="flex-1"></keyborad-number>
-        <keyborad-pass :followTheme="props.followTheme" :random="props.random" :color="props.color" v-if="_typemodel=='password'" @change="change" @confirm="confirm" :model-value="_value" @update:modelValue="_value = $event" :dark="isDark" class="flex-1"></keyborad-pass>
-        <keyborad-car :followTheme="props.followTheme" :random="props.random" :color="props.color" v-if="_typemodel=='car'" @change="change" @confirm="confirm" :model-value="_value" @update:modelValue="_value = $event" :dark="isDark" class="flex-1"></keyborad-car>
-        <keyborad-card :followTheme="props.followTheme" :random="props.random" :color="props.color" v-if="_typemodel=='card'" @change="change" @confirm="confirm" :model-value="_value" @update:modelValue="_value = $event" :dark="isDark" class="flex-1"></keyborad-card>
+        <keyborad-number :followTheme="props.followTheme" :random="props.random" :showContent="props.showContent" :color="props.color" v-if="_typemodel=='number'" @change="change" @confirm="confirm" :model-value="_value" @update:modelValue="_value = $event" :dark="isDark" class="flex-1"></keyborad-number>
+        <keyborad-pass :followTheme="props.followTheme" :random="props.random" :showContent="props.showContent" :color="props.color" v-if="_typemodel=='password'" @change="change" @confirm="confirm" :model-value="_value" @update:modelValue="_value = $event" :dark="isDark" class="flex-1"></keyborad-pass>
+        <keyborad-car :followTheme="props.followTheme" :random="props.random" :showContent="props.showContent" :color="props.color" v-if="_typemodel=='car'" @change="change" @confirm="confirm" :model-value="_value" @update:modelValue="_value = $event" :dark="isDark" class="flex-1"></keyborad-car>
+        <keyborad-card :followTheme="props.followTheme" :random="props.random" :showContent="props.showContent" :color="props.color" v-if="_typemodel=='card'" @change="change" @confirm="confirm" :model-value="_value" @update:modelValue="_value = $event" :dark="isDark" class="flex-1"></keyborad-card>
     </tm-drawer>
 </template>
 <script lang="ts" setup>
@@ -60,6 +60,11 @@ const props = defineProps({
         type:Boolean,
         default:false 
     },
+	//是否显示内容
+	showContent:{
+		type:Boolean,
+		default:false
+	},
 })
 // 设置响应式全局组件库配置表。
 const tmcfg = computed(() => store.tmStore);
