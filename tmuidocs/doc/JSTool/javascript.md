@@ -254,7 +254,7 @@ export function isPhone(phone:string|number){
 ```ts
 /**
  * 是否为空
- * @description 判断是否是null,对象是否为空，数组是否为空。是否为 undefaind，是否为 “”空字符串。
+ * @description 判断是否是null,对象是否为空，数组是否为空。是否为 undefind，是否为 “”空字符串。
  * @param s 任意
  */
 export function isEmpty(s:any){
