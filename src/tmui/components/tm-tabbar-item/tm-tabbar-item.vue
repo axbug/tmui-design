@@ -6,6 +6,7 @@
 			:border="props.border" :borderStyle="props.borderStyle" :borderDirection="props.borderDirection"
 			:linear="props.linear" :linearDeep="props.linearDeep" @click="itemClick">
 			<tm-badge :fontSize="20" :color="c_font_style.dotColor" :eventPenetrationEnabled="true" :dot="props.dot"
+                :offset="badgeOffset"
 				:count="props.count" :icon="props.dotIcon" :maxCount="props.maxCount">
 				<view :class="[_active ? 'anifun' : '']" class="flex flex-col flex-col-center-center "
 					:style="{ width: 65 + 'px', height: '30px' }">
@@ -150,7 +151,11 @@ const props = defineProps({
 	data: {
 		type: [Object, String, Number],
 		default: () => undefined
-	}
+	},
+  badgeOffset: {
+    type: Array as PropType<Array<number>>,
+    default: () => [0, 0],
+  }
 })
 const _btnTop = computed(() => props.btnTop)
 const _transprent = computed(() => {
@@ -240,12 +245,12 @@ watch(tmTabbarItemActive, () => {
 			nextTick(()=>{
 				_active.value = true
 			})
-			
+
 		} else {
 			nextTick(()=>{
 				_active.value = false
 			})
-			
+
 		}
 	}
 })

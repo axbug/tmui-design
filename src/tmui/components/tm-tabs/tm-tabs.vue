@@ -17,7 +17,7 @@
 		<!-- #endif -->
 		<!-- #ifdef APP-NVUE -->
 		<!-- @touchmove="onMove"
-		@touchend="onEnd" 
+		@touchend="onEnd"
 		@touchstart="onStart" -->
 		<view @touchmove="onMove" @touchend="onEnd" @touchstart="onStart" ref="tabsDom"
 			:style="{ width: props.swiper ? `${totalWidth}px` : `${props.width}rpx`, transform: `translateX(0px)` }"
@@ -31,7 +31,7 @@
 			:border="props.border" :borderStyle="props.borderStyle" :borderDirection="props.borderDirection"
 			:text="props.text" :linear="props.linear" :linearDeep="props.linearDeep" :margin="[0, 0]" :padding="[0, 0]"
 			:height="props.itemHeight + modelStyle.border + props.gutter + 4"
-			:_class="['flex-center flex-row nonvue', cstomClass]" :_style="props._style" 
+			:_class="['flex-center flex-row nonvue', cstomClass]" :_style="props._style"
 			:width="props.width">
 			<!-- #ifndef APP-NVUE -->
 			<scroll-view :style="[{ width: `${props.width}rpx`, height: `${props.itemHeight + 4}rpx` }]"
@@ -50,7 +50,7 @@
 							:height="props.itemHeight">
 							<view :style="[props.itemWidth > 0 ? { width: props.itemWidth + 'rpx' } : {}]"
 								class="flex flex-col flex-col-center-center">
-								<tm-badge :dot="item.dot" :color="item.dotColor">
+								<tm-badge :dot="item.dot" :color="item.dotColor" :offset="badgeOffset">
 									<view class="flex flex-row flex-center">
 										<tm-icon :userInteractionEnabled="false" v-if="item.icon" _class="pr-5"
 											:color="item.key == _active ? props.activeFontColor : props.unSelectedColor"
@@ -169,7 +169,7 @@
 		<!-- #endif -->
 		<!-- #ifdef APP-NVUE -->
 		<!-- @touchmove="onMove"
-		@touchend="onEnd" 
+		@touchend="onEnd"
 		@touchstart="onStart" -->
 		<view @touchmove="onMove" @touchend="onEnd" @touchcancel="onEnd" @touchstart="onStart" ref="tabsDom"
 			:style="{ width: props.swiper ? `${totalWidth}px` : `${props.width}rpx`, transform: `translateX(0px)` }"
@@ -326,7 +326,10 @@ const props = defineProps({
 		type: String,
 		default: 'primary'
 	},
-	
+  badgeOffset: {
+    type: Array as PropType<Array<number>>,
+    default: () => [0, 0],
+  }
 });
 const _align = computed(() => {
 	let align_list = {
@@ -480,12 +483,12 @@ let widthDrag = ref(sliderBarWidth)
 watchEffect(() => {
 	cacheTabs.value = [];
 	props.list.forEach((el, index) => {
-		cacheTabs.value.push({ 
-			key: el?.key ?? String(index), 
-			title: el?.title ?? String(index), 
+		cacheTabs.value.push({
+			key: el?.key ?? String(index),
+			title: el?.title ?? String(index),
 			icon: el?.icon ?? "" ,
 			dot: el?.dot ?? false,
-			dotColor: el?.dotColor ?? "red" 
+			dotColor: el?.dotColor ?? "red"
 		})
 	})
 })
@@ -497,7 +500,7 @@ function setTabsBarLineLeft(key: string | number = "") {
 	let index = cacheTabs.value.findIndex(el => el.key == keybl)
 
 	if (index > -1) {
-		
+
 		let leftPx = _itemwidth * index + (_itemwidth - _sliderBarwidth) / 2
 		if (props.align == "center") {
 			leftPx = leftPx + (_width - _itemwidth * cacheTabs.value.length)/ 2-1
@@ -530,7 +533,7 @@ watch(
 onMounted(() => {
 	setTimeout(() => {
 		_scrollToId.value = tabsid + _active.value;
-		
+
 		nextTick(() => {
 			// #ifdef APP-NVUE
 			dom.getComponentRect(proxy.$refs.tabsDom, function (res) {
@@ -544,7 +547,7 @@ onMounted(() => {
 			// #endif
 			setTabsBarLineLeft(props.defaultName)
 		})
-		
+
 	}, 300)
 })
 watchEffect(() => {
