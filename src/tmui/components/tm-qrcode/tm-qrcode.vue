@@ -33,7 +33,7 @@
 		WeexBridge,
 	} from '../../tool/gcanvas/index.js';
 	// #endif
-	const { proxy } = getCurrentInstance();
+	const proxy = getCurrentInstance()?.proxy??null;
 	const props = defineProps({
 		option:{
 			type:Object as PropType<qrOpts>,

@@ -82,7 +82,7 @@
 		},
 	});
 	const emits = defineEmits(['click']);
-	const { proxy} = getCurrentInstance();
+	const proxy = getCurrentInstance()?.proxy??null;
 	// 设置响应式全局组件库配置表。
 	const tmcfg = computed<tmVuetify>(() => store.tmStore);
 	//自定义样式：

@@ -2,7 +2,7 @@
 	<view>
 		<!-- #ifndef MP-WEIXIN || MP-ALIPAY || MP-QQ || APP-NVUE -->
 
-		<canvas @click="emits('click', $event)" v-if="!isPc" @touchstart="touchStart" @touchmove="touchMove"
+		<canvas @click="emits('click', $event)" v-if="!isPc" @touchstart="touchStart" @touchmove.stop="touchMove"
 			@touchend="touchEnd" :id="canvasId" :canvas-id="canvasId" class="canvas"
 			:style="{ width: `${_width}rpx`, height: `${_height}rpx` }"></canvas>
 
@@ -10,13 +10,13 @@
 			:style="{ width: `${_width}rpx`, height: `${_height}rpx` }"></canvas>
 		<!-- #endif -->
 		<!-- #ifdef MP-WEIXIN || MP-QQ -->
-		<canvas @click="emits('click', $event)" @touchstart="touchStart" @touchmove="touchMove" @touchend="touchEnd"
-			type="2d" id="canvasId" canvas-id="canvasId" class="canvas"
+		<canvas @click="emits('click', $event)" @touchstart="touchStart" @touchmove.stop="touchMove"
+			@touchend="touchEnd" type="2d" id="canvasId" canvas-id="canvasId" class="canvas"
 			:style="{ width: `${_width}rpx`, height: `${_height}rpx` }"></canvas>
 		<!-- #endif -->
 		<!-- #ifdef MP-ALIPAY -->
-		<canvas @click="emits('click', $event)" @touchstart="touchStart" @touchmove="touchMove" @touchend="touchEnd"
-			type="2d" :id="canvasId" :canvas-id="canvasId" class="canvas"
+		<canvas @click="emits('click', $event)" @touchstart="touchStart" @touchmove.stop="touchMove"
+			@touchend="touchEnd" type="2d" :id="canvasId" :canvas-id="canvasId" class="canvas"
 			:style="{ width: `${_width}rpx`, height: `${_height}rpx` }"></canvas>
 		<!-- #endif -->
 		<!-- #ifdef APP-NVUE -->
@@ -76,9 +76,7 @@ import {
 	WeexBridge,
 } from '../../tool/gcanvas/index.js';
 // #endif
-const {
-	proxy
-} = <ComponentInternalInstance>getCurrentInstance();
+const proxy = getCurrentInstance()?.proxy??null;
 
 const emits = defineEmits(['onInit', 'touchStart', 'touchMove', 'touchEnd', 'mousedown', 'mousemove', 'mouseup', 'click'])
 const props = defineProps({
@@ -153,11 +151,11 @@ function appvueH5Other() {
 		});
 		canvas.setChart(chart);
 	} else {
-		const canvasNode = document.querySelector('#' + canvasId.value)?.getElementsByTagName("canvas")[0];
-		document.querySelector('#' + canvasId.value)?.removeChild(<HTMLElement>document.querySelector('#' + canvasId.value)?.getElementsByTagName("div")[0])
-		ctx = canvasNode.getContext("2d")
+		const canvasNode:HTMLCanvasElement|undefined  = document.querySelector('#' + canvasId.value)?.getElementsByTagName("canvas")[0];
+		document.querySelector('#' + canvasId.value)?.removeChild(document.querySelector('#' + canvasId.value)?.getElementsByTagName("div")[0])
+		ctx = canvasNode?.getContext("2d")
 		const canvas: any = new WxCanvas(ctx, canvasId.value, false, false)
-		chart = echarts.init(<HTMLElement>canvasNode);
+		chart = echarts.init(canvasNode);
 		chart.on("mousedown", (e) => emits('mousedown', e))
 		chart.on("mousemove", (e) => emits('mousemove', e))
 		chart.on("mouseup", (e) => emits('mouseup', e))
@@ -190,7 +188,7 @@ function MpWeix_init() {
 		ctx = ctxvb;
 		const canvas = new WxCanvas(ctx, canvasId.value, true, canvasNode)
 		echarts.setPlatformAPI({
-		// Same with the old setCanvasCreator
+			// Same with the old setCanvasCreator
 			createCanvas() {
 				return canvas;
 			},
@@ -223,7 +221,7 @@ function MpWeix_init() {
 
 			const canvas = new WxCanvas(ctx, canvasId.value, true, canvasNode)
 			echarts.setPlatformAPI({
-			// Same with the old setCanvasCreator
+				// Same with the old setCanvasCreator
 				createCanvas() {
 					return canvas;
 				},
@@ -252,7 +250,7 @@ function MpWeix_init() {
 			ctx = ctxvb;
 			const canvas = new WxCanvas(ctx, canvasId.value, true, canvasNode)
 			echarts.setPlatformAPI({
-			// Same with the old setCanvasCreator
+				// Same with the old setCanvasCreator
 				createCanvas() {
 					return canvas;
 				},
@@ -273,7 +271,7 @@ function MpWeix_init() {
 
 function drawNvue_init() {
 	/*获取元素引用*/
-	var ganvas = proxy.$refs[canvasId.value];
+	var ganvas = proxy?.$refs[canvasId.value];
 	// console.log(ganvas)
 	/*通过元素引用获取canvas对象*/
 	var canvasNode = enable(ganvas, {
@@ -283,23 +281,23 @@ function drawNvue_init() {
 	const ctxvb = canvasNode.getContext('2d')
 	canvasNode.width = uni.upx2px(props.width)
 	canvasNode.height = uni.upx2px(props.height)
-	
+
 	ctx = ctxvb;
 	const canvas = new WxCanvas(ctx, canvasId.value, true, canvasNode)
-	
+
 	echarts.setPlatformAPI({
-	// Same with the old setCanvasCreator
+		// Same with the old setCanvasCreator
 		createCanvas() {
 			return canvas;
 		}
 	});
-	canvasNode.addEventListener = function(name2, handler, opt){}
+	canvasNode.addEventListener = function (name2, handler, opt) { }
 
 	chart = echarts.init(canvas, undefined, {
-			width: uni.upx2px(_width.value),
-			height: uni.upx2px(_height.value),
-			devicePixelRatio: 1
-		});
+		width: uni.upx2px(_width.value),
+		height: uni.upx2px(_height.value),
+		devicePixelRatio: 1
+	});
 	canvas.setChart(chart);
 	emits("onInit", chart)
 
@@ -350,11 +348,15 @@ function touchStart(e: TouchEvent) {
 		var handler = chart.getZr().handler;
 		handler.dispatch('mousedown', {
 			zrX: touch.x,
-			zrY: touch.y
+			zrY: touch.y,
+			preventDefault: () => { },
+			stopPropagation: () => { }
 		});
 		handler.dispatch('mousemove', {
 			zrX: touch.x,
-			zrY: touch.y
+			zrY: touch.y,
+			preventDefault: () => { },
+			stopPropagation: () => { }
 		});
 		handler.processGesture(wrapTouch(e), 'start');
 		emits('touchStart', e)
@@ -367,7 +369,9 @@ function touchMove(e: TouchEvent) {
 		var handler = chart.getZr().handler;
 		handler.dispatch('mousemove', {
 			zrX: touch.x,
-			zrY: touch.y
+			zrY: touch.y,
+			preventDefault: () => { },
+			stopPropagation: () => { }
 		});
 		handler.processGesture(wrapTouch(e), 'change');
 		emits('touchMove', e)
@@ -380,7 +384,9 @@ function touchEnd(e: TouchEvent) {
 		var handler = chart.getZr().handler;
 		handler.dispatch('mouseup', {
 			zrX: touch.x,
-			zrY: touch.y
+			zrY: touch.y,
+			preventDefault: () => { },
+			stopPropagation: () => { }
 		});
 		handler.dispatch('click', {
 			zrX: touch.x,

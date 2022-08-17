@@ -158,7 +158,7 @@ async function pickerChange(itemindex:number,levelIndex:number){
 
 nextTick(()=>{
 	emits("update:modelValue",toRaw(_colIndex.value))
-	emits("update:modelStr",_modelStr.value)
+	emits("update:modelStr",_modelStr.value||props.modelStr)
 })
 
 </script>

@@ -102,7 +102,7 @@ function jishunTopData() {
         totalH.value = h.value * props.list.length
         let list = [];
         for (let i = 0; i < props.list.length; i++) {
-            let p = props.list[i];
+            let p:itemList = props.list[i];
             p['top'] = i * h.value;
             p['i'] = i;
             p['__id'] = uni.$tm.u.getUid();
@@ -112,13 +112,11 @@ function jishunTopData() {
     })
 }
 function m_start_longpress(index:number) {
-    console.log(222)
     endDrage.value = false;
     nowMove_index.value = index;
     // #ifdef APP-NVUE
     uni.vibrateShort({
 	success: function () {
-            console.log('success');
         }
     })
     // #endif

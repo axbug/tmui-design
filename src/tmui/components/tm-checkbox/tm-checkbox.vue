@@ -3,13 +3,14 @@
         <view @click="hanlerClick"  class="flex flex-row flex-row-center-start flex-1">
            
                 <tm-sheet
+				v-if="props.custom"
+				:eventPenetrationEnabled="true"
                 :linear="props.linear"
                 :linearDeep="props.linearDeep"
                 :followTheme="props.followTheme"
                 :followDark="props.followDark"
                 :dark="props.dark"
                 :shadow="props.shadow"
-                :userInteractionEnabled="false"
                 :width="props.size" 
                 :height="props.size" 
                 :text="(!props.indeterminate&&!_checked)||_disabled" 
@@ -51,11 +52,11 @@ import tmSheet from '../tm-sheet/tm-sheet.vue';
 import tmIcon from '../tm-icon/tm-icon.vue';
 import tmText from '../tm-text/tm-text.vue';
 import tmTranslate from '../tm-translate/tm-translate.vue';
-import tmCheckboxGropup from '../tm-checkbox-group/tm-checkbox-group.vue';
+import tmCheckboxGroup from '../tm-checkbox-group/tm-checkbox-group.vue';
 import { custom_props } from '../../tool/lib/minxs';
 import { ref ,computed,watch ,inject ,getCurrentInstance, watchEffect, ComponentInternalInstance } from 'vue';
-const CheckboxGropup = ref<InstanceType<typeof tmCheckboxGropup> | null>(null)
-const {proxy} = <ComponentInternalInstance>getCurrentInstance();
+const CheckboxGropup = ref<InstanceType<typeof tmCheckboxGroup> | null>(null)
+const proxy = getCurrentInstance()?.proxy??null;
 const emits = defineEmits(['update:modelValue','change','click'])
 const props = defineProps({
     ...custom_props,
@@ -67,6 +68,11 @@ const props = defineProps({
         type:Number,
         default:42
     },
+	//为false时将隐藏所有内容，只显示插槽内容，但点击插槽还是会触发选选择状态。
+	custom:{
+		type:Boolean,
+		default:true
+	},
     transprent:{
         type:Boolean,
         default:false
@@ -144,7 +150,7 @@ const tmCheckedBoxDisabled = inject('tmCheckedBoxDisabled',computed(()=>false));
 const tmCheckedBoxMax = inject('tmCheckedBoxMax',computed(()=>false));
 const _disabled = computed(()=>props.disabled||tmCheckedBoxDisabled.value)
 //父级方法。
-let parent:any = <InstanceType<typeof tmCheckboxGropup> | null>proxy?.$parent
+let parent:any = proxy?.$parent
 while (parent) {
     if(parent?.checkBoxkeyId=='tmCheckBoxGroup'||!parent){
         break;

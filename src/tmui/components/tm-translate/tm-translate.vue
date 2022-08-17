@@ -45,7 +45,7 @@
 		...custom_props,
 		duration: {
 			type: Number,
-			default: 200
+			default: 300
 		},
 		delay: {
 			type: Number,
@@ -88,7 +88,7 @@
 	function hanlder(e) {
 		emits("click", e)
 	}
-	const {proxy} = getCurrentInstance();
+	const proxy = getCurrentInstance()?.proxy??null;
 	//自定义样式：
 	const customCSSStyle = computed(() => computedStyle(props));
 	//自定类
@@ -145,7 +145,7 @@
 	function play() {
 		if (props.disabled == true) return;
 		animationStatus.value = 0;
-		// #ifdef APP-PLUS-NVUE
+		// #ifdef APP-NVUE
 		clearTimeout(tmid.value)
 		nextTick(function() {
 			tmid.value = setTimeout(function() {
@@ -198,6 +198,7 @@
 	function nvueAmatons() {
 		var el = proxy.$refs.nvueElAni;
 		let propsAni = {};
+		
 		dom.getComponentRect(el, function(res) {
 			const {
 				width,

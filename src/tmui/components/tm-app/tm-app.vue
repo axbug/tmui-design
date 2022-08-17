@@ -1,16 +1,8 @@
 <template>
 	<view class="flex flex-col relative"
 		:style="[appConfig.theme ? { background: appConfig.theme } : '', { width: appConfig.width + 'px', minHeight: appConfig.height + 'px' }]">
-		<!-- #ifndef APP-NVUE -->
-		<!-- 	<image
-			v-if="appConfig.bgImg"
-			:class="[isDark ? 'opacity-1' : 'opacity-8']"
-			:src="bgImg"
-			:style="[{ zIndex: 0, width: appConfig.width + 'px', height: appConfig.height + 'px' }]"
-		></image> -->
-		<!-- #endif -->
-	
-		<view v-if="isSetThemeOk" class="flex flex-col flex-1" :class="[blur ? 'blur' : '']" :style="[
+
+		<view :class="[blur ? 'blur' : '']" ref="bodyEl" class="flex flex-col flex-1 " :style="[
 			{
 				zIndex: 1,
 				width: appConfig.width + 'px',
@@ -21,6 +13,17 @@
 			<slot name="default">
 				<text>在这里放置内容</text>
 			</slot>
+		</view>
+		<view :blurEffect="_blurEffect"  @click.stop="toogleOpen(false)" ref="menuEl" :class="[_showMenu?'menuOn':'']"
+			class="fixed l-0 t-0 menu"
+			:style="{ width: appConfig.width + 'px', height: appConfig.height + 'px',background:'rgba(0,0,0,0.6)',backdropFilter: 'blur(3px)'}">
+			<view :style="{ width: appConfig.width*0.7 + 'px', height: appConfig.height + 'px',boxShadow:'3px 0 16px rgba(0,0,0,0.3)'}" >
+				<scroll-view @click.stop="" :scroll-y="true"
+					:style="{ width:appConfig.width*0.7 + 'px', height: appConfig.height + 'px'}">
+					<slot name="menu"
+						:sys="{width:appConfig.width*0.7,height:appConfig.height,statusBarHeight:sysinfo.statusBarHeight}"></slot>
+				</scroll-view>
+			</view>
 		</view>
 	</view>
 </template>
@@ -36,7 +39,10 @@
 		watchEffect,
 		ref,
 		watch,
-		onBeforeMount,ComponentInternalInstance, nextTick
+		onBeforeMount,
+		ComponentInternalInstance,
+		nextTick,
+		onMounted
 	} from 'vue';
 	import {
 		useTmpiniaStore
@@ -53,22 +59,38 @@
 		computedStyle,
 		computedDark
 	} from '../../tool/lib/minxs';
-		import {
+	import {
 		onShow,
-		onLoad,onInit
+		onLoad,
+		onInit
 	} from "@dcloudio/uni-app";
-	import { useTmRouterAfter,useTmRouterBefore } from "../../../router/index"
+	import {
+		useTmRouterAfter,
+		useTmRouterBefore
+	} from "../../../router/index"
+	import tmSheet from "../tm-sheet/tm-sheet.vue"
+	// #ifdef APP-PLUS-NVUE
+	const animation = uni.requireNativePlugin('animation')
+	// #endif
+	const emits = defineEmits(["update:showMenu"])
 	//请在scr/目录下创建一个router/index.ts路由,见文档：https://tmui.design/doc/JSTool/router.html
 	const store = useTmpiniaStore();
-	const {proxy} = <ComponentInternalInstance>getCurrentInstance()
+	const proxy = getCurrentInstance()?.proxy ?? null;
 	//路由守卫---------------------------------
 	let pages = getCurrentPages().pop()
-		nextTick(()=>{
-			useTmRouterBefore({path:pages?.route??"",context:proxy})
+	nextTick(() => {
+		useTmRouterBefore({
+			path: pages?.route ?? "",
+			context: proxy
 		})
-		onLoad((opts:any)=>{
-			useTmRouterAfter({path:pages?.route??"",opts:opts,context:proxy})
+	})
+	onLoad((opts: any) => {
+		useTmRouterAfter({
+			path: pages?.route ?? "",
+			opts: opts,
+			context: proxy
 		})
+	})
 	// end-----------------------------------------
 	// 混淆props共有参数
 	const props = defineProps({
@@ -88,7 +110,7 @@
 			type: String,
 			default: 'grey-4'
 		},
-		darkColor:{
+		darkColor: {
 			type: String,
 			default: '#050505'
 		},
@@ -104,6 +126,10 @@
 					fontColor: '#000000'
 				};
 			}
+		},
+		showMenu: {
+			type: Boolean,
+			default: false
 		}
 	});
 	// 设置响应式全局组件库配置表。
@@ -116,50 +142,68 @@
 	//是否暗黑模式。
 	const isDark = computed(() => computedDark(props, tmcfg.value));
 	//计算主题
-	const tmcomputed = computed < cssstyle > (() => computedTheme(props, isDark.value,tmcfg.value));
+	const tmcomputed = computed < cssstyle > (() => computedTheme(props, isDark.value, tmcfg.value));
 	//返回应用背景和文件色值。
+	const _showMenu = ref(props.showMenu)
 
-	const sysinfo:UniApp.GetSystemInfoResult = uni.getSystemInfoSync()
+	const sysinfo: UniApp.GetSystemInfoResult = uni.getSystemInfoSync()
 	// 视察的宽。
 	const view_width = ref(sysinfo.windowWidth);
 	//视窗的高度。
 	let view_height = ref(sysinfo.windowHeight);
 
 	let nowPage = getCurrentPages().pop()
+	// 本页面是否定义了头部的原生导航
 	let isCustomHeader = false;
-	for(let i=0;i<uni.$tm.pages.length;i++){
-		if(nowPage?.route==uni.$tm.pages[i].path&&uni.$tm.pages[i].custom=='custom'){
+	for (let i = 0; i < uni.$tm.pages.length; i++) {
+		if (nowPage?.route == uni.$tm.pages[i].path && uni.$tm.pages[i].custom == 'custom') {
 			isCustomHeader = true;
+			break;
+		}
+	}
+	//本页面是否是tabar切换页面。
+	let isTabbarPage = false;
+	let barLit = uni.$tm.tabBar?.list ?? []
+	for (let i = 0; i < barLit.length; i++) {
+		if (nowPage?.route == barLit[i].pagePath) {
+			isTabbarPage = true;
 			break;
 		}
 	}
 	// #ifdef H5
 	if (isCustomHeader) {
-		view_height.value  = sysinfo.windowHeight
+		view_height.value = sysinfo.windowHeight + sysinfo.windowTop
 	}
 	// #endif
 
 	// #ifdef APP-NVUE 
-	if(!isCustomHeader){
-		if(sysinfo.osName=="android"){
-			view_height.value = (sysinfo.safeArea?.height??sysinfo.windowHeight) - 44 - (sysinfo.safeAreaInsets?.bottom??0)
-		}else{
-			view_height.value = (sysinfo.safeArea?.height??sysinfo.windowHeight) - 44
+	if (!isCustomHeader) {
+		if (sysinfo.osName == "android") {
+			view_height.value = (sysinfo.safeArea?.height ?? sysinfo.windowHeight) - 44 - (sysinfo.safeAreaInsets
+				?.bottom ?? 0)
+		} else {
+			view_height.value = (sysinfo.safeArea?.height ?? sysinfo.windowHeight) - 44
 		}
-	}else{
-		view_height.value = (sysinfo.safeArea?.height??sysinfo.windowHeight) + (sysinfo?.statusBarHeight??0) + (sysinfo.safeAreaInsets?.bottom??0)
+	} else {
+		view_height.value = (sysinfo.safeArea?.height ?? sysinfo.windowHeight) + (sysinfo?.statusBarHeight ?? 0) + (sysinfo
+			.safeAreaInsets?.bottom ?? 0)
 	}
 	// #endif
 	// #ifdef APP-VUE 
-	if(!isCustomHeader){
-		view_height.value = (sysinfo.safeArea?.height??sysinfo.windowHeight) - 44
-	}else{
-		view_height.value = (sysinfo.safeArea?.height??sysinfo.windowHeight) + (sysinfo?.statusBarHeight??0) + (sysinfo.safeAreaInsets?.bottom??0)
+	if (!isCustomHeader) {
+		view_height.value = (sysinfo.safeArea?.height ?? sysinfo.windowHeight) - 44
+	} else {
+		view_height.value = (sysinfo.safeArea?.height ?? sysinfo.windowHeight) + (sysinfo?.statusBarHeight ?? 0) + (sysinfo
+			.safeAreaInsets?.bottom ?? 0)
 	}
 	// #endif
 
-	
 
+	const _blurEffect = computed(() => {
+		if (props.blur === true && isDark.value) return 'dark';
+		if (props.blur === true && !isDark.value) return 'extralight';
+		return 'none'
+	})
 
 	// //https://picsum.photos/750/1440
 	let appConfig = ref({
@@ -185,7 +229,7 @@
 		// #endif
 
 		// #ifdef APP-NVUE ||  APP-VUE
-		if(plus?.webview?.currentWebview()?.setStyle){
+		if (plus?.webview?.currentWebview()?.setStyle) {
 			plus.webview.currentWebview().setStyle({
 				background: appConfig.value.theme,
 				backgroundColorTop: appConfig.value.theme,
@@ -195,10 +239,10 @@
 			})
 		}
 		// app安卓下设置底部虚拟区域的颜色。
-		if (uni.getSystemInfoSync().osName == 'android') {
-			var Color = plus.android.importClass("android.graphics.Color");
+		if (sysinfo.osName == 'android') {
+			var Color: any = plus.android.importClass("android.graphics.Color");
 			plus.android.importClass("android.view.Window");
-		 	var mainActivity = plus.android.runtimeMainActivity();
+			var mainActivity: any = plus.android.runtimeMainActivity();
 			var window_android = mainActivity?.getWindow();
 
 			if (appConfig.value.dark) {
@@ -210,38 +254,50 @@
 
 		// #endif
 		// #ifdef H5
-		document.body.style.background = appConfig.value.theme||"";
+		document.body.style.background = appConfig.value.theme || "";
 		// #endif
 
 		if (isDark.value) {
 			// #ifndef MP-ALIPAY
-			uni.setNavigationBarColor({
-				backgroundColor: appConfig.value.theme,
-				frontColor: '#ffffff'
-			})
+			if (!isCustomHeader) {
+				uni.setNavigationBarColor({
+					backgroundColor: appConfig.value.theme,
+					frontColor: '#ffffff'
+				})
+			}
+
 			// #endif
-			uni.setTabBarStyle({
-				backgroundColor: '#000000',
-				borderStyle: '#1a1a1a',
-				color: '#ffffff',
-				selectedColor:uni.$tm.tabBar.selectedColor||tmcomputed.value.textColor
-			}).catch(e=>{})
+			if (isTabbarPage) {
+				uni.setTabBarStyle({
+					backgroundColor: '#000000',
+					borderStyle: '#1a1a1a',
+					color: '#ffffff',
+					selectedColor: uni.$tm.tabBar.selectedColor || tmcomputed.value.textColor
+				})
+			}
+
 		} else {
-			
+
 			// #ifndef MP-ALIPAY
-			uni.setNavigationBarColor({
-				backgroundColor: props.navbar.background,
-				frontColor: props.navbar.fontColor
-			}).catch(e=>{})
+			if (!isCustomHeader) {
+				uni.setNavigationBarColor({
+					backgroundColor: props.navbar.background,
+					frontColor: props.navbar.fontColor
+				})
+			}
+
 			// #endif
-			uni.setTabBarStyle({
-				backgroundColor: uni.$tm.tabBar.backgroundColor||props.navbar.background,
-				borderStyle: uni.$tm.tabBar.borderStyle||'#888888',
-				color: uni.$tm.tabBar.color||props.navbar.fontColor,
-				selectedColor:uni.$tm.tabBar.selectedColor||tmcomputed.value.textColor
-			}).catch(e=>{})
+			if (isTabbarPage) {
+				uni.setTabBarStyle({
+					backgroundColor: uni.$tm.tabBar.backgroundColor || props.navbar.background,
+					borderStyle: uni.$tm.tabBar.borderStyle || '#888888',
+					color: uni.$tm.tabBar.color || props.navbar.fontColor,
+					selectedColor: uni.$tm.tabBar.selectedColor || tmcomputed.value.textColor
+				})
+			}
+
 		}
-		
+
 		isSetThemeOk.value = true;
 	}
 
@@ -275,9 +331,86 @@
 	//监视全局主题并立即执行。
 
 	onBeforeMount(() => setAppStyle())
-	watch([()=>tmcfg.value.color, isDark], () => {
+	watch(() => props.showMenu, () => {
+		_showMenu.value = props.showMenu
+		spinNvueAni()
+
+	})
+	watch([() => tmcfg.value.color, isDark], () => {
 		isSetThemeOk.value = false;
 		setAppStyle();
 	});
-	
+
+	function toogleOpen(type: boolean) {
+		_showMenu.value = type;
+		emits("update:showMenu", _showMenu.value)
+	}
+
+	function spinNvueAni(reveser = false) {
+		// #ifdef APP-NVUE
+		if (!proxy?.$refs.bodyEl) return;
+		var testEl = proxy?.$refs.bodyEl;
+		animation.transition(testEl, {
+			styles: {
+				transform: _showMenu.value ? `translateX(70%)   scale(0.8)` : `translateX(0%)  scale(1)`,
+				transformOrigin: 'center center'
+			},
+			duration: 200, //ms
+			timingFunction: 'ease',
+			delay: 0 //ms
+		}, () => {
+			
+		})
+		setTimeout(function() {
+			if (!proxy?.$refs.menuEl) return;
+			var testElx = proxy?.$refs.menuEl;
+			animation.transition(testElx, {
+				styles: {
+					transform: _showMenu.value ? `translateX(0%)` : `translateX(-101%)`,
+					transformOrigin: 'center center'
+				},
+				duration: 200, //ms
+				timingFunction: 'ease',
+				delay: 0 //ms
+			}, () => {
+			
+			})
+		}, 50);
+		// #endif
+
+	}
 </script>
+<style scoped>
+	.menu {
+		z-index: 999;
+		transform: translateX(-101%);
+	}
+
+	/* #ifndef APP-NVUE */
+	.menu {
+		transition-duration: 0.25s;
+		transition-timing-function: ease;
+		transition-property: transform;
+		transition-delay: 0ms;
+		transform: translateX(-101%);
+		z-index: 999;
+	}
+
+	.menuOn {
+		transform: translateX(0%);
+	}
+
+	.body {
+		transition-duration: 0.25s;
+		transition-timing-function: ease;
+		transition-property: transform;
+		transition-delay: 0ms;
+		transform: translateX(0%) scale(1);
+	}
+
+	.bodyOn {
+		transform: translateX(70%) scale(0.8);
+	}
+
+	/* #endif */
+</style>

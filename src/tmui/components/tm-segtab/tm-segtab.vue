@@ -51,7 +51,7 @@ import { custom_props } from '../../tool/lib/minxs';
 const dom = uni.requireNativePlugin('dom')
 const animation = uni.requireNativePlugin('animation')
 // #endif
-const { proxy } = getCurrentInstance();
+const proxy = getCurrentInstance()?.proxy??null;
 const emits = defineEmits(["update:modelValue", "change", "click"])
 
 const props = defineProps({
@@ -186,16 +186,16 @@ function getEl(el) {
 }
 function getDomRectBound(idx: number) {
     // #ifdef APP-NVUE
-    dom.getComponentRect(proxy.$refs['tm-segtab'], function (PARENAREDS) {
+    dom.getComponentRect(proxy?.$refs['tm-segtab'], function (PARENAREDS) {
         if (PARENAREDS?.size) {
             let parentleft = Math.floor((PARENAREDS.size.left ?? 0));
-            dom.getComponentRect(proxy.$refs['tab_'][idx], function (res) {
+            dom.getComponentRect(proxy?.$refs['tab_'][idx], function (res) {
                 if (res?.size) {
                     const { left, top, width } = res.size
-                    let domx = getEl(proxy.$refs['tmBgEl']);
+                    let domx = getEl(proxy?.$refs['tmBgEl']);
                     leftWidth.value = Math.floor((width ?? 0));
                     leftPos.value = Math.floor((left ?? 0) - uni.upx2px(props.gutter)-parentleft);
-                    animation.transition(proxy.$refs['tmBgEl'], {
+                    animation.transition(proxy?.$refs['tmBgEl'], {
                         styles: {
                             transform: 'translateX('+leftPos.value +'px)',
                         },

@@ -110,7 +110,7 @@ const props = defineProps({
     }
     
 })
-let listData:Ref<Array<childrenData>> = ref(<Array<childrenData>>props.data)
+let listData:Ref<Array<childrenData>> = ref(props.data)
 const tmCascaderName = 'tmCascader'
 //保存的选中对象数据
 let save_value_obj:Ref<Array<childrenData>> = ref([]);
@@ -208,7 +208,7 @@ function getValueObject() {
  * 返回当前选中的数据字符串路径
  */
 function getValueStr():Array<string> {
-    let ar:Array<childrenData> = <Array<childrenData>>getValueObject();
+    let ar:Array<childrenData> = getValueObject();
     let str = ar.map(el=>el.text);
     return str;
 }

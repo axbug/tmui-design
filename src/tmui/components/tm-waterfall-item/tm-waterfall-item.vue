@@ -28,7 +28,7 @@ import { itemParenSG } from "../tm-waterfall/interface"
 // #ifdef APP-PLUS-NVUE
 const dom = uni.requireNativePlugin('dom')
 // #endif
-const { proxy } = getCurrentInstance();
+const proxy = getCurrentInstance()?.proxy??null;
 const emits = defineEmits(["img-click"])
 const props = defineProps({
     //封面图片。

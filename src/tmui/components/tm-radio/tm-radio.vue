@@ -2,7 +2,7 @@
 	<view class="flex flex-col flex-wrap overflow" :class="[_disabled?'opacity-5':'']" style="flex-wrap:wrap;">
 		<view @click="hanlerClick" class="flex flex-row flex-row-center-start flex-1">
 
-			<tm-sheet :linear="props.linear" :linearDeep="props.linearDeep" :followTheme="props.followTheme"
+			<tm-sheet v-if="props.custom" :linear="props.linear" :linearDeep="props.linearDeep" :followTheme="props.followTheme"
 				:followDark="props.followDark" :dark="props.dark" :shadow="props.shadow" :userInteractionEnabled="false"
 				:width="_is_radio?props.size:0" :height="_is_radio?props.size:0" :text="(!_checked)"
 				:border="props.border" :border-style="props.borderStyle" :transprent="props.transprent"
@@ -45,9 +45,7 @@
 		getCurrentInstance,
 		nextTick
 	} from 'vue';
-	const {
-		proxy
-	} = getCurrentInstance();
+	const proxy = getCurrentInstance()?.proxy??null;
 	const emits = defineEmits(['update:modelValue', 'change', 'click'])
 	const props = defineProps({
 		...custom_props,
@@ -62,6 +60,11 @@
 		transprent: {
 			type: Boolean,
 			default: false
+		},
+		//为false时将隐藏所有内容，只显示插槽内容，但点击插槽还是会触发选选择状态。
+		custom:{
+			type:Boolean,
+			default:true
 		},
 		color: {
 			type: String,
@@ -127,7 +130,7 @@
 	const _is_radio = inject('tmRadioBoxModel', computed(() => false));
 	const _disabled = computed(() => props.disabled || tmCheckedBoxDisabled.value)
 	//父级方法。
-	let parent = proxy.$parent
+	let parent:any = proxy?.$parent
 
 	while (parent) {
 		if (parent?.checkBoxkeyId == 'tmRadioBoxGroup' || !parent) {
@@ -155,9 +158,6 @@
 
 	/** -----------end------------ */
 
-	function callBack(e) {
-		console.log(e)
-	}
 
 	function vailChecked() {
 		let checked_val = false;

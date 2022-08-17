@@ -3,14 +3,14 @@
 	@close="drawerClose" @update:show = "showPop=$event" :show="showPop" :dark="isDark" 
 	:follow-dark="props.followDark" :follow-theme="false" :height="dHeight"
         :hide-header="true" color="grey-3" :mask="false">
-        <keyborad-number :followTheme="props.followTheme" :random="props.random" :showContent="props.showContent" :color="props.color" v-if="_typemodel=='number'" @change="change" @confirm="confirm" :model-value="_value" @update:modelValue="_value = $event" :dark="isDark" class="flex-1"></keyborad-number>
-        <keyborad-pass :followTheme="props.followTheme" :random="props.random" :showContent="props.showContent" :color="props.color" v-if="_typemodel=='password'" @change="change" @confirm="confirm" :model-value="_value" @update:modelValue="_value = $event" :dark="isDark" class="flex-1"></keyborad-pass>
-        <keyborad-car :followTheme="props.followTheme" :random="props.random" :showContent="props.showContent" :color="props.color" v-if="_typemodel=='car'" @change="change" @confirm="confirm" :model-value="_value" @update:modelValue="_value = $event" :dark="isDark" class="flex-1"></keyborad-car>
-        <keyborad-card :followTheme="props.followTheme" :random="props.random" :showContent="props.showContent" :color="props.color" v-if="_typemodel=='card'" @change="change" @confirm="confirm" :model-value="_value" @update:modelValue="_value = $event" :dark="isDark" class="flex-1"></keyborad-card>
+        <keyborad-number :showInputContent="props.showInputContent" :decimal="props.decimal" :followTheme="props.followTheme" :random="props.random" :color="props.color" v-if="_typemodel=='number'" @change="change" @confirm="confirm" :model-value="_value" @update:modelValue="_value = $event" :dark="isDark" class="flex-1"></keyborad-number>
+        <keyborad-pass :showInputContent="props.showInputContent" :followTheme="props.followTheme" :random="props.random" :color="props.color" v-if="_typemodel=='password'" @change="change" @confirm="confirm" :model-value="_value" @update:modelValue="_value = $event" :dark="isDark" class="flex-1"></keyborad-pass>
+        <keyborad-car :showInputContent="props.showInputContent" :followTheme="props.followTheme" :random="props.random" :color="props.color" v-if="_typemodel=='car'" @change="change" @confirm="confirm" :model-value="_value" @update:modelValue="_value = $event" :dark="isDark" class="flex-1"></keyborad-car>
+        <keyborad-card :showInputContent="props.showInputContent" :followTheme="props.followTheme" :random="props.random" :color="props.color" v-if="_typemodel=='card'" @change="change" @confirm="confirm" :model-value="_value" @update:modelValue="_value = $event" :dark="isDark" class="flex-1"></keyborad-card>
     </tm-drawer>
 </template>
 <script lang="ts" setup>
-import { ref,computed, watch, toRaw,getCurrentInstance } from "vue"
+import { ref,computed, watch, toRaw,getCurrentInstance,nextTick } from "vue"
 import { custom_props, computedDark } from '../../tool/lib/minxs';
 import tmDrawer from '../tm-drawer/tm-drawer.vue';
 import keyboradNumber from "./keyborad-number.vue";
@@ -60,8 +60,13 @@ const props = defineProps({
         type:Boolean,
         default:false 
     },
-	//是否显示内容
-	showContent:{
+	//是否需要显示小数点。
+	decimal:{
+		type:Boolean,
+		default:false 
+	},
+	// 是否显示输入内容在键盘顶部。
+	showInputContent:{
 		type:Boolean,
 		default:false
 	},
@@ -106,10 +111,14 @@ function drawerOpen(){
 }
 
 watch(()=>props.modelValue,()=>{
-	_value.value = props.modelValue;
+	_value.value = props.modelValue
 })
 function change(){
 	emits("update:modelValue",toRaw(_value.value))
+	nextTick(()=>{
+		_value.value = props.modelValue
+		emits("change",toRaw(_value.value))
+	})
 	// #ifdef MP
 	uni.vibrateShort()
 	// #endif
@@ -117,7 +126,6 @@ function change(){
 function confirm(){
 	debounce(()=>{
 		emits("confirm",toRaw(_value.value))
-	
 		drawer.value?.close()
 	},250,true)
 	

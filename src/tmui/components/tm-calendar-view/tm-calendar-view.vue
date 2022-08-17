@@ -44,7 +44,7 @@ import monthDay from "./month-day.vue";
 import rangeDay from "./range-day.vue";
 import tmSheet from '../tm-sheet/tm-sheet.vue';
 import { monthDayItem, dateItemStyle, monthYearItem, weekItem, yearItem } from "./interface"
-const {proxy} = <any>getCurrentInstance();
+const proxy = getCurrentInstance()?.proxy??null;
 const rDay = ref<InstanceType<typeof rangeDay> | null>(null)
 const Day = ref<InstanceType<typeof monthDay> | null>(null)
 const Year = ref<InstanceType<typeof yearDu> | null>(null)

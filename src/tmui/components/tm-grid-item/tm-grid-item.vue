@@ -1,14 +1,14 @@
 <template>
   <view :style="wkStyle">
-	  <tm-sheet
+	  <tm-sheet 
 	  :color="props.bgColor"
 	  :text="props.text"
-	  :border="0"  hover-class="opacity-6"
+	  :border="0"  hover-class="opacity-6" 
 	  :transprent="props.transprent" :height="props.height" :width="_colWidth-0.5" :margin="[0, 0]"
 	    :padding="[0, 0]" _class="flex-col flex" @click="onClick">
 	    <view class="flex-1 flex flex-col-center-center">
 	      <tm-badge :userInteractionEnabled="true" :fontSize="20" :dot="props.dot" :count="props.count" :max-count="props.maxCount"
-	        :icon="props.icon" :color="props.color" :offset="badgeOffset">
+	        :icon="props.icon" :color="props.color">
 	        <view class="flex-col flex-col-center-center flex px-10">
 	          <slot></slot>
 	        </view>
@@ -23,20 +23,7 @@
  * @description 注意，它只能放置在tm-grid中，且不能嵌套tmg-grid
  * @slot 默认插槽 任意内容
  */
-import {
-  computed,
-  inject,
-  provide,
-  Ref,
-  ref,
-  watchEffect,
-  getCurrentInstance,
-  onBeforeUnmount,
-  watch,
-  nextTick,
-  onMounted,
-  PropType
-} from "vue";
+import { computed, inject, provide,Ref, ref,watchEffect,getCurrentInstance,onBeforeUnmount, watch, nextTick,onMounted } from "vue";
 import tmSheet from "../tm-sheet/tm-sheet.vue";
 import tmBadge from "../tm-badge/tm-badge.vue";
 import { cssstyle, tmVuetify } from "../../tool/lib/interface";
@@ -50,7 +37,7 @@ import {
 import { useTmpiniaStore } from '../../tool/lib/tmpinia';
 const store = useTmpiniaStore();
 const emits = defineEmits(["click"]);
-const {proxy} = getCurrentInstance()
+const proxy = getCurrentInstance()?.proxy??null;
 const props = defineProps({
 	...custom_props,
   //项目的高度。如果提供为0，就表示自动高度。
@@ -92,10 +79,6 @@ const props = defineProps({
   url: {
     type: String,
     default: ""
-  },
-  badgeOffset: {
-    type: Array as PropType<Array<number>>,
-    default: () => [0, 0],
   }
 });
 interface arrayid{
@@ -128,13 +111,13 @@ const uid:Ref<arrayid> = ref({
 	type:""
 })
 //父级方法。
-let parentFormItem = proxy.$parent
+let parentFormItem:any = proxy?.$parent
 while (parentFormItem) {
     if (parentFormItem?.keyName == 'tmGrid' || !parentFormItem) {
         break;
     } else {
         parentFormItem = parentFormItem?.$parent ?? undefined
-
+       
     }
 }
 onMounted(() => {
@@ -148,7 +131,7 @@ onBeforeUnmount(()=>{
 let wkStyle:any=ref(`width:${_colWidth}'rpx'`);
 
 watch([tmGridshowCachList,_tmGridshowBorder],()=>{
-
+  
   nextTick(()=>setStyleFun())
 
 },{deep:true})

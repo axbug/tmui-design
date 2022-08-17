@@ -6,33 +6,36 @@ import { share } from "./tool/lib/share"
 import { App, nextTick } from "vue"
 import PageJsonInit from "../pages.json"
 
-let pages = [];
+let pages:Array<pagesType> = [];
 PageJsonInit.pages.forEach(el => {
+	let customType:pagesCustomType = <pagesCustomType>(el?.style?.navigationStyle ?? "default");
 	pages.push({
 		path: el.path,
-		custom: el?.style?.navigationStyle ?? "default"
+		custom: customType
 	})
 })
 if (Array.isArray(PageJsonInit?.subPackages)) {
 	PageJsonInit.subPackages.forEach(el => {
 		let rootPath = el.root;
 		el.pages.forEach(el2 => {
+			let elany:any = el2;
 			pages.push({
-				path: rootPath + "/" + el2.path,
-				custom: el2?.style?.navigationStyle ?? "default"
+				path: rootPath + "/" + elany.path,
+				custom: elany?.style?.navigationStyle ?? "default",
 			})
 		})
 	})
 }
-
-
+let pagers:any = PageJsonInit;
+let tabBar:tabBarType = pagers?.tabBar?? {
+	color: "",
+	selectedColor: "",
+	borderStyle: "",
+	backgroundColor: "",
+	list:[]
+}
 const $tm = {
-	tabBar: PageJsonInit?.tabBar ?? {
-		color: "",
-		selectedColor: "",
-		borderStyle: "",
-		backgroundColor: "",
-	},
+	tabBar: tabBar,
 	pages: pages,
 	isColor: themeTool.isCssColor,
 	u: { ...util, preview },

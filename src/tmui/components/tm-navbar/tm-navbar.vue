@@ -30,10 +30,10 @@
 				<view class="statusHeight" :style="{height:statusBarHeight+'px'}"></view>
 				
 				<view class="flex flex-row flex-1 flex-row flex-row-center-betweent ">
-					<view class="flex-row flex flex-row-center-start pl-24" :style="{width:_leftWidth+'rpx'}">
+					<view class="flex-row flex flex-row-center-start " :style="{width:_leftWidth+'rpx'}">
 						<!-- #ifndef MP-ALIPAY -->
-						<tm-icon :unit="props.unit" :font-size="props.iconFontSize" _class="pointer pb-12 pt-12 pr-12" :color="_homeColor" @click="goback" v-if="_pages>1&&props.hideBack" name="tmicon-angle-left"></tm-icon>
-						<tm-icon :unit="props.unit" _class="pointer  pb-12 pt-12 pr-12" @click="backhome" v-if="_pages==1&&!hideHome" :color="_homeColor" :font-size="props.iconFontSize" name="tmicon-md-home"></tm-icon>
+						<tm-icon :unit="props.unit" :font-size="props.iconFontSize" _class="pointer pb-12 pt-12 px-24" :color="_homeColor" @click="goback" v-if="_pages>1&&props.hideBack" name="tmicon-angle-left"></tm-icon>
+						<tm-icon :unit="props.unit" _class="pointer  pb-12 pt-12 px-24" @click="backhome" v-if="_pages==1&&!hideHome" :color="_homeColor" :font-size="props.iconFontSize" name="tmicon-md-home"></tm-icon>
 						<!-- #endif -->
 						<slot name="left"></slot>
 					</view>
@@ -42,7 +42,7 @@
 							<tm-text :unit="props.unit" _class="text-weight-b text-overflow-1" :color="_fontColor" :font-size="props.fontSize" :label="_title"></tm-text>
 						</slot>
 					</view>
-					<view class="flex-row flex flex-row-center-end  pr-24" :style="{width:_rightWidth+'rpx'}">
+					<view class="flex-row flex flex-row-center-end  " :style="{width:_rightWidth+'rpx'}">
 						<slot name="right"></slot>
 					</view>
 				</view>
@@ -65,7 +65,7 @@
 	import { useTmpiniaStore } from '../../tool/lib/tmpinia';
 	const store = useTmpiniaStore();
 	const emits = defineEmits(['click','close'])
-	const {proxy} = getCurrentInstance();
+	const proxy = getCurrentInstance()?.proxy??null;
 	const props = defineProps({
 		...custom_props,
 		followTheme:{

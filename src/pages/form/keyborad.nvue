@@ -13,12 +13,12 @@
 		</tm-sheet>
 		
 		<tm-cell @click="showdate=true" title="弹出键盘" rightColor="primary" :right-text="dateStr"></tm-cell>
-		<tm-keyborad :type="modeltype" v-model="dateStr" v-model:show="showdate"></tm-keyborad>
+		<tm-keyborad decimal :type="modeltype" v-model="dateStr" v-model:show="showdate"></tm-keyborad>
 
 	</tm-app>
 </template>
 <script lang="ts" setup>
-import { ref, computed } from "vue"
+import { ref, computed,watch } from "vue"
 import { onShow, onLoad } from "@dcloudio/uni-app";
 import tmApp from "@/tmui/components/tm-app/tm-app.vue"
 import tmSheet from "@/tmui/components/tm-sheet/tm-sheet.vue"
@@ -31,4 +31,6 @@ import tmKeyborad from "@/tmui/components/tm-keyborad/tm-keyborad.vue"
 const modeltype = ref('password')
 const dateStr = ref('')
 const showdate = ref(false)
+
+
 </script>

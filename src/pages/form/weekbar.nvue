@@ -6,6 +6,7 @@
 		<tm-weekbar></tm-weekbar>
 		<tm-weekbar :followTheme="false" activeColor="white" color="red"></tm-weekbar>
 		<tm-weekbar :followTheme="false" activeColor="black" color="yellow" linear="bottom"></tm-weekbar>
+		<tm-weekbar model="custom" :rowNumber="5"></tm-weekbar>
 	</tm-app>
 </template>
 <script lang="ts" setup>

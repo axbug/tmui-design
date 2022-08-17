@@ -135,11 +135,11 @@ provide('tmTabbarItemActive',computed(()=>_activeIndex.value))
 provide('tmTabbarItemSafe',_showSafe.value)
 provide('tmTabbarItemAutoSelect',computed(()=>props.autoSelect))
 watch(()=>props.active,()=>{
+	
 	if(props.active == _activeIndex.value) return;
 	_activeIndex.value = props.active
 })
 watch(_activeIndex,()=>{
-	
 	emits("change",_activeIndex.value)
 	emits("update:active",_activeIndex.value)
 })

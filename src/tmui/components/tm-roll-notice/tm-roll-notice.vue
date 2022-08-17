@@ -46,7 +46,7 @@ import {ComponentInternalInstance, computed, getCurrentInstance, nextTick, onMou
 // #ifdef APP-NVUE
 const animation = uni.requireNativePlugin('animation')
 // #endif
-const {proxy} = <ComponentInternalInstance>getCurrentInstance()
+const proxy = getCurrentInstance()?.proxy??null;
 const emits = defineEmits<{
   (e: 'click', index:number): void
 }>()
@@ -140,7 +140,7 @@ onMounted(()=>{
 })
 
 function nvueani(){
-  var testEl = proxy.$refs.content;
+  var testEl = proxy?.$refs.content;
     animation.transition(testEl, {
         styles: {
             transform: 'translateX(-100%)',

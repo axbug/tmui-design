@@ -9,7 +9,7 @@
                 <tm-button :margin="[12,12]" @click="showWin1=true" color="red" :width="120" :height="56" :font-size="24"  label="分离按钮"></tm-button>
                 <tm-button :margin="[12,12]" @click="showWin2=true" color="orange" :width="120" :height="56" :font-size="24"  label="个性化"></tm-button>
                 <tm-button :margin="[12,12]" @click="showWin3=true" color="pink" :width="120" :height="56" :font-size="24"  label="异步关闭"></tm-button>
-                <tm-button :margin="[12,12]" @click="modal.open()" color="green" :width="120" :height="56" :font-size="24"  label="Ref打开"></tm-button>
+                <tm-button :margin="[12,12]" @click="openDrawer" color="green" :width="120" :height="56" :font-size="24"  label="Ref打开"></tm-button>
             </view>
         </tm-sheet>
        <tm-modal  title="信息框" content="主体内容哦" v-model:show="showWin"></tm-modal>
@@ -26,7 +26,7 @@
     </tm-app>
 </template>
 <script lang="ts" setup>
-import { ref,getCurrentInstance } from "vue"
+import { ref,getCurrentInstance,nextTick } from "vue"
 import { onShow, onLoad } from "@dcloudio/uni-app";
 import tmApp from "@/tmui/components/tm-app/tm-app.vue"
 import tmInput from "@/tmui/components/tm-input/tm-input.vue"
@@ -37,7 +37,7 @@ import tmDivider from "@/tmui/components/tm-divider/tm-divider.vue"
 import tmButton from "@/tmui/components/tm-button/tm-button.vue"
 import tmImage from "@/tmui/components/tm-image/tm-image.vue"
 const modal = ref<InstanceType<typeof tmModal> | null>(null)
-
+uni.getSystemInfoSync()
 const showWin = ref(false)
 const showWin1 = ref(false)
 const showWin2 = ref(false)
@@ -52,5 +52,8 @@ function beforeClose(){
 
 function test(e){
 	console.log('ok事件点击')
+}
+function openDrawer(){
+	modal.value.open()
 }
 </script>

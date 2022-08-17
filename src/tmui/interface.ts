@@ -1,3 +1,31 @@
+declare interface Uni{
+    /**
+     * tmui3.0 函数库，更多请访问https://tmui.design
+     */
+    $tm:tmUtil
+}
+
+type pagesCustomType = 'default'|'custom'
+type pagesType = {
+    //页面地址
+    path:string,
+    //导航栏模式
+    custom:pagesCustomType
+}
+type tabBarItemType = {
+    "pagePath": string,
+    "iconPath": string,
+    "selectedIconPath": string,
+    "text": string
+}
+type tabBarType = {
+    color: string,
+    selectedColor: string,
+    borderStyle: string,
+    backgroundColor: string,
+    list?:Array<tabBarItemType>
+}
+
 type fetchConfigResponseType= "arraybuffer"|"text";
 type fetchConfigDataType = "json"|"text";
 type fetchConfigMethod= "GET"|"POST"|"PUT"|"DELETE"|"CONNECT"|"HEAD"|"OPTIONS"|"TRACE";
@@ -24,11 +52,25 @@ interface fetchConfig {
     complete?:Function
 }
 type openUrlType = "navigate"|"redirect"|"reLaunch"|"switchTab"|"navigateBack"
-declare interface Uni{
-    /**
-     * tmui3.0 函数库，更多请访问https://tmui.design
-     */
-    $tm:tmUtil
+declare interface  Touch {
+    readonly clientX: number;
+    readonly clientY: number;
+    readonly force: number;
+    readonly identifier: number;
+    readonly pageX: number;
+    readonly pageY: number;
+    readonly radiusX: number;
+    readonly radiusY: number;
+    readonly rotationAngle: number;
+    readonly screenX: number;
+    readonly screenY: number;
+    readonly target: EventTarget;
+    readonly x: number;
+    readonly y: number;
+}
+
+declare interface TouchEvent {
+    readonly changedTouches: TouchList
 }
 
 
@@ -36,12 +78,7 @@ type tmUtil = {
     //pagejson下的pages配置。
 	pages:Array<{path:string,custom:'custom'|'default'}>,
 	//pagejson下的配置。
-	tabBar:{
-		color: string,
-		selectedColor: string,
-		borderStyle: string,
-		backgroundColor: string,
-	},
+	tabBar:tabBarType,
     /**
      * 判断是否是颜色值
      * @param color 颜色值
@@ -61,7 +98,7 @@ type tmUtil = {
          * @param opts 请求的配置
          * @help https://tmui.design/doc/JSTool/fetch.html
          */
-        get(url:string,data:object,opts:fetchConfig):Promise<UniApp.GeneralCallbackResult>,
+        get(url:string,data?:object,opts?:fetchConfig):Promise<UniApp.GeneralCallbackResult|UniApp.RequestSuccessCallbackResult>,
         /**
          * POST请求
          * @param url 请求地址
@@ -69,7 +106,7 @@ type tmUtil = {
          * @param opts 请求的配置
          * @help https://tmui.design/doc/JSTool/fetch.html
          */
-        post(url:string,data:object,opts:fetchConfig):Promise<UniApp.GeneralCallbackResult>,
+        post(url:string,data?:object,opts?:fetchConfig):Promise<UniApp.GeneralCallbackResult|UniApp.RequestSuccessCallbackResult>,
         /**
          * 自定义请求
          * @param cog 请求的配置
@@ -78,7 +115,7 @@ type tmUtil = {
          * @param complete 请求完成的函数
          * @help https://tmui.design/doc/JSTool/fetch.html
          */
-        request(cog:fetchConfig,beforeFun?:Function,afterFun?:Function,complete?:Function):Promise<UniApp.GeneralCallbackResult>,
+        request(cog:fetchConfig,beforeFun?:Function,afterFun?:Function,complete?:Function):Promise<UniApp.GeneralCallbackResult|UniApp.RequestSuccessCallbackResult>,
     },
     /**
      * 快捷工具
@@ -174,7 +211,7 @@ type tmUtil = {
              * 取得唯一标识id
              * @param length 标识长度
              */
-            getUid (length:number):number,
+            getUid (length?:number):number,
             /**
              * 防抖
              * 防抖原理：在一定时间内，只有最后一次操作，再过wait毫秒后才执行函数
@@ -265,14 +302,14 @@ type tmUtil = {
              * @param mask 不允许穿透
              * @param icon 图标
              */
-            toast(word:string,mask:boolean,icon:any):void,
+            toast(word:string,mask?:boolean,icon?:any):void,
 			/**
 			 * 获取屏幕窗口安全高度和宽度
 			 * 注意是针对种屏幕的统一计算，统一高度，不再让uni获取有效高度而烦恼。
 			 * 请一定要在onMounted或者onLoad中调用，否则不准确在h5端。
-			 * @return {height,width}
+			 * @return {height,width,top,isCustomHeader,sysinfo}
 			 */
-			getWindow():{width:number,height:number,top:number},
+			getWindow():{width:number,height:number,top:number,isCustomHeader:Boolean,sysinfo:UniApp.GetSystemInfoResult},
 
             /**
              * 打开页面路径

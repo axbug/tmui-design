@@ -73,7 +73,7 @@ ComponentInternalInstance
 		},
 	});
 	const emits = defineEmits(['click', 'open', 'close', 'update:show']);
-	const {proxy} = <ComponentInternalInstance>getCurrentInstance();
+	const proxy = getCurrentInstance()?.proxy??null;
 	//自定义样式：
 	const customCSSStyle = computedStyle(props);
 	//自定类
@@ -96,12 +96,13 @@ ComponentInternalInstance
 		}
 	}
 	
-
+sysinfo.windowHeight + sysinfo.windowTop
 	// #ifdef H5
 	if (isCustomHeader) {
-		height.value  = sysinfo.windowHeight+44
+		height.value  = sysinfo.windowHeight + sysinfo.windowTop
 	}else{
-		top.value = 44
+		height.value  =sysinfo.windowHeight + sysinfo.windowTop-44
+		top.value=44
 	}
 	// #endif
 	
@@ -225,7 +226,7 @@ ComponentInternalInstance
 			emits('open');
 			clearTimeout(timids)
 			timids = setTimeout(function() {
-				var testEl = proxy.$refs.overlay;
+				var testEl = proxy?.$refs.overlay;
 				  animation.transition(testEl, {
 					  styles: {
 						  backgroundColor:bgColor_rp.value,

@@ -1,6 +1,9 @@
 <template>
-    <tm-drawer  :round="props.round" ref="drawer" :height="dHeight" @update:show="_show = $event" :show="_show" @close="close" @open="open"
-        title="请选择时间" :closable="true" :ok-color="props.color" @ok="confirm">
+    <tm-drawer  :round="props.round" ref="drawer" :height="dHeight" 
+	@update:show="_show = $event" :show="_show" @close="close" 
+	:ok-color="props.color"
+	@open="open"
+        title="请选择时间" :closable="true" @ok="confirm">
          <tm-time-view
             :height="dHeight-230"
             @update:model-value="_value = $event" 
@@ -35,15 +38,12 @@
  */
 import { computed, ref, watch, PropType, Ref, getCurrentInstance, nextTick, watchEffect } from "vue"
 import { custom_props, computedTheme, computedClass, computedStyle, computedDark } from '../../tool/lib/minxs';
-import { useTmpiniaStore } from '../../tool/lib/tmpinia';
 import tmTimeView from "../tm-time-view/tm-time-view.vue";
 import tmDrawer from "../tm-drawer/tm-drawer.vue";
 import TmSheet from "../tm-sheet/tm-sheet.vue";
 import tmText from "../tm-text/tm-text.vue";
 import tmButton from "../tm-button/tm-button.vue";
-
-const store = useTmpiniaStore();
-const { proxy } = getCurrentInstance();
+const proxy = getCurrentInstance()?.proxy??null;
 const drawer = ref<InstanceType<typeof tmDrawer> | null>(null)
 const emits = defineEmits(["update:modelValue", "update:modelStr", "update:show", "confirm","change", "cancel", "close", "open"])
 
@@ -126,10 +126,7 @@ const props = defineProps({
 	},
     color:{
         type:String,
-		default:()=>{
-			const store = useTmpiniaStore();
-			return store.tmStore.colorList.filter(p => p.name == store.tmStore.color)[0]?.value??"#0052d9"
-		},
+        default:"primary"
     },
     linear:{
         type:String,

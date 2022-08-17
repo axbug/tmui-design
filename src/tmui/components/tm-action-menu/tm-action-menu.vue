@@ -108,12 +108,10 @@ const _list = computed<Array<listitem>>(() => {
 	})
 	return listdata
 })
-
-// #ifdef APP || MP-WEIXIN
 let win_bottom = uni.getSystemInfoSync()?.safeAreaInsets?.bottom??0
-// #endif
+
 // #ifndef APP || MP-WEIXIN
-let win_bottom = uni.getSystemInfoSync()?.safeArea?.bottom??0
+win_bottom = uni.getSystemInfoSync()?.safeArea?.bottom??0
 win_bottom = win_bottom>uni.getSystemInfoSync().windowHeight?0:win_bottom
 // #endif
 const cHeight = computed(() => {

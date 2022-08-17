@@ -115,7 +115,7 @@ const props = defineProps({
   }
 });
 const emits = defineEmits(["click", "longpress", "touchend", "touchstart", "touchcancel", "mousedown", "mouseup", "mouseleave"]);
-const { proxy } = getCurrentInstance();
+const proxy = getCurrentInstance()?.proxy??null;
 const parenClass_p = computed(() => props.parenClass)
 const contStyle_p = computed(() => props.contStyle)
 const _transprent = computed(() => props.transprent)
@@ -196,7 +196,6 @@ function touchstart(e: Event) {
 }
 function touchend(e: Event) {
   isLongPress.value = false;
-  console.log(isLongPress.value)
   emits('touchend', e)
 }
 function touchcancel(e: Event) {

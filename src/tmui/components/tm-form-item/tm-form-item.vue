@@ -1,8 +1,9 @@
 <template>
     <tm-sheet :margin="props.margin" :padding="props.padding"  >
         <view :class="['flex',tmFormLayout=='horizontal'?'flex-row flex-row-center-start':'flex-col']">
-			<view v-if="_label" :style="[{width:tmFormLabelWidth+'rpx'}]" class="mr-32 flex flex-col" 
-            :class="[tmFormLabelAlign=='right'?'flex-col-center-end':'',tmFormLayout!='horizontal'?'mb-24':'']">
+			<view v-if="_label" :style="[{width:tmFormLabelWidth+'rpx'}]" class="mr-32 flex flex-row" 
+            :class="[tmFormLabelAlign=='right'?'flex-row-center-end':'',tmFormLayout!='horizontal'?'mb-24':'']">
+				<tm-text v-if="_required" color="red" :font-size="30" label="*"></tm-text>
 				<tm-text :color="tmFormFun=='validate'&&item.isRequiredError==true?'red':''" :font-size="30" :label="_label"></tm-text>
 			</view>
 			<view class="flex-1" :style="[tmFormLayout=='horizontal'?{width: '0px'}:'']">
@@ -31,7 +32,7 @@ import tmText from "../tm-text/tm-text.vue"
 import tmDivider from "../tm-divider/tm-divider.vue"
 import { rulesItem ,inputPushItem} from "./interface";
 import { formItem } from "./../tm-form/interface";
-const {proxy} = <ComponentInternalInstance>getCurrentInstance();
+const proxy = getCurrentInstance()?.proxy??null;
 const tmFormComnameFormItem = "tmFormComnameFormItem"
 const props = defineProps({
     label:{
@@ -90,6 +91,7 @@ const item:Ref<formItem> = ref({
     id:uni.$tm.u.getUid(1),//表单唯一标识id
     componentsName:"",//表单组件类型。
 })
+const _required = ref(props.required)
 const tmFormLabelWidth = inject("tmFormLabelWidth",computed(()=>100))
 const tmFormLabelAlign = inject("tmFormLabelAlign",computed(()=>"left"))
 const tmFormLayout = inject("tmFormLayout",computed(()=>"horizontal"))
@@ -100,7 +102,7 @@ const tmFormBorder = computed(()=>{
 })
 const _label = computed(()=>props.label)
 //父级方法。
-let parent = proxy?.$parent
+let parent:any = proxy?.$parent
 while (parent) {
     if (parent?.tmFormComnameId == 'tmFormId' || !parent) {
         break;
@@ -118,10 +120,12 @@ provide('tmFormItemRules',computed(()=>{
 	let defaultrs:Array<rulesItem> = []
 	if(Array.isArray(props?.rules)){
 		props?.rules.forEach(el=>{
+			let isreq = el?.required??props.required;
+	
             defaultrs.push(
                 {
                     message:el?.message??"请填写必要的内容",
-                    required:el?.required??props.required,
+                    required:isreq,
                     validator:el?.validator??false
                 }
             )

@@ -34,7 +34,7 @@
 		WeexBridge,
 	} from '../../tool/gcanvas/index.js';
 	// #endif
-	const { proxy } = <ComponentInternalInstance>getCurrentInstance();
+	const proxy = getCurrentInstance()?.proxy??null;
 
 	const props = defineProps({
 		option:{

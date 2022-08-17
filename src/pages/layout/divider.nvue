@@ -20,6 +20,8 @@
                 <tm-divider color="green" vertical :height="200" ></tm-divider>
                 <tm-divider color="red" vertical :height="200" ></tm-divider>
                 <tm-divider color="primary" vertical :height="200" ></tm-divider>
+				<tm-divider color="black" :border="10" real-color vertical :height="200" ></tm-divider>
+				
             </view>
            
         </tm-sheet>

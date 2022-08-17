@@ -92,7 +92,7 @@ const props = defineProps({
 	//弹出的动画时间单位ms.
 	duration: {
 		type: Number,
-		default: 160
+		default: 250
 	},
 	//是否允许点击遮罩关闭
 	overlayClick: {
@@ -153,7 +153,7 @@ const props = defineProps({
 	}
 });
 const emits = defineEmits(['click', 'open', 'close', 'update:show', 'ok', 'cancel']);
-const { proxy } = getCurrentInstance();
+const proxy = getCurrentInstance()?.proxy??null;
 // 设置响应式全局组件库配置表。
 const tmcfg = computed<tmVuetify>(() => store.tmStore);
 //自定义样式：
@@ -173,6 +173,10 @@ const timeid = ref(0);
 let timerId = NaN;
 let timerIdth = NaN
 let timerIdth_flas = false
+
+const overflowStatus = ref('close')
+const drawerStauts = ref('close')
+
 let _show = ref(props.show);
 function debounce(func: Function, wait = 500, immediate = false) {
 	// 清除定时器
@@ -218,15 +222,46 @@ function throttle(func: Function, wait = 500, immediate = true) {
 
 	}
 };
-let { windowWidth, windowHeight, windowTop, safeArea, statusBarHeight, titleBarHeight } = uni.getSystemInfoSync();
-syswidth.value = windowWidth;
-sysheight.value = windowHeight;
-// #ifdef APP || MP
-sysheight.value = safeArea?.height??windowHeight;
-// #endif
-// #ifdef H5
-sysheight.value = windowHeight;
-// #endif
+let sysinfo = uni.getSystemInfoSync();
+syswidth.value = sysinfo.windowWidth;
+sysheight.value = sysinfo.windowHeight;
+uni.hideKeyboard();
+let nowPage = getCurrentPages().pop()
+let isCustomHeader = false;
+for(let i=0;i<uni.$tm.pages.length;i++){
+	if(nowPage?.route==uni.$tm.pages[i].path&&uni.$tm.pages[i].custom=='custom'){
+		isCustomHeader = true;
+		break;
+	}
+}
+	// #ifdef H5
+	if (isCustomHeader) {
+		sysheight.value  = sysinfo.windowHeight + sysinfo.windowTop
+	}else{
+		sysheight.value  = sysinfo.windowHeight + sysinfo.windowTop-44
+	}
+	// #endif
+	
+	// #ifdef APP-NVUE 
+	if(!isCustomHeader){
+		if(sysinfo.osName=="android"){
+			sysheight.value = (sysinfo.safeArea?.height??sysinfo.windowHeight) - 44 - (sysinfo.safeAreaInsets?.bottom??0)
+		}else{
+			sysheight.value = (sysinfo.safeArea?.height??sysinfo.windowHeight) - 44
+		}
+	}else{
+		sysheight.value = (sysinfo.safeArea?.height??sysinfo.windowHeight) + (sysinfo?.statusBarHeight??0) + (sysinfo.safeAreaInsets?.bottom??0)
+	}
+	// #endif
+	// #ifdef APP-VUE 
+	if(!isCustomHeader){
+		sysheight.value = (sysinfo.safeArea?.height??sysinfo.windowHeight) - 44
+	}else{
+		sysheight.value = (sysinfo.safeArea?.height??sysinfo.windowHeight) + (sysinfo?.statusBarHeight??0) + (sysinfo.safeAreaInsets?.bottom??0)
+	}
+	// #endif
+
+
 timeid.value = uni.$tm.u.getUid(4)
 if (_show.value) {
 	reverse.value = false;
@@ -236,7 +271,7 @@ watch(() => props.show, (val) => {
 	if (val) {
 		opens();
 	} else {
-		close();
+		closeFun();
 	}
 })
 onMounted(() => opens())
@@ -306,6 +341,8 @@ const align_rp = computed(() => {
 function ok() {
 	if (props.disabled) return;
 	debounce(() => {
+		drawerStauts.value='close'
+		flag.value = true;
 		emits("ok")
 		closeFun()
 	}, props.duration, true)
@@ -313,29 +350,29 @@ function ok() {
 function cancel() {
 	if (props.disabled) return;
 	debounce(() => {
+		drawerStauts.value='close'
+		flag.value = true;
 		emits("cancel")
 		closeFun()
 	}, props.duration, true)
 }
 function OverLayOpen(){
-	debounce(() => {
-		nextTick(function () {
-			if (!drawerANI.value) return;
-			
-			flag.value = true;
-			drawerANI.value?.play()
-			timeid.value = setTimeout(function () {
-				emits("open")
-				flag.value = false;
-			}, props.duration)
-		})
-	},  props.duration, true)
+	nextTick(()=>{
+		if (!drawerANI.value)  return;
+		drawerANI.value?.play();
+		flag.value = false;
+	})
 }
 function opens() {
 	if (props.disabled) return;
 	if (flag.value) return;
-	aniEnd.value = false;
-	reverse.value = reverse.value === false ? true : false;
+
+	debounce(() => {
+		flag.value = true;
+		aniEnd.value = false;
+		reverse.value = true;
+		drawerStauts.value='open'
+	}, props.duration, true)
 }
 //外部调用。
 function open() {
@@ -347,6 +384,17 @@ function open() {
 }
 function animationClose() {
 	aniEnd.value = true;
+	if(drawerStauts.value=='open'){
+		emits("open")
+		flag.value = false;
+		
+	}else if(drawerStauts.value=='close'){
+		emits("close")
+		emits("update:show", false)
+		_show.value=false;
+		flag.value = false;
+	}
+	drawerStauts.value=''
 }
 let timid = uni.$tm.u.getUid(1);
 let flags = false;
@@ -355,6 +403,8 @@ let flags = false;
 function close() {
 	if (props.disabled) return;
 	if (flag.value) return;
+	drawerStauts.value='close'
+	flag.value = true;
 	debounce(() => {
 		emits("cancel")
 		closeFun()
@@ -363,34 +413,23 @@ function close() {
 //内部通过点击遮罩关闭的方法.同时需要发送事件。
 
 function clickClose(e:Event) {
-	if (props.disabled) return;
+	if (props.disabled||drawerStauts.value=='open') return;
 	emits('click', e);
-	if (flag.value) return;
 	if (!props.overlayClick) return;
 	debounce(() => {
+		drawerStauts.value='close'
+		flag.value = true;
 		emits("cancel")
 		closeFun()
 	}, props.duration, true)
 }
 function closeFun() {
 	if (props.disabled) return;
-	if (flag.value) return;
+	reverse.value = false;
+	if (!drawerANI.value) return;
 	nextTick(function () {
-		reverse.value = false;
-		if (!drawerANI.value) return;
-		flag.value = true;
-		nextTick(function () {
-			drawerANI.value?.play();
-			timeid.value = setTimeout(function () {
-				if (aniEnd.value) {
-					emits("close")
-					emits("update:show", false)
-					_show.value=false;
-					flag.value = false;
-				}
-			}, props.duration)
-		})
-
+		
+		drawerANI.value?.play();
 	})
 }
 //外部调用的方法。

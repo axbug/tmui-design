@@ -13,6 +13,7 @@ let config:fetchConfig={
     withCredentials:false,
     firstIpv4:false
 }
+
 function request(cog:fetchConfig = config,complete?:Function,beforeRequest?:Function,afterRequest?:Function):Promise<UniApp.GeneralCallbackResult|UniApp.RequestSuccessCallbackResult>{
     let newConfig = {...config,...cog}
     return new Promise(async (resolve,reject)=>{
@@ -23,7 +24,6 @@ function request(cog:fetchConfig = config,complete?:Function,beforeRequest?:Func
             }
             newConfig = {...newConfig,...opts};
         }
-		console.log(newConfig)
         uni.request({
             url:newConfig.url||"",
             data:newConfig.data,
@@ -96,7 +96,8 @@ export class fetchNet {
         let newConfig = {...config,...cog}
         if(typeof beforeFun == 'function'){
             let testFun = await beforeFun();
-            if(!testFun) return;
+            let cb:UniApp.GeneralCallbackResult = {errMsg:"中止请求"}
+            if(!testFun) return cb;
         }
         return request(newConfig,complete,(beforeFun||beforeRequest),(afterFun||afterRequest));
     }

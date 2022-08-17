@@ -86,6 +86,7 @@
             name="tmicon-times-circle-fill"
           ></tm-icon>
         </view>
+        
       </view>
     </tm-sheet>
   </tm-translate>
@@ -215,6 +216,5 @@ function next() {
 function close() {
    bodyani.value?.play();
 }
-
 
 </script>

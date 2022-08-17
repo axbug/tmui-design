@@ -42,10 +42,6 @@ const store = useTmpiniaStore();
 // 混淆props共有参数
 const props = defineProps({
 	...custom_props,
-	label: {
-		type: String,
-		default: ''
-	},
 	fontSize: {
 		type: [Number],
 		default: 34
@@ -74,7 +70,7 @@ const props = defineProps({
 });
 
 const emits = defineEmits(['click', 'longpress']);
-const { proxy } = getCurrentInstance();
+const proxy = getCurrentInstance()?.proxy??null;
 // 设置响应式全局组件库配置表。
 const tmcfg = computed<tmVuetify>(() => store.tmStore);
 //自定义样式：
@@ -155,8 +151,8 @@ const spinComputed = computed(() => props.spin);
 //间隙排列。
 const custom_space_size = inject('custom_space_size', [0, 0]);
 //图标的宽度和高度
-const iconWidth = computed(() => parseInt(props.fontSize || 34) + custom_space_size[0]);
-const iconHeight = computed(() => parseInt(props.fontSize || 34) + custom_space_size[1]);
+const iconWidth = computed(() => Math.ceil(props.fontSize || 34) + custom_space_size[0]);
+const iconHeight = computed(() => Math.ceil(props.fontSize || 34) + custom_space_size[1]);
 // nvue旋转动画的token
 const bindxToken = ref(null);
 function getEl(el) {
@@ -168,7 +164,7 @@ function getEl(el) {
 	}
 }
 function spinNvueAni() {
-	if (!proxy.$refs['icon']) return;
+	if (!proxy?.$refs['icon']) return;
 	let icon = getEl(proxy.$refs.icon);
 	let icon_bind = Binding.bind(
 		{

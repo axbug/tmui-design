@@ -63,7 +63,7 @@ import tmTranslate from "../tm-translate/tm-translate.vue";
 import {
 	custom_props,
 } from '../../tool/lib/minxs';
-const { proxy } = <ComponentInternalInstance>getCurrentInstance();
+const proxy = getCurrentInstance()?.proxy??null;
 const emits = defineEmits(['click'])
 const props = defineProps({
 	...custom_props,

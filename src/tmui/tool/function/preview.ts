@@ -10,7 +10,7 @@
  export function preview(url:string="",list:Array<string>=[],rangKey:string = "url"){
 	
 	if(!url){
-		uni.$tm.toast("参数有误");
+		uni.$tm.u.toast("参数有误");
 		return;
 	}
 	
@@ -42,7 +42,7 @@
 			})
 		}
 	}else{
-		uni.$tm.toast("参数有误");
+		uni.$tm.u.toast("参数有误");
 	}
 	
 	

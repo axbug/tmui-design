@@ -1,7 +1,7 @@
 <template>
 	<view>
 		<view v-if="!props.label || props.vertical"
-			:style="[tmcomputed.borderCss, props.vertical ? { width: '0px', height: props.height + 'rpx' } : '']"
+			:style="[{backgroundColor: (props.realColor?tmcomputed.color:tmcomputed.border)}, props.vertical ? { width: props.border+'rpx', height: props.height + 'rpx' } : '']"
 			:class="[props.vertical ? `mx-${props.margin[0]}` : `my-${props.margin[1]}`]"></view>
 		<view v-if="label && !props.vertical" class="flex flex-row flex-center">
 			<view :style="[tmcomputed ? { backgroundColor: (props.realColor?tmcomputed.color:tmcomputed.border), height: props.border + 'rpx' } : '']"
@@ -86,9 +86,7 @@ const props = defineProps({
 });
 //线的方向。
 const borderDir = computed(() => props.vertical ? 'left' : 'bottom');
-const {
-	proxy
-} = getCurrentInstance();
+const proxy = getCurrentInstance()?.proxy??null;
 // 设置响应式全局组件库配置表。
 const tmcfg = computed<tmVuetify>(() => store.tmStore);
 //自定义样式：

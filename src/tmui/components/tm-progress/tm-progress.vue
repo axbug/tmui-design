@@ -55,7 +55,9 @@
 			
 			]" class="relative absolute l-0 t-0 flex flex-col" :class="[!props.semicircle ? 'flex-center' : '']">
 				<cover-view :style="[{ fontSize: props.fontSize + 'rpx', color: isDark ? darkcolor : txtcolor }]">
-					{{ props.percent + props.percentSuffix }}
+					<slot name="title">
+						{{ props.percent + props.percentSuffix }}
+					</slot>
 				</cover-view>
 			</cover-view>
 			<!-- #endif -->
@@ -65,8 +67,11 @@
 				props.semicircle && props.semicircleFlip ? { 'justify-content': 'flex-start', 'align-items': 'center' } : '',
 				props.semicircle && !props.semicircleFlip ? { 'justify-content': 'flex-end', 'align-items': 'center' } : '',
 			]" class="relative absolute l-0 t-0 flex flex-col" :class="[!props.semicircle ? 'flex-center' : '']">
-				<tm-text :color="props.color" :followTheme="props.followTheme" :dark="props.dark"
-					:fontSize="props.fontSize" :label="props.percent + props.percentSuffix"></tm-text>
+				<slot name="title">
+					<tm-text :color="props.color" :followTheme="props.followTheme" :dark="props.dark"
+						:fontSize="props.fontSize" :label="props.percent + props.percentSuffix"></tm-text>
+				</slot>
+				
 			</cover-view>
 			<!-- #endif -->
 		</view>
@@ -94,7 +99,7 @@ import {
 // #endif
 const store = useTmpiniaStore();
 const emits = defineEmits(['update:percent', 'change'])
-const { proxy } = getCurrentInstance();
+const proxy = getCurrentInstance()?.proxy??null;
 const vnodeCtx = proxy
 const props = defineProps({
 	...custom_props,

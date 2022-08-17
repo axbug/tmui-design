@@ -37,7 +37,7 @@
 		custom_props
 	} from "../../tool/lib/minxs";
 	const tabs = ref<InstanceType<typeof tmTabs> | null>(null)
-	const proxy = getCurrentInstance()?.proxy;
+	const proxy = getCurrentInstance()?.proxy??null;
 	const props = defineProps({
 		...custom_props,
 		transprent: {
@@ -48,10 +48,14 @@
 			type: String,
 			default: "white",
 		},
-		//是否显示红点
+		//是否显示红点，与count不能同时出现
 		dot:{
 			type:Boolean,
 			default:false
+		},
+		count:{
+			type:[String,Number],
+			default:""
 		},
 		//红点颜色
 		dotColor:{
@@ -100,6 +104,7 @@
 			title: props.title,
 			icon: props.icon,
 			dot:props.dot,
+			count:props.count,
 			dotColor:props.dotColor
 		});
 		

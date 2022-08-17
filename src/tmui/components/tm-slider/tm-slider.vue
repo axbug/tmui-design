@@ -65,7 +65,7 @@ const dom = uni.requireNativePlugin('dom')
 const btn0 = ref<InstanceType<typeof sliderButton> | null>(null)
 const btn1 = ref<InstanceType<typeof sliderButton> | null>(null)
 
-const {proxy} = getCurrentInstance();
+const proxy = getCurrentInstance()?.proxy??null;
 const emits = defineEmits(["update:modelValue",'change'])
 const props = defineProps({
 	//是否跟随全局主题的变换而变换
@@ -303,7 +303,7 @@ function butnMoveEnd(e:btnMovetype,index:number){
 
 function getDomRectBound(){
     // #ifdef APP-NVUE
-    dom.getComponentRect(proxy.$refs['btn'+BtnIndex.value], function (res) {
+    dom.getComponentRect(proxy?.$refs['btn'+BtnIndex.value], function (res) {
         if (res?.size) {
             // { ...res.size }
             // console.log(res.size)
@@ -333,7 +333,7 @@ const rulesObj = inject("tmFormItemRules",computed<Array<rulesItem>>(()=>{
     ]
 }))
 //父级方法。
-let parentFormItem = proxy.$parent
+let parentFormItem:any = proxy?.$parent
 while (parentFormItem) {
     if (parentFormItem?.tmFormComnameFormItem == 'tmFormComnameFormItem' || !parentFormItem) {
         break;

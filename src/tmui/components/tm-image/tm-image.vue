@@ -59,9 +59,7 @@ import {
 	custom_props,
 } from '../../tool/lib/minxs';
 const aniplay = ref<InstanceType<typeof tmTranslate> | null>(null)
-const {
-	proxy
-} = <ComponentInternalInstance >getCurrentInstance();
+const proxy = getCurrentInstance()?.proxy??null;
 const emits = defineEmits(['load', 'error', 'click', 'delete','close'])
 const props = defineProps({
 	...custom_props,
@@ -169,7 +167,7 @@ const error = ref(false)
 const isRmove = ref(false)
 
 //父级方法。
-let parent = proxy.$parent
+let parent:any = proxy?.$parent
 
 while (parent) {
     if(parent?.tmImageGroup=='tmImageGroup'||!parent){

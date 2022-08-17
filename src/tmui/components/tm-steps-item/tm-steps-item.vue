@@ -56,7 +56,7 @@ import tmIcon from '../tm-icon/tm-icon.vue';
 import tmDivider from '../tm-divider/tm-divider.vue';
 import { computed, getCurrentInstance, inject, ref } from "vue";
 import { custom_props } from '../../tool/lib/minxs';
-const { proxy } = getCurrentInstance();
+const proxy = getCurrentInstance()?.proxy??null;
 const props = defineProps({
 	...custom_props,
 	transprent: {

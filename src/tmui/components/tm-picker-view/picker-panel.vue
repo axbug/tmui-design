@@ -52,7 +52,7 @@ import { columnsItem } from "./interface"
 const dom = uni.requireNativePlugin('dom')
 // #endif
 const emits = defineEmits(["change","end","start"])
-const { proxy } = getCurrentInstance();
+const proxy = getCurrentInstance()?.proxy??null;
 const store = useTmpiniaStore();
 const props = defineProps({
 	followTheme: {

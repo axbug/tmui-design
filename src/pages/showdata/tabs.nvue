@@ -2,7 +2,7 @@
     <tm-app>
         <tm-sheet>
             <tm-tabs showTabsLineAni :item-width="110" swiper :width="636" :height="500" default-name="2">
-                <tm-tabs-pane :dot="item==3"   v-for="(item,index) in 20" :key="index" :name="item" :title="'标题'">
+                <tm-tabs-pane :dot="item==3"   v-for="(item,index) in 15" :key="index" :name="item" :title="item%2?'标题开滑动':'标题'">
                     <tm-sheet :margin="[0, 0]">
 						<tm-text :font-size="30" _class="font-weight-b"
 						color='red'
@@ -61,7 +61,7 @@ const tabsTitle = ref([
     { key: "1", title: "选项1", icon: "tmicon-ios-leaf" },
     { key: "2", title: "选项2", icon: "tmicon-ios-umbrella" },
     { key: "3", title: "选项3",dot:true,dotColor:'yellow', icon: "tmicon-ios-rocket" },
-    { key: "4", title: "选项4", icon: "tmicon-ios-partly-sunny" },
+    { key: "4", title: "选项4",dot:false,count:"3", icon: "tmicon-ios-partly-sunny" },
 ])
 
 function tabschange(key:string|number){

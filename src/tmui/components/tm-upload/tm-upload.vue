@@ -42,7 +42,7 @@ import tmImage from '../tm-image/tm-image.vue';
 import tmText from '../tm-text/tm-text.vue';
 import tmIcon from '../tm-icon/tm-icon.vue';
 import tmSheet from '../tm-sheet/tm-sheet.vue';
-const {proxy} = getCurrentInstance();
+const proxy = getCurrentInstance()?.proxy??null;
 const props = defineProps({
 	//是否跟随全局主题的变换而变换
 	followTheme: {

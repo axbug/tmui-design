@@ -49,7 +49,7 @@ import {enable,WeexBridge} from "../../tool/gcanvas/index.js";
 const dom = uni.requireNativePlugin('dom')
 // #endif
 
-const { proxy } = <ComponentInternalInstance>getCurrentInstance();
+const proxy = getCurrentInstance()?.proxy??null;
 
 const props = defineProps({
 	width: {
@@ -104,7 +104,7 @@ function appvueH5Other() {
 }
 function drawNvue_init() {
 	/*获取元素引用*/
-	var ganvas = proxy.$refs[canvasId.value];
+	var ganvas = proxy?.$refs[canvasId.value];
 	/*通过元素引用获取canvas对象*/
 	var canvasObj = enable(ganvas, {
 		bridge: WeexBridge
@@ -113,7 +113,7 @@ function drawNvue_init() {
 	ctx = canvasObj.getContext('2d');
 	nextTick(function() {
 		setTimeout(function() {
-			dom.getComponentRect(proxy.$refs.tmspin, function(res) {
+			dom?.getComponentRect(proxy?.$refs.tmspin, function(res:any) {
 				if(res?.size){
 					ctxLeft = Math.floor(res.size.left);
 					ctxTop = Math.floor(res.size.top);

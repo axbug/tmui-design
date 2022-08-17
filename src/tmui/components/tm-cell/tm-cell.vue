@@ -21,32 +21,32 @@
           </slot>
         </view>
 
+		<view class="flex-1 flex flex-row flex-row-center-between" style="width: 0px">
+			<view >
+			  <view class="flex flex-5 flex-col" :class="[_computedValue.showAvatar ? 'pl-24' : '']">
+			    <slot name="title">
+			      <tm-text :fontSize="_computedValue.titleFontSize" :label="_computedValue.title"></tm-text>
+			    </slot>
+			    <slot name="label">
+			      <view v-if="_computedValue.label" class="mt-6">
+			        <tm-text :color="_computedValue.labelColor" :fontSize="22" :label="_computedValue.label"></tm-text>
+			      </view>
+			    </slot>
+			  </view>
+			</view>
+			<view class="flex-1 flex-row flex-row-center-end" style="width: 0px">
+			 <slot name="rightText">
+			   <tm-text _class="nowrap pr-12" :color="_computedValue.rightColor" v-if="_computedValue.rightText" :fontSize="_computedValue.rightTextSize"
+			     :label="_computedValue.rightText"></tm-text>
+			 </slot>
+			  <slot name="right">
+			    <tm-icon v-if="_computedValue.rightIcon" _class="opacity-3" :name="_computedValue.rightIcon" :fontSize="22">
+			    </tm-icon>
+			  </slot>
+			</view>
+		</view>
 
-        <view class="flex-3" style="width: 0px">
-          <view class="flex flex-5 flex-col" :class="[_computedValue.showAvatar ? 'pl-24' : '']">
-            <slot name="title">
-              <tm-text :fontSize="_computedValue.titleFontSize" :label="_computedValue.title"></tm-text>
-            </slot>
-            <slot name="label">
-              <view v-if="_computedValue.label" class="mt-6">
-                <tm-text :color="_computedValue.labelColor" :fontSize="22" :label="_computedValue.label"></tm-text>
-              </view>
-            </slot>
-          </view>
-        </view>
-        <view class="flex-1 flex-row flex-row-center-end" style="width: 0px">
-          <view class="flex flex-1 flex-row flex-row-center-end pr-12 flex-nowrap nowrap">
-            <slot name="rightText">
-              <tm-text _class="nowrap" :color="_computedValue.rightColor" v-if="_computedValue.rightText" :fontSize="_computedValue.rightTextSize"
-                :label="_computedValue.rightText"></tm-text>
-            </slot>
-          </view>
-          <slot name="right">
-            <tm-icon v-if="_computedValue.rightIcon" _class="opacity-3" :name="_computedValue.rightIcon" :fontSize="22">
-            </tm-icon>
-          </slot>
-        </view>
-      </view>
+	  </view>
     </tm-sheet>
     <tm-divider v-if="_computedValue.bottomBorder" :margin="[0, 0]" :style="{
       left: `${_computedValue.avatar !== ''
@@ -219,7 +219,7 @@ const _computedValue = computed(() => props);
 
 <style scoped>
 .url {
-  /* #ifndef APP-NVUE */
+  /* #ifdef H5 */
   cursor: pointer;
   /* #endif */
 }

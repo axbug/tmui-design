@@ -34,7 +34,7 @@
 	const store = useTmpiniaStore();
 	const tranAni  = ref<InstanceType<typeof tmTranslate> | null>(null)
 	const emits = defineEmits(['click'])
-	const {proxy} = <ComponentInternalInstance>getCurrentInstance();
+	const proxy = getCurrentInstance()?.proxy??null;
 	const props = defineProps({
 		//自定义的样式属性
 		_style: {
@@ -72,11 +72,9 @@
 	
 	onUnmounted(()=>clearTimeout(uid.value))
 	watch(()=>props.mask,(val)=>showMask.value=val)
-	// #ifdef APP-NVUE
-	const zindex = "";
-	// #endif
+	let zindex = {};
 	// #ifndef APP-NVUE
-	const zindex = {zIndex:'1000 !important'}
+	zindex = {zIndex:'1000 !important'}
 	// #endif
 	const modelIcon = computed(()=>{
 		

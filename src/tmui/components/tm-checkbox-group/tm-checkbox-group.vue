@@ -7,7 +7,7 @@
 import { computed , nextTick, provide ,ref ,watch ,getCurrentInstance,inject, toRaw, ComponentInternalInstance } from 'vue';
 import { inputPushItem, rulesItem } from "./../tm-form-item/interface"
 const emits = defineEmits(['update:modelValue','change'])
-const {proxy} = <ComponentInternalInstance>getCurrentInstance()
+const proxy = getCurrentInstance()?.proxy??null;
 const props = defineProps({
     disabled:{
         type:Boolean,

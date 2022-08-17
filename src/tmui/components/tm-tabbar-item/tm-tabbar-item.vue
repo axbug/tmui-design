@@ -6,7 +6,6 @@
 			:border="props.border" :borderStyle="props.borderStyle" :borderDirection="props.borderDirection"
 			:linear="props.linear" :linearDeep="props.linearDeep" @click="itemClick">
 			<tm-badge :fontSize="20" :color="c_font_style.dotColor" :eventPenetrationEnabled="true" :dot="props.dot"
-                :offset="badgeOffset"
 				:count="props.count" :icon="props.dotIcon" :maxCount="props.maxCount">
 				<view :class="[_active ? 'anifun' : '']" class="flex flex-col flex-col-center-center "
 					:style="{ width: 65 + 'px', height: '30px' }">
@@ -47,7 +46,7 @@ const store = useTmpiniaStore();
  * beforeClick点击切换之前执行，如果返回false或者Promise<false>时，将阻止链接的切换。如果没有提供url链接地地址将只作为切换使用。
  */
 const emits = defineEmits(["click", "beforeClick"])
-const { proxy } = <ComponentInternalInstance>getCurrentInstance();
+const proxy = getCurrentInstance()?.proxy??null;
 const props = defineProps({
 	...custom_props,
 	followTheme: {
@@ -151,11 +150,7 @@ const props = defineProps({
 	data: {
 		type: [Object, String, Number],
 		default: () => undefined
-	},
-  badgeOffset: {
-    type: Array as PropType<Array<number>>,
-    default: () => [0, 0],
-  }
+	}
 })
 const _btnTop = computed(() => props.btnTop)
 const _transprent = computed(() => {
@@ -245,12 +240,12 @@ watch(tmTabbarItemActive, () => {
 			nextTick(()=>{
 				_active.value = true
 			})
-
+			
 		} else {
 			nextTick(()=>{
 				_active.value = false
 			})
-
+			
 		}
 	}
 })
@@ -270,14 +265,13 @@ async function itemClick() {
 	}
 
 	emits("click");
-	if (tmTabbarItemAutoSelect.value) {
-		if (parent) {
-			parent.setNowurl(props.url, uid)
-		}
-
-	}
 	nextTick(() => {
-		setActive()
+		if (tmTabbarItemAutoSelect.value) {
+			if (parent) {
+				parent.setNowurl(props.url, uid)
+			}
+			setActive()
+		}
 		if (props.url == "") return
 		uni.$tm.u.routerTo(props.url, props.openType)
 	})

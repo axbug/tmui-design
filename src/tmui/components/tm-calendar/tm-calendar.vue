@@ -191,12 +191,10 @@ function confirm(e: Array<string | number>) {
     drawer.value?.close();
 }
 let sysinfo = uni.getSystemInfoSync()
-
-// #ifdef APP || MP-WEIXIN
 let win_bottom = sysinfo?.safeAreaInsets?.bottom??0
-// #endif
+
 // #ifndef APP || MP-WEIXIN
-let win_bottom = sysinfo?.safeArea?.bottom??0
+win_bottom = sysinfo?.safeArea?.bottom??0
 win_bottom = win_bottom>sysinfo.windowHeight?0:win_bottom
 // #endif
 

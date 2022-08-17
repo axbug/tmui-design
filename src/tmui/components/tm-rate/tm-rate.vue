@@ -15,7 +15,7 @@ import { useTmpiniaStore } from '../../tool/lib/tmpinia';
 import TmText from '../tm-text/tm-text.vue';
 const store = useTmpiniaStore();
 const emits = defineEmits(['click','change','update:modelValue'])
-const {proxy} = getCurrentInstance();
+const proxy = getCurrentInstance()?.proxy??null;
 const props = defineProps({
     ...custom_props,
     count:{

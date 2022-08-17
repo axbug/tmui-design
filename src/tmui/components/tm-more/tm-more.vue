@@ -68,7 +68,7 @@ const tmcfg = computed<tmVuetify>(() => store.tmStore);
 //是否暗黑模式。
 const isDark = computed(() => computedDark(props, tmcfg.value));
 const isInit = ref(false)
-const { proxy } = getCurrentInstance();
+const proxy = getCurrentInstance()?.proxy??null;
 
 const css_is_nvue = ref(true);
 // #ifndef APP-NVUE
@@ -104,7 +104,7 @@ onMounted(() => {
 function nvuegetClientRect() {
     nextTick(function () {
         // #ifdef APP-PLUS-NVUE
-        dom.getComponentRect(proxy.$refs.contentbody, function (res) {
+        dom.getComponentRect(proxy?.$refs.contentbody, function (res:any) {
             if (res?.size) {
                 css_nvue_size.value = [res.size.width, res.size.height];
 				
@@ -124,7 +124,7 @@ function nvuegetClientRect() {
 			if(res.height==0){
 				nvuegetClientRect()
 			}else{
-				if (res.height >= maxHeight.value) {
+				if (res?.height??0 >= maxHeight.value) {
 				    isMaxheight.value = true;
 				}
 				 isInit.value = true

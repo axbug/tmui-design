@@ -30,4 +30,5 @@ import tmDivider from "@/tmui/components/tm-divider/tm-divider.vue"
 import tmDrawer from "@/tmui/components/tm-drawer/tm-drawer.vue"
 const showWin = ref(false)
 const pos = ref("bottom")
+
 </script>

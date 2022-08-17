@@ -1,5 +1,5 @@
 <template>
-  <view :render-whole="true" class="flex " style="line-height: 0">
+  <view :render-whole="true" class="flex text-view nvue" style="line-height: 0">
     <!-- #ifdef APP-PLUS-NVUE -->
     <text :render-whole="true" @click="emits('click', $event)" :selectable="selectable" :user-select="selectable"
       :class="[_fontSize ? '' : 'text-size-m', customClass]" :style="[
@@ -98,3 +98,10 @@ const textColor = computed(() => {
   return 'rgba(34, 34, 34, 1.0)';
 });
 </script>
+<style scoped>
+	/* #ifndef APP-NVUE */
+	.text-view{
+		box-sizing: border-box;
+	}
+	/* #endif */
+</style>

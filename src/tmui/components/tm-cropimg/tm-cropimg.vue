@@ -72,7 +72,7 @@
 	import tmIcon from "../tm-icon/tm-icon.vue";
 	import tmText from "../tm-text/tm-text.vue";
 	import tmSlider from "../tm-slider/tm-slider.vue"
-	const {proxy} = getCurrentInstance();
+	const proxy = getCurrentInstance()?.proxy??null;
 	const emits = defineEmits(["confirm","cance"])
 	const props = defineProps({
 		url: {
@@ -99,9 +99,9 @@
 	// 视窗的宽。
 	const view_width = safeArea?.width || windowWidth;
 	//视窗的高度。
-	let view_height = safeArea?.height - 44;
+	let view_height = safeArea?.height??windowHeight - 44;
 	// #ifdef MP
-	view_height = safeArea?.height;
+	view_height = safeArea?.height??windowHeight;
 	// #endif
 	//手指触摸的坐标点。
 	const points = ref({
@@ -143,7 +143,7 @@
 		})
 	})
 	setRectPos()
-	function touchStart(res: Event) {
+	function touchStart(res: TouchEvent) {
 
 		if (!url.value) return;
 		moveable.value = true;
@@ -171,7 +171,7 @@
 		imgPos.value.oldscale = imgPos.value.scale
 	}
 
-	function touchMove(res: Event) {
+	function touchMove(res: TouchEvent) {
 		let event = res.touches[0];
 		let event2 = res.touches[1];
 		if (res.type == 'mousedown') {

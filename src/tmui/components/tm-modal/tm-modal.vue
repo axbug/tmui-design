@@ -10,11 +10,11 @@
 				!props.transprent ? tmcomputed.shadowColor : '',
 				customCSSStyle,
 			]" :class="[round_rp, 'flex flex-col overflow ', customClass]">
-				<view class="flex flex-row px-24" style="height:44px" :class="[props.closable?'flex-row-center-between':'flex-center']">
+				<view class="flex flex-row px-24" style="height:44px" :class="[props.closeable?'flex-row-center-between':'flex-center']">
 					<tm-text :dark="props.dark" :followTheme="false" _class="text-overflow-1 text-weight-b text-size-m" class="flex-center"
 						:label="props.title"></tm-text>
 					<tm-icon
-						v-if="closable"
+						v-if="closeable"
                         name="tmicon-times-circle-fill"
                         :fontSize="32"
                         @click="close"
@@ -111,7 +111,7 @@ const props = defineProps({
 	//弹出的动画时间单位ms.
 	duration: {
 		type: Number,
-		default: 160
+		default: 200
 	},
 	//是否允许点击遮罩关闭
 	overlayClick: {
@@ -123,7 +123,7 @@ const props = defineProps({
 		default: false
 	},
 	//如果显示关闭。标题栏被替换为左标题右关闭按钮。
-	closable: {
+	closeable: {
 		type: [Boolean],
 		default: false
 	},
@@ -197,7 +197,7 @@ const props = defineProps({
 	}
 });
 const emits = defineEmits(['click', 'open', 'close', 'update:show', 'ok', 'cancel']);
-const { proxy } = <ComponentInternalInstance>getCurrentInstance();
+const proxy = getCurrentInstance()?.proxy??null;
 // 设置响应式全局组件库配置表。
 const tmcfg = computed<tmVuetify>(() => store.tmStore);
 //自定义样式：

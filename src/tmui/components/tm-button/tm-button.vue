@@ -1,8 +1,8 @@
 <template>
 	<tm-sheet 
 	no-level
-	:_style="[{opacity:isclickOn||_disabled?0.7:1}]" 
-	hover-class="bhover"
+	:_style="{opacity:isclickOn||_disabled?0.7:1}" 
+	hover-class="none"
 	:round="btnSizeObj.round" 
 	:width="btnSizeObj.w" 
 	:height="btnSizeObj.h" 
@@ -22,8 +22,7 @@
 	:border-style="props.borderStyle"
 	:border="props.border"
 	:blur="props.blur"
-  :unit="props.unit"
-	_class="flex flex-row flex-center pointer">
+	_class="flex flex-row flex-center ">
 		<button 
 		@click="onclick"
 		@touchstart="touchstart" 
@@ -47,11 +46,10 @@
 		:loading="_load"
 		:disabled="_disabled"
 		:hover-start-time="10000000" 
-		hover-stop-propagation hover-class="buttonHover" 
+		hover-stop-propagation hover-class="bhover" 
 		class="button flex-1  flex-center" 
 		:class="[customClass]"
-		:style="customCSSStyle" 
-		style="border: 0px solid rgba(0, 0, 0, 0);background: rgba(0, 0, 0, 0);border-radius: 0px;">
+		:style="customCSSStyle">
 			<slot>
 				<tm-icon v-if="_icon" :userInteractionEnabled="false"  :color="_fontColor"  :_class="_label?'pr-10':''" :unit="props.unit" :fontSize="btnSizeObj.fontSize*0.9" :name="_icon"></tm-icon>
 				<tm-text :userInteractionEnabled="false" :color="_fontColor" :fontSize="btnSizeObj.fontSize" :unit="props.unit"  :label="_label"></tm-text>
@@ -94,7 +92,7 @@ const emits = defineEmits<{
   (e: 'contact', event: any): void
 }>()
 
-const {proxy} = <ComponentInternalInstance>getCurrentInstance();
+const proxy = getCurrentInstance()?.proxy??null;
 const props = defineProps({
 	...custom_props,
 	transprent:{
@@ -232,7 +230,12 @@ if(formtype.value=='reset'||formtype.value=='submit'){
 //自定义样式：
 const customCSSStyle = computed(()=>
 {
-	return {height:btnSizeObj.value.h+ props.unit,...computedStyle(props)}
+	return {
+		height:btnSizeObj.value.h+ props.unit,...computedStyle(props),
+		border: '0px solid rgba(0, 0, 0, 0)',
+		background: 'rgba(0, 0, 0, 0)',
+		borderRadius: '0px'
+	}
 });
 //自定类
 const customClass = computed(()=>computedClass(props));
@@ -340,11 +343,7 @@ function onclick(e:Event){
 	padding: 0px;
 	border-radius: 0px;
 }
-.button::after{
-	background: rgba(0, 0, 0, 0);
-	border: 0px solid rgba(0, 0, 0, 0);
-	border-radius: 0px;
-}
+
 .buttonHover{
 	background: rgba(0, 0, 0, 0);
 }
@@ -352,9 +351,13 @@ function onclick(e:Event){
 .bhover{
 	opacity: 0.7;
 }
-/* #ifdef H5 */
-.bhover:hover{
-	opacity: 0.7;
+/* #ifndef APP-NVUE */
+.button::after{
+	background: transparent !important;
+	background-color: transparent  !important;
+	border:none  !important;
+	border-radius: 0px  !important;
 }
+
 /* #endif */
 </style>

@@ -568,12 +568,14 @@ export function toast(word:string,mask:boolean=true,icon:any='none'){
  * 获取屏幕窗口安全高度和宽度
  * 注意是针对种屏幕的统一计算，统一高度，不再让uni获取有效高度而烦恼。
  * 请一定要在onMounted或者onLoad中调用，否则不准确在h5端。
- * @return {height,width}
+ * @return {height,width,top,isCustomHeader}
  */
 export function getWindow(){
-
+	// let getsysinfoSync = getCookie("tmui_sysinfo")
+	// if(getsysinfoSync){
+	// 	return getsysinfoSync
+	// }
 	const sysinfo = uni.getSystemInfoSync();
-	uni.hideKeyboard()
 	let top =0;
 	let height = sysinfo.windowHeight;
 	let nowPage = getCurrentPages().pop()
@@ -586,9 +588,13 @@ export function getWindow(){
 	}
 	// #ifdef H5
 	if (isCustomHeader) {
-		height  = sysinfo.windowHeight+44
+		height  = sysinfo.windowHeight+sysinfo.windowTop
 	}else{
-		height  = sysinfo.windowHeight-44
+		if(sysinfo.windowTop>0){
+			height  = sysinfo.windowHeight;
+		}else{
+			height  = sysinfo.windowHeight+44;
+		}
 	}
 	// #endif
 
@@ -610,7 +616,9 @@ export function getWindow(){
 		height = (sysinfo.safeArea?.height??sysinfo.windowHeight) + (sysinfo?.statusBarHeight??0) + (sysinfo.safeAreaInsets?.bottom??0)
 	}
 	// #endif
-	return {height:height,width:sysinfo.windowWidth,top:top};
+	let reulst = {height:height,width:sysinfo.windowWidth,top:top,isCustomHeader:isCustomHeader,sysinfo:sysinfo};
+	// setCookie("tmui_sysinfo",reulst)
+	return reulst;
 }
 type openUrlType = "navigate"|"redirect"|"reLaunch"|"switchTab"|"navigateBack"
 /**

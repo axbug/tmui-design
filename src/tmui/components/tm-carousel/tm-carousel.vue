@@ -133,7 +133,7 @@ import {
 import tmImage from "../tm-image/tm-image.vue"
 import tmSheet from "../tm-sheet/tm-sheet.vue"
 import { listItem, listItemType,listItemTypeStr } from "./interface"
-const { proxy } = <any>getCurrentInstance()
+const proxy = getCurrentInstance()?.proxy??null;
 const emits = defineEmits(["change","click"])
 const props = defineProps({
 	followTheme:{

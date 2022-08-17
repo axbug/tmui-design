@@ -68,7 +68,7 @@ const animation = uni.requireNativePlugin('animation')
  * update:modelValue v-model双向绑定数据。
  */
 const emits = defineEmits(['update:modelValue','change','click'])
-const {proxy} = getCurrentInstance();
+const proxy = getCurrentInstance()?.proxy??null;
 const props = defineProps({
 	...custom_props,
 	//是否跟随全局主题的变换而变换
@@ -225,9 +225,9 @@ onMounted(()=>{
 
 function spinNvueAni(reveser=false) {
 	// #ifdef APP-NVUE
-	if (!proxy.$refs['switch']) return;
+	if (!proxy?.$refs['switch']) return;
 	
-	var testEl = proxy.$refs.switch;
+	var testEl = proxy?.$refs.switch;
 	animation.transition(testEl, {
 		styles: {
 			transform: reveser?`translateX(${viewSize.value.conentWidthPx}px)`:'translateX(0%)',
@@ -256,7 +256,7 @@ const rulesObj = inject("tmFormItemRules",computed<Array<rulesItem>>(()=>{
     ]
 }))
 //父级方法。
-let parentFormItem = proxy.$parent
+let parentFormItem:any = proxy?.$parent
 while (parentFormItem) {
     if (parentFormItem?.tmFormComnameFormItem == 'tmFormComnameFormItem' || !parentFormItem) {
         break;

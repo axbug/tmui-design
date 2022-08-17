@@ -5,6 +5,7 @@
 	// 		"^tm-(.*)": "@/tmui/components/tm-$1/tm-$1.vue"
 	// 	}
 	// },
+	
 	"pages": [
 		{
 			"path": "pages/index/index",
@@ -31,6 +32,7 @@
 				"transparentTitle": "always"
 			}
 		}
+	    
     ],
 	"subPackages": [
 		{

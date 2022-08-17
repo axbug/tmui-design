@@ -34,7 +34,7 @@ import tmPickerView from "../tm-picker-view/tm-picker-view.vue";
 import TmSheet from "../tm-sheet/tm-sheet.vue";
 import tmText from "../tm-text/tm-text.vue";
 import tmButton from "../tm-button/tm-button.vue";
-const {proxy} = getCurrentInstance()
+const proxy = getCurrentInstance()?.proxy??null;
 const drawer = ref<InstanceType<typeof tmDrawer> | null>(null)
  
 /**
@@ -144,7 +144,7 @@ function setVal() {
     emits("update:modelStr", _colStr.value)
 }
 //模拟模型来返回index值
-function getIndexBymodel(vdata = [], model = "name", parentIndex = 0, value = []): Array<number> {
+function getIndexBymodel(vdata:Array<childrenData> = [], model = "name", parentIndex = 0, value:Array<number|string> = []): Array<number|string> {
     if (model == 'name') {
         let item = vdata.filter(el => value[parentIndex] == el['text'])
         if (item.length == 0) {
@@ -192,7 +192,7 @@ function getIndexBymodel(vdata = [], model = "name", parentIndex = 0, value = []
     return _colIndex.value;
 }
 //返回 一个节点从父到子的路径id组。
-function getRouterId(list = [], parentIndex = 0): Array<string | number> {
+function getRouterId(list:Array<childrenData>  = [], parentIndex = 0): Array<string | number> {
     let p: Array<string | number> = [];
     for (let i = 0; i < list.length; i++) {
         if (i == _colIndex.value[parentIndex]) {
@@ -211,7 +211,7 @@ function chiliFormatCity_area() {
     let list: Array<childrenData> = [];
     provinceData.forEach((item: childrenData, index: number) => {
         list.push({
-            id: item.value,
+            id: item.value??"",
             text: String(item.label),
             children: []
         })
@@ -219,9 +219,9 @@ function chiliFormatCity_area() {
     if (props.cityLevel == 'province') return list;
     cityData.forEach((item: childrenData, index: number) => {
         item.forEach((citem: childrenData, cindex: number) => {
-            list[index].children.push({
-                id: citem.value,
-                text: citem.label,
+            list[index]?.children.push({
+                id: citem.value??"",
+                text: citem.label??"",
                 children: []
             })
         })
@@ -230,9 +230,9 @@ function chiliFormatCity_area() {
     list.forEach((item, index) => {
         item.children.forEach((citem, cindex: number) => {
             areaData[index][cindex].forEach(jitem => {
-                list[index].children[cindex].children.push({
-                    id: jitem.value,
-                    text: jitem.label,
+                list[index]?.children[cindex]?.children.push({
+                    id: jitem.value??"",
+                    text: jitem.label??"",
                 })
             })
         })

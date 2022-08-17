@@ -178,7 +178,7 @@ import { useTmpiniaStore } from '../../tool/lib/tmpinia';
 import TmButton from '../tm-button/tm-button.vue';
 const store = useTmpiniaStore();
 const emits = defineEmits(["focus", "blur", "confirm", "input", "update:modelValue", "clear", "search", "keyboardheightchange", 'click'])
-const { proxy } = getCurrentInstance()
+const proxy = getCurrentInstance()?.proxy??null;
 const props = defineProps({
     ...custom_props,
 	followTheme: {
@@ -374,7 +374,7 @@ const props = defineProps({
 	},
 })
 
-let parentFormItem = proxy.$parent
+let parentFormItem:any = proxy?.$parent
 while (parentFormItem) {
     if (parentFormItem?.tmFormComnameFormItem == 'tmFormComnameFormItem' || !parentFormItem) {
         break;
@@ -526,7 +526,7 @@ function blur() {
 function confirm() {
     emits("confirm", _value.value)
 }
-function inputHandler(e) {
+function inputHandler(e:CustomEvent) {
 
     _value.value = e.detail.value;
     emits("input", e.detail.value)
