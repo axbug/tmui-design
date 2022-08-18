@@ -1,5 +1,5 @@
 <template>
-  <tm-sheet :round="3" _class="flex flex-col overflow" :padding="props.padding" :margin="props.margin">
+  <tm-sheet :round="3" _class="flex flex-col overflow" :padding="props.padding" :margin="props.margin" :transprent="transprent">
       <slot></slot>
   </tm-sheet>
 </template>
@@ -60,7 +60,12 @@ const props = defineProps({
 	border:{
 		type:Boolean,
 		default:true
-	}
+	},
+		// 是否透明
+		transprent: {
+			type: Boolean,
+			default: false
+		}
 })
 const _modelVal = ref({})
 //备份，重置时，使用。
@@ -83,6 +88,7 @@ provide("tmFormLabelWidth",computed(()=>props.labelWidth))
 provide("tmFormLabelAlign",computed(()=>props.labelAlign))
 provide("tmFormLayout",computed(()=>props.layout))
 provide("tmFormBorder",computed(()=>props.border))
+provide("tmFormTransprent", computed(() => props.transprent))
 let timid = 56321326898746;
 function reset(){
     formFunCallBack.value = ""
