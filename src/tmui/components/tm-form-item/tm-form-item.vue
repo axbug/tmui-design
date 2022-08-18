@@ -1,5 +1,5 @@
 <template>
-    <tm-sheet :margin="props.margin" :padding="props.padding"  >
+    <tm-sheet :margin="props.margin" :padding="props.padding" :transprent="tmFormTransprent" >
         <view :class="['flex',tmFormLayout=='horizontal'?'flex-row flex-row-center-start':'flex-col']">
 			<view v-if="_label" :style="[{width:tmFormLabelWidth+'rpx'}]" class="mr-32 flex flex-row" 
             :class="[tmFormLabelAlign=='right'?'flex-row-center-end':'',tmFormLayout!='horizontal'?'mb-24':'']">
@@ -96,6 +96,7 @@ const tmFormLabelWidth = inject("tmFormLabelWidth",computed(()=>100))
 const tmFormLabelAlign = inject("tmFormLabelAlign",computed(()=>"left"))
 const tmFormLayout = inject("tmFormLayout",computed(()=>"horizontal"))
 const tmFormBorder_inject = inject("tmFormBorder",computed(()=>true))
+const tmFormTransprent = inject("tmFormTransprent", computed(() => false))
 const tmFormBorder = computed(()=>{
     if(props.border!==null&&typeof props.border === 'boolean') return props.border;
     return tmFormBorder_inject.value
