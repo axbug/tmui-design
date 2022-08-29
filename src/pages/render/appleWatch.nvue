@@ -1,0 +1,38 @@
+<template>
+	<tm-app>
+		<tm-sheet :round="5" color="black" :padding="[0,0]">
+			<tm-render ref="rtx" :width="338" :height="338"></tm-render>
+		</tm-sheet>
+	</tm-app>
+</template>
+
+<script lang="ts" setup>
+import { ref, getCurrentInstance,onMounted } from "vue"
+import { onShow, onLoad } from "@dcloudio/uni-app";
+import tmApp from "@/tmui/components/tm-app/tm-app.vue"
+import tmSheet from "@/tmui/components/tm-sheet/tm-sheet.vue"
+import tmCell from "@/tmui/components/tm-cell/tm-cell.vue"
+import tmDivider from "@/tmui/components/tm-divider/tm-divider.vue"
+import tmRender from "../../tmui/components/tm-render/tm-render.vue"
+import {CRenderGraph,CRenderTypes,CRenderGraphsConfig} from "@/tmui/components/tm-render/interface"
+import {tmChartsType} from "@/tmui/components/tm-render/tmChart/interface"
+const rtx = ref<InstanceType<typeof tmRender> | null>(null)
+
+	onMounted(() => {
+		rtx.value.init().then((tm:tmChartsType)=>{
+			tm.pie().setData([
+				  { name: 'a1234', value: 20 },
+				  { name: 'b123', value: 30 },
+				  { name: '我的示例', value: 40 },
+				  { name: 'f123', value: 31 },
+				  { name: 'g123', value: 37 }
+			]).chart()
+		})
+	})
+
+
+</script>
+
+<style>
+
+</style>

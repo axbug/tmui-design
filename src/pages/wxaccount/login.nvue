@@ -1,0 +1,122 @@
+<template>
+	<tm-app :text="false" color="white" darkColor="rgb(20, 20, 20)">
+		<tm-sheet :margin="[0, 0]" :padding="[32, 32]" _class="flex ">
+			<tm-segtab v-model="loginTypeIndex" :width="686" :list="[{ id: 1, text: '微信授权' }, { id: 2, text: '帐户登录' }]"
+				:defaultValue="loginTypeIndex"></tm-segtab>
+			<view class="mt-32">
+				<view v-if="loginTypeIndex == 1">
+					<view class="flex-center flex mb-32">
+						<tm-avatar :border="2" img="https://picsum.photos/200/300" color="grey" text :size="180"
+							:round="25"></tm-avatar>
+					</view>
+					<tm-button :height="100" :round="24" block @getUserInfo="wxlogin" open-type="getUserProfile"
+						label="授权登录"></tm-button>
+					<!-- #ifdef MP-WEIXIN -->
+					<ad unit-id="adunit-e065040f522746dc"></ad>
+					<!-- #endif -->
+					<view class="px-32 text-align-center">
+						<tm-text :font-size="22" label="本小程序不会使用到你任何关联的隐私信息，只会获取唯一身份标识。"></tm-text>
+					</view>
+				</view>
+				<view v-if="loginTypeIndex == 2">
+					<view class="flex-center flex mb-32">
+						<tm-avatar :border="2" img="https://picsum.photos/200/300" color="grey" text :size="180"
+							:round="25"></tm-avatar>
+					</view>
+					<tm-form :margin="[0, 0]" v-model="loginUser" :border="false">
+						<tm-form-item field="user" :rules="[{ required: true, message: '帐户验证失败', validator: isEmail }]">
+							<tm-input outlined :inputPadding="[36, 0]" prefix="tmicon-user-fill" placeholder="帐户名称"
+								:round="24" :height="100"></tm-input>
+						</tm-form-item>
+						<tm-form-item field="password" :rules="[{ required: true, message: '请输入密码' }]">
+							<tm-input outlined :inputPadding="[36, 0]" prefix="tmicon-lock-fill" placeholder="帐户密码"
+								:margin="[0, 24]" :round="24" :height="100"></tm-input>
+						</tm-form-item>
+						<tm-form-item>
+							<tm-button :round="24" form-type="submit" block :height="100" label="邮箱登录(未开放)"></tm-button>
+						</tm-form-item>
+					</tm-form>
+					<view class="px-32 text-align-center">
+						<tm-text :font-size="22" label="本小程序不会使用到你任何关联的隐私信息，只会获取唯一身份标识。"></tm-text>
+					</view>
+				</view>
+
+			</view>
+		</tm-sheet>
+
+
+	</tm-app>
+</template>
+
+<script lang="ts" setup>
+import { ref, getCurrentInstance } from "vue"
+import { onShow, onLoad } from "@dcloudio/uni-app";
+import tmApp from "@/tmui/components/tm-app/tm-app.vue"
+import tmSheet from "@/tmui/components/tm-sheet/tm-sheet.vue"
+import tmText from "@/tmui/components/tm-text/tm-text.vue"
+import tmAvatar from "@/tmui/components/tm-avatar/tm-avatar.vue"
+import tmBadge from "@/tmui/components/tm-badge/tm-badge.vue"
+import tmDivider from "@/tmui/components/tm-divider/tm-divider.vue"
+import tmButton from "@/tmui/components/tm-button/tm-button.vue"
+import tmSegtab from "@/tmui/components/tm-segtab/tm-segtab.vue"
+import tmInput from "@/tmui/components/tm-input/tm-input.vue"
+import tmForm from "@/tmui/components/tm-form/tm-form.vue"
+import tmFormItem from "@/tmui/components/tm-form-item/tm-form-item.vue"
+const { proxy } = getCurrentInstance();
+const loginTypeIndex = ref(1)
+const loginUser = ref({
+	user: "",
+	password: ""
+})
+const getUserInfo = (e) => {
+	console.log(e)
+}
+function isEmail(val) {
+	return uni.$tm.u.isEmail(val)
+}
+//微信授权登录
+function wxlogin(userinfo: any) {
+	uni.login({
+		success: (log) => {
+			if (log.errMsg != 'login:ok') {
+				uni.showToast({ title: log.errMsg })
+				return;
+			}
+			let code = log.code;
+			uni.showLoading({ title: '...', mask: true })
+
+			uni.$tm.fetch.post('https://jx2d.cn/tmui/loginuser/', {
+				code: code,
+				userInfo: encodeURIComponent(userinfo.rawData)
+			}).then((d) => {
+				uni.hideLoading()
+				const djson = d.data;
+				if (djson.code != 0) {
+					uni.showToast({ title: '失败，请重试' })
+					uni.$tm.u.delCookie("token")
+					return;
+				}
+				uni.$tm.u.setCookie("token", djson.data.token)
+				uni.showToast({ title: '登录成功', mask: true })
+				setTimeout(function () {
+					uni.navigateBack({})
+				}, 1300);
+			}).catch(e => {
+				uni.hideLoading()
+				console.error(e)
+				uni.showToast({ title: '授权失败' })
+			})
+		},
+		fail: (error) => {
+			uni.showToast({ title: '授权login失败' })
+			rej(error)
+
+		}
+	})
+}
+
+
+</script>
+
+<style>
+</style>
