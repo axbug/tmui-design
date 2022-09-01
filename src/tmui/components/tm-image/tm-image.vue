@@ -1,20 +1,25 @@
 <template>
 
-	<tm-translate :width="img_width + (props.padding[0] * 2) + props.unit" v-if="!isRmove" @end="aniEnd" ref="aniplay" :autoPlay="false" name="zoom"
-		reverse>
+	<tm-translate :width="img_width + (props.padding[0] * 2) + props.unit" v-if="!isRmove" @end="aniEnd" ref="aniplay"
+		:autoPlay="false" name="zoom" reverse>
 		<tm-sheet :color="props.color" :transprent="props.transprent" :margin="props.margin" :round="props.round"
-			:border="props.border" :padding="[props.padding[0],0]" :class="['round-' + props.round]" :width="img_width - (props.padding[0] * 2)"
-			:unit="props.unit">
+			:border="props.border" :padding="[props.padding[0], 0]" :class="['round-' + props.round]"
+			:width="img_width - (props.padding[0] * 2)" :unit="props.unit">
 			<view :class="[`pb-${props.padding[1]}`]">
-				<image v-if="loading" :src="img_src" style="width: 10px;height: 10px;opacity: 0;transform:translateX(1200px)" @load="imageLoad"
+				<image v-if="loading" :src="img_src"
+					style="width: 10px;height: 10px;opacity: 0;transform:translateX(1200px)" @load="imageLoad"
 					@error="imageError" mode="scaleToFill"></image>
-				<image @click="imageClick" :class="['round-' + props.round]" v-if="!loading && !error" :src="img_src"
-					:style="[{ width: img_width + props.unit, height: img_height + props.unit }]" :mode="props.model"></image>
-				<view v-if="loading && !error" :style="[{ width: img_width + props.unit, height: img_height + props.unit }]"
+				<image :show-menu-by-longpress="props.showMenuByLongPress" @click="imageClick"
+					:class="['round-' + props.round]" v-if="!loading && !error" :src="img_src"
+					:style="[{ width: img_width + props.unit, height: img_height + props.unit }]" :mode="props.model">
+				</image>
+				<view v-if="loading && !error"
+					:style="[{ width: img_width + props.unit, height: img_height + props.unit }]"
 					class="flex flex-center opacity-3">
 					<tm-icon v-if="props.showLoad" :font-size="26" spin name="tmicon-loading"></tm-icon>
 				</view>
-				<view v-if="!loading && error" :style="[{ width: img_width + props.unit, height: img_height + props.unit }]"
+				<view v-if="!loading && error"
+					:style="[{ width: img_width + props.unit, height: img_height + props.unit }]"
 					class="flex flex-col flex-center opacity-5">
 					<tm-icon name="tmicon-exclamation-circle"></tm-icon>
 					<tm-text _class="pt-10" :font-size="26" :label="props.errorLabel"></tm-text>
@@ -24,9 +29,9 @@
 					props.extraPosition == 'in' ? 'absolute l-0 b-0 zIndex-5' : '',
 					'flex flex-col flex-col-bottom-start'
 				]" :style="[
-					props.extra && props.extraPosition == 'in' ? { height: img_height + props.unit, width: img_width + props.unit } : '',
-					props.extra && props.extraPosition == 'out' ? { width: img_width + props.unit } : '',
-				]">
+	props.extra && props.extraPosition == 'in' ? { height: img_height + props.unit, width: img_width + props.unit } : '',
+	props.extra && props.extraPosition == 'out' ? { width: img_width + props.unit } : '',
+]">
 					<slot name="extra"></slot>
 				</view>
 				<!-- delete 展示删除按钮。 -->
@@ -49,7 +54,7 @@ import {
 	getCurrentInstance,
 	computed,
 	ref,
-	inject,watch, PropType,ComponentInternalInstance
+	inject, watch, PropType, ComponentInternalInstance
 } from 'vue'
 import tmSheet from "../tm-sheet/tm-sheet.vue";
 import tmText from "..//tm-text/tm-text.vue";
@@ -59,8 +64,8 @@ import {
 	custom_props,
 } from '../../tool/lib/minxs';
 const aniplay = ref<InstanceType<typeof tmTranslate> | null>(null)
-const proxy = getCurrentInstance()?.proxy??null;
-const emits = defineEmits(['load', 'error', 'click', 'delete','close'])
+const proxy = getCurrentInstance()?.proxy ?? null;
+const emits = defineEmits(['load', 'error', 'click', 'delete', 'close'])
 const props = defineProps({
 	...custom_props,
 	//外部间隙
@@ -150,34 +155,39 @@ const props = defineProps({
 	unit: {
 		type: String,
 		default: 'rpx'
+	},
+	//开启长按图片显示识别小程序码菜单,与preview不冲突,可点击预览也可长按,默认不开启
+	showMenuByLongPress: {
+		type: [Boolean, String],
+		default: false
 	}
 })
 if (!props.height && !props.width) {
 	console.error("错误：图片宽度和高度必须设置一个");
 }
-const img_width = computed(()=>{
+const img_width = computed(() => {
 	return props.width
 })
-const img_height = computed(()=>{
+const img_height = computed(() => {
 	return props.height - props.padding[1]
 })
-const img_src = computed(()=>props.src)
+const img_src = computed(() => props.src)
 const loading = ref(true);
 const error = ref(false)
 const isRmove = ref(false)
 
 //父级方法。
-let parent:any = proxy?.$parent
+let parent: any = proxy?.$parent
 
 while (parent) {
-    if(parent?.tmImageGroup=='tmImageGroup'||!parent){
-        break;
-    }else{
-        parent = parent?.$parent??undefined
-    }
+	if (parent?.tmImageGroup == 'tmImageGroup' || !parent) {
+		break;
+	} else {
+		parent = parent?.$parent ?? undefined
+	}
 }
 
-const ImagGrupList = inject('ImagGrupList', computed(()=>[]))
+const ImagGrupList = inject('ImagGrupList', computed(() => []))
 //向父级报送当前图片地址
 if (parent?.pushKey) {
 	parent.pushKey({
@@ -187,7 +197,7 @@ if (parent?.pushKey) {
 	})
 }
 
-watch(img_src,()=>{
+watch(img_src, () => {
 	loading.value = true;
 	error.value = false;
 	if (parent?.pushKey) {
@@ -198,22 +208,22 @@ watch(img_src,()=>{
 		})
 	}
 })
-function imageLoad(event:Event) {
+function imageLoad(event: Event) {
 	loading.value = false;
 	emits('load', event)
 }
 
-function imageError(event:Event) {
-	console.error("图片加载错:"+props.src,event)
+function imageError(event: Event) {
+	console.error("图片加载错:" + props.src, event)
 	error.value = true;
 	loading.value = false;
 	emits('error', event)
 }
 
-function imageClick(event:Event) {
+function imageClick(event: Event) {
 	emits('click', event)
 	if (props.preview) {
-		let list = ImagGrupList.value.length>0 ? ImagGrupList.value : [props.src];
+		let list = ImagGrupList.value.length > 0 ? ImagGrupList.value : [props.src];
 		uni.previewImage({
 			urls: list,
 			current: props.src
