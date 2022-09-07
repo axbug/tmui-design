@@ -603,7 +603,7 @@ function onStart(event: TouchEvent) {
 	if (!props.swiper) return;
 	isEndMove.value = true;
 	isMoveEnb = true
-	isMoveing = false;
+	isMoveing.value = false; 
 	isDrag.value = true
 	if (event.type.indexOf('mouse') == -1 && event.changedTouches.length == 1) {
 		var touch = event.changedTouches[0];

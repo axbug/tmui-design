@@ -131,7 +131,7 @@ const prefx = computed(() => {
 });
 //图标名称。
 const iconComputed = computed(() => {
-	if(isImg.value) return ""
+	if(isImg.value) return props.name //修复不显示图片
 	// #ifdef APP-NVUE
 	let name = props.name.substr(props.name.indexOf('-') + 1)
 	let index = uni.$tm.tmicon.findIndex(el=>el.font==prefx.value)
