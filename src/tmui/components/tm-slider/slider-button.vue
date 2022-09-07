@@ -44,6 +44,27 @@ const props = defineProps({
     
 })
 const _x = computed(()=>props.x)
+let timerId = NaN;
+let timerId2 = NaN;
+function debounce(func: Function, wait = 500, immediate = false) {
+	// 清除定时器
+	if (!isNaN(timerId)) clearTimeout(timerId);
+	// 立即执行，此类情况一般用不到
+
+	if (immediate) {
+		var callNow = !timerId;
+		timerId = setTimeout(() => {
+			timerId = NaN;
+		}, wait);
+
+		if (callNow) typeof func === "function" && func();
+	} else {
+		// 设置定时器，当最后一次操作后，timeout不会再被清除，所以在延时wait毫秒后执行func回调方法
+		timerId = setTimeout(() => {
+			typeof func === "function" && func();
+		}, wait);
+	}
+}
 
 function movestart(e:TouchEvent|MouseEvent){
 	let etype = e.type.toLocaleLowerCase();
@@ -69,8 +90,9 @@ function moveing(e:TouchEvent|MouseEvent){
         ex=e.changedTouches[0].pageX;
         ey=e.changedTouches[0].pageY;
     }
-
-    emits('moveing',{x:ex,y:ey})
+	debounce(()=>{
+		emits('moveing',{x:ex,y:ey})
+	},5,false)
      e.preventDefault()
      e.stopPropagation()
 }

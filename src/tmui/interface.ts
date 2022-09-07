@@ -318,5 +318,16 @@ type tmUtil = {
              */
             routerTo(url:string,type:openUrlType):void
             
-    }
+    },
+	tmicon:Array<{
+		font:string,
+		prefix:string,
+		fontJson:Array<{
+			icon_id: string,
+			name: string,
+			font_class:string,
+			unicode: string,
+			unicode_decimal: number
+		}>
+	}>
 }

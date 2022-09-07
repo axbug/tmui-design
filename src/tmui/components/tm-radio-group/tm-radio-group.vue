@@ -1,5 +1,5 @@
 <template>
-  <view class="flex" :class="[props.direction=='row'?'flex-row flex-row-center-start flex-wrap':'flex-col']">
+  <view class="flex" :class="[props.direction=='row'?'flex-row  flex-wrap':'flex-col',_align]">
   <slot></slot>
   </view>
 </template>
@@ -8,7 +8,7 @@
  * 单选框组
  * @description 单选框组中，只能放置tm-radio组件，且必须配合tm-radio组件一起使用，不可单独使用。
  */
-import { computed , nextTick, provide ,ref ,watch ,getCurrentInstance ,inject, toRaw } from 'vue';
+import { computed , nextTick, provide ,ref ,watch ,getCurrentInstance ,inject, toRaw,PropType } from 'vue';
 import { inputPushItem, rulesItem } from "./../tm-form-item/interface"
 const emits = defineEmits(['update:modelValue','change'])
 const proxy = getCurrentInstance()?.proxy??null;
@@ -26,9 +26,13 @@ const props = defineProps({
         default:''
     },
     direction:{
-        type:String,
+        type:String as PropType<'row'|'col'>,
         default:'row' //row横排，col为竖排。
     },
+	align:{
+		 type:String as PropType<'left'|'center'|'right'>,
+		default:'left'
+	},
     //模式
     /**
      * radio:正常的单选样式。
@@ -41,6 +45,14 @@ const props = defineProps({
 })
 let _cacheBoxList:Array<string|number|boolean> = [];
 const _mValue = ref(props.defaultValue||props.modelValue)
+const _align = computed(()=>{
+	let list = {
+		left:'flex-row-center-start',
+		center:'flex-row-center-center',
+		right:'flex-row-center-end',
+	}
+	return list[props.align]
+})
 //组件唯一标识。
 const checkBoxkeyId = 'tmRadioBoxGroup';
 watch(()=>props.modelValue,()=>{

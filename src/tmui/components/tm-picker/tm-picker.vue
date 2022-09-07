@@ -23,7 +23,7 @@
         @click="confirm" 
         :round="props.btnRound">
         </tm-button>
-        <view :style="{height: win_bottom+'px'}"></view>
+        <view :style="{height: sysinfo.bottom+'px'}"></view>
     </tm-drawer>
 </template>
 <script lang="ts" setup>
@@ -136,8 +136,10 @@ const _colIndex: Ref<Array<number>> = ref([])
 const _data = computed(()=>props.columns)
 const _colStr = ref(props.modelStr)
 const aniover = ref(true)
-const sysinfo = inject("tmuiSysInfo",{bottom:0,height:750,width:uni.upx2px(750),top:0,isCustomHeader:false,sysinfo:null})
-const win_bottom = sysinfo.bottom
+const sysinfo = inject("tmuiSysInfo",computed(()=>{
+    return {bottom:0,height:750,width:uni.upx2px(750),top:0,isCustomHeader:false,sysinfo:null}
+}))
+
 watchEffect(() => {
     showCity.value = props.show
 })
@@ -242,6 +244,6 @@ function getRouterId(list = [], parentIndex = 0): Array<string | number> {
     return p
 }
 const dHeight = computed(() => {
-    return props.height+sysinfo.bottom+80
+    return props.height+sysinfo.value.bottom+80
 })
 </script>

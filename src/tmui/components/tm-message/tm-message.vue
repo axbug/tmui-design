@@ -1,16 +1,18 @@
 <template>
-	<tm-overlay v-if="showMask" ref="Overlay" @open="overlayOpen" @close="msgOver"  :duration="230" :transprent="!showMask"  :_style="zindex" :overlayClick="false" v-model:show="showValue">
-		<tm-translate :initByWechat="initByWechat"  :reverse="reverse" ref="tranAni" name="zoom" :duration="150" :auto-play="false">
+	<tm-overlay ref="Overlay" @open="overlayOpen" @close="msgOver"  :duration="280" :transprent="!showMask"  :_style="zindex" :overlayClick="false" v-model:show="showValue">
+		<tm-translate :initByWechat="initByWechat"  :reverse="reverse" ref="tranAni" name="zoom" :duration="200" :auto-play="false">
 			<tm-sheet blur :_style="props._style"  
 			:_class="props._class" :color="bgColor" 
 			:border="1" :shadow="10" 
-			:width="300"
-			:height="300"
-			:margin="[40,40]" :round="12"  :padding="[24, 0]">
+			:width="props.width"
+			:height="props.height"
+			:margin="[40,40]" :round="props.round"  :padding="props.padding">
 				<view class="flex flex-center flex-col ma-30" style="line-height: normal">
-					<tm-icon _style="line-height: normal" style="line-height: normal" _class="pa-10" :spin="model_ref == 'load'" 
-						:color="color_ref" :fontSize="72" :name="icon_ref"></tm-icon>
-					<tm-text :font-size="30" _class="pt-8 text-overflow-1" :label="text_ref"></tm-text>
+					<slot>
+						<tm-icon _style="line-height: normal" style="line-height: normal" _class="pa-10" :spin="model_ref == 'load'"
+							:color="color_ref" :fontSize="72" :name="icon_ref"></tm-icon>
+						<tm-text :font-size="30" _class="pt-8 text-overflow-1" :label="text_ref"></tm-text>
+					</slot>
 				</view>
 			</tm-sheet>
 		</tm-translate>
@@ -30,7 +32,7 @@
 	import tmOverlay from "../tm-overlay/tm-overlay.vue";
 	import { config,modelType } from "./interface";
 	import { useTmpiniaStore } from '../../tool/lib/tmpinia';
-	import { getCurrentInstance, computed, ref, provide, inject, ComponentInternalInstance, onUnmounted, nextTick ,watch, Ref } from 'vue';
+	import { getCurrentInstance, computed, ref, provide, inject, ComponentInternalInstance, onUnmounted, nextTick ,watch, Ref, PropType } from 'vue';
 	const store = useTmpiniaStore();
 	const tranAni  = ref<InstanceType<typeof tmTranslate> | null>(null)
 	const Overlay  = ref<InstanceType<typeof tmOverlay> | null>(null)
@@ -41,6 +43,14 @@
 		_style: {
 			type: [Array, String, Object],
 			default: () => { }
+		},
+		round:{
+			type: Number,
+			default: 12
+		},
+		padding:{
+			type:Array as PropType<Array<number>>,
+			default:()=>[24, 0]
 		},
 		//自定义类名
 		_class: {
@@ -56,11 +66,19 @@
 		duration: {
 			type: Number,
 			default: 1500
+		},
+		width:{
+			type:Number,
+			default:300
+		},
+		height:{
+			type:Number,
+			default:300
 		}
 	})
 	const uid = ref(uni.$tm.u.getUid(5))
 	const bgColor = ref('white')
-	const model_ref:Ref<modelType> = ref(modelType.info)
+	const model_ref:Ref<modelType> = ref("info")
 	const showValue = ref(false)
 	const icon_ref = ref('')
 	const text_ref = ref('')

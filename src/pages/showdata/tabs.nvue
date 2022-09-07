@@ -1,14 +1,14 @@
 <template>
     <tm-app>
         <tm-sheet>
-            <tm-tabs showTabsLineAni :item-width="110" swiper :width="636" :height="500" default-name="2">
+            <tm-tabs showTabsLineAni :item-width="110"  :width="636" :height="500" default-name="2">
                 <tm-tabs-pane :dot="item==3"   v-for="(item,index) in 15" :key="index" :name="item" :title="item%2?'标题开滑动':'标题'">
                     <tm-sheet :margin="[0, 0]">
-						<tm-text :font-size="30" _class="font-weight-b"
+						<tm-text @click="textsss" :font-size="30" _class="font-weight-b"
 						color='red'
 						:label="item + ';本组件可以开启swiper属性，你现在可以尝试左右滑动。开启左右滑动，页面最好禁用滚动，以防与页面事件冲突。(当然是兼容了WEB pc端)'"></tm-text>
                         <tm-text :font-size="30" _class="font-weight-b" 
-						:label="'也可以关闭swiper属性。如果开启，所有的tabs内容默认都显示的，因此请注意优化界面的流畅度。'"></tm-text>
+						:label="'开启左右滑动后，本组件已优化性能，只会渲染本身，以及前后的页面内容，也就是三个页面的内容，其它页面隐藏不显示。'"></tm-text>
                         <tm-divider></tm-divider>
                     </tm-sheet>
                 </tm-tabs-pane>
@@ -66,5 +66,8 @@ const tabsTitle = ref([
 
 function tabschange(key:string|number){
     console.log(key)
+}
+function textsss(){
+
 }
 </script>

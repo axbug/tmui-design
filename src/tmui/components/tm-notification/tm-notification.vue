@@ -129,13 +129,12 @@ import { showOpts } from "./interface";
 			default:'tmicon-info-circle-fill'
 		}
 	})
-	const sysinfo = inject("tmuiSysInfo",{bottom:0,height:750,width:uni.upx2px(750),top:0,isCustomHeader:false,sysinfo:null})
-	let windowBottom = sysinfo.bottom;
-	let windowTop = sysinfo.top;
-	let windowWidth = sysinfo.width;
-	const p_top = ref(windowTop||0)
-	const p_bottom = ref(windowBottom||0)
-	const p_width = ref(windowWidth||0)
+	const sysinfo = inject("tmuiSysInfo",computed(()=>{
+		return {bottom:0,height:750,width:uni.upx2px(750),top:0,isCustomHeader:false,sysinfo:null}
+	}))
+	let windowBottom = computed(()=>sysinfo.value.bottom);
+	let windowTop = computed(()=>sysinfo.value.top);
+	let windowWidth = computed(()=>sysinfo.value.width);
 	const timeid = ref(uni.$tm.u.getUid(5))
 	const iconProxy = ref('')
 	const labelProxy = ref('')
@@ -179,7 +178,7 @@ import { showOpts } from "./interface";
 	const pos = computed(()=>{
 		if(props.placement == 'topLeft'){
 			return {
-				top:p_top.value+uni.upx2px(props.offset[1]),
+				top:windowTop.value+uni.upx2px(props.offset[1]),
 				left:uni.upx2px(props.offset[0]),
 				right:null,
 				bottom:null,
@@ -188,7 +187,7 @@ import { showOpts } from "./interface";
 		}
 		if(props.placement == 'topRight'){
 			return {
-				top:p_top.value+uni.upx2px(props.offset[1]),
+				top:windowTop.value+uni.upx2px(props.offset[1]),
 				left:null,
 				right:uni.upx2px(props.offset[0]),
 				bottom:null,
@@ -200,7 +199,7 @@ import { showOpts } from "./interface";
 				top:null,
 				left:uni.upx2px(props.offset[0]),
 				right:null,
-				bottom:p_bottom.value+uni.upx2px(props.offset[1]),
+				bottom:windowBottom.value+uni.upx2px(props.offset[1]),
 				width:null,
 			}
 		}
@@ -209,17 +208,17 @@ import { showOpts } from "./interface";
 				top:null,
 				left:null,
 				right:uni.upx2px(props.offset[0]),
-				bottom:p_bottom.value+uni.upx2px(props.offset[1]),
+				bottom:windowBottom.value+uni.upx2px(props.offset[1]),
 				width:null,
 			}
 		}
 		if(props.placement == 'top'){
 			return {
-				top:p_top.value+uni.upx2px(props.offset[1]),
+				top:windowTop.value+uni.upx2px(props.offset[1]),
 				left:uni.upx2px(props.offset[0]),
 				right:null,
 				bottom:null,
-				width:p_width.value - (uni.upx2px(props.offset[0])*2),
+				width:windowWidth.value - (uni.upx2px(props.offset[0])*2),
 			}
 		}
 		if(props.placement == 'bottom'){
@@ -227,8 +226,8 @@ import { showOpts } from "./interface";
 				top:null,
 				left:uni.upx2px(props.offset[0]),
 				right:null,
-				bottom:p_bottom.value +uni.upx2px(props.offset[1]),
-				width:p_width.value  -(uni.upx2px(props.offset[0])*2),
+				bottom:windowBottom.value +uni.upx2px(props.offset[1]),
+				width:windowWidth.value  -(uni.upx2px(props.offset[0])*2),
 			}
 		}
 		return {

@@ -11,7 +11,7 @@
     </view>
 </template>
 <script lang="ts" setup>
-import { computed, ref,Ref, watch,getCurrentInstance, inject, toRaw, watchEffect } from 'vue';
+import { computed, ref,Ref, watch,getCurrentInstance, inject, toRaw, watchEffect, PropType } from 'vue';
 import BaseCascader from './base-cascader.vue';
 import BaseNode from './base-node.vue';
 import nodeCellVue from './node-cell.vue';
@@ -25,7 +25,7 @@ const props = defineProps({
      * 导入的数据
      */
     data:{
-        type:Array,
+        type:Array as PropType<Array<childrenData>>,
         default:()=>[],
         required:true
     },
@@ -44,7 +44,7 @@ const props = defineProps({
     }
     
 })
-const _value = computed(():Array<childrenData>=><Array<childrenData>>props.data);
+const _value = computed(()=>props.data);
 const _level = props.level+1;
 const tmCascaderShowIndex = inject('tmCascaderShowIndex',computed(()=>0))
 const ParentActivedLs = inject('tmCascaderValue',computed(()=>[]))

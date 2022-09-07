@@ -185,7 +185,9 @@
 	});
 	const emits = defineEmits(['click', 'open', 'close', 'update:show', 'ok', 'cancel']);
 	const proxy = getCurrentInstance()?.proxy ?? null;
-	const sysinfo = inject("tmuiSysInfo",{bottom:0,height:750,width:uni.upx2px(750),top:0,isCustomHeader:false,sysinfo:null})
+	const sysinfo = inject("tmuiSysInfo",computed(()=>{
+		return {bottom:0,height:750,width:uni.upx2px(750),top:0,isCustomHeader:false,sysinfo:null}
+	}))
 	// 设置响应式全局组件库配置表。
 	const tmcfg = computed < tmVuetify > (() => store.tmStore);
 	//自定义样式：
@@ -196,18 +198,15 @@
 	const isDark = computed(() => computedDark(props, tmcfg.value));
 	//计算主题
 	const tmcomputed = computed < cssstyle > (() => computedTheme(props, isDark.value, tmcfg.value));
-	const syswidth = ref(sysinfo.width);
-	const sysheight = ref(sysinfo.height);
+	const syswidth = computed(()=>sysinfo.value.width)
+	const sysheight = computed(()=>sysinfo.value.height)
 	const reverse = ref(true);
-	const aniEnd = ref(false);
-	const flag = ref(false);
 	const timeid = ref(0);
 	let timerId = NaN;
 	let timerIdth = NaN
 	let timerIdth_flas = false
 	uni.hideKeyboard();
-	const overflowStatus = ref('close')
-	const drawerStauts = ref('close')
+
 	let _show = ref(props.show);
 	function debounce(func: Function, wait = 500, immediate = false) {
 		// 清除定时器
@@ -261,12 +260,17 @@
 		reverse.value = false;
 	}
 	watch(() => props.show, (val) => {
-		_show.value = props.show
+		
+		_show.value=  props.show;
 		if (val) {
-			open();
+			reverse.value = true;
+			// open();
 		} else {
-			close();
+			reverse.value = false;
+			// close();
 		}
+		
+		
 	})
 	onMounted(() => {
 		if(_show.value){
@@ -359,10 +363,8 @@
 		throttle(() => {
 			overlayAni.value?.close()
 			drawerANI.value?.play();
-		}, props.duration, true)
-
+		}, props.duration+80, true)
 	}
-	
 
 	function ok() {
 		if (props.disabled) return;
@@ -391,14 +393,11 @@
 		_show.value = true;
 	}
 
-
 	//外部手动调用关闭方法
 	function close() {
 		reverse.value = false
-		debounce(() => {
-			overlayAni.value?.close()
-			drawerANI.value?.play();
-		},props.duration, true)
+		overlayAni.value?.close()
+		drawerANI.value?.play();
 	}
 
 	//外部调用的方法。

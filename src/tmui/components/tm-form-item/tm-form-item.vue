@@ -91,7 +91,7 @@ const item:Ref<formItem> = ref({
     label:"",//标签名称。
     field:props.field,//字段名称key.
     value:null,
-    isRequiredError:true,//true,错误，false正常 检验状态
+    isRequiredError:false,//true,错误，false正常 检验状态
     message:"",//检验信息提示语。
     id:uni.$tm.u.getUid(1),//表单唯一标识id
     componentsName:"",//表单组件类型。
@@ -127,8 +127,7 @@ provide('tmFormItemRules',computed(()=>{
 	let defaultrs:Array<rulesItem> = []
 	if(Array.isArray(props?.rules)){
 		props?.rules.forEach(el=>{
-			let isreq = el?.required??props.required;
-	
+			let isreq = el?.required||props.required;
             defaultrs.push(
                 {
                     message:el?.message??"请填写必要的内容",
@@ -140,11 +139,10 @@ provide('tmFormItemRules',computed(()=>{
 	}else{
 		defaultrs = [{
 		    message:props?.rules?.message??"请填写必要的内容",
-		    required:props.rules?.required??props.required,
+		    required:props.rules?.required||props.required,
 		    validator:props.rules?.validator??false
 		}]
 	}
-	
     return defaultrs;
 }))
 //向父级推表单类组件。

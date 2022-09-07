@@ -227,6 +227,14 @@ async function tabClick(index:number){
     emits('tab-click',index)
 }
 
-defineExpose({ pushValue, addActiveIndex, tmCascaderName,getValueStr,getValueObject,endSelected })
+function reFresh(data:Array<childrenData>=[]){
+	listData.value = [];
+	if(!Array.isArray(data)){
+		console.error("需要提供数组格式")
+		return;
+	}
+	listData.value  = data.length>0?data:props.data
+}
+defineExpose({ pushValue, addActiveIndex, tmCascaderName,getValueStr,getValueObject,endSelected,reFresh })
 
 </script>

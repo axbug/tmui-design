@@ -120,7 +120,7 @@ const _datalist = computed(()=>{
 <style scoped>
 /* #ifndef APP-NVUE */
 .tmSkeletonLine {
-	animation: loading 1.5s linear infinite;
+	animation: loading 0.6s linear infinite;
 }
 
 @keyframes loading {

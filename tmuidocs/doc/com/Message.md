@@ -33,11 +33,18 @@ title: tmui 3.0 组件库
 |----------|---------|------|--------------------|
 | mask     | Boolean | true | 是否显示遮罩             |
 | duration | Number  | 1300 | 自动关闭时,需要显示多久关闭（毫秒） |
+| width | Number  | 300 | 宽 |
+| height | Number  | 300 | 高 |
 
 ### :rose: 事件
 | 事件名   | 参数  | 返回数据 | 描述  |
 |-------|-----|------|-----|
 | click |     |      |     |
+
+### :rose: 插槽
+| 名称   | 参数  | 返回数据 | 描述  |
+|-------|-----|------|-----|
+| default |     |      |  替换中间的图标和文本内容   |
 
 ### :green_salad: ref方法
 | 方法名   | 参数  | 返回值 | 描述  |
@@ -46,16 +53,7 @@ title: tmui 3.0 组件库
 | hide |     |     | 隐藏  |
 
 ```ts
-export enum modelType {
-	load = "load",
-	error = "error",
-	info = "info",
-	warn = "warn",
-	quest = "quest",
-	success = "success",
-	disabled = "disabled",
-	wait = "wait"
-}
+export type modelType = "load"|"error"|"info"|"warn"|"quest"|"success"|"disabled"|"wait"
 export interface config {
 	 duration?:number, //显示的时长
 	 icon?:string, //显示的图标

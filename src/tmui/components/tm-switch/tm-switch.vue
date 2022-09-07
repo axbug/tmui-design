@@ -14,36 +14,43 @@
 	:color="_value?props.color:props.unCheckedColor" 
 	:height="viewSize.height" 
 	:width="viewSize.width" 
-	:_class="['flex relative flex-col',props.disabled?'opacity-4':'']" 
+	parenClass="switchbgani"
+	:_class="['flex  relative flex-col',props.disabled?'opacity-4':'']" 
 	:text="_value?false:props.text"
-	:padding="[4,4]" :margin="props.margin">
-		<view :userInteractionEnabled="false"  class="flex flex-row flex-between " 
-		:style="[{width:viewSize.coenteWidth+'rpx',height:viewSize.innerHeight+'rpx'}]">
-			<view class="flex-1 flex-row flex-row-center-center"><tm-text :font-size="viewSize.fontSize" :label="props.label[0]"></tm-text></view>
-			<view class="flex-1 flex-row flex-row-center-center"><tm-text :font-size="viewSize.fontSize" :label="props.label[1]"></tm-text></view>
-		</view>
-		<view :userInteractionEnabled="false" :class="['absolute base nvue',_value?'on':'off',]" 
-		ref="switch"
-		:style="{
-			width:viewSize.innerWidth+'rpx',
-		}" 
-		class="flex flex-col">
-			<tm-sheet
-			:userInteractionEnabled="false"
-			:padding="[0,0]"
-			:margin="[0,0]"
-			:height="viewSize.innerHeight"
-			:width="viewSize.innerWidth"
-			:color="props.barColor"
-			:follow-dark="false"
-			:round="viewSize.round"
-			_class="flex flex-center flex-row"
-			>
-			   <tm-icon :followTheme="props.followTheme" v-if="_load" :font-size="viewSize.fontSize" :color="props.color"  name="tmicon-loading" spin></tm-icon>
-			   <tmTranslate name="zoom" v-if="!_load&&_value">
-				   <tm-icon :followTheme="props.followTheme" :font-size="viewSize.fontSize" :color="props.color"   :name="props.barIcon"></tm-icon>
-			   </tmTranslate>
-			</tm-sheet>
+	unit="px"
+	:padding="[0,0]" :margin="props.margin">
+		<view class="relative flex  relative flex-col" :style="{padding:'2px',width:`${viewSize.width}px`,height:`${viewSize.height}px`}">
+			<view :userInteractionEnabled="false"  class="flex flex-row flex-between "
+			:style="[{width:viewSize.coenteWidth+'px',height:viewSize.innerHeight+'px'}]">
+				<view class="flex-1 flex-row flex-row-center-center"><tm-text :font-size="viewSize.fontSize" :label="props.label[0]"></tm-text></view>
+				<view class="flex-1 flex-row flex-row-center-center"><tm-text :font-size="viewSize.fontSize" :label="props.label[1]"></tm-text></view>
+			</view>
+			<view :userInteractionEnabled="false" :class="['absolute base nvue',_value?'on':'off',]" 
+			ref="switch"
+			:style="{
+				width:viewSize.innerWidth+'px',
+				height:viewSize.innerHeight+'px',
+				
+			}" 
+			class="flex flex-col">
+				<tm-sheet
+				:userInteractionEnabled="false"
+				:padding="[0,0]"
+				:margin="[0,0]"
+				:height="viewSize.innerHeight"
+				:width="viewSize.innerWidth"
+				:color="props.barColor"
+				:follow-dark="false"
+				:round="viewSize.round"
+				unit="px"
+				_class="flex flex-center flex-row"
+				>
+				   <tm-icon :followTheme="props.followTheme" v-if="_load" :font-size="viewSize.fontSize" :color="props.color"  name="tmicon-loading" spin></tm-icon>
+				   <tmTranslate name="zoom" v-if="!_load&&_value">
+					   <tm-icon :followTheme="props.followTheme" :font-size="viewSize.fontSize" :color="props.color"   :name="props.barIcon"></tm-icon>
+				   </tmTranslate>
+				</tm-sheet>
+			</view>
 		</view>
 	</tm-sheet>
 </template>
@@ -152,7 +159,7 @@ const viewSize = computed(()=>{
 	let width = 0;
 	let height = 0;
 	let fontSize = 24;
-	let gutter = 1;
+	let gutter =  2
 	
 	let round = props.round;
 	if(props.width&&props.height){
@@ -163,29 +170,34 @@ const viewSize = computed(()=>{
 	}else{
 		if(props.size == 'normal'){
 			width = 100;
-			height = 54
+			height = 50
 			fontSize = 26
 		}else if(props.size == 'mini'){
-			width = 60;
-			height = 34
+			width = 80;
+			height = 40
 			fontSize = 22
 		}else if(props.size == 'large'){
 			width = 120;
-			height = 64
+			height = 60
 			fontSize = 32
 			round = 24;
 		}
 	}
-	return {
+	let gutterPx = gutter
+	width = Math.ceil(uni.upx2px(width))
+	height = Math.ceil(uni.upx2px(height))
+	let obj = {
 		width:width,
 		height:height,
-		innerHeight:(height-gutter*1),
-		innerWidth:(width)/2+gutter*2,
-		coenteWidth:width,
-		conentWidthPx:uni.upx2px(width-(width)/2),
+		innerHeight:height-gutterPx*2,
+		innerWidth:(width)/2-gutterPx*2,
+		coenteWidth:width-gutterPx*2,
+		conentWidthPx:width-gutterPx*2,
 		fontSize:fontSize,
 		round:round
 	}
+	
+	return obj
 })
 
 const _value = ref(false);
@@ -230,11 +242,11 @@ function spinNvueAni(reveser=false) {
 	var testEl = proxy?.$refs.switch;
 	animation.transition(testEl, {
 		styles: {
-			transform: reveser?`translateX(${viewSize.value.conentWidthPx}px)`:'translateX(0%)',
+			transform: reveser?`translateX(${viewSize.value.innerWidth+4}px)`:'translateX(0px)',
 			transformOrigin: 'center center'
 		},
-		duration: 200, //ms
-		timingFunction: 'linear',
+		duration: 250, //ms
+		timingFunction: 'ease',
 		delay: 0 //ms
 	},()=>{
 		
@@ -346,7 +358,6 @@ watch(tmFormFun,()=>{
 		pushFormItem(false)
     }
 })
-
 /** -----------end------------ */
 </script>
 <style scoped>
@@ -357,11 +368,19 @@ watch(tmFormFun,()=>{
 		left: 0;
 	}
 	.on{
-		left:calc(50% - 4rpx)
+		left:calc(50% + 2px)
 	}
 	.off{
-		left:0
+		left:2px
 	}
 	/* #endif */
+</style>
+<style>
+	.switchbgani{
+		transition-timing-function: ease;
+		transition-property: background-color;
+		transition-duration: 0.3s;
+		transition-delay: 0ms;
+	}
 </style>
 

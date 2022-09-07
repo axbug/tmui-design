@@ -132,7 +132,9 @@ const props = defineProps({
     },
 
 })
-const sysinfo = inject("tmuiSysInfo",{bottom:0,height:750,width:uni.upx2px(750),top:0,isCustomHeader:false,sysinfo:null})
+const sysinfo = inject("tmuiSysInfo",computed(()=>{
+		return {bottom:0,height:750,width:uni.upx2px(750),top:0,isCustomHeader:false,sysinfo:null}
+	}))
 const _show = ref(props.show)
 const isConfirm = ref(false)//是否点了确认按钮。
 const _value = ref(props.defaultValue)
@@ -184,19 +186,22 @@ function onclick(e: Array<string | number>) {
     emits("click", e)
 }
 function confirm(e: Array<string | number>) {
+	emits("confirm",e)
     drawer.value?.close()
 }
 
-let win_bottom = sysinfo.bottom
-if(props.hideButton){
-    win_bottom -=80;
-}
+let win_bottom = computed(()=>{
+    if(props.hideButton){
+        return sysinfo.value.bottom - 80;
+    }
+    return sysinfo.value.bottom
+})
 const dHeight = computed(() => {
-    if (_modelType.value == 'day') return 900+win_bottom
-    if (_modelType.value == 'rang') return 900+win_bottom
-    if (_modelType.value == 'week') return 740+win_bottom
-    if (_modelType.value == 'month') return 720+win_bottom
-    if (_modelType.value == 'year') return 620+win_bottom
-    return 600+win_bottom
+    if (_modelType.value == 'day') return 900+win_bottom.value
+    if (_modelType.value == 'rang') return 900+win_bottom.value
+    if (_modelType.value == 'week') return 740+win_bottom.value
+    if (_modelType.value == 'month') return 720+win_bottom.value
+    if (_modelType.value == 'year') return 620+win_bottom.value
+    return 600+win_bottom.value
 })
 </script>

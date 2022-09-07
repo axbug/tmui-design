@@ -1,7 +1,7 @@
 <template>
 	<view :style="{ width: `${_width}rpx`, height: `${_height}rpx` }">
 		<!-- #ifdef APP-NVUE -->
-		<gcanvas :id="canvasId" :ref="canvasId" class="canvas"
+		<gcanvas v-if="show" :id="canvasId" :ref="canvasId" class="canvas"
 			:style="{ width: `${_width}rpx`, height: `${_height}rpx` }">
 		</gcanvas>
 		<!-- #endif -->
@@ -67,11 +67,25 @@
 	})
 	const _width = computed(()=>props.width)
 	const _height = computed(()=>props.height)
-	
+	const show = ref(false) //安卓上首次要隐藏不然卡。
 	onMounted(() => {
-		nextTick(async function () {
-			await init();
-			draw()
+		nextTick(function () {
+			
+			// #ifdef APP-NVUE
+			if(uni.getSystemInfoSync().osName=='android'){
+				setTimeout(function() {
+					show.value = true
+					init().then(()=>draw())
+				}, 200);
+			}else{
+				show.value = true
+				init().then(()=>draw())
+			}
+			// #endif
+			// #ifndef APP-NVUE
+			
+			init().then(()=>draw())
+			// #endif
 		})
 	})
 	function draw(opts=optsCode.value){
@@ -95,7 +109,7 @@
 			setTimeout(async function () {
 				ctx = await drawNvue_init();
 				res(true)
-			}, 250)
+			}, 100)
 			// #endif
 			// #ifdef MP-WEIXIN || MP-ALIPAY || MP-QQ
 			setTimeout(async function () {

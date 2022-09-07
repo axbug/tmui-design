@@ -5,7 +5,7 @@
  * @Description: 文件
 -->
 <template>
-	<tm-drawer ref="drawer" @close="drawerClose" @open="drawerOpen" :height="cHeight" @update:show="show = $event"
+	<tm-drawer ref="drawer" @close="drawerClose" @open="drawerOpen" :duration="props.duration" :height="cHeight" @update:show="show = $event"
 		:show="show" :transprent="true" :hide-header="true">
 		<view @click.stop="" class=" flex flex-col">
 			<view style="height: 24rpx;"></view>
@@ -19,7 +19,7 @@
 			</tm-sheet>
 			<tm-button :round="5" :fontColor="props.activeFontColor" :followTheme="false" @click="cancel" label="取消" :font-size="28" :margin="[32, 8]" :color="_color"
 				block :shadow="0"></tm-button>
-				
+			<view :style="{height:sysinfo.bottom+'px'}"></view>
 		</view>
 	</tm-drawer>
 </template>
@@ -85,6 +85,10 @@ const props = defineProps({
 	allowClose:{
 		type:Boolean,
 		default:true
+	},
+	duration:{
+		type:Number,
+		default:300
 	}
 })
 const show = ref(props?.modelValue ?? false);

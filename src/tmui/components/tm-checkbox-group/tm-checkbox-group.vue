@@ -1,5 +1,5 @@
 <template>
-  <view class="flex" :class="[props.direction=='row'?'flex-row flex-row-center-start':'flex-col']" :style="{flexWrap:'wrap'}">
+  <view class="flex" :class="[props.direction=='row'?'flex-row ':'flex-col',_align]" :style="{flexWrap:'wrap'}">
   <slot></slot>
   </view>
 </template>
@@ -22,6 +22,10 @@ const props = defineProps({
         type:Array,
         default:()=>[]
     },
+	align:{
+		 type:String as PropType<'left'|'center'|'right'>,
+		default:'left'
+	},
     modelValue:{
         type:Array,
         default:()=>[]
@@ -34,6 +38,14 @@ const props = defineProps({
 let _cacheBoxList:Array<string|number|boolean> = [];
 //去重
 const _mValue = ref([...new Set([...props.defaultValue,...props.modelValue])])
+const _align = computed(()=>{
+	let list = {
+		left:'flex-row-center-start',
+		center:'flex-row-center-center',
+		right:'flex-row-center-end',
+	}
+	return list[props.align]
+})
 //组件唯一标识。
 const checkBoxkeyId = 'tmCheckBoxGroup';
 watch(()=>props.modelValue,()=>{

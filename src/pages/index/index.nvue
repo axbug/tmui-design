@@ -2,47 +2,50 @@
 	<tm-app v-model:show-menu="showf" ref="app">
 		<template v-slot:menu="{sys}">
 			<tm-sheet :margin="[0,0]" :padding="[0,0]" color="indigo" linearDeep="accent" linear="bottom">
-				<image
-					class="opacity-1"
-					:style="{width:`${sys.width}px`,height:`${sys.height}px`}"
-					:src="`https://picsum.photos/${sys.width}/${sys.height}?id=${Math.random()}`"
-					mode="scaleToFill"
-				/>
+				<image class="opacity-1" :style="{width:`${sys.width}px`,height:`${sys.height}px`}"
+					:src="`https://picsum.photos/${sys.width}/${sys.height}?id=${Math.random()}`" mode="scaleToFill" />
 				<view class="absolute l-0 t-0" :style="{width:`${sys.width}px`,height:`${sys.height}px`}">
 					<view :style="{height:sysinfo.sysinfo.statusBarHeight+'px'}"></view>
 					<view class="flex flex-row flex-row-center-between py-24 px-16">
 						<tm-text label="TMUI 3.0.81"></tm-text>
 						<tm-icon @click="showf=false" color="white" :font-size="32" name="tmicon-times"></tm-icon>
 					</view>
-					<tm-cell url="/pages/changyong/index" color="primary" :transprent="true"  :margin="[10,0]" title="通用组件"></tm-cell>
-					<tm-cell url="/pages/layout/index" color="primary" :transprent="true"  :margin="[10,0]" title="布局组件"></tm-cell>
-					<tm-cell  url="/pages/showdata/index" color="primary" :transprent="true"  :margin="[10,0]" title="展示组件"></tm-cell>
-					<tm-cell  url="/pages/form/index"  color="primary" :transprent="true" :margin="[10,0]" title="表单录入"></tm-cell>
+					<tm-cell url="/pages/changyong/index" color="primary" :transprent="true" :margin="[10,0]"
+						title="通用组件"></tm-cell>
+					<tm-cell url="/pages/layout/index" color="primary" :transprent="true" :margin="[10,0]" title="布局组件">
+					</tm-cell>
+					<tm-cell url="/pages/showdata/index" color="primary" :transprent="true" :margin="[10,0]"
+						title="展示组件"></tm-cell>
+					<tm-cell url="/pages/form/index" color="primary" :transprent="true" :margin="[10,0]" title="表单录入">
+					</tm-cell>
 				</view>
 			</tm-sheet>
 		</template>
-		<tm-navbar :title="language('index.com.navtitle')"  :shadow="0" hide-home>
+		<tm-navbar :title="language('index.com.navtitle')" :shadow="0" hide-home>
 			<template v-slot:left>
 				<view class="flex flex-center flex-row">
-					<tm-icon @click="showf=true" :color="store.tmStore.dark?'primary':''" _class="px-24" :font-size="32" name="tmicon-menu"></tm-icon>
-					<navigator url="settheme" class="px-12"><tm-icon :font-size="32" name="tmicon-cog-fill"></tm-icon></navigator>
-					<tm-icon _class="px-24" @click="onChangeDark" :color="store.tmStore.dark?'yellow':''" :font-size="32" name="tmicon-ios-sunny"></tm-icon>
+					<tm-icon @click="showf=true" :color="store.tmStore.dark?'primary':''" _class="px-24" :font-size="32"
+						name="tmicon-menu"></tm-icon>
+					<navigator url="settheme" class="px-12">
+						<tm-icon :font-size="32" name="tmicon-cog-fill"></tm-icon>
+					</navigator>
+					<tm-icon _class="px-24" @click="onChangeDark" :color="store.tmStore.dark?'yellow':''"
+						:font-size="32" name="tmicon-ios-sunny"></tm-icon>
 				</view>
 			</template>
 		</tm-navbar>
-
-		<tm-sheet  :margin="[0, 0]" :followTheme="true">
+		<tm-sheet :margin="[0, 0]" :followTheme="true">
 			<view class="flex-row flex-row-center-start pb-10">
 				<tm-image :width="108" :height="67.5" :src="logoimg"></tm-image>
 				<view class="pl-16 flex-1" style="width:0px">
-					<tm-text _class="text-weight-b" :font-size="36" label="TMUI 3.0.81"></tm-text>
+					<tm-text _class="text-weight-b" :font-size="36" label="TMUI 3.0.82"></tm-text>
 					<tm-text _class="opacity-6" :label="language('index.search.subtext')"></tm-text>
 				</view>
 			</view>
-			
+		
 		</tm-sheet>
 		<tm-sheet :margin="[0, 0]">
-			<tm-input  :placeholder="language('index.search.tips')" :border="1" showClear prefix="tmicon-search"
+			<tm-input :placeholder="language('index.search.tips')" :border="1" showClear prefix="tmicon-search"
 				v-model="str" @search='search' :searchLabel="language('index.search.btntext')"></tm-input>
 		</tm-sheet>
 		<view class="mt-24"></view>
@@ -57,7 +60,8 @@
 					:label="language('index.com.themeBlue')"></tm-button>
 				<tm-button :width="100" color="red" size="small" @click="setTheme('red')"
 					:label="language('index.com.themeRed')"></tm-button>
-				<tm-button color="brown" :shadow="0" :width="100" size="small" @click="showCustom=true" :label="language('index.com.themeCustText')">
+				<tm-button color="brown" :shadow="0" :width="100" size="small" @click="showCustom=true"
+					:label="language('index.com.themeCustText')">
 				</tm-button>
 				<tm-button :width="160" size="small" @click="setTheme('')" :label="language('index.com.themeDefault')">
 				</tm-button>
@@ -108,7 +112,8 @@
 					<tm-text color="grey" :font-size="22" _class="font-weight-b" :label="language('index.com.navSub')">
 					</tm-text>
 				</tm-grid-item>
-				<tm-grid-item :transprent="false" bg-color="red" text  url="../yewu/index" :height="180" count="HOT" color="orange">
+				<tm-grid-item :transprent="false" bg-color="red" text url="../yewu/index" :height="180" count="HOT"
+					color="orange">
 					<tm-icon color="red" _class="pb-10" :font-size="52" name="tmicon-box-fill"></tm-icon>
 					<tm-text :font-size="28" _class="font-weight-b" :label="language('index.com.yewu')"></tm-text>
 					<tm-text color="grey" :font-size="22" _class="font-weight-b" :label="language('index.com.yewuSub')">
@@ -120,13 +125,7 @@
 					<tm-text color="grey" :font-size="22" _class="font-weight-b"
 						:label="language('index.com.otherSub')"></tm-text>
 				</tm-grid-item>
-				<tm-grid-item text url="../render/index" :height="180" count="YYDS">
-					<tm-icon color="yellow" _class="pb-10" :font-size="52" name="tmicon-ios-rose">
-					</tm-icon>
-					<tm-text :font-size="28" _class="font-weight-b" :label="language('index.com.render')"></tm-text>
-					<tm-text color="grey" :font-size="22" _class="font-weight-b"
-						:label="language('index.com.renderSub')"></tm-text>
-				</tm-grid-item>
+
 				<tm-grid-item text url="../chart/index" :height="180" count="CHAR">
 					<tm-icon color="blue-grey" _class="pb-10" :font-size="52" name="tmicon-borderbottom-fill">
 					</tm-icon>
@@ -134,13 +133,12 @@
 					<tm-text color="grey" :font-size="22" _class="font-weight-b"
 						:label="language('index.com.tubiaoSub')"></tm-text>
 				</tm-grid-item>
-
+		
 			</tm-grid>
 		</tm-sheet>
 		<!-- #ifndef MP-QQ -->
-		<tm-cell url="../wxaccount/user" :margin="[32,16]" showAvatar :round="3" :titleFontSize="30" :title="language('index.com.love')"
-			label="可登录模板市场"
-			:rightText="language('index.com.loveSub')">
+		<tm-cell url="../wxaccount/user" :margin="[32,16]" showAvatar :round="3" :titleFontSize="30"
+			:title="language('index.com.love')" label="可登录模板市场" :rightText="language('index.com.loveSub')">
 			<template v-slot:avatar>
 				<tm-icon color="orange" :font-size="38" name="tmicon-heart-fill"></tm-icon>
 			</template>
@@ -155,34 +153,42 @@
 		<view class="py-32 mx-32">
 			<tm-divider color="grey-2" :label="language('index.com.bottom')"></tm-divider>
 		</view>
-		<tm-float-button  @click="onChangeDark" :btn="{ icon: 'tmicon-ios-sunny',color:'pink',linear:'right'}">
+		<tm-float-button @click="onChangeDark" :btn="{ icon: 'tmicon-ios-sunny',color:'pink',linear:'right'}">
 		</tm-float-button>
-
 		<tm-message ref="msg"></tm-message>
 		<tm-drawer v-model:show="showCustom" placement="center" hideHeader :height="450" :width="600">
-			<view class="pa-32 flex flex-col" >
-				<view class="text-align-center py-24"><tm-text _class="text-weight-b" :font-size="32" label="自定义主题"></tm-text></view>
-				<tm-input prefixLabel="颜色值" placeholder="请输入颜色值,比如:#FF00FF" :border="1" showClear v-model="showCustomColor" ></tm-input>
-				<tm-input prefixLabel="颜色名称" :margin="[0,24]" placeholder="字母,如:darkGreen" :border="1" showClear v-model="showCustomName" ></tm-input>
-				<tm-button  @click="changeCustomColor" block label="确认切换"></tm-button>
+			<view class="pa-32 flex flex-col">
+				<view class="text-align-center py-24">
+					<tm-text _class="text-weight-b" :font-size="32" label="自定义主题"></tm-text>
+				</view>
+				<tm-input prefixLabel="颜色值" placeholder="请输入颜色值,比如:#FF00FF" :border="1" showClear
+					v-model="showCustomColor"></tm-input>
+				<tm-input prefixLabel="颜色名称" :margin="[0,24]" placeholder="字母,如:darkGreen" :border="1" showClear
+					v-model="showCustomName"></tm-input>
+				<tm-button @click="changeCustomColor" block label="确认切换"></tm-button>
 			</view>
 		</tm-drawer>
 	</tm-app>
 </template>
 <script lang="ts" setup>
+
 	import {
 		ref,
 		getCurrentInstance,
-		nextTick,inject
+		nextTick,
+		inject
 	} from "vue"
 	import {
 		onShow,
-		onLoad,onInit
+		onLoad,
+		onInit
 	} from "@dcloudio/uni-app";
 	import {
 		language
 	} from "@/tmui/tool/lib/language"
-	import { useTmpiniaStore } from '@/tmui/tool/lib/tmpinia';
+	import {
+		useTmpiniaStore
+	} from '@/tmui/tool/lib/tmpinia';
 	const store = useTmpiniaStore();
 	import tmApp from "@/tmui/components/tm-app/tm-app.vue"
 	import tmSheet from "@/tmui/components/tm-sheet/tm-sheet.vue"
@@ -201,10 +207,16 @@
 	import tmText from "@/tmui/components/tm-text/tm-text.vue"
 	import tmDrawer from "@/tmui/components/tm-drawer/tm-drawer.vue"
 	import logoimg from "@/static/logo.png"
-	import { share } from "@/tmui/tool/lib/share"
-	import htmlPaser from "@/tmui/tool/lib/htmlPaser"
-	const app = ref<InstanceType<typeof tmApp> | null>(null)
-	const msg = ref<InstanceType<typeof tmMessage> | null>(null)
+	import {
+		share
+	} from "@/tmui/tool/lib/share"
+
+	//先引用，导入指定方法或属性
+	// #ifdef APP
+
+	// #endif
+	const app = ref < InstanceType < typeof tmApp > | null > (null)
+	const msg = ref < InstanceType < typeof tmMessage > | null > (null)
 	const showf = ref(false)
 	const sysinfo = uni.$tm.u.getWindow()
 	const str = ref("")
@@ -212,11 +224,14 @@
 	const showCustomName = ref("darkGreen")
 	const showCustom = ref(false)
 	const test = ref(20);
+	
+	
 	function onChangeDark() {
 		app.value?.setDark()
 	}
+
 	function search() {
-		
+
 		if (str.value.trim() === "") {
 			msg.value?.show({
 				model: "error",
@@ -237,6 +252,7 @@
 			uni.setLocale("en")
 		}
 	}
+
 	function warinToast() {
 		msg.value?.show({
 			model: "wait",
@@ -248,9 +264,9 @@
 	function setTheme(colorname: string) {
 		app.value?.setTheme(colorname)
 	}
-	
-	function changeCustomColor(){
-		if(!showCustomColor.value||!showCustomName.value){
+
+	function changeCustomColor() {
+		if (!showCustomColor.value || !showCustomName.value) {
 			msg.value?.show({
 				model: "error",
 				text: "必填内容",
@@ -258,39 +274,36 @@
 			})
 			return;
 		}
-		showCustom.value=false;
-		store.setTmVuetifyAddTheme(showCustomName.value,showCustomColor.value) 
+		showCustom.value = false;
+		store.setTmVuetifyAddTheme(showCustomName.value, showCustomColor.value)
 	}
 
 
-	onLoad(()=>{
-		
+	onLoad(() => {
+
 		// #ifdef MP-WEIXIN
-		
+
 		// 在页面中定义插屏广告
 		let interstitialAd = null
-		
+
 		// 在页面onLoad回调事件中创建插屏广告实例
 		if (wx.createInterstitialAd) {
-		  interstitialAd = wx.createInterstitialAd({
-		    adUnitId: 'adunit-197d1e1914ce88ec'
-		  })
-		  interstitialAd.onLoad(() => {})
-		  interstitialAd.onError((err) => {})
-		  interstitialAd.onClose(() => {})
+			interstitialAd = wx.createInterstitialAd({
+				adUnitId: 'adunit-197d1e1914ce88ec'
+			})
+			interstitialAd.onLoad(() => {})
+			interstitialAd.onError((err) => {})
+			interstitialAd.onClose(() => {})
 		}
 		// 在适合的场景显示插屏广告
 		if (interstitialAd) {
-		  interstitialAd.show().catch((err) => {
-		    console.error(err)
-		  })
+			interstitialAd.show().catch((err) => {
+				console.error(err)
+			})
 		}
-		
+
 		// #endif
-		
+
 
 	})
-
-
-
 </script>

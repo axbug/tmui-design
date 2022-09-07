@@ -1,7 +1,7 @@
 <template>
 	<view :style="{ width: `${_width}rpx`, height: `${_height}rpx` }">
 		<!-- #ifdef APP-NVUE -->
-		<gcanvas :id="canvasId" :ref="canvasId" class="canvas"
+		<gcanvas v-if="show" :id="canvasId" :ref="canvasId" class="canvas"
 			:style="{ width: `${_width}rpx`, height: `${_height}rpx` }">
 		</gcanvas>
 		<!-- #endif -->
@@ -55,18 +55,39 @@
 	})
 	const _width = computed(()=>opts.value.size)
 	const _height = computed(()=>opts.value.size)
-	
+	const show = ref(false) //安卓上首次要隐藏不然卡。
+	let isAndroid = false
+	// #ifdef APP-NVUE
+	isAndroid = uni.getSystemInfoSync().osName=='android'
+	// #endif
 	onMounted(() => {
 		nextTick(async function () {
-			await init();
-			qr(ctx,{...opts.value,size:uni.upx2px(_width.value)},canvas2d)
+			// #ifdef APP-NVUE
+			if(isAndroid){
+				setTimeout(()=>{
+					show.value = true
+					// 不要问我为什么安卓要绘制两次。问uni，才知道原理。
+					init().then(()=>qr(ctx,{...opts.value,size:uni.upx2px(_width.value)},canvas2d))
+					setTimeout(function() {
+						init().then(()=>qr(ctx,{...opts.value,size:uni.upx2px(_width.value)},canvas2d))
+					}, 50);
+				},200)
+			}else{
+				show.value = true
+				init().then(()=>qr(ctx,{...opts.value,size:uni.upx2px(_width.value)},canvas2d))
+			}
+			// #endif
+			
+			// #ifndef APP-NVUE
+			init().then(()=>qr(ctx,{...opts.value,size:uni.upx2px(_width.value)},canvas2d))
+			// #endif
 			
 		})
 	})
 	
 	watch(()=>props.option,()=>{
 		if(!ctx){
-			init().then(()=>qr(ctx,{...opts.value,size:uni.upx2px(_width.value)},canvas2d))
+			
 		}else{
 			qr(ctx,{...opts.value,size:uni.upx2px(_width.value)},canvas2d)
 			
@@ -82,7 +103,6 @@
 				const {ctx2d,canvas} = await MpWeix_init();
 				ctx = ctx2d;
 				canvas2d = canvas
-
 				// #endif
 				// #ifndef MP-WEIXIN || MP-ALIPAY || MP-QQ || APP-NVUE
 				ctx = await appvueH5Other();

@@ -26,7 +26,8 @@ import tmText from "@/tmui/components/tm-text/tm-text.vue"
 import tmChart from "@/tmui/components/tm-chart/tm-chart.vue"
 import { ECharts } from "echarts";
 import { chartdata } from "./chartdata";
-const dkey = ref("")
+let chartdataAny:any = chartdata;
+const dkey = ref("lineChart")
 onLoad((obj: any) => {
     if (obj?.key !== '' && typeof obj?.key != 'undefined') {
         dkey.value = obj?.key??"lineChart";

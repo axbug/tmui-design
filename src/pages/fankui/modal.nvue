@@ -15,12 +15,13 @@
        <tm-modal color="white" okColor="red"  cancelColor="red" okLinear="left" splitBtn title="信息框" content="主体内容哦" v-model:show="showWin1"></tm-modal>
        <tm-modal ref='modal' color="grey-5" :height="500" :border="0" text  okColor="black"  cancelColor="white"  linear="bottom" title="信息框"  v-model:show="showWin2">
            <view>
+                <tm-input></tm-input>
                <tm-image src="https://picsum.photos/450/150" :height="150" :width="450"></tm-image>
                <tm-text label="主体内容哦主体内容哦主体内容哦主体内容哦主体内容哦主体内容哦主体内容哦主体内容哦主体内容哦主体内容哦主体内容哦主体内容哦主体内容哦主体内容哦主体内容哦"></tm-text>
 			   <tm-image src="https://picsum.photos/450/150?id=36" :height="150" :width="450"></tm-image>
            </view>
        </tm-modal>
-       <tm-modal  @ok="test" color="white" okColor="pink"  cancelColor="pink" okLinear="left" splitBtn title="信息框" content="关闭后会延迟关闭窗体" 
+       <tm-modal closeable  @ok="test" color="white" okColor="pink"  cancelColor="pink" okLinear="left" splitBtn title="信息框" content="关闭后会延迟关闭窗体" 
        v-model:show="showWin3" :beforeClose="beforeClose"></tm-modal>
     </tm-app>
 </template>

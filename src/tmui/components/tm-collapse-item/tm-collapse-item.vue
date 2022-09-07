@@ -1,6 +1,7 @@
 <template>
 	<view class="flex flex-col overflow" :class="[disabled ? 'opacity-7' : '']">
-		<tm-sheet :transprent="props.transprent" @click="openAndClose"  :color="props.color" :text="disabled" :border="cborder" :linear="props.linear"
+		<tm-sheet :transprent="props.transprent" @click="openAndClose"  
+		:color="props.color" :text="disabled" :border="isActive?0:cborder" :linear="props.linear"
 			:linearDeep="props.linearDeep"  :dark="props.dark"
 			:followDark="props.followDark" :followTheme="props.followTheme" borderDirection="bottom" :margin="props.margin" :padding="props.padding"
 			>

@@ -33,10 +33,9 @@ import { cssstyle, tmVuetify, colorThemeType } from '../../tool/lib/interface';
 import { custom_props, computedTheme, computedClass, computedStyle, computedDark } from '../../tool/lib/minxs';
 import { useTmpiniaStore } from '../../tool/lib/tmpinia';
 // #ifdef APP-NVUE || APP-PLUS-NVUE
-import fontList from '../../tool/tmicon/iconfont.json';
 import { tmiconFont } from './tmicon';
 var domModule = weex.requireModule('dom');
-const Binding = uni.requireNativePlugin('bindingx');
+const animation = uni.requireNativePlugin('animation')
 // #endif
 const store = useTmpiniaStore();
 // 混淆props共有参数
@@ -111,27 +110,6 @@ const fontSizeComputed = computed(() => {
 	// #endif
 	return { fontSize: (props.fontSize || 30) + props.unit,lineHeight:props.lineHeight>-1?props.lineHeight + props.unit:(props.fontSize || 30) + props.unit };
 });
-//图标前缀
-const prefx = computed(() => {
-	let prefix = props.name.split('-')[0];
-	return prefix;
-});
-//图标名称。
-const iconComputed = computed(() => {
-	// #ifdef APP-NVUE
-
-	let name = props.name.substr(props.name.indexOf('-') + 1)
-
-	let itemIcon = fontList.glyphs.find((item, index) => {
-		return item.font_class == name;
-	});
-	if (itemIcon) {
-		return JSON.parse('"\\u' + String(itemIcon.unicode) + '"');
-	}
-	// #endif
-	return props.name;
-});
-
 //当前图标是否是图片。
 const isImg = computed(() => {
 	if (
@@ -146,6 +124,28 @@ const isImg = computed(() => {
 	}
 	return false;
 });
+//图标前缀
+const prefx = computed(() => {
+	let prefix = props.name.split('-')[0];
+	return prefix;
+});
+//图标名称。
+const iconComputed = computed(() => {
+	if(isImg.value) return ""
+	// #ifdef APP-NVUE
+	let name = props.name.substr(props.name.indexOf('-') + 1)
+	let index = uni.$tm.tmicon.findIndex(el=>el.font==prefx.value)
+	let itemIcon = uni.$tm.tmicon[index].fontJson.find((item, index) => {
+		return item.font_class == name;
+	});
+	if (itemIcon) {
+		return JSON.parse('"\\u' + String(itemIcon.unicode) + '"');
+	}
+	// #endif
+	return props.name;
+});
+
+
 //是否使图标旋转。
 const spinComputed = computed(() => props.spin);
 //间隙排列。
@@ -153,43 +153,38 @@ const custom_space_size = inject('custom_space_size', [0, 0]);
 //图标的宽度和高度
 const iconWidth = computed(() => Math.ceil(props.fontSize || 34) + custom_space_size[0]);
 const iconHeight = computed(() => Math.ceil(props.fontSize || 34) + custom_space_size[1]);
-// nvue旋转动画的token
-const bindxToken = ref(null);
-function getEl(el) {
-	if (typeof el === 'string' || typeof el === 'number') return el;
-	if (WXEnvironment) {
-		return el.ref;
-	} else {
-		return el instanceof HTMLElement ? el : el.$el;
-	}
-}
-function spinNvueAni() {
-	if (!proxy?.$refs['icon']) return;
-	let icon = getEl(proxy.$refs.icon);
-	let icon_bind = Binding.bind(
-		{
-			eventType: 'timing',
-			exitExpression: 't>1200',
-			props: [
-				{
-					element: icon,
-					property: 'transform.rotate',
-					expression: 'linear(t,0,360,1200)'
-				}
-			]
+
+function spinNvueAni(jiaodu=360) {
+	let iconEl = proxy?.$refs['icon']
+	if (!iconEl) return;
+	animation.transition(iconEl, {
+		styles: {
+			transform: `rotate(${jiaodu}deg)`,
+			transformOrigin: 'center center'
 		},
-		function (res) {
-			if (res.state === 'exit') {
-				spinNvueAni();
-			}
-			bindxToken.value = res.token;
-		}
-	);
+		duration: 1200, //ms
+		timingFunction: 'linear',
+		delay: 0 //ms
+	},()=>{
+		nextTick(function () {
+			animation.transition(iconEl, {
+				styles: {
+					transform: `rotate(${0}deg)`,
+					transformOrigin: 'center center'
+				},
+				duration: 0, //ms
+				timingFunction: 'linear',
+				delay: 0 //ms
+			},()=>{
+				spinNvueAni()
+			})
+		});
+	})
+
 }
 watch(spinComputed, () => {
 	// #ifdef APP-PLUS-NVUE
-	Binding.unbindAll();
-	if (val) {
+	if (spinComputed.value) {
 		nextTick(function () {
 			spinNvueAni();
 		});
@@ -207,20 +202,13 @@ onBeforeMount(() => {
 onMounted(() => {
 	// #ifdef APP-PLUS-NVUE
 	if (spinComputed.value) {
-		spinNvueAni();
+		setTimeout(function() {
+			spinNvueAni();
+		}, 50);
 	}
 	// #endif
 });
-onUnmounted(() => {
-	// #ifdef APP-PLUS-NVUE
-	if (bindxToken.value) {
-		Binding.unbind({
-			token: bindxToken.value,
-			eventType: 'timing'
-		});
-	}
-	// #endif
-});
+
 </script>
 
 <style scoped="scoped">

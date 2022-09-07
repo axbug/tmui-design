@@ -1,5 +1,5 @@
 <template>
-	<view  v-if="showMask" :style="[{ width: width + 'px', height: height + 'px',top:top+'px',position:'fixed'},zIndex ? { zIndex: zIndex } : '']">
+	<view  v-if="showMask" class="l-0" :style="[{ width: width + 'px', height: height + 'px',top:top+'px',position:'fixed'},zIndex ? { zIndex: zIndex } : '']">
 		<view ref="overlay"
 			:class="[bgColor_rp&&!props.transprent&&ani?'blurOn':'blurOff','overlay']"
 			:style="[bgColor_rp&&!props.transprent ? { backgroundColor: showMask?bgColor_rp:'' } : '',
@@ -52,7 +52,7 @@
 		//当前组件的主题。可以是颜色值，也可以是主题名称。
 		bgColor: {
 			type: String,
-			default: 'rgba(0,0,0,0.3)'
+			default: 'rgba(0,0,0,0.4)'
 		},
 		zIndex: {
 			type: [Number, String],
@@ -72,7 +72,7 @@
 		},
 		duration: {
 			type: Number,
-			default: 200
+			default: 300
 		},
 	});
 	const emits = defineEmits(['click', 'open', 'close', 'update:show']);
@@ -81,10 +81,12 @@
 	const customCSSStyle = computedStyle(props);
 	//自定类
 	const customClass = computedClass(props);
-	const sysinfo = inject("tmuiSysInfo",{bottom:0,height:750,width:uni.upx2px(750),top:0,isCustomHeader:false,sysinfo:null})
-	const width = ref(sysinfo.width);
-	const height = ref(sysinfo.height);
-	const top = ref(sysinfo.top);
+	const sysinfo = inject("tmuiSysInfo",computed(()=>{
+		return {bottom:0,height:750,width:uni.upx2px(750),top:0,isCustomHeader:false,sysinfo:null}
+	}))
+	const width = computed(()=>sysinfo.value.width)
+	const height = computed(()=>sysinfo.value.height)
+	const top = computed(()=>sysinfo.value.top)
 	const isAniing = ref(false)
 	let timids = uni.$tm.u.getUid(1);
 	let timerId = NaN;
@@ -95,7 +97,7 @@
 	const align_rpx = computed(() => props.align)
 	const bgColor_rp = computed(() => {
 		if (!props.bgColor || props.transprent) return 'rgba(0,0,0,0)';
-		return props.bgColor || 'rgba(0,0,0,0.3)';
+		return props.bgColor || 'rgba(0,0,0,0.4)';
 	})
 	onMounted(() => {
 		if (!props.show) return;
@@ -158,8 +160,6 @@
 		// #endif
 	}
 
-
-
 	function fadeInNvue(off: boolean = false) {
 		if (off == false) {
 			if (showMask.value == off) return;
@@ -181,6 +181,7 @@
 		} else {
 			showMask.value = off;
 			emits('open');
+			clearTimeout(timids)
 			timids = setTimeout(function() {
 				var testEl = proxy?.$refs.overlay;
 				animation.transition(testEl, {
@@ -198,9 +199,7 @@
 
 
 		}
-
 	}
-
 	function fadeInVue(off = false) {
 		
 		if (showMask.value == off) return;
@@ -211,7 +210,7 @@
 					showMask.value = off;
 					emits('close');
 					emits('update:show', false);
-				}, props.duration);
+				}, props.duration+10);
 			} else {
 				showMask.value = true
 				setTimeout(function() {
@@ -222,7 +221,7 @@
 					emits('update:show', true);
 				}, props.duration);
 			}
-		}, props.duration, true)
+		}, props.duration+10, true)
 	}
 	watch(() => props.show, (newval) => {
 		open(newval)
@@ -235,20 +234,20 @@
 
 <style scoped="scoped">
 .overlay{
-	transition-timing-function:linear;
+	transition-timing-function:ease;
 	transition-property: opacity;
 	transition-delay: 0;
 	opacity: 0;
 }
 .blurOn{
 	/* #ifndef APP-PLUS-NVUE */
-	backdrop-filter: blur(2px);
+	backdrop-filter: blur(10px);
 	/* #endif */
 	opacity: 1;
 }
 .blurOff{
 	/* #ifndef APP-PLUS-NVUE */
-	backdrop-filter: blur(2px);
+	backdrop-filter: blur(10px);
 	/* #endif */
 	opacity: 0;
 }

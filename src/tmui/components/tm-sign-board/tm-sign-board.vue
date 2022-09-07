@@ -2,6 +2,7 @@
   <view @mouseleave="touchsend" @touchcancel="touchsend" ref="tmspin" :style="{ width: `${props.width}rpx`, height: `${props.height}rpx` }">
 		<!-- #ifdef APP-NVUE -->
 		<gcanvas
+		v-if="show"
 		@touchstart="touchstart"
 		@touchmove="touchsmove"
 		@touchend="touchsend"
@@ -80,12 +81,26 @@ let canvasObject:HTMLCanvasElement
 let ctxLeft = 0;
 let ctxTop = 0;
 let drawhd:draw;
-let isAndroid = uni.getSystemInfoSync().osName;
-
+const show = ref(false) //安卓上首次要隐藏不然卡。
+let isAndroid = false
+// #ifdef APP-NVUE
+isAndroid = uni.getSystemInfoSync().osName=='android'
+// #endif
 onMounted(() => {
 	// #ifdef APP-NVUE
-	setTimeout(()=>drawNvue_init(),300)
+	if(isAndroid){
+		setTimeout(()=>{
+			show.value = true
+			setTimeout(function() {
+				drawNvue_init()
+			}, 100);
+		},200)
+	}else{
+		show.value = true
+		setTimeout(()=>drawNvue_init(),250)
+	}
 	// #endif
+	
 	// #ifdef MP-WEIXIN || MP-ALIPAY || MP-QQ
 	setTimeout(()=>MpWeix_init(),100)
 	// #endif
@@ -174,7 +189,11 @@ function touchstart(event:TouchEvent|MouseEvent) {
 	if (event.type.indexOf('mouse')==-1&&event.changedTouches.length==1) {
 		var touch = event.changedTouches[0];
 		// #ifdef APP-NVUE
-		drawhd.down(touch.pageX-ctxLeft,touch.pageY-ctxTop);
+		if(isAndroid){
+			drawhd.down(touch.pageX,touch.pageY);
+		}else{
+			drawhd.down(touch.pageX-ctxLeft,touch.pageY-ctxTop);
+		}
 		// #endif
 		// #ifndef APP-NVUE
 		drawhd.down(touch.x,touch.y);
@@ -191,7 +210,11 @@ function touchsmove(event:TouchEvent|MouseEvent) {
 	if (event.type.indexOf('mouse')==-1&&event.changedTouches.length == 1) {
 		var touch = event.changedTouches[0];
 		// #ifdef APP-NVUE
-		drawhd.move(touch.pageX-ctxLeft,touch.pageY-ctxTop);
+		if(isAndroid){
+			drawhd.move(touch.pageX,touch.pageY);
+		}else{
+			drawhd.move(touch.pageX-ctxLeft,touch.pageY-ctxTop);
+		}
 		// #endif
 		// #ifndef APP-NVUE
 		drawhd.move(touch.x,touch.y);
@@ -206,7 +229,11 @@ function touchsend(event:TouchEvent|MouseEvent) {
 		var touch = event.changedTouches[0];
 		
 		// #ifdef APP-NVUE
-		drawhd.up(touch.pageX-ctxLeft,touch.pageY-ctxTop);
+		if(isAndroid){
+			drawhd.up(touch.pageX,touch.pageY);
+		}else{
+			drawhd.up(touch.pageX-ctxLeft,touch.pageY-ctxTop);
+		}
 		// #endif
 		// #ifndef APP-NVUE
 		drawhd.up(touch.x,touch.y);

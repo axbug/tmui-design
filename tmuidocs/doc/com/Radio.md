@@ -36,6 +36,7 @@ Radio 单选框提供多种选值下选择唯一内容的组件，重要：使�
 | modelValue / v-model | String / Number / Boolean  | "" | 按钮组标题，显示在左上方 | 
 | direction | String | row | 单选按钮排列方向，可选值为 row横排，col为竖排 |
 | model | String | radio  | 单选按钮的样式，可选值为：radio 正常单选样式,button 按钮样式 |
+| align | String | 'left'  | 对齐方式：left,center,right |
 
 ### :seedling: Radio 参数
 

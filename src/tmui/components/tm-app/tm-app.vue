@@ -141,13 +141,24 @@
 	const tmcomputed = computed < cssstyle > (() => computedTheme(props, isDark.value, tmcfg.value));
 	const _showMenu = ref(props.showMenu)
 	const sysinfo = getWindow()
+	const sysinfoRef = ref(sysinfo)
 	// 向所有子组件传递本次获取的系统信息，以减少频繁的请求.
-	provide("tmuiSysInfo",sysinfo)
+	provide("tmuiSysInfo",computed(()=>sysinfoRef.value))
+	// #ifdef H5
+	window.addEventListener("resize",()=>{
+		
+		throttle(()=>{
+			sysinfoRef.value = getWindow()
+			console.log(sysinfoRef.value)
+		})
+	})
+	// #endif
 	// 视察的宽。
 	const view_width = ref(sysinfo.width);
 	//视窗的高度。
 	let view_height = ref(sysinfo.height);
-
+	let timids = uni.$tm.u.getUid(1);
+	let flag = false
 	//本页面是否是tabar切换页面。
 	let isTabbarPage = false;
 	let nowPage = getCurrentPages().pop();
@@ -173,6 +184,29 @@
 		bgImg: props.bgImg,
 		dark: isDark.value
 	});
+
+	function throttle(func: Function, wait = 100, immediate = false) {
+		if (immediate) {
+			if (!flag) {
+				flag = true;
+				// 如果是立即执行，则在wait毫秒内开始时执行
+				typeof func === 'function' && func();
+				timids = setTimeout(() => {
+					flag = false;
+				}, wait);
+			}
+		} else {
+			if (!flag) {
+				flag = true
+				// 如果是非立即执行，则在wait毫秒内的结束处执行
+				timids = setTimeout(() => {
+					flag = false
+					typeof func === 'function' && func();
+				}, wait);
+			}
+
+		}
+	};
 
 	function setAppStyle() {
 		

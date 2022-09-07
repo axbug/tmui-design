@@ -1,5 +1,5 @@
 <template>
-	<tm-overlay ref="overlayAni" blur :duration="props.duration+10" @close="overclose" @open="OverLayOpen"
+	<tm-overlay ref="overlayAni" blur :duration="props.duration" @close="overclose" @open="OverLayOpen"
 		@click="overlayClickFun" :align="align_rp" :overlayClick="false" v-model:show="_show">
 		<tm-translate :reverse="reverse_rp" :width='anwidth' :height="anheight" ref="drawerANI" :auto-play="false"
 			:name="aniname" :duration="props.duration">
@@ -14,7 +14,7 @@
 					:class="[props.closeable?'flex-row-center-between':'flex-center']">
 					<tm-text :dark="props.dark" :followTheme="false" _class="text-overflow-1 text-weight-b text-size-m"
 						class="flex-center" :label="props.title"></tm-text>
-					<tm-icon v-if="closeable" name="tmicon-times-circle-fill" :fontSize="32" @click="close"></tm-icon>
+					<tm-icon v-if="closeable" _class="opacity-3" name="tmicon-times-circle-fill" :fontSize="32" @click="close"></tm-icon>
 				</view>
 				<scroll-view scroll-y :style="[props.height ? { height: contentHeight } : '']">
 					<view class="px-32">
@@ -131,7 +131,7 @@
 		//弹出的动画时间单位ms.
 		duration: {
 			type: Number,
-			default: 200
+			default: 250
 		},
 		//是否允许点击遮罩关闭
 		overlayClick: {
@@ -228,9 +228,7 @@
 	const isDark = computed(() => computedDark(props, tmcfg.value));
 	//计算主题
 	const tmcomputed = computed < cssstyle > (() => computedTheme(props, isDark.value, tmcfg.value));
-	const sysinfo = inject("tmuiSysInfo",{bottom:0,height:750,width:uni.upx2px(750),top:0,isCustomHeader:false,sysinfo:null})
-	const syswidth = ref(sysinfo.width);
-	const sysheight = ref(sysinfo.height);
+
 	const reverse = ref(true);
 	let flag = false;
 	let timeid = uni.$tm.u.getUid(4)

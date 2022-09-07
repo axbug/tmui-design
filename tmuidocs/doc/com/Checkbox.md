@@ -70,6 +70,7 @@ Group组件含有公共属性 [公共属性](/doc/spec/组件公共样式.md)
 | defaultValue | Array | [] | 默认选中数据数组集合 |
 | modelValue | Array | [] | v-model双向绑定，如果选中后以数组形式给出value值 |
 | direction | String | row | row横排，col为竖排 |
+| align | String | 'left'  | 对齐方式：left,center,right |
 
 ### :rose: Group组件事件
 | 事件名 | 参数 | 返回数据 | 描述 |

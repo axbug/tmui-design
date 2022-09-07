@@ -32,7 +32,7 @@ import {
 import { useTmpiniaStore } from '../../tool/lib/tmpinia';
 const store = useTmpiniaStore();
 // #ifdef APP-PLUS-NVUE
-const Binding = uni.requireNativePlugin("bindingx");
+const animation = uni.requireNativePlugin('animation')
 // #endif
 const props = defineProps({
 	height: {
@@ -64,73 +64,53 @@ const proxy = getCurrentInstance()?.proxy??null;
 const tmcfg = computed(() => store.tmStore);
 
 const isDark = computed(() => computedDark(props, tmcfg.value));
-let bindxToken = null;
+
 onMounted(() => {
 	// #ifdef APP-PLUS-NVUE
 	try {
 		nextTick(function () {
-			// spinNvueAni();
+			setTimeout(function() {
+				spinNvueAni();
+			}, 50); 
 		});
 	} catch (e) {
 		//TODO handle the exception
 	}
 	// #endif
 })
-onUnmounted(() => {
-	// #ifdef APP-PLUS-NVUE
-	// Binding.unbind(bindxToken)
-	// #endif
-})
 
-function getEl(el) {
-	if (typeof el === "string" || typeof el === "number") return el;
-	if (WXEnvironment) {
-		return el.ref;
-	} else {
-		return el instanceof HTMLElement ? el : el.$el;
-	}
-}
 
-function spinNvueAni() {
-	if (!proxy?.$refs?.dombg) return;
-	let icon = getEl(proxy.$refs.dombg);
-	let icon_bind = Binding.bind({
-		eventType: "timing",
-		exitExpression: "t>500",
-		props: [{
-			element: icon,
-			property: "opacity",
-			expression: "easeInSine(t,0,1,500)",
-		},],
-	},
-		function (res) {
-			if (res.state === "exit") {
-				let icon_bind = Binding.bind({
-					eventType: "timing",
-					exitExpression: "t>500",
-					props: [{
-						element: icon,
-						property: "opacity",
-						expression: "easeInSine(t,1,-1,500)",
-					},],
-				},
-					function (res) {
-						if (res.state === "exit") {
-							spinNvueAni();
-						}
-						bindxToken = res.token;
-					}
-				);
-			}
-		}
-	);
+// function getEl(el) {
+// 	if (typeof el === "string" || typeof el === "number") return el;
+// 	if (WXEnvironment) {
+// 		return el.ref;
+// 	} else {
+// 		return el instanceof HTMLElement ? el : el.$el;
+// 	}
+// }
+
+function spinNvueAni(opacity=0) {
+	let icon = proxy?.$refs?.dombg
+	if (!icon) return;
+	animation.transition(icon, {
+		styles: {
+			opacity:opacity,
+		},
+		duration: 1000, //ms
+		timingFunction: 'linear',
+		delay: 0 //ms
+	},()=>{
+		nextTick(function () {
+			spinNvueAni(opacity==0?1:0)
+		});
+	})
 }
 </script>
 
 <style scoped>
 /* #ifndef APP-NVUE */
 .tmSkeletonLine {
-	animation: loading 1.5s linear infinite;
+	animation: loading 1s linear infinite;
 }
 
 @keyframes loading {

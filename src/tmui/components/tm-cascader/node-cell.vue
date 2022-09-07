@@ -15,12 +15,12 @@
     </view>
 </template>
 <script lang="ts" setup>
-import { computed, ref, Ref, watch, getCurrentInstance, inject, toRaw, watchEffect, nextTick } from 'vue';
+import { computed, ref, Ref, watch, getCurrentInstance, inject, toRaw, watchEffect, nextTick, PropType } from 'vue';
 import tmText from '../tm-text/tm-text.vue';
 import tmIcon from '../tm-icon/tm-icon.vue';
 import tmDivider from '../tm-divider/tm-divider.vue';
 import { childrenData } from "./interface"
-const { proxy } = getCurrentInstance();
+const proxy = getCurrentInstance()?.proxy??null;
 const emits = defineEmits(['click'])
 const props = defineProps({
 	followTheme: {
@@ -31,7 +31,7 @@ const props = defineProps({
      * 导入的数据
      */
     data: {
-        type: Object,
+        type: Object as PropType<childrenData>,
         default: () => { },
         required: true
     },
@@ -45,17 +45,17 @@ const props = defineProps({
     }
 })
 //父级方法。
-let parent = proxy.$parent
+let parent:any = proxy?.$parent
 
 while (parent) {
     if (parent?.tmCascaderName == 'tmCascader' || !parent) {
         break;
     } else {
-        parent = parent?.$parent ?? undefined
+        parent = parent?.$parent ?? null
     }
 }
 const ParentActivedLs = inject('tmCascaderValue', computed(() => []))
-const _value = computed((): childrenData => <childrenData>props.data);
+const _value = computed((): childrenData => props.data);
 const _activeId:Ref<string|number> = ref('')
 function queryNode(){
     let xd = ParentActivedLs.value.filter(el=>el==_value.value.id)

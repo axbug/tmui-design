@@ -27,34 +27,34 @@ const props = defineProps({
     },
 })
 const _size = computed(() => props.size)
-let bindxToken = null;
-let  timid = 636666
+
+
 onMounted(() => {
     
 	// #ifdef APP-PLUS-NVUE
-	// nextTick(()=>spinNvueAni())
+	nextTick(function () {
+		setTimeout(function() {
+			spinNvueAni();
+		}, 50); 
+	});
 	// #endif
 })
 
-
-function spinNvueAni(ot=0) {
-	if (!proxy?.$refs['dombg']) return;
-    let el = proxy.$refs['dombg'];
-	  animation.transition(el, {
-		  styles: {
-			  opacity: ot,
-		  },
-		  duration: 800, //ms
-		  timingFunction: 'ease',
-		  delay: 0 //ms
-	  },()=>{
-		  if(ot===0){
-			  ot = 1
-		  }else{
-			  ot=0
-		  }
-		  nextTick(()=>spinNvueAni(ot))
-	  })
-    
+function spinNvueAni(opacity=0) {
+	let icon = proxy?.$refs?.dombg
+	if (!icon) return;
+	animation.transition(icon, {
+		styles: {
+			opacity:opacity,
+		},
+		duration: 600, //ms
+		timingFunction: 'linear',
+		delay: 0 //ms
+	},()=>{
+		nextTick(function () {
+			spinNvueAni(opacity==0?1:0)
+		});
+	})
 }
+
 </script>

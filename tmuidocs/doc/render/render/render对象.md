@@ -13,8 +13,6 @@ render实例。
 :::
 
 下面是介绍render的对象方法及其属性
-[[toc]]
-
 
 ## :ram:render属性
 
@@ -126,8 +124,3 @@ clearArea(): void {
 }
 ```
 
-
-
-
-
-<testtime> </testtime>

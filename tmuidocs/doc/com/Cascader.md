@@ -65,7 +65,8 @@ export interface childrenData {
 默认default，介于tab和下面选项之间的区域插槽。
 
 ### :green_salad: ref方法
-无
+提供data就是使用data，如果不提供默认的[]空数组，将使用props.data进行刷新同步。
+reFresh(data:Array<childrenData>=[])
 
 ### :couplekiss: 文档贡献
 此页文档由[Sunlight](https://gitee.com/rzg)贡献，如果对该框架感兴趣的可以参与我们一同进步！

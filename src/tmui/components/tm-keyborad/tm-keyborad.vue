@@ -20,7 +20,6 @@ import keyboradCar from "./keyborad-car.vue"
 import { useTmpiniaStore } from '../../tool/lib/tmpinia';
 const store = useTmpiniaStore();
 const emits=defineEmits(["change","confirm","update:show","update:modelValue"])
-const {proxy} = getCurrentInstance();
 const drawer = ref<InstanceType<typeof tmDrawer> | null>(null)
 const props = defineProps({
     ...custom_props,
@@ -77,7 +76,9 @@ const tmcfg = computed(() => store.tmStore);
 const isDark = computed(() => computedDark(props, tmcfg.value));
 const showPop = ref(props?.show??false);
 const _value = ref(props?.defaultValue??"");
-const sysinfo = inject("tmuiSysInfo",{bottom:0,height:750,width:uni.upx2px(750),top:0,isCustomHeader:false,sysinfo:null})
+const sysinfo = inject("tmuiSysInfo",computed(()=>{
+	return {bottom:0,height:750,width:uni.upx2px(750),top:0,isCustomHeader:false,sysinfo:null}
+}))
 const _typemodel = computed(()=>props.type)
 watch(()=>props.show,()=>{
 	showPop.value = props.show;
@@ -121,7 +122,7 @@ function change(){
 		emits("change",toRaw(_value.value))
 	})
 	// #ifdef MP
-	uni.vibrateShort()
+	uni.vibrateShort({})
 	// #endif
 }
 function confirm(){
@@ -134,6 +135,6 @@ function confirm(){
 
 
 const dHeight = computed(() => {
-    return 520+sysinfo.bottom
+    return 520+sysinfo.value.bottom
 })
 </script>

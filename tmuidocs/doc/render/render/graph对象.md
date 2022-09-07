@@ -283,8 +283,3 @@ beforeDelete?: (graph: Graph) => any
 deleted?: (graph: Graph) => any
 ```
 
-
-
-
-
-<testtime> </testtime>
