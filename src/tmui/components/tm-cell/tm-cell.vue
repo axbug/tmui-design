@@ -29,7 +29,7 @@
 			    </slot>
 			    <slot name="label">
 			      <view v-if="_computedValue.label" class="mt-6">
-			        <tm-text :color="_computedValue.labelColor" :fontSize="22" :label="_computedValue.label"></tm-text>
+			        <tm-text :color="_computedValue.labelColor" :fontSize="_computedValue.labelFontSize" :label="_computedValue.label"></tm-text>
 			      </view>
 			    </slot>
 			  </view>
@@ -137,6 +137,10 @@ const props = defineProps({
   label: {
     type: String,
     default: "",
+  },
+  labelFontSize:{
+    type: [Number],
+    default: 28,
   },
   labelColor: {
     type: String,
