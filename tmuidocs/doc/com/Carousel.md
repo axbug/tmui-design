@@ -36,7 +36,7 @@ title: tmui 3.0 组件库
 | color | String | primary | 指示点的主题色 |
 | width | Number | 750 | 宽度，单位rpx |
 | height | Number | 500 | 高度，单位rpx |
-| round | Number | 0 | 开启圆角,单位rpx |
+| round | Number | 0 | 开启圆角,单位n*4rpx(即round-1 为 4rpx) |
 | margin | Array | [0,0] | 外间距[x,y]x=左右，y=上下 |
 | list | Array | [] | 图片列表，可以是string数组或者object数组。 |
 | rangKey | String | url | 图片列表object数组时，需要提供图片地址的键值。 |
