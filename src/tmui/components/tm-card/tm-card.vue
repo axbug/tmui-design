@@ -25,7 +25,7 @@
 		<slot name="status"><tm-text :followTheme="false" :color="props.statusColor" :font-size="26" :label="props.status"></tm-text></slot>
 	</view>
 	<tm-divider></tm-divider>
-	<view class="pb-24 flex">
+	<view class="pb-24 flex wrap">
 		<slot name="content"><tm-text :font-size="26" _class="wrap" :label="props.content"></tm-text></slot>
 	</view>
 	<view class="flex pb-24">

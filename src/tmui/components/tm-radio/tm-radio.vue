@@ -129,43 +129,14 @@
 	const tmCheckedBoxDisabled = inject('tmRadioBoxDisabled', computed(() => false));
 	const _is_radio = inject('tmRadioBoxModel', computed(() => false));
 	const _disabled = computed(() => props.disabled || tmCheckedBoxDisabled.value)
-	//父级方法。
-	let parent:any = proxy?.$parent
-
-	while (parent) {
-		if (parent?.checkBoxkeyId == 'tmRadioBoxGroup' || !parent) {
-			break;
-		} else {
-			parent = parent?.$parent ?? undefined
-		}
-	}
-	if (parent) {
-		parent.pushKey(props.value)
-	}
-
-	/** -----------form专有------------ */
-	//父级方法。
-	const tmFormFun = inject("tmFormFun", computed(() => ""))
-	watch(tmFormFun, () => {
-		if (tmFormFun.value == 'reset') {
-			emits('update:modelValue', "")
-			if (parent) {
-				parent?.addKey("")
-			}
-			_checked.value = false
-		}
-	})
-
-	/** -----------end------------ */
-
-
-	function vailChecked() {
+	function vailChecked(val?:string|number|boolean) {
 		let checked_val = false;
+		let val_self = typeof val ==='undefined'?_groupCheckedVal.value:val
 		if (props.modelValue === props.value && typeof props.value !== 'undefined' && props.value !== '' && props
 			.modelValue !== '') {
 			checked_val = true;
 		}
-		if (props.value === _groupCheckedVal.value && _groupCheckedVal.value !== '' && props.value !== '') {
+		if (props.value === val_self && val_self !== '' && props.value !== '') {
 			checked_val = true;
 		}
 		return checked_val;
@@ -178,7 +149,7 @@
 		if (_disabled.value || _checked.value) {
 			return;
 		}
-
+	
 		if (typeof props.beforChecked === 'function') {
 			uni.showLoading({
 				title: "...",
@@ -202,4 +173,35 @@
 		_checked.value = vailChecked()
 		
 	})
+	const _blackValue = _groupCheckedVal.value
+	
+	//父级方法。
+	let parent:any = proxy?.$parent
+
+	while (parent) {
+		if (parent?.checkBoxkeyId == 'tmRadioBoxGroup' || !parent) {
+			break;
+		} else {
+			parent = parent?.$parent ?? undefined
+		}
+	}
+	if (parent) {
+		parent.pushKey(props.value)
+	}
+
+	/** -----------form专有------------ */
+	//父级方法。
+	const tmFormFun = inject("tmFormFun", computed(() => ""))
+	watch(tmFormFun, () => {
+		if (tmFormFun.value == 'reset') {
+			if (parent) {
+				parent?.addKey(_blackValue)
+			}
+		}
+	})
+
+	/** -----------end------------ */
+
+
+
 </script>

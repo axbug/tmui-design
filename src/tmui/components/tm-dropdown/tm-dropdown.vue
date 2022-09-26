@@ -109,7 +109,7 @@
 								<view style="height:24rpx"></view>
 								<view hover-class="opacity-7" @click.stop="onclick(index,item)" 
 								v-for="(item,index) in listData"  :key="index" class="flex-1 flex px-24  py-16" >
-									<view class="flex-row flex pb-12 flex-between ">
+									<view class="flex-row flex pb-12 flex-row-center-between">
 										<view class="flex flex-row flex-row-center-start flex-1">
 											<tm-icon :color="item.iconColor" :dark="props.dark" :fontSize="36" _class="pr-12" v-if="item.icon" :name="item.icon"></tm-icon>
 											<tm-text :fontSize="32" :label="item.text"></tm-text>
@@ -191,7 +191,7 @@
 									<view style="height:24rpx"></view>
 									<view hover-class="opacity-7" @click.stop="onclick(index,item)" 
 									v-for="(item,index) in listData"  :key="index" class="flex-1 flex px-24  py-16" >
-										<view class="flex-row flex pb-12 flex-between ">
+										<view class="flex-row flex pb-12 flex-row-center-between ">
 											<view class="flex flex-row flex-row-center-start flex-1">
 												<tm-icon :color="item.iconColor" :dark="props.dark" :fontSize="36" _class="pr-12" v-if="item.icon" :name="item.icon"></tm-icon>
 												<tm-text :fontSize="32" :label="item.text"></tm-text>

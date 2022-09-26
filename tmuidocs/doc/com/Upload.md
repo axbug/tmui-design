@@ -40,7 +40,8 @@ Upload 是一个常用的图片上传组件
 | color | String | primary | 组件颜色 | 
 | header | Object | { } | 图片上传http头 |
 | formData | Object | { } | 图片上传formData |
-|  maxFile | Number | 9 | 最大可选图片数量 |
+| formName<Badge type="danger" text="v3.0.83+" vertical="middle" /> | String | 'file' | 文件表单名称（后台读取文件时的表单字段名） |
+| maxFile | Number | 9 | 最大可选图片数量 |
 | maxSize | Number | 10*1024*1024 | 图片最大上传大小 |
 | url | String | "" | 上传地址 |
 | disabled | Boolean | false | 是否禁用组件 |

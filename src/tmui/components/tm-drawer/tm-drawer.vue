@@ -267,7 +267,7 @@
 			// open();
 		} else {
 			reverse.value = false;
-			// close();
+			drawerANI.value?.play();
 		}
 		
 		

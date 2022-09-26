@@ -6,6 +6,8 @@
 import { rgba, hsla, hsva } from '../lib/interface';
 
 export var colortool = {
+
+
     rgbaToHsla(scolor: rgba): hsla {
         let { r, g, b, a } = scolor;
         r = r / 255;

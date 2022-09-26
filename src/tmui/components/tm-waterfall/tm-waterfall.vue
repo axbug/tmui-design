@@ -16,7 +16,7 @@
  * @description 瀑布流,只能放置tm-waterfall-item组件不可放置其它组件。
  * @example <tm-waterfall><tm-waterfall-item ></tm-waterfall-item></tm-waterfall>
  */
-import { computed, nextTick, provide, Ref, ref } from "vue";
+import { computed, nextTick, provide, Ref, ref ,watch} from "vue";
 import tmSheet from "../tm-sheet/tm-sheet.vue";
 import tmIcon from "../tm-icon/tm-icon.vue";
 import {itemParenSG} from "./interface"
@@ -76,6 +76,13 @@ async function pushKey(n:itemParenSG){
 	}
 
 }
+function clear(){
+	_cacheList.value = [];
+	_list.value = [];
+	_totalNum.value = [];
+	_totalSort.value = [[],[]];
+}
+
 //排序数据。
 function countPushSort(item:itemParenSG){
 	//当前数据是
@@ -94,5 +101,5 @@ function countPushSort(item:itemParenSG){
 	return item;
 }
 
-defineExpose({parentNameId:parentNameId,pushKey,sumTotal})
+defineExpose({parentNameId:parentNameId,pushKey,sumTotal,clear})
 </script>

@@ -31,7 +31,7 @@
  * 级联选择（弹层）
  * @description 这是弹出式级联
  */
-import { PropType, Ref, ref, watchEffect,getCurrentInstance, computed, toRaw ,inject } from "vue"
+import { PropType, Ref, ref, watchEffect,onMounted,getCurrentInstance, computed, toRaw ,inject, nextTick, watch } from "vue"
 import { custom_props } from "../../tool/lib/minxs";
 import tmDrawer from '../tm-drawer/tm-drawer.vue';
 import { columnsItem } from "../tm-picker-view/interface"
@@ -132,7 +132,7 @@ const props = defineProps({
 
 })
 const showCity = ref(true)
-const _colIndex: Ref<Array<number>> = ref([])
+const _colIndex: Ref<Array<number|string>> = ref([])
 const _data = computed(()=>props.columns)
 const _colStr = ref(props.modelStr)
 const aniover = ref(true)
@@ -140,9 +140,13 @@ const sysinfo = inject("tmuiSysInfo",computed(()=>{
     return {bottom:0,height:750,width:uni.upx2px(750),top:0,isCustomHeader:false,sysinfo:null}
 }))
 
+onMounted(()=>getIndexBymodel(_data.value, props.selectedModel, 0, props.defaultValue))
 watchEffect(() => {
     showCity.value = props.show
 })
+watch(()=>props.modelValue,()=>{
+	_colIndex.value = props.modelValue
+},{deep:true})
 function closeDrawer(e: boolean) {
     showCity.value = e;
     emits('update:show', showCity.value)
@@ -153,7 +157,7 @@ function closeDrawer(e: boolean) {
 function drawerOpen(){
     emits("open")
 }
-getIndexBymodel(_data.value, props.selectedModel, 0, props.defaultValue)
+
 setVal()
 //点击确认了地区。
 function confirm() {
@@ -180,13 +184,14 @@ function setVal() {
 }
 //模拟模型来返回index值
 function getIndexBymodel(vdata:Array<columnsItem> = [], model = "name", parentIndex:number= 0, value:Array<number|string> = []): Array<number> {
-    if (model == 'name') {
+    let p_colIndex = [... _colIndex.value]
+	if (model == 'name') {
         let item = vdata.filter(el => value[parentIndex] == el['text'])
         if (item.length == 0) {
             item = vdata[0];
             if (item) {
                 value[parentIndex] = item['text'];
-                _colIndex.value[parentIndex] = 0
+                p_colIndex[parentIndex] = 0
                 if (item['children']) {
                     getIndexBymodel(item['children'], model, parentIndex + 1, value);
                 }
@@ -195,7 +200,7 @@ function getIndexBymodel(vdata:Array<columnsItem> = [], model = "name", parentIn
         } else {
             item = item[0];
             if (item) {
-                _colIndex.value[parentIndex] = vdata.findIndex(el => el['text'] == item['text'])
+                p_colIndex[parentIndex] = vdata.findIndex(el => el['text'] == item['text'])
                 if (item['children']) {
                     getIndexBymodel(item['children'], model, parentIndex + 1, value);
                 }
@@ -207,7 +212,7 @@ function getIndexBymodel(vdata:Array<columnsItem> = [], model = "name", parentIn
             item = vdata[0];
             if (item) {
                 value[parentIndex] = item['id'];
-                _colIndex.value[parentIndex] = 0
+                p_colIndex[parentIndex] = 0
                 if (item['children']) {
                     getIndexBymodel(item['children'], model, parentIndex + 1, value);
                 }
@@ -216,17 +221,20 @@ function getIndexBymodel(vdata:Array<columnsItem> = [], model = "name", parentIn
         } else {
             item = item[0];
             if (item) {
-                _colIndex.value[parentIndex] = vdata.findIndex(el => el['id'] == item['id'])
+                p_colIndex[parentIndex] = vdata.findIndex(el => el['id'] == item['id'])
                 if (item['children']) {
                     getIndexBymodel(item['children'], model, parentIndex + 1, value);
                 }
             }
         }
     }else{
-		_colIndex.value = [...value]
+		p_colIndex = [...value]
 	}
-
-    return _colIndex.value;
+	_colIndex.value = []
+	nextTick(()=>{
+		_colIndex.value = [...p_colIndex]
+	})
+    return p_colIndex;
 }
 //返回 一个节点从父到子的路径id组。
 function getRouterId(list = [], parentIndex = 0): Array<string | number> {

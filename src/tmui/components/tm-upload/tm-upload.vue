@@ -97,6 +97,10 @@ const props = defineProps({
         default:"",
         required:true
     },
+	formName:{
+	    type:String,
+	    default:"file",
+	},
     autoUpload:{
         type:Boolean,
         default:true
@@ -156,11 +160,12 @@ const _filelist:Ref<Array<file>> = ref([])
 const _disabledAdd = computed(()=>{
     return props.disabled||_filelist.value.length>=props.maxFile;
 })
-const _uploadObj = new uploadfile({hostUrl:props.url,autoUpload:props.autoUpload,fileList:addSuccess(props.defaultValue),header:props.header,formData:props.formData,maxFile:props.maxFile,maxSize:props.maxSize})
+const _uploadObj = new uploadfile({formName:props.formName,hostUrl:props.url,autoUpload:props.autoUpload,fileList:addSuccess(props.defaultValue),header:props.header,formData:props.formData,maxFile:props.maxFile,maxSize:props.maxSize})
 _filelist.value = [..._uploadObj.filelist];
 emits("update:modelValue",_filelist.value)
+const _blackValue = uni.$tm.u.deepClone(toRaw(_uploadObj.filelist))
 watch([()=>props.header,()=>props.maxFile,()=>props.maxSize,()=>props.formData],()=>{
-    _uploadObj.setConfig({hostUrl:props.url,header:props.header,formData:props.formData,maxFile:props.maxFile,maxSize:props.maxSize})
+    _uploadObj.setConfig({formName:props.formName,hostUrl:props.url,header:props.header,formData:props.formData,maxFile:props.maxFile,maxSize:props.maxSize})
 },{deep:true})
 //添加已上传文件列表。
 function addSuccess(fileList:Array<file>= []){
@@ -426,7 +431,11 @@ watch(tmFormFun,()=>{
 		_filelist.value = [];
 		_uploadObj.filelist = [];
 		emits('update:modelValue',[])
-		pushFormItem(false)
+		nextTick(()=>{
+			pushFormItem(true)
+			emits('update:modelValue',_blackValue)
+		})
+		
     }
 	if(tmFormFun.value=='validate'){
 		pushFormItem(true)

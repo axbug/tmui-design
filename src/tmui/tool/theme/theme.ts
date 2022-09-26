@@ -6,7 +6,7 @@
  * @copyright tmzdy|tmui|https://tmui.design
  */
 import { colortool } from './colortool';
-import { cssStyleConfig, cssstyle, colorThemeType, cssDirection , linearDirection,linearDeep,linearDirectionType } from '../lib/interface';
+import  { cssStyleConfig, cssstyle, colorThemeType, cssDirection, linearDirection, linearDeep, linearDirectionType } from '../lib/interface';
 //导入用户自定义的主题色值。
 import { theme } from '../../../theme/index';
 var colors: Array<colorThemeType> = [];
@@ -63,56 +63,63 @@ for (const key in colorObj) {
 	}
 }
 
-function isCssColor(color:string) {
+function isCssColor(color: string) {
 	const reg1 = /^#([0-9a-fA-f]{3}|[0-9a-fA-f]{6})$/;
 	const reg2 = /^(rgb|RGB|rgba|RGBA)/;
 	return reg1.test(color) || reg2.test(color);
 }
-function getColor(colorName:string){
-		let isHand: number = colors.findIndex(function(el, index) {
+function getColor(colorName: string) {
+	let isHand: number = colors.findIndex(function(el, index) {
+		return el.name == colorName;
+	});
+	if (isHand == -1) {
+		colorName = "primary";
+		isHand = colors.findIndex(function(el, index) {
 			return el.name == colorName;
 		});
-		if (isHand == -1) {
-			colorName = "primary";
-			isHand = colors.findIndex(function(el, index) {
-				return el.name == colorName;
-			});
-			console.error('主题中不存在相关名称的主题。');
-		}
-		
-		
-		return colors[isHand];
+		console.error('主题中不存在相关名称的主题。');
 	}
+
+
+	return colors[isHand];
+}
 class themeColors {
 	colors: Array<colorThemeType> = [];
 	constructor(c: Array<colorThemeType> = colors) {
 		this.colors = c;
 	}
-	public add(colorName:string="",value:string="" ) {
+	public hasColors(colorName: string = ""){
+		let isHand: Array<colorThemeType> = this.colors.filter(function(el, index) {
+			return el.name == colorName;
+		});
+		return isHand.length > 0;
+	}
+	public add(colorName: string = "", value: string = "") {
 		let isHand: Array<colorThemeType> = this.colors.filter(function(el, index) {
 			return el.name == colorName;
 		});
 		if (isHand.length > 0) {
-			console.error('已存在相关颜色名称!!!');
+			// console.error('已存在相关颜色名称!!!');
 			return this.colors;
 		}
-		if(!value){
+		if (!value) {
 			console.error('颜色值必填!!!');
 			return this.colors;
 		}
 		let rgba = colortool.cssToRgba(value);
-		let color:colorThemeType ={
-			csscolor:"",
+		let color: colorThemeType = {
+			csscolor: "",
 			hsva: { h: 0, s: 0, v: 0, a: 0 },
 			hsla: { h: 0, s: 0, l: 0, a: 0 },
 			rgba: { r: 0, g: 0, b: 0, a: 0 },
-			name:colorName,value:value
+			name: colorName, value: value
 		};
 		color.csscolor = colortool.rgbaToCss(rgba);
 		color.hsva = colortool.rgbaToHsva(rgba);
 		color.rgba = rgba;
 		color.hsla = colortool.rgbaToHsla(rgba);
 		this.colors.push(color);
+		
 		return this.colors;
 	}
 	public del(colorName: string) {
@@ -125,7 +132,7 @@ class themeColors {
 		}
 		this.colors.splice(isHand, 1);
 	}
-	public getColor(colorName:string):colorThemeType{
+	public getColor(colorName: string): colorThemeType {
 		let isHand: number = this.colors.findIndex(function(el, index) {
 			return el.name == colorName;
 		});
@@ -136,17 +143,17 @@ class themeColors {
 			});
 			console.error('主题中不存在相关名称的主题。');
 		}
-		
-		
+
+
 		return this.colors[isHand];
 	}
-	public getTheme(config: cssStyleConfig = { colorname: 'primary',dark:false }): cssstyle {
+	public getTheme(config: cssStyleConfig = { colorname: 'primary', dark: false }): cssstyle {
 		if (!config['colorname']) {
 			console.error('颜色名称必填');
 			config.colorname = 'primary';
 		}
 		let index = this.colors.findIndex(el => el.name == config.colorname);
-		if(index==-1){
+		if (index == -1) {
 			console.error('主题不存在，默认为primary');
 			config.colorname = 'primary';
 		}
@@ -154,9 +161,9 @@ class themeColors {
 		let isWhite = false;
 		let isBlackAndWhite = false;//是否是黑白色系之间。
 		let isGrey = false
+		let isDarkColor = false;
 		//当前颜色对象。
 		let nowColor = { ...this.colors[index] };
-		
 		config.borderWidth = isNaN(parseInt(String(config['borderWidth']))) ? 0 : config['borderWidth'];
 		config.borderStyle = config['borderStyle'] ? config['borderStyle'] : 'solid';
 		config.borderDirection = config['borderDirection'] || cssDirection.all;
@@ -168,11 +175,16 @@ class themeColors {
 		config.outlined = typeof config['outlined'] == 'boolean' ? config['outlined'] : false;
 		config.text = typeof config['text'] == 'boolean' ? config['text'] : false;
 		config.blur = typeof config['blur'] == 'boolean' ? config['blur'] : false;
-
+		// 确定一个颜色值是明亮的还是深色的,
+		//以方便确定文本颜色是亮还是深来区别,否则颜色看不清.
+		function isDarkColorFun(r: number, g: number, b: number) {
+			const yiq = (r * 2126 + g * 7152 + b * 722) / 10000;
+			return yiq < 180;
+		}
+		isDarkColor = isDarkColorFun(nowColor.rgba.r, nowColor.rgba.g, nowColor.rgba.b)
 		//黑
 		if (nowColor.hsla.h == 0 && nowColor.hsla.s == 0 && nowColor.hsla.l == 0) {
 			isBlack = true;
-			
 		}
 		//白
 		if (nowColor.hsla.h == 0 && nowColor.hsla.s == 0 && nowColor.hsla.l == 100) {
@@ -183,67 +195,68 @@ class themeColors {
 			isGrey = true;
 		}
 		if (nowColor.hsla.h == 0 && nowColor.hsla.s == 0) {
-			isBlackAndWhite=true;
+			isBlackAndWhite = true;
 		}
-		
-		let css:cssstyle = {};
+
+		let css: cssstyle = {};
 		css.color = nowColor.value;
 		css.config = { ...config };
 		css.isBlackAndWhite = isBlackAndWhite;
 		css.gradientColor = []
 		css.colorname = config.colorname;
 		let borderhsl = { ...nowColor.hsla };
-		
+
 		let borderDir = "all";
 		css.borderCss = {};
 
 		//背景颜色。
 		let bghsl = { ...nowColor.hsla };
-		if(config.dark){
-			if(nowColor.hsla.h != 0 && nowColor.hsla.s != 0){
-				bghsl.l=40
+		if (config.dark) {
+			if (nowColor.hsla.h != 0 && nowColor.hsla.s != 0) {
+				bghsl.l = 40
 			}
 		}
-		if(config.blur){
+		if (config.blur) {
 			bghsl.a = 0.85
 		}
 		css.backgroundColor = colortool.rgbaToCss(colortool.hslaToRgba({ ...bghsl }));
-		
+
 		if (nowColor.hsla.h == 0 && nowColor.hsla.s == 0 && config.dark) {
 			css.backgroundColor = colortool.rgbaToCss(colortool.hslaToRgba({ ...bghsl, l: 8 }));
 			css.border = colortool.rgbaToCss(colortool.hslaToRgba({ ...borderhsl, l: 12 }));
 		}
-		if (nowColor.hsla.h == 0 && nowColor.hsla.s == 0 && !config.dark && nowColor.hsla.l==100) {
+		if (nowColor.hsla.h == 0 && nowColor.hsla.s == 0 && !config.dark && nowColor.hsla.l == 100) {
 			css.border = colortool.rgbaToCss(colortool.hslaToRgba({ ...borderhsl, l: 90 }));
 		}
-		if (nowColor.hsla.h == 0 && nowColor.hsla.s == 0 && !config.dark && nowColor.hsla.l==0) {
+		if (nowColor.hsla.h == 0 && nowColor.hsla.s == 0 && !config.dark && nowColor.hsla.l == 0) {
 			css.border = colortool.rgbaToCss(colortool.hslaToRgba({ ...borderhsl, l: 12 }));
 		}
-		
+
 		css.backgroundColorCss = { 'background-color': css.backgroundColor }
 
 		//文字颜色。
 		let txcolor = { ...nowColor.hsla };
 		//当亮度小于（含）50需要降低文本颜色的亮度，即加深。，否则加亮，即变浅色。
-		if(config.dark){
+		if (config.dark) {
 			txcolor.l = 95;
-		}else{
-			if (nowColor.hsla?.l <= 65) {
+		} else {
+			if (isDarkColor) {
 				txcolor.l = 95;
 			} else {
-				if(isGrey){
+				if (isGrey) {
 					txcolor.l = 10;
-				}else{
+				} else {
 					txcolor.l = 20;
 				}
 			}
+
 		}
-		if (nowColor.hsla.h > 45 && nowColor.hsla.h < 90 && nowColor.hsla.h!=0&&nowColor.hsla.s!=0) {
-			txcolor.l = 20;
-		}
-		
-		
-		
+		// if (nowColor.hsla.h > 45 && nowColor.hsla.h < 90 && nowColor.hsla.h!=0&&nowColor.hsla.s!=0) {
+		// 	txcolor.l = 20;
+		// }
+
+
+
 
 		//外边框轮廓时
 		//outlined
@@ -251,8 +264,8 @@ class themeColors {
 			txcolor.l = 50;
 			if (config.dark) {
 				txcolor.l = 55;
-			}else{
-				if (nowColor.hsla.h > 45 && nowColor.hsla.h < 90 && nowColor.hsla.h!=0&&nowColor.hsla.s!=0) {
+			} else {
+				if (nowColor.hsla.h > 45 && nowColor.hsla.h < 90 && nowColor.hsla.h != 0 && nowColor.hsla.s != 0) {
 					txcolor.l = 20;
 				}
 			}
@@ -272,18 +285,18 @@ class themeColors {
 		//text
 		if (config.text) {
 			txcolor.l = 90;
-			if(isGrey){
+			if (isGrey) {
 				txcolor.l = 15;
-			}else{
+			} else {
 				txcolor.l = 55;
-				if (nowColor.hsla.h > 45 && nowColor.hsla.h < 90 && nowColor.hsla.h!=0&&nowColor.hsla.s!=0) {
+				if (nowColor.hsla.h > 45 && nowColor.hsla.h < 90 && nowColor.hsla.h != 0 && nowColor.hsla.s != 0) {
 					txcolor.l = 20;
 				}
-				
+
 			}
 			if (config.dark) {
 				txcolor.l = 60;
-				if(!isBlackAndWhite){
+				if (!isBlackAndWhite) {
 					txcolor.s = 100;
 				}
 			}
@@ -296,31 +309,31 @@ class themeColors {
 			if (nowColor.hsla.h == 0 && nowColor.hsla.s == 0 && config.dark) {
 				txcolor.l = 90;
 			}
-			
-			
+
+
 			css.textColor = colortool.rgbaToCss(colortool.hslaToRgba(txcolor));
 			css.border = css.textColor;
 			let o_now_bgColor = nowColor.csscolor;
 			let n_hsl = { h: nowColor.hsla.h, s: nowColor.hsla.s, l: 96, a: nowColor.hsla.a };
 			if (config.dark) {
-				if(nowColor.hsla.h != 0 && nowColor.hsla.s != 0){
+				if (nowColor.hsla.h != 0 && nowColor.hsla.s != 0) {
 					n_hsl.l = 12;
 					n_hsl.s = 35;
-				}else{
+				} else {
 					n_hsl.l = 12;
 					n_hsl.s = 0;
 				}
-				
+
 			}
-			if(config.blur){
+			if (config.blur) {
 				n_hsl.a = 0.85
 			}
 			o_now_bgColor = colortool.rgbaToCss(colortool.hslaToRgba(n_hsl));
-			
+
 			css.backgroundColor = o_now_bgColor;
 			css.backgroundColorCss = { 'background-color': o_now_bgColor }
 		}
-		
+
 		//shadow
 		if (config.shadow) {
 			let n_hsl = { h: nowColor.hsla.h, s: 100, l: 50, a: 0.2 };
@@ -338,11 +351,11 @@ class themeColors {
 
 		//处理渐变色
 		if (config.linearDirection) {
-			
+
 			let liner_color_1 = { h: 0, s: 0, l: 0, a: nowColor.hsla.a };
 			let liner_color_2 = { h: 0, s: 0, l: 0, a: nowColor.hsla.a };
-			let dir_str =   linearDirection[config.linearDirection];
-			
+			let dir_str = linearDirection[config.linearDirection];
+
 			//先计算渐变的亮色系。
 			// 先算白或者黑
 			// 如果是白
@@ -385,11 +398,11 @@ class themeColors {
 					liner_color_2.l = 45;
 					liner_color_2.s = 100;
 				} else if (config.linearDeep == 'accent') {
-					liner_color_1.h -=0;//色相需要往前偏移加强色系
+					liner_color_1.h -= 0;//色相需要往前偏移加强色系
 					liner_color_1.s = 80;//饱和度需要加强
 					liner_color_1.l = 55;
 					liner_color_2.l = 65;
-					liner_color_2.h -=35;//偏移30度的色相搭配色进行渐变
+					liner_color_2.h -= 35;//偏移30度的色相搭配色进行渐变
 					liner_color_2.s = 80;//饱和度需要加强
 				}
 
@@ -405,13 +418,15 @@ class themeColors {
 			if (!config.text && !config.outlined) {
 				css.backgroundColorCss = { 'background-image': `linear-gradient(${dir_str},${color_t_1},${color_t_2})` }
 				let newBgcolor = {
-					h:(liner_color_1.h+liner_color_2.h)/2,
-					s:(liner_color_1.s+liner_color_2.s)/2,
-					l:(liner_color_1.l+liner_color_2.l)/2,
-					a:(liner_color_1.a+liner_color_2.a)/2
+					h: (liner_color_1.h + liner_color_2.h) / 2,
+					s: (liner_color_1.s + liner_color_2.s) / 2,
+					l: (liner_color_1.l + liner_color_2.l) / 2,
+					a: (liner_color_1.a + liner_color_2.a) / 2
 				}
+				let newBgcolorRgb = colortool.hslaToRgba(newBgcolor)
+
 				if (!config.dark) {
-					if (nowColor.hsla.h > 45 && nowColor.hsla.h < 90 && nowColor.hsla.h!=0&&nowColor.hsla.s!=0) {
+					if (!isDarkColorFun(newBgcolorRgb.r, newBgcolorRgb.g, newBgcolorRgb.b) && nowColor.hsla.h != 0 && nowColor.hsla.s != 0) {
 						txcolor.l = 20;
 					}
 				}
@@ -428,31 +443,31 @@ class themeColors {
 			css.disablecolor = 'rgba(30, 30, 30, 1.0)';//禁用的项目或者表单
 			css.textDisableColor = 'rgba(100, 100, 100, 1.0)';//文本禁用色.
 		}
-		
+
 		css.textColor = colortool.rgbaToCss(colortool.hslaToRgba(txcolor));
-		if(config.dark){
-			if(nowColor.hsla.h != 0 && nowColor.hsla.s != 0){
-				css.border = colortool.rgbaToCss(colortool.hslaToRgba({ ...nowColor.hsla, l: bghsl.l+10 }));
+		if (config.dark) {
+			if (nowColor.hsla.h != 0 && nowColor.hsla.s != 0) {
+				css.border = colortool.rgbaToCss(colortool.hslaToRgba({ ...nowColor.hsla, l: bghsl.l + 10 }));
 			}
-			if(nowColor.hsla.h == 0 && nowColor.hsla.s == 0){
+			if (nowColor.hsla.h == 0 && nowColor.hsla.s == 0) {
 				css.border = colortool.rgbaToCss(colortool.hslaToRgba({ ...nowColor.hsla, l: 12 }));
 			}
-		}else{
-			if(nowColor.hsla.h != 0 && nowColor.hsla.s != 0){
-				css.border = colortool.rgbaToCss(colortool.hslaToRgba({ ...nowColor.hsla, l: bghsl.l-10 }));
+		} else {
+			if (nowColor.hsla.h != 0 && nowColor.hsla.s != 0) {
+				css.border = colortool.rgbaToCss(colortool.hslaToRgba({ ...nowColor.hsla, l: bghsl.l - 10 }));
 			}
-			if(nowColor.hsla.h == 0 && nowColor.hsla.s == 0){
+			if (nowColor.hsla.h == 0 && nowColor.hsla.s == 0) {
 				css.border = colortool.rgbaToCss(colortool.hslaToRgba({ ...nowColor.hsla, l: 90 }));
 			}
 		}
-		
+
 		//设置边线样式。
 		if (config.borderDirection == 'all') {
 			css.borderCss[`border`] = `${config.borderWidth}rpx ${config.borderStyle} ${css.border}`;
-		} else if (config.borderDirection == 'x' ||config.borderDirection ==  "leftright") {
+		} else if (config.borderDirection == 'x' || config.borderDirection == "leftright") {
 			css.borderCss[`border-left`] = `${config.borderWidth}rpx ${config.borderStyle} ${css.border}`;
 			css.borderCss[`border-right`] = `${config.borderWidth}rpx ${config.borderStyle} ${css.border}`;
-		} else if (config.borderDirection == 'y' ||config.borderDirection ==  "topbottom") {
+		} else if (config.borderDirection == 'y' || config.borderDirection == "topbottom") {
 			css.borderCss[`border-top`] = `${config.borderWidth}rpx ${config.borderStyle} ${css.border}`;
 			css.borderCss[`border-bottom`] = `${config.borderWidth}rpx ${config.borderStyle} ${css.border}`;
 		} else if (config.borderDirection == 'bottomleft') {
@@ -470,7 +485,7 @@ class themeColors {
 		} else {
 			let str = '-' + config.borderDirection;
 			css.borderCss[`border${str}`] = `${config.borderWidth}rpx ${config.borderStyle} ${css.border}`;
-			
+
 		}
 		return css;
 	}

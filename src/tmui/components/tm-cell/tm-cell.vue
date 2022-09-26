@@ -140,7 +140,7 @@ const props = defineProps({
   },
   labelFontSize:{
     type: [Number],
-    default: 28,
+    default: 22,
   },
   labelColor: {
     type: String,

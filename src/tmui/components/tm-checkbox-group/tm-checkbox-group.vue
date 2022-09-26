@@ -4,7 +4,7 @@
   </view>
 </template>
 <script lang="ts" setup>
-import { computed , nextTick, provide ,ref ,watch ,getCurrentInstance,inject, toRaw, ComponentInternalInstance } from 'vue';
+import { computed , nextTick, provide ,ref ,watch ,getCurrentInstance,inject, toRaw, PropType } from 'vue';
 import { inputPushItem, rulesItem } from "./../tm-form-item/interface"
 const emits = defineEmits(['update:modelValue','change'])
 const proxy = getCurrentInstance()?.proxy??null;
@@ -44,7 +44,12 @@ const _align = computed(()=>{
 		center:'flex-row-center-center',
 		right:'flex-row-center-end',
 	}
-	return list[props.align]
+	let listCol = {
+		left:'flex-col-center-start',
+		center:'flex-col-center-center',
+		right:'flex-col-center-end',
+	}
+	return props.direction=='row'?list[props.align]:listCol[props.align]
 })
 //组件唯一标识。
 const checkBoxkeyId = 'tmCheckBoxGroup';

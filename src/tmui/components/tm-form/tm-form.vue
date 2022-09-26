@@ -68,7 +68,7 @@ const props = defineProps({
 })
 const _modelVal = ref({})
 //备份，重置时，使用。
-const _backModelVal = {...props.modelValue}
+const _backModelVal = uni.$tm.u.deepClone(props.modelValue)
 watchEffect(()=>_modelVal.value = props.modelValue);
 //收集的字段。状态。它与_modelVal是有区别的，用户提供的字段，不一定就会在页面中存在，需要与已经渲染的字段进行匹配
 const _callBackModelVal:Ref<Array<formItem>> = ref([])
@@ -94,10 +94,11 @@ function reset(){
     nextTick(()=>{
         formFunCallBack.value = 'reset'
         clearTimeout(timid)
-        timid = setTimeout(function() {
-            emits("reset")
-            emits("update:modelValue",{..._backModelVal})
-        }, 200);
+		emits("reset")
+        // timid = setTimeout(function() {
+        //     emits("reset")
+        //     // emits("update:modelValue",_backModelVal)
+        // }, 500);
     })
 }
 function clearValidate(){

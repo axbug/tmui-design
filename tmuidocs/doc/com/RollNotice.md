@@ -39,7 +39,7 @@ title: tmui 3.0 组件库
 | icon | String | "tmicon-info-circle" | 左图标，空时，不显示 |
 | showRight | Boolean | false | 是否显示右图标 |
 | margin | `Array<number>` | [32,0] | 外间距，x,y |
-| duration | number | 10 | 滚动总时长，单位秒 |
+| speed | number | 60 | 滚动速度 |
 | list | `Array<string>/string` | "" | 待滚动的消息内容 |
 
 

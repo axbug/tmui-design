@@ -6,7 +6,7 @@ export default function(opts){
     return {
         name:"tmui-vite-css",
         handleHotUpdate({file,modules,read}){
-            console.log(modules)
+            // console.log(modules)
             // read().then(html=>{
             //     console.log(html)
             // })

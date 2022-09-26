@@ -7,6 +7,7 @@ import { language, languageByGlobal } from "./tool/lib/language"
 import { share } from "./tool/lib/share"
 import { App, nextTick } from "vue"
 import PageJsonInit from "../pages.json"
+
 import {
 	useTmRouterAfter,
 	useTmRouterBefore
@@ -45,7 +46,7 @@ let tabBar:tabBarType = pagers?.tabBar?? {
 
 // custom icon
 let cusutomIconList = [];
-// #ifndef APP-NVUE
+// #ifdef APP
 cusutomIconList = fontJson;
 // #endif
 const $tm = {

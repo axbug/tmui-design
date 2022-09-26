@@ -111,6 +111,7 @@ watch(()=>props.columns,()=>{
 	_data.value = getIndexLoop(0,props.columns)
 },{deep:true})
 watch(()=>props.modelValue,()=>{
+	console.log("99999999999999999999")
 	_colIndex.value = props.modelValue;
 	_data.value = getIndexLoop(0,props.columns)
 },{deep:true})

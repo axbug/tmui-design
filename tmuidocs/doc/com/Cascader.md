@@ -66,7 +66,9 @@ export interface childrenData {
 
 ### :green_salad: ref方法
 提供data就是使用data，如果不提供默认的[]空数组，将使用props.data进行刷新同步。
+```ts
 reFresh(data:Array<childrenData>=[])
+```
 
 ### :couplekiss: 文档贡献
 此页文档由[Sunlight](https://gitee.com/rzg)贡献，如果对该框架感兴趣的可以参与我们一同进步！

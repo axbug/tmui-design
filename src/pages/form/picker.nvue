@@ -6,7 +6,10 @@
 			<tm-picker-view :columns="citydate"></tm-picker-view>
 		</tm-sheet>
 		<tm-cell @click="showdate = true" title="请选择水果种类" :right-text="dateStr || '请选择'"></tm-cell>
-		<tm-picker :defaultValue=[1,1] @confirm="pickok" v-model:show="showdate" :columns="citydate3" v-model="pickydata" v-model:model-str="dateStr">
+		<tm-cell @click="showdateq = true" title="这里联动上边" :right-text="dateStr2 || '请选择'"></tm-cell>
+		<tm-picker :defaultValue="[1,1]" @confirm="pickok" v-model:show="showdate" :columns="citydate3" v-model="pickydata" v-model:model-str="dateStr">
+		</tm-picker>
+		<tm-picker :defaultValue="[0,0]" v-model:show="showdateq" :columns="citydate3" v-model="pickydata2" v-model:model-str="dateStr2">
 		</tm-picker>
 		<tm-sheet>
 			<tm-text :font-size="24" _class="font-weight-b" label="多级联动,更多属性请自行看文档"></tm-text>
@@ -17,7 +20,7 @@
 	</tm-app>
 </template>
 <script lang="ts" setup>
-import { ref, computed } from "vue"
+import { ref, computed, nextTick } from "vue"
 import { onShow, onLoad } from "@dcloudio/uni-app";
 import tmApp from "@/tmui/components/tm-app/tm-app.vue"
 import tmSheet from "@/tmui/components/tm-sheet/tm-sheet.vue"
@@ -28,7 +31,9 @@ import tmPickerView from "@/tmui/components/tm-picker-view/tm-picker-view.vue"
 import tmPicker from "@/tmui/components/tm-picker/tm-picker.vue"
 import tmCell from "@/tmui/components/tm-cell/tm-cell.vue"
 const dateStr = ref('')
+const dateStr2 = ref('')
 const pickydata = ref([])
+const pickydata2 = ref([])
 const citydate = ref([
 	{ text: "苹果", id: 0 }, { text: "香蕉", id: 1 }, { text: "其它水果", id: 2 }, { text: "越南水果", id: 4 }
 ])
@@ -43,8 +48,12 @@ const citydate3 = ref([
 	{ text: "越南水果", id: 3, children: [{ text: "苹果2222", id: 10 }, { text: "香蕉", id: 12 }] },
 ])
 const showdate = ref(false)
+const showdateq = ref(false)
 
-function pickok(e){
-	console.log(e)
+function pickok(){
+	nextTick(()=>{
+		pickydata2.value=[]
+		dateStr2.value = ""
+	})
 }
 </script>

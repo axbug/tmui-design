@@ -45,7 +45,7 @@
 		imglist.value.push('https://picsum.photos/200/300?id='+i)
 	}
  */
-import { ref,computed,Ref, PropType, onMounted } from "vue";
+import { ref,computed,Ref, PropType, onMounted,ComputedRef } from "vue";
 import {scrollDetailFace,statusType} from "./interface"
 import tmSheet from "../tm-sheet/tm-sheet.vue";
 import tmIcon from "../tm-icon/tm-icon.vue";
@@ -67,7 +67,7 @@ const props = defineProps({
         required: true,
     },
     data: {
-        type: Array,
+        type: Array as PropType<Array<any>>,
         default: () => [],
     },
     //触底结束或者下拉刷新前执行，可以返回Promise<boolean>,真，结束触底操作，假触底加载中
@@ -108,7 +108,7 @@ const lastVisibleNode = computed(()=>findEndNode())
 const endNode = computed(()=>Math.min(rowCount.value - 1, lastVisibleNode.value +renderAhead))
 const visibleNodeCount = computed(()=>endNode.value - startNode.value + 1)
 const offsetY = computed(()=>childPositions.value[startNode.value])
-const visibleItems = computed(()=>{
+const visibleItems:ComputedRef<Array<any>> = computed(()=>{
     return props.data.slice(
         startNode.value,
         startNode.value + visibleNodeCount.value,

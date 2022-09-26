@@ -53,6 +53,8 @@ title: tmui 3.0 组件库
 | disabled     | Boolean        | false   | 禁止操作状态    |
 | zIndex<Badge type="danger" text="v3.0.75+" vertical="middle" />     | Number, String        | 401   | 弹层的层级  |
 | unit<Badge type="danger" text="v3.0.75+" vertical="middle" />     | String        | rpx   | 高度单位，仅支持px,rpx  |
+| disabbleScroll     | Boolean        | false   | 是否禁用内容滚动(内容较少时可以禁用滚动条的出现)    |
+
 
 ### :rose: 事件
 | 事件名         | 参数   | 返回数据    | 描述               |

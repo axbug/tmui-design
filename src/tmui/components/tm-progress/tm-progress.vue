@@ -31,7 +31,7 @@
 			:style="{ width: `${props.width}rpx`, height: `${props.semicircle ? props.width / 2 + 16 : props.width}rpx` }"
 			class="flex  relative flex-col">
 			<!-- #ifdef APP-NVUE -->
-			<gcanvas :id="canvasId" :ref="canvasId" class="canvas"
+			<gcanvas v-if="showGc" :id="canvasId" :ref="canvasId" class="canvas"
 				:style="{ width: `${props.width}rpx`, height: `${props.semicircle ? props.width / 2 + 16 : props.width}rpx` }">
 			</gcanvas>
 			<!-- #endif -->
@@ -114,7 +114,7 @@ const props = defineProps({
 	},
 	//model==circle有效,半圆正常是在上方。如果反转就在下方。
 	semicircleFlip: {
-		type: [Boolean, String],
+		type: [Boolean],
 		default: false,
 	},
 	//model==circle有效
@@ -142,7 +142,7 @@ const props = defineProps({
 	},
 	bgColor: {
 		type: String,
-		default: 'grey-3'
+		default: 'grey-4'
 	},
 	color: {
 		type: String,
@@ -193,7 +193,14 @@ const tmcfg = computed<tmVuetify>(() => store.tmStore);
 const isDark = computed(() => computedDark(props, tmcfg.value));
 //计算主题
 const tmcomputed = computed<cssstyle>(() => computedTheme(props, isDark.value,tmcfg.value));
-
+const showGc = ref(true)
+let isAndroid = false;
+// #ifdef APP-NVUE
+if(uni.getSystemInfoSync().osName=='android'){
+	isAndroid = true;
+	showGc.value = false;
+}
+// #endif
 const _bgColor = computed(()=>computedTheme({...props,color:props.bgColor,followTheme:false}, isDark.value,tmcfg.value).backgroundColor)
 const txtcolor = tool.getColor(props.color).value;
 const darkcolor = tmcomputed.value.backgroundColor
@@ -209,9 +216,20 @@ const percent_rp = computed(() => {
 })
 watch(() => props.percent, (val) => {
 	if (props.disabled) return;
-	// #ifdef APP-NVUE ||  MP-WEIXIN || MP-ALIPAY || MP-QQ
+	// #ifdef MP-WEIXIN || MP-ALIPAY || MP-QQ
 	drawNvue_draw();
 	// #endif
+	
+	// #ifdef APP-NVUE
+	if(isAndroid){
+		setTimeout(function() {
+			showGc.value = true;
+		}, 120);
+	}else{
+		drawNvue_draw();
+	}
+	// #endif
+	
 	// #ifndef MP-WEIXIN || MP-ALIPAY || MP-QQ || APP-NVUE
 	appvueH5Other();
 	// #endif
@@ -396,41 +414,31 @@ function drawNvue_draw() {
 			r: width / 2 - uni.upx2px(props.height) / 2 - 4 - uni.upx2px(shadow_pr.value) * 2
 		};
 	}
-
 	let c = tmcomputed.value;
 	let bgColor =_bgColor.value||"#f5f5f5";
-
 	let activeColor = tool.getColor(props.color).csscolor||"#ff0000";
 	let strokeWidth = uni.upx2px(props.height);
-
+	//绘制进度半圆。
+	let blv = Math.PI / 50;
+	//绘制已推进的角度.
+	let jinduo = (percent_rp.value - 25) * blv
+	ctx.clearRect(0,0,width,width)
 	//先绘制背景圆;
 	ctx.lineWidth = strokeWidth;
-
 	ctx.strokeStyle = bgColor;
 	ctx.lineCap = "round";
 	ctx.beginPath();
 	if (props.semicircle) {
 		ctx.arc(center.x, center.y, center.r, -Math.PI, 0, props.semicircleFlip?true:false);
 	} else {
-		ctx.arc(center.x, center.y, center.r, 0, 2 * Math.PI, props.semicircleFlip?true:false);
+		ctx.arc(center.x, center.y, center.r, jinduo, 2 * Math.PI, props.semicircleFlip?true:false);
 	}
 	ctx.stroke();
 	ctx.closePath();
-
-	// #ifdef APP-NVUE
-	// ctx.clearRect(0, 0, props.width, props.width)
-	// #endif
-	// ctx.clearRect(0, 0, props.width, props.width)
-	
-	//绘制进度半圆。
-	let blv = Math.PI / 50;
-	let jinduo = (percent_rp.value - 25) * blv
-
 	if (props.semicircle) {
 		let base = percent_rp.value / 2;
 		let rpp = base >= 50 ? 50 : base
 		jinduo = (rpp - 50) * blv
-
 		if (props.semicircleFlip) {
 			jinduo = -jinduo
 			jinduo = jinduo >= Math.PI ? Math.PI - 0.00001 : jinduo
@@ -446,7 +454,6 @@ function drawNvue_draw() {
 		gradient.addColorStop(1, c.gradientColor[1]);
 		ctx.strokeStyle = gradient;
 		ctx.fillStyle = gradient;
-		
 		ctx.shadowColor = c.gradientColor[0];
 	} else {
 		ctx.strokeStyle = activeColor;
@@ -473,8 +480,6 @@ function drawNvue_draw() {
 	ctx.draw()
 	// #endif
 }
-
-
 
 </script>
 <style>

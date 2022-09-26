@@ -23,7 +23,7 @@
  * @description 这是弹出式，滑动地址选择器，另还一个按步选择地区的组件，见：tm-city-cascader
  * @example <tm-city-picker v-model:show="show" v-model="status" v-model:model-str="statusw"></tm-city-picker>
  */
-import { PropType,inject, Ref, ref, watchEffect,getCurrentInstance } from "vue"
+import { PropType,inject, Ref, ref, watchEffect,getCurrentInstance,watch } from "vue"
 import { custom_props } from "../../tool/lib/minxs";
 import tmDrawer from '../tm-drawer/tm-drawer.vue';
 import { childrenData } from "./interface"
@@ -110,6 +110,9 @@ let win_bottom = sysinfo.bottom
 watchEffect(() => {
     showCity.value = props.show
 })
+watch(()=>props.modelValue,()=>{
+	_colIndex.value = props.modelValue
+},{deep:true})
 function closeDrawer(e: boolean) {
     showCity.value = e;
     emits('update:show', showCity.value)

@@ -103,11 +103,11 @@ const props = defineProps({
         default:'primary',
     },
     linear:{
-        type:String,
+        type: String as PropType<'left'|'right'|'bottom'|'top'|''>,
         default:'',
     },
     linearDeep:{
-        type:String,
+        type: String as PropType<"accent"|"dark"|"light">,
         default:'light',
     },
     //指的是：有效的可选时间，小于此时间，不允许选中。

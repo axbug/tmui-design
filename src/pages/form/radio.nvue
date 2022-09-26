@@ -8,7 +8,7 @@
 				<tm-text :label="str?str:'请选择'"></tm-text>
 			</view>
 			
-			<tm-radio-group v-model="radiolist">
+			<tm-radio-group v-model="radiolist" >
 				<tm-radio value="apple" label="苹果"></tm-radio>
 				<tm-radio color="orange" value="banner" label="香蕉"></tm-radio>
 				<tm-radio color="pink" value="test" label="测试项"></tm-radio>

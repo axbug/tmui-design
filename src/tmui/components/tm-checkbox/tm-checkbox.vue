@@ -54,7 +54,7 @@ import tmText from '../tm-text/tm-text.vue';
 import tmTranslate from '../tm-translate/tm-translate.vue';
 import tmCheckboxGroup from '../tm-checkbox-group/tm-checkbox-group.vue';
 import { custom_props } from '../../tool/lib/minxs';
-import { ref ,computed,watch ,inject ,getCurrentInstance, watchEffect, ComponentInternalInstance } from 'vue';
+import { ref ,computed,watch ,inject ,getCurrentInstance, watchEffect, ComponentInternalInstance, ComputedRef } from 'vue';
 const CheckboxGropup = ref<InstanceType<typeof tmCheckboxGroup> | null>(null)
 const proxy = getCurrentInstance()?.proxy??null;
 const emits = defineEmits(['update:modelValue','change','click'])
@@ -145,44 +145,18 @@ const props = defineProps({
 })
 
 const _checked = ref(props.defaultChecked??false)
-const _groupCheckedVal = inject('tmCheckedBoxVal',computed(()=>[]));
+const _groupCheckedVal:ComputedRef<Array<string|number|boolean>> = inject('tmCheckedBoxVal',computed(()=>[]));
 const tmCheckedBoxDisabled = inject('tmCheckedBoxDisabled',computed(()=>false));
 const tmCheckedBoxMax = inject('tmCheckedBoxMax',computed(()=>false));
 const _disabled = computed(()=>props.disabled||tmCheckedBoxDisabled.value)
-//父级方法。
-let parent:any = proxy?.$parent
-while (parent) {
-    if(parent?.checkBoxkeyId=='tmCheckBoxGroup'||!parent){
-        break;
-    }else{
-        parent = parent?.$parent??undefined
-    }
-}
-if(parent){
-    parent.pushKey(props.value)
-}
 
-/** -----------form专有------------ */
-//父级方法。
-const tmFormFun = inject("tmFormFun",computed(()=>""))
-watch(tmFormFun,()=>{
-    if(tmFormFun.value=='reset'){
-       emits('update:modelValue',"")
-       if(parent){
-           parent?.delKey(props.value)
-       }
-       _checked.value = false
-    }
-})
-
-/** -----------end------------ */
-
-function vailChecked(){
+function vailChecked(val?:Array<string|number|boolean>){
     let checked_val = false;
+	let val_self:Array<string|number|boolean> = typeof val ==='undefined'?_groupCheckedVal.value:val
     if(props.modelValue===props.value&&typeof props.value !=='undefined' && props.value!=='' && props.modelValue !==''){
         checked_val = true;
     }
-    let index  = _groupCheckedVal.value.findIndex(el=>el===props.value)
+    let index  = val_self.findIndex(el=>el===props.value)
     if(index>-1){
         checked_val = true;
     }
@@ -227,5 +201,48 @@ watch([()=>props.modelValue,_groupCheckedVal],()=>{
     _checked.value = vailChecked()
     
 })
+const _blackValue = _groupCheckedVal.value
+//父级方法。
+let parent:any = proxy?.$parent
+while (parent) {
+    if(parent?.checkBoxkeyId=='tmCheckBoxGroup'||!parent){
+        break;
+    }else{
+        parent = parent?.$parent??undefined
+    }
+}
+if(parent){
+    parent.pushKey(props.value)
+}
+
+/** -----------form专有------------ */
+//父级方法。
+const tmFormFun = inject("tmFormFun",computed(()=>""))
+watch(tmFormFun,()=>{
+    if(tmFormFun.value=='reset'){
+		// 默认选中，但当前未被选中。需要返回选中状态。
+		if(vailChecked(_blackValue)&&!vailChecked()){
+			emits('update:modelValue',props.value)
+			if(parent){
+				parent?.addKey(props.value)
+			}
+			_checked.value = true
+		}
+		// 默认未选中，但当前被选中。需要返回未选中状态。
+		if(!vailChecked(_blackValue)&&vailChecked()){
+			emits('update:modelValue',"")
+			if(parent){
+			    parent?.delKey(props.value)
+			}
+			_checked.value = false
+		}
+
+       
+    }
+})
+
+/** -----------end------------ */
+
+
 
 </script>

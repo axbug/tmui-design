@@ -1,0 +1,28 @@
+<template>
+	<tm-app>
+		<tm-sheet>
+			<tm-text :font-size="32" label="纵向滚动"></tm-text>
+			<tm-divider></tm-divider>
+			<tm-text label="不支持在pc端使用.请在移动端查看效果,支持:下拉刷新,触底刷新的操作."></tm-text>
+			<tm-text color="red" label="这是一个试验性的组件"></tm-text>
+		</tm-sheet>
+		<tm-scrolly>
+			<view v-for="(item,index) in 50" :key="index" style="height: 40px;" class="px-36">
+				<text>{{item}}</text>
+			</view>
+		</tm-scrolly>
+	</tm-app>
+</template>
+
+<script lang="ts" setup>
+	import tmApp from "../../tmui/components/tm-app/tm-app.vue";
+	import tmScrolly from "../../tmui/components/tm-scrolly/tm-scrolly.vue";
+	import tmText from "../../tmui/components/tm-text/tm-text.vue"
+	import tmDivider from "../../tmui/components/tm-divider/tm-divider.vue"
+	import tmSheet from "../../tmui/components/tm-sheet/tm-sheet.vue"
+
+</script>
+
+<style>
+
+</style>

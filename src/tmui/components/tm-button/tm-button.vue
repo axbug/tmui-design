@@ -45,13 +45,17 @@
 		:sendMessageCard="props.sendMessageCard"
 		:loading="_load"
 		:disabled="_disabled"
+		:group-id="props.groupId"
+		:guild-id="props.guildId"
+		:public-id="props.publicId"
 		:hover-start-time="10000000" 
 		hover-stop-propagation hover-class="bhover" 
 		class="button flex-1  flex-center" 
 		:class="[customClass]"
-		:style="customCSSStyle">
+		:style="[customCSSStyle,{height:(btnSizeObj.h-props.border)+'rpx',top:'-'+(props.border)+'rpx'}]">
 			<slot>
-				<tm-icon v-if="_icon" :userInteractionEnabled="false"  :color="_fontColor"  :_class="_label?'pr-10':''" :unit="props.unit" :fontSize="btnSizeObj.fontSize*0.9" :name="_icon"></tm-icon>
+				<tm-icon v-if="_icon" :userInteractionEnabled="false"  
+				:color="_fontColor"  :_class="_label?'pr-10':''" :unit="props.unit" :fontSize="btnSizeObj.fontSize*0.9" :name="_icon"></tm-icon>
 				<tm-text :userInteractionEnabled="false" :color="_fontColor" :fontSize="btnSizeObj.fontSize" :unit="props.unit"  :label="_label"></tm-text>
 			</slot>
 		</button>
@@ -65,7 +69,7 @@
  * @slot default 默认插槽。
  */
 import {btnSize} from "./interface"
-import {computed,PropType,ref,getCurrentInstance, ComponentInternalInstance } from "vue"
+import {computed,PropType,ref,getCurrentInstance, PropsType } from "vue"
 import tmSheet from "../tm-sheet/tm-sheet.vue"
 import tmText from "../tm-text/tm-text.vue"
 import tmIcon from "../tm-icon/tm-icon.vue";
@@ -173,7 +177,7 @@ const props = defineProps({
 	 * submit,reset 在tm-form中使用。
 	 */
 	formType:{
-		type:String,
+		type:String as PropsType<'submit'|'reset'>,
 		default:''
 	},
 	//开放能力
@@ -203,6 +207,18 @@ const props = defineProps({
 		default:''
 	},
 	sendMessageCard:{
+		type:String,
+		default:''
+	},
+	groupId:{
+		type:String,
+		default:''
+	},
+	guildId:{
+		type:String,
+		default:''
+	},
+	publicId:{
 		type:String,
 		default:''
 	},
@@ -270,7 +286,6 @@ const btnSizeObj = computed(()=>{
 	if(props.block){
 		return {w:0,h:props.height||sizeObj.value.block.h,fontSize:fontSize||sizeObj.value.block.fontSize,round:props.round==-1?0:(props.round||sizeObj.value.normal.round)}
 	}
-	
 	return {
 		w:props.width||sizeObj.value[props.size].w ,
 		h:props.height||sizeObj.value[props.size].h,

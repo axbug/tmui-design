@@ -40,7 +40,7 @@ title: tmui 3.0 组件库
 tm-waterfall-item
 
 ### :green_salad: ref方法
-无
+clear , 清空列表,记得清空后,如果要重新赋值一定要在nextTick里面赋值.
 
 # 瀑布流子组件 Waterfall-Item
 

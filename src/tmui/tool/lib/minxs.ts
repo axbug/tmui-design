@@ -6,32 +6,44 @@ import { computed,PropType,ref } from "vue"
 // const store = useTmpiniaStore();
 //自定义props
 export const custom_props = {
-	//自定义的样式属性
+	/**
+	 * 自定义的样式属性
+	 */
 	_style: {
 		type: [Array, String, Object],
 		default: () => []
 	},
-	//自定义类名
+	/**
+	 * 自定义类名
+	 */
 	_class: {
 		type: [Array, String],
 		default: ''
 	},
-	//当前组件的主题。可以是颜色值，也可以是主题名称。
+	/**
+	 * 当前组件的主题。可以是颜色值，也可以是主题名称。
+	 */
 	color: {
 		type: String,
 		default: 'primary'
 	},
-	//是否跟随全局主题的变换而变换
+	/**
+	 * 是否跟随全局主题的变换而变换
+	 */
 	followTheme: {
 		type: [Boolean, String],
 		default: false
 	},
-	//暗黑
+	/**
+	 * 暗黑
+	 */
 	dark: {
 		type: [Boolean, String],
 		default: false
 	},
-	//是否跟随主题全局切换暗黑模式。
+	/**
+	 * 是否跟随主题全局切换暗黑模式。
+	 */
 	followDark: {
 		type: [Boolean, String],
 		default: true
@@ -70,7 +82,7 @@ export const custom_props = {
 	 * @default solid
 	 */
 	borderStyle: {
-		type: [String],
+		type: String as PropType<"solid"|"dashed"|"dotted">,
 		default: borderStyle.solid,
 		validator:(value:borderStyleType)=> {
 			let mp:Array<borderStyleType> = ["dashed","dotted","solid"]
@@ -84,7 +96,7 @@ export const custom_props = {
 	 * 边线的方向。
 	 */
 	borderDirection: {
-		type: String,
+		type: String as PropType<"all"|"bottom"|"bottomleft"|"bottomright"|"left"|"leftright"|"right"|"right"|"top"|"topbottom"|"topleft"|"topright"|"x"|"y">,
 		default: cssDirection.all,
 		validator:(value:cssDirectionType)=> {
 			let mp:Array<cssDirectionType> = ["all","bottom","bottomleft","bottomright","left","leftright","right","right","top","topbottom","topleft","topright","x","y"]
@@ -112,7 +124,7 @@ export const custom_props = {
 	 * 渐变背景方向
 	 */
 	linear: {
-		type: [String],
+		type: String as PropType<'left'|'right'|'bottom'|'top'|''>,
 		default: linearDirection.none,//left:右->左，right:左->右。top:下->上，bottom:上->下。
 		validator:(value:linearDirectionType)=> {
 			let mp = ['left','right','bottom','top','']
@@ -124,7 +136,7 @@ export const custom_props = {
 	},
 	// 渐变的亮浅
 	linearDeep: {
-		type: [String],
+		type: String as PropType<"accent"|"dark"|"light">,
 		default: linearDeep.light,//light,dark,accent亮系渐变和深色渐变。
 		validator:(value:linearDeepType)=> {
 			let mp:Array<linearDeepType> = ["accent","dark","light"]
@@ -209,8 +221,10 @@ export const computedTheme = (props: any, dark:boolean,store:any):cssstyle => {
 	const linear = props.linear;
 	const linearDeep = props.linearDeep;
 	const blur = props.blur;
-	if (colors.isCssColor(color)) {
-		console.error('不支持自定义组件上的颜色值，请在theme/theme.js中添加自定义的颜色值为主题。当前已切换为primary主题。');
+	var theme = new colors.themeColors(store.colorList);
+	if (colors.isCssColor(color)&&!theme.hasColors(color)) {
+		// console.error('不支持自定义组件上的颜色值，请在theme/theme.js中添加自定义的颜色值为主题。当前已切换为primary主题。');
+		theme = new colors.themeColors(theme.add(color,color));
 	}
 	let defaultColorName = color || 'primary';
 	
@@ -218,7 +232,7 @@ export const computedTheme = (props: any, dark:boolean,store:any):cssstyle => {
 		defaultColorName = store.color;
 	}
 	
-	var theme = new colors.themeColors(store.colorList);
+	
 	let c = theme.getTheme({
 		colorname: defaultColorName,
 		dark: dark,

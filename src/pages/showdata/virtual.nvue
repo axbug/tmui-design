@@ -40,12 +40,12 @@ const getdata = (e:string)=>{
 			if(e=='top'){
 				imglist.value = []
 				for(let i=0;i<10;i++){
-					imglist.value.push({src:'https://picsum.photos/200/100?id='+i,index:i})
+					imglist.value.push({src:'https://i0.pickpik.com/photos/298/434/513/beach-dawn-dusk-ocean-thumb.jpg',index:i})
 				}
 			}else if(e=='bottom'){
 				let len = imglist.value.length;
 				for(let i=len;i<10+len;i++){
-					imglist.value.push({src:'https://picsum.photos/200/100?id='+i,index:i})
+					imglist.value.push({src:'https://i0.pickpik.com/photos/298/434/513/beach-dawn-dusk-ocean-thumb.jpg',index:i})
 				}
 			}
 			res(true)

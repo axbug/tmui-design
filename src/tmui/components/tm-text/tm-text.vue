@@ -1,5 +1,5 @@
 <template>
-  <view :render-whole="true" class="flex text-view nvue" style="line-height: 0">
+  <view :render-whole="true" class="flex text-view nv" :class="[_parentClass]" style="line-height: 0">
     <!-- #ifdef APP-PLUS-NVUE -->
     <text :render-whole="true" @click="emits('click', $event)" :selectable="selectable" :user-select="selectable"
       :class="[_fontSize ? '' : 'text-size-m', customClass]" :style="[
@@ -59,10 +59,14 @@ const props = defineProps({
   unit: {
     type: String,
     default: 'rpx'
+  },
+  parentClass:{
+	  type: String,
+	  default: ''
   }
 });
 const emits = defineEmits(["click"]);
-
+const _parentClass = computed(()=>props.parentClass)
 // 设置响应式全局组件库配置表。
 const tmcfg = computed<tmVuetify>(() => store.tmStore);
 //自定义样式：
@@ -102,6 +106,16 @@ const textColor = computed(() => {
 	/* #ifndef APP-NVUE */
 	.text-view{
 		box-sizing: border-box;
+	}
+	.nv{
+		    display: flex;
+		    flex-shrink: unset;
+		    flex-grow: 0;
+		    flex-basis: auto;
+		    align-items: stretch;
+		    align-content: flex-start;
+		    box-sizing: border-box;
+		    flex-direction: column;
 	}
 	/* #endif */
 </style>

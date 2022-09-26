@@ -61,6 +61,7 @@ title: tmui 3.0 组件库
 | 事件名 | 参数 | 返回数据 | 描述 |
 | --- | --- | --- | --- |
 | change |  |  |  |
+| click | index |  |  |
 
 ### :corn: slot插槽
 默认default

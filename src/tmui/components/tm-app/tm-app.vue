@@ -271,6 +271,11 @@
 			}
 
 			// #endif
+			
+			// #ifdef APP
+			plus.navigator.setStatusBarStyle('light');
+			// #endif
+			
 			if (isTabbarPage) {
 				uni.setTabBarStyle({
 					backgroundColor: '#000000',
@@ -288,6 +293,9 @@
 					frontColor: props.navbar.fontColor
 				})
 			}
+			// #endif
+			// #ifdef APP
+			plus.navigator.setStatusBarStyle('dark');
 			// #endif
 			if (isTabbarPage) {
 				uni.setTabBarStyle({

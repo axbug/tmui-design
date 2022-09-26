@@ -94,4 +94,11 @@
 		transition-timing-function:linear;
 		transform: translateX(0px);
 	}
+	/* #ifndef APP-NVUE */
+	scroll-view::-webkit-scrollbar,
+	scroll-view::-webkit-scrollbar,
+	scroll-view::-webkit-scrollbar {
+		display: none;
+	}
+	/* #endif */
 </style>

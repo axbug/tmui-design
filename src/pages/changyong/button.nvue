@@ -1,6 +1,6 @@
 <template>
     <tm-app>
-        <tm-sheet>
+        <tm-sheet >
             <tm-text :font-size="24" _class="font-weight-b" label="基本示例"></tm-text>
             <tm-divider></tm-divider>
             <view class="flex flex-row flex-wrap">

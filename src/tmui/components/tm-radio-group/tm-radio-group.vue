@@ -51,8 +51,14 @@ const _align = computed(()=>{
 		center:'flex-row-center-center',
 		right:'flex-row-center-end',
 	}
-	return list[props.align]
+	let listCol = {
+		left:'flex-col-center-start',
+		center:'flex-col-center-center',
+		right:'flex-col-center-end',
+	}
+	return props.direction=='row'?list[props.align]:listCol[props.align]
 })
+
 //组件唯一标识。
 const checkBoxkeyId = 'tmRadioBoxGroup';
 watch(()=>props.modelValue,()=>{

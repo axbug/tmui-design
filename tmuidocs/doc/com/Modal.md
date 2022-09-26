@@ -53,6 +53,7 @@ title: tmui 3.0 组件库
 | beforeClose   | Function       | ()=>true    | 在关闭前执行的回调函数,Boolean或者Funciton,函数时返回false即阻止关闭。可以是异步Promise\<boolean\>                      |
 | content       | String         | ''      | 正文主体                                      |
 | disabled      | Boolean        | false   | 是否禁用                                      |
+| titleStyle      | Array, String, Object        | ```[]```   | 标题的样式表                                      |
 
 ### :rose: 事件
 | 事件名         | 参数   | 返回数据    | 描述               |

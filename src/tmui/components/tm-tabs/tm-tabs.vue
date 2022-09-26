@@ -345,8 +345,13 @@ const props = defineProps({
 		type: String,
 		default: 'primary'
 	},
+	disAbledPull:{
+		type: Boolean,
+		default: true
+	}
 	
 });
+const _disAbledPull = computed(()=>props.disAbledPull)
 const _align = computed(() => {
 	let align_list = {
 		right: "flex-row-center-end",
@@ -603,7 +608,7 @@ function onStart(event: TouchEvent) {
 	if (!props.swiper) return;
 	isEndMove.value = true;
 	isMoveEnb = true
-	isMoveing.value = false; 
+	isMoveing.value = false;
 	isDrag.value = true
 	if (event.type.indexOf('mouse') == -1 && event.changedTouches.length == 1) {
 		var touch = event.changedTouches[0];
@@ -689,10 +694,12 @@ function setDirXy(x: number, y: number, isEnd = false ) {
 		//第一和最后一张，不需要滑动。
 		if (activeIndex.value == 0) return;
 		directoStyle.value = x - nowLeft;
+		// #ifdef H5
 		let sx = Math.abs(sliderBarWidth) * 1.05;
 		sx =  Math.min(sx,sliderBarWidth);
 		sx =  Math.max(sx,_itemwidth);
 		widthDrag.value = sx
+		// #endif
 		if (isEnd) {
 			setRightDirRight()
 			widthDrag.value =sliderBarWidth
@@ -701,10 +708,12 @@ function setDirXy(x: number, y: number, isEnd = false ) {
 		//第一和最后一张，不需要滑动。
 		if (activeIndex.value == cacheTabs.value.length - 1) return;
 		directoStyle.value = x - nowLeft;
+		// #ifdef H5
 		let sx = Math.abs(_x.value) * 1.0002;
 		sx =  Math.min(sx,sliderBarWidth);
 		sx =  Math.max(sx,_itemwidth);
 		widthDrag.value = sx
+		// #endif
 		if (isEnd) {
 			setLeftDirLeft()
 			widthDrag.value = sliderBarWidth
@@ -717,6 +726,7 @@ function setDirXy(x: number, y: number, isEnd = false ) {
 
 		} else {
 			_active.value = cacheTabs.value[activeIndex.value - 1].key;
+			changeKey(_active.value, false);
 		}
 	}
 
@@ -725,6 +735,7 @@ function setDirXy(x: number, y: number, isEnd = false ) {
 			directoStyle.value = -nowLeft;
 		} else {
 			_active.value = cacheTabs.value[activeIndex.value + 1].key;
+			changeKey(_active.value, false);
 		}
 	}
 }
@@ -776,6 +787,7 @@ function setDirXyNvue(x: number, y: number, dirX = 'none' ) {
 			nowLeft = uni.upx2px((activeIndex.value) * props.width)
 			_startx.value = nowLeft
 			spinNvueAniEnd( -(nowLeft),0,250)
+			changeKey(_active.value, false);
 		}
 		
 	} else if (dirType.value == "left") {
@@ -795,6 +807,8 @@ function setDirXyNvue(x: number, y: number, dirX = 'none' ) {
 			nowLeft = uni.upx2px((activeIndex.value) * props.width)
 			_startx.value = nowLeft
 			spinNvueAniEnd( -(nowLeft),0,250)
+			
+			changeKey(_active.value, false);
 		}
 		
 	} 
@@ -930,6 +944,10 @@ provide(
 provide(
 	"tabsSwiperIsMoveing",
 	computed(() => isMoveing.value)
+);
+provide(
+	"tabsSwiperDisAbledPull",
+	computed(() => props.disAbledPull)
 );
 
 defineExpose({

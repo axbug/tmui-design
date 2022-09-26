@@ -105,6 +105,7 @@ const _label = computed(()=>{
     if(props.label!='') return props.label;
     return _start.value+'.0';
 })
+const _blackValue = _start.value
 watch(()=>props.modelvalue,()=>{
     let valueStart = props.modelvalue>=_count.value?_count.value:props.modelvalue
     _start.value =valueStart<=0?0:valueStart
@@ -134,7 +135,7 @@ const rulesObj = inject("tmFormItemRules",computed<Array<rulesItem>>(()=>{
     ]
 }))
 //父级方法。
-let parentFormItem = proxy.$parent
+let parentFormItem:any = proxy?.$parent
 while (parentFormItem) {
     if (parentFormItem?.tmFormComnameFormItem == 'tmFormComnameFormItem' || !parentFormItem) {
         break;
@@ -221,7 +222,7 @@ pushFormItem()
 const tmFormFun = inject("tmFormFun",computed(()=>""))
 watch(tmFormFun,()=>{
     if(tmFormFun.value=='reset'){
-		_start.value = 0
+		_start.value = _blackValue
 		emits('update:modelValue',_start.value)
 		pushFormItem(false)
     }

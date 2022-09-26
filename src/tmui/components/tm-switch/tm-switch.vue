@@ -1,7 +1,7 @@
 <template>
 	<tm-sheet 
 	@click="switchClick"
-	:no-level="!_value"
+	:no-level="!_CheckVal"
 	:followTheme="props.followTheme"
 	:followDark="props.followDark"
 	:dark="props.dark"
@@ -10,13 +10,13 @@
 	:borderStyle="props.borderStyle"
 	:borderDirection="props.borderDirection"
 	:linearDeep="props.linearDeep"
-	:linear="_value?props.linear:''" :round="viewSize.round" 
-	:color="_value?props.color:props.unCheckedColor" 
+	:linear="_CheckVal?props.linear:''" :round="viewSize.round" 
+	:color="_CheckVal?props.color:props.unCheckedColor" 
 	:height="viewSize.height" 
 	:width="viewSize.width" 
 	parenClass="switchbgani"
 	:_class="['flex  relative flex-col',props.disabled?'opacity-4':'']" 
-	:text="_value?false:props.text"
+	:text="_CheckVal?false:props.text"
 	unit="px"
 	:padding="[0,0]" :margin="props.margin">
 		<view class="relative flex  relative flex-col" :style="{padding:'2px',width:`${viewSize.width}px`,height:`${viewSize.height}px`}">
@@ -25,7 +25,7 @@
 				<view class="flex-1 flex-row flex-row-center-center"><tm-text :font-size="viewSize.fontSize" :label="props.label[0]"></tm-text></view>
 				<view class="flex-1 flex-row flex-row-center-center"><tm-text :font-size="viewSize.fontSize" :label="props.label[1]"></tm-text></view>
 			</view>
-			<view :userInteractionEnabled="false" :class="['absolute base nvue',_value?'on':'off',]" 
+			<view :userInteractionEnabled="false" :class="['absolute base nvue',_CheckVal?'on':'off',]" 
 			ref="switch"
 			:style="{
 				width:viewSize.innerWidth+'px',
@@ -46,7 +46,7 @@
 				_class="flex flex-center flex-row"
 				>
 				   <tm-icon :followTheme="props.followTheme" v-if="_load" :font-size="viewSize.fontSize" :color="props.color"  name="tmicon-loading" spin></tm-icon>
-				   <tmTranslate name="zoom" v-if="!_load&&_value">
+				   <tmTranslate name="zoom" v-if="!_load&&_CheckVal">
 					   <tm-icon :followTheme="props.followTheme" :font-size="viewSize.fontSize" :color="props.color"   :name="props.barIcon"></tm-icon>
 				   </tmTranslate>
 				</tm-sheet>
@@ -92,12 +92,22 @@ const props = defineProps({
 		default:false
 	},
 	defaultValue:{
-		type:Boolean,
+		type:[Boolean,String,Number],
 		default:false
 	},
 	modelValue:{
-		type:Boolean,
+		type:[Boolean,String,Number],
 		default:false
+	},
+	// 未选中时的值。
+	unSelected:{
+		type:[Boolean,String,Number],
+		default:false
+	},
+	// 选中时的值。
+	selected:{
+		type:[Boolean,String,Number],
+		default:true
 	},
 	width:{
 		type:Number,
@@ -200,11 +210,9 @@ const viewSize = computed(()=>{
 	return obj
 })
 
-const _value = ref(false);
-if(props.defaultValue){
-	_value.value = props.defaultValue;
-	
-}
+const _value = ref(props.defaultValue);
+const _CheckVal = computed(()=>checkVal(_value.value))
+const _blackValue = _CheckVal.value
 const _load = ref(false)
 watchEffect(()=>{
 	_load.value = props.load;
@@ -221,20 +229,28 @@ async function switchClick(){
         _load.value=false;
         if (!p) return;
     }
-	_value.value = !_value.value
-	spinNvueAni(_value.value)
-	emits('change',_value.value)
-	emits('update:modelValue',_value.value)
+	_value.value = !_CheckVal.value?props.selected:props.unSelected
+	spinNvueAni(_CheckVal.value)
+	emits('change',_CheckVal.value?props.selected:props.unSelected)
+	emits('update:modelValue',_CheckVal.value?props.selected:props.unSelected)
 	pushFormItem()
 }
-watch(()=>props.modelValue,(newval:boolean)=>{
+watch(()=>props.modelValue,(newval:boolean|string|number)=>{
 	_value.value = newval;
-	spinNvueAni(newval);
+	spinNvueAni(_CheckVal.value);
 })
 onMounted(()=>{
-	nextTick(()=>spinNvueAni(_value.value))
+	nextTick(()=>spinNvueAni(_CheckVal.value))
 })
-
+// 检验当前是否打开还是关闭状态。
+function checkVal(nowVal?:number|string|boolean){
+	let val = typeof nowVal !=='undefined'?nowVal:props.modelValue;
+	if(val===props.unSelected){
+		return false;
+	}else if(val===props.selected){
+		return true;
+	}
+}
 function spinNvueAni(reveser=false) {
 	// #ifdef APP-NVUE
 	if (!proxy?.$refs['switch']) return;
@@ -284,14 +300,14 @@ const validate =(rules:Array<rulesItem>)=>{
         }else if(typeof el.validator === "boolean" && el.required===true){
             return {
                 ...el,
-                validator:(val:boolean)=>{
-                    return val===true?true:false
+                validator:(val:boolean|string|number)=>{
+                    return checkVal(val)
                 }
             }
         }else{
             return {
                 ...el,
-                validator:(val:string|number)=>{
+                validator:(val:boolean|string|number)=>{
                     return true
                 }
             }
@@ -331,14 +347,14 @@ async function pushFormItem(isCheckVail = true){
         if (isCheckVail) {
             validate(toRaw(rulesObj.value)).then(ev => {
                 parentFormItem.pushCom({
-                    value: _value.value,
+                    value: props.selected,
                     isRequiredError: false,//true,错误，false正常 检验状态
                     componentsName: 'tm-switch',//表单组件类型。
                     message: ev.length==0?"":ev[0].message,//检验信息提示语。
                 })
             }).catch(er => {
                 parentFormItem.pushCom({
-                    value: _value.value,
+                    value: props.unSelected,
                     isRequiredError: true,//true,错误，false正常 检验状态
                     componentsName: 'tm-switch',//表单组件类型。
                     message: er.message,//检验信息提示语。
@@ -349,13 +365,18 @@ async function pushFormItem(isCheckVail = true){
     }
 }
 pushFormItem()
-
 const tmFormFun = inject("tmFormFun",computed(()=>""))
 watch(tmFormFun,()=>{
     if(tmFormFun.value=='reset'){
-		_value.value = false
-		emits('update:modelValue',_value.value)
-		pushFormItem(false)
+		if(_blackValue){
+			_value.value = props.selected
+		}else{
+			_value.value = props.unSelected
+		}
+		nextTick(()=>{
+			emits('update:modelValue',_value.value)
+			pushFormItem(true)
+		})
     }
 })
 /** -----------end------------ */

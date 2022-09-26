@@ -34,7 +34,7 @@ title: tmui 3.0 组件库
 |------------|--------------|-------|---------------------------------|
 | width      | Number       | 750   | 宽度                              |
 | height     | Number       | 88   | 高度                              |
-| action     | [actionItem] | []   | 按钮数据数组（见下方说明）                   |
+| action     | [actionItem] | []   | 按钮数据数组（见下方说明） |
 | disabled   | Boolean      | false | 是否禁用                            |
 | transprent | Boolean      | false | 是否透明效果                          |
 | color      | String       | white | 主题颜色                            |

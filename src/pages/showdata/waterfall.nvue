@@ -5,7 +5,7 @@
 			</tm-text>
 			<tm-divider></tm-divider>
 			<view class="flex flex-col flex-col-top-center">
-				<tm-waterfall :width="626">
+				<tm-waterfall ref="wall" :width="626">
 					<tm-waterfall-item :img="item.img" v-for="(item,index) in imglist">
 						<view class="py-24">
 							<tm-text :label="item.text"></tm-text>
@@ -20,6 +20,7 @@
 </template>
 <script lang="ts" setup>
 import {
+	nextTick,
 	ref
 } from "vue";
 import {
@@ -32,13 +33,26 @@ import tmText from "@/tmui/components/tm-text/tm-text.vue"
 import tmWaterfall from "@/tmui/components/tm-waterfall/tm-waterfall.vue"
 import tmWaterfallItem from "@/tmui/components/tm-waterfall-item/tm-waterfall-item.vue"
 import tmDivider from "@/tmui/components/tm-divider/tm-divider.vue"
+const wall = ref<InstanceType<typeof tmWaterfall> | null>(null)
 const imglist = ref([])
 for (let i = 0; i < 21; i++) {
 	imglist.value.push({
-		img:`https://picsum.photos/${Math.ceil(200+Math.random()*100)}/${Math.ceil(200+Math.random()*100)}?id=${i}`,
+		img:`https://i0.pickpik.com/photos/298/434/513/beach-dawn-dusk-ocean-thumb.jpg?id=${i}`,
 		text:"文字_"+i
 	})
 }
-
+// 动态清空列表,重新加载数据.
+setTimeout(function(){
+	imglist.value = []
+	wall.value?.clear()
+	nextTick(()=>{
+		for (let i = 0; i < 10; i++) {
+			imglist.value.push({
+				img:`https://i0.pickpik.com/photos/298/434/513/beach-dawn-dusk-ocean-thumb.jpg?id=${i}`,
+				text:"文字_"+i
+			})
+		}
+	})
+},2000)
 
 </script>

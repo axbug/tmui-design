@@ -38,7 +38,7 @@
 			<view class="flex-row flex-row-center-start pb-10">
 				<tm-image :width="108" :height="67.5" :src="logoimg"></tm-image>
 				<view class="pl-16 flex-1" style="width:0px">
-					<tm-text _class="text-weight-b" :font-size="36" label="TMUI 3.0.82"></tm-text>
+					<tm-text _class="text-weight-b" :font-size="36" label="TMUI 3.0.84"></tm-text>
 					<tm-text _class="opacity-6" :label="language('index.search.subtext')"></tm-text>
 				</view>
 			</view>
@@ -125,7 +125,6 @@
 					<tm-text color="grey" :font-size="22" _class="font-weight-b"
 						:label="language('index.com.otherSub')"></tm-text>
 				</tm-grid-item>
-
 				<tm-grid-item text url="../chart/index" :height="180" count="CHAR">
 					<tm-icon color="blue-grey" _class="pb-10" :font-size="52" name="tmicon-borderbottom-fill">
 					</tm-icon>
@@ -189,14 +188,12 @@
 	import {
 		useTmpiniaStore
 	} from '@/tmui/tool/lib/tmpinia';
-	const store = useTmpiniaStore();
 	import tmApp from "@/tmui/components/tm-app/tm-app.vue"
 	import tmSheet from "@/tmui/components/tm-sheet/tm-sheet.vue"
 	import tmButton from "@/tmui/components/tm-button/tm-button.vue"
 	import tmFloatButton from "@/tmui/components/tm-float-button/tm-float-button.vue"
 	import tmMessage from "@/tmui/components/tm-message/tm-message.vue"
 	import tmInput from "@/tmui/components/tm-input/tm-input.vue"
-	import tmSticky from "@/tmui/components/tm-sticky/tm-sticky.vue"
 	import tmDivider from "@/tmui/components/tm-divider/tm-divider.vue"
 	import tmIcon from "@/tmui/components/tm-icon/tm-icon.vue"
 	import tmGridItem from "@/tmui/components/tm-grid-item/tm-grid-item.vue"
@@ -207,14 +204,7 @@
 	import tmText from "@/tmui/components/tm-text/tm-text.vue"
 	import tmDrawer from "@/tmui/components/tm-drawer/tm-drawer.vue"
 	import logoimg from "@/static/logo.png"
-	import {
-		share
-	} from "@/tmui/tool/lib/share"
-
-	//先引用，导入指定方法或属性
-	// #ifdef APP
-
-	// #endif
+	const store = useTmpiniaStore();
 	const app = ref < InstanceType < typeof tmApp > | null > (null)
 	const msg = ref < InstanceType < typeof tmMessage > | null > (null)
 	const showf = ref(false)
@@ -223,8 +213,6 @@
 	const showCustomColor = ref("#60ab41")
 	const showCustomName = ref("darkGreen")
 	const showCustom = ref(false)
-	const test = ref(20);
-	
 	
 	function onChangeDark() {
 		app.value?.setDark()
@@ -253,14 +241,6 @@
 		}
 	}
 
-	function warinToast() {
-		msg.value?.show({
-			model: "wait",
-			text: "还未开放",
-			mask: true
-		})
-	}
-
 	function setTheme(colorname: string) {
 		app.value?.setTheme(colorname)
 	}
@@ -278,7 +258,7 @@
 		store.setTmVuetifyAddTheme(showCustomName.value, showCustomColor.value)
 	}
 
-
+	
 	onLoad(() => {
 
 		// #ifdef MP-WEIXIN

@@ -32,7 +32,7 @@
 				"transparentTitle": "always"
 			}
 		}
-	   
+	    
         
        
     ],
@@ -131,6 +131,15 @@
                     "style" :                                                                                    
                 {
                     "navigationBarTitleText": "横向滚动 Scrollx",
+                    "enablePullDownRefresh": false
+                }
+                
+                }
+                ,{
+                    "path" : "scrolly",
+                    "style" :                                                                                    
+                {
+                    "navigationBarTitleText": "",
                     "enablePullDownRefresh": false
                 }
                 

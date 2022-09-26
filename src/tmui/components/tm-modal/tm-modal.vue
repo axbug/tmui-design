@@ -12,8 +12,7 @@
 			]" :class="[round_rp, 'flex flex-col overflow ', customClass]">
 				<view class="flex flex-row px-24" style="height:44px"
 					:class="[props.closeable?'flex-row-center-between':'flex-center']">
-					<tm-text :dark="props.dark" :followTheme="false" _class="text-overflow-1 text-weight-b text-size-m"
-						class="flex-center" :label="props.title"></tm-text>
+					<tm-text :_style="props.titleStyle" :dark="props.dark" :followTheme="false" _class="text-overflow-1 text-weight-b text-size-m text-align-center" :label="props.title"></tm-text>
 					<tm-icon v-if="closeable" _class="opacity-3" name="tmicon-times-circle-fill" :fontSize="32" @click="close"></tm-icon>
 				</view>
 				<scroll-view scroll-y :style="[props.height ? { height: contentHeight } : '']">
@@ -214,6 +213,10 @@
 		disabled: {
 			type: Boolean,
 			default: false
+		},
+		titleStyle:{
+			type: [Array, String, Object],
+			default: () => []
 		}
 	});
 	const emits = defineEmits(['click', 'open', 'close', 'update:show', 'ok', 'cancel']);

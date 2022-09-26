@@ -44,7 +44,7 @@
 			</tm-form-item>
 
 			<tm-form-item required label="评分" field="rate" :rules="[{required:true,message:'请选择'}]">
-				<tm-rate v-model="show.rate"></tm-rate>
+				<tm-rate v-model="show.rate" :default-value="show.rate"></tm-rate>
 			</tm-form-item>
 
 			<tm-form-item required label="价格选择" field="slider"
@@ -57,12 +57,13 @@
 					:default-value="show.segtab"></tm-segtab>
 			</tm-form-item>
 
-			<tm-form-item  label="开关" field="switch" :rules="{required:false,message:'请选择'}">
-				<tm-switch v-model="show.switch"></tm-switch>
+			<tm-form-item  label="开关" field="switch" :rules="{required:true,message:'请选择'}">
+				<tm-switch v-model="show.switch" :default-value="show.switch" selected='hehe'></tm-switch>
 			</tm-form-item>
 
 			<tm-form-item required label="上传截图" field="upload" :rules="{required:true,message:'请上传'}">
 				<tm-upload :rows="3" :width="420"
+				:default-value="show.upload"
 					url="https://mockapi.eolink.com/tNYKNA7ac71aa90bcbe83c5815871a5b419601e96a5524d/upload"
 					v-model="show.upload"></tm-upload>
 			</tm-form-item>
@@ -149,16 +150,16 @@
 		radio: "", //bonaer
 		pickerIndex: [1],
 		pickerStr: "香蕉",
-		checkbox: [],
-		rate: 0,
+		checkbox: [''],
+		rate: 3,
 		slider: [0, 50],
 		segtab: "",
-		switch: false,
+		switch: 'hehe',
 		upload: [],
 		city: [],
 		cityStr: "",
 		nameuser: {
-			a: ""
+			a: "测试"
 		}
 	})
 	const confirm = (e)=>{

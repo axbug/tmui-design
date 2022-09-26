@@ -32,6 +32,7 @@ export interface fileConfig {
 	autoUpload?:Boolean,
 	header?:Object,//头部参数。
 	formData?:Object,//额外的表单数据。
+	formName?:string
 
 }
 function getUid (length=3){
@@ -65,7 +66,7 @@ export class uploadfile {
 	index = 0;
 	config:fileConfig = {};
 	constructor(config:fileConfig) {
-		let cf:fileConfig =  {maxSize:10*1024*1024,maxFile:9,fileType:['album','camera'],fileList:[],autoUpload:true,header:{},formData:{}}
+		let cf:fileConfig =  {maxSize:10*1024*1024,maxFile:9,fileType:['album','camera'],fileList:[],autoUpload:true,header:{},formData:{},formName:'file'}
 		cf = {...cf,...arguments[0]??{}};
 		//配置{name: 'file', // 上传时的文件key名。默认file,header: {}, // 上传的头部参数。}
 	    this.config=cf;
@@ -305,7 +306,7 @@ export class uploadfile {
 			t.setFileStatus(item)
 			const upObj = uni.uploadFile({
 				url:String(t.config.hostUrl),
-				name:'file',
+				name:t.config?.formName??'file',
 				header:t.config?.header??{},
 				filePath:item.url,
 				formData:{name:item.name,...t.config.formData},

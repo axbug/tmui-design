@@ -3,7 +3,7 @@ let config:fetchConfig={
     url:"",
     data:{},
     header:{
-        "content-type":"application/json"
+        // "content-type":"application/json"
     },
     method:"POST",
     timeout:60000,

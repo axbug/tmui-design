@@ -229,8 +229,9 @@ async function setStep(ty: string) {
     nextTick(function () {
         const realVal = val;
         setVal.value = Number(realVal ? realVal : 0);
-        emits('update:modelValue', setVal.value);
-        emits('change', setVal.value);
+		let valss:any = isNaN(setVal.value)||typeof setVal.value =='undefined'?'':setVal.value;
+        emits('update:modelValue', valss);
+        emits('change', valss);
     });
 
 }
@@ -258,8 +259,9 @@ function jianchData(val: string | number) {
     }
     setVal.value = Number(realval)
     nextTick(function () {
-        emits('update:modelValue', setVal.value);
-        emits('change', setVal.value);
+		let valss:any = isNaN(setVal.value)||typeof setVal.value =='undefined'?'':setVal.value;
+		emits('update:modelValue', valss);
+		emits('change', valss);
     });
 }
 function longpressEvent(ty: string) {

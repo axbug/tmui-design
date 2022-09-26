@@ -14,9 +14,9 @@
             <tm-text :fontSize="24" _class="font-weight-b" label="圆形"></tm-text>
             <tm-divider></tm-divider>
             <view class="flex flex-row">
-                <tm-progress model="circle" bgColor="grey" :height="24" :width="200" v-model:percent="percent"></tm-progress>
+                <tm-progress model="circle" bgColor="grey-4" :height="24" :width="200" v-model:percent="percent"></tm-progress>
                 <view class="py-12"></view>
-                <tm-progress model="circle" linear="right"  :height="24" color="red" :width="200" v-model:percent="percent">
+                <tm-progress model="circle" bgColor="grey-4" color="pink"  :height="24" :width="200" v-model:percent="percent">
                 </tm-progress>
                 <view class="py-12"></view>
             </view>
@@ -47,15 +47,13 @@
     </tm-app>
 </template>
 <script lang="ts" setup>
-import { ref, getCurrentInstance } from "vue"
-import { onShow, onLoad } from "@dcloudio/uni-app";
+import { ref } from "vue"
 import tmApp from "@/tmui/components/tm-app/tm-app.vue"
 import tmSheet from "@/tmui/components/tm-sheet/tm-sheet.vue"
 import tmText from "@/tmui/components/tm-text/tm-text.vue"
 import tmProgress from "@/tmui/components/tm-progress/tm-progress.vue"
 import tmDivider from "@/tmui/components/tm-divider/tm-divider.vue"
 import tmButton from "@/tmui/components/tm-button/tm-button.vue"
-const { proxy } = getCurrentInstance();
 const percent = ref(50)
 
 </script>

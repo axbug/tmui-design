@@ -5,7 +5,8 @@
  * @Description: 文件
 -->
 <template>
-	<tm-drawer ref="drawer" @close="drawerClose" @open="drawerOpen" :duration="props.duration" :height="cHeight" @update:show="show = $event"
+	<tm-drawer ref="drawer" @close="drawerClose" @open="drawerOpen" 
+	:duration="props.duration" :height="cHeight" @update:show="show = $event"
 		:show="show" :transprent="true" :hide-header="true">
 		<view @click.stop="" class=" flex flex-col">
 			<view style="height: 24rpx;"></view>
@@ -32,14 +33,17 @@ import {
 	ref,
 	PropType,
 	computed,
-	watchEffect,watch,inject
+	watchEffect,watch,inject, onMounted, nextTick
 } from "vue"
 import tmDrawer from '../tm-drawer/tm-drawer.vue';
 import tmButton from "../tm-button/tm-button.vue";
 import tmText from "../tm-text/tm-text.vue";
 import tmSheet from "../tm-sheet/tm-sheet.vue";
 const drawer = ref<InstanceType<typeof tmDrawer> | null>(null)
-const sysinfo = inject("tmuiSysInfo",{bottom:0,height:750,width:uni.upx2px(750),top:0,isCustomHeader:false,sysinfo:null})
+const sysinfo = inject("tmuiSysInfo",computed(()=>{
+	return {bottom:0,height:750,width:uni.upx2px(750),top:0,isCustomHeader:false,sysinfo:null}
+}))
+
 /**
  * 事件说明å
  * v-model:显示和隐藏
@@ -88,7 +92,7 @@ const props = defineProps({
 	},
 	duration:{
 		type:Number,
-		default:300
+		default:250
 	}
 })
 const show = ref(props?.modelValue ?? false);
@@ -115,13 +119,16 @@ const _list = computed<Array<listitem>>(() => {
 
 const cHeight = computed(() => {
 	let len = _list.value.length + 1
-	return len * 80 + 180 + sysinfo.bottom
+	return len * 80 + 180 + sysinfo.value.bottom
 })
+
 const _color = computed(() => props.color)
 
-watchEffect(() => {
-	show.value = props.modelValue;
 
+onMounted(()=>{
+	watchEffect(() => {
+		show.value = props.modelValue;
+	})
 })
 watch(()=>props.active,()=>{
 	_active.value = props.active;

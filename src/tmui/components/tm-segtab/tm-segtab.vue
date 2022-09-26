@@ -135,6 +135,7 @@ const _list = computed(()=>{
 
 //当前值。
 const _cId:Ref<string|number> = ref(props.defaultValue ?? 0)
+const _blackValue = _cId.value
 //如果list提供的是对象，想以id来选中定位，而不是inde索引则需要转换。
 function zhunhuanid(val:string|number){
     let index = _list.value.findIndex(el=>el.id == val)
@@ -321,9 +322,9 @@ pushFormItem()
 const tmFormFun = inject("tmFormFun",computed(()=>""))
 watch(tmFormFun,()=>{
     if(tmFormFun.value=='reset'){
-		_cId.value = ""
-		emits('update:modelValue',"")
-		pushFormItem(false)
+		_cId.value = _blackValue
+		emits('update:modelValue',_blackValue)
+		pushFormItem(true)
     }
 })
 

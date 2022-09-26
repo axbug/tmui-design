@@ -5,7 +5,7 @@
 		:borderDirection="props.borderDirection" :text="props.text" :linear="props.linear"
 		:linearDeep="props.linearDeep" :_style="props._style" :_class="props._class" :eventPenetrationEnabled="true"
 		:margin="[0, 0]" :padding="[0, 0]" :width="_width" :height="_height">
-		<view v-if="sc_top<-30&&reFresh!=0" :style="{top:(reFresh==2?-refreshJuli/2:-sc_top-30)+'px',width:_width+'rpx'}" class="zIndex-17  absolute l-0 flex flex-row flex-row-center-center">
+		<view v-if="sc_top<-30&&reFresh!=0&&!tabsSwiperDisAbledPull" :style="{top:(reFresh==2?-refreshJuli/2:-sc_top-30)+'px',width:_width+'rpx'}" class="zIndex-17  absolute l-0 flex flex-row flex-row-center-center">
 			<view class="pr-32" >
 				<tm-icon v-if="sc_top>(refreshJuli)&&reFresh!=2" name="tmicon-long-arrow-down"></tm-icon>
 				<tm-icon v-if="sc_top<=(refreshJuli)&&reFresh!=2" name="tmicon-long-arrow-up"></tm-icon>
@@ -17,7 +17,7 @@
 				<tm-text  _class="text-align-center" label="更新于今日8:30"></tm-text>
 			</view>
 		</view>
-		<scroll-view @scroll="onScroll"  :scroll-y="_height ? true : false" enable-flex class="flex-col"
+		<scroll-view @scrolltolower="onScrollBootom" @scroll="onScroll"  :scroll-y="_height ? true : false" enable-flex class="flex-col"
 			:style="[{ width: _width + 'rpx' }, _height ? { height: _height + 'rpx' } : '']">
 			
 			<view  @touchStart="onScrollStart" @touchend="onScrollEnd" v-if="isShowRender" :style="{transform:`translateY(${reFresh==2?-refreshJuli:0}px)`}" class="flex contentx">
@@ -35,6 +35,8 @@
 	 */ 
 	import tmSheet from "../tm-sheet/tm-sheet.vue";
 	import tmTabs from "../tm-tabs/tm-tabs.vue";
+	import  tmIcon from "../tm-icon/tm-icon.vue";
+	import  tmText from "../tm-text/tm-text.vue";
 	import { tabsobj } from "../tm-tabs/interface";
 	import {
 		Ref,
@@ -46,6 +48,7 @@
 		ComputedRef,
 		getCurrentInstance,
 		ComponentInternalInstance,
+		PropType,
 		onMounted
 	} from "vue";
 	import {
@@ -91,6 +94,14 @@
 			type: String,
 			default: "",
 		},
+		pullFun: {
+			type: [Function] as PropType < (type: 'top' | 'bottom') => boolean > ,
+			default: () => {
+				return (type: 'top' | 'bottom') => {
+					return true
+				}
+			}
+		}
 	});
 	
 	//---scroll下拉刷新---------
@@ -147,6 +158,7 @@
 	);
 	const tabsSwiper = inject("tabsSwiper",computed(() => false));
 	const tabsSwiperIsMoveing = inject("tabsSwiperIsMoveing",computed(() => false));
+	const tabsSwiperDisAbledPull = inject("tabsSwiperDisAbledPull", computed(() => true));
 		
 	const activeIndex = inject("tabsActiveactiveIndex",computed(()=>0))
 	// const selfIndex = computed(()=>tabsActiveCacheTabse.value.findIndex(el=>el.key==tabsActiveName.value))
@@ -193,18 +205,51 @@
 		if(tabsSwiperIsMoveing.value) return
 		isUpToogle.value = false;
 	}
-	function onScrollEnd(){
+	async function onScrollEnd(){
 		// 切换页面中不允许下拉。
 		if(tabsSwiperIsMoveing.value) return
 		isUpToogle.value = true;
 		if(reFresh.value ==2) return;
 		if(isyesResh.value){
-			reFresh.value =2;
-			setTimeout(function() {
+			let p = await funPull('top')
+			if (p) {
 				reFresh.value = 0;
-			}, 1500);
+			} else {
+				isUpToogle.value = false
+			}
 		}else{
 			reFresh.value =0;
+		}
+	}
+	async function onScrollBootom(){
+		// 切换页面中不允许下拉。
+		if(tabsSwiperIsMoveing.value) return
+		isUpToogle.value = true;
+		if(reFresh.value ==2) return;
+		if(isyesResh.value){
+			let p = await funPull('bottom')
+			if (p) {
+				reFresh.value = 0;
+			} else {
+				isUpToogle.value = false
+			}
+		}else{
+			reFresh.value =0;
+		}
+		
+	}
+	async function funPull(type: 'top' | 'bottom') {
+		if (typeof props.pullFun === 'function') {
+			uni.showLoading({
+				title: "...",
+				mask: true
+			})
+			let p = await props.pullFun(type);
+			if (typeof p === 'function') {
+				p = await p(type);
+			}
+			uni.hideLoading();
+			return p;
 		}
 	}
 </script>

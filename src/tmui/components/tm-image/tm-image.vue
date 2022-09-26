@@ -14,11 +14,13 @@
 					class="flex flex-center opacity-3">
 					<tm-icon v-if="props.showLoad" :font-size="26" spin name="tmicon-loading"></tm-icon>
 				</view>
-				<view v-if="!loading && error" :style="[{ width: img_width + props.unit, height: img_height + props.unit }]"
-					class="flex flex-col flex-center opacity-5">
-					<tm-icon name="tmicon-exclamation-circle"></tm-icon>
-					<tm-text _class="pt-10" :font-size="26" :label="props.errorLabel"></tm-text>
-				</view>
+				<slot name="error">
+					<view v-if="!loading && error" :style="[{ width: img_width + props.unit, height: img_height + props.unit }]"
+						class="flex flex-col flex-center opacity-5">
+						<tm-icon name="tmicon-exclamation-circle"></tm-icon>
+						<tm-text _class="pt-10" :font-size="26" :label="props.errorLabel"></tm-text>
+					</view>
+				</slot>
 				<!-- extra -->
 				<view @click.stop="imageClick" v-if="props.extra" :class="[
 					props.extraPosition == 'in' ? 'absolute l-0 b-0 zIndex-5' : '',

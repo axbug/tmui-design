@@ -446,6 +446,7 @@ const propsDetail = computed(() => {
         fixed: props.fixed
     }
 })
+const _blackValue = props.modelValue
 // 设置响应式全局组件库配置表。
 const tmcfg = computed(() => store.tmStore);
 //自定义样式：
@@ -626,7 +627,8 @@ watch(tmFormFun, () => {
         pushFormItem();
     }
     if (tmFormFun.value == 'reset') {
-        _value.value = "";
+		// console.log(_blackValue)
+        _value.value = _blackValue;
         _requiredError.value = false;
         emits("update:modelValue", _value.value)
         pushFormItem(false);

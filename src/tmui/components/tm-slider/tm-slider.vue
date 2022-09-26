@@ -176,7 +176,6 @@ isNvue.value=true;
 // #endif
 
 const _sliderBarCssWidth = computed(()=>{
-
     if(props.direction=='horizontal') return props.width+props.buttonSize
     return props.buttonSize 
 })
@@ -219,6 +218,7 @@ watchEffect(()=>{
     _value.value = val;
 })
 emits("update:modelValue",getValue())
+const _blackValue = getValue()
 watch(()=>props.modelValue,()=>{
     if(!isDablue.value){
         btnPos.value[0].x = Math.abs(Number(props.modelValue) / _valueMax.value * uni.upx2px(props.width))
@@ -405,7 +405,7 @@ async function pushFormItem(isCheckVail = true){
                 parentFormItem.pushCom({
                     value: _valueSlider,
                     isRequiredError: false,//true,错误，false正常 检验状态
-                    componentsName: 'tm-rate',//表单组件类型。
+                    componentsName: 'tm-slider',//表单组件类型。
                     message: ev.length==0?"":ev[0].message,//检验信息提示语。
                 })
             }).catch(er => {
@@ -426,14 +426,7 @@ pushFormItem()
 const tmFormFun = inject("tmFormFun",computed(()=>""))
 watch(tmFormFun,()=>{
     if(tmFormFun.value=='reset'){
-		if(isDablue.value){
-			emits('update:modelValue',[0,0])
-			btnPos.value[0].x = 0
-			btnPos.value[1].x = 0
-		}else{
-			emits('update:modelValue',0)
-			btnPos.value[0].x = 0
-		}
+		emits('update:modelValue',_blackValue)
 		pushFormItem(false)
     }
 })
