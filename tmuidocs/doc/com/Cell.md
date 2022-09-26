@@ -41,6 +41,7 @@ title: tmui 3.0 组件库
 | title | String | "", | 标题 |
 | titleFontSize | [Number,String] | 28 | 标题字体大小 |
 | label | String | "" | 标题下方的描述 |
+| labelFontSize <Badge type="danger" text="v3.0.83+" vertical="middle" /> | Number | 28 | 下边文字大小 |
 | labelColor | String | "grey" | 标题下方文字的颜色 |
 | rightText | String | "" | 右边文字 |
 | rightTextSize<Badge type="danger" text="v3.0.75+" vertical="middle" /> | Number | 24 | 右边文字大小 |
