@@ -35,6 +35,7 @@
 		@opensetting="emits('opensetting',$event)"
 		@launchapp="emits('launchapp',$event)"
 		@contact="emits('contact',$event)"
+        @chooseavatar="emits('chooseavatar',$event)"
 		:form-type="props.formType"
 		:openType="props.openType"
 		:appParameter="props.appParameter"
@@ -94,6 +95,7 @@ const emits = defineEmits<{
   (e: 'opensetting', event: any): void
   (e: 'launchapp', event: any): void
   (e: 'contact', event: any): void
+  (e: 'chooseavatar', event: any): void
 }>()
 
 const proxy = getCurrentInstance()?.proxy??null;
