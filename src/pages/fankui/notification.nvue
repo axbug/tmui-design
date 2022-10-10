@@ -26,7 +26,7 @@ import tmText from "@/tmui/components/tm-text/tm-text.vue"
 import tmNotification from "@/tmui/components/tm-notification/tm-notification.vue"
 import tmDivider from "@/tmui/components/tm-divider/tm-divider.vue"
 import tmButton from "@/tmui/components/tm-button/tm-button.vue"
-const msg = ref<InstanceType<typeof tmMessage> | null>(null)
+const msg = ref<InstanceType<typeof tmNotification> | null>(null)
 const placement = ref('topLeft')
 function show(e){
     placement.value =e;
