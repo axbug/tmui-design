@@ -1,5 +1,5 @@
 <template>
-    <view class="flex flex-col">
+    <view class="flex flex-col relative">
         <view class="flex-1 flex flex-col relative contentbody overflow" ref="contentbody" :style="[
             isMaxheight && !isOpen ? { height: props.height + 'rpx' } : '',
             !isInit ? { transform: 'translateX(-1000px)' } : { transform: 'translateX(0px)' }
