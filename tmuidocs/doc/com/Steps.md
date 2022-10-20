@@ -48,7 +48,6 @@ title: tmui 3.0 组件库
 | showLine | Boolean | true | 是否显示连线。|
 | changeable | Boolean | false | 是否允许点击步骤来切换当前步骤数。 |
 | beforeStepChange | [Function,Boolean] | false |  当点击步骤切换前的勾子函数，返回fase将取消切换。可以返回Promise异步。 |
-| contentHeight | Number | 160 | 这是内容撑开，如果不设置将无法清除浮动，造成底部内容往推。因为在mp小程序中无法自定组件本身使用flex布局。除nvue其它端统一设置高度。 |
 | color | String | 'grey-3' | 未激活时的主题色 |
 | activeColor | String | 'primary' | 激活时的主题色。 |
 | type | String | 'dot' | 样式dot,number |

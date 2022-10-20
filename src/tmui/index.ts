@@ -18,19 +18,27 @@ if(typeof PageJsonInit?.pages =='undefined'){
 }
 PageJsonInit.pages.forEach(el => {
 	let customType:pagesCustomType = <pagesCustomType>(el?.style?.navigationStyle ?? "default");
+	let bg = (el.style?.navigationBarBackgroundColor??PageJsonInit?.globalStyle?.navigationBarBackgroundColor??'#FFFFFF')||'#FFFFFF'
+	let txtColor = (el.style?.navigationBarTextStyle??PageJsonInit?.globalStyle?.navigationBarTextStyle??'black')||'black'
 	pages.push({
 		path: el.path,
-		custom: customType
+		custom: customType,
+		navigationBarBackgroundColor:bg,
+		navigationBarTextStyle:txtColor
 	})
 })
-if (Array.isArray(PageJsonInit?.subPackages)) {
-	PageJsonInit.subPackages.forEach(el => {
+if (Array.isArray(PageJsonInit?.subPackages??null)) {
+	PageJsonInit?.subPackages.forEach((el:any) => {
 		let rootPath = el.root;
-		el.pages.forEach(el2 => {
+		el.pages.forEach((el2:any) => {
 			let elany:any = el2;
+			let bg = (el2.style?.navigationBarBackgroundColor??PageJsonInit?.globalStyle?.navigationBarBackgroundColor??'#FFFFFF')||'#FFFFFF'
+			let txtColor = (el2.style?.navigationBarTextStyle??PageJsonInit?.globalStyle?.navigationBarTextStyle??'black')||'black'
 			pages.push({
 				path: rootPath + "/" + elany.path,
 				custom: elany?.style?.navigationStyle ?? "default",
+				navigationBarBackgroundColor:bg,
+				navigationBarTextStyle:txtColor
 			})
 		})
 	})

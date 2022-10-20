@@ -156,7 +156,7 @@ async function itemClick(index: number,id:number|string) {
     if (_cId.value === id) return;
    _cId.value = id;
     getDomRectBound(index)
-    emits("change", _cId.value)
+    emits("change", _cId.value,toRaw(_list.value[index]))
     emits("update:modelValue", _cId.value)
 	pushFormItem()
 }

@@ -19,6 +19,40 @@ title: tmui 3.0 组件库
 
 ----
 
+:::tip 注意事项
+见下方
+:::
+
+```ts
+/**
+ * Echart图表
+ * @description 使用最新的5.3.2 ，注意不能在nvue上使用，请改用vue页面。已经兼容了pc端
+ * ref:getChart:获取成功渲染的图表。
+ * 事件：onInit:渲染成功后执行，并返回chart对象。
+ * 安装百度图表 npm install echarts --save 后需要作下生产下的兼容，发布不影响，但开发时会报错，很烦。
+ * 请找到：node_modules/echarts/lib/core/echarts.js,
+ * 原文：
+ * 
+ * if (process.env.NODE_ENV !== 'production') {
+  var root =
+  hasWindow ? window : global;
+  defaultRenderer = root.__ECHARTS__DEFAULT__RENDERER__ || defaultRenderer;
+  var devUseDirtyRect = root?.__ECHARTS__DEFAULT__USE_DIRTY_RECT__;
+  defaultUseDirtyRect = devUseDirtyRect == null ? defaultUseDirtyRect : devUseDirtyRect;
+  
+  改成：
+  * if (process.env.NODE_ENV !== 'production') {
+   var root =
+   hasWindow ? window : global;
+   【修改一】defaultRenderer = root?.__ECHARTS__DEFAULT__RENDERER__ ?? defaultRenderer;
+   【修改二】var devUseDirtyRect = root?.__ECHARTS__DEFAULT__USE_DIRTY_RECT__??null;
+   【修改三】defaultUseDirtyRect = devUseDirtyRect == null ? defaultUseDirtyRect : devUseDirtyRect;
+}
+ */
+
+```
+
+
 想升级包怎么办？<br>
 只要在cli项目的根目录下执行：```npm install echarts --save```,如果想要具体版本号：```npm install echarts@5.3.2 --save```，
 把后面的版本号改下目标版本号就可以了。

@@ -54,7 +54,7 @@ title: tmui 3.0 组件库
 | blur | Boolean | false | 背景磨砂,可选值：false,true;注意：当为渐变背景时,背景磨砂效果将会消失
 | iconFontSize<Badge type="danger" text="v3.0.73+" vertical="middle" /> | [Number] | 37 | 返回图标，Home图标字号 |
 | unit<Badge type="danger" text="v3.0.73+" vertical="middle" /> | [String] | rpx | 字号单位 |
-
+| darkBgColor | String | '' | 有时自动的背景，可能不是你想要暗黑背景，此时可以使用此参数，强制使用背景色 |
 
 ### :rose: 事件
 | 事件名 | 参数 | 返回数据 | 描述 |

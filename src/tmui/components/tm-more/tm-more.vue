@@ -64,7 +64,7 @@ const props = defineProps({
     }
 })
 // 设置响应式全局组件库配置表。
-const tmcfg = computed<tmVuetify>(() => store.tmStore);
+const tmcfg = computed(() => store.tmStore);
 //是否暗黑模式。
 const isDark = computed(() => computedDark(props, tmcfg.value));
 const isInit = ref(false)
@@ -121,13 +121,14 @@ function nvuegetClientRect() {
         // #endif
         // #ifndef APP-PLUS-NVUE
         uni.createSelectorQuery().in(proxy).select('.contentbody').boundingClientRect(res => {
-			if(res.height==0){
+			
+			if(res?.height==0){
 				nvuegetClientRect()
 			}else{
-				if (res?.height??0 >= maxHeight.value) {
+				if ((res?.height??0) >= maxHeight.value) {
 				    isMaxheight.value = true;
 				}
-				 isInit.value = true
+				isInit.value = true
 			}
             
         }).exec();

@@ -63,6 +63,7 @@ const _align = computed(()=>{
 const checkBoxkeyId = 'tmRadioBoxGroup';
 watch(()=>props.modelValue,()=>{
     _mValue.value = props.modelValue;
+	pushFormItem()
 },{deep:true})
 function pushKey(key:string|number|boolean){
     _cacheBoxList.push(key);
@@ -154,7 +155,6 @@ const validate =(rules:Array<rulesItem>)=>{
 async function pushFormItem(isCheckVail = true){
     if (parentFormItem) {
         if (isCheckVail) {
-            
             validate(toRaw(rulesObj.value)).then(ev => {
                 parentFormItem?.pushCom({
                     value: _mValue.value,

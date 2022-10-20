@@ -18,6 +18,10 @@
         <month-year :hideButton="props.hideButton" :hideTool="props.hideTool" :followTheme="props.followTheme" ref="Month" @confirm="confirm" @click-month="click" @change="change" @update:model-value="_value = $event"
             :model-value="_value" :default-value="_value" v-if="_modelType == 'month'" :start="props.start"
             :end="props.end" :color="props.color" :linear="props.linear" :linearDeep="props.linearDeep"></month-year>
+		<!-- 按季度选择 -->
+		<month-quarter :hideButton="props.hideButton" :hideTool="props.hideTool" :followTheme="props.followTheme" ref="Month" @confirm="confirm" @click-month="click" @change="change" @update:model-value="_value = $event"
+		    :model-value="_value" :default-value="_value" v-if="_modelType == 'quarter'" :start="props.start"
+		    :end="props.end" :color="props.color" :linear="props.linear" :linearDeep="props.linearDeep"></month-quarter>
         <!-- 按周选择时段 -->
         <week-day :hideButton="props.hideButton" :hideTool="props.hideTool" :followTheme="props.followTheme" ref="Week" @confirm="confirm" @click-week="click" @change="change" @update:model-value="_value = $event"
             :model-value="_value" :default-value="_value" v-if="_modelType == 'week'" :start="props.start"
@@ -37,6 +41,7 @@ import monthYear from "./month-year.vue";
 import yearDu from "./year-du.vue";
 import monthDay from "./month-day.vue";
 import rangeDay from "./range-day.vue";
+import monthQuarter from "./month-quarter.vue";
 import tmSheet from '../tm-sheet/tm-sheet.vue';
 import { monthDayItem, dateItemStyle, monthYearItem, weekItem, yearItem } from "./interface"
 const proxy = getCurrentInstance()?.proxy??null;
@@ -85,9 +90,10 @@ const props = defineProps({
      * month :按月选择模式。
      * year :按年选择模式。
      * rang :按日期范围选择模式。
+     * quarter :按季度选择模式。
      */
     model: {
-        type: String,
+        type: String as PropType<'quarter'|'day'|'month'|'year'|'rang'|'week'>,
         default: 'day'
     },
     color: {

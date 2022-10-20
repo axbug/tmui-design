@@ -38,7 +38,7 @@
 			<view class="flex-row flex-row-center-start pb-10">
 				<tm-image :width="108" :height="67.5" :src="logoimg"></tm-image>
 				<view class="pl-16 flex-1" style="width:0px">
-					<tm-text _class="text-weight-b" :font-size="36" label="TMUI 3.0.84"></tm-text>
+					<tm-text _class="text-weight-b" :font-size="36" label="TMUI 3.0.85"></tm-text>
 					<tm-text _class="opacity-6" :label="language('index.search.subtext')"></tm-text>
 				</view>
 			</view>
@@ -125,6 +125,7 @@
 					<tm-text color="grey" :font-size="22" _class="font-weight-b"
 						:label="language('index.com.otherSub')"></tm-text>
 				</tm-grid-item>
+
 				<tm-grid-item text url="../chart/index" :height="180" count="CHAR">
 					<tm-icon color="blue-grey" _class="pb-10" :font-size="52" name="tmicon-borderbottom-fill">
 					</tm-icon>
@@ -213,7 +214,7 @@
 	const showCustomColor = ref("#60ab41")
 	const showCustomName = ref("darkGreen")
 	const showCustom = ref(false)
-	
+
 	function onChangeDark() {
 		app.value?.setDark()
 	}

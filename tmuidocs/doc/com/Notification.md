@@ -40,7 +40,7 @@ title: tmui 3.0 组件库
 | shadow | [Number] | 0 | 投影  |
 | margin | ArrayasPropType`<Array<number>>` | ()=>[0,0] | 外间距，[x,y]x=左右，y=上下 |
 | padding | ArrayasPropType`<Array<number>>` | ()=>[24,16] | 内间距，[x,y]x=左右，y=上下 |
-| duration | Number | 2000 | 动画时长 |
+| duration | Number | 2000 | 显示时长 |
 | offset | ArrayasPropType`<Array<number>>` | ()=>[32,32]//x,y | 偏移量，[x,y]x=左右，y=上下 |
 | placement | String | topLeft  | 位置，可选值：topLeft/topRight/bottomLeft/bottomRight/top/bottom |
 | label | String | "" | 展示的文字内容,注意：required:true,必传 |
@@ -64,7 +64,8 @@ showOpts格式如下：
 ```ts
 export interface showOpts{
     label?:string,
-    icon?:string
+    icon?:string,
+	duration?:number
 }
 ```
 

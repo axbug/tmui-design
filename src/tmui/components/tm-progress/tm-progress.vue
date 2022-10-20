@@ -4,9 +4,8 @@
 		<view v-if="model == 'line'" :style="[{ width: width + 'rpx', paddingTop: '16rpx', paddingBottom: '16rpx' }]"
 			class=" flex relative flex flex-col overflow  ">
 			<view class="relative">
-				<tm-sheet no-level :round="props.round" 
-					:followTheme="false" :dark="props.dark" :margin="[0, 0]" :width="props.width"
-					:height="props.height" :color="props.bgColor" :padding="[0, 0]">
+				<tm-sheet no-level :round="props.round" :followTheme="false" :dark="props.dark" :margin="[0, 0]"
+					:width="props.width" :height="props.height" :color="props.bgColor" :padding="[0, 0]">
 				</tm-sheet>
 			</view>
 			<view class="absolute l-0 tmRogress overflow " :style="[{ width: activeWidth + 'rpx', top: 16 + 'rpx' }]">
@@ -54,7 +53,8 @@
 				props.semicircle && !props.semicircleFlip ? { 'justify-content': 'flex-end', 'align-items': 'center' } : '',
 			
 			]" class="relative absolute l-0 t-0 flex flex-col" :class="[!props.semicircle ? 'flex-center' : '']">
-				<cover-view  v-if="props.showBar" :style="[{ fontSize: props.fontSize + 'rpx', color: isDark ? darkcolor : txtcolor }]">
+				<cover-view v-if="props.showBar"
+					:style="[{ fontSize: props.fontSize + 'rpx', color: isDark ? darkcolor : txtcolor }]">
 					<slot name="title">
 						{{ props.percent + props.percentSuffix }}
 					</slot>
@@ -68,10 +68,11 @@
 				props.semicircle && !props.semicircleFlip ? { 'justify-content': 'flex-end', 'align-items': 'center' } : '',
 			]" class="relative absolute l-0 t-0 flex flex-col" :class="[!props.semicircle ? 'flex-center' : '']">
 				<slot name="title">
-					<tm-text v-if="props.showBar" :color="props.color" :followTheme="props.followTheme" :dark="props.dark"
-						:fontSize="props.fontSize" :label="props.percent + props.percentSuffix"></tm-text>
+					<tm-text v-if="props.showBar" :color="props.color" :followTheme="props.followTheme"
+						:dark="props.dark" :fontSize="props.fontSize" :label="props.percent + props.percentSuffix">
+					</tm-text>
 				</slot>
-				
+
 			</cover-view>
 			<!-- #endif -->
 		</view>
@@ -99,12 +100,12 @@ import {
 // #endif
 const store = useTmpiniaStore();
 const emits = defineEmits(['update:percent', 'change'])
-const proxy = getCurrentInstance()?.proxy??null;
+const proxy = getCurrentInstance()?.proxy ?? null;
 const vnodeCtx = proxy
 const props = defineProps({
 	...custom_props,
 	model: {
-		type: String as PropType<'line'|'circle'>,
+		type: String as PropType<'line' | 'circle'>,
 		default: 'line' //line,circle
 	},
 	//model==circle,是否是半圆。
@@ -185,23 +186,23 @@ const canvasId = ref("canvasId")
 // #ifndef MP-WEIXIN || MP-QQ
 canvasId.value = "tm" + String(new Date().getTime());
 // #endif
-let ctx:UniApp.CanvasContext;
+let ctx: UniApp.CanvasContext;
 const shadow_pr = computed(() => props.shadow * 4)
 // 设置响应式全局组件库配置表。
 const tmcfg = computed<tmVuetify>(() => store.tmStore);
 //是否暗黑模式。
 const isDark = computed(() => computedDark(props, tmcfg.value));
 //计算主题
-const tmcomputed = computed<cssstyle>(() => computedTheme(props, isDark.value,tmcfg.value));
+const tmcomputed = computed<cssstyle>(() => computedTheme(props, isDark.value, tmcfg.value));
 const showGc = ref(true)
 let isAndroid = false;
 // #ifdef APP-NVUE
-if(uni.getSystemInfoSync().osName=='android'){
+if (uni.getSystemInfoSync().osName == 'android') {
 	isAndroid = true;
 	showGc.value = false;
 }
 // #endif
-const _bgColor = computed(()=>computedTheme({...props,color:props.bgColor,followTheme:false}, isDark.value,tmcfg.value).backgroundColor)
+const _bgColor = computed(() => computedTheme({ ...props, color: props.bgColor, followTheme: false }, isDark.value, tmcfg.value).backgroundColor)
 const txtcolor = tool.getColor(props.color).value;
 const darkcolor = tmcomputed.value.backgroundColor
 const activeWidth = computed(() => {
@@ -219,17 +220,17 @@ watch(() => props.percent, (val) => {
 	// #ifdef MP-WEIXIN || MP-ALIPAY || MP-QQ
 	drawNvue_draw();
 	// #endif
-	
+
 	// #ifdef APP-NVUE
-	if(isAndroid){
-		setTimeout(function() {
+	if (isAndroid) {
+		setTimeout(function () {
 			showGc.value = true;
 		}, 120);
-	}else{
+	} else {
 		drawNvue_draw();
 	}
 	// #endif
-	
+
 	// #ifndef MP-WEIXIN || MP-ALIPAY || MP-QQ || APP-NVUE
 	appvueH5Other();
 	// #endif
@@ -240,17 +241,25 @@ watch(() => props.percent, (val) => {
 })
 onMounted(() => {
 	nextTick(function () {
-		
+
 		// #ifdef APP-NVUE
-		setTimeout(()=>drawNvue_init(),300)
+		
+			if (isAndroid) {
+				setTimeout(function () {
+					showGc.value = true;
+					setTimeout(() => drawNvue_init(), 200)
+				}, 220);
+			} else {
+				setTimeout(() => drawNvue_init(), 200)
+			}
 		// #endif
 		// #ifdef MP-WEIXIN || MP-ALIPAY || MP-QQ
-		setTimeout(()=>MpWeix_init(),100)
+		setTimeout(() => MpWeix_init(), 100)
 		// #endif
 		// #ifndef MP-WEIXIN || MP-ALIPAY || MP-QQ || APP-NVUE
-		setTimeout(()=>appvueH5Other(),50)
+		setTimeout(() => appvueH5Other(), 50)
 		// #endif
-		
+
 
 	})
 })
@@ -266,13 +275,13 @@ function appvueH5Other() {
 function MpWeix_init() {
 	if (props.model != 'circle') return;
 	const query = uni.createSelectorQuery().in(vnodeCtx)
-	
-	
-	
+
+
+
 	// #ifdef MP-ALIPAY
-	query.select('#'+canvasId.value).node().exec((res2) => {
-	    const canvas = res2[0].node;
-		let ctxvb:UniApp.CanvasContext = canvas.getContext('2d');
+	query.select('#' + canvasId.value).node().exec((res2) => {
+		const canvas = res2[0].node;
+		let ctxvb: UniApp.CanvasContext = canvas.getContext('2d');
 		ctx = ctxvb;
 		drawNvue_draw();
 	})
@@ -282,7 +291,7 @@ function MpWeix_init() {
 		.fields({
 			node: true,
 			size: true,
-			context:true
+			context: true
 		})
 		.exec((res) => {
 			// #ifndef MP-QQ
@@ -301,7 +310,7 @@ function MpWeix_init() {
 			// #endif
 		})
 	// #endif
-	
+
 }
 function drawNvue_init() {
 	if (props.model != 'circle') return;
@@ -334,7 +343,7 @@ function otherDraw() {
 
 	let c = tmcomputed.value
 
-	let bgColor =_bgColor.value;
+	let bgColor = _bgColor.value;
 
 	let activeColor = tool.getColor(props.color).csscolor;
 	let strokeWidth = uni.upx2px(props.height);
@@ -366,7 +375,7 @@ function otherDraw() {
 			jinduo = -jinduo
 		}
 	}
-	
+
 	// ctx.clearRect(0, 0, props.width, props.width)
 	//如果是渐变
 	if (props.linear) {
@@ -384,7 +393,7 @@ function otherDraw() {
 	ctx.shadowOffsetY = 0;
 	ctx.shadowBlur = uni.upx2px(shadow_pr.value);
 
-	
+
 	ctx.beginPath();
 
 	if (props.semicircle) {
@@ -415,23 +424,23 @@ function drawNvue_draw() {
 		};
 	}
 	let c = tmcomputed.value;
-	let bgColor =_bgColor.value||"#f5f5f5";
-	let activeColor = tool.getColor(props.color).csscolor||"#ff0000";
+	let bgColor = _bgColor.value || "#f5f5f5";
+	let activeColor = tool.getColor(props.color).csscolor || "#ff0000";
 	let strokeWidth = uni.upx2px(props.height);
 	//绘制进度半圆。
 	let blv = Math.PI / 50;
 	//绘制已推进的角度.
 	let jinduo = (percent_rp.value - 25) * blv
-	ctx.clearRect(0,0,width,width)
+	ctx.clearRect(0, 0, width, width)
 	//先绘制背景圆;
 	ctx.lineWidth = strokeWidth;
 	ctx.strokeStyle = bgColor;
 	ctx.lineCap = "round";
 	ctx.beginPath();
 	if (props.semicircle) {
-		ctx.arc(center.x, center.y, center.r, -Math.PI, 0, props.semicircleFlip?true:false);
+		ctx.arc(center.x, center.y, center.r, -Math.PI, 0, props.semicircleFlip);
 	} else {
-		ctx.arc(center.x, center.y, center.r, jinduo, 2 * Math.PI, props.semicircleFlip?true:false);
+		ctx.arc(center.x, center.y, center.r, -Math.PI / 2, 1.5 * Math.PI);
 	}
 	ctx.stroke();
 	ctx.closePath();
@@ -441,7 +450,6 @@ function drawNvue_draw() {
 		jinduo = (rpp - 50) * blv
 		if (props.semicircleFlip) {
 			jinduo = -jinduo
-			jinduo = jinduo >= Math.PI ? Math.PI - 0.00001 : jinduo
 			jinduo = jinduo >= Math.PI ? Math.PI - 0.00001 : jinduo
 		}
 
@@ -471,7 +479,12 @@ function drawNvue_draw() {
 	if (props.semicircle) {
 		ctx.arc(center.x, center.y, center.r, -Math.PI, jinduo, props.semicircleFlip);
 	} else {
-		ctx.arc(center.x, center.y, center.r, -Math.PI / 2, jinduo, props.semicircleFlip);
+		if (props.semicircleFlip) {
+			jinduo = (75 - percent_rp.value) * blv
+			ctx.arc(center.x, center.y, center.r, 1.5 * Math.PI, jinduo, true);
+		} else {
+			ctx.arc(center.x, center.y, center.r, -Math.PI / 2, jinduo, false);
+		}
 	}
 	ctx.stroke();
 	ctx.closePath();
@@ -488,9 +501,11 @@ function drawNvue_draw() {
 	transition-timing-function: ease-in-out;
 	transition-property: width;
 }
+
 /* #ifndef APP-NVUE */
-cover-view{
+cover-view {
 	background: transparent;
 }
+
 /* #endif */
 </style>

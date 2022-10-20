@@ -1,21 +1,17 @@
 <template>
-	<tm-overlay ref="Overlay" @open="overlayOpen" @close="msgOver" :duration="280" :transprent="!showMask"
-		:_style="zindex" :overlayClick="false" v-model:show="showValue">
-		<tm-translate :initByWechat="initByWechat" :reverse="reverse" ref="tranAni" name="zoom" :duration="200"
-			:auto-play="false">
-			<tm-sheet blur :_style="props._style" :_class="props._class" :color="bgColor" :border="1" :shadow="10"
-				:width="props.width" :height="props.height" :margin="[40,40]" :round="props.round"
-				:padding="props.padding">
-				<slot>
-					<view class="flex flex-center flex-col ma-30" style="line-height: normal">
-						<tm-icon _style="line-height: normal" style="line-height: normal" _class="pa-10"
-							:spin="model_ref == 'load'" :color="color_ref" :fontSize="72" :name="icon_ref"></tm-icon>
-						<tm-text :font-size="30" _class="pt-8 text-overflow-1" :label="text_ref"></tm-text>
-					</view>
-				</slot>
-			</tm-sheet>
-		</tm-translate>
-	</tm-overlay>
+	<view ref="nvueElAni" v-if="showValue" class="fi l-0 t-0 flex flex-row flex-row-center-center  on" :class="[showMask?'overflowMask':'overflowMaskNo']" :style="{width:_width+'px',height:_height+'px',top:sysinfo.top+'px'}">
+		<tm-sheet v-if="showValue" :style="{transform: isNvue?'scale(0,0)':'scale(1,1)'}" ref="nvueElAniContent" class="scale nvueContent"  :_style="props._style" :_class="props._class" :color="bgColor" :border="0" :shadow="10"
+			:width="props.width" :height="props.height" :margin="[40,40]" :round="props.round"
+			:padding="props.padding">
+			<slot>
+				<view class="flex flex-center flex-col ma-30" style="line-height: normal">
+					<tm-icon _style="line-height: normal" style="line-height: normal" _class="pa-10"
+						:spin="model_ref == 'load'" :color="color_ref" :fontSize="72" :name="icon_ref"></tm-icon>
+					<tm-text :font-size="30" _class="pt-8 text-overflow-1" :label="text_ref"></tm-text>
+				</view>
+			</slot>
+		</tm-sheet>
+	</view>
 </template>
 
 <script lang="ts" setup>
@@ -51,6 +47,11 @@
 		Ref,
 		PropType
 	} from 'vue';
+	// #ifdef APP-PLUS-NVUE
+	const Binding = uni.requireNativePlugin('bindingx');
+	const dom = uni.requireNativePlugin('dom')
+	const animation = uni.requireNativePlugin('animation')
+	// #endif
 	const store = useTmpiniaStore();
 	const tranAni = ref < InstanceType < typeof tmTranslate > | null > (null)
 	const Overlay = ref < InstanceType < typeof tmOverlay > | null > (null)
@@ -94,27 +95,30 @@
 			default: 300
 		}
 	})
-	const uid = ref(uni.$tm.u.getUid(5))
+	
+	const sysinfo = inject("tmuiSysInfo",computed(()=>{
+		return {bottom:0,height:750,width:uni.upx2px(750),top:0,isCustomHeader:false,sysinfo:null}
+	}))
+	const _width = computed(()=>sysinfo.value.width)
+	const _height = computed(()=>sysinfo.value.height)
+	let isNvue = ref(false)
+	// #ifdef APP-NVUE
+	isNvue.value = true
+	// #endif
+	
+	
+	
+	const dur = ref(props.duration)
+	let uid:number = NaN;
 	const bgColor = ref('white')
 	const model_ref: Ref < modelType > = ref("info")
 	const showValue = ref(false)
 	const icon_ref = ref('')
 	const text_ref = ref('')
 	const color_ref = ref('')
-	const reverse = ref(false)
-	const dur = ref(0)
-	const initByWechat = ref(true)
 	const showMask = ref(props.mask)
 	const dark_ref = ref(false)
 
-	onUnmounted(() => clearTimeout(uid.value))
-	watch(() => props.mask, (val) => showMask.value = val)
-	let zindex = {};
-	// #ifndef APP-NVUE
-	zindex = {
-		zIndex: '1000 !important'
-	}
-	// #endif
 	const modelIcon = computed(() => {
 
 		return {
@@ -160,14 +164,19 @@
 			}
 		}
 	})
-	//动画播放结束。
-	function msgOver() {
-		tranAni.value?.stop()
-		tranAni.value?.reset()
 
-	}
-	//显示
 	function show(argFs: config) {
+		if(showValue.value||!isNaN(uid)){
+			showValue.value = false;
+			clearTimeout(uid)
+			nextTick(()=>{
+				showAction(argFs)
+			})
+		}else{
+			showAction(argFs)
+		}
+	}
+	function showAction(argFs: config){
 		//显示所需要的参数
 		let arg = argFs || {};
 		let {
@@ -193,42 +202,72 @@
 		if (color_ref.value == 'white' || color_ref.value == "black") {
 			color_ref.value = ""
 		}
-
+		
 		dark_ref.value = dark;
 		if (typeof duration === 'undefined') {
 			duration = props.duration;
 		}
 		dur.value = isNaN(parseInt(String(duration))) ? 1500 : parseInt(String(duration));
-		reverse.value = false;
 		showValue.value = true;
-	}
-
-	function overlayOpen() {
-		reverse.value = false;
-		nextTick(() => {
-			tranAni.value?.stop()
-			tranAni.value?.reset()
-			tranAni.value?.play()
-			clearTimeout(uid.value)
-			uid.value = setTimeout(function() {
-				if (dur.value > 0 && model_ref.value != 'load') {
-					reverse.value = true;
-					showValue.value = false;
-					tranAni.value?.stop()
-					tranAni.value?.reset()
-					nextTick(() => {
-
-						tranAni.value?.play()
-					})
-				}
+		// #ifdef APP-NVUE
+		setTimeout(function() {
+			showNvueAniMation()
+		}, 50);
+		// #endif
+		if(model_ref.value !='load'){
+			uid = setTimeout(function() {
+				showValue.value = false;
+				uid = NaN
 			}, dur.value);
+		}
+		
+	}
+	
+	function showNvueAniMation(){
+		var el = proxy.$refs.nvueElAni;
+		var elContent = proxy.$refs.nvueElAniContent;
+		animation.transition(el, {
+			styles: {
+				backgroundColor:'rgba(0,0,0,0)',
+				transformOrigin: 'center center'
+			},
+			duration: 1, //ms
+			timingFunction: 'ease',
+			delay: 0//ms
+		},()=>{
+			animation.transition(el, {
+				styles: {
+					backgroundColor:'rgba(0,0,0,0.3)',
+					transformOrigin: 'center center'
+				},
+				duration: 220, //ms
+				timingFunction: 'ease',
+				delay: 0//ms
+			},()=>{
+				
+			})
+		})
+		animation.transition(elContent, {
+			styles: {
+				opacity:1,
+				transform:'scale(1,1)',
+				transformOrigin: 'center center'
+			},
+			duration: 220, //ms
+			timingFunction: 'ease',
+			delay: 0//ms
+		},()=>{
 		})
 	}
+
+
 
 
 	//隐藏
 	function hide() {
 		showValue.value = false;
+		uid = NaN
+		clearTimeout(uid)
 	}
 	defineExpose({
 		show: show,
@@ -236,4 +275,57 @@
 	})
 </script>
 
-<style></style>
+<style scoped>
+	.overflowMask{
+		position: fixed;
+		/* #ifndef APP-NVUE */
+		z-index:  1000 !important;
+		animation: aniover 0.5s;
+		background-color: rgba(0,0,0,0.3);
+		transition-duration: 0.5s;
+		transition-property: background,transform;
+		transition-timing-function: ease;
+		transition-delay: 0.3s;
+		/* #endif */
+		/* #ifdef APP-NVUE */
+		background-color: rgba(0,0,0,0);
+		/* #endif */
+	
+	}
+	.overflowMaskNo{
+		/* #ifndef APP-NVUE */
+		z-index:  1000 !important;
+		background-color: rgba(0,0,0,0);
+		/* #endif */
+	}
+	.nvueContent{
+		/* #ifdef APP-NVUE */
+		opacity: 0;
+		/* #endif */
+	}
+	.scale{
+		/* #ifndef APP-NVUE */
+		animation: aniscale 0.3s;
+		/* #endif */
+	}
+	/* #ifndef APP-NVUE */
+	@keyframes aniover {
+		0%{
+			background-color: rgba(0,0,0,0);
+		}
+		100%{
+			background-color: rgba(0,0,0,0.3);
+		}
+	}
+	@keyframes aniscale {
+		0%{
+			opacity: 0;
+			transform: scale(0.7,0.7);
+		}
+		100%{
+			opacity: 1;
+			transform: scale(1,1)
+		}
+	}
+	/* #endif */
+</style>

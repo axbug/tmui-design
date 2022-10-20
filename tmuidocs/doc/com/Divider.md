@@ -45,7 +45,7 @@ title: tmui 3.0 组件库
 
 
 ### :rose: 事件
-无
+click , 点击横线时触发。
 
 ### :corn: slot插槽
 无

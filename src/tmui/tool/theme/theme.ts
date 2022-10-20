@@ -9,30 +9,31 @@ import { colortool } from './colortool';
 import  { cssStyleConfig, cssstyle, colorThemeType, cssDirection, linearDirection, linearDeep, linearDirectionType } from '../lib/interface';
 //导入用户自定义的主题色值。
 import { theme } from '../../../theme/index';
+import { color } from 'echarts';
 var colors: Array<colorThemeType> = [];
 var colorObj: any = {
-	red: '#ff2414',
-	pink: '#ea2a6a',
-	purple: '#9C27B0',
-	'deep-purple': '#673AB7',
-	indigo: '#3F51B5',
-	blue: '#2196F3',
-	'light-blue': '#03A9F4',
-	cyan: '#00BCD4',
-	teal: '#009688',
-	green: '#4ec752',
-	'light-green': '#8BC34A',
-	lime: '#CDDC39',
-	yellow: '#ffe814',
-	amber: '#FFC107',
-	orange: '#ffa114',
-	'deep-orange': '#FF5722',
+	red: '#FE1C00',
+	pink: '#CA145D',
+	purple: '#A61BC3',
+	'deep-purple': '#6A0E81',
+	indigo: '#652DF4',
+	blue: '#0163FF',
+	'light-blue': '#0889FF',
+	cyan: '#11CDE8',
+	teal: '#00998a',
+	green: '#5DBD1F',
+	'light-green': '#83D54A',
+	lime: '#D4ED00',
+	yellow: '#FFC400',
+	amber: '#FFFB01',
+	orange: '#FEA600',
+	'deep-orange': '#FE5C00',
 	brown: '#795548',
 	'blue-grey': '#607D8B',
 	grey: '#9E9E9E',
 	black: '#000000',
 	white: '#FFFFFF',
-	primary: '#3B5CF0',
+	primary: '#0163FF',
 	'grey-5': '#fafafa',
 	'grey-4': '#f5f5f5',
 	'grey-3': '#eeeeee',
@@ -40,10 +41,10 @@ var colorObj: any = {
 	'grey-1': '#bdbdbd',
 	'grey-darken-1': '#757575',
 	'grey-darken-2': '#616161',
-	'grey-darken-3': '#424242',
-	'grey-darken-4': '#212121',
-	'grey-darken-5': '#131313',
-	'grey-darken-6': '#0a0a0a',
+	'grey-darken-3': '#404044',
+	'grey-darken-4': '#202022',
+	'grey-darken-5': '#111112',
+	'grey-darken-6': '#0A0A0B',
 	...theme
 };
 for (const key in colorObj) {
@@ -222,8 +223,8 @@ class themeColors {
 		css.backgroundColor = colortool.rgbaToCss(colortool.hslaToRgba({ ...bghsl }));
 
 		if (nowColor.hsla.h == 0 && nowColor.hsla.s == 0 && config.dark) {
-			css.backgroundColor = colortool.rgbaToCss(colortool.hslaToRgba({ ...bghsl, l: 8 }));
-			css.border = colortool.rgbaToCss(colortool.hslaToRgba({ ...borderhsl, l: 12 }));
+			css.backgroundColor = colortool.rgbaToCss(colortool.hslaToRgba({ ...bghsl,h:240,s:3, l: 8 }));
+			css.border = colortool.rgbaToCss(colortool.hslaToRgba({ ...borderhsl,h:240,s:3, l: 12 }));
 		}
 		if (nowColor.hsla.h == 0 && nowColor.hsla.s == 0 && !config.dark && nowColor.hsla.l == 100) {
 			css.border = colortool.rgbaToCss(colortool.hslaToRgba({ ...borderhsl, l: 90 }));
@@ -261,11 +262,11 @@ class themeColors {
 		//外边框轮廓时
 		//outlined
 		if (config.outlined) {
-			txcolor.l = 50;
+			txcolor.l = nowColor.hsla.l;
 			if (config.dark) {
 				txcolor.l = 55;
 			} else {
-				if (nowColor.hsla.h > 45 && nowColor.hsla.h < 90 && nowColor.hsla.h != 0 && nowColor.hsla.s != 0) {
+				if (nowColor.hsla.h != 0 && nowColor.hsla.s != 0 && !isDarkColorFun(nowColor.rgba.r,nowColor.rgba.g,nowColor.rgba.b)) {
 					txcolor.l = 20;
 				}
 			}
@@ -277,19 +278,17 @@ class themeColors {
 			let o_bgcss = colortool.rgbaToCss(colortool.hslaToRgba(n_hsl));
 			css.backgroundColor = o_bgcss;
 			css.backgroundColorCss = { 'background-color': o_bgcss }
-
 			css.textColor = colortool.rgbaToCss(colortool.hslaToRgba(txcolor));
-			css.border = css.textColor;
 		}
 
 		//text
 		if (config.text) {
-			txcolor.l = 90;
+			txcolor.l = nowColor.hsla.l;
 			if (isGrey) {
 				txcolor.l = 15;
 			} else {
-				txcolor.l = 55;
-				if (nowColor.hsla.h > 45 && nowColor.hsla.h < 90 && nowColor.hsla.h != 0 && nowColor.hsla.s != 0) {
+				// txcolor.l = 55;
+				if (nowColor.hsla.h != 0 && nowColor.hsla.s != 0 && !isDarkColorFun(nowColor.rgba.r,nowColor.rgba.g,nowColor.rgba.b)) {
 					txcolor.l = 20;
 				}
 
@@ -355,7 +354,16 @@ class themeColors {
 			let liner_color_1 = { h: 0, s: 0, l: 0, a: nowColor.hsla.a };
 			let liner_color_2 = { h: 0, s: 0, l: 0, a: nowColor.hsla.a };
 			let dir_str = linearDirection[config.linearDirection];
-
+			// 增减控制参数。
+			let addling = 0;
+			if(nowColor.hsla.h<180&&nowColor.hsla.h>0){
+				addling = 20
+			}else{
+				addling = -40
+			}
+			
+			
+			
 			//先计算渐变的亮色系。
 			// 先算白或者黑
 			// 如果是白
@@ -385,25 +393,29 @@ class themeColors {
 				liner_color_1.h = nowColor.hsla.h;
 				liner_color_1.s = nowColor.hsla.s;
 				if (config.linearDeep == 'light') {
-					liner_color_1.l = 70;
-					liner_color_1.s = 95;
-					liner_color_1.h -= 5;
-					liner_color_2.l = 45;
-					liner_color_2.s = 95;
-					liner_color_2.h += 5;
+					liner_color_1.h = liner_color_1.h;//色相需要往前偏移加强色系
+					liner_color_1.s = 100;//饱和度需要加强
+					liner_color_1.l = 78;
+					
+					
+					liner_color_2.l = nowColor.hsla.l;
 
 				} else if (config.linearDeep == 'dark') {
-					liner_color_1.l = 70;
-					liner_color_1.s = 50;
-					liner_color_2.l = 45;
-					liner_color_2.s = 100;
+					liner_color_1.h -= 0;
+					liner_color_1.s = 60;
+					liner_color_1.l = 50;
+					
+					liner_color_2.h -= addling;
+					liner_color_2.s = 60;
+					liner_color_2.l = 50;
 				} else if (config.linearDeep == 'accent') {
 					liner_color_1.h -= 0;//色相需要往前偏移加强色系
-					liner_color_1.s = 80;//饱和度需要加强
-					liner_color_1.l = 55;
-					liner_color_2.l = 65;
-					liner_color_2.h -= 35;//偏移30度的色相搭配色进行渐变
-					liner_color_2.s = 80;//饱和度需要加强
+					liner_color_1.s = 96;//饱和度需要加强
+					liner_color_1.l = 50;
+					
+					liner_color_2.h -= addling;//偏移30度的色相搭配色进行渐变
+					liner_color_2.s = 96;//饱和度需要加强
+					liner_color_2.l = 50;
 				}
 
 			}
@@ -437,8 +449,8 @@ class themeColors {
 		}
 
 		if (config.dark == true) {
-			css.cardcolor = 'rgba(26, 26,26, 1.0)'; //项目
-			css.inputcolor = 'rgba(31, 31,31, 1.0)';//输入框，表单等
+			css.cardcolor = '#0A0A0B'; //项目
+			css.inputcolor = '#111112';//输入框，表单等
 			css.bodycolor = 'rgba(5,5,5, 1.0)';//背景
 			css.disablecolor = 'rgba(30, 30, 30, 1.0)';//禁用的项目或者表单
 			css.textDisableColor = 'rgba(100, 100, 100, 1.0)';//文本禁用色.
@@ -446,18 +458,23 @@ class themeColors {
 
 		css.textColor = colortool.rgbaToCss(colortool.hslaToRgba(txcolor));
 		if (config.dark) {
-			if (nowColor.hsla.h != 0 && nowColor.hsla.s != 0) {
-				css.border = colortool.rgbaToCss(colortool.hslaToRgba({ ...nowColor.hsla, l: bghsl.l + 10 }));
-			}
+			
 			if (nowColor.hsla.h == 0 && nowColor.hsla.s == 0) {
 				css.border = colortool.rgbaToCss(colortool.hslaToRgba({ ...nowColor.hsla, l: 12 }));
+			}else{
+				css.border = colortool.rgbaToCss(colortool.hslaToRgba({ ...nowColor.hsla, l: bghsl.l + 10 }));
 			}
 		} else {
-			if (nowColor.hsla.h != 0 && nowColor.hsla.s != 0) {
-				css.border = colortool.rgbaToCss(colortool.hslaToRgba({ ...nowColor.hsla, l: bghsl.l - 10 }));
-			}
+
 			if (nowColor.hsla.h == 0 && nowColor.hsla.s == 0) {
 				css.border = colortool.rgbaToCss(colortool.hslaToRgba({ ...nowColor.hsla, l: 90 }));
+			}else{
+				//如果是正常的outlined使用深色的边线.如果是text就用浅色的边线.
+				if(config.text&&config.outlined){
+					css.border = colortool.rgbaToCss(colortool.hslaToRgba({ ...nowColor.hsla, l: 90}));
+				}else{
+					css.border = colortool.rgbaToCss(colortool.hslaToRgba({ ...nowColor.hsla, l: bghsl.l - 10 }));
+				}
 			}
 		}
 
@@ -485,8 +502,10 @@ class themeColors {
 		} else {
 			let str = '-' + config.borderDirection;
 			css.borderCss[`border${str}`] = `${config.borderWidth}rpx ${config.borderStyle} ${css.border}`;
+			
 
 		}
+		
 		return css;
 	}
 }

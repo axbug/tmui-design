@@ -17,10 +17,10 @@
                 <view v-if="propsDetail.search || propsDetail.searchLabel" class="px-9"></view>
                 <slot name="left"></slot>
                 <view v-if="propsDetail.prefix" class="pr-16">
-                    <tm-icon :font-size="propsDetail.fontSize" :name="propsDetail.prefix"></tm-icon>
+                    <tm-icon :font-size="propsDetail.fontSize" :color="props.prefixColor" :name="propsDetail.prefix"></tm-icon>
                 </view>
                 <view v-if="propsDetail.prefixLabel" class="pr-24">
-                    <tm-text :font-size="propsDetail.fontSize" :label="propsDetail.prefixLabel"></tm-text>
+                    <tm-text :font-size="propsDetail.fontSize" :color="props.prefixColor" :label="propsDetail.prefixLabel"></tm-text>
                 </view>
 
                 <view v-if="!isAndroid" @click.stop="inputClick($event,'ali')" class="flex-1 relative flex-row flex"
@@ -62,7 +62,7 @@
                                 'text-align': props.align,
                                 'fontSize': `${propsDetail.fontSize_px}px`
                             },
-                        ]" class="wrap flex-1 py-12"
+                        ]" class="wrap flex-1"
                         :placeholder-style="`fontSize:${propsDetail.fontSize_px}px`"></textarea>
                 </view>
                 <view v-if="isAndroid" class="flex-1 relative flex-row flex " :style="[{ width: '0px' }]">
@@ -106,7 +106,7 @@
                                 'text-align': props.align,
                                 'fontSize': `${propsDetail.fontSize_px}px`
                             },
-                        ]" class="wrap flex-1 py-10"
+                        ]" class="wrap flex-1"
                         :placeholder-style="`fontSize:${propsDetail.fontSize_px}px`"></textarea>
                 </view>
                 <view class="pl-16" v-if="propsDetail.showClear && _valueLenChar > 0">
@@ -117,12 +117,12 @@
                     <tm-icon :font-size="propsDetail.fontSize" name="tmicon-exclamation-circle"></tm-icon>
                 </view>
                 <view class="pl-16" v-if="propsDetail.suffix">
-                    <tm-icon :font-size="propsDetail.fontSize * 0.85" :name="propsDetail.suffix"></tm-icon>
+                    <tm-icon :font-size="propsDetail.fontSize * 0.85" :color="props.suffixColor" :name="propsDetail.suffix"></tm-icon>
                 </view>
 
 
                 <view v-if="propsDetail.suffixLabel" class="pl-16">
-                    <tm-text :font-size="propsDetail.fontSize" :label="propsDetail.suffixLabel"></tm-text>
+                    <tm-text :font-size="propsDetail.fontSize" :color="props.suffixColor" :label="propsDetail.suffixLabel"></tm-text>
                 </view>
 
 
@@ -189,6 +189,14 @@ const props = defineProps({
         type: String,
         default: 'grey-4'
     },
+	prefixColor:{
+		type: String,
+		default: ''
+	},
+	suffixColor:{
+		type: String,
+		default: ''
+	},
     //激活时的主题配色。
     focusColor: {
         type: String,
@@ -295,7 +303,7 @@ const props = defineProps({
     //对齐方式。
     //left,right,center
     align: {
-        type: String,
+        type: String as PropType<'left'|'right'|'center'>,
         default: 'left'
     },
     modelValue: {
@@ -316,7 +324,7 @@ const props = defineProps({
         default: -1
     },
     type: {
-        type: String,
+        type: String as PropType<'text'|'number'|'idcard'|'idcard'|'tel'|'safe-password'|'nickname'|'textarea'>,
         default: 'text'
     },
     cursorSpacing: {
@@ -324,7 +332,7 @@ const props = defineProps({
         default: 24
     },
     confirmType: {
-        type: String,
+        type: String as PropType<'send'|'search'|'next'|'go'|'done'>,
         default: 'done'
     },
     confirmHold: {
@@ -398,18 +406,18 @@ function debounce(func: Function, wait = 500, immediate = false) {
 	// 清除定时器
 	if (!isNaN(timerId)) clearTimeout(timerId);
 	// 立即执行，此类情况一般用不到
-
 	if (immediate) {
 		var callNow = !timerId;
 		timerId = setTimeout(() => {
 			timerId = NaN;
 		}, wait);
-
+		
 		if (callNow) typeof func === "function" && func();
 	} else {
 		// 设置定时器，当最后一次操作后，timeout不会再被清除，所以在延时wait毫秒后执行func回调方法
 		timerId = setTimeout(() => {
 			typeof func === "function" && func();
+			timerId = NaN;
 		}, wait);
 	}
 }
@@ -536,12 +544,18 @@ function inputHandler(e:CustomEvent) {
     return e.detail.value;
 }
 function inputClick(e:Event,type:string){
+	
 	e.stopPropagation()
+	
     if(type=='ali'){
-        debounce(()=>emits('click', e),500,true)
+		
+        debounce(()=>{
+			emits('click', e)
+		},200,true)
         return;
     }
-	debounce(()=>emits('click', e),500,true)
+	
+	debounce(()=>emits('click', e),200,true)
 }
 watch(_value,()=>debounce(pushFormItem,200))
 

@@ -27,6 +27,7 @@ const list = ref([
     { path: "/pages/other/scrollx", title: "横向滚动 Scrollx" },
     { path: "/pages/other/scrolly", title: "纵向滚动 Scrolly" },
     { path: "/pages/other/watermark", title: "水印 Watermark" },
+    { path: "/pages/other/html", title: "富文本解析 Html" },
 ])
 
 </script>

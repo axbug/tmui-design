@@ -35,7 +35,7 @@ title: tmui 3.0 组件库
 | defaultValue | `Array<String/Number/Date>` | [] | 默认值，数组 |
 | modelValue | `Array<String/Number/Date>` | [] | 绑定对象,同v-model |
 | modelStr | String | '' | 同v-model:model-str,单向绑定输出展示日期，此字段用来在页面上展示。只向外输出。|
-| model | String | day | 日期模式：day : 单个日期选择模式（可多选，需要设置multiple=true; week :按周选择模式。month :按月选择模式。year :按年选择模式。rang :按日期范围选择模式。  |
+| model | String | day | 日期模式：day : 单个日期选择模式（可多选，需要设置multiple=true; week :按周选择模式。month :按月选择模式。quarter：按季度选择。year :按年选择模式。rang :按日期范围选择模式。  |
 | color | String | primary | 主题色 |
 | linear | String | '' | 线性的 |
 | linearDeep | String | light | - |

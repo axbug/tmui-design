@@ -1,12 +1,13 @@
 <template>
-	<view class="relative">
+	<view class="relative overflow" :style="{height:_height}">
+		
+		<!-- (reFresh==2?-refreshJuli:_sc_top_height) -->
 		<view v-if="refreshType=='top'&&_openPull" 
-		:style="{top:0+'px',width:_width,height:(reFresh==2?-refreshJuli:_sc_top_height)+'px',opacity:_cOpacitye}" 
-		class="zIndex-17 overflow absolute l-0 flex flex-row flex-row-center-center contentOp content_opacity" :class="[reFresh==0?'content_height':'']">
+		:style="{top:-60+'px',width:_width,height:60+'px',transform:`translateY(${reFresh==2&&refreshType=='top'&&isUpToogle?60:_sc_top_height}px)`,opacity:_cOpacitye}" 
+		class="zIndex-17 overflow absolute l-0 flex flex-row flex-row-center-center contentOp content_opacity" :class="[(reFresh==0||reFresh==2)&&isUpToogle?'content_height':'']">
 			<view class=" contentxRotate" :class="[sc_top<=(refreshJuli)&&reFresh!=2?'contentxRotate_deg':'']">
-				<tm-icon v-if="reFresh!=2" name="tmicon-long-arrow-down"></tm-icon>
-				<!-- <tm-icon v-if="sc_top<=(refreshJuli)&&reFresh!=2" name="tmicon-long-arrow-up"></tm-icon> -->
-				<tm-icon  v-if="reFresh==2" spin color="keDuiColor" :font-size="42" name="tmicon-iosfootball"></tm-icon>
+				<tm-icon  v-if="reFresh!=2" name="tmicon-long-arrow-down"></tm-icon>
+				<tm-icon  v-if="reFresh==2" spin color="keDuiColor" :font-size="42" name="tmicon-loading"></tm-icon>
 			</view>
 			<view class="pl-32">
 				<tm-text  v-if="sc_top>(refreshJuli)" _class="text-align-center" label="下拉刷新"></tm-text>
@@ -24,7 +25,7 @@
 			
 			<!-- 底部触底刷新 -->
 			<view v-if="refreshType=='bottom'&&reFresh==2&&_openBootom" class="flex flex-row flex-row-center-center my-32">
-				<tm-icon  spin color="keDuiColor" :font-size="32" name="tmicon-iosfootball"></tm-icon>
+				<tm-icon  spin color="keDuiColor" :font-size="32" name="tmicon-loading"></tm-icon>
 				<tm-text  _class="text-align-center pl-24" label="加载更多"></tm-text>
 			</view>
 		</scroll-view>
@@ -32,9 +33,6 @@
 </template>
 
 <script lang="ts" setup>
-	/**
-	 * 纵向滚动条
-	 */
 	import {
 		ref,PropType,
 		computed,
@@ -94,7 +92,7 @@
 	//0未初始化/松手可能未被触发，没有达到刷新的条件（即被中止了），1下拉手势中还未放开手。2松开手触发下拉刷新，3复位刷新完成
 	type reFreshType = 0|1|2|3
 	const sc_top = ref(0)
-	const refreshJuli = -100;//达到120才能被刷新
+	const refreshJuli = -60;//达到120才能被刷新
 	const reFresh:Ref<reFreshType> = ref(0)
 	const isyesResh = ref(false) //是否达到了规定刷新条件。
 	const isUpToogle = ref(true) //手指是否放开。
@@ -103,11 +101,12 @@
 	//---------------
 	const _cOpacitye = computed(()=>{
 		let jl = Math.abs(reFresh.value==2?-refreshJuli:_sc_top_height.value)
-		return jl / 100
+		return jl / 60
 		
 	})
 	//=====
 	function onScroll(e:any){
+
 		if(e.detail.scrollTop>0||!_openPull) return
 		if(e.detail.scrollTop<0){
 			refreshType.value = 'top'
@@ -175,25 +174,29 @@
 
 <style scoped>
 .contentOp{
-	transition-duration: 0.5s;
-	transition-timing-function: ease;
+	transition-duration: 0.05s;
+	transition-timing-function: linear;
 	transition-delay: 0s;
 }
 .content_opacity{
 	transition-property: opacity;
 }
 .content_height{
-	transition-property: opacity , height;
+	transition-duration: 0.3s;
+	transition-property: opacity , height,transform ;
+}
+.content_height_transform{
+	transition-property: opacity , height,transform ;
 }
 .contentx{
-	transition-duration: 0.5s;
+	transition-duration: 0.1s;
 	transition-timing-function: ease;
 	transition-delay: 0s;
 	transform: translateY(0px);
 	transition-property: transform,top,opacity;
 }
 .contentxRotate{
-	transition-duration: 0.5s;
+	transition-duration: 0.6s;
 	transition-timing-function: ease;
 	transition-delay: 0s;
 	transform: rotate(0deg);

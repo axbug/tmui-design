@@ -4,7 +4,7 @@
   </view>
 </template>
 <script lang="ts" setup>
-import { computed , nextTick, provide ,ref ,watch ,getCurrentInstance,inject, toRaw, PropType } from 'vue';
+import { computed , nextTick, provide ,ref ,watch ,getCurrentInstance,inject, toRaw, PropType,reactive, Ref } from 'vue';
 import { inputPushItem, rulesItem } from "./../tm-form-item/interface"
 const emits = defineEmits(['update:modelValue','change'])
 const proxy = getCurrentInstance()?.proxy??null;
@@ -35,7 +35,7 @@ const props = defineProps({
         default:'row' //row横排，col为竖排。
     }
 })
-let _cacheBoxList:Array<string|number|boolean> = [];
+let _cacheBoxList:Ref<Array<string|number|boolean>> = ref([]);
 //去重
 const _mValue = ref([...new Set([...props.defaultValue,...props.modelValue])])
 const _align = computed(()=>{
@@ -55,19 +55,13 @@ const _align = computed(()=>{
 const checkBoxkeyId = 'tmCheckBoxGroup';
 watch(()=>props.modelValue,()=>{
     _mValue.value = props.modelValue;
+	
+	pushFormItem()
 },{deep:true})
 const _maxChecked = computed(()=>_mValue.value.length>=props.max??0)
 function pushKey(key:string|number|boolean){
-    _cacheBoxList.push(key);
+    _cacheBoxList.value.push(key);
 }
-nextTick(()=>{
-    //只取有用的交集数据，不在列表中的需要过滤掉。
-    let a = new Set(_mValue.value);
-    let b = new Set(_cacheBoxList);
-    const _filter_key = new Set([...b].filter(x=>a.has(x)))
-    _mValue.value = [..._filter_key];
-    emits('update:modelValue',_mValue.value)
-})
 function addKey(key:string|number|boolean){
     let seletedKeys = new Set(_mValue.value)
     seletedKeys.add(key)
@@ -77,12 +71,17 @@ function addKey(key:string|number|boolean){
 	pushFormItem()
 }
 function delKey(key:string|number|boolean){
-     let seletedKeys = new Set(_mValue.value)
+    let seletedKeys = new Set(_cacheBoxList.value)
     seletedKeys.delete(key)
-    _mValue.value=[...seletedKeys]
+	_cacheBoxList.value = [...seletedKeys]
+
+    let selectedValue = new Set(_mValue.value)
+    selectedValue.delete(key)
+	_mValue.value= [...selectedValue]
     emits('change',_mValue.value)
     emits('update:modelValue',_mValue.value)
 	pushFormItem()
+
 }
 /** -----------form专有------------ */
 const rulesObj = inject("tmFormItemRules",computed<Array<rulesItem>>(()=>{
@@ -180,7 +179,8 @@ pushFormItem()
 /** -----------end------------ */
 
 provide("tmCheckedBoxDisabled",computed(()=>props.disabled))
-provide("tmCheckedBoxVal",computed(()=>_mValue.value))
+provide("tmCheckedBoxVal",reactive(_mValue))
 provide("tmCheckedBoxMax",_maxChecked)
+provide("tmCheckedBoxListChildren",_cacheBoxList)
 defineExpose({pushKey:pushKey,addKey:addKey,delKey:delKey,checkBoxkeyId:checkBoxkeyId});
 </script>

@@ -25,7 +25,7 @@ title: tmui 3.0 组件库
 
 | APP-VUE            | APP-NVUE           | 小程序                | WEB/H5             | VUE3/TS            |
 |--------------------|--------------------|--------------------|--------------------|--------------------|
-| :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
+| :heavy_check_mark: | :x: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
 
 ### :seedling: 参数
 

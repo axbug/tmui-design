@@ -23,7 +23,14 @@ import tmSheet from "../tm-sheet/tm-sheet.vue"
  * @method validate 校验表单时触发
  * @method clearValidate 清除校验状态时触发。
  */
-const emits = defineEmits(["submit","reset","validate","clearValidate","update:modelValue"])
+const emits = defineEmits<{
+  (e: 'submit', event: {data:any,validate:boolean}): void
+  (e: 'reset'): void
+  (e: 'validate'): void
+  (e: 'clearValidate'): void
+  (e: 'update:modelValue', event: any): void
+}>()
+
 const props = defineProps({
     modelValue:{
         type:Object as PropType<Object>,
@@ -43,7 +50,7 @@ const props = defineProps({
     //表单标签是竖还是横排列。
     //vertical,horizontal
     layout:{
-        type:String,
+        type:String as PropType<'vertical'|'horizontal'>,
         default:"horizontal"
     },
     //如果为0表示自动宽度。
@@ -69,7 +76,10 @@ const props = defineProps({
 const _modelVal = ref({})
 //备份，重置时，使用。
 const _backModelVal = uni.$tm.u.deepClone(props.modelValue)
-watchEffect(()=>_modelVal.value = props.modelValue);
+watchEffect(()=>{
+	_modelVal.value = props.modelValue
+	
+});
 //收集的字段。状态。它与_modelVal是有区别的，用户提供的字段，不一定就会在页面中存在，需要与已经渲染的字段进行匹配
 const _callBackModelVal:Ref<Array<formItem>> = ref([])
 const tmFormComnameId = "tmFormId"
@@ -124,12 +134,13 @@ function submit(){
 			        break;
 			    }
 			}
-			let data = {..._modelVal.value};
-			 par.forEach(el=>{
-			   setObjectVal(data,el.field,el.value)
+			
+			let dataTest = {...toRaw(_modelVal.value)};
+			par.forEach(el=>{
+			   setObjectVal(dataTest,el.field,el.value)
 			})
 			//validate是否检验通过。
-			emits("submit",{data:data,validate:isPass})
+			emits("submit",{data:dataTest,validate:isPass})
 		},200,false)
     })
 }

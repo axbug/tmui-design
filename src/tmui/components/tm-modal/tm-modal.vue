@@ -236,10 +236,8 @@
 	let flag = false;
 	let timeid = uni.$tm.u.getUid(4)
 	const okLoading = ref(false);
-	let _show = ref(false);
-
+	let _show = ref(props.show);
 	let timerId = NaN;
-
 	function debounce(func: Function, wait = 500, immediate = false) {
 		// 清除定时器
 		if (!isNaN(timerId)) clearTimeout(timerId);
@@ -283,13 +281,6 @@
 		}
 	};
 
-
-
-
-
-	if (_show.value) {
-		reverse.value = false;
-	}
 	watch(() => props.show, (val) => {
 		if (val) {
 			open();

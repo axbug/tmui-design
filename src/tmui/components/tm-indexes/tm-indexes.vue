@@ -189,7 +189,11 @@
 		// },200)
 		
 	}
-	onMounted(()=>nvuegetClientRect())
+	onMounted(()=>{
+		nextTick(()=>{
+			nvuegetClientRect()
+		})
+	})
 	function nvuegetClientRect() {
 		// #ifdef APP-PLUS-NVUE
 		nextTick(function() {
@@ -289,7 +293,9 @@
 	}
 	
 	function touchStart(e:TouchEvent){
-		
+		if(winOffsetY.value==0){
+			nvuegetClientRect()
+		}
 	}
 	function touchMove(e:TouchEvent){
 		let pageY =isPc(e) ? e.pageY : e.touches[0].pageY

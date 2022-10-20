@@ -236,6 +236,9 @@
 			emits('change', p_current.value);
 		}
 	}
+	watch(()=>props.current,()=>{
+		p_current.value = props.current;
+	})
 	function pnbtn(type){
 		if(props.disabled) return;
 		if(type=='prev'){

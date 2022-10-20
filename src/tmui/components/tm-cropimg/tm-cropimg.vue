@@ -37,7 +37,7 @@
 			<!-- 	<view class="flex-center mb-24">
 				<tm-slider @change="scaleChange" :width="600" :max='3' :min='1'></tm-slider>
 			</view> -->
-			<view class="flex-row flex-between">
+			<view class="flex-row flex flex-row-center-between">
 				<!-- 翻转 -->
 				<!-- <view class="flex-1 flex flex-center">
 					<tm-text :userInteractionEnabled="false" color="white" label="旋转"></tm-text>
@@ -172,6 +172,9 @@
 	}
 
 	function touchMove(res: TouchEvent) {
+		if(!url.value) {
+			return;
+		}
 		let event = res.touches[0];
 		let event2 = res.touches[1];
 		if (res.type == 'mousedown') {
@@ -246,6 +249,9 @@
 	}
 
 	function touchEnd(res: Event) {
+		if(!url.value) {
+			return;
+		}
 		moveable.value = false;
 		scaleing.value = false;
 
@@ -280,7 +286,6 @@
 	}
 
 	function chooseImg() {
-		console.log(5)
 		uni.chooseImage({
 			count: 1,
 			success(res) {
@@ -380,6 +385,13 @@
 	}
 	
 	function pushImgToCanvas(){
+		if(!url.value) {
+			uni.showToast({
+				title:"未选择",
+				icon:"none"
+			})
+			return;
+		}
 		let dx = Math.abs(imgPos.value.x - rectPos.value.x)
 		let dy = Math.abs(imgPos.value.y - rectPos.value.y)
 		// #ifndef APP-NVUE

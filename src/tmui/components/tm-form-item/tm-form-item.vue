@@ -1,5 +1,5 @@
 <template>
-    <tm-sheet :transprent="tmFormTransprent" :margin="props.margin" :padding="props.padding"  >
+    <tm-sheet :transprent="props.transprent!==null?props.transprent:tmFormTransprent" :round="props.round" :margin="props.margin" :padding="props.padding"  >
         <view :class="['flex',tmFormLayout=='horizontal'?'flex-row flex-row-center-start':'flex-col']">
 			<view v-if="_label" :style="[{width:tmFormLabelWidth+'rpx'}]" class="mr-32 flex flex-row" 
             :class="[tmFormLabelAlign=='right'?'flex-row-center-end':'',tmFormLayout!='horizontal'?'mb-24':'']">
@@ -7,12 +7,13 @@
 				<tm-text :color="tmFormFun=='validate'&&item.isRequiredError==true&&props.requiredTitleChangeColor?'red':''" :font-size="30" :label="_label"></tm-text>
 			</view>
 			<view class="flex-1" :style="[tmFormLayout=='horizontal'?{width: '0px'}:'']">
-			    <view>
-					<slot></slot>
-				</view>
+			   <slot></slot>
 			</view>
 		</view>
-		<view class="pt-12" v-if="tmFormFun=='validate'&&item.isRequiredError==true&&props.showError">
+		<slot name="desc">
+			<tm-text :font-size="22" :label="props.desc"></tm-text>
+		</slot>
+		<view class="pb-24" v-if="tmFormFun=='validate'&&item.isRequiredError==true&&props.showError">
 			<tm-text color="red" :font-size="22" :label="item.message"></tm-text>
 		</view>
 		<view v-if="tmFormBorder">
@@ -39,6 +40,11 @@ const props = defineProps({
         type:String,
         default:""
     },
+	//表单描述
+	desc:{
+	    type:String,
+	    default:""
+	},
 	margin:{
 		type:Array as PropType<Array<number>>,
 		default:()=>[12,12]
@@ -83,8 +89,16 @@ const props = defineProps({
 	//校验不通过时，是否让标题跟着变化文字颜色，默认是。
 	requiredTitleChangeColor:{
 		type:Boolean,
-		default:true
-	}
+		default:false
+	},
+    transprent:{
+        type:[Boolean,String],
+        default:null
+    },
+    round:{
+        type:Number,
+        default:0
+    }
 	
 })
 const item:Ref<formItem> = ref({

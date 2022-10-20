@@ -22,7 +22,24 @@
 				<tm-checkbox color="pink" value="test" label="测试项"></tm-checkbox>
 				<tm-checkbox color="green" value="other" label="其它水果"></tm-checkbox>
 			</tm-checkbox-group>
+
         </tm-sheet>
+		
+		<tm-sheet>
+		    <tm-text :font-size="24" _class="font-weight-b" label="常规赋值测试3.2秒后观察自动选中结果"></tm-text>
+			<tm-divider></tm-divider>
+			<view class="pb-24">
+				<tm-text :label="str2"></tm-text>
+			</view>
+			
+			<tm-checkbox-group @change="boxlistchange" v-model="checkboxlist1">
+				<tm-checkbox 
+				v-for="(item,index) in listvalue" 
+				:key="index"  
+				:value="item.value" 
+				:label="item.label"></tm-checkbox>
+			</tm-checkbox-group>
+		 </tm-sheet>
 
 		<tm-sheet>
             <tm-text :font-size="24" _class="font-weight-b" label="一些样式属性"></tm-text>
@@ -47,7 +64,7 @@
     </tm-app>
 </template>
 <script lang="ts" setup>
-import { ref,computed } from "vue"
+import { ref,computed,nextTick } from "vue"
 import { onShow, onLoad } from "@dcloudio/uni-app";
 import tmApp from "@/tmui/components/tm-app/tm-app.vue"
 import tmSheet from "@/tmui/components/tm-sheet/tm-sheet.vue"
@@ -55,9 +72,17 @@ import tmText from "@/tmui/components/tm-text/tm-text.vue"
 import tmCheckbox from "@/tmui/components/tm-checkbox/tm-checkbox.vue"
 import tmCheckboxGroup from "@/tmui/components/tm-checkbox-group/tm-checkbox-group.vue"
 import tmDivider from "@/tmui/components/tm-divider/tm-divider.vue"
+const listvalue = ref([
+	{label:'香蕉',value:'banner'},
+	{label:'数字1',value:2},
+	{label:'数字2',value:8},
+	{label:'其它',value:'other'},
+])
+const checkboxlist1 = ref(['banner'])
 
 const checkboxlist = ref(['banner'])
 const str = computed(()=>checkboxlist.value.join(" "))
+const str2 = computed(()=>checkboxlist1.value.join(","))
 const banxuan = ref(true)
 const allCheckbox = ref(false)
 function allChange(e:boolean){
@@ -65,7 +90,7 @@ function allChange(e:boolean){
 		checkboxlist.value=[]
 		banxuan.value=false;
 	}else if(e==true){
-		checkboxlist.value=["banner","apple","test","other"]
+		checkboxlist.value=['apple','banner','test','other']
 		banxuan.value=false;
 	}
 }
@@ -89,4 +114,19 @@ function beforChecked(){
 		}, 1000);
 	})
 }
+checkboxlist1.value = [3,4]
+setTimeout(function() {
+	
+	listvalue.value = [
+		{label:'香蕉2',value:3},
+		{label:'其它3',value:'other'},
+		{label:'其它34',value:4},
+	]
+
+	
+}, 3200);
+
+	// console.log(uni.getSystemInfoSync())
+	
+	
 </script>

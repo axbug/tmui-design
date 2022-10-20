@@ -33,6 +33,8 @@ title: tmui 3.0 组件库
 | :--: | :--: | :--: | :-- |
 | followTheme | [Boolean,String] | true | 跟随系统主题 |
 | color | String | grey-4 | 颜色 |
+| prefixColor | String | '' | 应用于前缀图标及标题色 |
+| suffixColor | String | '' | 应用于后缀图标及标题色 |
 | focusColor | String | primary | 激活时的主题配色。 |
 | fontColor | String | '' | 默认使用自动配色 |
 | text | Boolean | true | 文本 |

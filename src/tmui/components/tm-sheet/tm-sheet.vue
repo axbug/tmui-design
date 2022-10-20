@@ -5,7 +5,7 @@
  * @Description: 文件
 -->
 <template>
-  <view :render-whole="true" v-if="_blue_sheet" :blurEffect="_blurEffect" @click="emits('click', $event)"
+  <view :hover-class="props.url?'opacity-7':''" :render-whole="true" v-if="_blue_sheet" :blurEffect="_blurEffect" @click="onClick"
     @longpress="longpress" @touchend="touchend" @touchstart="touchstart" @touchcancel="touchcancel"
     @mousedown="mousedown" @mouseup="mouseup" @mouseleave="mouseleave" :class="[
       'flex flex-col noNvueBorder', parenClass_p,
@@ -112,6 +112,10 @@ const props = defineProps({
   blur: {
     type: Boolean,
     default: false
+  },
+  url:{
+    type:String,
+    default:""
   }
 });
 const emits = defineEmits(["click", "longpress", "touchend", "touchstart", "touchcancel", "mousedown", "mouseup", "mouseleave"]);
@@ -215,6 +219,17 @@ function mouseleave(e: Event) {
   emits('mouseleave', e)
 }
 
+function onClick(e:Event){
+  emits('click', e)
+  if(typeof props.url === 'string' && props.url){
+    uni.navigateTo({
+      url:props.url,
+      fail(result) {
+          console.log(result)
+      },
+    })
+  }
+}
 
 const c_w = computed(() => {
   let w = parseFloat(String(_width.value)) - parseFloat(String(props.padding[0]));

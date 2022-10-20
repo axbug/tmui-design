@@ -1,5 +1,5 @@
 <template>
-	<view v-if="showDom" :class="['fixed ']"
+	<view v-if="showDom" :class="['fixed scale']"
 	:style="[
 		pos.left!==null?{left:pos.left+'px'}:'',
 		pos.right!==null?{right:pos.right+'px'}:'',
@@ -7,52 +7,45 @@
 		pos.bottom!==null?{bottom:pos.bottom+'px'}:'',
 		pos.width!==null?{width:pos.width+'px'}:'',
 		props.shadow?{padding:(props.shadow*4)+'rpx'}:'',
-		{zIndex:500}
+		
 	]"
 	>
-		<tm-translate
-		ref="tranmatioan"
-		:autoPlay="false"
-		:name="tranName"
-		@end="endAnimation"
-		:reverse="reverse"
-		 >
-			<tm-sheet
-			@click="emits('click', $event)"
-			:color="props.color"
-			:_class="_class"
-			:_style="_style"
-			:followTheme="props.followTheme"
-			:dark="props.dark"
-			:round="props.round"
-			:shadow="props.shadow"
-			:outlined="props.outlined"
-			:border="props.border"
-			:borderStyle="props.borderStyle"
-			:borderDirection="props.borderDirection"
-			:text="props.text"
-			:transprent="props.transprent"
-			:linear="props.linear"
-			:linearDeep="props.linearDeep"
-			:margin="props.margin"
-			:padding="props.padding"
-			>
-			<slot>
-				<view class="flex flex-row flex-row-center-between  relative ">
-					
-					<view class="flex flex-1 flex-row overflow flex-row-center-start" >
-						<tm-icon _class="pr-10" :fontSize="26" :name="icon_str"></tm-icon>
-						<slot>
-							<tm-text _class="text-overflow-1" :label="label_str"></tm-text>
-						</slot>
-					</view>
-					<view class="pl-24 pr-12 flex flex-center" style="width:0rpx">
-						<tm-icon @click="hide" :fontSize="24" name="tmicon-times"></tm-icon>
-					</view>
+		<tm-sheet
+		@click="emits('click', $event)"
+		:color="props.color"
+		:_class="_class"
+		:_style="_style"
+		:followTheme="props.followTheme"
+		:dark="props.dark"
+		:round="props.round"
+		:shadow="props.shadow"
+		:outlined="props.outlined"
+		:border="props.border"
+		:borderStyle="props.borderStyle"
+		:borderDirection="props.borderDirection"
+		:text="props.text"
+		:transprent="props.transprent"
+		:linear="props.linear"
+		:linearDeep="props.linearDeep"
+		:margin="props.margin"
+		:padding="props.padding"
+		>
+		<slot>
+			<view class="flex flex-row flex-row-center-between  relative ">
+				
+				<view class="flex flex-1 flex-row overflow flex-row-center-start" >
+					<tm-icon _class="pr-10" :fontSize="26" :name="icon_str"></tm-icon>
+					<slot>
+						<tm-text _class="text-overflow-1" :label="label_str"></tm-text>
+					</slot>
 				</view>
-			</slot>
-			</tm-sheet>
-		</tm-translate>
+				<view class="pl-24 pr-12 flex flex-center" style="width:0rpx">
+					<tm-icon @click="hide" :fontSize="24" name="tmicon-times"></tm-icon>
+				</view>
+			</view>
+		</slot>
+		</tm-sheet>
+
 	</view>
 	
 		
@@ -135,46 +128,10 @@ import { showOpts } from "./interface";
 	let windowBottom = computed(()=>sysinfo.value.bottom);
 	let windowTop = computed(()=>sysinfo.value.top);
 	let windowWidth = computed(()=>sysinfo.value.width);
-	const timeid = ref(uni.$tm.u.getUid(5))
-	const iconProxy = ref('')
-	const labelProxy = ref('')
-	const isEnd = ref(true)
+	let uid:number = NaN
 	const showDom = ref(false)
-	const handleClose = ref(false) //是否是手动关闭。
-	const label_str = computed({
-			get:()=>labelProxy.value,
-			set:(val)=>{
-				labelProxy.value = val;
-				if(props.label!==""){
-					showDom.value = true;
-				}
-				nextTick(function(){
-					if(tranmatioan.value){
-						tranmatioan.value?.play();
-					}
-				})
-			}
-		})
-	const icon_str = computed({
-		get:()=>iconProxy.value,
-		set:(val)=>{
-			iconProxy.value = val;
-			if(props.label!==""){
-				showDom.value = true;
-			}
-			nextTick(function(){
-				if(tranmatioan.value){
-					tranmatioan.value?.play();
-				}
-			})
-		}
-	})
-	const tranName = computed(()=>{
-		if(props.placement=="topLeft"||props.placement=="bottomLeft") return "left"
-		if(props.placement=="topRight"||props.placement=="bottomRight") return "right"
-		if(props.placement=="top") return "up"
-		if(props.placement=="bottom") return "down"
-	})
+	const label_str = ref(props.label)
+	const icon_str = ref(props.icon)
 	const pos = computed(()=>{
 		if(props.placement == 'topLeft'){
 			return {
@@ -238,51 +195,44 @@ import { showOpts } from "./interface";
 			top:null,
 		}
 	})
-	const reverse = ref(true)
+
 	onMounted(()=>{
 		label_str.value = props.label;
 		icon_str.value = props.icon;
 	})
-	function endAnimation(){
-		clearTimeout(timeid.value)
-		if(props.duration==0&&!handleClose.value) return;
-		timeid.value = setTimeout(function(){
-			showDom.value = false;
-			reverse.value=true;
-			isEnd.value = true
-			emits('close')
-		},props.duration)
-	}
+	onUnmounted(()=>{
+		clearTimeout(uid)
+	})
 	//手动显示
 	function show(arg:showOpts){
-		if(!isEnd.value) return
-		let {icon,label} = arg||{};
-		if(!icon&&!label){
-			showDom.value = true;
-			reverse.value=true;
-			handleClose.value=false;
-			nextTick(function(){
-				if(tranmatioan.value){
-					tranmatioan.value?.play();
-				}
+		let {icon,label,duration} = arg||{};
+		label_str.value =label||props.label||"";
+		icon_str.value = icon||props.icon||"";
+		duration = typeof duration==='undefined'?(props.duration||0):duration
+		
+		if(showDom.value||!isNaN(uid)){
+			showDom.value = false;
+			clearTimeout(uid)
+			nextTick(()=>{
+				showDom.value = true;
+				if(!duration) return;
+				uid = setTimeout(function() {
+					showDom.value = false;
+				}, duration);
 			})
-			return;
+		}else{
+			showDom.value = true;
+			if(!duration) return;
+			uid = setTimeout(function() {
+				showDom.value = false;
+			}, duration);
 		}
-		label_str.value = label ||"";
-		icon_str.value = icon ||"";
 		
 	}
 	//手动隐藏。
 	function hide(){
-		if(!isEnd.value) return
-		reverse.value=false;
-		handleClose.value = true;
-		if(tranmatioan.value){
-			nextTick(()=>tranmatioan.value?.play())
-		}else{
-			showDom.value = false;
-			reverse.value=true;
-		}
+		showDom.value = false;
+		clearTimeout(uid)
 		emits('close')
 	}
 	
@@ -290,6 +240,23 @@ import { showOpts } from "./interface";
 	
 </script>
 
-<style>
-
+<style scoped>
+	.scale{
+		/* #ifndef APP-NVUE */
+		animation: aniscale 0.3s;
+		z-index: 500 !important;
+		/* #endif */
+	}
+	/* #ifndef APP-NVUE */
+	@keyframes aniscale {
+		0%{
+			opacity: 0;
+			transform: scale(0.7,0.7);
+		}
+		100%{
+			opacity: 1;
+			transform: scale(1,1)
+		}
+	}
+	/* #endif */
 </style>

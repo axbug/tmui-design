@@ -1,9 +1,9 @@
 <template>
-	<view class="flex relative flex-row flex-row-start-center px-24" 
-	:class="[props.direction=='horizontal'?'flex-row':'']"
+	<view class="flex relative" 
+	:class="[props.direction=='horizontal'?'flex-row flex-row-center-center' :'']"
+	ref="contentbody"
 	>
 		<slot name="default"></slot>
-		<view style="clear:both;" :style="[{height:contentHeight+'rpx'}]"></view>
 	</view>
 </template>
 <script lang="ts" setup>
@@ -11,14 +11,17 @@
  * 步骤条
  * @description 步骤条，可以方便的预览逻辑，事务条理。需要配合tm-steps-item组件，必须放置tm-steps-item组件才能使用。
  */
-import { computed,provide,ref ,onBeforeMount, watch } from "vue"
+import { computed,provide,ref ,getCurrentInstance, watch,onUpdated,onMounted ,nextTick, PropType} from "vue"
+// #ifdef APP-PLUS-NVUE
+const dom = uni.requireNativePlugin('dom')
+// #endif
 const props = defineProps({
 	/**
 	 * 步骤条显示的方向。
 	 * horizontal|vertical
 	 */
 	direction:{
-		type:String,
+		type:String as PropType<"horizontal"|"vertical">,
 		default:"horizontal"
 	},
 	//当前的步骤。可使用v-model:current
@@ -36,7 +39,7 @@ const props = defineProps({
 	 * 'wait' | 'process' | 'finish' | 'error'
 	 */
 	status:{
-		type:String,
+		type:String as PropType<'wait' | 'process' | 'finish' | 'error'>,
 		default:""
 	},
 	//是否显示连线。
@@ -56,11 +59,7 @@ const props = defineProps({
 		type:[Function,Boolean],
 		default:()=>false
 	},
-	//这是内容撑开，如果不设置将无法清除浮动，造成底部内容往推。因为在mp小程序中无法自定组件本身使用flex布局。除nvue其它端统一设置高度。
-	contentHeight:{
-		type:Number,
-		default:160
-	},
+
 	//这里提供，如果子组件tm-steps-item没有提供使用此值。如果子组件提供了，不会使用这里的参数。
 	//未激活时的主题色
 	color:{
@@ -86,13 +85,10 @@ const props = defineProps({
  * step-click 当点击步骤时触发。
  */
 const emits = defineEmits(['change','update:current','step-click'])
+const proxy = getCurrentInstance()?.proxy??null;
 const _current = ref(props.defaultCurrent??-1);
-provide("tmStepsCureent",computed(()=>_current.value));
 const _countCurrent = ref(-1);
-provide("tmStepsCountCureent",computed(()=>_countCurrent.value))
-provide("tmStepsCountActiveColor",computed(()=>props.activeColor))
-provide("tmStepsCountColor",computed(()=>props.color))
-
+const _width = ref(0)
 
 
 const compoenentName = "tmSteps"
@@ -113,6 +109,36 @@ function steplick(index:number){
 	emits('step-click',index)
 	emits('update:current',_current.value)
 }
+
+onUpdated(() => {
+    // #ifdef APP-PLUS-NVUE
+    nvuegetClientRect();
+    // #endif
+})
+onMounted(() => {
+	// #ifdef APP-PLUS-NVUE
+    nvuegetClientRect();
+	// #endif
+})
+function nvuegetClientRect() {
+	 
+    nextTick(function () {
+        dom.getComponentRect(proxy?.$refs.contentbody, function (res:any) {
+            if (res?.size) {
+                _width.value = res.size.width
+            }else{
+				nvuegetClientRect()
+			}
+        })
+    })
+	
+}
+
+provide("tmStepsCureent",computed(()=>_current.value));
+provide("tmStepsCountCureent",computed(()=>_countCurrent.value))
+provide("tmStepsCountActiveColor",computed(()=>props.activeColor))
+provide("tmStepsCountColor",computed(()=>props.color))
+provide("tmStepsWidth",computed(()=>_width.value))
 
 defineExpose({pushKey,compoenentName,steplick})
 </script>

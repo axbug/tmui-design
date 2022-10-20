@@ -70,6 +70,7 @@ title: tmui 3.0 组件库
 | 参数名 | 类型 | 默认值 | 描述 |
 | :--: | :--: | :--: | :-- |
 | label | String | '' | 显示名称 |
+| desc | String | '' | 底部表单说明文字 |
 | margin | `Array<number>` | [12,12] | 外间距[x,y]x=左右，y=上下 |
 | padding | `<Array<number>` | [0,0] | 内间距[x,y]x=左右，y=上下 |
 | field | String | '' | 如果在forom绑定的model为深层对象，这里的名称需要如下:比如model = {a:2,b:{c:333}}，如果想绑定c,则field = "b.c" |
@@ -90,6 +91,9 @@ export interface rulesItem {
     message?:string,//检验不合格时的文本
 }
 ```
+### :corn: FormItem slot插槽
+默认default<br>
+插槽:desc,表单底部的说明文字
 
 ### :couplekiss: 文档贡献
 此页文档由[Sunlight](https://gitee.com/rzg)贡献，如果对该框架感兴趣的可以参与我们一同进步！

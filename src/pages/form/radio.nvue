@@ -50,6 +50,7 @@ import tmDivider from "@/tmui/components/tm-divider/tm-divider.vue"
 import tmRadio from "@/tmui/components/tm-radio/tm-radio.vue"
 import tmRadioGroup from "@/tmui/components/tm-radio-group/tm-radio-group.vue"
 const radio = ref(null)
+
 const radiolist = ref('banner')
 const str = computed(()=>radiolist.value)
 function beforChecked(){
@@ -59,4 +60,8 @@ function beforChecked(){
 		}, 1000);
 	})
 }
+
+
+
+
 </script>

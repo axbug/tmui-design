@@ -13,14 +13,12 @@
 				</tm-translate>
 				<tm-text v-if="!_is_radio" :font-size="props.fontSize" :label="props.label"></tm-text>
 			</tm-sheet>
-			<view :userInteractionEnabled="false">
-				<slot>
-					<view class="flex-1 flex-row flex-row-cneter-cneter" style="flex-wrap:wrap;">
-						<tm-text class="flex-1 flex-wrap"  v-if="_is_radio"
-							:font-size="props.fontSize" :label="props.label"></tm-text>
-					</view>
-				</slot>
-			</view>
+			<slot>
+				<view :userInteractionEnabled="false" class="flex-1 flex-row flex-row-cneter-cneter" style="flex-wrap:wrap;">
+					<tm-text class="flex-1 flex-wrap"  v-if="_is_radio"
+						:font-size="props.fontSize" :label="props.label"></tm-text>
+				</view>
+			</slot>
 			
 		</view>
 	</view>
@@ -169,10 +167,9 @@
 		emits('update:modelValue', props.value)
 		emits('change', _checked.value)
 	}
-	watch([() => props.modelValue, _groupCheckedVal], () => {
-		_checked.value = vailChecked()
-		
-	})
+	watch([()=>props.modelValue,()=>props.value,()=>_groupCheckedVal.value],()=>{
+	    _checked.value = vailChecked()
+	},{deep:true})
 	const _blackValue = _groupCheckedVal.value
 	
 	//父级方法。

@@ -9,7 +9,8 @@
                 <tm-button :margin="[10, 10]" :shadow="0" text size="normal" label="normal"></tm-button>
                 <tm-button :margin="[10, 10]" :shadow="0" text :border="2" borderStyle="dashed" size="large" label="large">
                 </tm-button>
-                <tm-button :margin="[10, 10]" :shadow="0" outlined size="normal" label="normal"></tm-button>
+				<tm-button :margin="[10, 10]" :shadow="0" text size="normal" outlined label="浅边框"></tm-button>
+                <tm-button :margin="[10, 10]" :shadow="0" outlined size="normal" label="深边框"></tm-button>
                 <tm-button :margin="[10, 10]" transprent text :shadow="0" size="normal" label="透明背景"></tm-button>
             </view>
             <tm-button block label="block"></tm-button>

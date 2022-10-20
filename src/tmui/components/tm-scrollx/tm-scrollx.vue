@@ -1,5 +1,5 @@
 <template>
-	<view class="relative flex" :style="{width:props.width+'rpx',height:(props.height+32)+'rpx'}">
+	<view class="relative flex" :style="{width:props.width+'rpx',height:(props.height+(_showBar?32:0))+'rpx'}">
 		<!-- #ifdef APP-NVUE -->
 		<scroll-view @scroll="onScroll" :show-scrollbar="false" :scroll-x="true" class="flex flex-row flex-nowrap nowrap" :style="{width:props.width+'rpx',height:props.height+'rpx'}">
 			<slot name="default"></slot>

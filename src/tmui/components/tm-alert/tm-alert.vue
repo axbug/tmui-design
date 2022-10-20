@@ -79,13 +79,15 @@
             </tm-translate>
           </view>
         </view>
-        <view v-if="closable" class="flex flex-row flex-row-top-end">
-          <tm-icon
-            @click="close"
-            :fontSize="32"
-            name="tmicon-times-circle-fill"
-          ></tm-icon>
-        </view>
+       <slot name="right">
+          <view v-if="closable" class="flex flex-row flex-row-top-end">
+            <tm-icon
+              @click="close"
+              :fontSize="32"
+              name="tmicon-times-circle-fill"
+            ></tm-icon>
+          </view>
+       </slot>
         
       </view>
     </tm-sheet>

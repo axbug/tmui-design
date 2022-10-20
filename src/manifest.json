@@ -1,8 +1,8 @@
 {
     "name" : "tmui3.0",
-    "appid" : "",
+    "appid" : "__UNI__F097BC1",
     "description" : "tmui3.0新一代组件库，拥抱vue3,pinia,tmui3.0 demo展示应用",
-    "versionName" : "3.0.84",
+    "versionName" : "3.0.85",
     "versionCode" : "100",
     "transformPx" : false,
     /* 5+App特有相关 */

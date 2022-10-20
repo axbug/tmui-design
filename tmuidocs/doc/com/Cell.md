@@ -39,6 +39,7 @@ title: tmui 3.0 组件库
 | transprent | [Boolean,String] | false | 是否透明 |
 | color | String | "white" | 单元格背景色 |
 | title | String | "", | 标题 |
+| titleColor | String | "", | 默认为空，采用自动配色（根据主题） |
 | titleFontSize | [Number,String] | 28 | 标题字体大小 |
 | label | String | "" | 标题下方的描述 |
 | labelColor | String | "grey" | 标题下方文字的颜色 |
@@ -55,6 +56,7 @@ title: tmui 3.0 组件库
 | borderDirection | [String as cssDirection ] | bottom | 边线方向 |
 | bottomBorder | [Boolean] | false | 是否显示下边线 |
 | url | String | "" | 当有链接地址时，将打开链接 |
+| darkBgColor | String | '' | 有时自动的背景，可能不是你想要暗黑背景，此时可以使用此参数，强制使用背景色 |
 
 ### :rose: 事件
 | 事件名 | 参数 | 返回数据 | 描述 |

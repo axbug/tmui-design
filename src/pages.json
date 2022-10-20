@@ -37,7 +37,6 @@
        
     ],
 	"subPackages": [
-
 		{
 			"root": "pages/yewu",
 			"pages": [
@@ -137,6 +136,15 @@
                 }
                 ,{
                     "path" : "scrolly",
+                    "style" :                                                                                    
+                {
+                    "navigationBarTitleText": "",
+                    "enablePullDownRefresh": false
+                }
+                
+                }
+                ,{
+                    "path" : "html",
                     "style" :                                                                                    
                 {
                     "navigationBarTitleText": "",

@@ -17,7 +17,7 @@ title: tmui 3.0 组件库
 
 ::: details 示例代码
 
-@[code vue](pages/other/scrollx.nvue)
+@[code vue](pages/other/scrolly.nvue)
 
 :::
 

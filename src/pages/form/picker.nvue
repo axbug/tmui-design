@@ -7,9 +7,10 @@
 		</tm-sheet>
 		<tm-cell @click="showdate = true" title="请选择水果种类" :right-text="dateStr || '请选择'"></tm-cell>
 		<tm-cell @click="showdateq = true" title="这里联动上边" :right-text="dateStr2 || '请选择'"></tm-cell>
-		<tm-picker :defaultValue="[1,1]" @confirm="pickok" v-model:show="showdate" :columns="citydate3" v-model="pickydata" v-model:model-str="dateStr">
+		<tm-picker :defaultValue="pickydata" @confirm="pickok" v-model:show="showdate" :columns="citydate3" v-model="pickydata" v-model:model-str="dateStr">
 		</tm-picker>
-		<tm-picker :defaultValue="[0,0]" v-model:show="showdateq" :columns="citydate3" v-model="pickydata2" v-model:model-str="dateStr2">
+		
+		<tm-picker  v-model:show="showdateq" :columns="citydate3" v-model="pickydata2" v-model:model-str="dateStr2">
 		</tm-picker>
 		<tm-sheet>
 			<tm-text :font-size="24" _class="font-weight-b" label="多级联动,更多属性请自行看文档"></tm-text>
@@ -32,7 +33,7 @@ import tmPicker from "@/tmui/components/tm-picker/tm-picker.vue"
 import tmCell from "@/tmui/components/tm-cell/tm-cell.vue"
 const dateStr = ref('')
 const dateStr2 = ref('')
-const pickydata = ref([])
+const pickydata = ref([1,1])
 const pickydata2 = ref([])
 const citydate = ref([
 	{ text: "苹果", id: 0 }, { text: "香蕉", id: 1 }, { text: "其它水果", id: 2 }, { text: "越南水果", id: 4 }
@@ -53,7 +54,6 @@ const showdateq = ref(false)
 function pickok(){
 	nextTick(()=>{
 		pickydata2.value=[]
-		dateStr2.value = ""
 	})
 }
 </script>

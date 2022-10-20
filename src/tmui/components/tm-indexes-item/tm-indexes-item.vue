@@ -87,7 +87,6 @@ function getRect(){
 		.boundingClientRect()
 		.exec(ret => {
 			_itemHeight = ret[0].height;
-			console.log(_itemHeight)
 			parent.pushKey(ret[0].height,readId,String(_title.value),String(_navTitle.value))
 		})
 	// #endif

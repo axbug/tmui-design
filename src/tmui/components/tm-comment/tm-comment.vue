@@ -25,7 +25,7 @@
 			</view>
 			<view class="flex  flex-9 flex-col wh5">
 				<view class=" flex flex-row  " :class="[_align.time]">
-					<slot name="author"><tm-text @click="emits('author-click',$event)" :followTheme="props.followTheme" :dark="props.dark" :followDark="props.followDark" :color="ctl.authorColor" :fontSize="26" :label="ctl.author"></tm-text></slot>
+					<slot name="author"><tm-text @click="emits('author-click',$event)" :followTheme="props.followTheme" :dark="props.dark" :followDark="props.followDark" :color="ctl.authorColor" :fontSize="ctl.authorFontSize" :label="ctl.author"></tm-text></slot>
 					<slot name="time"><tm-text @click="emits('time-click',$event)" v-if="_time" :followTheme="props.followTheme" :dark="props.dark" :followDark="props.followDark" _class="pl-24 opacity-5" :fontSize="22" :label="_time"></tm-text></slot>
 				</view>
 				<view class="flex flex-col  py-12" >
@@ -119,6 +119,10 @@
 			type:String,
 			default:"primary"
 		},
+		authorFontSize:{
+			type:Number,
+			default:26
+		},
 		avatar:{
 			type:String,
 			default:""
@@ -162,6 +166,7 @@
 			author:props.author,
 			authorColor:props.authorColor,
 			avatar:props.avatar,
+			authorFontSize:props.authorFontSize,
 			borderBottom:props.borderBottom
 		}
 	})

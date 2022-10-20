@@ -1,6 +1,6 @@
 <template>
   <view class="relative overflow">
-    <tm-sheet @click="cellClick" :color="props.color" :followTheme="props.followTheme" :dark="props.dark"
+    <tm-sheet :darkBgColor="props.darkBgColor" @click="cellClick" :color="props.color" :followTheme="props.followTheme" :dark="props.dark"
       :followDark="props.followDark" :round="props.round" :shadow="props.shadow" :outlined="props.outlined"
       :border="props.border" :borderStyle="props.borderStyle" :borderDirection="props.borderDirection"
       :text="props.text" :transprent="props.transprent" :linear="props.linear" :linearDeep="props.linearDeep"
@@ -25,7 +25,7 @@
 			<view >
 			  <view class="flex flex-5 flex-col" :class="[_computedValue.showAvatar ? 'pl-24' : '']">
 			    <slot name="title">
-			      <tm-text :fontSize="_computedValue.titleFontSize" :label="_computedValue.title"></tm-text>
+			      <tm-text :color="_computedValue.titleColor" :fontSize="_computedValue.titleFontSize" :label="_computedValue.title"></tm-text>
 			    </slot>
 			    <slot name="label">
 			      <view v-if="_computedValue.label" class="mt-6">
@@ -133,6 +133,10 @@ const props = defineProps({
     type: [Number],
     default: 28,
   },
+  titleColor: {
+    type: String,
+    default: "",
+  },
   //标题下方的介绍
   label: {
     type: String,
@@ -200,6 +204,13 @@ const props = defineProps({
   url: {
     type: String,
     default: "",
+  },
+  //暗下强制的背景色，
+  //有时自动的背景，可能不是你想要暗黑背景，此时可以使用此参数，强制使用背景色，
+  //只能是颜色值。
+  darkBgColor: {
+    type: String,
+    default: ''
   },
 });
 function cellClick(e:any) {

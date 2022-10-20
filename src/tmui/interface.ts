@@ -29,7 +29,10 @@ type pagesType = {
     //页面地址
     path: string,
     //导航栏模式
-    custom: pagesCustomType
+    custom: pagesCustomType,
+    navigationBarBackgroundColor:string,
+    navigationBarTextStyle:string,
+    subPackages?:Array<any>
 }
 type tabBarItemType = {
     "pagePath": string,

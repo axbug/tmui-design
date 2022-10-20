@@ -21,8 +21,9 @@
 					suffix="tmicon-angle-right" placeholder="请选择时间" disabled :transprent="true"
 					:showBottomBotder="false"></tm-input>
 			</tm-form-item>
-			<tm-form-item required label="弹出选择" field="time" :rules="[{required:true,message:'请选择水果种类'}]">
-				<tm-input :inputPadding="[0,0]" :model-value.sync="show.pickerStr" @click="showPicker=!showPicker"
+			
+			<tm-form-item required label="弹出选择" field="pickerStr" :rules="[{required:true,message:'请选择水果种类'}]">
+				<tm-input :inputPadding="[0,0]" v-model="show.pickerStr" @click="showPickerFun"
 					suffix="tmicon-angle-right" placeholder="请选择你的水果种类" disabled :transprent="true"
 					:showBottomBotder="false"></tm-input>
 			</tm-form-item>
@@ -57,7 +58,7 @@
 					:default-value="show.segtab"></tm-segtab>
 			</tm-form-item>
 
-			<tm-form-item  label="开关" field="switch" :rules="{required:true,message:'请选择'}">
+			<tm-form-item  label="开关" field="switch" :rules="{required:true,message:'没有选中哦'}">
 				<tm-switch v-model="show.switch" :default-value="show.switch" selected='hehe'></tm-switch>
 			</tm-form-item>
 
@@ -81,14 +82,14 @@
 			</tm-form-item>
 
 		</tm-form>
-		
 		<tm-calendar v-model:model-str="show.caleStr" v-model="show.cale" v-model:show="showCal" :default-value="show.cale"></tm-calendar>
 		<tm-city-picker v-model="show.city" v-model:model-str="show.cityStr" v-model:show="showCity"
 			:default-value="show.city"></tm-city-picker>
 		<tm-time-picker v-model="show.time" v-model:model-str="show.timeStr" v-model:show="showTimePickerView"
 			:default-value="show.timeStr"></tm-time-picker>
-		<tm-picker :columns="pickerlist" v-model="show.pickerIndex" v-model:model-str="show.pickerStr"
-			v-model:show="showPicker" :default-value="show.pickerIndex"></tm-picker>
+			
+		<tm-picker :columns="pickerlist"  v-model:model-str="show.pickerStr"
+			v-model:show="showPicker" :default-value="show.pickerIndex" v-model="show.pickerIndex"></tm-picker>
 	</tm-app>
 </template>
 <script lang="ts" setup>
@@ -97,10 +98,7 @@
 		nextTick,
 		getCurrentInstance
 	} from "vue";
-	const {
-		proxy,
-		ctx
-	} = getCurrentInstance();
+
 	import tmApp from "@/tmui/components/tm-app/tm-app.vue";
 	import tmInput from "@/tmui/components/tm-input/tm-input.vue";
 	import tmSheet from "@/tmui/components/tm-sheet/tm-sheet.vue";
@@ -125,21 +123,26 @@
 	import tmForm from "@/tmui/components/tm-form/tm-form.vue";
 	const app = ref<InstanceType<typeof tmApp> | null>(null)
 	const form = ref<InstanceType<typeof tmForm> | null>(null)
+
 	const showCal = ref(false)
 	const showCity = ref(false)
 	const showTimePickerView = ref(false)
 	const showPicker = ref(false)
 	const pickerlist = ref([{
-			text: "苹果"
+			text: "苹果",
+			id:1,
 		},
 		{
-			text: "香蕉"
+			text: "香蕉",
+			id:2,
 		},
 		{
-			text: "李子"
+			text: "李子",
+			id:3,
 		},
 		{
-			text: "椰子"
+			text: "椰子",
+			id:4,
 		},
 	])
 	const show = ref({
@@ -147,10 +150,10 @@
 		caleStr:"2022-1-4",
 		time: '2022-1-9',
 		timeStr: '2022-1-5',
-		radio: "", //bonaer
+		radio: "bonaer", //bonaer
 		pickerIndex: [1],
-		pickerStr: "香蕉",
-		checkbox: [''],
+		pickerStr: "",
+		checkbox: [],
 		rate: 3,
 		slider: [0, 50],
 		segtab: "",
@@ -162,14 +165,21 @@
 			a: "测试"
 		}
 	})
+	
+	
+	
+	
 	const confirm = (e)=>{
 		console.log(e)
 	}
 	
 	const testClick = ()=>{
 		showCity.value=!showCity.value
-		console.log(1)
 	}
 	
-	// console.log(uni.getSystemInfoSync())
+	const showPickerFun = ()=>{
+		console.log(12)
+		showPicker.value=!showPicker.value
+	}
+
 </script>

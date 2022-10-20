@@ -55,7 +55,7 @@ const props = defineProps({
 	},
 	spin: {
 		type: [Boolean],
-		defalut: true
+		default: false
 	},
 	unit: {
 		type: String,
@@ -164,18 +164,18 @@ function spinNvueAni(jiaodu=360) {
 			transform: `rotate(${jiaodu}deg)`,
 			transformOrigin: 'center center'
 		},
-		duration: 1200, //ms
+		duration: 2000, //ms
 		timingFunction: 'linear',
 		delay: 0 //ms
 	},()=>{
 		nextTick(function () {
 			animation.transition(iconEl, {
 				styles: {
-					transform: `rotate(${0}deg)`,
+					transform: `rotate(0deg)`,
 					transformOrigin: 'center center'
 				},
 				duration: 0, //ms
-				timingFunction: 'linear',
+				timingFunction: 'ease',
 				delay: 0 //ms
 			},()=>{
 				spinNvueAni()

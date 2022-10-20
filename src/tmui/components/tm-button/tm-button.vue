@@ -35,7 +35,7 @@
 		@opensetting="emits('opensetting',$event)"
 		@launchapp="emits('launchapp',$event)"
 		@contact="emits('contact',$event)"
-        @chooseavatar="emits('chooseavatar',$event)"
+		@chooseavatar="emits('chooseavatar',$event)"
 		:form-type="props.formType"
 		:openType="props.openType"
 		:appParameter="props.appParameter"

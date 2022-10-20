@@ -238,10 +238,7 @@ PropType
 		}
 	})
 	
-	function onclick(e){
-		e.stopPropagation();
-		e.preventDefault();
-		// e.stopImmediatePropagation()
+	function onclick(e:any){
 		emits('click',e);
 		if(loading.value) return;
 		checked_com.value = !checked_com.value;
@@ -249,15 +246,16 @@ PropType
 	}
 	function aniEnd(){
 		show.value = false;
+		emits('close');
 	}
 	function closeTag(e){
 		if(loading.value) return;
 		e.stopPropagation();
-		emits('close');
 		if(anitag.value){
 			anitag.value.play();
 		}else{
 			show.value = false
+			emits('close');
 		}
 	}
 </script>

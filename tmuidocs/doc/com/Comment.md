@@ -43,6 +43,7 @@ title: tmui 3.0 组件库
 | color | String | white | 背景主题颜色名称 |
 | borderBottom | Boolean,String | false | 是否显示底部的边线 |
 | author | String |  | 名称 |
+| authorFontSize | Number | 26 | author字体大小,默认26 |
 | authorColor | String | primary | author主题色 |
 | avatar | String |  | 头像 |
 | content | String |  | 内容 |

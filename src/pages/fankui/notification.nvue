@@ -18,7 +18,7 @@
     </tm-app>
 </template>
 <script lang="ts" setup>
-import { ref,getCurrentInstance } from "vue"
+import { ref,getCurrentInstance, nextTick } from "vue"
 import { onShow, onLoad } from "@dcloudio/uni-app";
 import tmApp from "@/tmui/components/tm-app/tm-app.vue"
 import tmSheet from "@/tmui/components/tm-sheet/tm-sheet.vue"
@@ -30,6 +30,8 @@ const msg = ref<InstanceType<typeof tmNotification> | null>(null)
 const placement = ref('topLeft')
 function show(e){
     placement.value =e;
-    msg.value.show()
+    nextTick(()=>{
+		msg.value?.show({label:"呵呵"})
+	})
 }
 </script>

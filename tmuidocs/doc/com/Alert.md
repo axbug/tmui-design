@@ -60,6 +60,10 @@ item {
 |-------|-----|------|------|
 | click |     |      | 点击事件 |
 
+### :green_salad: slot 插槽
+
+right,右边区域图标插槽.
+
 ### :green_salad: ref方法
 无
 

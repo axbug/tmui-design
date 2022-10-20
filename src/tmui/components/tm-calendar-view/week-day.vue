@@ -10,7 +10,7 @@
 				<tm-icon :userInteractionEnabled="false" :font-size="24" name="tmicon-angle-left"></tm-icon>
 			</view>
 			<view class="px-12">
-				<tm-text :userInteractionEnabled="false" :font-size="28" :label="_nowDate"></tm-text>
+				<tm-text :userInteractionEnabled="false" _class="text-weight-b" :font-size="32" :label="_nowDate"></tm-text>
 			</view>
 			<view @click.stop="nextMonth" class="px-32">
 				<tm-icon :userInteractionEnabled="false" :font-size="24" name="tmicon-angle-right"></tm-icon>
@@ -18,8 +18,8 @@
 			<view @click.stop="nextYear" class="px-32">
 				<tm-icon :userInteractionEnabled="false" :font-size="24" name="tmicon-angle-double-right"></tm-icon>
 			</view>
-			<view @click="nowWeekClick" class="absolute t-0 r-16 zIndex-10" style="width: 64rpx;">
-			    <tm-text :userInteractionEnabled="false" :font-size="28" label="本周"></tm-text>
+			<view @click="nowWeekClick" class="absolute t-4 r-16 zIndex-10" style="width: 64rpx;">
+			    <tm-text :userInteractionEnabled="false" color="grey" :font-size="28" label="本周"></tm-text>
 			</view>
 		</tm-sheet>
         

@@ -1,7 +1,7 @@
 <template>
     <tm-app>
         <tm-sheet>
-            <tm-tabs @change="tabschange" swiper showTabsLineAni :item-width="110"  :width="636" :height="500" default-name="2">
+            <tm-tabs @change="tabschange"  showTabsLineAni :item-width="110"  :width="636" :height="500" default-name="2">
                 <tm-tabs-pane  :dot="item==3"   v-for="(item,index) in 15" :key="index" :name="item" :title="item%2?'标题开滑动':'标题'">
                     <tm-sheet :margin="[0, 0]">
 						<tm-text  :font-size="30" _class="font-weight-b"

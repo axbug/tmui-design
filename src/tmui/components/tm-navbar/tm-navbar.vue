@@ -26,13 +26,14 @@
 				:height='_barHeight'
 				:width="_width"
 				unit='px'
+				:darkBgColor="props.darkBgColor"
 			>
 				<view class="statusHeight" :style="{height:statusBarHeight+'px'}"></view>
 				
 				<view class="flex flex-row flex-1 flex-row flex-row-center-between ">
 					<view class="flex-row flex flex-row-center-start " :style="{width:_leftWidth+'rpx'}">
 						<!-- #ifndef MP-ALIPAY -->
-						<tm-icon :unit="props.unit" :font-size="props.iconFontSize" _class="pointer pb-12 pt-12 px-24" :color="_homeColor" @click="goback" v-if="_pages>1&&props.hideBack" name="tmicon-angle-left"></tm-icon>
+						<tm-icon :unit="props.unit" :font-size="props.iconFontSize" _class="pointer pb-12 pt-12 px-24" :color="_homeColor" @click="goback" v-if="_pages>1&&!props.hideBack" name="tmicon-angle-left"></tm-icon>
 						<tm-icon :unit="props.unit" _class="pointer  pb-12 pt-12 px-24" @click="backhome" v-if="_pages==1&&!hideHome" :color="_homeColor" :font-size="props.iconFontSize" name="tmicon-md-home"></tm-icon>
 						<!-- #endif -->
 						<slot name="left"></slot>
@@ -149,7 +150,7 @@
 		},
 		hideBack:{
 			type:Boolean,
-			default:true
+			default:false
 		},
 		//返回首页的路径，默认/pages/index/index
 		homePath:{
@@ -167,7 +168,14 @@
 		unit:{
 			type:String,
 			default:"rpx"
-		}
+		},
+		//暗下强制的背景色，
+		//有时自动的背景，可能不是你想要暗黑背景，此时可以使用此参数，强制使用背景色，
+		//只能是颜色值。
+		darkBgColor: {
+		  type: String,
+		  default: ''
+		},
 	})
 
 	const _height = computed(()=>props.height)

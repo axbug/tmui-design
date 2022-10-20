@@ -114,6 +114,7 @@ const totalList = [
     { path: "/pages/other/signBoard", title: "签名板 SignBoard" },
 	{ path: "/pages/fankui/rollNotice", title: "滚动通知 RollNotice" },
 	{ path: "/pages/other/barCode", title: "条形码 BarCode" },
+	{ path: "/pages/other/html", title: "富文本 Html" },
 	
 ]
 const result = ref([])

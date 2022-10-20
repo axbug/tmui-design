@@ -44,7 +44,7 @@ const props = defineProps({
     //默认选中的索引值。
 	defaultValue:{
 		type:Array as PropType<Array<number>>,
-		default:()=>[0]
+		default:()=>[]
 	},
     columns:{
         type:Array as PropType<Array<columnsItem>>,
@@ -111,7 +111,6 @@ watch(()=>props.columns,()=>{
 	_data.value = getIndexLoop(0,props.columns)
 },{deep:true})
 watch(()=>props.modelValue,()=>{
-	console.log("99999999999999999999")
 	_colIndex.value = props.modelValue;
 	_data.value = getIndexLoop(0,props.columns)
 },{deep:true})

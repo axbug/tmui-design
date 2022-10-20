@@ -357,10 +357,12 @@
 		})
 	}
 	function overlayClickFun(e:Event){
+		
 		emits('click', e);
 		if (!props.overlayClick || props.disabled || !overlayAni.value) return;
 		reverse.value = false;
 		throttle(() => {
+			emits("cancel")
 			overlayAni.value?.close()
 			drawerANI.value?.play();
 		}, props.duration+80, true)

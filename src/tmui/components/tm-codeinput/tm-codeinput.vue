@@ -23,6 +23,7 @@
 					:followTheme="props.followTheme"
                     :userInteractionEnabled="false"
                     paren-class="tmSkeletonLine"
+					class="tmSkeletonLine"
                     v-if="item.value==''&&index===_valueLen"
                     :width="6"
                     :color="(props.fontColor||props.color)"
@@ -120,7 +121,7 @@ const _datalist = computed(()=>{
 <style scoped>
 /* #ifndef APP-NVUE */
 .tmSkeletonLine {
-	animation: loading 0.6s linear infinite;
+	animation: loading 1s linear infinite;
 }
 
 @keyframes loading {

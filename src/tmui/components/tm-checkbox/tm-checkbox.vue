@@ -22,6 +22,7 @@
                 :color="_disabled?'white':props.color"
                 :round="props.round"
                 _class="flex-row flex-row-center-center"
+				:outlined="false"
                 
                 >
                     <view  v-if="!props.closeAni">
@@ -54,7 +55,7 @@ import tmText from '../tm-text/tm-text.vue';
 import tmTranslate from '../tm-translate/tm-translate.vue';
 import tmCheckboxGroup from '../tm-checkbox-group/tm-checkbox-group.vue';
 import { custom_props } from '../../tool/lib/minxs';
-import { ref ,computed,watch ,inject ,getCurrentInstance, watchEffect, ComponentInternalInstance, ComputedRef } from 'vue';
+import { ref ,computed,watch ,inject ,getCurrentInstance, watchEffect, ComponentInternalInstance, ComputedRef, onMounted, onUnmounted, onBeforeUnmount } from 'vue';
 const CheckboxGropup = ref<InstanceType<typeof tmCheckboxGroup> | null>(null)
 const proxy = getCurrentInstance()?.proxy??null;
 const emits = defineEmits(['update:modelValue','change','click'])
@@ -153,6 +154,7 @@ const _disabled = computed(()=>props.disabled||tmCheckedBoxDisabled.value)
 function vailChecked(val?:Array<string|number|boolean>){
     let checked_val = false;
 	let val_self:Array<string|number|boolean> = typeof val ==='undefined'?_groupCheckedVal.value:val
+	
     if(props.modelValue===props.value&&typeof props.value !=='undefined' && props.value!=='' && props.modelValue !==''){
         checked_val = true;
     }
@@ -197,10 +199,10 @@ async function hanlerClick(){
     }
     emits('change',_checked.value)
 }
-watch([()=>props.modelValue,_groupCheckedVal],()=>{
+watch([()=>props.modelValue,()=>props.value,()=>_groupCheckedVal.value],()=>{
     _checked.value = vailChecked()
-    
-})
+},{deep:true})
+
 const _blackValue = _groupCheckedVal.value
 //父级方法。
 let parent:any = proxy?.$parent

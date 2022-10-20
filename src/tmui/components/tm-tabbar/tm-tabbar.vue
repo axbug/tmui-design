@@ -1,5 +1,5 @@
 <template>
-	<view class="fixed l-0 b-0  flex" :style="{ width: _width + 'px', height: _totalBarHeight + 'px',transform:`translateY(${props.bottom}rpx)` }">
+	<view class="fixed l-0 b-0  flex tabbar" :style="{ width: _width + 'px', height: _totalBarHeight + 'px',transform:`translateY(${props.bottom}rpx)` }">
 		<!-- 			@click="emits('click', $event)"    -->
 		<view class="relative" style="top:15px;">
 			<tm-sheet
@@ -152,6 +152,9 @@ watch(_activeIndex,()=>{
 	flex-direction: row;
 	justify-content: space-around;
 	align-items: center;
+}
+.tabbar{
+	z-index: 200 !important;
 }
 /* #endif */
 /* #ifndef APP-NVUE */

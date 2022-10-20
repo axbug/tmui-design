@@ -1,6 +1,6 @@
 <template>
 	<tm-app ref="app">
-		<tm-navbar color="blue" linear="left" title="设置更多主题"></tm-navbar>
+		<tm-navbar color="blue" linear="right" title="设置更多主题"></tm-navbar>
 		<view class="mx-32 flex flex-row flex-wrap">
 			<tm-sheet @click="setTheme(item.name)" :round="3" :margin="[4,15]" :color="item.name"
 				v-for="(item,index) in list" :key="index" :width="285" :height="130">

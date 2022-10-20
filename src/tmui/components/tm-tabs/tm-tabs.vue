@@ -1,8 +1,9 @@
 <template>
 	<view class="flex flex-col overflow " :style="[
-		props.height && isDulitabs == false ? { height: height + 'rpx' } : '',
+		props.height &&!isDulitabs&&cacheTabs.lenght>0? { height: height + 'rpx' } : '',
 		{ width: props.width + 'rpx' },
 	]">
+
 		<!-- 此源码有uniapp bug.如果在nvue页面编译至h5平台时，开启enable-flexr后需要里面再套层view再写flex才能真正的开flex -->
 		<!-- 因此下面的内容作了条件编译分为nvue和非nvue -->
 		<!-- https://ask.dcloud.net.cn/question/143230 -->
@@ -10,7 +11,7 @@
 		<view @touchmove="onMove" @touchend="onEnd" @touchstart="onStart" @mousemove="onMove" @mouseup="onEnd"
 			@mouseleave="onEnd" @mousedown="onStart" ref="tabsDom"
 			:style="{ width: props.swiper ? `${totalWidth}px` : `${props.width}rpx`, transform: props.swiper ? `translateX(${directoStyle}px)` : `translateX(0px)` }"
-			v-if="_tabPos == 'bottom' && isDulitabs == false" :class="[!isEndMove || isNvue ? 'tmTabsPane' : '']"
+			v-if="_tabPos == 'bottom'&&!isDulitabs " :class="[!isEndMove || isNvue ? 'tmTabsPane' : '']"
 			class="flex flex-row flex-nowrap  overflow">
 			<slot></slot>
 		</view>
@@ -21,12 +22,12 @@
 		@touchstart="onStart" -->
 		<view @touchstart="spinNvueAni" ref="tabsDom"
 			:style="{ width: props.swiper ? `${totalWidth}px` : `${props.width}rpx`, transform: `translateX(0px)` }"
-			v-if="_tabPos == 'bottom' && isDulitabs == false" class="flex flex-row flex-nowrap  overflow">
+			v-if="_tabPos == 'bottom' &&!isDulitabs &&props.swiper" class="flex flex-row flex-nowrap  overflow">
 			<slot></slot>
 		</view>
 		<!-- #endif -->
 
-		<tm-sheet :transprent="props.transprent" :color="props.color" :followTheme="props.followTheme"
+		<tm-sheet :darkBgColor="props.darkBgColor" :transprent="props.transprent" :color="props.color" :followTheme="props.followTheme"
 			:dark="props.dark" :round="props.round" :shadow="props.shadow" :outlined="props.outlined"
 			:border="props.border" :borderStyle="props.borderStyle" :borderDirection="props.borderDirection"
 			:text="props.text" :linear="props.linear" :linearDeep="props.linearDeep" :margin="[0, 0]" :padding="[0, 0]"
@@ -180,8 +181,9 @@
 		<view id="webIdTabs" @touchmove="onMove" @touchend="onEnd" @touchstart="onStart" @touchcancel="onEnd" @mousemove="onMove"
 			@mouseup="onEnd" @mouseleave="onEnd" @mousedown="onStart" ref="tabsDom"
 			:style="{ width: props.swiper ? `${totalWidth}px` : `${props.width}rpx`, transform: props.swiper ? `translateX(${directoStyle}px)` : `translateX(0px)` }"
-			v-if="_tabPos == 'top' && isDulitabs == false" :class="[!isEndMove || isNvue ? 'tmTabsPane' : '']"
+			v-if="_tabPos == 'top' &&!isDulitabs" :class="[!isEndMove || isNvue ? 'tmTabsPane' : '']"
 			class="flex flex-row flex-nowrap  overflow">
+			
 			<slot></slot>
 		</view>
 		<!-- #endif -->
@@ -192,7 +194,7 @@
 		<!-- @touchmove="onMove" @touchend="onEnd" @touchcancel="onEnd"  -->
 		<view @touchstart="spinNvueAni" @touchmove="onMove" ref="tabsDom"
 			:style="{ width: props.swiper ? `${totalWidth}px` : `${props.width}rpx`, transform: `translateX(0px)` }"
-			v-if="_tabPos == 'top'" class="flex flex-row flex-nowrap  overflow">
+			v-if="_tabPos == 'top' && !isDulitabs" class="flex flex-row flex-nowrap  overflow">
 			<slot></slot>
 		</view>
 		<!-- #endif -->
@@ -348,7 +350,14 @@ const props = defineProps({
 	disAbledPull:{
 		type: Boolean,
 		default: true
-	}
+	},
+	//暗下强制的背景色，
+	//有时自动的背景，可能不是你想要暗黑背景，此时可以使用此参数，强制使用背景色，
+	//只能是颜色值。
+	darkBgColor: {
+	  type: String,
+	  default: ''
+	},
 	
 });
 const _disAbledPull = computed(()=>props.disAbledPull)
@@ -542,9 +551,9 @@ function unbindKey(key: string | number) {
 	let index2: number = cacheTabs.value.findIndex((el) => el.key == _active.value);
 
 	if (index2 == -1 && cacheTabs.value.length > 0) {
-		changeKey(cacheTabs.value[0].key, false);
+		changeKey(cacheTabs.value[0].key, false,false);
 	} else if (cacheTabs.value.length == 0) {
-		changeKey("", false);
+		changeKey("", false,false);
 	}
 }
 watch(
@@ -893,14 +902,16 @@ function pushKey(o: tabsobj) {
 	}
 }
 
-function changeKey(key: string | number, isclick = true) {
+function changeKey(key: string | number, isclick = true,isNomarlChange=true) {
 	isEndMove.value = true;
 	_active.value = key;
 	// #ifdef APP-NVUE
 	_startx.value = uni.upx2px((activeIndex.value) * props.width)
 	// #endif
 	timeDetail = 1;
-	emits("change", key);
+	if(isNomarlChange){
+		emits("change", key);
+	}
 	emits("update:activeName", toRaw(_active.value));
 	if (isclick) {
 		emits("click", key);
