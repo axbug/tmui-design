@@ -1,6 +1,5 @@
 <template>
 	<view class="flex flex-col">
-
 		<view v-if="model == 'line'" :style="[{ width: width + 'rpx', paddingTop: '16rpx', paddingBottom: '16rpx' }]"
 			class=" flex relative flex flex-col overflow  ">
 			<view class="relative">
@@ -243,15 +242,15 @@ onMounted(() => {
 	nextTick(function () {
 
 		// #ifdef APP-NVUE
-		
-			if (isAndroid) {
-				setTimeout(function () {
-					showGc.value = true;
-					setTimeout(() => drawNvue_init(), 200)
-				}, 220);
-			} else {
+
+		if (isAndroid) {
+			setTimeout(function () {
+				showGc.value = true;
 				setTimeout(() => drawNvue_init(), 200)
-			}
+			}, 220);
+		} else {
+			setTimeout(() => drawNvue_init(), 200)
+		}
 		// #endif
 		// #ifdef MP-WEIXIN || MP-ALIPAY || MP-QQ
 		setTimeout(() => MpWeix_init(), 100)
@@ -315,9 +314,9 @@ function MpWeix_init() {
 function drawNvue_init() {
 	if (props.model != 'circle') return;
 	/*获取元素引用*/
-	var ganvas = vnodeCtx.$refs[canvasId.value];
+	var ganvas = vnodeCtx?.$refs[canvasId.value];
 	/*通过元素引用获取canvas对象*/
-	var canvasObj = enable(ganvas, {
+	var canvasObj: any = enable(ganvas, {
 		bridge: WeexBridge
 	});
 	ctx = canvasObj.getContext('2d');
@@ -341,11 +340,11 @@ function otherDraw() {
 		};
 	}
 
-	let c = tmcomputed.value
+	let c: any = tmcomputed.value
 
-	let bgColor = _bgColor.value;
+	let bgColor: any = _bgColor.value;
 
-	let activeColor = tool.getColor(props.color).csscolor;
+	let activeColor: any = tool.getColor(props.color).csscolor;
 	let strokeWidth = uni.upx2px(props.height);
 	//先绘制背景圆;
 	ctx.setLineWidth(strokeWidth)
@@ -359,7 +358,7 @@ function otherDraw() {
 	if (props.semicircle) {
 		ctx.arc(center.x, center.y, center.r, -Math.PI, 0, props.semicircleFlip);
 	} else {
-		ctx.arc(center.x, center.y, center.r, 0, 2 * Math.PI, props.semicircleFlip);
+		ctx.arc(center.x, center.y, center.r, -Math.PI / 2, 1.5 * Math.PI);
 	}
 	ctx.stroke();
 	ctx.closePath();
@@ -379,7 +378,7 @@ function otherDraw() {
 	// ctx.clearRect(0, 0, props.width, props.width)
 	//如果是渐变
 	if (props.linear) {
-		var gradient = ctx.createLinearGradient(props.width / 2, 0, props.width / 2, props.width);
+		let gradient: any = ctx.createLinearGradient(props.width / 2, 0, props.width / 2, props.width);
 		gradient.addColorStop(0, c.gradientColor[0]);
 		gradient.addColorStop(1, c.gradientColor[1]);
 		ctx.strokeStyle = gradient;
@@ -399,7 +398,13 @@ function otherDraw() {
 	if (props.semicircle) {
 		ctx.arc(center.x, center.y, center.r, -Math.PI, jinduo, props.semicircleFlip);
 	} else {
-		ctx.arc(center.x, center.y, center.r, -Math.PI / 2, jinduo, props.semicircleFlip);
+		if (props.semicircleFlip) {
+			jinduo = (75 - percent_rp.value) * blv
+			ctx.arc(center.x, center.y, center.r, 1.5 * Math.PI, jinduo, true);
+		} else {
+			ctx.arc(center.x, center.y, center.r, -Math.PI / 2, jinduo, false);
+		}
+		// ctx.arc(center.x, center.y, center.r, -Math.PI / 2, jinduo, props.semicircleFlip);
 	}
 	ctx.stroke();
 	ctx.closePath();
@@ -423,7 +428,7 @@ function drawNvue_draw() {
 			r: width / 2 - uni.upx2px(props.height) / 2 - 4 - uni.upx2px(shadow_pr.value) * 2
 		};
 	}
-	let c = tmcomputed.value;
+	let c: any = tmcomputed.value;
 	let bgColor = _bgColor.value || "#f5f5f5";
 	let activeColor = tool.getColor(props.color).csscolor || "#ff0000";
 	let strokeWidth = uni.upx2px(props.height);
@@ -457,7 +462,7 @@ function drawNvue_draw() {
 	// #ifdef MP-WEIXIN || MP-ALIPAY || MP-QQ
 	//如果是渐变
 	if (props.linear) {
-		var gradient = ctx.createLinearGradient(Math.ceil(props.width / 2), 0, Math.ceil(props.width / 2), props.width);
+		let gradient: any = ctx.createLinearGradient(Math.ceil(props.width / 2), 0, Math.ceil(props.width / 2), props.width);
 		gradient.addColorStop(0, c.gradientColor[0]);
 		gradient.addColorStop(1, c.gradientColor[1]);
 		ctx.strokeStyle = gradient;
