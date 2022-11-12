@@ -1,12 +1,12 @@
 <template>
 	<view class="relative flex" :style="{width:props.width+'rpx',height:(props.height+(_showBar?32:0))+'rpx'}">
 		<!-- #ifdef APP-NVUE -->
-		<scroll-view @scroll="onScroll" :show-scrollbar="false" :scroll-x="true" class="flex flex-row flex-nowrap nowrap" :style="{width:props.width+'rpx',height:props.height+'rpx'}">
+		<scroll-view @scroll="onScroll" :scroll-left="scrollLeft" :show-scrollbar="false" :scroll-x="true" class="flex flex-row flex-nowrap nowrap" :style="{width:props.width+'rpx',height:props.height+'rpx'}">
 			<slot name="default"></slot>
 		</scroll-view>
 		<!-- #endif -->
 		<!-- #ifndef APP-NVUE -->
-		<scroll-view @scroll="onScroll" :scroll-x="true" class="flex flex-row flex-nowrap nowrap" :style="{width:props.width+'rpx',height:props.height+'rpx'}">
+		<scroll-view @scroll="onScroll" :scroll-left="scrollLeft" :scroll-x="true" class="flex flex-row flex-nowrap nowrap" :style="{width:props.width+'rpx',height:props.height+'rpx'}">
 			<view class="flex-1 flex-row flex-nowrap">
 				<slot name="default"></slot>
 			</view>
