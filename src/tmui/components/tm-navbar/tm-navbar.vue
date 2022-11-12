@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<view class="statusHeight" :style="{height:_barHeight+'px'}"></view>
+		<view v-if="!isPlace" class="statusHeight" :style="{height:_barHeight+'px'}"></view>
 		<view class="fixed l-0 t-0 statusHeightTop flex" :style="{width:_width+'px',height:_barHeight+'px'}">
 			<tm-sheet
 				@click="emits('click', $event)"
@@ -29,7 +29,7 @@
 				:darkBgColor="props.darkBgColor"
 			>
 				<view class="statusHeight" :style="{height:statusBarHeight+'px'}"></view>
-				
+
 				<view class="flex flex-row flex-1 flex-row flex-row-center-between ">
 					<view class="flex-row flex flex-row-center-start " :style="{width:_leftWidth+'rpx'}">
 						<!-- #ifndef MP-ALIPAY -->
@@ -176,6 +176,10 @@
 		  type: String,
 		  default: ''
 		},
+		isPlace: {
+			type: Boolean,
+			default: false
+		},
 	})
 
 	const _height = computed(()=>props.height)
@@ -195,7 +199,7 @@
 	onMounted(()=>{
 		_pages.value = getCurrentPages().length;
 	})
-	
+
 	const backhome = ()=>{
 		uni.reLaunch({
 			url:props.homePath
@@ -219,7 +223,7 @@
 	    }, wait);
 	  }
 	}
-	
+
 	const goback = ()=>{
 		debounce(async ()=>{
 			if (typeof props.beforeBack === 'function') {
