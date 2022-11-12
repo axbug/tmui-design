@@ -34,7 +34,9 @@
 	import tmSheet from "../tm-sheet/tm-sheet.vue";
 	import tmText from "../tm-text/tm-text.vue";
 	//居中，两边对齐。
-	type alignType = "center"|"between";
+	type alignType = "center" | "between";
+	const emits = defineEmits(['change']);
+
 	const props = defineProps({
 		width:{
 			type:Number,
@@ -72,7 +74,8 @@
 		"center":"flex-center",
 		"between":"flex-row flex-row-center-between"
 	}
-	const onScroll = (e:Event)=>{
+	const onScroll = (e: Event) => {
+		emits('change', e.detail);
 		if(!_showBar.value) return;
 		let sL = e.detail.scrollLeft;
 		let sT = e.detail.scrollWidth;
@@ -84,6 +87,11 @@
 		}
 		left.value = nowLeft;
 	}
+	const scrollLeft = ref(0)
+	const scrollTo = (value: number) => {
+		scrollLeft.value = value;
+	}
+	defineExpose({ scrollTo })
 </script>
 
 <style scoped>
