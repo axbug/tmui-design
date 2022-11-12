@@ -121,8 +121,11 @@ const _value = ref(props.modelValue);
 function keydown(e:number|string){
     let k = String(e);
     _value.value +=k;
-	emits("update:modelValue",_value.value)
-	emits("change",props.modelValue)
+    if (props.decimal && k === '.' && _value.value.includes('.')) {
+        return;
+    }
+    emits("update:modelValue",_value.value)
+    emits("change",props.modelValue)
 }
 function del(){
     if(_value.value==""||_value.value.length==0) return;
