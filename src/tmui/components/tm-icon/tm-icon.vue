@@ -5,13 +5,13 @@
 	}]">
 		<!-- #ifndef APP-NVUE -->
 		<text @click="clickhandle" @longpress="emits('longpress', $event)"
-			:class="[spinComputed ? 'spin' : '', 'text-size-n d-inline-block', 'tmicon ', prefx, iconComputed, customClass]"
+			:class="[spinComputed ? 'spin' : '', 'text-size-n d-inline-block', prefx, iconComputed, customClass]"
 			:style="[fontSizeComputed, { color: textColor }, customCSSStyle]" v-if="!isImg"></text>
 		<!-- #endif  -->
 		<!-- #ifdef APP-NVUE-->
 		<text :render-whole="true" ref="icon" @click="clickhandle" @longpress="emits('longpress', $event)"
-			:class="[spinComputed ? 'spin' : '', 'text-size-n d-inline-block ', 'tmicon', customClass]"
-			:style="[{ fontFamily: 'tmicon', color: textColor }, fontSizeComputed, customCSSStyle]" v-if="!isImg">
+			:class="[spinComputed ? 'spin' : '', 'text-size-n d-inline-block ', prefx, customClass]"
+			:style="[{ fontFamily: prefx, color: textColor }, fontSizeComputed, customCSSStyle]" v-if="!isImg">
 			{{ iconComputed }}
 		</text>
 		<!-- #endif  -->
@@ -126,22 +126,27 @@ const isImg = computed(() => {
 });
 //图标前缀
 const prefx = computed(() => {
-	let prefix = props.name.split('-')[0];
+    const index = props.name.indexOf('-icon-');
+	if(index > 0){
+		return props.name.substring(0, index + 5);
+	}
+	let prefix = props.name.split('-')?.[0];
 	return prefix;
 });
 //图标名称。
 const iconComputed = computed(() => {
 	if(isImg.value) return props.name
 	// #ifdef APP-NVUE
-	let name = props.name.substr(props.name.indexOf('-') + 1)
+	let name = props.name.substr(prefx.value.length + 1)
 	
 	let index = uni.$tm.tmicon.findIndex(el=>el.font==prefx.value)
-	let itemIcon = uni.$tm.tmicon[index].fontJson.find((item, index) => {
+	let itemIcon = uni.$tm.tmicon[index]?.fontJson.find((item, index) => {
 		return item.font_class == name;
 	});
-	if (itemIcon) {
-		
-		return JSON.parse('"\\u' + String(itemIcon.unicode) + '"');
+	try{
+		return JSON.parse('"\\u' + String(itemIcon?.unicode ?? name) + '"');
+	}catch(e){
+		return props.name;
 	}
 	// #endif
 	return props.name;
