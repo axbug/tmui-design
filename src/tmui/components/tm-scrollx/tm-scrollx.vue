@@ -1,12 +1,12 @@
 <template>
 	<view class="relative flex" :style="{width:props.width+'rpx',height:(props.height+(_showBar?32:0))+'rpx'}">
 		<!-- #ifdef APP-NVUE -->
-		<scroll-view @scroll="onScroll" :show-scrollbar="false" :scroll-x="true" class="flex flex-row flex-nowrap nowrap" :style="{width:props.width+'rpx',height:props.height+'rpx'}">
+		<scroll-view @scroll="onScroll" :scroll-left="scrollLeft" :show-scrollbar="false" :scroll-x="true" class="flex flex-row flex-nowrap nowrap" :style="{width:props.width+'rpx',height:props.height+'rpx'}">
 			<slot name="default"></slot>
 		</scroll-view>
 		<!-- #endif -->
 		<!-- #ifndef APP-NVUE -->
-		<scroll-view @scroll="onScroll" :scroll-x="true" class="flex flex-row flex-nowrap nowrap" :style="{width:props.width+'rpx',height:props.height+'rpx'}">
+		<scroll-view @scroll="onScroll" :scroll-left="scrollLeft" :scroll-x="true" class="flex flex-row flex-nowrap nowrap" :style="{width:props.width+'rpx',height:props.height+'rpx'}">
 			<view class="flex-1 flex-row flex-nowrap">
 				<slot name="default"></slot>
 			</view>
@@ -34,7 +34,9 @@
 	import tmSheet from "../tm-sheet/tm-sheet.vue";
 	import tmText from "../tm-text/tm-text.vue";
 	//居中，两边对齐。
-	type alignType = "center"|"between";
+	type alignType = "center" | "between";
+	const emits = defineEmits(['change']);
+
 	const props = defineProps({
 		width:{
 			type:Number,
@@ -72,7 +74,8 @@
 		"center":"flex-center",
 		"between":"flex-row flex-row-center-between"
 	}
-	const onScroll = (e:Event)=>{
+	const onScroll = (e: Event) => {
+		emits('change', e.detail);
 		if(!_showBar.value) return;
 		let sL = e.detail.scrollLeft;
 		let sT = e.detail.scrollWidth;
@@ -84,6 +87,11 @@
 		}
 		left.value = nowLeft;
 	}
+	const scrollLeft = ref(0)
+	const scrollTo = (value: number) => {
+		scrollLeft.value = value;
+	}
+	defineExpose({ scrollTo })
 </script>
 
 <style scoped>
