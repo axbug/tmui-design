@@ -31,7 +31,7 @@ title: tmui 3.0 组件库
 本组件含有公共属性 [公共属性](/doc/spec/组件公共样式.md)
 | 参数名 | 类型 | 默认值 | 描述 |
 | :--: | :--: | :--: | :-- |
-| parenClass | String | '' |  |
+| parenClass | String | '' | 组件内嵌view的class选择器，你可能还需要使用!important来加强自定义选择器的权重 |
 | contStyle | String | '' |  |
 | height | [Number] | 0 | 高度，单位rpx |
 | width | [Number] | 0 | 宽度，单位rpx |
