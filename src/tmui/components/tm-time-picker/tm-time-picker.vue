@@ -3,7 +3,7 @@
 	@update:show="_show = $event" :show="_show" @close="close" 
 	:ok-color="props.color"
 	@open="open"
-        title="请选择时间" :closable="true" @ok="confirm">
+        :title="props.title" :closable="true" @ok="confirm">
          <tm-time-view
             :height="dHeight-230"
             @update:model-value="_value = $event" 
@@ -143,6 +143,10 @@ const props = defineProps({
     round:{
         type:Number,
         default:12
+    },
+    title:{
+      type:String,
+      default:"请选择时间"
     }
 
 })
