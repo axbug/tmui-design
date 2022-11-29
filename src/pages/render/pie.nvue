@@ -1,0 +1,115 @@
+<template>
+	<tm-app>
+		<tm-sheet>
+			<tm-text label="以下为render实例渲染的简单图表,用于简单的数据展示,而非复杂场景下使用.支持全平台渲染."></tm-text>
+		</tm-sheet>
+		<tm-sheet :round="5" color="black" :padding="[0,0]">
+			<view class="flex flex-row">
+				<tm-render ref="rtx" :width="338" :height="338"></tm-render>
+				<tm-render ref="rtx2" :width="338" :height="338"></tm-render>
+			</view>
+		</tm-sheet>
+		<tm-sheet :round="5" color="black" :padding="[0,0]">
+			<view class="flex flex-row">
+				<tm-render ref="rtx3" :width="338" :height="338"></tm-render>
+				<tm-render ref="rtx4" :width="338" :height="338"></tm-render>
+			</view>
+		</tm-sheet>
+	</tm-app>
+</template>
+
+<script lang="ts" setup>
+import { ref, getCurrentInstance,onMounted, nextTick } from "vue"
+import { onShow, onLoad } from "@dcloudio/uni-app";
+import tmApp from "@/tmui/components/tm-app/tm-app.vue"
+import tmSheet from "@/tmui/components/tm-sheet/tm-sheet.vue"
+import tmCell from "@/tmui/components/tm-cell/tm-cell.vue"
+import tmDivider from "@/tmui/components/tm-divider/tm-divider.vue"
+import tmRender from "../../tmui/components/tm-render/tm-render.vue"
+import tmText from "../../tmui/components/tm-text/tm-text.vue"
+import {CRenderGraph,CRenderTypes,CRenderGraphsConfig} from "@/tmui/components/tm-render/interface"
+import {tmChartsType} from "@/tmui/components/tm-render/tmChart/interface"
+const rtx = ref<InstanceType<typeof tmRender> | null>(null)
+const rtx2 = ref<InstanceType<typeof tmRender> | null>(null)
+const rtx3 = ref<InstanceType<typeof tmRender> | null>(null)
+const rtx4 = ref<InstanceType<typeof tmRender> | null>(null)
+
+	onMounted(() => {
+		Promise.all([rtx.value?.init().then((tm:tmChartsType)=>{
+			tm.pie({gradien:true}).setData([
+				  { name: '我的示例', value: 40,color:'#ff6e70' },
+				  { name: 'f123', value: 31,color:'#82ff6f' },
+				  { name: 'g123', value: 37,color:'#5768ff' }
+			]).chart()
+		}),
+		rtx2.value?.init().then((tm:tmChartsType)=>{
+			tm.pie().setData([
+				  { name: 'a1234', value: 20 },
+				  { name: 'b123', value: 30 },
+				  { name: '我的示例', value: 40 },
+				  { name: 'f123', value: 31 },
+				  { name: 'g123', value: 37 }
+			]).chart()
+		}),
+		rtx3.value?.init().then((tm:tmChartsType)=>{
+			tm.ring().setData([
+				  { name: 'a1234', value: 20 },
+				  { name: 'b123', value: 30 },
+				 
+			]).chart()
+		}),
+		rtx4.value?.init().then((tm:tmChartsType)=>{
+			// tm.render?.add({
+			// 	name:"text",
+			// 	drag:true,
+			// 	shape:{
+			// 		content:"测试项目",
+			// 		position:[50,50]
+			// 	},
+			// 	style:{
+			// 		fill:"#FF0000",
+			// 		stroke:"#FF0000",
+			// 		lineWidth:2,
+			// 	},
+			// 	touchstart(this,arg) {
+			// 		console.log(this)
+			// 	}
+			// })
+			// 
+			// tm.ring({lineDash:[8,10]}).setData([
+			// 	  { name: 'a1234', value: 20 },
+			// 	  { name: 'b123', value: 30 },
+			// 	  { name: '我的示例', value: 40 },
+			// 	  { name: 'f123', value: 31 },
+			// 	  { name: 'g123', value: 37 }
+			// ]).chart()
+			let temp = tm.line({smool:true})
+			temp.setData([
+				  { name: 'a1234', value: 14 },
+				  { name: 'a1234', value: 60 },
+				  { name: 'a1234', value: 70 },
+				  { name: 'b123', value: 30 },
+				  { name: 'b123', value: 38 },
+				  { name: 'b123', value: 50 },
+				  { name: 'b123', value: 20 },
+				  { name: '我的示例', value: 50 },
+				  { name: '我的示例', value: 25 },
+				  { name: '我的示例', value: 74 },
+				  { name: 'f123', value: 60 },
+				  { name: 'f123', value: 20 },
+				  { name: 'f123', value: 55 },
+				  { name: 'g123', value: 80 },
+				  { name: 'g123', value: 30 },
+				  { name: 'g123', value: 90 }
+			])
+			temp.chart();
+			
+		})])
+	})
+
+
+</script>
+
+<style>
+
+</style>

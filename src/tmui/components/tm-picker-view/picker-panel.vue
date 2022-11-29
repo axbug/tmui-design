@@ -1,16 +1,14 @@
 <template>
 	<view class="flex-1 relative" :style="{height:props.height+'rpx'}">
-        <!-- uniapp有bug在nvue上，暂时不设置 -->
-        <!-- :mask-style="isDark?'background:linear-gradient(0deg,rgba(0,0,0,0.4),rgba(0,0,0,0),rgba(0,0,0,0.4))':'background:rgba(255,255,255,0)'" -->
 		<!-- #ifndef APP-NVUE -->
 		<picker-view @pickend="emits('end')" @pickstart="emits('start')" v-if="showDom" :value="[colIndex]" @change="colchange"
 		:style="[{height:props.height+'rpx'}]"
 		:mask-style="maskStyle"
+		:immediateChange="props.immediateChange"
+		indicator-style="height:50px"
 		>
-		    <picker-view-column
-		    :style="[{height:props.height+'rpx'}]">
-		        <view :class="[item['disabled']?'opacity-5':'']"  v-for="(item,index) in _data" :key="index" class="flex"  
-				style="justify-content: center;height:34px;align-items:center;">
+		    <picker-view-column>
+		        <view v-for="(item,index) in _data" :key="index" class="flex itemcel" :class="[index==colIndex?'itemSelected':'UnitemSelected',item['disabled']?'opacity-5':'']">
 		           <!-- #ifndef MP-ALIPAY -->
 				   <TmText v-if="typeof item == 'string'" _class="text-align-center" :font-size="item.length>7?24:30"  :dark="isDark" :label="item"></TmText>
 				   <TmText v-if="typeof item == 'object'" _class="text-align-center" :font-size="item[props.dataKey].length>7?24:30" :dark="isDark" :label="(item[props.dataKey]||'')"></TmText>
@@ -27,11 +25,16 @@
 		
 		<picker-view ref="picker" @pickend="emits('end')" @pickstart="emits('start')" v-if="showDom" :value="[colIndex]" @change="colchange"
 		:style="[{height:props.height+'rpx'}]"
+		indicator-style="height:50px"
+		:mask-top-style="maskStyleNvue"
+		:immediateChange="props.immediateChange"
+		:mask-bottom-style="maskStyleNvue"
 		>
-		    <picker-view-column
-		    :style="[{height:props.height+'rpx'}]">
-		        <view :class="[item['disabled']?'opacity-5':'']"  v-for="(item,index) in _data" :key="index" class="flex"  
-				style="justify-content: center;height:34px;align-items:center">
+		    <picker-view-column >
+		        <view :class="[item['disabled']?'opacity-5':'']"  v-for="(item,index) in _data" :key="index" 
+				class="flex itemcel "
+				:style="{background:index==colIndex?'rgba(0,0,0,0.04)':'rgba(0,0,0,0)'}"
+				>
 		            <TmText v-if="typeof item == 'string'" _class="text-align-center" :font-size="item.length>7?24:30"  :dark="isDark" :label="item"></TmText>
 		            <TmText v-if="typeof item == 'object'" _class="text-align-center" :font-size="item[props.dataKey].length>7?24:30" :dark="isDark" :label="(item[props.dataKey]||'')"></TmText>
 		        </view>
@@ -82,6 +85,10 @@ const props = defineProps({
         type:String,
         default:"text"
     },
+	immediateChange:{
+		type:Boolean,
+		default:false
+	}
 })
 const isDark = computed(() => store.tmStore.dark);
 const _data = computed(()=>props.data)
@@ -104,6 +111,13 @@ const maskStyle = computed(()=>{
 	}
 	return str_black
 })
+const maskStyleNvue = computed(()=>{
+	let str_white = 'background:linear-gradient(rgba(255,255,255,0.95),rgba(255,255,255,0.6))'
+	let str_black = 'background:linear-gradient(0deg,rgba(0,0,0,0.4),rgba(0,0,0,0),rgba(0,0,0,0.4))'
+	
+	
+	return isDark?str_black:str_white
+})
 onMounted(()=>{
     //在微信小程序因为有渲染等待30ms，为了兼容统一全部等待30ms
     showDom.value=true;
@@ -114,7 +128,9 @@ onMounted(()=>{
 })
 onUpdated(()=>nvuegetClientRect())
 watch(()=>props.col,()=>{
-    colIndex.value = props.col;
+    nextTick(()=>{
+		colIndex.value = props.col;
+	})
 })
 function colchange(e){
     colIndex.value = e.detail.value[0]
@@ -146,5 +162,14 @@ function nvuegetClientRect() {
 	.bottom{
 		background-image: linear-gradient(to top,rgba(17, 17, 17, 1),rgba(36, 36, 36, 0.6));  
 		
+	}
+	.itemcel{
+		justify-content: center;height:50px;align-items:center
+	}
+	.itemSelected{
+		background-image: linear-gradient(to bottom,rgba(0, 0, 0, 0.04),rgba(0, 0, 0, 0.01),rgba(0,0,0, 0.04));
+	}
+	.UnitemSelected{
+		background-image: rgba(0, 0, 0, 0)
 	}
 </style>

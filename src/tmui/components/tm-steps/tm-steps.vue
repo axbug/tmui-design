@@ -1,16 +1,30 @@
 <template>
+	<!-- #ifdef MP-WEIXIN -->
 	<view class="flex relative" 
 	:class="[props.direction=='horizontal'?'flex-row flex-row-center-center' :'']"
 	ref="contentbody"
 	>
 		<slot name="default"></slot>
 	</view>
+	<!-- #endif -->
+	<!-- #ifndef MP-WEIXIN -->
+	<view class="flex flex-row flex-row-center-center">
+		<view class="flex relative"
+		:style="{width:widthComputed}"
+		:class="[props.direction=='horizontal'?'flex-row flex-row-center-center' :'']"
+		ref="contentbody"
+		>
+			<slot name="default"></slot>
+		</view>
+	</view>
+	<!-- #endif -->
 </template>
 <script lang="ts" setup>
 /**
  * 步骤条
  * @description 步骤条，可以方便的预览逻辑，事务条理。需要配合tm-steps-item组件，必须放置tm-steps-item组件才能使用。
  */
+import { number } from "echarts";
 import { computed,provide,ref ,getCurrentInstance, watch,onUpdated,onMounted ,nextTick, PropType} from "vue"
 // #ifdef APP-PLUS-NVUE
 const dom = uni.requireNativePlugin('dom')
@@ -89,15 +103,20 @@ const proxy = getCurrentInstance()?.proxy??null;
 const _current = ref(props.defaultCurrent??-1);
 const _countCurrent = ref(-1);
 const _width = ref(0)
-
+const widthComputed = computed(()=>Math.ceil(uni.upx2px(_width.value))+'px')
 
 const compoenentName = "tmSteps"
 
-function pushKey(){
+function pushKey(width:number=150){
 	_countCurrent.value+=1;
+	_width.value +=width
 	return _countCurrent.value;
 }
-
+function delKey(width:number=150){
+	_countCurrent.value-=1;
+	_width.value -=width
+	return _countCurrent.value;
+}
 watch(()=>props.current,()=>{
 	_current.value = props.current;
 	emits('change',_current.value)
@@ -110,37 +129,14 @@ function steplick(index:number){
 	emits('update:current',_current.value)
 }
 
-onUpdated(() => {
-    // #ifdef APP-PLUS-NVUE
-    nvuegetClientRect();
-    // #endif
-})
-onMounted(() => {
-	// #ifdef APP-PLUS-NVUE
-    nvuegetClientRect();
-	// #endif
-})
-function nvuegetClientRect() {
-	 
-    nextTick(function () {
-        dom.getComponentRect(proxy?.$refs.contentbody, function (res:any) {
-            if (res?.size) {
-                _width.value = res.size.width
-            }else{
-				nvuegetClientRect()
-			}
-        })
-    })
-	
-}
+
 
 provide("tmStepsCureent",computed(()=>_current.value));
 provide("tmStepsCountCureent",computed(()=>_countCurrent.value))
 provide("tmStepsCountActiveColor",computed(()=>props.activeColor))
 provide("tmStepsCountColor",computed(()=>props.color))
-provide("tmStepsWidth",computed(()=>_width.value))
 
-defineExpose({pushKey,compoenentName,steplick})
+defineExpose({pushKey,compoenentName,steplick,delKey})
 </script>
 
 <style></style>

@@ -10,7 +10,7 @@
             </view>
             <input :disabled="props.disabledInput || props.disabled" 
 				@input="inputVal" 
-				:value="setVal" auto-blur
+				v-model="setVal" auto-blur
                 :style="[{ height: `${props.height}rpx`, textAlign: 'center', fontSize: props.fontSize+'rpx', width: `${props.width-120}rpx`,color:tmcomputed.textColor }]"
                 type="number" />
 
@@ -116,7 +116,7 @@ const props = defineProps({
     },
     min: {
         type: [Number],
-        default: 3
+        default: 0
     },
     //按钮增加或者 减少前执行，返回 fase取消当前操作。
     beforeEnter: {
@@ -133,7 +133,7 @@ const props = defineProps({
     }
 })
 const emits = defineEmits(['update:modelValue', 'change'])
-const setVal: Ref<number> = ref(props.defaultValue ?? null);
+const setVal: Ref<number> = ref(props.defaultValue ?? 0);
 // 设置响应式全局组件库配置表。
 const tmcfg = computed<tmVuetify>(() => store.tmStore);
 //是否暗黑模式。
@@ -142,6 +142,7 @@ const isDark = computed(() => computedDark(props, tmcfg.value));
 const tmcomputed = computed<cssstyle>(() => computedTheme({...props,color:props.bgColor,text:true}, isDark.value,tmcfg.value));
 
 let timeid: number = NaN;
+let timeid2: number = NaN;
 
 const isJianDisabled = computed(() => {
     if (setVal.value <= props.min) return true;
@@ -153,7 +154,7 @@ const isAddDisabled = computed(() => {
     return false;
 })
 watch(()=>props.modelValue,()=>{
-    setVal.value=Number(props.modelValue)
+    setVal.value=forMart(props.modelValue)
 })
 
 function strWidth(len: number) {
@@ -238,31 +239,32 @@ async function setStep(ty: string) {
 
 function inputVal(e) {
     var val = parseFloat(e.detail.value)
-    jianchData(val);
+	clearTimeout(timeid2)
+	timeid2 = setTimeout(function() {
+		jianchData(forMart(val))
+	}, 150);
+  
 }
 
-function jianchData(val: string | number) {
+function jianchData(val:number) {
     if (props.fixed > 0) {
-        val = Number(val).toFixed(props.fixed)
-        if (isNaN(parseInt(val)) || val == '0' || !val) {
-            val = '0.' + strWidth(props.fixed) + props.step
+        val = Number(val.toFixed(props.fixed))
+        if (isNaN(val) || !val) {
+            val = Number('0.' + strWidth(props.fixed) + props.step)
         }
     } else if (props.fixed == 0) {
-        val = Number(val).toFixed(0)
+        val = Number(val.toFixed(0))
     }
-    const realval = val;
+ 
     if (val < props.min) {
-        val = String(props.min);
+        val = Number(props.min)
     }
     if (val > props.max) {
-        val = String(props.max);
+        val = Number(props.max);
     }
-    setVal.value = Number(realval)
-    nextTick(function () {
-		let valss:any = isNaN(setVal.value)||typeof setVal.value =='undefined'?'':setVal.value;
-		emits('update:modelValue', valss);
-		emits('change', valss);
-    });
+    setVal.value = val
+    emits('update:modelValue', val);
+    emits('change', val);
 }
 function longpressEvent(ty: string) {
     if (props.disabled) return;
@@ -275,6 +277,11 @@ function endlongpressEvent(ty: string) {
     clearInterval(timeid);
 }
 
+function forMart(val:string|number):number{
+	let v = Number(val);
+	if(isNaN(v)) return 0;
+	return v;
+}
 
 </script>
 <style scoped>

@@ -1,40 +1,45 @@
 <template>
 	<tm-app ref="app" color="grey-5">
-		<tm-form @submit="confirm" ref="form" v-model="show">
-			<tm-form-item required label="身份证号码" field="nameuser.a"
+		<tm-form @submit="confirm" ref="form" v-model="show" :label-width="190">
+			<tm-form-item   desc="你可以点击提交表单来验证" required label="身份证号码" field="nameuser.a"
 				:rules="[{required:true,message:'请输入66',validator:(val)=>val=='66'}]">
-				<tm-input :inputPadding="[0,0]" v-model="show.nameuser.a" :transprent="true" :showBottomBotder="false">
-				</tm-input>
+				<!-- 不要问我为什么用v-model.lazy，我很受伤。 -->
+				<tm-input :inputPadding="[0,0]" v-model.lazy="show.nameuser.a" :transprent="true" :showBottomBotder="false"> </tm-input>
 			</tm-form-item>
-			<tm-form-item required label="选择日期" field="cale" :rules="[{required:true,message:'请选择日期哦'}]">
-				<tm-input :inputPadding="[0,0]" :model-value.sync="show.caleStr" @click="showCal=!showCal"
-					suffix="tmicon-angle-right" placeholder="请选择有效日期" disabled :transprent="true"
-					:showBottomBotder="false"></tm-input>
+			<tm-form-item  required label="选择日期" field="cale" :rules="[{required:true,message:'请选择日期哦'}]">
+				<view @click="showCal=!showCal" class="flex flex-row flex-row-center-between">
+					<tm-text :userInteractionEnabled="false" :label='caleStr||"请选择有效日期"'></tm-text>
+					<tm-icon :userInteractionEnabled="false" :font-size="24" name="tmicon-angle-right"></tm-icon>
+				</view>
 			</tm-form-item>
-			<tm-form-item label="选择地区" field="city" :rules="[{required:false,message:'请选择地区'}]">
-				<tm-input :inputPadding="[0,0]" :model-value.sync="show.cityStr" @click="testClick"
-					suffix="tmicon-angle-right" placeholder="请选择所在地区地址" disabled :transprent="true"
-					:showBottomBotder="false"></tm-input>
+			<tm-form-item :padding="[0,0]"  requiredTitleChangeColor   label="选择地区" field="city" required 
+			:rules="[{required:true,message:'请选择地区'}]">
+				<view @click="testClick" class="flex flex-row flex-row-center-between">
+					<tm-text :userInteractionEnabled="false" :label='show.cityStr||"请选择所在地区地址"'></tm-text>
+					<tm-icon :userInteractionEnabled="false" :font-size="24" name="tmicon-angle-right"></tm-icon>
+				</view>
 			</tm-form-item>
-			<tm-form-item required label="时间选择" field="time" :rules="[{required:true,message:'请选择时间'}]">
-				<tm-input :inputPadding="[0,0]" v-model="show.timeStr" @click="showTimePickerView=!showTimePickerView"
-					suffix="tmicon-angle-right" placeholder="请选择时间" disabled :transprent="true"
-					:showBottomBotder="false"></tm-input>
+			<tm-form-item   required label="时间选择" field="time" :rules="[{required:true,message:'请选择时间+++'}]">
+				<view @click="showTimePickerView=!showTimePickerView" class="flex flex-row flex-row-center-between">
+					<tm-text :userInteractionEnabled="false" :label='timeStr||"请选择时间"'></tm-text>
+					<tm-icon :userInteractionEnabled="false" :font-size="24" name="tmicon-angle-right"></tm-icon>
+				</view>
 			</tm-form-item>
 			
-			<tm-form-item required label="弹出选择" field="pickerStr" :rules="[{required:true,message:'请选择水果种类'}]">
-				<tm-input :inputPadding="[0,0]" v-model="show.pickerStr" @click="showPickerFun"
-					suffix="tmicon-angle-right" placeholder="请选择你的水果种类" disabled :transprent="true"
-					:showBottomBotder="false"></tm-input>
+			<tm-form-item   required label="弹出选择" field="pickerStr" :rules="[{required:true,message:'请选择水果种类'}]">
+				<view @click="showPicker=!showPicker" class="flex flex-row flex-row-center-between">
+					<tm-text :userInteractionEnabled="false" :label='show.pickerStr||"请选择水果呀"'></tm-text>
+					<tm-icon :userInteractionEnabled="false" :font-size="24" name="tmicon-angle-right"></tm-icon>
+				</view>
 			</tm-form-item>
-			<tm-form-item required label="选择水果" field="radio" :rules="[{required:true,message:'请选择水果'}]">
+			<tm-form-item   required label="选择水果" field="radio" :rules="[{required:true,message:'请选择水果'}]">
 				<tm-radio-group v-model="show.radio">
 					<tm-radio label="苹果" value="apple"></tm-radio>
 					<tm-radio label="香焦" value="bonaer"></tm-radio>
 				</tm-radio-group>
 			</tm-form-item>
 
-			<tm-form-item required label="多选水果种类" field="checkbox" :rules="[{required:true,message:'请选择'}]">
+			<tm-form-item   required label="多选水果种类" field="checkbox" :rules="[{required:true,message:'请选择'}]">
 				<tm-checkbox-group v-model="show.checkbox">
 					<tm-checkbox label="苹果" value="apple"></tm-checkbox>
 					<tm-checkbox label="香焦" value="bonaer"></tm-checkbox>
@@ -44,32 +49,32 @@
 				</tm-checkbox-group>
 			</tm-form-item>
 
-			<tm-form-item required label="评分" field="rate" :rules="[{required:true,message:'请选择'}]">
+			<tm-form-item   required label="评分" field="rate" :rules="[{required:true,message:'请选择'}]">
 				<tm-rate v-model="show.rate" :default-value="show.rate"></tm-rate>
 			</tm-form-item>
 
-			<tm-form-item required label="价格选择" field="slider"
+			<tm-form-item   required label="价格选择" field="slider"
 				:rules="[{required:true,message:'请选择',validator:(val)=>val.reduce((a,b)=>Math.abs(a-b))!==0}]">
 				<tm-slider :width="450" v-model="show.slider" :default-value="show.slider"></tm-slider>
 			</tm-form-item>
 
-			<tm-form-item required label="分割选择" field="segtab" :rules="[{required:true,message:'请选择'}]">
+			<tm-form-item   required label="分割选择" field="segtab" :rules="[{required:true,message:'请选择'}]">
 				<tm-segtab :width="420" :list="[{text:'苹果'},{text:'香蕉'}]" v-model="show.segtab"
 					:default-value="show.segtab"></tm-segtab>
 			</tm-form-item>
 
-			<tm-form-item  label="开关" field="switch" :rules="{required:true,message:'没有选中哦'}">
+			<tm-form-item    label="开关" field="switch" :rules="{required:true,message:'没有选中哦'}">
 				<tm-switch v-model="show.switch" :default-value="show.switch" selected='hehe'></tm-switch>
 			</tm-form-item>
 
-			<tm-form-item required label="上传截图" field="upload" :rules="{required:true,message:'请上传'}">
+			<tm-form-item   required label="上传截图" field="upload" :rules="{required:true,message:'请上传'}">
 				<tm-upload :rows="3" :width="420"
 				:default-value="show.upload"
 					url="https://mockapi.eolink.com/tNYKNA7ac71aa90bcbe83c5815871a5b419601e96a5524d/upload"
 					v-model="show.upload"></tm-upload>
 			</tm-form-item>
 
-			<tm-form-item :border="false">
+			<tm-form-item   :border="false">
 				<view class=" flex flex-row">
 					<view class="flex-1 mr-32">
 						<tm-button form-type="submit" label="提交表单" block></tm-button>
@@ -82,11 +87,10 @@
 			</tm-form-item>
 
 		</tm-form>
-		<tm-calendar v-model:model-str="show.caleStr" v-model="show.cale" v-model:show="showCal" :default-value="show.cale"></tm-calendar>
+		<tm-calendar v-model="show.cale" v-model:show="showCal" :default-value="show.cale"></tm-calendar>
 		<tm-city-picker v-model="show.city" v-model:model-str="show.cityStr" v-model:show="showCity"
 			:default-value="show.city"></tm-city-picker>
-		<tm-time-picker v-model="show.time" v-model:model-str="show.timeStr" v-model:show="showTimePickerView"
-			:default-value="show.timeStr"></tm-time-picker>
+		<tm-time-picker v-model="show.time" v-model:show="showTimePickerView" ></tm-time-picker>
 			
 		<tm-picker :columns="pickerlist"  v-model:model-str="show.pickerStr"
 			v-model:show="showPicker" :default-value="show.pickerIndex" v-model="show.pickerIndex"></tm-picker>
@@ -96,9 +100,10 @@
 	import {
 		ref,
 		nextTick,
-		getCurrentInstance
+		getCurrentInstance,
+		computed
 	} from "vue";
-
+	import * as dayjs from "@/tmui/tool/dayjs/esm/index"
 	import tmApp from "@/tmui/components/tm-app/tm-app.vue";
 	import tmInput from "@/tmui/components/tm-input/tm-input.vue";
 	import tmSheet from "@/tmui/components/tm-sheet/tm-sheet.vue";
@@ -123,11 +128,12 @@
 	import tmForm from "@/tmui/components/tm-form/tm-form.vue";
 	const app = ref<InstanceType<typeof tmApp> | null>(null)
 	const form = ref<InstanceType<typeof tmForm> | null>(null)
-
+	const DayJs = dayjs.default;
 	const showCal = ref(false)
 	const showCity = ref(false)
 	const showTimePickerView = ref(false)
 	const showPicker = ref(false)
+	const pickerStr = ref("")
 	const pickerlist = ref([{
 			text: "苹果",
 			id:1,
@@ -145,16 +151,16 @@
 			id:4,
 		},
 	])
+	
 	const show = ref({
 		cale: ["2022-1-4"],
 		caleStr:"2022-1-4",
-		time: '2022-1-9',
-		timeStr: '2022-1-5',
-		radio: "bonaer", //bonaer
+		time: '',
+		radio: "", //bonaer
 		pickerIndex: [1],
-		pickerStr: "",
+		pickerStr:"",
 		checkbox: [],
-		rate: 3,
+		rate: -1,
 		slider: [0, 50],
 		segtab: "",
 		switch: 'hehe',
@@ -163,10 +169,17 @@
 		cityStr: "",
 		nameuser: {
 			a: "测试"
-		}
+		},
+		testff:[],
+		ha:false
 	})
-	
-	
+	const timeStr = computed(()=>!show.value.time?"":DayJs(show.value.time).format('YYYY年MM月DD日'))
+	const caleStr = computed(()=>{
+		if(!show.value.cale||!Array.isArray(show.value.cale)) return ""
+		if(show.value.cale.length==0) return "";
+		return DayJs(show.value.cale[0]).format('YYYY年MM月DD日')
+	})
+
 	
 	
 	const confirm = (e)=>{
@@ -178,7 +191,6 @@
 	}
 	
 	const showPickerFun = ()=>{
-		console.log(12)
 		showPicker.value=!showPicker.value
 	}
 

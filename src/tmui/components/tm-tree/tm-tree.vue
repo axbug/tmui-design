@@ -119,8 +119,9 @@ let __selectedIdsSet = new Set(listParentFlat)
 parentIds.value  = selectedIds.value.filter(el=>__selectedIdsSet.has(el))
 
 //过滤错误的id集。意思是如果用户提供的id不在数据props.data结构体中，就需要排除掉。以增加使用者的容错率。
-const ___a_selectedIds = new Set(selectedIds.value)
-selectedIds.value = listDataFlat.filter(el=>___a_selectedIds.has(el))
+// 2022年11月24日 注释下方两行,可能导致用户配音是先取得选中的值,再设置数据集,会导致过滤掉应有的数据.
+// const ___a_selectedIds = new Set(selectedIds.value)
+// selectedIds.value = listDataFlat.filter(el=>___a_selectedIds.has(el))
 selectedIds.value = selectedIds.value.filter(el=>!__selectedIdsSet.has(el))
 
 const ___a_ExpandedId = new Set(SelectedExpandedId.value)

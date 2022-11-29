@@ -149,7 +149,7 @@ const props = defineProps({
  * @method uploadComplete i当前任务所有文件上传结束时触发。fileList
  */
 const emits = defineEmits(["success","fail","complete","change","remove","uploadComplete","update:modelValue"])
-
+let timeId = NaN
 const itemWidth = computed(()=>{
     return props.width / props.rows
 })
@@ -174,6 +174,9 @@ const _blackValue = uni.$tm.u.deepClone(toRaw(_uploadObj.filelist))
 watch([()=>props.header,()=>props.maxFile,()=>props.maxSize,()=>props.formData],()=>{
     _uploadObj.setConfig({formName:props.formName,hostUrl:props.url,header:props.header,formData:props.formData,maxFile:props.maxFile,maxSize:props.maxSize})
 },{deep:true})
+
+
+
 //添加已上传文件列表。
 function addSuccess(fileList:Array<file>= []){
     
@@ -184,7 +187,7 @@ function addSuccess(fileList:Array<file>= []){
         }else{
             _itemfile = {...e};
         }
-        _itemfile = {..._itemfile,statusCode:statusCode.success,status:'上传成功',progress:100}
+        _itemfile = {statusCode:e?.statusCode??statusCode.success,status:e?.status??'上传成功',progress:e?.progress??100,..._itemfile}
         return _itemfile
     })
     return fl;
@@ -229,18 +232,25 @@ _uploadObj.complete = function(item:file){
 	// _filelist.value = [..._uploadObj.filelist]
     // emits("complete",toRaw(item),toRaw(_filelist.value));
     // emits("update:modelValue",_filelist.value)
-	pushFormItem(true)
 	_flist.value = [..._uploadObj.filelist]
+	emits("update:modelValue",_uploadObj.filelist)
+	
 }
 //自动监听加入已上传文件到列表中。
 watch(()=>props.modelValue,()=>{
-	let fl = Array.isArray(props.modelValue)?props.modelValue:[];
-	if(fl.length==0){
-		_uploadObj.filelist = [];
-	}else{
-		_uploadObj.addFile(addSuccess(fl))
-        _flist.value = [..._uploadObj.filelist]
-	}
+	clearTimeout(timeId)
+	timeId = setTimeout(function() {
+		let fl = Array.isArray(props.defaultValue)?props.defaultValue:[];
+		_uploadObj.clear()
+		if(fl.length==0){
+			_uploadObj.filelist = [];
+			_flist.value = [];
+		}else{
+			_uploadObj.addFile(addSuccess(fl))
+			_flist.value = [...uni.$tm.u.deepClone(_uploadObj.filelist)]
+		}
+	}, 200);
+
 },{deep:true})
 _uploadObj.uploadComplete = function(filelist){
     emits("uploadComplete",filelist);
@@ -255,6 +265,7 @@ _uploadObj.fail = function(item){
 }
 function chooseFile(){
     _uploadObj.chooesefile().then(fileList=>{
+
 		_flist.value = [..._uploadObj.filelist]
         emits("update:modelValue",_uploadObj.filelist)
     })
@@ -273,15 +284,16 @@ async function deletedFile(item:file){
    emits("remove",toRaw(item))
    emits("update:modelValue",_uploadObj.filelist)
    emits("change",toRaw(_uploadObj.filelist))
-   pushFormItem()
+
     
 }
 
 function clear(){
+	_uploadObj.clear()
     _uploadObj.filelist = [];
 	_flist.value = []
     emits("update:modelValue",[])
-    pushFormItem()
+
 }
 //fileId标识id.
 function del(fileId:number|string){
@@ -293,7 +305,7 @@ function del(fileId:number|string){
         emits("remove",toRaw(item))
         emits("update:modelValue",_uploadObj.filelist)
         emits("change",toRaw(_uploadObj.filelist))
-        pushFormItem()
+       
     }
 }
 function getFailList(){
@@ -316,6 +328,7 @@ function clearFail(){
  * getFailList 获取上传失败的文件列表。
  * getSuccessList 获取上传成功的文件列表
  * clearFail 清除上传失败的文件（只要标识不是成功的都会删除）
+ * 手动
  */
 defineExpose({start:()=>{
 	_uploadObj.start()
@@ -325,122 +338,4 @@ defineExpose({start:()=>{
 clear,del,getFailList,clearFail
 })
 
-/** -----------form专有------------ */
-//父级方法。
-const rulesObj = inject("tmFormItemRules",computed<Array<rulesItem>>(()=>{
-    return [
-        {
-            message:"请选择图片上传",
-            required:false,
-            validator:false
-        }
-    ]
-}))
-
-//父级方法。
-let parentFormItem = proxy.$parent
-while (parentFormItem) {
-    if (parentFormItem?.tmFormComnameFormItem == 'tmFormComnameFormItem' || !parentFormItem) {
-        break;
-    } else {
-        parentFormItem = parentFormItem?.$parent ?? undefined
-       
-    }
-}
-const validate =(rules:Array<rulesItem>)=>{
-    let successFile = _uploadObj.filelist.filter(el=>el.statusCode===3);
-    rules = rules.map(el=>{
-        if(typeof el.validator === "function" && el.required===true){
-            return el
-        }else if(typeof el.validator === "boolean" && el.required===true){
-            return {
-                ...el,
-                validator:(val:Array<file>)=>{
-                    return val.length == 0?false:true
-                }
-            }
-        }else{
-            return {
-                ...el,
-                validator:(val:Array<file>)=>{
-                    return true
-                }
-            }
-        }
-        
-    })
-    let rules_filter:Array<rulesItem> = rules.filter(el=>{
-        return typeof el.validator === "function" && el.required===true
-    })
-    let rules_fun:Array<Promise<rulesItem>> = rules_filter.map(el=>{
-        return new Promise(async (res,rej)=>{
-            if(typeof el.validator ==='function'){
-                let vr = await el.validator(successFile)
-                if(vr){
-                    res({
-                        message:String(el.message),
-                        validator:true
-                    })
-                }else{
-                    rej({
-                        message:el.message,
-                        validator:false
-                    })
-                }
-            }else{
-                res({
-                    message:el.message,
-                    validator:true
-                })
-            }
-        })
-    })
-    return Promise.all(rules_fun)
-}
-async function pushFormItem(isCheckVail = true){
-    if (parentFormItem) {
-        if (isCheckVail) {
-            let successFile = _uploadObj.filelist.filter(el=>el.statusCode===3);
-            validate(toRaw(rulesObj.value)).then(ev => {
-                parentFormItem.pushCom({
-                    value: successFile,
-                    isRequiredError: false,//true,错误，false正常 检验状态
-                    componentsName: 'tm-upload',//表单组件类型。
-                    message: ev.length==0?"":ev[0].message,//检验信息提示语。
-                })
-            }).catch(er => {
-                parentFormItem.pushCom({
-                    value: successFile,
-                    isRequiredError: true,//true,错误，false正常 检验状态
-                    componentsName: 'tm-upload',//表单组件类型。
-                    message: er.message,//检验信息提示语。
-                })
-                
-            })
-        }
-    }
-}
-pushFormItem()
-const tmFormFun = inject("tmFormFun",computed(()=>""))
-watch(tmFormFun,()=>{
-    if(tmFormFun.value=='reset'){
-		_uploadObj.filelist = [];
-		_flist.value = []
-		
-		nextTick(()=>{
-			pushFormItem(true)
-			emits('update:modelValue',_blackValue)
-		})
-		
-    }
-	if(tmFormFun.value=='validate'){
-		pushFormItem(true)
-	}
-	if(tmFormFun.value=='clearValidate'){
-		pushFormItem(false)
-	}
-	
-})
-
-/** -----------end------------ */
 </script>

@@ -5,7 +5,7 @@
 		_cureent < _countCurrent ? 'flex-1' : ''
 	]" :style="{ width: _width}">
 		<!-- 线 -->
-		<view  class="flex-1 flex-row flex-row-center-between absolute" :style="{ width: _isNvue?_width:'100%',top:(nodeSize/2)+'rpx'}">
+		<view  class="flex-1 flex-row flex-row-center-between absolute" :style="{ width: _width,top:(nodeSize/2)+'rpx'}">
 			<view :style="{ width: _widthLine}">
 				<tm-divider :border="2"  v-if="(_cureent)>0" :color="_color"  :followDark="props.followDark" :dark="props.dark" :margin="[0, 0]">
 				</tm-divider>
@@ -56,7 +56,7 @@ import tmSheet from '../tm-sheet/tm-sheet.vue';
 import tmText from '../tm-text/tm-text.vue';
 import tmIcon from '../tm-icon/tm-icon.vue';
 import tmDivider from '../tm-divider/tm-divider.vue';
-import { computed, getCurrentInstance, inject, ref } from "vue";
+import { computed, getCurrentInstance, inject, onUnmounted, ref } from "vue";
 import { custom_props } from '../../tool/lib/minxs';
 const proxy = getCurrentInstance()?.proxy??null;
 const props = defineProps({
@@ -90,7 +90,10 @@ const props = defineProps({
 		type: Number,
 		default: 32
 	},
-
+	width:{
+		type: Number,
+		default: 150
+	}
 })
 //父级方法。
 let parent:any = proxy?.$parent
@@ -106,15 +109,22 @@ const _isNvue = ref(false)
 // #ifdef APP-NVUE
 _isNvue.value = true;
 // #endif
+
+
+
 //本节点的位置步骤。
-const _cureent = ref(parent?.pushKey() ?? 0)
+const _cureent = ref(parent?.pushKey(props.width) ?? 0)
+onUnmounted(()=>{
+	if(parent){
+		_cureent.value = parent?.delKey(props.width)
+	}
+})
 //总步骤数量
 const _countCurrent = inject("tmStepsCountCureent", computed(() => 1))
 // 当前被激活的步骤
 const _tmStepsCureent = inject("tmStepsCureent", computed(() => -1))
 const tmStepsCountActiveColor = inject("tmStepsCountActiveColor", computed(() => 'primary'))
 const tmStepsCountColor = inject("tmStepsCountColor", computed(() => 'grey-3'))
-const tmStepsWidth = inject("tmStepsWidth", computed(() => 600))
 
 const _activeColor = computed(() => {
 	if (props.activeColor) return props.activeColor;
@@ -168,17 +178,10 @@ const showLine = computed(() => {
 
 
 const _width = computed(() =>{
-	let _itemwidth =  100 / (_countCurrent.value + 1) + '%';
-	// #ifdef APP-PLUS-NVUE
-	_itemwidth =  Math.ceil((tmStepsWidth.value / (_countCurrent.value + 1))) + 'px';
-	// #endif
-	return _itemwidth;
+	return Math.ceil(uni.upx2px(props.width))+'px';
 })
 const _widthLine = computed(() =>{
-	let _itemwidth =  `calc(${(100 /2)}% - ${uni.upx2px(nodeSize.value)}px)`;
-	// #ifdef APP-PLUS-NVUE
-	_itemwidth =  Math.ceil((tmStepsWidth.value / (_countCurrent.value + 1))/2 - uni.upx2px(nodeSize.value)) + 'px';
-	// #endif
+	let _itemwidth =  Math.ceil(uni.upx2px(props.width - nodeSize.value - 16)/2) + 'px';
 	return _itemwidth;
 })
 

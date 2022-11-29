@@ -4,23 +4,28 @@
             <tm-text :font-size="24" _class="font-weight-b" label="下面是基础演示属性,更多玩法请前往文档。"></tm-text>
             <tm-divider></tm-divider>
             <view class="flex flex-row flex-wrap ">
-                <tm-button :margin="[12, 12]" @click="pos = 'bottom'; showWin = true" color="white" :width="120"
+                <tm-button :margin="[12, 12]" @click="changPos('bottom')" color="white" :width="120"
                     :height="56" :font-size="24" label="底部"></tm-button>
-                <tm-button :margin="[12, 12]" @click="pos = 'top'; showWin = true" color="red" :width="120" :height="56"
+                <tm-button :margin="[12, 12]" @click="changPos('top')" color="red" :width="120" :height="56"
                     :font-size="24" label="顶部"></tm-button>
-                <tm-button :margin="[12, 12]" @click="pos = 'left'; showWin = true" color="orange" :width="120"
+                <tm-button :margin="[12, 12]" @click="changPos('left')" color="orange" :width="120"
                     :height="56" :font-size="24" label="左边"></tm-button>
-                <tm-button :margin="[12, 12]" @click="pos = 'right'; showWin = true" color="pink" :width="120"
+                <tm-button :margin="[12, 12]" @click="changPos('right')" color="pink" :width="120"
                     :height="56" :font-size="24" label="右边"></tm-button>
-                <tm-button :margin="[12, 12]" @click="pos = 'center'; showWin = true" color="green" :width="120"
+                <tm-button :margin="[12, 12]" @click="changPos('center')" color="green" :width="120"
                     :height="56" :font-size="24" label="居中"></tm-button>
             </view>
         </tm-sheet>
-        <tm-drawer ref="calendarView" :placement="pos" v-model:show="showWin"></tm-drawer>
+
+        <tm-drawer ref="calendarView" :placement="pos" v-model:show="showWin">
+			<tm-button :margin="[12, 12]" @click="showWin2 = true" color="green" :width="120" :height="56" :font-size="24" label="内弹出"></tm-button>
+			<tm-drawer  :width="300" :height="300" ref="calendarView" :placement="pos" v-model:show="showWin2">
+			</tm-drawer>
+		</tm-drawer>
     </tm-app>
 </template>
 <script lang="ts" setup>
-import { ref, getCurrentInstance } from "vue"
+import { ref, getCurrentInstance,nextTick } from "vue"
 import { onShow, onLoad } from "@dcloudio/uni-app";
 import tmApp from "@/tmui/components/tm-app/tm-app.vue"
 import tmSheet from "@/tmui/components/tm-sheet/tm-sheet.vue"
@@ -31,6 +36,12 @@ import tmDrawer from "@/tmui/components/tm-drawer/tm-drawer.vue"
 const calendarView = ref<InstanceType<typeof tmCalendarView> | null>(null)
 
 const showWin = ref(false)
+const showWin2 = ref(false)
 const pos = ref("bottom")
+
+function changPos(params:string) {
+    pos.value = params;
+    showWin.value=true
+}
 
 </script>

@@ -18,6 +18,7 @@
             :showSuffix="props.showSuffix"
             :start="props.start"
             :end="props.end"
+			:immediateChange="props.immediateChange"
             ></tm-time-view>
             <tm-button label="确认选择" 
 			block
@@ -53,6 +54,10 @@ const props = defineProps({
         type: Boolean,
         default: false
     },
+	immediateChange:{
+		type:Boolean,
+		default:false
+	},
     //这里是动态返回时间戳。这是一个标准的时间，不管showDetail是如何设置都将不影响这里的输出。
 	modelValue:{
 		type:[Number,String,Date],
@@ -144,10 +149,10 @@ const props = defineProps({
         type:Number,
         default:12
     },
-    title:{
-      type:String,
-      default:"请选择时间"
-    }
+	title:{
+		type:String,
+        default:"请选择时间"
+	}
 
 })
 
@@ -191,11 +196,14 @@ function change(e:string | number) {
 }
 
 function confirm() {
+	console.log(_value.value)
     emits("confirm", _value.value)
     emits("update:modelValue", _value.value)
 	emits("update:modelStr", _strvalue.value)
-    isConfirm.value = true;
-    drawer.value?.close();
+    nextTick(()=>{
+		isConfirm.value = true;
+    	drawer.value?.close();
+	})
 }
 
 const dHeight = computed(() => {

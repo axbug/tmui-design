@@ -32,11 +32,12 @@
 				"transparentTitle": "always"
 			}
 		}
-	    
+	   
         
        
     ],
 	"subPackages": [
+		
 		{
 			"root": "pages/yewu",
 			"pages": [
@@ -139,7 +140,8 @@
                     "style" :                                                                                    
                 {
                     "navigationBarTitleText": "",
-                    "enablePullDownRefresh": false
+                    "enablePullDownRefresh": false,
+					"disableScroll": true
                 }
                 
                 }
@@ -174,8 +176,10 @@
 					"style": {
 						"navigationBarTitleText": "",
 						"navigationStyle": "custom",
+						// #ifdef mp-MP-ALIPAY
 						"titlePenetrate": "YES",
 						"transparentTitle": "always"
+						// #endif
 					}
 				},
 				{
@@ -208,7 +212,17 @@
 						"navigationBarTitleText": "底部导航 Tabbar"
 					}
 				}
-			]
+			    ,{
+                    "path" : "tmFilterMenu",
+                    "style" :                                                                                    
+                {
+                    "navigationBarTitleText": "下拉筛选器",
+                    "enablePullDownRefresh": false
+                }
+                
+                }
+                
+            ]
 		},
 		{
 			"root": "pages/fankui",

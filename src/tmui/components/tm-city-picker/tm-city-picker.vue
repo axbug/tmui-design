@@ -6,7 +6,6 @@
 		:height="820"
 		:closable="true"
 		:overlayClick="aniover"
-		v-if="showCity"
 		@open="drawerOpen"
 		@cancel="cancel"
 		@ok="confirm"
@@ -16,6 +15,7 @@
 		ok-text="确认"
 	>
 		<tm-picker-view
+			v-if="showCity"
             ref="picker"
 			:height="590"
 			@end="aniover = true"
@@ -132,7 +132,7 @@ const showCity = ref(true)
 const _cityData = computed(()=>props.city)
 const _colIndex: Ref<Array<number>> = ref([])
 const _data = ref(chiliFormatCity_area())
-
+let tmid = NaN
 const _colStr = ref('')
 const aniover = ref(true)
 const sysinfo = inject("tmuiSysInfo",{bottom:0,height:750,width:uni.upx2px(750),top:0,isCustomHeader:false,sysinfo:null})
@@ -141,13 +141,13 @@ let win_bottom = sysinfo.bottom
 watchEffect(() => {
     showCity.value = props.show
 })
-watch(()=>props.modelValue,()=>{
-	getIndexBymodel(_data.value, props.selectedModel, 0, props.modelValue)
-    defaultModerStrGet()
-},{deep:true})
-watch(()=>props.city,()=>{
+watch([()=>props.city,()=>props.modelValue],()=>{
 	_data.value = chiliFormatCity_area()
-	getIndexBymodel(_data.value, props.selectedModel, 0, props.modelValue)
+	clearTimeout(tmid)
+	tmid =setTimeout(function() {
+		getIndexBymodel(_data.value, props.selectedModel, 0, props.modelValue)
+		defaultModerStrGet()
+	}, 500);
 },{deep:true})
 function closeDrawer(e: boolean) {
     showCity.value = e;
@@ -155,7 +155,7 @@ function closeDrawer(e: boolean) {
     getIndexBymodel(_data.value, "index", 0, toRaw(_colIndex.value))
 	
 }
-onMounted(()=>defaultModerStrGet())
+// onMounted(()=>defaultModerStrGet())
 function drawerOpen() {
 	getIndexBymodel(_data.value, props.selectedModel, 0, props.modelValue)
 }
@@ -163,8 +163,10 @@ function drawerOpen() {
 function confirm() {
     if (!aniover.value) return
     setVal();
-    emits("confirm", props.modelValue)
-    drawer.value?.close();
+    nextTick(()=>{
+        emits("confirm", props.modelValue)
+        drawer.value?.close();
+    })
 }
 function cancel() {
      if (!aniover.value) return
@@ -184,10 +186,14 @@ function setVal() {
     emits("update:modelStr", _colStr.value)
 }
 function defaultModerStrGet(){
-    if(!_colStr.value&&_colIndex.value.length>0){
-        let text = getRouterText(_data.value,0);
-        emits("update:modelStr",text.join("/"))
-    }
+	clearTimeout(tmid)
+	tmid =setTimeout(function() {
+		if(_colIndex.value.length>0){
+			console.log(_colIndex.value,999)
+		    let text = getRouterText(_data.value,0);
+		    emits("update:modelStr",text.join("/"))
+		}
+	}, 200);
 }
 //模拟模型来返回index值
 function getIndexBymodel(vdata:Array<childrenData> = [], model = "name", parentIndex = 0, value:Array<number|string> = []): Array<number|string> {

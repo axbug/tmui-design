@@ -9,6 +9,18 @@ title: tmui 3.0 组件库
 # 输入框 Input
 通过鼠标或键盘输入字符。
 
+::: waring 非常重要
+
+使用UNI开发的input组件，一定会在微信小程序中的机型（不敢保证 全部），双向绑定数据输入数据时，会出现字符闪烁或者输入过快时，字符丢失。<br>
+解决方案：<br>
+
+1. 采用原生的input组件，不要使用本组件。
+2. v-model改成v-model.lazy，可以有效改善字符丢失的问题。
+
+以上BUG是uni自带的，我无力解决，只能按照方案解决。另外一提，使用微信原生代码开发的自定Input组件，不会出现双向绑定，输入过快时字符丢失问题，是不是很神奇？
+
+:::
+
 ---
 
 ### :hot_pepper: 输入框 Input 示例
@@ -57,9 +69,10 @@ title: tmui 3.0 组件库
 | password | Boolean | false | 是否密码框 |
 | disabled | Boolean | false | 是否禁用 |
 | placeholder | String | 请输入内容 | 文本框占位文本 |
+| placeholderStyle | string | '' | placeholder样式,只支持字符串格式 |
 | errorLabel | String | 请输入内容 | 错误时，提示的文本。 |
 | align | String | left | 对齐方式。可选值：left,right,center |
-| modelValue | [String,Number] | '' | 绑定值 |
+| modelValue | [String,Number] | '' | 绑定值，双向绑定时请使用v-model="xx",或者:value.sync |
 | inputPadding | `Array<number>` | [24,0] | 输入框边距 |
 | showCharNumber | Boolean | false | 是否显示字符统计。 |
 | maxlength | Number | -1 | 最大长度 |
@@ -71,6 +84,8 @@ title: tmui 3.0 组件库
 | holdKeyboard | Boolean | false |  |
 | adjustPosition | Boolean | true | 是否上推键盘 |
 | focus | Boolean | false | 是否聚焦 |
+| readonly | Boolean | false | 是否为只读状态，如果你是支付宝或者钉钉小程序，在使用disabled时，文字变灰，可使用此属性代替。 |
+
 
 ### :rose: 事件
 | 事件名 | 参数 | 返回数据 | 描述 |
@@ -79,7 +94,7 @@ title: tmui 3.0 组件库
 | blur | - | - | 失去焦点事件 |
 | confirm | - | - | 提交事件 |
 | input | - | - | 输入时触发的函数。 |
-| update:modelValue | - | - | 更新表单值 |
+| update:modelValue | - | - | 更新表单值相当于v-model |
 | clear | - | - | 清除图标被点击时触发。 |
 | search | - | - | 查询 |
 | keyboardheightchange | - | - | 键盘高度变化 |

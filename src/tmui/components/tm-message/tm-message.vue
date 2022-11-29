@@ -1,5 +1,5 @@
 <template>
-	<view ref="nvueElAni" v-if="showValue" class="fi l-0 t-0 flex flex-row flex-row-center-center  on" :class="[showMask?'overflowMask':'overflowMaskNo']" :style="{width:_width+'px',height:_height+'px',top:sysinfo.top+'px'}">
+	<view ref="nvueElAni" v-if="showValue" class="fixed l-0 t-0 flex flex-row flex-row-center-center  on" :class="[showMask?'overflowMask':'overflowMaskNo']" :style="{width:_width+'px',height:_height+'px',top:sysinfo.top+'px'}">
 		<tm-sheet v-if="showValue" :style="{transform: isNvue?'scale(0,0)':'scale(1,1)'}" ref="nvueElAniContent" class="scale nvueContent"  :_style="props._style" :_class="props._class" :color="bgColor" :border="0" :shadow="10"
 			:width="props.width" :height="props.height" :margin="[40,40]" :round="props.round"
 			:padding="props.padding">

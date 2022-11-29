@@ -2,12 +2,28 @@
 	<view ref="bodywk" @click="hanlder" :class="[customClass, 'overflow']" :style="[
 			computedHeight ? { height: computedHeight } : '', 
 			computedWidth ? { width: computedWidth } : '',customCSSStyle]">
-		<view v-if="isLoadEl" ref="nvueElAni" :animation="animationData" :class="[
+		<!-- #ifdef APP-NVUE -->
+		<view v-if="isLoadEl" ref="nvueElAni" :animation="animationData" 
+		
+		:class="[
 			'flex-col flex trani',
 			animationName+reverseAniPrefxname,customClass
 		]" >
 			<slot name="default"></slot>
 		</view>
+		<!-- #endif -->
+		<!-- #ifndef APP-NVUE -->
+		<view v-if="isLoadEl" ref="nvueElAni"
+		:style="{transitionDuration: `${props.duration}ms`,transitionTimingFunction:'ease'}"
+		  :class="[
+			'flex-col flex trani',
+			animationClassName,
+			customClass
+		]" >
+			<slot name="default"></slot>
+		</view>
+		<!-- #endif -->
+
 	</view>
 </template>
 
@@ -86,7 +102,7 @@
 	});
 	const emits = defineEmits(['start', 'end', 'click']);
 
-	function hanlder(e) {
+	function hanlder(e:any) {
 		emits("click", e)
 	}
 	const proxy = getCurrentInstance()?.proxy??null;
@@ -123,6 +139,8 @@
 	const computedReverse = computed(() => props.reverse)
 	//反转动画前缀
 	const reverseAniPrefxname = computed(() => computedReverse.value ? '-reverse' : '')
+	//非nvue
+	const animationClassName = ref(animationName.value+reverseAniPrefxname.value)
 	//动画播放状态。0未开始,结束播放，1开始播放中,2结束。
 	const animationStatus = ref(0)
 	const tmid = ref(Number(uni.$tm.u.getUid(3)));
@@ -130,15 +148,18 @@
 	const isLoadEl = ref(false);
 	//css3动画数据。
 	const animationData = ref(null);
-	let testid =99
-	watch(()=>props.initByWechat,()=>{
+	watch([()=>props.initByWechat,()=>props.name],()=>{
 		reset()
+	})
+	watch([()=>props.name],()=>{
+		animationClassName.value = animationName.value+reverseAniPrefxname.value
+		
 	})
 	function init() {
 		nextTick(()=>{
 			isLoadEl.value = true;
 			if (props.autoPlay == true && !props.disabled) {
-				play()
+				nextTick(()=>play())
 			}
 		})
 	}
@@ -155,6 +176,8 @@
 		})
 		// #endif
 		// #ifndef APP-PLUS-NVUE
+		
+		
 		noNvueAmations();
 		// #endif
 	}
@@ -168,6 +191,7 @@
 
 	function reset() {
 		stop();
+		
 		animationStatus.value = 0;
 	}
 	//对外暴露方法。
@@ -246,85 +270,16 @@
 		}, 20);
 	}
 	function noNvueAmations() {
-
-		animationData.value = null;
-		//复位。
-		nextTick(function() {
-			var animation = uni.createAnimation({
-				duration: durationtos.value,
-				timingFunction: 'ease',
-				delay: 30
-			});
-			
-			clearTimeout(tmid.value)
-			if (animationName.value == 'fade') {
-				let opacity = computedReverse.value ? 1 : 0;
-				animation.opacity(opacity).step({
-					duration: 0
-				});
-			} else if (animationName.value == 'up') {
-				let opacity = computedReverse.value ? '-101%' : '0%';
-				animation.translateY(opacity).opacity(1).step({
-					duration: 0
-				});
-			} else if (animationName.value == 'down') {
-				let opacity = computedReverse.value ? '101%' : '0%';
-				animation.translateY(opacity).opacity(1).step({
-					duration: 0
-				});
-			} else if (animationName.value == 'left') {
-				let opacity = computedReverse.value ? '-101%' : '0%';
-				animation.translateX(opacity).opacity(1).step({
-					duration: 0
-				});
-			} else if (animationName.value == 'right') {
-				let opacity = computedReverse.value ? '101%' : '0';
-				animation.translateX(opacity).opacity(1).step({
-					duration: 0
-				});
-			} else if (animationName.value == 'zoom') {
-				let scale = computedReverse.value ? [1, 1] : [0.8, 0.8];
-				let opacity = computedReverse.value ? 1 : 0;
-				animation.scale(...scale).opacity(opacity).step({
-					duration: 0
-				});
+		clearTimeout(tmid.value)
+		// animationData.value = null;
+		tmid.value = setTimeout(() => {
+			if(computedReverse.value){
+				animationClassName.value = animationName.value
+			}else{
+				animationClassName.value = animationName.value+ '-reverse'
 			}
-			animationData.value = animation.export();
-			let detalTime = 40;
-			// #ifdef MP
-			detalTime=80
-			// #endif
-			tmid.value = setTimeout(function() {
-				if (animationName.value == 'fade') {
-					let opacity = computedReverse.value ? 0 : 1;
-					animation.opacity(opacity).step();
-				} else if (animationName.value == 'up') {
-					let opacity = computedReverse.value ? '0%' : '-101%';
-					animation.translateY(opacity).opacity(1).step();
-				} else if (animationName.value == 'down') {
-					let opacity = computedReverse.value ? '0%' : '101%';
-					animation.translateY(opacity).opacity(1).step();
-				} else if (animationName.value == 'left') {
-					let opacity = computedReverse.value ? '0%' : '-101%';
-					animation.translateX(opacity).opacity(1).step();
-				} else if (animationName.value == 'right') {
-					let opacity = computedReverse.value ? '0' : '101%';
-					animation.translateX(opacity).opacity(1).step();
-				} else if (animationName.value == 'zoom') {
-					let scale = computedReverse.value ? [0.8, 0.8] : [1, 1];
-					let opacity = computedReverse.value ? 0 : 1;
-					animation.scale(...scale).opacity(opacity).step();
-				}
-				emits('start');
-				animationData.value = animation.export();
-				animationStatus.value = 1;
-				clearTimeout(tmid.value)
-				tmid.value = setTimeout(function() {
-					emits('end');
-					animationStatus.value = 2;
-				}, durationtos.value)
-			}, 50)
-		})
+		}, 20);
+		return ;
 	}
 </script>
 
@@ -332,6 +287,7 @@
 
 	.fade {
 		opacity: 0;
+		
 	}
 	.fade-reverse {
 		opacity: 1;

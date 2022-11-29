@@ -52,7 +52,7 @@
 							" :width="props.itemWidth" _class="flex-col flex-col-center-center" :margin="[0, 0]" :padding="[20, 0]"
 							:height="props.itemHeight">
 							<view  :style="[props.itemWidth > 0 ? { width: props.itemWidth + 'rpx' } : {},{height:props.itemHeight+'rpx'}]"
-								class="flex flex-row flex-row-center-center">
+								class="flex flex-row flex-row-center-center relative flex-shrink">
 								<view class="flex flex-row flex-center">
 									<tm-icon :userInteractionEnabled="false" v-if="item.icon" _class="pr-5"
 										:color="item.key == _active ? props.activeFontColor : props.unSelectedColor"
@@ -66,13 +66,14 @@
 										:label="item.title">
 									</tm-text>
 								</view>
-								
-								<tm-badge v-if="!item.count&&item.dot" dot :color="item.dotColor">
-									<view :style="{ height: `${props.itemHeight/3}rpx` }"></view>
-								</tm-badge>
-								<tm-badge v-if="item.count&&!item.dot" :count="item.count" :color="item.dotColor">
-									<view :style="{ height: `${props.itemHeight-20}rpx` }"></view>
-								</tm-badge>
+								<view :userInteractionEnabled="false" v-if="!item.count&&item.dot"  :style="{height:12+'rpx',top:'12rpx',right:'-16rpx',width:isNvue?'flex-1':'100%'}" class="absolute t-0 r-0 flex flex-row flex-row-center-end">
+									<tm-badge dot :color="item.dotColor">
+									</tm-badge>
+								</view>
+								<view :userInteractionEnabled="false"  v-if="item.count&&!item.dot" :style="{height:(props.itemHeight-30)+'rpx',top:'10rpx',right:props.showTabsLineAni?0:-16+'rpx',width:isNvue?'flex-1':'100%'}" class="absolute t-0 r-0">
+									<tm-badge :count="item.count" :color="item.dotColor">
+									</tm-badge>
+								</view>
 							</view>
 						</tm-sheet>
 
@@ -105,10 +106,10 @@
 						:border="(item.key === _active ? modelStyle.border : 0)"
 						:transprent="(item.key === _active ? modelStyle.transprent : true)" :color="
 							(props.activeColor && item.key === _active ? props.activeColor : props.color)
-						" :width="props.itemWidth" _class="flex-center flex-row" :margin="[0, 0]" :padding="[20, 0]"
+						" :width="props.itemWidth" _class="flex-center flex-row" :margin="[0, 0]" :padding="[0, 0]"
 						:height="props.itemHeight" unit="rpx">
-						<tm-badge  :dot="item.dot" :count="item.count" :color="item.dotColor">
-							<view class="flex flex-row flex-center" :style="{height:(props.itemHeight-20)+'rpx'}">
+						<tm-badge :font-size="19" :dot="item.dot" :count="item.count" :color="item.dotColor">
+							<view class="flex flex-row flex-center px-20" :style="{height:(props.itemHeight-20)+'rpx'}">
 								<tm-icon :userInteractionEnabled="false" v-if="item.icon" _class="pr-5"
 									:color="item.key === _active ? props.activeFontColor : props.unSelectedColor"
 									:font-size="item.key === _active ? props.activeFontSize : props.itemFontSize"
@@ -148,19 +149,19 @@
 						" :width="_itemwidth" _class="flex-center flex-row" :margin="[0, 0]" :padding="[0, 0]"
 						:height="_itemheight" unit="px">
 						
-						<tm-badge  :dot="item.dot" :count="item.count" :color="item.dotColor">
-						<view class="flex flex-row flex-center">
-							<tm-icon :userInteractionEnabled="false" v-if="item.icon" _class="pr-5"
-								:color="item.key === _active ? props.activeFontColor : props.unSelectedColor"
-								:font-size="item.key === _active ? props.activeFontSize : props.itemFontSize"
-								:name="item.icon">
-							</tm-icon>
-							<tm-text :userInteractionEnabled="false"
-								:font-size="item.key === _active ? props.activeFontSize : props.itemFontSize"
-								:color="item.key === _active ? props.activeFontColor : props.unSelectedColor"
-								:label="item.title">
-							</tm-text>
-						</view>
+						<tm-badge :font-size="19" :dot="item.dot"  :count="item.count" :color="item.dotColor">
+							<view class="flex flex-row flex-center px-20" :style="{height:(props.itemHeight-20)+'rpx'}">
+								<tm-icon :userInteractionEnabled="false" v-if="item.icon" _class="pr-5"
+									:color="item.key === _active ? props.activeFontColor : props.unSelectedColor"
+									:font-size="item.key === _active ? props.activeFontSize : props.itemFontSize"
+									:name="item.icon">
+								</tm-icon>
+								<tm-text :userInteractionEnabled="false"
+									:font-size="item.key === _active ? props.activeFontSize : props.itemFontSize"
+									:color="item.key === _active ? props.activeFontColor : props.unSelectedColor"
+									:label="item.title">
+								</tm-text>
+							</view>
 						</tm-badge>
 						
 					</tm-sheet>
@@ -358,6 +359,11 @@ const props = defineProps({
 	  type: String,
 	  default: ''
 	},
+	/** 当选中某一项时,内容会往前滚动的项目数量,类似于位置让选中项始终在中间. */
+	subtract:{
+		type: Number,
+		default: 2
+	}
 	
 });
 const _disAbledPull = computed(()=>props.disAbledPull)
@@ -560,7 +566,7 @@ watch(
 	() => props.activeName,
 	() => {
 		if(props.activeName==_active.value) return;
-		changeKey(props.activeName, false);
+		changeKey(props.activeName, false,false);
 	}
 );
 
@@ -594,8 +600,8 @@ watch(() => _active.value, () => {
 		let index = cacheTabs.value.findIndex(el => el.key == _active.value)
 
 		if (index > -1) {
-			if (typeof cacheTabs.value[index - 2] !== 'undefined') {
-				_scrollToId.value = tabsid + cacheTabs.value[index - 2]?.key;
+			if (typeof cacheTabs.value[index - props.subtract] !== 'undefined') {
+				_scrollToId.value = tabsid + cacheTabs.value[index - props.subtract]?.key;
 			} else {
 				_scrollToId.value = tabsid + cacheTabs.value[0]?.key;
 			}
@@ -909,12 +915,16 @@ function changeKey(key: string | number, isclick = true,isNomarlChange=true) {
 	_startx.value = uni.upx2px((activeIndex.value) * props.width)
 	// #endif
 	timeDetail = 1;
-	if(isNomarlChange){
-		emits("change", key);
-	}
 	emits("update:activeName", toRaw(_active.value));
+	if(isNomarlChange){
+		nextTick(()=>{
+			emits("change", key);
+		})
+	}
 	if (isclick) {
-		emits("click", key);
+		nextTick(()=>{
+			emits("click", key);
+		})
 	}
 }
 

@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<view v-if="!isPlace" class="statusHeight" :style="{height:_barHeight+'px'}"></view>
+		<view v-if="props.isPlace" class="statusHeight" :style="{height:_barHeight+'px'}"></view>
 		<view class="fixed l-0 t-0 statusHeightTop flex" :style="{width:_width+'px',height:_barHeight+'px'}">
 			<tm-sheet
 				@click="emits('click', $event)"
@@ -29,7 +29,7 @@
 				:darkBgColor="props.darkBgColor"
 			>
 				<view class="statusHeight" :style="{height:statusBarHeight+'px'}"></view>
-
+				
 				<view class="flex flex-row flex-1 flex-row flex-row-center-between ">
 					<view class="flex-row flex flex-row-center-start " :style="{width:_leftWidth+'rpx'}">
 						<!-- #ifndef MP-ALIPAY -->
@@ -94,7 +94,7 @@
 			default: 1
 		},
 		borderDirection:{
-			type:String,
+			type:String as PropType<"all" | "bottom" | "bottomleft" | "bottomright" | "left" | "leftright" | "right" | "top" | "topbottom" | "topleft" | "topright" | "x" | "y">,
 			default:"bottom"
 		},
 		round: {
@@ -176,15 +176,16 @@
 		  type: String,
 		  default: ''
 		},
-		isPlace: {
-			type: Boolean,
-			default: false
-		},
+		/**是否占位,如果为false,底部内容会被导航遮盖,true则会店内内容位置. */
+		isPlace:{
+			type:Boolean,
+			default:true
+		}
 	})
 
 	const _height = computed(()=>props.height)
 	const _width = uni.getSystemInfoSync().windowWidth
-	const statusBarHeight = uni.getSystemInfoSync().statusBarHeight
+	const statusBarHeight = uni.getSystemInfoSync()?.statusBarHeight??0
 	const _barHeight = computed(()=>statusBarHeight+_height.value)
 	const _leftWidth = computed(()=>props.leftWidth)
 	const _rightWidth = computed(()=>props.rightWidth)
@@ -199,7 +200,7 @@
 	onMounted(()=>{
 		_pages.value = getCurrentPages().length;
 	})
-
+	
 	const backhome = ()=>{
 		uni.reLaunch({
 			url:props.homePath
@@ -223,7 +224,7 @@
 	    }, wait);
 	  }
 	}
-
+	
 	const goback = ()=>{
 		debounce(async ()=>{
 			if (typeof props.beforeBack === 'function') {

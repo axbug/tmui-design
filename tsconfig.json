@@ -16,6 +16,7 @@
     }
   },
   "include": [
+    "src/pages/**/*.vue",
     "src/**/*",
     "src/**/*.nvue",
     "src/**/*.vue",

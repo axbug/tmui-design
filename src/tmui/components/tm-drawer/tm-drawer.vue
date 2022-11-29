@@ -1,5 +1,5 @@
 <template>
-	<tm-overlay ref="overlayAni" :duration="props.duration+80" @open="OverLayOpen" @close="overclose" :zIndex="props.zIndex" :transprent="!props.mask"
+	<tm-overlay :inContent="props.inContent"  ref="overlayAni" :duration="props.duration+80" @open="OverLayOpen" @close="overclose" :zIndex="props.zIndex" :transprent="!props.mask"
 		@click="overlayClickFun" :align="align_rp" :overlayClick="false" v-model:show="_show">
 		<tm-translate :reverse="reverse_rp" :width='anwidth' :height="anheight" ref="drawerANI"
 			:auto-play="false" :name="aniname" :duration="props.duration">
@@ -181,6 +181,11 @@
 		disabbleScroll: {
 			type: Boolean,
 			default: false
+		},
+		/** 是否嵌入弹层，开启后将在它的父组件内执行弹层。 */
+		inContent:{
+			type: Boolean,
+			default: false
 		}
 	});
 	const emits = defineEmits(['click', 'open', 'close', 'update:show', 'ok', 'cancel']);
@@ -260,17 +265,18 @@
 		reverse.value = false;
 	}
 	watch(() => props.show, (val) => {
-		
-		_show.value=  props.show;
 		if (val) {
 			reverse.value = true;
-			// open();
 		} else {
 			reverse.value = false;
-			drawerANI.value?.play();
+			overlayAni.value?.close()
 		}
-		
-		
+		if(_show.value!==props.show){
+			nextTick(()=>{
+				drawerANI.value?.play();
+			})
+		}
+		_show.value=  props.show;
 	})
 	onMounted(() => {
 		if(_show.value){
@@ -342,18 +348,18 @@
 
 
 	function OverLayOpen() {
-		nextTick(function() {
-			drawerANI.value?.play();
-		})
+		// nextTick(function() {
+		// 	drawerANI.value?.play();
+		// })
+		_show.value = true;
 		emits("open")
 		emits("update:show", true)
-		_show.value = true;
 	}
 	function overclose() {
 		nextTick(()=>{
+			_show.value = false;
 			emits("close")
 			emits("update:show", false)
-			_show.value = false;
 		})
 	}
 	function overlayClickFun(e:Event){
@@ -393,6 +399,9 @@
 	function open() {
 		reverse.value = true
 		_show.value = true;
+		nextTick(()=>{
+			drawerANI.value?.play();
+		})
 	}
 
 	//外部手动调用关闭方法

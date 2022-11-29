@@ -95,21 +95,21 @@
 				(_dotPosition == 'right' && _align == 'right') ? 'pr-12 pb-24' : '',
 			
 				(_dotPosition == 'bottom' && _align == 'left') ? 'ml-12 mb-24' : '',
-				(_dotPosition == 'bottom' && _align == 'right') ? 'pr-12 mb-24' : '',
+				(_dotPosition == 'bottom' && _align == 'right') ? 'pr-12 mb-24 ' : '',
 				(_dotPosition == 'top' && _align == 'left') ? 'ml-12 ' : '',
 				(_dotPosition == 'top' && _align == 'right') ? 'pr-12 ' : '',
 			
 			
 			]" :style="[
-	_dotPosition == 'bottom' ? { left: '0px', bottom: '0px', width: `${props.width}rpx`, height: `${60}rpx` } : '',
+	_dotPosition == 'bottom' ? { left: '0px', bottom: '0px', width: `${props.width}rpx`, height: `${60}rpx`,display:'flex',justifyContent:'center' } : '',
 	_dotPosition == 'top' ? { left: '0px', top: '0px', width: `${props.width}rpx`, height: `${60}rpx` } : '',
 	_dotPosition == 'left' ? { left: '0px', top: '0px', width: `${60}rpx`, height: `${props.height}rpx` } : '',
 	_dotPosition == 'right' ? { right: '0px', top: '0px', width: `${60}rpx`, height: `${props.height}rpx` } : '',
 ]">
 				<view class=" round-10" :class="[
 					_dotPosition == 'left' || _dotPosition == 'right' ? 'px-5 py-24 ' : '',
-					_dotPosition == 'bottom' || _dotPosition == 'top' ? 'px-24 py-5 ' : '',
-				]" style="background-color: rgba(0, 0, 0, 0.4);">
+					_dotPosition == 'bottom' || _dotPosition == 'top' ? 'px-24 py-5 mx-32' : '',
+				]" style="background-color: rgba(0, 0, 0, 0.4);font-size: 0px;">
 					<text style="font-size: 22rpx;color: white;">{{ _currentActive + 1 }}/{{ _list.length }}</text>
 				</view>
 			</view>

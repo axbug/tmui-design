@@ -142,7 +142,7 @@ function setStyleFun(){
 		uid.value = ar[0]
 	}
   if(!_tmGridshowBorder.value) {
-	  wkStyle.value = `border:0rpx solid rgba(0,0,0,0);width:${_colWidth}rpx`;
+	  wkStyle.value = `box-sizing: border-box;border:0rpx solid rgba(0,0,0,0);width:${_colWidth}rpx`;
 	  return
   };
 

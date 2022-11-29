@@ -153,6 +153,7 @@ export default {
 			// #ifdef H5
 			setDomDarkOrWhite();
 			// #endif
+			obj.path = obj.path[0]=="/"?obj.path.substr(1):obj.path
 			useTmRouterBefore(obj)
 		}
 		// #ifndef APP-NVUE

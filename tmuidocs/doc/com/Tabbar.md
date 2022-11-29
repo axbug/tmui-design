@@ -92,6 +92,7 @@ title: tmui 3.0 组件库
 | beforeClick | [Function, Boolean] | (data)=>false | 参数：data，为下方自行绑定到属性data上的数据。打开链接之前执行的勾子函数，返回fase阻止打开。也可以返回new Promise |
 | load | [Boolean, String] | false | 是否开启异步加载动效，可选值：false, true |
 | data<Badge type="danger" text="v3.0.63+" vertical="middle" /> | [Object,Number, String] | undefined | 自义绑定数据到项目上，beforeClick执行时，上下文参数 |
+| disabled | Boolean | true | 是否禁用 |
 
 ### :rose: 事件
 

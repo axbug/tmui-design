@@ -1,6 +1,5 @@
 <template>
     <tm-app>
-       
        <tm-sheet>
             <tm-text :font-size="24" _class="font-weight-b" label="基础示例,更多见文档"></tm-text>
 			<tm-divider></tm-divider>
@@ -9,7 +8,7 @@
 			</view>
 			
 			<tm-radio-group v-model="radiolist" >
-				<tm-radio value="apple" label="苹果"></tm-radio>
+				<tm-radio value="apple" label="苹果基础示例"></tm-radio>
 				<tm-radio color="orange" value="banner" label="香蕉"></tm-radio>
 				<tm-radio color="pink" value="test" label="测试项"></tm-radio>
 				<tm-radio color="green" value="other" label="其它水果"></tm-radio>

@@ -255,7 +255,7 @@ type tmUtil = {
          * 深度克隆
          * @param obj Object 
          */
-        deepClone(obj: any): Object,
+        deepClone(obj: any): any,
         quereyDom(t: any, node: string): any,
         /**
          * 是否是手机号码
@@ -331,14 +331,28 @@ type tmUtil = {
          * 请一定要在onMounted或者onLoad中调用，否则不准确在h5端。
          * @return {height,width,top,isCustomHeader,sysinfo}
          */
-        getWindow(): { width: number, height: number, top: number, bottom: number, isCustomHeader: Boolean, sysinfo: UniApp.GetSystemInfoResult },
+        getWindow(): { width: number, height: number, top: number, bottom: number,statusBarHeight:number, isCustomHeader: Boolean, sysinfo: UniApp.GetSystemInfoResult },
 
         /**
          * 打开页面路径
          * @param url string 打开的页面路径
          * @param type openUrlType "navigateTo"|"redirectTo"|"reLaunch"|"switchTab"
          */
-        routerTo(url: string, type: openUrlType): void
+        routerTo(url: string, type: openUrlType): void,
+		/**
+		 * 将rpx转换为px
+		 * @param v 待转换的数字
+		 * @param screenWidth 屏幕的宽度，如果不提供默认自动获取
+		 * @return number
+		 */
+		torpx(v:number,screenWidth?:number):number
+		/**
+		 * 将rpx转换为px
+		 * @param v 待转换的数字
+		 * @return number
+		 */
+		topx(v:number,screenWidth?:number):number
+		
 
     },
     tmicon: Array<{

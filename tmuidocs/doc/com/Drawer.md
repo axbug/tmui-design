@@ -54,6 +54,7 @@ title: tmui 3.0 组件库
 | zIndex<Badge type="danger" text="v3.0.75+" vertical="middle" />     | Number, String        | 401   | 弹层的层级  |
 | unit<Badge type="danger" text="v3.0.75+" vertical="middle" />     | String        | rpx   | 高度单位，仅支持px,rpx  |
 | disabbleScroll     | Boolean        | false   | 是否禁用内容滚动(内容较少时可以禁用滚动条的出现)    |
+| inContent     | Boolean        | false   | 是否允许嵌套弹层，开启后嵌套弹层只会在父组件内部弹层，不会全屏弹层。    |
 
 
 ### :rose: 事件

@@ -7,9 +7,9 @@
 			<tm-upload ref="up" :width="636"  :rows="4"  url="https://mockapi.eolink.com/tNYKNA7ac71aa90bcbe83c5815871a5b419601e96a5524d/upload">
 			</tm-upload>
 			<tm-divider></tm-divider>
-			<tm-text :font-size="24" _class="font-weight-b" label="通过插槽修改上传图标"></tm-text>
+			<tm-text :font-size="24" _class="font-weight-b" label="通过插槽修改上传图标,以下是测试上传后。如果服务返回 的不是json对象数据就让其失败。"></tm-text>
 			<tm-divider></tm-divider>
-			<tm-upload v-model="list" ref="up" :onSuccessAfter="test" :width="636"  :rows="4"  url="https://mockapi.eolink.com/tNYKNA7ac71aa90bcbe83c5815871a5b419601e96a5524d/upload">
+			<tm-upload v-model="list" :default-value="list" ref="up" :onSuccessAfter="test" :width="636"  :rows="4"  url="https://mockapi.eolink.com/tNYKNA7ac71aa90bcbe83c5815871a5b419601e96a5524d/upload">
 				<template v-slot:icon>
 					<tm-text label="上传"></tm-text>
 				</template>

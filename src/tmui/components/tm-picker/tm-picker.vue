@@ -1,7 +1,8 @@
 <template>
-    <tm-drawer  :disabbleScroll="true" :round="props.round" ref="drawer" :height="dHeight" :closable="true" :overlayClick="aniover" v-if="showCity" @open="drawerOpen" @cancel="cancel" @ok="confirm"
+    <tm-drawer  :disabbleScroll="true" :round="props.round" ref="drawer" :height="dHeight" :closable="true" :overlayClick="aniover"  @open="drawerOpen" @cancel="cancel" @ok="confirm"
         :show="showCity" @update:show="closeDrawer" title="请选择" ok-text="确认">
         <tm-picker-view 
+		v-if="showCity"
 		:dataKey="props.dataKey"
         :height="dHeight-230" 
         @end="aniover = true" 
@@ -21,6 +22,7 @@
         :linear="props.linear" 
         :linear-deep="props.linearDeep" 
         @click="confirm" 
+		:immediateChange="props.immediateChange"
         :round="props.btnRound">
         </tm-button>
         <view :style="{height: sysinfo.bottom+'px'}"></view>
@@ -129,6 +131,10 @@ const props = defineProps({
 		type:Number,
 		default:700
 	},
+	immediateChange:{
+		type:Boolean,
+		default:false
+	}
 
 })
 const showCity = ref(true)
@@ -139,18 +145,19 @@ const aniover = ref(true)
 const sysinfo = inject("tmuiSysInfo",computed(()=>{
     return {bottom:0,height:750,width:uni.upx2px(750),top:0,isCustomHeader:false,sysinfo:null}
 }))
-
+let tmid = NaN
 watchEffect(() => {
     showCity.value = props.show
 })
-watch(()=>props.modelValue,()=>{
-	// _colIndex.value = props.modelValue
-    getIndexBymodel(_data.value, props.selectedModel, 0, props.modelValue)
-    defaultModerStrGet()
+
+watch([()=>props.columns,()=>props.modelValue],()=>{
+	clearTimeout(tmid)
+	tmid =setTimeout(function() {
+		getIndexBymodel(_data.value, props.selectedModel, 0, props.modelValue)
+		defaultModerStrGet()
+	}, 500);
 },{deep:true})
-watch(()=>props.columns,()=>{
-    getIndexBymodel(_data.value, props.selectedModel, 0, props.modelValue)
-},{deep:true})
+
 function closeDrawer(e: boolean) {
     showCity.value = e;
     emits('update:show', showCity.value)
@@ -176,8 +183,10 @@ function confirm() {
         getIndexBymodelByEmptyOnConfirm(_data.value, props.selectedModel, 0, props.defaultValue)
     }
     setVal();
-    emits("confirm", toRaw(_colIndex.value))
-    drawer.value?.close();
+    nextTick(()=>{
+		emits("confirm", toRaw(_colIndex.value))
+		drawer.value?.close();
+	})
 
 }
 function cancel() {
@@ -197,13 +206,19 @@ function setVal() {
     emits("update:modelStr", _colStr.value)
 }
 function defaultModerStrGet(){
-    if(!_colStr.value&&_colIndex.value.length>0){
-        let text = getRouterText(_data.value,0);
-        emits("update:modelStr",text.join("/"))
-    }
-	if(_colIndex.value.length==0){
-		emits("update:modelStr","")
-	}
+	clearTimeout(tmid)
+	tmid =setTimeout(function() {
+		if(!_colStr.value&&_colIndex.value.length>0){
+		    let text = getRouterText(_data.value,0);
+			let str = text.join("/");
+		    emits("update:modelStr",str)
+		}
+		if(_colIndex.value.length==0){
+			emits("update:modelStr","")
+		}
+	}, 100);
+	
+
 }
 //模拟模型来返回index值
 function getIndexBymodel(vdata:Array<columnsItem> = [], model = "name", parentIndex:number= 0, value:Array<number|string> = []): Array<number> {

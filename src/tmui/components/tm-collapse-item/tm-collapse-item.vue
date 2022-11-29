@@ -5,7 +5,7 @@
 			:linearDeep="props.linearDeep"  :dark="props.dark"
 			:followDark="props.followDark" :followTheme="props.followTheme" borderDirection="bottom" :margin="props.margin" :padding="props.padding"
 			>
-			<view :style="{height:props.height+'rpx'}" :userInteractionEnabledn="false" class="flex-row-center-start flex-row ">
+			<view :style="{height:props.height+'rpx'}" :userInteractionEnabled="false"  class="flex-row-center-start flex-row ">
 				<view v-if="_tmCollapseIconPos=='left'" class="pr-16 flex-center">
 					<tm-icon  :dark="props.dark"  :followDark="props.followDark"
 						 :color="isActive ? props.activeColor : 'grey-1'"
@@ -34,11 +34,16 @@
 			</view>
 		</tm-sheet>
 		<!-- v-if="isActive" -->
-		<view  class="flex overflow">
+		<view v-if="_contentHeight"  class="flex overflow">
 			<view class="flex content flex-col flex-1"  :class="[ isActiveAfter?'on':'']" :style="[
 				_contentHeight&&isActiveAfter?{height:_contentHeight}:'',
-				_contentHeight&&!isActiveAfter?{height:'0px'}:'',
+				_contentHeight&&!isActiveAfter?{height:'0px',overflow:'hidden'}:'',
 			]">
+				<slot></slot>
+			</view>
+		</view>
+		<view v-if="!_contentHeight&&isActive"   class="flex overflow">
+			<view class="flex content flex-col flex-1"  :class="[ isActiveAfter?'on':'']">
 				<slot></slot>
 			</view>
 		</view>

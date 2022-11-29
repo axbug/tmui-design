@@ -53,7 +53,7 @@ title: tmui 3.0 组件库
 | --- | --- | --- | --- |
 | click | 点击事件对象 |  | tag被点击事件 |
 | close | - | - | tag被关闭 |
-| change | boolean | boolean | 切换选中装填 |
+| change | boolean | boolean | 切换选中状态时触发 |
 | update:checked |  |  | 状态发生变化时触发 |
 
 ### :corn: slot插槽

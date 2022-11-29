@@ -12,7 +12,9 @@
 			]" :class="[round_rp, 'flex flex-col overflow ', customClass]">
 				<view class="flex flex-row px-24" style="height:44px"
 					:class="[props.closeable?'flex-row-center-between':'flex-center']">
-					<tm-text :_style="props.titleStyle" :dark="props.dark" :followTheme="false" _class="text-overflow-1 text-weight-b text-size-m text-align-center" :label="props.title"></tm-text>
+					<slot name="title">
+						<tm-text :_style="props.titleStyle" :dark="props.dark" :followTheme="false" _class="text-overflow-1 text-weight-b text-size-m text-align-center" :label="props.title"></tm-text>
+					</slot>
 					<tm-icon v-if="closeable" _class="opacity-3" name="tmicon-times-circle-fill" :fontSize="32" @click="close"></tm-icon>
 				</view>
 				<scroll-view scroll-y :style="[props.height ? { height: contentHeight } : '']">
@@ -24,34 +26,37 @@
 					</view>
 				</scroll-view>
 				<view class="flex flex-row " :class="[props.splitBtn ? 'pa-32' : '']">
-					<view v-if="!props.hideCancel" class="flex-1  overflow " style="height:90rpx">
-						<tm-sheet :dark="props.dark" :followTheme="true" :isDisabledRoundAndriod="true" @click="cancel"
-							:height="90" :linear="props.cancelLinear" :linearDeep="props.cancelLlinearDeep" text
-							:color="props.cancelColor" :_class="[
-								'flex-center overflow flex',
-							]" :paren-class="props.splitBtn ? ('round-' + props.btnRound) : 'round-bl-' + props.round" :margin="[0, 0]"
-							:padding="[0, 0]">
-							<tm-text _class="text-weight-b" _style="line-height:90rpx" @click.stop="cancel"
-								:dark="props.dark" :followTheme="false" :userInteractionEnabled="false"
-								:label="props.cancelText"></tm-text>
-						</tm-sheet>
-					</view>
-					<view v-if="props.splitBtn && !props.hideCancel" class="overflow" style="width: 24rpx;"></view>
-					<view class="flex-1 flex" :class="[okLoading ? 'opacity-5' : '', 'overflow']" style="height:90rpx">
-						<tm-sheet paretClass="flex-1" class="flex-1" :dark="props.dark" :followTheme="true"
-							:isDisabledRoundAndriod="true" @click="ok" :height="90" :linear="props.okLinear"
-							:linearDeep="props.okLlinearDeep" :color="props.okColor" :margin="[0, 0]" :_class="[
-								'flex-center overflow',
-							]" :paren-class="props.splitBtn ? ('round-' + props.btnRound) : 'round-br-' + props.round" :padding="[0, 0]">
-							<view :userInteractionEnabled="false" class="flex flex-row">
-								<view v-if="okLoading" class="pr-10">
-									<tm-icon :userInteractionEnabled="false" name="tmicon-loading" spin></tm-icon>
+					<slot name="button">
+						<view v-if="!props.hideCancel" class="flex-1  overflow " style="height:90rpx">
+							<tm-sheet :dark="props.dark" :followTheme="true" :isDisabledRoundAndriod="true" @click="cancel"
+								:height="90" :linear="props.cancelLinear" :linearDeep="props.cancelLlinearDeep" 
+								text
+								:color="props.cancelColor" :_class="[
+									'flex-center overflow flex',
+								]" :paren-class="props.splitBtn ? ('round-' + props.btnRound) : 'round-bl-' + props.round" :margin="[0, 0]"
+								:padding="[0, 0]">
+								<tm-text _class="text-weight-b" _style="line-height:90rpx" 
+									:dark="props.dark" :followTheme="false" :userInteractionEnabled="false"
+									:label="props.cancelText"></tm-text>
+							</tm-sheet>
+						</view>
+						<view v-if="props.splitBtn && !props.hideCancel" class="overflow" style="width: 24rpx;"></view>
+						<view class="flex-1 flex" :class="[okLoading ? 'opacity-5' : '', 'overflow']" style="height:90rpx">
+							<tm-sheet paretClass="flex-1" class="flex-1" :dark="props.dark" :followTheme="true"
+								:isDisabledRoundAndriod="true" @click="ok" :height="90" :linear="props.okLinear"
+								:linearDeep="props.okLlinearDeep" :color="props.okColor" :margin="[0, 0]" :_class="[
+									'flex-center overflow',
+								]" :paren-class="props.splitBtn ? ('round-' + props.btnRound) : 'round-br-' + props.round" :padding="[0, 0]">
+								<view :userInteractionEnabled="false" class="flex flex-row">
+									<view v-if="okLoading" class="pr-10">
+										<tm-icon :userInteractionEnabled="false" name="tmicon-loading" spin></tm-icon>
+									</view>
+									<tm-text _class="text-weight-b" :dark="props.dark" :userInteractionEnabled="false"
+										:label="props.okText"></tm-text>
 								</view>
-								<tm-text _class="text-weight-b" :dark="props.dark" :userInteractionEnabled="false"
-									:label="props.okText"></tm-text>
-							</view>
-						</tm-sheet>
-					</view>
+							</tm-sheet>
+						</view>
+					</slot>
 				</view>
 			</view>
 		</tm-translate>
@@ -78,7 +83,8 @@
 		onUnmounted,
 		nextTick,
 		watch,
-		ComponentInternalInstance
+		ComponentInternalInstance,
+toRaw
 	} from 'vue';
 	import {
 		cssstyle,
@@ -231,7 +237,8 @@
 	const isDark = computed(() => computedDark(props, tmcfg.value));
 	//计算主题
 	const tmcomputed = computed < cssstyle > (() => computedTheme(props, isDark.value, tmcfg.value));
-
+	//外部调用open或者close时将会执行相关参数函数.
+	let nowCallFun:any = null;
 	const reverse = ref(true);
 	let flag = false;
 	let timeid = uni.$tm.u.getUid(4)
@@ -333,7 +340,7 @@
 				okLoading.value = false;
 				if (!p) return;
 			}
-			emits("ok")
+			emits("ok",toRaw(nowCallFun))
 			close()
 		}, 250, true)
 	}
@@ -341,7 +348,8 @@
 	function cancel() {
 		if (props.disabled) return;
 		if (okLoading.value) return;
-		emits("cancel")
+
+		emits("cancel",toRaw(nowCallFun))
 		close()
 	}
 
@@ -363,14 +371,14 @@
 	}
 
 	// 外部调用
-	function open() {
-		
+	function open(arg:any=null) {
 		if (props.disabled) return;
 		if (okLoading.value) return;
 		if (_show.value == true) return;
-		throttle(() => {
+		throttle(async () => {
 			reverse.value = true;
 			overlayAni.value?.open(true);
+			nowCallFun = arg;
 		}, props.duration, true)
 	}
 
@@ -390,7 +398,7 @@
 	}
 
 	//外部手动调用关闭方法
-	function close() {
+	async function close(arg:Function|null=null) {
 		if (props.disabled) return;
 		reverse.value = false;
 		if (!drawerANI.value) return;

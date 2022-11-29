@@ -185,6 +185,7 @@ function MpWeix_init() {
 }
 
 function touchstart(event:TouchEvent|MouseEvent) {
+	
 	if(!drawhd) return;
 	if (event.type.indexOf('mouse')==-1&&event.changedTouches.length==1) {
 		var touch = event.changedTouches[0];

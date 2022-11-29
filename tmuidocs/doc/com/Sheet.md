@@ -31,7 +31,7 @@ title: tmui 3.0 组件库
 本组件含有公共属性 [公共属性](/doc/spec/组件公共样式.md)
 | 参数名 | 类型 | 默认值 | 描述 |
 | :--: | :--: | :--: | :-- |
-| parenClass | String | '' | 组件内嵌view的class选择器，你可能还需要使用!important来加强自定义选择器的权重 |
+| parenClass | String | '' | 组件的最外层class类,组件内嵌view的class选择器，你可能还需要使用!important来加强自定义选择器的权重 |
 | contStyle | String | '' |  |
 | height | [Number] | 0 | 高度，单位rpx |
 | width | [Number] | 0 | 宽度，单位rpx |
@@ -46,7 +46,6 @@ title: tmui 3.0 组件库
 | noLevel | Boolean | false | 如果输入框表单与tmshee在同一层下。他们的黑白暗黑背景色是相同的。为了区分这个问题，需要单独指示，以便区分背景同层。 |
 | blur | Boolean | false | 是否开启磨砂背景。只有是黑白灰色系才能使用 |
 | url | String | "" | 跳转链接，如果提供，点击时将发生跳转至该链接 |
-
 
 ### :rose: 事件
 | 事件名 | 参数 | 返回数据 | 描述 |

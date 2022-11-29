@@ -66,6 +66,7 @@ title: tmui 3.0 组件库
 | label| [String ] | '' | 标题下方的描述文字 |
 | icon| [String ] | '' | 显示步骤图标，图标名称 |
 | size| [Number] | '' | 圆点的大小。 |
+| width| [Number] | 150 | 宽度。 |
 
 ### :corn: slot插槽
 

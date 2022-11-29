@@ -179,7 +179,7 @@ const props = defineProps({
 	 * submit,reset 在tm-form中使用。
 	 */
 	formType:{
-		type:String as PropsType<'submit'|'reset'>,
+		type:String as PropsType<'submit'|'reset'|'filterCancel'|'filterConfirm'>,
 		default:''
 	},
 	//开放能力
@@ -233,7 +233,7 @@ const props = defineProps({
 const formtype = computed(()=>props.formType)
 //父级方法。
 let FormParent:any = null;
-
+let FilterParent:any = null;
 if(formtype.value=='reset'||formtype.value=='submit'){
 	FormParent = proxy?.$parent
 	while (FormParent) {
@@ -241,6 +241,17 @@ if(formtype.value=='reset'||formtype.value=='submit'){
 			break;
 		} else {
 			FormParent = FormParent?.$parent ?? undefined
+		}
+	}
+}
+//过滤器菜单 专用属性.
+if(formtype.value=='filterCancel'||formtype.value=='filterConfirm'){
+	FilterParent = proxy?.$parent
+	while (FilterParent) {
+		if (FilterParent?.FilterMenu == 'FilterMenu' || !FilterParent) {
+			break;
+		} else {
+			FilterParent = FilterParent?.$parent ?? undefined
 		}
 	}
 }
@@ -310,6 +321,9 @@ function touchend(e:Event){
 function onclick(e:Event){
 		if(FormParent!=null && typeof FormParent !='undefined'&&formtype.value&&!props.loading){
 			FormParent[formtype.value]();
+		}
+		if(FilterParent!=null && typeof FilterParent !='undefined'&&formtype.value&&!props.loading){
+			FilterParent[formtype.value]();
 		}
 		emits('click', e);
 		if (props.url !== '' && typeof props.url === 'string') {

@@ -2,26 +2,29 @@
 <template>
 	<view class="flex flex-col relative">
 		
-		<tm-sheet v-if="!props.hideTool" :shadow="0" :round="0" :margin="[0,0]" :padding="[0,24]" _class="flex flex-row flex-row-center-center" >
-			<view @click.stop="prevYear" class="px-32">
-				<tm-icon :userInteractionEnabled="false" :font-size="24" name="tmicon-angle-double-left"></tm-icon>
-			</view>
-			<view @click.stop="prevMonth" class="px-32">
-				<tm-icon :userInteractionEnabled="false" :font-size="24" name="tmicon-angle-left"></tm-icon>
-			</view>
-			<view class="px-12">
-				<tm-text :userInteractionEnabled="false" _class="text-weight-b" :font-size="32" :label="_nowDate"></tm-text>
-			</view>
-			<view @click.stop="nextMonth" class="px-32">
-				<tm-icon :userInteractionEnabled="false" :font-size="24" name="tmicon-angle-right"></tm-icon>
-			</view>
-			<view @click.stop="nextYear" class="px-32">
-				<tm-icon :userInteractionEnabled="false" :font-size="24" name="tmicon-angle-double-right"></tm-icon>
-			</view>
-			<view @click="nowWeekClick" class="absolute t-4 r-16 zIndex-10" style="width: 64rpx;">
-			    <tm-text :userInteractionEnabled="false" color="grey" :font-size="28" label="本日"></tm-text>
+        <tm-sheet v-if="!props.hideTool" :shadow="0" :round="0" :height="88" :margin="[0,0]" :padding="[0,0]" _class="flex flex-col" >
+			<view class="flex flex-row flex-row-center-center" style="height:88rpx">
+                <view @click.stop="prevYear" class="px-16">
+				    <tm-icon :userInteractionEnabled="false" :font-size="22" name="tmicon-angle-double-left"></tm-icon>
+                </view>
+                <view @click.stop="prevMonth" class="px-16">
+                    <tm-icon :userInteractionEnabled="false" :font-size="22" name="tmicon-angle-left"></tm-icon>
+                </view>
+                <view class="px-12">
+                    <tm-text :userInteractionEnabled="false" _class="text-weight-b" :font-size="32" :label="_nowDate"></tm-text>
+                </view>
+                <view @click.stop="nextMonth" class="px-16">
+                    <tm-icon :userInteractionEnabled="false" :font-size="22" name="tmicon-angle-right"></tm-icon>
+                </view>
+                <view @click.stop="nextYear" class="px-16">
+                    <tm-icon :userInteractionEnabled="false" :font-size="22" name="tmicon-angle-double-right"></tm-icon>
+                </view>
+            </view>
+			<view @click="nowWeekClick" class="absolute t-0 r--6 zIndex-10 round-12 py-4 flex flex-row flex-row-center-center" style="width: 90rpx;height:88rpx">
+			    <tm-text :userInteractionEnabled="false" color="grey" _class="text-align-center" :font-size="28" label="本日"></tm-text>
 			</view>
 		</tm-sheet>
+
 		<view class="flex flex-row flex-row-center-center py-12" :style="[{height:'74rpx'}]">
             <view  class="flex-1 flex-center" v-for="(item,index) in weekStr" :key="index" >
                 <view style="width:62rpx" class="flex-center flex-col">
@@ -30,24 +33,39 @@
             </view>
         </view>
         <view class="flex flex-col">
-            <view  class="flex flex-row flex-row-center-center" :style="[{height:'98rpx'}]" v-for="(item,index) in _data" :key="index">
-                <tm-sheet  @click="clickWeek(item2)" :height="98" :shadow="0" :round="0" :border="item2.extra.color&&isSelected(item2.dateStr)?1:0" 
-				_class="flex-row" class="flex-1" paren-class="flex-1" 
-				:text=" (startOrAnd(item2.dateStr)==1||startOrAnd(item2.dateStr)==2||startOrAnd(item2.dateStr)==3?false:(item2.extra.color?true:isSelected(item2.dateStr)))"
-				:color="(item2.extra.color?item2.extra.color:(isSelected(item2.dateStr)?_color:'white'))" 
-				:margin="[0,0]" :padding="[0,0]"
-                v-for="(item2,index2) in item" :key="index2"
-                >
-                    <view :userInteractionEnabled="false"   style="width:84rpx" :class="[!item2.isNowIn?'opacity-6':'']" class="flex-1 flex-center"  >
-                        <view style="width:84rpx" class="flex-center flex-col" :style="[{opacity:item2.disabled?'0.3':'1'}]">
-                            <tm-text :font-size="28" :label="item2.date"></tm-text>
-                            <tm-text v-if="startOrAnd(item2.dateStr)==0&&item2.extra.extra" _class="flex-center"  :font-size="22" :label="item2.extra.extra"></tm-text>
-                            <tm-text v-if="startOrAnd(item2.dateStr)==1" _class="flex-center"  :font-size="22" label="开始"></tm-text>
-                            <tm-text v-if="startOrAnd(item2.dateStr)==2" _class="flex-center"  :font-size="22" label="结束"></tm-text>
-                            <tm-text v-if="startOrAnd(item2.dateStr)==3" _class="flex-center"  :font-size="20" label="始/结束"></tm-text>
-                        </view>
+            <view  class="flex flex-row flex-row-center-center" :style="[{height:'90rpx'}]" v-for="(item,index) in _data" :key="index">
+                <view @click="clickWeek(item2)" class="flex-1 flex flex-row flex-row-center-center" v-for="(item2,index2) in item" :key="index2">
+                    <view :userInteractionEnabled="false" :class="[
+                        'flex-1',
+                        startOrAnd(item2.dateStr)==1?'round-l-24':'',
+                        startOrAnd(item2.dateStr)==2?'round-r-24':'',
+                        startOrAnd(item2.dateStr)==3?'round-24':'',
+                    ]"  style="height:90rpx;overflow:hidden;" >
+                        <tm-sheet  :height="90"  :shadow="0" :round="0" :border="item2.extra.color&&isSelected(item2.dateStr)?1:0" 
+                        _class="flex-row"
+                        :isDisabledRoundAndriod="true"
+                        :paren-class="(startOrAnd(item2.dateStr)==1?'round-l-24':'')+(startOrAnd(item2.dateStr)==2?'round-r-24':'')+(startOrAnd(item2.dateStr)==3?'round-24':'')"
+                        :text=" (startOrAnd(item2.dateStr)==1||startOrAnd(item2.dateStr)==2||startOrAnd(item2.dateStr)==3?false:(item2.extra.color?true:isSelected(item2.dateStr)))"
+                        :color="(item2.extra.color?item2.extra.color:(isSelected(item2.dateStr)?_color:'white'))" 
+                        :margin="[0,0]" :padding="[0,0]"
+                        >
+                            <view :userInteractionEnabled="false"  style="width:90rpx;height:90rpx;" 
+                            :class="[!item2.isNowIn?'opacity-6':'']" 
+                            class="flex-1 flex-center"  >
+                                <view style="width:90rpx"
+                                class="flex-center flex-col" 
+                                :style="[{opacity:item2.disabled?'0.3':'1'}]">
+                                    <tm-text :font-size="28" :label="item2.date"></tm-text>
+                                    <tm-text v-if="startOrAnd(item2.dateStr)==0&&item2.extra.extra" _class="flex-center"  :font-size="22" :label="item2.extra.extra"></tm-text>
+                                    <tm-text v-if="startOrAnd(item2.dateStr)==1" _class="flex-center"  :font-size="22" label="开始"></tm-text>
+                                    <tm-text v-if="startOrAnd(item2.dateStr)==2" _class="flex-center"  :font-size="22" label="结束"></tm-text>
+                                    <tm-text v-if="startOrAnd(item2.dateStr)==3" _class="flex-center"  :font-size="20" label="始/止"></tm-text>
+                                </view>
+                            </view>
+                        </tm-sheet>
                     </view>
-                </tm-sheet>
+                   
+                </view>
             </view>
         </view>
 		

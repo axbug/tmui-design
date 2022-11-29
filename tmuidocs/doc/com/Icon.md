@@ -19,6 +19,11 @@ title: tmui 3.0 组件库
 # 图标 Icon
 图标，提供了一个spin功能用于自动旋转图标在Nvue中使用原生动画
 
+**3.0.86+开始,允许自定图标**
+我们现在的图标是以tmicon-xxx,xxx表示图标名称的方式显示图标.<br>
+现在开始允许tmicon-icon-xxx,xxx为你的自定图标名称或者nvue下的16进制符号,比如:name="tmicon-icon-e7a6",或者"myicon-icon-e7a6"<br>
+前提是你需要自己事先引入你自己的图标css文件(nvue下要先加载字体)到你应用中,这样就可自定义显示自己的图标.
+
 ---
 
 ### :hot_pepper: 图标 Icon 示例

@@ -49,7 +49,7 @@ title: tmui 3.0 组件库
 | barll<Badge type="danger" text="v3.0.77+" vertical="middle" /> | - | - | 在底部导航条的左右，如果提供显示在左边。align=between时，内容会左右对齐。如果不提供时，导航条在左边对齐。 |
 
 ### :green_salad: ref方法
-无
+scrollTo(pos:number),滚动到指定位置**3.0.86+**
 
 ### :couplekiss: 文档贡献
 

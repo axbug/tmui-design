@@ -137,7 +137,7 @@ PropType
 		},
 		//标签尺寸
 		size:{
-			type:[String],
+			type:String as PropType<'xs'|'s'|'m'|'n'|'g'|'lg'>,
 			default:'m' //xs|s|m|n|g|lg
 		},
 		fontSize:{

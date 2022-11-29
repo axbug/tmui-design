@@ -96,7 +96,6 @@ const _color = computed(()=>{
         if(props.color[_start.value-1]){
             return props.color[_start.value-1]
         }
-
         return props.color[props.color.length-1];
     }
     return 'grey-2'
@@ -120,114 +119,6 @@ function startClick(index:number){
     emits('change',_start.value)
     emits('update:modelValue',_start.value)
     emits('click',index-1)
-	pushFormItem()
 }
-
-/** -----------form专有------------ */
-//父级方法。
-const rulesObj = inject("tmFormItemRules",computed<Array<rulesItem>>(()=>{
-    return [
-        {
-            message:"请选择",
-            required:false,
-            validator:false
-        }
-    ]
-}))
-//父级方法。
-let parentFormItem:any = proxy?.$parent
-while (parentFormItem) {
-    if (parentFormItem?.tmFormComnameFormItem == 'tmFormComnameFormItem' || !parentFormItem) {
-        break;
-    } else {
-        parentFormItem = parentFormItem?.$parent ?? undefined
-       
-    }
-}
-const validate =(rules:Array<rulesItem>)=>{
-    rules = rules.map(el=>{
-        if(typeof el.validator === "function" && el.required===true){
-            return el
-        }else if(typeof el.validator === "boolean" && el.required===true){
-            return {
-                ...el,
-                validator:(val:string|number)=>{
-                    return val == 0?false:true
-                }
-            }
-        }else{
-            return {
-                ...el,
-                validator:(val:string|number)=>{
-                    return true
-                }
-            }
-        }
-        
-    })
-    let rules_filter:Array<rulesItem> = rules.filter(el=>{
-        return typeof el.validator === "function" && el.required===true
-    })
-    let rules_fun:Array<Promise<rulesItem>> = rules_filter.map(el=>{
-        return new Promise(async (res,rej)=>{
-            if(typeof el.validator ==='function'){
-                let vr = await el.validator(_start.value)
-                if(vr){
-                    res({
-                        message:String(el.message),
-                        validator:true
-                    })
-                }else{
-                    rej({
-                        message:el.message,
-                        validator:false
-                    })
-                }
-            }else{
-                res({
-                    message:el.message,
-                    validator:true
-                })
-            }
-        })
-    })
-    return Promise.all(rules_fun)
-}
-async function pushFormItem(isCheckVail = true){
-
-    if (parentFormItem) {
-        if (isCheckVail) {
-            validate(toRaw(rulesObj.value)).then(ev => {
-                parentFormItem.pushCom({
-                    value: _start.value,
-                    isRequiredError: false,//true,错误，false正常 检验状态
-                    componentsName: 'tm-rate',//表单组件类型。
-                    message: ev.length==0?"":ev[0].message,//检验信息提示语。
-                })
-            }).catch(er => {
-                parentFormItem.pushCom({
-                    value: _start.value,
-                    isRequiredError: true,//true,错误，false正常 检验状态
-                    componentsName: 'tm-rate',//表单组件类型。
-                    message: er.message,//检验信息提示语。
-                })
-                
-            })
-        }
-    }
-
-    
-}
-pushFormItem()
-const tmFormFun = inject("tmFormFun",computed(()=>""))
-watch(tmFormFun,()=>{
-    if(tmFormFun.value=='reset'){
-		_start.value = _blackValue
-		emits('update:modelValue',_start.value)
-		pushFormItem(false)
-    }
-})
-
-/** -----------end------------ */
 
 </script>

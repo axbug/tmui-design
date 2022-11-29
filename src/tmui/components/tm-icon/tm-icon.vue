@@ -152,7 +152,6 @@ const iconComputed = computed(() => {
 	return props.name;
 });
 
-
 //是否使图标旋转。
 const spinComputed = computed(() => props.spin);
 //间隙排列。

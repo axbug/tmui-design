@@ -22,8 +22,7 @@
     <view v-if="_icon" class="flex flex-row flex-row-center-start" style="width:50rpx">
       <tm-icon :font-size="28" :name="_icon" style="line-height:normal"></tm-icon>
     </view>
-    <view class="flex-1 flex-row overflow" style="width:0px">
-		<!-- ,width:_Left*_list.length+'rpx' -->
+    <view class="flex flex-1 flex-row overflow" style="width:0px">
       <view ref="content" 
       :style="{animationDuration:_duration+'s',paddingLeft: (isNvue?0:_Left)+'rpx'}" 
       class="aniRow flex-row flex-row-center-start" id="wrap">

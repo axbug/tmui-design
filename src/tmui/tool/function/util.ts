@@ -144,16 +144,18 @@ export function callPhone(phoneNumber = '') {
  * @returns Promise 成功返回相关数据结构
  */
  export function scanCode(onlyFromCamera = true, scanType = ['barCode', 'qrCode', 'datamatrix','datamatrix']):Promise<string|UniApp.ScanCodeSuccessRes>{
-	// #ifdef H5
-	return Promise.reject('不支持H5');
-	// #endif
 	return new Promise((rs,rj)=>{
+		// #ifdef H5
+		rj('不支持H5');
+		// #endif
+		// #ifndef H5
 		uni.scanCode({
 			onlyFromCamera: onlyFromCamera,
 			scanType: scanType,
 			success: (res) => rs(res),
 			fail:(error)=>rj(error)
 		});
+		// #endif
 	})
 }
 
@@ -163,54 +165,52 @@ export function callPhone(phoneNumber = '') {
  * @returns Promise true/false
  */
  export function setClipboardData(data:string):Promise<string|boolean>{
-
-	// #ifndef H5
 	return new Promise((rs,rj)=>{
+		// #ifndef H5
 		uni.setClipboardData({
 			data: data,
 			success:()=>rs(true),
 			fail:(error)=>rj(error)
 		});
+		// #endif
+		// #ifdef H5
+		if (navigator.clipboard && window.isSecureContext) {
+		        return navigator.clipboard.writeText(data)
+			} 
+		else {
+			const textArea = document.createElement('textarea')
+			textArea.style.opacity = "0"
+			textArea.style.position = "fixed"
+			textArea.style.top = "0px"
+			textArea.value = data
+			document.body.appendChild(textArea)
+			textArea.focus()
+			textArea.select()
+			document.execCommand('copy') ? rs(true) : rj("错误")
+			textArea.remove()
+		}
+		// #endif
 	})
-	// #endif
-	// #ifdef H5
-	return new Promise((rs,rj)=>{
-		let btn = document.createElement('button');
-		btn.style.display = 'none';
-		btn.className='hi-test-hi';
-		document.body.appendChild(btn);
-		clipboardJS = clipboardJS.bind(window);
-		let cb = new clipboardJS('.hi-test-hi', {
-			text: () => data
-		})
-		
-		cb.on('success', function (res) {
-			rs(true);
-		})
-		cb.on('error', function (err) {
-			rj(err)
-		})
-		btn.click = btn.click.bind(window.document.body.querySelector('.hi-test-hi'))
-		btn.click()
-	})
-	// #endif
 }
 /**
  * 获取剪切板内容
  * @returns Promise 剪切板内容
  */
  export function getClipboardData():Promise<boolean|string>{
-	// #ifndef H5
+	
 	return new Promise((rs, rj) => {
+		// #ifndef H5
 		uni.getClipboardData({
 			success: (res) => rs(res.data),
 			fail: (error) => rj(error)
 		});
+		// #endif
+		// #ifdef H5
+		console.error('H5无法获取剪切板内容')
+		rj('H5无法获取剪切板内容')
+		// #endif
 	})
-	// #endif
-	// #ifdef H5
-	return Promise.reject('H5无法获取剪切板内容')
-	// #endif
+	
 }
 
 /**
@@ -568,9 +568,9 @@ export function toast(word:string,mask:boolean=true,icon:any='none'){
  * 获取屏幕窗口安全高度和宽度
  * 注意是针对种屏幕的统一计算，统一高度，不再让uni获取有效高度而烦恼。
  * 请一定要在onMounted或者onLoad中调用，否则不准确在h5端。
- * @return {height,width,top,isCustomHeader,statusBarHeight}
+ * @return {height,width,top,isCustomHeader,statusBarHeight,sysinfo}
  */
-export function getWindow():{width:number,height:number,top:number,bottom:number,isCustomHeader:Boolean,statusBarHeight: Number,sysinfo:UniApp.GetSystemInfoResult}{
+export function getWindow():{width:number,height:number,top:number,bottom:number,statusBarHeight:number,isCustomHeader:Boolean,sysinfo:UniApp.GetSystemInfoResult}{
 	// let getsysinfoSync = getCookie("tmui_sysinfo")
 	// if(getsysinfoSync){
 	// 	return getsysinfoSync
@@ -658,4 +658,26 @@ export function routerTo(url:string,type:openUrlType='navigate'){
 		})
 	}
 	
+}
+
+/**
+ * 将rpx转换为px
+ * @param v 待转换的数字
+ * @param screenWidth 屏幕的宽度，如果不提供默认自动获取
+ * @return number
+ */
+export function torpx(v:number,screenWidth:number=0){
+	if(typeof screenWidth === 'undefined'||!screenWidth){
+		screenWidth = uni.getSystemInfoSync().screenWidth;
+	}
+	let pixelRatio = 750 / screenWidth;
+	return Math.ceil(v * pixelRatio)
+}
+/**
+ * 将rpx转换为px
+ * @param v 待转换的数字
+ * @return number
+ */
+export function topx(v:number){
+	return Math.ceil(uni.upx2px(Number(v)))
 }

@@ -1,8 +1,8 @@
 <template>
-	<view class="flex flex-col flex-wrap overflow" :class="[_disabled?'opacity-5':'']" style="flex-wrap:wrap;">
+	<view class="flex " :class="[_disabled?props.disabledClass:'',tmCheckedBoxDir=='row'?'flex-row':'',tmCheckedBoxDir=='customCol'?'flex-1':'']">
 		<view @click="hanlerClick" class="flex flex-row flex-row-center-start flex-1">
 
-			<tm-sheet v-if="props.custom" :linear="props.linear" :linearDeep="props.linearDeep" :followTheme="props.followTheme"
+			<tm-sheet parenClass="flex-shrink" class="flex-shrink" v-if="props.custom" :linear="props.linear" :linearDeep="props.linearDeep" :followTheme="props.followTheme"
 				:followDark="props.followDark" :dark="props.dark" :shadow="props.shadow" :userInteractionEnabled="false"
 				:width="_is_radio?props.size:0" :height="_is_radio?props.size:0" :text="(!_checked)"
 				:border="props.border" :border-style="props.borderStyle" :transprent="props.transprent"
@@ -13,13 +13,12 @@
 				</tm-translate>
 				<tm-text v-if="!_is_radio" :font-size="props.fontSize" :label="props.label"></tm-text>
 			</tm-sheet>
-			<slot>
-				<view :userInteractionEnabled="false" class="flex-1 flex-row flex-row-cneter-cneter" style="flex-wrap:wrap;">
-					<tm-text class="flex-1 flex-wrap"  v-if="_is_radio"
-						:font-size="props.fontSize" :label="props.label"></tm-text>
-				</view>
-			</slot>
-			
+			<view class="flex-1">
+				<slot name="default" :checked="{checked:_checked}">
+					<tm-text :userInteractionEnabled="false" class="flex-1 flex-wrap"  v-if="_is_radio" :font-size="props.fontSize" :label="props.label"></tm-text>
+				</slot>
+			</view>
+
 		</view>
 	</view>
 </template>
@@ -119,13 +118,17 @@
 			type: String,
 			default: "tmicon-check"
 		},
-
+		disabledClass:{
+			type:String,
+			default:"opacity-5"
+		}
 	})
 
 	const _checked = ref(props.defaultChecked ?? false)
 	const _groupCheckedVal = inject('tmRadioBoxVal', computed(() => ''));
 	const tmCheckedBoxDisabled = inject('tmRadioBoxDisabled', computed(() => false));
 	const _is_radio = inject('tmRadioBoxModel', computed(() => false));
+	const tmCheckedBoxDir = inject('tmCheckedBoxDir',computed(()=>'row'));
 	const _disabled = computed(() => props.disabled || tmCheckedBoxDisabled.value)
 	function vailChecked(val?:string|number|boolean) {
 		let checked_val = false;
@@ -144,6 +147,7 @@
 		emits('update:modelValue', props.value)
 	}
 	async function hanlerClick() {
+		emits("click")
 		if (_disabled.value || _checked.value) {
 			return;
 		}
@@ -168,7 +172,7 @@
 		emits('change', _checked.value)
 	}
 	watch([()=>props.modelValue,()=>props.value,()=>_groupCheckedVal.value],()=>{
-	    _checked.value = vailChecked()
+		_checked.value = vailChecked()
 	},{deep:true})
 	const _blackValue = _groupCheckedVal.value
 	
@@ -186,18 +190,6 @@
 		parent.pushKey(props.value)
 	}
 
-	/** -----------form专有------------ */
-	//父级方法。
-	const tmFormFun = inject("tmFormFun", computed(() => ""))
-	watch(tmFormFun, () => {
-		if (tmFormFun.value == 'reset') {
-			if (parent) {
-				parent?.addKey(_blackValue)
-			}
-		}
-	})
-
-	/** -----------end------------ */
 
 
 

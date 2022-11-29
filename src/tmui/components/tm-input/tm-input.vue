@@ -10,9 +10,9 @@
 			:linear="props.linear"
 			:linearDeep="props.linearDeep"
 			>
-            <view class="flex flex-row " @click="inputClick($event,'')"
-                :class="[propsDetail.type == 'textarea' ? 'flex-row-top-center' : 'flex-row-center-center']"
-                :style="[{ height: `${_height}rpx` }]">
+            <view class="flex flex-row" @click="inputClick($event,'')"
+                :class="[propsDetail.type == 'textarea' ? propsDetail.layoutAlign : 'flex-row-center-start']"
+                :style="[propsDetail.autoHeight&&propsDetail.type=='textarea'?{}:{ height: `${_height}rpx` }]">
 
                 <view v-if="propsDetail.search || propsDetail.searchLabel" class="px-9"></view>
                 <slot name="left"></slot>
@@ -33,6 +33,7 @@
                         :cursorSpacing="propsDetail.cursorSpacing" :confirmType="propsDetail.confirmType"
                         :confirmHold="propsDetail.confirmHold" :autoBlur="propsDetail.autoBlur"
                         :holdKeyboard="propsDetail.holdKeyboard" :adjustPosition="propsDetail.adjustPosition"
+                        :readonly="propsDetail.readyOnly"
                         :type="propsDetail.type" :placeholder="propsDetail.placeholder" :style="[
                             {
                                 height: `${_height}rpx`,
@@ -40,7 +41,7 @@
                                 'text-align': props.align,
                                 'fontSize': `${propsDetail.fontSize_px}px`
                             },
-                        ]" :placeholder-style="`fontSize:${propsDetail.fontSize_px}px`" />
+                        ]" :placeholder-style="`fontSize:${propsDetail.fontSize_px}px;${props.placeholderStyle}`" />
 
                     <textarea :userInteractionEnabled="false" v-if="propsDetail.type == 'textarea'" :value="_value"
                         :focus="propsDetail.focus" @focus="focus" @blur="blur" @confirm="confirm" @input="inputHandler"
@@ -55,6 +56,8 @@
 						:selectionEnd="propsDetail.selectionEnd"
 						:disable-default-padding="propsDetail.disableDefaultPadding"
 						:fixed="propsDetail.fixed"
+                        :autoHeight="propsDetail.autoHeight"
+                        :readonly="propsDetail.readyOnly"
                         :adjustPosition="propsDetail.adjustPosition" :type="propsDetail.type" :style="[
                             {
                                 height: `${_height}rpx`, width: 'auto', 'word-break': 'break-word',
@@ -63,7 +66,7 @@
                                 'fontSize': `${propsDetail.fontSize_px}px`
                             },
                         ]" class="wrap flex-1"
-                        :placeholder-style="`fontSize:${propsDetail.fontSize_px}px`"></textarea>
+                        :placeholder-style="`fontSize:${propsDetail.fontSize_px}px;${props.placeholderStyle}`"></textarea>
                 </view>
                 <view v-if="isAndroid" class="flex-1 relative flex-row flex " :style="[{ width: '0px' }]">
                     <!-- <view @click.stop="emits('click',$event)" class=" l-0 t-0 flex-1 " :style="{height: `${_height}rpx`,background:'red'}"></view> -->
@@ -75,6 +78,7 @@
                         :confirmHold="propsDetail.confirmHold" :autoBlur="propsDetail.autoBlur"
                         :holdKeyboard="propsDetail.holdKeyboard" :adjustPosition="propsDetail.adjustPosition"
                         :maxlength="propsDetail.maxlength" :type="propsDetail.type"
+                        :readonly="propsDetail.readyOnly"
                         :placeholder="propsDetail.placeholder" :style="[
                             {
                                 height: `${_height}rpx`,
@@ -82,7 +86,7 @@
                                 'text-align': props.align,
                                 'fontSize': `${propsDetail.fontSize_px}px`
                             },
-                        ]" :placeholder-style="`fontSize:${propsDetail.fontSize_px}px`" />
+                        ]" :placeholder-style="`fontSize:${propsDetail.fontSize_px}px;${props.placeholderStyle}`" />
                     <textarea @click.stop="emits('click', $event)" :userInteractionEnabled="false"
                         v-if="propsDetail.type == 'textarea'" :value="_value" :focus="propsDetail.focus" @focus="focus" @blur="blur"
                         @confirm="confirm" @input="inputHandler" @keyboardheightchange="emits('keyboardheightchange')"
@@ -97,6 +101,7 @@
 						:selectionStart="propsDetail.selectionStart"
 						:selectionEnd="propsDetail.selectionEnd"
 						:disable-default-padding="propsDetail.disableDefaultPadding"
+                        :readonly="propsDetail.readyOnly"
 						:fixed="propsDetail.fixed"
 						
                         :type="propsDetail.type" :style="[
@@ -107,7 +112,7 @@
                                 'fontSize': `${propsDetail.fontSize_px}px`
                             },
                         ]" class="wrap flex-1"
-                        :placeholder-style="`fontSize:${propsDetail.fontSize_px}px`"></textarea>
+                        :placeholder-style="`fontSize:${propsDetail.fontSize_px}px;${props.placeholderStyle}`"></textarea>
                 </view>
                 <view class="pl-16" v-if="propsDetail.showClear && _valueLenChar > 0">
                     <tm-icon @click="clearBtn" :font-size="propsDetail.fontSize * 0.9" name="tmicon-times-circle-fill">
@@ -380,6 +385,23 @@ const props = defineProps({
 	    type: Boolean,
 	    default: false
 	},
+    placeholderStyle:{
+        type:String,
+        default:''
+    },
+    autoHeight:{
+        type: Boolean,
+	    default: false
+    },
+    readyOnly:{
+        type: Boolean,
+	    default: false
+    },
+    /**横向布局的对齐类,主要是用来配置文本域时,左图标需要顶对齐或者左中对齐. */
+    layoutAlign:{
+        type:String,
+        default:'flex-row-top-start'
+    }
 })
 
 let parentFormItem:any = proxy?.$parent
@@ -423,35 +445,8 @@ function debounce(func: Function, wait = 500, immediate = false) {
 }
 const propsDetail = computed(() => {
     return {
-		focus:props.focus,
-        prefix: props.prefix,
-        prefixLabel: props.prefixLabel,
-        fontSize: props.fontSize,
+		...props,
         fontSize_px: uni.upx2px(props.fontSize),
-        suffix: props.suffix,
-        suffixLabel: props.suffixLabel,
-        fontColor: props.fontColor,
-        search: props.search,
-        searchLabel: props.searchLabel,
-        showClear: props.showClear,
-        password: props.password,
-        disabled: props.disabled,
-        placeholder: props.placeholder,
-        showCharNumber: props.showCharNumber,
-        maxlength: props.maxlength,
-        cursorSpacing: props.cursorSpacing,
-        confirmType: props.confirmType,
-        confirmHold: props.confirmHold,
-        autoBlur: props.autoBlur,
-        holdKeyboard: props.holdKeyboard,
-        adjustPosition: props.adjustPosition,
-		type: props.type,
-        cursor: props.cursor,
-        showConfirmBar: props.showConfirmBar,
-        selectionStart: props.selectionStart,
-        selectionEnd: props.selectionEnd,
-        disableDefaultPadding: props.disableDefaultPadding,
-        fixed: props.fixed
     }
 })
 const _blackValue = props.modelValue
@@ -500,16 +495,7 @@ const _valueLenChar = computed(() => {
     return str.length;
 })
 watch(() => props.modelValue, () => _value.value = props.modelValue)
-//--------------form表单专用------------------
-const rulesObj = inject("tmFormItemRules", computed<Array<rulesItem>>(() => {
-    return [{
-        message: props?.errorLabel ?? "请填写必要的内容",
-        required: false,
-        validator: false
-    }]
-}))
 
-//-------------- end ------------------
 
 function searchClick() {
     emits("search", _value.value)
@@ -527,17 +513,17 @@ function focus() {
     emits("focus")
 	// pushFormItem();
 }
-function blur() {
+function blur(e:any) {
     _foucsActive.value = false;
-    pushFormItem();
-    emits("blur")
+    // pushFormItem();
+    emits("blur",e)
 }
 function confirm() {
     emits("confirm", _value.value)
 }
 function inputHandler(e:CustomEvent) {
 
-    _value.value = e.detail.value;
+    // _value.value = e.detail.value;
     emits("input", e.detail.value)
     emits("update:modelValue", e.detail.value)
 	
@@ -557,103 +543,7 @@ function inputClick(e:Event,type:string){
 	
 	debounce(()=>emits('click', e),200,true)
 }
-watch(_value,()=>debounce(pushFormItem,200))
 
-//--------------以下是专门为form表单专用------------------
-const tmFormFun = inject("tmFormFun", computed(() => ""))
-const validate =(rules:Array<rulesItem>)=>{
-    rules = rules.map(el=>{
-        if(typeof el.validator === "function" && el.required===true){
-            return el
-        }else if(typeof el.validator === "boolean" && el.required===true){
-            return {
-                ...el,
-                validator:(val:string|number)=>{
-					
-                    return String(val).length == 0 || typeof val === null ?false:true
-                }
-            }
-        }else{
-            return {
-                ...el,
-                validator:(val:string|number)=>{
-                    return true
-                }
-            }
-        }
-        
-    })
-    let rules_filter:Array<rulesItem> = rules.filter(el=>{
-        return typeof el.validator === "function" && el.required===true
-    })
-    let rules_fun:Array<Promise<rulesItem>> = rules_filter.map(el=>{
-        return new Promise(async (res,rej)=>{
-            if(typeof el.validator ==='function'){
-                let vr = await el.validator(_value.value)
-                if(vr){
-                    res({
-                        message:String(el.message),
-                        validator:true
-                    })
-                }else{
-                    rej({
-                        message:el.message,
-                        validator:false
-                    })
-                }
-            }else{
-                res({
-                    message:el.message,
-                    validator:true
-                })
-            }
-        })
-    })
-
-    return Promise.all(rules_fun)
-}
-async function pushFormItem(isCheckVail = true) {
-    if (parentFormItem) {
-        if (isCheckVail) {
-            validate(toRaw(rulesObj.value)).then(ev => {
-				
-                parentFormItem.pushCom({
-                    value: _value.value,
-                    isRequiredError: false,//true,错误，false正常 检验状态
-                    componentsName: 'tm-input',//表单组件类型。
-                    message: ev.length==0?"":ev[0].message//检验信息提示语。
-                })
-            }).catch(er => {
-                parentFormItem.pushCom({
-                    value: _value.value,
-                    isRequiredError: true,//true,错误，false正常 检验状态
-                    componentsName: 'tm-input',//表单组件类型。
-                    message: er.message,//检验信息提示语。
-                })
-
-            })
-        }
-        
-    }
-}
-watch(tmFormFun, () => {
-    if (tmFormFun.value == 'validate') {
-        pushFormItem();
-    }
-    if (tmFormFun.value == 'reset') {
-		// console.log(_blackValue)
-        _value.value = _blackValue;
-        _requiredError.value = false;
-        emits("update:modelValue", _value.value)
-        pushFormItem(false);
-    }
-    if (tmFormFun.value == 'clearValidate') {
-        _requiredError.value = false;
-        pushFormItem(false);
-    }
-})
-pushFormItem(false)
-//-------------- end ------------------
 </script>
 
 <style scoped>

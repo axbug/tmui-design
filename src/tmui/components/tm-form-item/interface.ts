@@ -2,6 +2,7 @@ export interface rulesItem {
     validator?:Function|boolean,//检验函数。可以是异步回调。
     required?:boolean,//是否必填。
     message?:string,//检验不合格时的文本
+    type?:string,//校验类型.
 }
 export interface inputPushItem {
     value:any,

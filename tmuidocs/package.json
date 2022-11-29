@@ -1,6 +1,6 @@
 {
   "name": "tmui.design",
-  "version": "3.0.85",
+  "version": "3.0.86",
   "description": "tmui",
   "main": "index.js",
   "scripts": {
@@ -17,11 +17,13 @@
     "@vuepress/plugin-active-header-links": "^2.0.0-beta.46",
     "@vuepress/plugin-docsearch": "^2.0.0-beta.38",
     "@vuepress/plugin-register-components": "^2.0.0-beta.46",
+    "@vuepress/plugin-search": "^2.0.0-beta.53",
     "@vuepress/plugin-toc": "^2.0.0-beta.46",
-    "@vuepress/plugin-search": "2.0.0-beta.46",
     "vuepress": "^2.0.0-beta.38"
   },
   "dependencies": {
-    "vuepress-plugin-copy-code2": "^2.0.0-beta.72"
+    "braces": "^3.0.2",
+    "uc.micro": "^1.0.6",
+    "vuepress-plugin-copy-code2": "^2.0.0-beta.122"
   }
 }

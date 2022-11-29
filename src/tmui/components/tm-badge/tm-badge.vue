@@ -4,7 +4,8 @@
 		<view v-if="!props.status"><slot></slot></view>
 		<view v-if="show" :class="[
 			(_dot||_count||_icon)&&!props.status?'absolute flex-top-start-end r-0':'',
-		]" :style="{zIndex: 10}">
+			props.top?`t-${String(props.top)}`:'',props.right?`r-${String(props.right)}`:''
+		]" :style="{zIndex: 10}" >
 			<tm-sheet
 			@click="emits('click',$event)"
 			:color="props.color"
@@ -27,8 +28,8 @@
 			:margin="props.margin"
 			:padding="props.padding"
 			>
-			<tm-text color="white" :font-size="props.fontSize" :_class="size.h==0?'py-3 px-8':''" v-if="_count>0&&!istext" :label="_count>props.maxCount?props.maxCount+'+':_count"></tm-text>
-			<tm-text color="white" :font-size="props.fontSize" :_class="size.h==0?'py-3 px-8':''" v-if="_count&&istext" :label="_count"></tm-text>
+			<tm-text color="white" :font-size="props.fontSize" :_class="size.h==0?'py-3 px-6':''" v-if="_count>0&&!istext" :label="_count>props.maxCount?props.maxCount+'+':_count"></tm-text>
+			<tm-text color="white" :font-size="props.fontSize" :_class="size.h==0?'py-3 px-6':''" v-if="_count&&istext" :label="_count"></tm-text>
 			<tm-icon color="white" :font-size="props.fontSize" :name="_icon"  v-if="_icon" ></tm-icon>
 			</tm-sheet>
 		</view>
@@ -123,6 +124,14 @@
 		maxCount:{
 			type:[Number],
 			default:999
+		},
+		top:{
+			type:[Number],
+			default:0
+		},
+		right:{
+			type:[Number],
+			default:0
 		},
 	})
 	//自定义样式：

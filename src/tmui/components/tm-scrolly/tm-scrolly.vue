@@ -1,208 +1,446 @@
 <template>
-	<view class="relative overflow" :style="{height:_height}">
-		
-		<!-- (reFresh==2?-refreshJuli:_sc_top_height) -->
-		<view v-if="refreshType=='top'&&_openPull" 
-		:style="{top:-60+'px',width:_width,height:60+'px',transform:`translateY(${reFresh==2&&refreshType=='top'&&isUpToogle?60:_sc_top_height}px)`,opacity:_cOpacitye}" 
-		class="zIndex-17 overflow absolute l-0 flex flex-row flex-row-center-center contentOp content_opacity" :class="[(reFresh==0||reFresh==2)&&isUpToogle?'content_height':'']">
-			<view class=" contentxRotate" :class="[sc_top<=(refreshJuli)&&reFresh!=2?'contentxRotate_deg':'']">
-				<tm-icon  v-if="reFresh!=2" name="tmicon-long-arrow-down"></tm-icon>
-				<tm-icon  v-if="reFresh==2" spin color="keDuiColor" :font-size="42" name="tmicon-loading"></tm-icon>
-			</view>
-			<view class="pl-32">
-				<tm-text  v-if="sc_top>(refreshJuli)" _class="text-align-center" label="下拉刷新"></tm-text>
-				<tm-text  v-if="sc_top<=(refreshJuli)" _class="text-align-center" label="松开立即刷新"></tm-text>
-				<tm-text  _class="text-align-center" :label="_label"></tm-text>
-			</view>
-		</view>
-		<scroll-view @scrolltolower="onScrollBootom" @scroll="onScroll" :scroll-y="true" enable-flex class="flex-col"
-			:style="{ width: _width ,height:_height }">
-			<view @touchStart="onScrollStart" @touchend="onScrollEnd" 
-				:style="{transform:`translateY(${reFresh==2&&refreshType=='top'?-refreshJuli:0}px)`}" class="flex contentx">
+	<!-- #ifndef APP-NVUE -->
+		<scroll-view class="scroyy" :scroll-top="scrollTop" @touchstart="onTouchStart" @touchmove="onTouchMove"
+			@touchend="onTouchEnd" @scroll="onScroll" @scrolltoupper="onScrollToTop" @scrolltolower="onScrollToBottom"
+			scroll-y enable-back-to-top enhanced scroll-with-animation :bounces="false"
+			:style="{height:props.height+'rpx'}"
+			>
+			<view :class="['scroyy__track','scroyy__track--'+(loosing ? 'loosing' : '')]"
+				:style="{transform: `translate3d(0, ${_barHeight}rpx, 0)`}">
+				<view class="scroyy__tips " :class="['scroyy__track--'+(loosing ? 'loosing' : '')]"
+					:style="{height: _barHeight+'rpx'}">
+					<slot name="pull" :status="{refreshStatus}">
+						<view v-if="refreshStatus === 2" class="flex flex-row flex-row-center-center">
+							<tm-icon :font-size="24" color="primary" name="tmicon-shuaxin" spin></tm-icon>
+							<tm-text color="grey" _class="pl-16" :label="loadingTexts[refreshStatus]"></tm-text>
+						</view>
+						<view v-if="refreshStatus != -1 && refreshStatus != 2"
+							class="flex flex-row flex-row-center-center srrryration"
+							:style="{opacity:`${refreshStatus==0?(_barHeight/props.loadBarHeight):1}`}">
+							<view :class="refreshStatus==0?'srrryration srrryrationOn':'srrryration srrryrationOf'">
+								<tm-icon :font-size="24" color="primary" name="tmicon-long-arrow-down"></tm-icon>
+							</view>
+							<tm-text color="grey" _class="pl-16" :label="loadingTexts[refreshStatus]"></tm-text>
+						</view>
+					</slot>
+				</view>
 				<slot></slot>
-			</view>
-			
-			
-			<!-- 底部触底刷新 -->
-			<view v-if="refreshType=='bottom'&&reFresh==2&&_openBootom" class="flex flex-row flex-row-center-center my-32">
-				<tm-icon  spin color="keDuiColor" :font-size="32" name="tmicon-loading"></tm-icon>
-				<tm-text  _class="text-align-center pl-24" label="加载更多"></tm-text>
+				<view :class="['scroyy__track--loosing flex ']"
+					:style="{height: (isBootRefresh?props.loadBarHeight:0)+'rpx'}">
+					<slot name="bottom" :status="{isBootRefresh}">
+						<view v-if="isBootRefresh" class="flex flex-row flex-row-center-center" :style="{height: (isBootRefresh?props.loadBarHeight:0)+'rpx'}">
+							<tm-icon :font-size="24" color="primary" name="tmicon-shuaxin" spin></tm-icon>
+							<tm-text color="grey" _class="pl-16" label="数据加载中"></tm-text>
+						</view>
+					</slot>
+				</view>
 			</view>
 		</scroll-view>
-	</view>
+	<!-- #endif -->
+	<!-- #ifdef APP-NVUE -->
+	<scroll-view scroll-y
+	@scrolltolower="onScrollToBottom"
+	:style="{height:props.height+'rpx'}"
+	>
+		<refresh  @refresh="onrefresh" @pullingdown="onpullingdown" :display="showLoading ? 'show' : 'hide'" >
+		    <view :style="{height:(_barHeight/2)+'px'}">
+				<slot name="pull" :status="{refreshStatus}">
+					<view class="flex flex-row flex-row-center-center" :style="{
+						height:(_barHeight/2)+'px',
+						opacity:refreshStatus ==2||refreshStatus ==3?1:0
+						}">
+						<tm-icon :font-size="24" color="primary" name="tmicon-shuaxin" spin></tm-icon>
+						<tm-text color="grey" _class="pl-16" :label="loadingTexts[refreshStatus]"></tm-text>
+					</view>
+					<view v-if="refreshStatus == 0 || refreshStatus == 1"
+						class="flex flex-row flex-row-center-center srrryration"
+						:style="{opacity:`${refreshStatus==0?(_barHeight/nowEvt.viewHeight):1}`,height:(_barHeight/2)+'px',top:-(_barHeight/2)+'px'}">
+						<view :class="refreshStatus==0?'srrryration srrryrationOn':'srrryration srrryrationOf'">
+							<tm-icon :font-size="24" color="primary" name="tmicon-long-arrow-down"></tm-icon>
+						</view>
+						<tm-text color="grey" _class="pl-16" :label="loadingTexts[refreshStatus]"></tm-text>
+					</view>
+				</slot>
+			</view>
+		</refresh>
+		<slot></slot>
+	</scroll-view>
+	<!-- #endif -->
 </template>
-
-<script lang="ts" setup>
+<!-- #ifndef APP-NVUE -->
+<script lang="ts" setup >
+	import tmIcon from "../tm-icon/tm-icon.vue"
+	import tmText from "../tm-text/tm-text.vue"
 	import {
-		ref,PropType,
-		computed,
-		watch,Ref
-	} from "vue";
-	import tmIcon from "../tm-icon/tm-icon.vue";
-	import tmText from "../tm-text/tm-text.vue";
+		getCurrentInstance,
+		nextTick,
+		onMounted,
+		ref,
+		Ref,
+		watch
+	} from 'vue';
+	import { propsdetail } from "./propsdetail"
+	const proxy = getCurrentInstance()?.proxy ?? null
+	const emits = defineEmits(["bottom", "change", "refresh", "timeout", "update:modelValue", "update:bottomValue"])
 	const props = defineProps({
-		width:{
-			type:[String,Number],
-			default:'750rpx'
-		},
-		height:{
-			type:[String,Number],
-			default:'750rpx'
-		},
-		//是否打开下拉刷新
-		openPull:{
-			type:Boolean,
-			default:true
-		},
-		//是否打开触底刷新
-		openBootom:{
-			type:Boolean,
-			default:false
-		},
-		pullFun: {
-			type: [Function] as PropType < (type: 'top' | 'bottom') => boolean > ,
-			default: () => {
-				return (type: 'top' | 'bottom') => {
-					return new Promise((res)=>{
-						setTimeout(function() {
-							res(true)
-						}, 1500);
-					})
+		...propsdetail
+	})
+	// 下拉开始的起点，主要用于计算下拉高度
+	const startPoint: Ref<{
+		pageX: number; pageY: number
+	} | null> = ref(null);
+	const isPulling = ref(false); // 是否下拉中
+	const _maxBarHeight = ref(props.maxBarHeight); // 最大下拉高度，单位 rpx
+	// 触发刷新的下拉高度，单位rpx
+	// 松开时下拉高度大于这个值即会触发刷新，触发刷新后松开，会恢复到这个高度并保持，直到刷新结束
+	const _barHeight = ref(0)
+	/** 开始刷新 - 刷新成功/失败 最大间隔时间setTimeout句柄 */
+	let maxRefreshAnimateTimeFlag: number | null = 0;
+	/** 关闭动画耗时setTimeout句柄 */
+	let closingAnimateTimeFlag: number | null = 0;
+	//加载框的高度
+	const refreshStatus = ref(-1)
+	const loosing = ref(false)
+	const enableToRefresh = ref(true)
+	const scrollTop = ref(0)
+	
+	/** 触底下拉刷新参数。 */
+	const isBootRefresh = ref(props.bottomValue)
+	
+	watch(() => props.modelValue, () => {
+		if (!props.modelValue) {
+			if (maxRefreshAnimateTimeFlag != null) {
+				clearTimeout(maxRefreshAnimateTimeFlag);
+			}
+			refreshStatus.value = 3;
+			close();
+		}
+	})
+	watch(() => props.bottomValue, () => {
+		isBootRefresh.value = props.bottomValue;
+	})
+	onMounted(() => {
+		clearTimeout(maxRefreshAnimateTimeFlag);
+		clearTimeout(closingAnimateTimeFlag);
+		nextTick(() => setDefault())
+	})
+	
+	function setDefault() {
+		if (props.defaultValue) {
+			setRefreshBarHeight(props.loadBarHeight)
+			refreshStatus.value = 2;
+			loosing.value = true;
+			isPulling.value = true;
+			enableToRefresh.value = false;
+			startPoint.value = null;
+		}
+	}
+	
+	function onScrollToBottom() {
+		if (isBootRefresh.value) return;
+		emits("update:bottomValue")
+		emits("bottom")
+	}
+	
+	function onScrollToTop() {
+		enableToRefresh.value = true;
+	}
+	
+	function onScroll(e: any) {
+		enableToRefresh.value = e.detail?.scrollTop === 0
+	}
+	
+	function setScrollTop(tp: number) {
+		scrollTop.value = tp
+	}
+	
+	function scrollToTop() {
+		setScrollTop(0)
+	}
+	
+	function onTouchStart(e: WechatMiniprogram.Component.TrivialInstance) {
+		if (isPulling.value || !enableToRefresh.value) return;
+		const {
+			touches
+		} = e;
+		if (touches.length !== 1) return;
+		const {
+			pageX,
+			pageY
+		} = touches[0];
+	
+		loosing.value = false;
+		startPoint.value = {
+			pageX,
+			pageY
+		};
+		isPulling.value = true;
+	
+	}
+	
+	function onTouchMove(e: WechatMiniprogram.Component.TrivialInstance) {
+		if (!startPoint.value) return;
+		const {
+			touches
+		} = e;
+	
+		if (touches.length !== 1) return;
+	
+		const {
+			pageY
+		} = touches[0];
+		const offset = pageY - startPoint.value.pageY;
+		const barsHeight = uni.$tm.u.torpx(offset)
+	
+	
+		if (barsHeight > 0) {
+	
+			if (barsHeight > _maxBarHeight.value) {
+				// 限高
+				setRefreshBarHeight(_maxBarHeight.value);
+				// this.startPoint.pageY = pageY - this.toPx(this.maxBarHeight); // 限高的同时修正起点，避免触摸点上移时无效果
+			} else {
+				setRefreshBarHeight(barsHeight);
+			}
+		}
+	}
+	
+	function onTouchEnd(e: WechatMiniprogram.Component.TrivialInstance) {
+		if (!startPoint.value) return;
+		const {
+			changedTouches
+		} = e;
+		if (changedTouches.length !== 1) return;
+		const {
+			pageY
+		} = changedTouches[0];
+		const barsHeight = uni.$tm.u.torpx(pageY - startPoint.value.pageY);
+		startPoint.value = null; // 清掉起点，之后将忽略touchMove、touchEnd事件
+	
+		loosing.value = true;
+		isBootRefresh.value = false;
+		// 松开时高度超过阈值则触发刷新
+		if (barsHeight > props.loadBarHeight) {
+	
+			_barHeight.value = props.loadBarHeight
+			refreshStatus.value = 2;
+	
+			emits("change", true)
+			emits("update:modelValue", true);
+			emits("refresh")
+			maxRefreshAnimateTimeFlag = setTimeout(() => {
+				maxRefreshAnimateTimeFlag = null;
+	
+				if (refreshStatus.value === 2) {
+					// 超时回调
+					emits("timeout")
+					close(); // 超时仍未被回调，则直接结束下拉
 				}
-				
-			}
-		},
-		label:{
-			type:[String],
-			default:'已最近更新'
-		}
-	})
-	const _width = computed(()=>{
-		if(typeof props.width=='number') return props.width+'rpx'
-		return props.width
-	})
-	const _height = computed(()=>{
-		if(typeof props.height=='number') return props.height+'rpx'
-		return props.height
-	})
-	const _openBootom = computed(()=>props.openBootom)
-	const _openPull = computed(()=>props.openPull)
-	const _label = computed(()=>props.label)
-	//---scroll下拉刷新---------
-	//0未初始化/松手可能未被触发，没有达到刷新的条件（即被中止了），1下拉手势中还未放开手。2松开手触发下拉刷新，3复位刷新完成
-	type reFreshType = 0|1|2|3
-	const sc_top = ref(0)
-	const refreshJuli = -60;//达到120才能被刷新
-	const reFresh:Ref<reFreshType> = ref(0)
-	const isyesResh = ref(false) //是否达到了规定刷新条件。
-	const isUpToogle = ref(true) //手指是否放开。
-	const _sc_top_height = computed(()=>Math.ceil(Math.abs(sc_top.value)))
-	const refreshType = ref('top')
-	//---------------
-	const _cOpacitye = computed(()=>{
-		let jl = Math.abs(reFresh.value==2?-refreshJuli:_sc_top_height.value)
-		return jl / 60
-		
-	})
-	//=====
-	function onScroll(e:any){
-
-		if(e.detail.scrollTop>0||!_openPull) return
-		if(e.detail.scrollTop<0){
-			refreshType.value = 'top'
-		}
-		// 切换页面中不允许下拉。
-		// if(tabsSwiperIsMoveing.value) return
-		if(reFresh.value==2&&isUpToogle.value) return;
-		if(sc_top.value<=refreshJuli){
-			isyesResh.value = true
-		}else{
-			isyesResh.value = false
-		}
-		
-		sc_top.value = e.detail.scrollTop
-		reFresh.value =1;
-	}
-	function onScrollStart(){
-		// 切换页面中不允许下拉。
-		// if(tabsSwiperIsMoveing.value) return
-		isUpToogle.value = false;
-	}
-	async function onScrollEnd(){
-		isUpToogle.value = true;
-		if(reFresh.value ==2||!_openPull) return;
-		if(refreshType.value =='bottom'){
-			return
-		}
-		// 切换页面中不允许下拉。
-		// if(tabsSwiperIsMoveing.value) return
-		if(isyesResh.value){
-			reFresh.value =2
-			refreshType.value = 'top'
-			let p = await funPull('top')
-			reFresh.value = 0;
-		}else{
-			reFresh.value =0;
-		}
-		sc_top.value = 0
-	}
-	async function onScrollBootom(){
-		refreshType.value = 'bottom'
-		if(!_openBootom.value) return;
-		if(reFresh.value ==2) return;
-		reFresh.value =2
-		await funPull('bottom')
-		reFresh.value =0;
-		
-	}
-	async function funPull(type: 'top' | 'bottom') {
-		if (typeof props.pullFun === 'function') {
-			// uni.showLoading({
-			// 	title: "...",
-			// 	mask: true
-			// })
-			let p = await props.pullFun(type);
-			if (typeof p === 'function') {
-				p = await p(type);
-			}
-			isyesResh.value = false
-			// uni.hideLoading();
-			return p;
+			}, props.refreshTimeout as any) as any as number;
+		} else {
+			close();
 		}
 	}
+	
+	function setRefreshBarHeight(barsHeight: number) {
+		if (barsHeight >= props.loadBarHeight) {
+			refreshStatus.value = 1;
+		} else {
+			refreshStatus.value = 0;
+		}
+		return new Promise((resolve) => {
+			_barHeight.value = barsHeight;
+			nextTick(() => {
+				resolve(barsHeight)
+			})
+		});
+	}
+	
+	function close() {
+		const animationDuration = 350;
+		_barHeight.value = 0
+		emits('change', false)
+		emits("update:modelValue", false);
+		closingAnimateTimeFlag = setTimeout(() => {
+			closingAnimateTimeFlag = null;
+			refreshStatus.value = -1;
+			isPulling.value = false; // 退出下拉状态
+			loosing.value = false;
+			enableToRefresh.value = true;
+		}, animationDuration) as any as number;
+	}
+	
 </script>
 
 <style scoped>
-.contentOp{
-	transition-duration: 0.05s;
-	transition-timing-function: linear;
-	transition-delay: 0s;
-}
-.content_opacity{
-	transition-property: opacity;
-}
-.content_height{
-	transition-duration: 0.3s;
-	transition-property: opacity , height,transform ;
-}
-.content_height_transform{
-	transition-property: opacity , height,transform ;
-}
-.contentx{
-	transition-duration: 0.1s;
-	transition-timing-function: ease;
-	transition-delay: 0s;
-	transform: translateY(0px);
-	transition-property: transform,top,opacity;
-}
-.contentxRotate{
-	transition-duration: 0.6s;
-	transition-timing-function: ease;
-	transition-delay: 0s;
-	transform: rotate(0deg);
-	transition-property: transform;
-}
-.contentxRotate_deg{
-	transform: rotate(180deg);
-}
+	.scroyy {
+		overflow: hidden;
+		/* #ifndef APP-NVUE */
+		max-height: 100vh;
+		/* #endif */
+	}
+
+	.scroyy__track {
+		position: relative;
+	}
+
+	.scroyy__track--loosing {
+		transition-property: transform,height,opacity;
+		transition-timing-function: ease;
+		transition-duration: 0.35s;
+	}
+
+	.scroyy__tips {
+		position: absolute;
+		color: #bbb;
+		font-size: 24rpx;
+		top: 0;
+		width: 100%;
+		transform: translateY(-100%);
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		flex-direction: column;
+		overflow: hidden;
+	}
+
+	.scroyy__text {
+		margin: 16rpx 0 0;
+	}
+
+	.scroyy__wrap {
+		position: relative;
+	}
+</style>
+<!-- #endif -->
+
+<!-- #ifdef APP-NVUE -->
+
+<script lang="ts" setup >
+	import tmIcon from "../tm-icon/tm-icon.vue"
+	import tmText from "../tm-text/tm-text.vue"
+	import {
+		getCurrentInstance,
+		nextTick,
+		onMounted,
+		ref,
+		Ref,
+		watch
+	} from 'vue';
+	import { propsdetail } from "./propsdetail"
+	const proxy = getCurrentInstance()?.proxy ?? null
+	const emits = defineEmits(["bottom", "change", "refresh", "timeout", "update:modelValue", "update:bottomValue"])
+	const props = defineProps({
+		...propsdetail
+	})
+	interface pullevent {
+		dy:number,
+		pullingDistance:number,
+		viewHeight:number,
+		type:string
+	}
+	const showLoading = ref(false)
+	const refreshing = ref(false)
+	const isBootRefresh = ref(false)
+	const refreshStatus = ref(-1)
+	/** 开始刷新 - 刷新成功/失败 最大间隔时间setTimeout句柄 */
+	let maxRefreshAnimateTimeFlag: number | null = 0;
+	const _barHeight = ref(uni.$tm.u.topx(props.loadBarHeight))
+	const nowEvt:Ref<pullevent> = ref({
+		dy:0,
+		pullingDistance:0,
+		viewHeight:0,
+		type:''
+	})
+	
+	onMounted(()=>{
+		if(maxRefreshAnimateTimeFlag!=null){
+			clearTimeout(maxRefreshAnimateTimeFlag)
+		}
+	})
+	watch(() => props.modelValue, () => {
+		if (!props.modelValue) {
+			if (maxRefreshAnimateTimeFlag != null) {
+				clearTimeout(maxRefreshAnimateTimeFlag);
+			}
+			close();
+		}
+	})
+	watch(() => props.bottomValue, () => {
+		isBootRefresh.value = props.bottomValue;
+	})
+	function onScrollToBottom() {
+		if (isBootRefresh.value) return;
+		emits("update:bottomValue",true)
+		isBootRefresh.value = true;
+		emits("bottom")
+	}
+	function onrefresh(){
+		if(nowEvt.value.pullingDistance>=_barHeight.value){
+			refreshStatus.value = 2;
+			showLoading.value = true;
+			emits("refresh")
+			emits("change",true)
+			emits("update:modelValue", true);
+			maxRefreshAnimateTimeFlag = setTimeout(() => {
+				maxRefreshAnimateTimeFlag = null;
+				if (refreshStatus.value === 2) {
+					// 超时回调
+					emits("timeout")
+					close(); // 超时仍未被回调，则直接结束下拉
+				}
+			}, props.refreshTimeout as any) as any as number;
+			
+			return;
+		}
+		showLoading.value = true;
+		nextTick(()=>{
+			showLoading.value = false
+			emits("change",false)
+		})
+	}
+	/**
+	 * dy: 前后两次回调滑动距离的差值
+	pullingDistance: 下拉的距离
+	viewHeight: refresh 组件高度
+	type: “pullingdown” 常数字符串
+	 */
+	function onpullingdown(evt:{dy:number,pullingDistance:number,viewHeight:number,type:string}){
+		nowEvt.value = evt;
+		
+		if(evt.pullingDistance<=1){
+			refreshStatus.value = -1;
+		}else if(evt.pullingDistance>1&&evt.pullingDistance<_barHeight.value){
+			refreshStatus.value = 0;
+		}else if(evt.pullingDistance>=_barHeight.value){
+			refreshStatus.value = 1;
+		}
+	}
+	
+
+	function close() {
+		showLoading.value = false
+		refreshStatus.value = -1;
+		emits('change', false)
+		emits("update:modelValue", false);
+	}
+	
+</script>
+
+<!-- #endif -->
+
+<style>
+	.srrryration {
+		transition-property: transform,height,opacity;
+		transition-timing-function: ease;
+		transition-duration: 0.25s;
+	}
+
+	.srrryrationOn {
+		transform: rotate(0deg);
+	}
+
+	.srrryrationOf {
+		transform: rotate(180deg);
+	}
 </style>

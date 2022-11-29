@@ -9,6 +9,7 @@
             <tm-divider color="grey-2" label="tmui 3.0.0 原生渲染，全端兼容"></tm-divider>
         </view>
     </tm-app>
+    
 </template>
 <script lang="ts" setup>
 import { ref, getCurrentInstance } from "vue"

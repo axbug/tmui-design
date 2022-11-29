@@ -1232,6 +1232,13 @@ export default [
       "unicode_decimal": 59326
     },
     {
+      "icon_id": "32631406",
+      "name": "sort-down-copy",
+      "font_class": "sort-down-nogap-copy",
+      "unicode": "f167",
+      "unicode_decimal": 61799
+    },
+    {
       "icon_id": "6151123",
       "name": "border verticle-fill",
       "font_class": "borderverticle-fill",

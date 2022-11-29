@@ -40,7 +40,7 @@
                 <tm-sheet _class="flex-center" color="grey-darken-5" :border="2" :margin="[0,0]" :padding="[10,6]" :width="100" :round="3">
                     <tm-text :label="_value"></tm-text>
                 </tm-sheet>
-                <tm-icon  color="grey-darken-5" _class="t--10" :font-size="32" name="tmicon-sort-down"></tm-icon>
+                <tm-icon  color="grey-darken-5" _class="" :font-size="32" name="tmicon-sort-down-nogap-copy"></tm-icon>
             </view>
         </view>
     </view>
@@ -87,7 +87,7 @@ const props = defineProps({
     //按钮的大小。
     buttonSize:{
         type:Number,
-        default:46
+        default:52
     },
     /**
      * 方向
@@ -298,7 +298,6 @@ function butnMoveEnd(e:btnMovetype,index:number){
     showDetail.value = false;
     emits("update:modelValue",getValue())
     emits("change",getValue())
-	pushFormItem()
 }
 
 function getDomRectBound(){
@@ -316,123 +315,6 @@ function getDomRectBound(){
     })
     // #endif
 }
-
-
-
-
-
-/** -----------form专有------------ */
-//父级方法。
-const rulesObj = inject("tmFormItemRules",computed<Array<rulesItem>>(()=>{
-    return [
-        {
-            message:"请选择",
-            required:false,
-            validator:false
-        }
-    ]
-}))
-//父级方法。
-let parentFormItem:any = proxy?.$parent
-while (parentFormItem) {
-    if (parentFormItem?.tmFormComnameFormItem == 'tmFormComnameFormItem' || !parentFormItem) {
-        break;
-    } else {
-        parentFormItem = parentFormItem?.$parent ?? undefined
-       
-    }
-}
-const validate =(rules:Array<rulesItem>)=>{
-    rules = rules.map(el=>{
-        if(typeof el.validator === "function" && el.required===true){
-            return el
-        }else if(typeof el.validator === "boolean" && el.required===true){
-            return {
-                ...el,
-                validator:(val:string|number|Array<string|number>)=>{
-                    if(Array.isArray(val)){
-                        return val.reduce((a,b)=>Number(a)+Number(b))==0
-                    }else{
-                        return Number(val)==0
-                    }
-                }
-            }
-        }else{
-            return {
-                ...el,
-                validator:(val:string|number)=>{
-                    return true
-                }
-            }
-        }
-        
-    })
-    let rules_filter:Array<rulesItem> = rules.filter(el=>{
-        return typeof el.validator === "function" && el.required===true
-    })
-    let _valueSlider = getValue();
-    let rules_fun:Array<Promise<rulesItem>> = rules_filter.map(el=>{
-        return new Promise(async (res,rej)=>{
-            if(typeof el.validator ==='function'){
-                let vr = await el.validator(_valueSlider)
-                if(vr){
-                    res({
-                        message:String(el.message),
-                        validator:true
-                    })
-                }else{
-                    rej({
-                        message:el.message,
-                        validator:false
-                    })
-                }
-            }else{
-                res({
-                    message:el.message,
-                    validator:true
-                })
-            }
-        })
-    })
-    return Promise.all(rules_fun)
-}
-
-async function pushFormItem(isCheckVail = true){
-    if (parentFormItem) {
-        if (isCheckVail) {
-            let _valueSlider = getValue();
-            validate(toRaw(rulesObj.value)).then(ev => {
-                parentFormItem.pushCom({
-                    value: _valueSlider,
-                    isRequiredError: false,//true,错误，false正常 检验状态
-                    componentsName: 'tm-slider',//表单组件类型。
-                    message: ev.length==0?"":ev[0].message,//检验信息提示语。
-                })
-            }).catch(er => {
-                parentFormItem.pushCom({
-                    value: _valueSlider,
-                    isRequiredError: true,//true,错误，false正常 检验状态
-                    componentsName: 'tm-slider',//表单组件类型。
-                    message: er.message,//检验信息提示语。
-                })
-                
-            })
-        }
-    }
-    
-}
-pushFormItem()
-
-const tmFormFun = inject("tmFormFun",computed(()=>""))
-watch(tmFormFun,()=>{
-    if(tmFormFun.value=='reset'){
-		emits('update:modelValue',_blackValue)
-		pushFormItem(false)
-    }
-})
-
-/** -----------end------------ */
-
 
 
 

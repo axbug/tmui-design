@@ -21,6 +21,8 @@
 				</view>
 			</tm-sheet>
 		</template>
+		
+		
 		<tm-navbar :title="language('index.com.navtitle')" :shadow="0" hide-home>
 			<template v-slot:left>
 				<view class="flex flex-center flex-row">
@@ -38,7 +40,7 @@
 			<view class="flex-row flex-row-center-start pb-10">
 				<tm-image :width="108" :height="67.5" :src="logoimg"></tm-image>
 				<view class="pl-16 flex-1" style="width:0px">
-					<tm-text _class="text-weight-b" :font-size="36" label="TMUI 3.0.85"></tm-text>
+					<tm-text _class="text-weight-b" :font-size="36" label="TMUI 3.0.86"></tm-text>
 					<tm-text _class="opacity-6" :label="language('index.search.subtext')"></tm-text>
 				</view>
 			</view>
@@ -49,7 +51,6 @@
 				v-model="str" @search='search' :searchLabel="language('index.search.btntext')"></tm-input>
 		</tm-sheet>
 		<view class="mt-24"></view>
-		
 		<tm-sheet :margin="[32,0]" :round="3">
 			<tm-text :font-size="24" _class="font-weight-b" :label="language('index.com.themetext')"></tm-text>
 			<tm-divider></tm-divider>
@@ -125,7 +126,7 @@
 					<tm-text color="grey" :font-size="22" _class="font-weight-b"
 						:label="language('index.com.otherSub')"></tm-text>
 				</tm-grid-item>
-
+				
 				<tm-grid-item text url="../chart/index" :height="180" count="CHAR">
 					<tm-icon color="blue-grey" _class="pb-10" :font-size="52" name="tmicon-borderbottom-fill">
 					</tm-icon>
@@ -259,7 +260,6 @@
 		store.setTmVuetifyAddTheme(showCustomName.value, showCustomColor.value)
 	}
 
-	
 	onLoad(() => {
 
 		// #ifdef MP-WEIXIN
@@ -284,7 +284,6 @@
 		}
 
 		// #endif
-
-
+		
 	})
 </script>

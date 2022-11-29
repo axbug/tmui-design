@@ -2,24 +2,20 @@
 <template>
 	<view class="flex flex-col relative">
 		
-		<tm-sheet v-if="!props.hideTool" :shadow="0" :margin="[0,0]" :padding="[0,24]" _class="flex flex-row flex-row-center-center" >
-			<view @click.stop="prevYear" class="px-32">
-				<tm-icon :userInteractionEnabled="false" :font-size="24" name="tmicon-angle-double-left"></tm-icon>
-			</view>
-			<!-- <view @click.stop="prevMonth" class="px-32">
-				<tm-icon :userInteractionEnabled="false" :font-size="24" name="tmicon-angle-left"></tm-icon>
-			</view> -->
-			<view class="px-32">
-				<tm-text :userInteractionEnabled="false" _class="text-weight-b" :font-size="32" :label="_nowDate"></tm-text>
-			</view>
-			<!-- <view @click.stop="nextMonth" class="px-32">
-				<tm-icon :userInteractionEnabled="false" :font-size="24" name="tmicon-angle-right"></tm-icon>
-			</view> -->
-			<view @click.stop="nextYear" class="px-32">
-				<tm-icon :userInteractionEnabled="false" :font-size="24" name="tmicon-angle-double-right"></tm-icon>
-			</view>
-			<view @click="nowWeekClick" class="absolute t-4 r-16 zIndex-10" style="width: 64rpx;">
-			    <tm-text :userInteractionEnabled="false" color="grey" :font-size="28" label="本年"></tm-text>
+        <tm-sheet v-if="!props.hideTool" :shadow="0" :round="0" :height="88" :margin="[0,0]" :padding="[0,0]" _class="flex flex-col" >
+			<view class="flex flex-row flex-row-center-center" style="height:88rpx">
+                <view @click.stop="prevYear" class="px-16">
+				    <tm-icon :userInteractionEnabled="false" :font-size="22" name="tmicon-angle-double-left"></tm-icon>
+                </view>
+                <view class="px-12">
+                    <tm-text :userInteractionEnabled="false" _class="text-weight-b" :font-size="32" :label="_nowDate"></tm-text>
+                </view>
+                <view @click.stop="nextYear" class="px-16">
+                    <tm-icon :userInteractionEnabled="false" :font-size="22" name="tmicon-angle-double-right"></tm-icon>
+                </view>
+            </view>
+			<view @click="nowWeekClick" class="absolute t-0 r--6 zIndex-10 round-12 py-4 flex flex-row flex-row-center-center" style="width: 90rpx;height:88rpx">
+			    <tm-text :userInteractionEnabled="false" color="grey" _class="text-align-center" :font-size="28" label="本年"></tm-text>
 			</view>
 		</tm-sheet>
         

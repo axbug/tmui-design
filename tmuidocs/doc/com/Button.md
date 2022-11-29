@@ -49,7 +49,7 @@ title: tmui 3.0 组件库
 | url | String | '' | 页面地址，当提供时，点击会跳转到相应页面 |
 | label | String | '' | 按钮文字 |
 | icon | String | '' | 按钮图标 |
-| formType | String | '' | submit,reset,提供此值时，此按钮可以配合form组件用来提交事件表单 |
+| formType | String | '' | submit,reset,本组件额外新增:'filterCancel','filterConfirm',提供此值时，此按钮可以配合form组件用来提交事件表单 |
 | openType | String | '' | 开放能力，[见文档](https://uniapp.dcloud.net.cn/component/button.html) |
 | appParameter | String | '' | [见文档](https://uniapp.dcloud.net.cn/component/button.html) |
 | sessionFrom | String | '' | [见文档](https://uniapp.dcloud.net.cn/component/button.html) |

@@ -37,8 +37,10 @@ title: tmui 3.0 组件库
 | title | String | '' | 标题 |
 | subTitle | String | '' | 标题下的副标题描述 |
 | btnText | String | '确认' | 按钮文字 |
-| followTheme | [Boolean,String] | true | 是否跟随全局主题的变换而变换 |
-| followDark | [Boolean,String] | true | 是否跟随暗黑 |
+| followTheme | [Boolean] | true | 是否跟随全局主题的变换而变换 |
+| followDark | [Boolean] | true | 是否跟随暗黑 |
+| text | [Boolean] | true | 是否浅色背景 |
+| size | [Number] | 140 | 尺寸 |
 | dark | [Boolean,String] | false | 暗黑 |
 | showBtn | Boolean | true | 是否显示底部的操作按钮。 |
 | clickDisabled | Boolean | true | 默认禁用。是否禁用整个组件的点击事件触发。 |

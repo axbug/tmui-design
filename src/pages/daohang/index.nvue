@@ -20,6 +20,7 @@ import tmDivider from "@/tmui/components/tm-divider/tm-divider.vue"
 const list = ref([
     { path: "/pages/daohang/actionMenu", title: "底部操作栏 ActionMenu" },
     { path: "/pages/daohang/dropdown", title: "下拉选项 Dropdown" },
+    { path: "/pages/daohang/tmFilterMenu", title: "下拉筛选 FilterMenu" },
     { path: "/pages/daohang/navbar", title: "标题导航栏 Navbar" },
     { path: "/pages/daohang/pagination", title: "分页 Pagination" },
     { path: "/pages/daohang/segtab", title: "分段器 Segtab" },

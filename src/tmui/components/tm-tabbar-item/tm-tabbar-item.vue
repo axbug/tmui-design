@@ -150,6 +150,11 @@ const props = defineProps({
 	data: {
 		type: [Object, String, Number],
 		default: () => undefined
+	},
+	/**是否禁用选项. */
+	disabled:{
+		type:Boolean,
+		default:false
 	}
 })
 const _btnTop = computed(() => props.btnTop)
@@ -165,6 +170,7 @@ const _styletop = computed(() => {
 const _padding = computed(() => {
 	return [0, 0];
 })
+const _disabled = computed(()=>props.disabled)
 const _load = ref(props.load)
 const _active = ref(false)
 const c_font_style = computed(() => {
@@ -253,7 +259,7 @@ watch([() => props.load], () => {
 	_load.value = props.load
 })
 async function itemClick() {
-	if (_load.value) return;
+	if (_load.value||_disabled.value) return;
 	if (typeof props.beforeClick === 'function') {
 		_load.value = true
 		let p = await props.beforeClick(props.data);

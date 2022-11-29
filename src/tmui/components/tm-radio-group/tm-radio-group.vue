@@ -1,5 +1,6 @@
 <template>
-  <view class="flex" :class="[props.direction=='row'?'flex-row  flex-wrap':'flex-col',_align]">
+  <view class="flex" :class="[props.direction=='row'?'flex-row':'flex-col',props.direction=='customCol'?'':_align]" 
+  :style="{flexWrap:props.direction=='customCol'?'nowrap':'wrap'}">
   <slot></slot>
   </view>
 </template>
@@ -26,7 +27,7 @@ const props = defineProps({
         default:''
     },
     direction:{
-        type:String as PropType<'row'|'col'>,
+        type:String as PropType<'row'|'col'|'customCol'>,
         default:'row' //row横排，col为竖排。
     },
 	align:{
@@ -63,7 +64,7 @@ const _align = computed(()=>{
 const checkBoxkeyId = 'tmRadioBoxGroup';
 watch(()=>props.modelValue,()=>{
     _mValue.value = props.modelValue;
-	pushFormItem()
+
 },{deep:true})
 function pushKey(key:string|number|boolean){
     _cacheBoxList.push(key);
@@ -78,107 +79,16 @@ nextTick(()=>{
 //更新值、
 function addKey(key:string|number|boolean){
     _mValue.value = key
-    emits('change',_mValue.value)
     emits('update:modelValue',_mValue.value)
-    pushFormItem()
-}
-/** -----------form专有------------ */
-const rulesObj = inject("tmFormItemRules",computed<Array<rulesItem>>(()=>{
-    return [
-        {
-            message:"请选择",
-            required:false,
-            validator:false
-        }
-    ]
-}))
-//父级方法。
-let parentFormItem:any = proxy?.$parent
-while (parentFormItem) {
-    if (parentFormItem?.tmFormComnameFormItem == 'tmFormComnameFormItem' || !parentFormItem) {
-        break;
-    } else {
-        parentFormItem = parentFormItem?.$parent ?? undefined
-       
-    }
-}
-const validate =(rules:Array<rulesItem>)=>{
-    rules = rules.map(el=>{
-        if(typeof el.validator === "function" && el.required===true){
-            return el
-        }else if(typeof el.validator === "boolean" && el.required===true){
-            return {
-                ...el,
-                validator:(val:string|number)=>{
-                    return String(val).length == 0 || typeof val === null ?false:true
-                }
-            }
-        }else{
-            return {
-                ...el,
-                validator:(val:string|number)=>{
-                    return true
-                }
-            }
-        }
-        
+    nextTick(()=>{
+        emits('change',_mValue.value)
     })
-    let rules_filter:Array<rulesItem> = rules.filter(el=>{
-        return typeof el.validator === "function" && el.required===true
-    })
-    let rules_fun:Array<Promise<rulesItem>> = rules_filter.map(el=>{
-        return new Promise(async (res,rej)=>{
-            if(typeof el.validator ==='function'){
-                let vr = await el.validator(_mValue.value)
-                if(vr){
-                    res({
-                        message:String(el.message),
-                        validator:true
-                    })
-                }else{
-                    rej({
-                        message:el.message,
-                        validator:false
-                    })
-                }
-            }else{
-                res({
-                    message:el.message,
-                    validator:true
-                })
-            }
-        })
-    })
-    return Promise.all(rules_fun)
+
 }
 
-async function pushFormItem(isCheckVail = true){
-    if (parentFormItem) {
-        if (isCheckVail) {
-            validate(toRaw(rulesObj.value)).then(ev => {
-                parentFormItem?.pushCom({
-                    value: _mValue.value,
-                    isRequiredError: false,//true,错误，false正常 检验状态
-                    componentsName: 'tm-radio-group',//表单组件类型。
-                    message: ev.length==0?"":ev[0].message,//检验信息提示语。
-                })
-            }).catch(er => {
-                parentFormItem?.pushCom({
-                    value: _mValue.value,
-                    isRequiredError: true,//true,错误，false正常 检验状态
-                    componentsName: 'tm-radio-group',//表单组件类型。
-                    message: er.message,//检验信息提示语。
-                })
-                
-            })
-        }
-    }
-}
-pushFormItem()
-
-/** -----------end------------ */
 provide("tmRadioBoxDisabled",computed(()=>props.disabled))
 provide("tmRadioBoxVal",computed(()=>_mValue.value))
 provide("tmRadioBoxModel",computed(()=>props.model=='radio'))
+provide("tmCheckedBoxDir",props.direction)
 defineExpose({pushKey:pushKey,addKey:addKey,checkBoxkeyId:checkBoxkeyId});
 </script>

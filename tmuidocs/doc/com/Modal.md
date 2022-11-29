@@ -61,17 +61,20 @@ title: tmui 3.0 组件库
 | click       |      |         |                  |
 | open        |      |         | 显示抽屉             |
 | close       |      |         | 关闭抽屉             |
-| ok          |      |         | 确认按钮             |
-| cancel      |      |         | 取消按钮             |
+| ok          |      |    arg:any     | 确认按钮             |
+| cancel      |      |     arg:any    | 取消按钮             |
 | update:show | show | Boolean | 显示状态（更新v-model:show值） |
+
+**手动ref调用open,可以传递参数:arg:any,,然后在上方事件中ok,cancel将会传回open打开时传递的数据**
 
 ### :corn: slot插槽
 默认default
+title标题栏,button底部按钮栏
 
 ### :green_salad: ref方法
 | 方法名   | 参数  | 返回值 | 描述  |
 |-------|-----|-----|-----|
-| open  |     |     | 显示  |
+| open  |   arg:any  |     | 显示  |
 | close |     |     | 隐藏  |
 
 ### :couplekiss: 文档贡献

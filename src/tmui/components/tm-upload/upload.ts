@@ -36,7 +36,7 @@ export interface fileConfig {
 	formName?:string
 
 }
-function getUid (length=3){
+export function getUid (length=3){
 	return Number(Number(Math.random().toString().substr(3,length) + Date.now()).toString(8));
 }
 /**
@@ -66,6 +66,7 @@ export class uploadfile {
 	isStop = false;
 	index = 0;
 	config:fileConfig = {};
+	uploadobj:UniNamespace.UploadTask|null = null;
 	constructor(config:fileConfig) {
 		let cf:fileConfig =  {maxSize:10*1024*1024,maxFile:9,fileType:['album','camera'],fileList:[],autoUpload:true,header:{},formData:{},formName:'file'}
 		cf = {...cf,...arguments[0]??{}};
@@ -94,6 +95,11 @@ export class uploadfile {
 		}
 		 
 		return this.filelist;
+	}
+	async clear(){
+		/** 清清前要选暂停所有正在上传的文件 */
+		this.stop();
+		this.filelist = [];
 	}
 	setFileStatus(item:file){
 		let index = this.filelist.findIndex(el=>el.uid == item.uid);
@@ -316,14 +322,14 @@ export class uploadfile {
 			item.statusCode = statusCode.uploading;
 			item.status = "上传中..."
 			t.setFileStatus(item)
-			const upObj = uni.uploadFile({
+			const upObj = t.uploadobj = uni.uploadFile({
 				url:String(t.config.hostUrl),
 				name:t.config?.formName??'file',
 				header:t.config?.header??{},
 				filePath:item.url,
 				formData:{name:item.name,...t.config.formData},
 				success:async (res)=>{
-					
+					if(t.isStop) return
 					item.response = res.data;
 					let isOksuccess = await t.beforeSuccess(item);
 					if(res.statusCode !=200||!isOksuccess){
@@ -343,7 +349,7 @@ export class uploadfile {
 					t.index++;
 				},
 				fail:(res)=>{
-					
+					if(t.isStop) return
 					item.statusCode = statusCode.fail;
 					item.status = "上传失败";
 					t.setFileStatus(item)
@@ -351,6 +357,7 @@ export class uploadfile {
 					t.index++;
 				},
 				complete:async (res)=>{
+					if(t.isStop) return
 					await t.awaitTime();
 					t.complete(item);
 					// 直接下一个文件。
@@ -360,6 +367,7 @@ export class uploadfile {
 			if(upObj){
 				let item = t.filelist[t.index];
 				upObj.onProgressUpdate(async (res)=>{
+					if(t.isStop) return
 					item.progress = res.progress;
 					item.statusCode = statusCode.uploading;
 					item.status = "上传中...";
@@ -375,6 +383,9 @@ export class uploadfile {
 	// 停止上传
 	stop(){
 		this.isStop = true;
+		if(this.uploadobj!=null){
+			this.uploadobj.abort()
+		}
 	}
 	
 }

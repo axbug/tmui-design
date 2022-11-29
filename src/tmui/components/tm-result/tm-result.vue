@@ -2,7 +2,7 @@
 	<view @click="onClick" class="flex flex-col flex-col-center-center pa-32" >
 		<tm-translate :eventPenetrationEnabled="true" name="zoom" :delay="300">
 			<tm-sheet :dark="props.dark" :followTheme="false"
-			 :followDark="props.followDark" _class="flex-center flex-row rounded" :width="140" :height="140" :round="25" :color="icon_color" text>
+			 :followDark="props.followDark" _class="flex-center flex-row rounded" :width="props.size" :height="props.size" :round="25" :color="icon_color" :text="props.text">
 				<tm-icon _style="line-height:normal" :dark="props.dark"  :followDark="props.followDark" :fontSize="80" :name="icon_rp"></tm-icon>
 			</tm-sheet>
 		</tm-translate>
@@ -83,7 +83,15 @@
 		clickDisabled:{
 			type:Boolean,
 			default:true
-		}
+		},
+		text:{
+			type:Boolean,
+			default:true
+		},
+		size:{
+			type:Number,
+			default:140
+		},
 	})
 	const statusData = {
 		empty:{

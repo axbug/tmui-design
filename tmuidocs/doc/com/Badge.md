@@ -45,6 +45,8 @@ title: tmui 3.0 组件库
 | icon | Boolean, String | false | 使用图标作为显示角标 |
 | count | Number, String | 0 | 如果count为数字时，显示数字角标，如果为string是显示文本角标。 |
 | maxCount | Number, String | 999 | 如果count为数字时，最大数值 |
+| top | Number | 0 | 允许微调位置,整数,可以是负数 |
+| right | Number | 0 | 允许微调位置,整数,可以是负数 |
 
 ### :rose: 事件
 | 事件名 | 参数 | 返回数据 | 描述 |

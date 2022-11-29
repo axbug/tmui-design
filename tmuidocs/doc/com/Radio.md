@@ -72,7 +72,34 @@ Radio 单选框提供多种选值下选择唯一内容的组件，重要：使�
 
 ### :corn: slot插槽
 
-默认default
+:::warning 注意事项
+
+由于uni中的vue3,是经常uni官方修改改.所以在使用带有插槽数据的组件时,如果使用了插槽来自定义内容那么就一定要标准的使用方法,
+不可以使用简写,其它其它语法糖.
+
+:::
+
+| 插槽名  | 描述 |
+| :--: | :-- |
+| default |  带有数据checked,用于模板内知道当前是否选中. |
+
+```vue
+
+<!-- 请注意我这里使用了标准的写法v-slot:default="{checked}" -->
+<!-- 如果组件没有插槽数据,变成v-slot:default -->
+<!-- 那怕你不使用数据,也要这么写.如果不写template v-slot:default="{checked}"> 将会产生兼容性,已知微信小程序会丢失插槽内容 -->
+<tm-radio>
+    <template v-slot:default="{checked}">
+        <view class="flex flex-row">
+            <tm-text label="我已经阅读并同意"></tm-text>
+            <view >
+                <tm-text   color="primary" label="《合作协议》"></tm-text>
+            </view>
+        </view>
+    </template>
+</tm-radio>
+
+```
 
 ### :green_salad: ref方法
 

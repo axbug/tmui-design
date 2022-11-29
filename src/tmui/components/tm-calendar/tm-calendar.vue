@@ -161,6 +161,7 @@ watchEffect(() => {
 
 watch(()=>props.show,() => {
     if(_show.value == props.show) return;
+	
     if(drawer.value){
         if(props.show){
             drawer.value?.open()

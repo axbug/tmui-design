@@ -7,7 +7,8 @@
 </template>
 <script lang="ts" setup>
 import tmText from "../tm-text/tm-text.vue";
-import { computed, onMounted, ref } from "vue";
+import { computed, onMounted, ref ,watch} from "vue";
+
 const emits = defineEmits(["start", "end", "change"]);
 const props = defineProps({
     time: {
@@ -40,8 +41,13 @@ let time_data = computed(():timeFormar =>
     formatTime(props.time - now.value)
 );
 
-const isfinish = computed(() => now.value == props.time||now.value ===0);
+const isfinish = ref(true);
 
+watch(()=>now.value,()=>{
+	if(now.value == props.time||now.value ===0){
+		isfinish.value = true
+	}
+})
 const text = computed<string>(() => {
     let ps = props.format;
     ps = ps.replace(/(DD)/g, String(time_data.value.day));
@@ -80,9 +86,11 @@ function start() {
         let lst = now.value + 50;
         if (lst > props.time) {
             clearInterval(timid);
+			isfinish.value = true
             emits("end");
             return;
         }
+		isfinish.value = false
         now.value = lst;
         emits("change", time_data);
     }, 50);
@@ -101,6 +109,7 @@ function pause() {
 function resinit() {
     clearInterval(timid);
     now.value = 0;
+	isfinish.value = true
 }
 //对外暴露的方法和属性。
 defineExpose({finish:isfinish,start:start,stop:stop,pause:pause,resinit:resinit})

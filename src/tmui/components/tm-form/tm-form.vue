@@ -13,7 +13,7 @@
     "tm-input","tm-rate","tm-slider",
     "tm-segtab","tm-switch","tm-upload"
  */
-import { computed, PropType, provide ,ref, watchEffect,Ref, toRaw,shallowReadonly, nextTick, isProxy } from "vue";
+import { computed, PropType, provide ,ref, watch,Ref, toRaw,shallowReadonly, nextTick, isProxy ,unref,readonly} from "vue";
 import { formItem } from "./interface";
 import tmSheet from "../tm-sheet/tm-sheet.vue"
 /**
@@ -73,13 +73,12 @@ const props = defineProps({
 		default:false
 	}
 })
-const _modelVal = ref({})
+const _modelVal = ref(props.modelValue)
 //备份，重置时，使用。
 const _backModelVal = uni.$tm.u.deepClone(props.modelValue)
-watchEffect(()=>{
-	_modelVal.value = props.modelValue
-	
-});
+// watchEffect(()=>{
+// 	_modelVal.value = props.modelValue
+// });
 //收集的字段。状态。它与_modelVal是有区别的，用户提供的字段，不一定就会在页面中存在，需要与已经渲染的字段进行匹配
 const _callBackModelVal:Ref<Array<formItem>> = ref([])
 const tmFormComnameId = "tmFormId"
@@ -98,6 +97,12 @@ provide("tmFormLabelAlign",computed(()=>props.labelAlign))
 provide("tmFormLayout",computed(()=>props.layout))
 provide("tmFormBorder",computed(()=>props.border))
 provide("tmFormTransprent",computed(()=>props.transprent))
+provide("formCallFiled",computed(()=>_modelVal.value))
+watch(()=>props.modelValue,()=>{
+    _modelVal.value = {...toRaw(props.modelValue)}
+
+},{deep:true})
+
 let timid = 56321326898746;
 function reset(){
     formFunCallBack.value = ""
@@ -105,10 +110,11 @@ function reset(){
         formFunCallBack.value = 'reset'
         clearTimeout(timid)
 		emits("reset")
-        // timid = setTimeout(function() {
-        //     emits("reset")
-        //     // emits("update:modelValue",_backModelVal)
-        // }, 500);
+        timid = setTimeout(function() {
+            emits("reset")
+            emits("update:modelValue",_backModelVal)
+            _modelVal.value = _backModelVal
+        }, 500);
     })
 }
 function clearValidate(){
@@ -123,25 +129,26 @@ function clearValidate(){
 function submit(){
     //发送检验状态。
     formFunCallBack.value = ''
+	
     nextTick(()=>{
         formFunCallBack.value = 'validate'
 		let isPass = true;
-		let par = toRaw(_callBackModelVal.value);
 		uni.$tm.u.throttle(()=>{
+			let par = toRaw(_callBackModelVal.value);
 			for(let i=0,len=par.length;i<len;i++){
 			    if(par[i].isRequiredError==true){
 			        isPass = false;
 			        break;
 			    }
 			}
-			
-			let dataTest = {...toRaw(_modelVal.value)};
-			par.forEach(el=>{
-			   setObjectVal(dataTest,el.field,el.value)
-			})
+            // console.log(par,_modelVal.value)
+			// const dataTest = {...readonly(_modelVal.value)};
+			// par.forEach(el=>{
+			//    setObjectVal(dataTest,el.field,el.value)
+			// })
 			//validate是否检验通过。
-			emits("submit",{data:dataTest,validate:isPass})
-		},200,false)
+			emits("submit",{data:toRaw(_modelVal.value),validate:isPass})
+		},220,false)
     })
 }
 //执行表单检验，不会返回任何值。
@@ -158,14 +165,13 @@ function validate(){
 
 
 function pushKey(item:formItem){
-    if(item.componentsName==""&&!safeFormCom.value.includes(item.componentsName)) return;
+    if(!item.field) return;
     let idsIndex = _callBackModelVal.value.findIndex(el=>el.id==item.id);
     if(idsIndex==-1){
         _callBackModelVal.value.push(item);
     }else{
-        _callBackModelVal.value[idsIndex] = item;
+        _callBackModelVal.value[idsIndex] = {...item};
     }
-    
 }
 function delKey(item:formItem){
     let idsIndex = _callBackModelVal.value.findIndex(el=>el.id==item.id);
