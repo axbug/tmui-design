@@ -568,9 +568,9 @@ export function toast(word:string,mask:boolean=true,icon:any='none'){
  * 获取屏幕窗口安全高度和宽度
  * 注意是针对种屏幕的统一计算，统一高度，不再让uni获取有效高度而烦恼。
  * 请一定要在onMounted或者onLoad中调用，否则不准确在h5端。
- * @return {height,width,top,isCustomHeader}
+ * @return {height,width,top,isCustomHeader,statusBarHeight}
  */
-export function getWindow():{width:number,height:number,top:number,bottom:number,isCustomHeader:Boolean,sysinfo:UniApp.GetSystemInfoResult}{
+export function getWindow():{width:number,height:number,top:number,bottom:number,isCustomHeader:Boolean,statusBarHeight: Number,sysinfo:UniApp.GetSystemInfoResult}{
 	// let getsysinfoSync = getCookie("tmui_sysinfo")
 	// if(getsysinfoSync){
 	// 	return getsysinfoSync

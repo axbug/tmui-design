@@ -60,6 +60,7 @@ Time 时间选择器时一个用于选择事件的组件，常用于事件预约
 | linearDeep | String | light | 确认选择按钮的渐变背景颜色深浅，可选值有：light,dark,accent亮系渐变和深色渐变 |
 | btnRound | Number | 3 | 按钮圆角值 |
 | round | Number | 12 | 组件圆角值 |
+| title | String | 请选择时间 | 标题提示语 |
 
 ### :rose: Time-view 事件
 
