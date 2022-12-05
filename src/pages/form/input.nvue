@@ -12,7 +12,7 @@
 			<tm-text :font-size="24" _class="font-weight-b" label="一些其它常见示例"></tm-text>
 			<tm-divider></tm-divider>
 			<tm-input prefix="tmicon-user-fill" showClear></tm-input>
-			<tm-input prefixLabel="字符统计" :margin="[0,24]" showCharNumber :maxlength="10" ></tm-input>
+			<tm-input v-model="test" prefixLabel="字符统计" :margin="[0,24]" showCharNumber :maxlength="10" ></tm-input>
 			<tm-input suffix="tmicon-clock-fill" showClear></tm-input>
 			<tm-input prefix="tmicon-dollar" suffixLabel="元" :margin="[0,24]"  ></tm-input>
 			<tm-input prefix="tmicon-search" searchLabel="搜索" ></tm-input>
@@ -42,5 +42,5 @@ import tmDivider from "@/tmui/components/tm-divider/tm-divider.vue"
 const modeltype = ref('day')
 const dateStr = ref('')
 const showdate = ref(false)
-
+const test = ref('')
 </script>

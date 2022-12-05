@@ -14,7 +14,6 @@
 import { ref, getCurrentInstance } from "vue"
 import { onShow, onLoad } from "@dcloudio/uni-app";
 import tmApp from "@/tmui/components/tm-app/tm-app.vue"
-import tmSheet from "@/tmui/components/tm-sheet/tm-sheet.vue"
 import tmCell from "@/tmui/components/tm-cell/tm-cell.vue"
 import tmDivider from "@/tmui/components/tm-divider/tm-divider.vue"
 const list = ref([
@@ -26,6 +25,7 @@ const list = ref([
     { path: "/pages/daohang/segtab", title: "分段器 Segtab" },
     { path: "/pages/daohang/steps", title: "步骤条 Steps" },
     { path: "/pages/daohang/tabbar", title: "底部导航 Tabbar" },
+    { path: "/pages/daohang/sideMenu", title: "侧边栏导航 sideMenu" },
 
 
 ])

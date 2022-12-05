@@ -32,12 +32,49 @@
 				"transparentTitle": "always"
 			}
 		}
-	   
+	    ,{
+            "path" : "pages/wxaccount/login",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "登录tmui",
+                "disableScroll": true
+				
+            }
+            
+        } ,{
+            "path" : "pages/wxaccount/user",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+				"enablePullDownRefresh": true
+            }
+            
+        }
         
        
     ],
 	"subPackages": [
-		
+		{
+			"root": "pages/render",
+			"pages": [
+				{
+				    "path" : "index",
+				    "style" :                                                                                    
+				    {
+				        "navigationBarTitleText": "Render实例",
+				        "enablePullDownRefresh": false
+				    }
+				    
+				},
+				{
+					"path": "pie",
+					"style": {
+						"navigationBarTitleText": "饼图和圆环",
+						"disableScroll": true
+					}
+				}
+			]
+		},
 		{
 			"root": "pages/yewu",
 			"pages": [
@@ -222,6 +259,15 @@
                 
                 }
                 
+                ,{
+                    "path" : "sideMenu",
+                    "style" :                                                                                    
+                {
+                    "navigationBarTitleText": "侧边栏导航 sideMenu",
+                    "enablePullDownRefresh": false
+                }
+                
+                }
             ]
 		},
 		{
@@ -419,7 +465,16 @@
 						"navigationBarTitleText": "键盘 Keyborad"
 					}
 				}
-			]
+			    ,{
+                    "path" : "timebetween",
+                    "style" :                                                                                    
+                {
+                    "navigationBarTitleText": "时间范围 Timebetween",
+                    "enablePullDownRefresh": false
+                }
+                
+                }
+            ]
 		},
 		{
 			"root": "pages/changyong",

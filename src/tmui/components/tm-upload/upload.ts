@@ -308,6 +308,9 @@ export class uploadfile {
 				item.status = "不允许上传"
 				t.filelist.splice(t.index,1,item)
 				t.index++;
+				t.setFileStatus(item)
+				t.fail(item)
+				t.complete(item);
 				startupload();
 				return;
 			}

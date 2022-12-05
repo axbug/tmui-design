@@ -108,7 +108,11 @@ const fontSizeComputed = computed(() => {
 		lineHeight:props.lineHeight>-1?props.lineHeight + props.unit:(props.fontSize || 30) + props.unit
 		};
 	// #endif
-	return { fontSize: (props.fontSize || 30) + props.unit,lineHeight:props.lineHeight>-1?props.lineHeight + props.unit:(props.fontSize || 30) + props.unit };
+	let strc = { fontSize: (props.fontSize || 30) + props.unit, lineHeight:props.lineHeight>-1?props.lineHeight + props.unit:(props.fontSize || 30) + props.unit };
+	if(props.lineHeight==0){
+		delete strc.lineHeight
+	}
+	return strc;
 });
 //当前图标是否是图片。
 const isImg = computed(() => {

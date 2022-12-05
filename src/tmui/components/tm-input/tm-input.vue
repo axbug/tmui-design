@@ -10,7 +10,7 @@
 			:linear="props.linear"
 			:linearDeep="props.linearDeep"
 			>
-            <view class="flex flex-row" @click="inputClick($event,'')"
+            <view class="flex flex-row relative" @click="inputClick($event,'')"
                 :class="[propsDetail.type == 'textarea' ? propsDetail.layoutAlign : 'flex-row-center-start']"
                 :style="[propsDetail.autoHeight&&propsDetail.type=='textarea'?{}:{ height: `${_height}rpx` }]">
 
@@ -59,8 +59,9 @@
                         :autoHeight="propsDetail.autoHeight"
                         :readonly="propsDetail.readyOnly"
                         :adjustPosition="propsDetail.adjustPosition" :type="propsDetail.type" :style="[
+							propsDetail.autoHeight?{}:{height: `${_height}rpx`},
                             {
-                                height: `${_height}rpx`, width: 'auto', 'word-break': 'break-word',
+                                 width: 'auto', 'word-break': 'break-word',
                                 color: propsDetail.fontColor ? propsDetail.fontColor : tmcomputed.textColor,
                                 'text-align': props.align,
                                 'fontSize': `${propsDetail.fontSize_px}px`
@@ -105,8 +106,9 @@
 						:fixed="propsDetail.fixed"
 						
                         :type="propsDetail.type" :style="[
+							propsDetail.autoHeight?{}:{height: `${_height}rpx`},
                             {
-                                height: `${_height}rpx`, width: 'auto', 'word-break': 'break-word',
+                                width: 'auto', 'word-break': 'break-word',
                                 color: propsDetail.fontColor ? propsDetail.fontColor : tmcomputed.textColor,
                                 'text-align': props.align,
                                 'fontSize': `${propsDetail.fontSize_px}px`
@@ -136,15 +138,16 @@
                     <tm-icon @click="changeSeePassword" :font-size="propsDetail.fontSize"
                         :name="showPasswordText ? 'tmicon-eyeslash-fill' : 'tmicon-eye-fill'"></tm-icon>
                 </view>
-                <view v-if="propsDetail.showCharNumber && _valueLenChar > 0 && propsDetail.type != 'textarea'"
-                    class=" pl-16 flex-row flex">
-                    <tm-text :label="_valueLenChar"></tm-text>
-                    <tm-text v-if="propsDetail.maxlength > 0" :label="'/' + propsDetail.maxlength"></tm-text>
-                </view>
+                
                 <!-- #ifndef MP-ALIPAY -->
+				<view v-if="propsDetail.showCharNumber && _valueLenChar > 0 && propsDetail.type != 'textarea'"
+				    class=" pl-16 flex-row flex">
+				    <tm-text :label="_valueLenChar"></tm-text>
+				    <tm-text v-if="propsDetail.maxlength > 0" :label="'/' + propsDetail.maxlength"></tm-text>
+				</view>
 				<!-- 原因是支付宝小程序自带了计数器。会导致重叠。 -->
 				<view v-if="propsDetail.showCharNumber && _valueLenChar > 0 && propsDetail.type == 'textarea'"
-				    class=" pl-16 flex-row flex absolute r-0 b-12">
+				    class=" pl-16 flex-row flex absolute r-0 " :class="[`b-${12}`]">
 				    <tm-text :label="_valueLenChar"></tm-text>
 				    <tm-text v-if="propsDetail.maxlength > 0" :label="'/' + propsDetail.maxlength"></tm-text>
 				</view>

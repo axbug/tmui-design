@@ -50,6 +50,8 @@ type fetchConfigMethod= "GET"|"POST"|"PUT"|"DELETE"|"CONNECT"|"HEAD"|"OPTIONS"|"
 interface fetchConfig {
     url?:string,
     data?:object|string|ArrayBuffer,
+	/** 定义成功的服务器返回的状态码成功的标志 */
+	statusCode?:number,
     header?:object,
     method?:fetchConfigMethod,
     timeout?:number,

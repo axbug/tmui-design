@@ -29,17 +29,29 @@
 				</view>
 				
 				<!-- extra -->
-				<view @click.stop="imageClick" v-if="props.extra" :class="[
-					props.extraPosition == 'in' ? 'absolute l-0 b-0 zIndex-5' : '',
+				<view :eventPenetrationEnabled="true" v-if="props.extra"
+				:class="[
+					props.extraPosition == 'in' ? 'absolute l-0 b-0 zIndex-5 relative' : '',
 					'flex flex-col flex-col-bottom-start'
-				]" :style="[
+				]"
+				:style="[
 					props.extra && props.extraPosition == 'in' ? { height: img_height + props.unit, width: img_width + props.unit } : '',
 					props.extra && props.extraPosition == 'out' ? { width: img_width + props.unit } : '',
-				]">
-					<slot name="extra"></slot>
+				]"
+				>
+					<view @click.stop="imageClick"  
+					  :class="[
+					  	'flex flex-col flex-col-bottom-start'
+					  ]"
+					  :style="[
+						props.extra && props.extraPosition == 'in' ? { height: img_height + props.unit, width: img_width + props.unit } : '',
+						props.extra && props.extraPosition == 'out' ? { width: img_width + props.unit } : '',
+					]">
+						<slot name="extra"></slot>
+					</view>
 				</view>
 				<!-- delete 展示删除按钮。 -->
-				<view v-if="props.delete" class="absolute r-10 t-10 flex flex-col flex-col-center-end zIndex-10"
+				<view v-if="props.delete" class="absolute r-4 t-4 flex flex-col flex-col-center-end zIndex-10"
 					:style="[props.delete ? { width: img_width + props.unit } : '',]">
 					<tm-icon @click="del" color="red" name="tmicon-times-circle-fill"></tm-icon>
 				</view>

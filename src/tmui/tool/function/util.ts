@@ -300,10 +300,12 @@ export function getQueryString(url:string,key:string):string {
   }
   return "";
 }
-
-export function getUid (length=12){
-	
-	return Number(Number(Math.random().toString().substr(3,length) + Date.now()).toString(8));
+/**
+ * rdix 随机因子,
+ * length 取的长度.
+ */
+export function getUid (rdix=1,length=12,isAddStr=false){
+	return Math.floor(Math.random() * rdix * Math.floor(Math.random() * Date.now())).toString(isAddStr?16:10).substring(0,length);
 }
 
 /*

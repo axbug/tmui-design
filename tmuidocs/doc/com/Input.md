@@ -74,7 +74,7 @@ title: tmui 3.0 组件库
 | align | String | left | 对齐方式。可选值：left,right,center |
 | modelValue | [String,Number] | '' | 绑定值，双向绑定时请使用v-model="xx",或者:value.sync |
 | inputPadding | `Array<number>` | [24,0] | 输入框边距 |
-| showCharNumber | Boolean | false | 是否显示字符统计。 |
+| showCharNumber | Boolean | false | 是否显示字符统计,需要绑定value后才会显示。 |
 | maxlength | Number | -1 | 最大长度 |
 | type | String | text | 表单类型:digit/text/number/password/idcard/textarea |
 | cursorSpacing | Number | 24 |  |

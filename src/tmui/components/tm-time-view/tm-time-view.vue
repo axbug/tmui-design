@@ -6,7 +6,6 @@
 		:immediateChange="props.immediateChange"
 		indicator-style="height:50px"
 		>
-			<!-- 由于本组件,无法通过循环来判断和隐藏其它项目,只能通过复制层级来控制. -->
 				<picker-view-column v-if="showCol.year">
 					<view  v-for="(item,index) in _col.year" 
 					:key="index" class="flex itemcel flex-row flex-row-center-center" 
@@ -95,14 +94,23 @@ const _endTime = computed(()=>{
 })
 const showCol = computed(()=>{
 	return {
-		...props.showDetail,
-		date:props.showDetail.day
+		year:props.showDetail?.year??true,
+		month:props.showDetail?.month??true,
+		hour:props.showDetail?.hour??false,
+		minute:props.showDetail?.minute??false,
+		second:props.showDetail?.second??false,
+		date:props.showDetail?.day??true
 	}
 })
+
 const showSuffix = computed(()=>{
 	return {
-		...props.showSuffix,
-		date:props.showSuffix.day
+		year:props.showSuffix?.year??'年',
+		month:props.showSuffix?.month??'月',
+		hour:props.showSuffix?.hour??'时',
+		minute:props.showSuffix?.minute??'分',
+		second:props.showSuffix?.second??'秒',
+		date:props.showSuffix?.day??'日'
 	}
 })
 const isDark = computed(() => store.tmStore.dark);
@@ -136,18 +144,20 @@ const maskStyle = computed(()=>{
 
 
 _col.value = rangeTimeArray(_nowtimeValue.value,_startTime.value,_endTime.value,showCol.value)
-colIndex.value = getIndexNowbydate(_col.value,_nowtime.value)
+
+
 
 function colchange(e:any){
 	let changedate = getNowbyIndex(_col.value,e.detail.value)
 	_col.value = rangeTimeArray(changedate,_startTime.value,_endTime.value,showCol.value)
 	_nowtime.value = DayJs(changedate)
 	nextTick(()=>{
-		colIndex = e.detail.value;
+		colIndex.value = e.detail.value;
 		changedate = getNowbyIndex(_col.value,e.detail.value)
 		_nowtime.value = DayJs(changedate)
 		emits('update:modelValue',_nowtime.value.format('YYYY/MM/DD HH:mm:ss'))
 		emits('update:modelStr',_nowtime.value.format(props.format))
+		emits('change',_nowtime.value.format(props.format))
 	})
 	
 }
@@ -155,6 +165,7 @@ function colchange(e:any){
 watch(()=>props.modelValue,()=>{
 	if(!DayJs(props.modelValue).isValid()) return;
 	let deattime = DayJs(checkNowDateisBetween(props.modelValue,props.start,props.end));
+
 	if(DayJs(deattime).isSame(_nowtime.value)) return;
 	_nowtime.value = deattime;
 	emits('update:modelStr',_nowtime.value.format(props.format))
@@ -171,9 +182,7 @@ watch(()=>props.modelValue,()=>{
 	// #endif
 	// #ifndef APP-NVUE
 	_col.value = rangeTimeArray(deattime,_startTime.value,_endTime.value,showCol.value)
-	nextTick(()=>{
-		colIndex.value = getIndexNowbydate(_col.value,_nowtime.value)
-	})
+	colIndex.value = getIndexNowbydate(_col.value,_nowtime.value)
 	// #endif
 })
 
@@ -204,6 +213,7 @@ onMounted(()=>{
 	nextTick(()=>{
 		emits('update:modelValue',_nowtime.value.format('YYYY/MM/DD HH:mm:ss'))
 		emits('update:modelStr',_nowtime.value.format(props.format))
+		colIndex.value = getIndexNowbydate(_col.value,_nowtime.value)
 	})
 })
 

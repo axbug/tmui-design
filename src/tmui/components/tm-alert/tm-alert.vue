@@ -46,15 +46,16 @@
               v-if="activeIndex == index"
             >
               <view class="flex-12 flex flex-row flex-row-top-start">
-                <view v-if="item['icon']" class="pr-32">
-                  <tm-icon :fontSize="32" :name="item['icon']"></tm-icon>
+                <view v-if="item['icon']" class="pr-32" :style="{height:'36rpx'}">
+                  <tm-icon :fontSize="32" :lineHeight="0" :name="item['icon']"></tm-icon>
                 </view>
                 <view style="width: 0px" class="flex-12 flex flex-col">
-                  <view v-if="item['title']" class="pb-12">
+                  <view v-if="item['title']" class=" flex flex-col flex-col-top-start mt--4" :style="{height:'36rpx'}">
                     <tm-text
                       @click="emits('click', $event)"
                       _class="text-size-m  text-overflow-1 text-weight-b"
                       :fontSize="30"
+					  :lineHeight="0"
                       :label="item['title']"
                     ></tm-text>
                   </view>
@@ -64,7 +65,7 @@
                       @click="emits('click', $event)"
                       :fontSize="26"
                       :_class="'text-overflow-' + props.maxLine"
-                      :_style="{ lineHeight: '34rpx' }"
+                      :lineHeight="0"
                       :label="item['content']"
                     ></tm-text>
                     <tm-text
@@ -84,6 +85,7 @@
             <tm-icon
               @click="close"
               :fontSize="32"
+			  :lineHeight="0"
               name="tmicon-times-circle-fill"
             ></tm-icon>
           </view>

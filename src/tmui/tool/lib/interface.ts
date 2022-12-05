@@ -157,6 +157,8 @@ export interface fetchConfigSuccessType{
 }
 export interface fetchConfig {
     url?:string,
+	/** 定义成功的服务器返回的状态码成功的标志 */
+	statusCode?:number,
     data?:object|string|ArrayBuffer,
     header?:object,
     method?:fetchConfigMethod,

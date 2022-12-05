@@ -7,10 +7,10 @@
             <view @click="onClick(item, index)" :style="{ height: props.height + 'rpx', width: itemwidth + 'rpx' }"
                 class="flex flex-row flex-row-center-center" v-for="(item, index) in cachList" :key="index">
                 <tm-text :userInteractionEnabled="false" :label="item.text" :font-size="item.fontSize"
-                    :color="activeIndex == index ? item.fontColor : item.unFontColor" _class="pr-12"></tm-text>
+                    :color="activeIndex == index ? item.fontColor : (store.tmStore.dark?'':item.unFontColor)" _class="pr-12"></tm-text>
                 <tm-icon v-if="item.icon && item.unIcon" :userInteractionEnabled="false" :font-size="item.fontSize-4"
                     :name="activeIndex == index ? item.icon : item.unIcon"
-                    :color="activeIndex == index ? item.fontColor : item.unFontColor"></tm-icon>
+                    :color="activeIndex == index ? item.fontColor : (store.tmStore.dark?'':item.unFontColor)"></tm-icon>
             </view>
         </tm-sheet>
 
@@ -40,10 +40,10 @@
                 <view @click.stop="onClick(item, index)" :style="{ height: props.height + 'rpx', width: itemwidth + 'rpx' }"
                     class="flex flex-row flex-row-center-center" v-for="(item, index) in cachList" :key="index">
                     <tm-text :userInteractionEnabled="false" :label="item.text" :font-size="item.fontSize"
-                        :color="activeIndex == index ? item.fontColor : item.unFontColor" _class="pr-12"></tm-text>
+                        :color="activeIndex == index ? item.fontColor :(store.tmStore.dark?'':item.unFontColor)" _class="pr-12"></tm-text>
                     <tm-icon v-if="item.icon && item.unIcon" :userInteractionEnabled="false" :font-size="item.fontSize-4"
                         :name="activeIndex == index ? item.icon : item.unIcon"
-                        :color="activeIndex == index ? item.fontColor : item.unFontColor"></tm-icon>
+                        :color="activeIndex == index ? item.fontColor :(store.tmStore.dark?'':item.unFontColor)"></tm-icon>
                 </view>
             </tm-sheet>
             <slot name="default"></slot>
@@ -68,12 +68,15 @@ toRaw,
 watch,
 } from "vue";
 import { FilterMenuType } from "./interface";
+import { useTmpiniaStore } from "@/tmui/tool/lib/tmpinia";
 // #ifdef APP-PLUS-NVUE
 const dom = uni.requireNativePlugin('dom')
 const animation = uni.requireNativePlugin('animation')
 // #endif
 const proxy = getCurrentInstance()?.proxy ?? null;
 const emits = defineEmits(["click",'close','cancel','confirm','onButton','update:modelValue']);
+const store = useTmpiniaStore()
+
 const props = defineProps({
     width: {
         type: Number,
