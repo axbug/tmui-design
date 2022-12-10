@@ -139,12 +139,21 @@
 		align:{
 			type:String,
 			default:"right" //right,left
-		}
+		},
+        // 自动格式化时间
+        autoFormatTime: {
+            type: Boolean,
+            default: true,
+        }
 		
 	})
 	
-	//距离当前时间段。
-	const _time = computed(()=>uni.$tm.u.getDateToNewData(props.time))
+    // 距离当前时间段。
+    const _time = computed(() => {
+        if (!props.autoFormatTime)
+            return props.time
+        return uni.$tm.u.getDateToNewData(props.time)
+    })
 	
 	const _align = computed(()=>{
 		let agn = {
