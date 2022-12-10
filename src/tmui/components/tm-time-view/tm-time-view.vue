@@ -20,7 +20,7 @@
 						<TmText :font-size="30" :dark="isDark" :label="(item+1)+showSuffix['month']"></TmText>
 					</view>
 				</picker-view-column>
-				<picker-view-column v-if="showCol.date">
+				<picker-view-column v-if="showCol.day">
 					<view  v-for="(item,index) in _col.date" 
 					:key="index" class="flex itemcel flex-row flex-row-center-center" 
 					:class="[colIndex[2]==index?'itemSelected':'UnitemSelected']" >
@@ -92,14 +92,14 @@ const _startTime = computed(()=>{
 const _endTime = computed(()=>{
 	return DayJs(props.end).isValid()?DayJs(props.end).format():DayJs().add(1,"year").format();
 })
-const showCol = computed(()=>{
+const showCol = computed<showDetail>(()=>{
 	return {
 		year:props.showDetail?.year??true,
 		month:props.showDetail?.month??true,
+		day:props.showDetail?.day??true,
 		hour:props.showDetail?.hour??false,
 		minute:props.showDetail?.minute??false,
 		second:props.showDetail?.second??false,
-		date:props.showDetail?.day??true
 	}
 })
 
@@ -148,12 +148,12 @@ _col.value = rangeTimeArray(_nowtimeValue.value,_startTime.value,_endTime.value,
 
 
 function colchange(e:any){
-	let changedate = getNowbyIndex(_col.value,e.detail.value)
+	let changedate = getNowbyIndex(_col.value,e.detail.value, showCol.value)
 	_col.value = rangeTimeArray(changedate,_startTime.value,_endTime.value,showCol.value)
 	_nowtime.value = DayJs(changedate)
 	nextTick(()=>{
 		colIndex.value = e.detail.value;
-		changedate = getNowbyIndex(_col.value,e.detail.value)
+		changedate = getNowbyIndex(_col.value,e.detail.value, showCol.value)
 		_nowtime.value = DayJs(changedate)
 		emits('update:modelValue',_nowtime.value.format('YYYY/MM/DD HH:mm:ss'))
 		emits('update:modelStr',_nowtime.value.format(props.format))
@@ -172,7 +172,7 @@ watch(()=>props.modelValue,()=>{
 	// #ifdef APP-NVUE
 	_col.value = rangeTimeArray(deattime,_startTime.value,_endTime.value,showCol.value)
 	show.value = false
-	colIndex.value = getIndexNowbydate(_col.value,_nowtime.value)
+	colIndex.value = getIndexNowbydate(_col.value,_nowtime.value, showCol.value)
 	nextTick(()=>{
 		/**这力着重解释下，uni sdk从3.6.8开始，在nvue下直接对picker view赋值value，页面不会有任何变化，必须刷新下页面才可以显示正确
 		 * 其它平台没有这问题
@@ -182,7 +182,7 @@ watch(()=>props.modelValue,()=>{
 	// #endif
 	// #ifndef APP-NVUE
 	_col.value = rangeTimeArray(deattime,_startTime.value,_endTime.value,showCol.value)
-	colIndex.value = getIndexNowbydate(_col.value,_nowtime.value)
+	colIndex.value = getIndexNowbydate(_col.value,_nowtime.value, showCol.value)
 	// #endif
 })
 
@@ -213,7 +213,7 @@ onMounted(()=>{
 	nextTick(()=>{
 		emits('update:modelValue',_nowtime.value.format('YYYY/MM/DD HH:mm:ss'))
 		emits('update:modelStr',_nowtime.value.format(props.format))
-		colIndex.value = getIndexNowbydate(_col.value,_nowtime.value)
+		colIndex.value = getIndexNowbydate(_col.value,_nowtime.value, showCol.value)
 	})
 })
 

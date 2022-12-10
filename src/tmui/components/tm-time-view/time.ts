@@ -93,60 +93,61 @@ export function rangeTimeArray(dateStr:string|number|Date,start:string|number|Da
 
 /**
  * 根据现有时间取得当前的索引位置顺序
- * @param tmArray 
- * @param nowtime 
+ * @param tmArray
+ * @param nowtime
+ * @param detail
  */
-export function getIndexNowbydate(tmArray:timeArrayType,nowtime:dayjs.Dayjs){
-	let key:dateType="year"
-	let d =DayJs(nowtime)
-	let year = d.get('year');
-	let month = d.get('month');
-	let date = d.get('date');
-	let hour = d.get('hour');
-	let minute = d.get('minute');
-	let second = d.get('second');
-	function isFu(n:number){
-		return n==-1?0:n;
-	}
-	return [
-		isFu(tmArray.year.findIndex(el=>el===year)),
-		isFu(tmArray.month.findIndex(el=>el===month)),
-		isFu(tmArray.date.findIndex(el=>el===date)),
-		isFu(tmArray.hour.findIndex(el=>el===hour)),
-		isFu(tmArray.minute.findIndex(el=>el===minute)),
-		isFu(tmArray.second.findIndex(el=>el===second)),
-	]
+export function getIndexNowbydate(tmArray:timeArrayType,nowtime:dayjs.Dayjs,detail:showDetail){
+	const d = DayJs(nowtime)
+  const intermediate = [
+    [timeDetailType.year, detail.year],
+    [timeDetailType.month, detail.month],
+    [timeDetailType.day, detail.day],
+    [timeDetailType.hour, detail.hour],
+    [timeDetailType.minute, detail.minute],
+    [timeDetailType.second, detail.second]
+  ];
+
+  const idx = intermediate.filter(m => m[1]).map(m => {
+    const type = m[0] as timeDetailType;
+    const index = tmArray[type].findIndex(n => n === d.get(type))
+    return index === -1 ? 0 : index;
+  });
+
+  return [
+    ...idx,
+    ...[0, 0, 0, 0, 0, 0]
+  ].slice(0, 6);
 }
 /**
  * 根据现有索引值返回当前时间。
- * @param tmArray 
- * @param nowtime 
+ * @param tmArray
+ * @param nowtime
+ * @param detail
  */
-export function getNowbyIndex(tmArray:timeArrayType,nowIndex:Array<number>){
-	let year = tmArray.year[nowIndex[0]];
-	let month = tmArray.month[nowIndex[1]];
-	let date = tmArray.date[nowIndex[2]];
-	let hour = tmArray.hour[nowIndex[3]];
-	let minute = tmArray.minute[nowIndex[4]];
-	let second = tmArray.second[nowIndex[5]];
-	if(typeof year == 'undefined'){
-		year = tmArray.year[tmArray.year.length-1]
-	}
-	if(typeof month == 'undefined'){
-		month = tmArray.month[tmArray.month.length-1]
-	}
-	if(typeof date == 'undefined'){
-		date = tmArray.date[tmArray.date.length-1]
-	}
-	if(typeof hour == 'undefined'){
-		hour = tmArray.hour[tmArray.hour.length-1]
-	}
-	if(typeof minute == 'undefined'){
-		minute = tmArray.minute[tmArray.minute.length-1]
-	}
-	if(typeof second == 'undefined'){
-		second = tmArray.second[tmArray.second.length-1]
-	}
+export function getNowbyIndex(tmArray:timeArrayType,nowIndex:Array<number>,detail:showDetail){
+  const intermediate = [
+    [timeDetailType.year, detail.year],
+    [timeDetailType.month, detail.month],
+    [timeDetailType.day, detail.day],
+    [timeDetailType.hour, detail.hour],
+    [timeDetailType.minute, detail.minute],
+    [timeDetailType.second, detail.second]
+  ];
+  function getValue(type: timeDetailType){
+    const index = intermediate.filter(m => m[1]).findIndex(m => m[0] === type);
+    if (index !== -1) {
+      return tmArray[type][nowIndex[index]];
+    }
+    return tmArray[type][tmArray[type].length - 1];
+  }
+
+	let year = getValue(timeDetailType.year);
+	let month = getValue(timeDetailType.month);
+	let date = getValue(timeDetailType.day);
+	let hour = getValue(timeDetailType.hour);
+	let minute = getValue(timeDetailType.minute);
+	let second = getValue(timeDetailType.second);
 
 	let str = year
 	+"/"+
