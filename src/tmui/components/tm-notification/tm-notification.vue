@@ -12,7 +12,7 @@
 	>
 		<tm-sheet
 		@click="emits('click', $event)"
-		:color="props.color"
+        :color="color_str?color_str:props.color"
 		:_class="_class"
 		:_style="_style"
 		:followTheme="props.followTheme"
@@ -132,6 +132,7 @@ import { showOpts } from "./interface";
 	const showDom = ref(false)
 	const label_str = ref(props.label)
 	const icon_str = ref(props.icon)
+    const color_str = ref(props.color)
 	const pos = computed(()=>{
 		if(props.placement == 'topLeft'){
 			return {
@@ -205,9 +206,10 @@ import { showOpts } from "./interface";
 	})
 	//手动显示
 	function show(arg:showOpts){
-		let {icon,label,duration} = arg||{};
+        let {icon,label,duration,color} = arg||{};
 		label_str.value =label||props.label||"";
 		icon_str.value = icon||props.icon||"";
+        color_str.value = color||props.color||"";
 		duration = typeof duration==='undefined'?(props.duration||0):duration
 		
 		if(showDom.value||!isNaN(uid)){
