@@ -13,7 +13,7 @@ export const propsCustom = {
 		type:Number,
 		default:750
 	},
-	sliderWidth:{
+	sideWidth:{
 		type:Number,
 		default:190
 	},

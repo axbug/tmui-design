@@ -348,5 +348,29 @@ export function toast(word:string,mask:boolean=true,icon:any='none')
 export function getWindow()
 ```
 
+```ts
+ /**
+ * 打开页面路径
+ * @param url string 打开的页面路径
+ * @param type openUrlType "navigateTo"|"redirectTo"|"reLaunch"|"switchTab"
+ */
+routerTo(url: string, type: openUrlType): void
+```
+```ts
+/**
+* 将rpx转换为px
+* @param v 待转换的数字
+* @param screenWidth 屏幕的宽度，如果不提供默认自动获取
+* @return number
+*/
+torpx(v:number,screenWidth?:number):number
+```
 
-
+```ts
+/**
+ * 将rpx转换为px
+ * @param v 待转换的数字
+ * @return number
+ */
+topx(v:number,screenWidth?:number):number
+```

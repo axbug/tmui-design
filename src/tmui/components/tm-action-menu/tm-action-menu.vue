@@ -5,22 +5,22 @@
  * @Description: 文件
 -->
 <template>
-	<tm-drawer ref="drawer" @close="drawerClose" @open="drawerOpen" 
-	:duration="props.duration" :height="cHeight" @update:show="show = $event"
-		:show="show" :transprent="true" :hide-header="true">
+	<tm-drawer ref="drawer" @close="drawerClose" @open="drawerOpen" :duration="props.duration" :height="cHeight"
+		@update:show="show = $event" :show="show" :transprent="true" :hide-header="true">
 		<view @click.stop="" class=" flex flex-col">
 			<view style="height: 24rpx;"></view>
 			<tm-sheet :round="2">
 				<view class=" flex flex-col flex-col-center-center round-2 overflow mx-32">
 					<tm-text _class="opacity-5 text-align-center" :font-size="24" label="请选择"></tm-text>
-					<tm-button :transprent="true" :fontColor="_active==index?props.activeFontColor:''" :followTheme="false" :disabled="item.disabled" @click="change(item,index)"
+					<tm-button :transprent="true" :fontColor="_active == index ? props.activeFontColor : ''"
+						:followTheme="false" :disabled="item.disabled" @click="change(item, index)"
 						v-for="(item, index) in _list" :key="index" :label="item.text" :font-size="28" :margin="[0, 0]"
 						color="white" block :shadow="0" :round="-1"></tm-button>
 				</view>
 			</tm-sheet>
-			<tm-button :round="5" :fontColor="props.activeFontColor" :followTheme="false" @click="cancel" label="取消" :font-size="28" :margin="[32, 8]" :color="_color"
-				block :shadow="0"></tm-button>
-			<view :style="{height:sysinfo.bottom+'px'}"></view>
+			<tm-button :round="5" :fontColor="props.activeFontColor" :followTheme="false" @click="cancel" label="取消"
+				:font-size="28" :margin="[32, 8]" :color="_color" block :shadow="0"></tm-button>
+			<view :style="{ height: sysinfo.bottom + 'px' }"></view>
 		</view>
 	</tm-drawer>
 </template>
@@ -33,15 +33,15 @@ import {
 	ref,
 	PropType,
 	computed,
-	watchEffect,watch,inject, onMounted, nextTick
+	watchEffect, watch, inject, onMounted, nextTick
 } from "vue"
 import tmDrawer from '../tm-drawer/tm-drawer.vue';
 import tmButton from "../tm-button/tm-button.vue";
 import tmText from "../tm-text/tm-text.vue";
 import tmSheet from "../tm-sheet/tm-sheet.vue";
 const drawer = ref<InstanceType<typeof tmDrawer> | null>(null)
-const sysinfo = inject("tmuiSysInfo",computed(()=>{
-	return {bottom:0,height:750,width:uni.upx2px(750),top:0,isCustomHeader:false,sysinfo:null}
+const sysinfo = inject("tmuiSysInfo", computed(() => {
+	return { bottom: 0, height: 750, width: uni.upx2px(750), top: 0, isCustomHeader: false, sysinfo: null }
 }))
 
 /**
@@ -50,7 +50,7 @@ const sysinfo = inject("tmuiSysInfo",computed(()=>{
  * change:当点击项目时触发，返回listitem数据
  * cancel:点击取消时触发
  */
-const emits = defineEmits(["update:modelValue","update:active", "change", "cancel"])
+const emits = defineEmits(["update:modelValue", "update:active", "change", "cancel"])
 interface listitem {
 	text?: string,
 	disabled?: boolean,
@@ -76,23 +76,23 @@ const props = defineProps({
 		default: "white"
 	},
 	//活动项的文字色，如果不提供使用默认
-	activeFontColor:{
-		type:String,
-		default:"primary"
+	activeFontColor: {
+		type: String,
+		default: "primary"
 	},
 	//当前的活动项。
-	active:{
-		type:Number,
-		default:NaN
+	active: {
+		type: Number,
+		default: NaN
 	},
 	//点按菜单后，是否允许关闭弹层。
-	allowClose:{
-		type:Boolean,
-		default:true
+	allowClose: {
+		type: Boolean,
+		default: true
 	},
-	duration:{
-		type:Number,
-		default:250
+	duration: {
+		type: Number,
+		default: 250
 	}
 })
 const show = ref(props?.modelValue ?? false);
@@ -125,19 +125,19 @@ const cHeight = computed(() => {
 const _color = computed(() => props.color)
 
 
-onMounted(()=>{
+onMounted(() => {
 	watchEffect(() => {
 		show.value = props.modelValue;
 	})
 })
-watch(()=>props.active,()=>{
+watch(() => props.active, () => {
 	_active.value = props.active;
 })
-function change(item: listitem,index:number) {
-	emits("change", item,index)
+function change(item: listitem, index: number) {
+	emits("change", item, index)
 	_active.value = index;
 	emits("update:active", index)
-	if(props.allowClose){
+	if (props.allowClose) {
 		drawer.value?.close()
 	}
 }
@@ -157,4 +157,5 @@ function drawerOpen() {
 </script>
 
 <style>
+
 </style>

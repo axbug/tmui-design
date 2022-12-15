@@ -1,6 +1,12 @@
 <template>
-  <tm-sheet  :transprent="props.transprent" :round="3" _class="flex flex-col overflow" :padding="props.padding" :margin="props.margin">
-      <slot></slot>
+  <tm-sheet
+    :transprent="props.transprent"
+    :round="3"
+    _class="flex flex-col overflow"
+    :padding="props.padding"
+    :margin="props.margin"
+  >
+    <slot></slot>
   </tm-sheet>
 </template>
 
@@ -13,9 +19,22 @@
     "tm-input","tm-rate","tm-slider",
     "tm-segtab","tm-switch","tm-upload"
  */
-import { computed, PropType, provide ,ref, watch,Ref, toRaw,shallowReadonly, nextTick, isProxy ,unref,readonly} from "vue";
+import {
+  computed,
+  PropType,
+  provide,
+  ref,
+  watch,
+  Ref,
+  toRaw,
+  shallowReadonly,
+  nextTick,
+  isProxy,
+  unref,
+  readonly,
+} from "vue";
 import { formItem } from "./interface";
-import tmSheet from "../tm-sheet/tm-sheet.vue"
+import tmSheet from "../tm-sheet/tm-sheet.vue";
 /**
  * 事件说明
  * @method submit 提交表单时触发。
@@ -24,169 +43,200 @@ import tmSheet from "../tm-sheet/tm-sheet.vue"
  * @method clearValidate 清除校验状态时触发。
  */
 const emits = defineEmits<{
-  (e: 'submit', event: {data:any,validate:boolean}): void
-  (e: 'reset'): void
-  (e: 'validate'): void
-  (e: 'clearValidate'): void
-  (e: 'update:modelValue', event: any): void
-}>()
+  (e: "submit", event: { data: any; validate: boolean }): void;
+  (e: "reset"): void;
+  (e: "validate"): void;
+  (e: "clearValidate"): void;
+  (e: "update:modelValue", event: any): void;
+}>();
 
 const props = defineProps({
-    modelValue:{
-        type:Object as PropType<Object>,
-        default:()=>{
-            return {};
-        },
-        required:true
+  modelValue: {
+    type: Object as PropType<Object>,
+    default: () => {
+      return {};
     },
-    margin:{
-        type:Array as PropType<Array<number>>,
-        default:()=>[32,24]
-	},
-	padding:{
-		type:Array as PropType<Array<number>>,
-		default:()=>[16,0]
-	},
-    //表单标签是竖还是横排列。
-    //vertical,horizontal
-    layout:{
-        type:String as PropType<'vertical'|'horizontal'>,
-        default:"horizontal"
-    },
-    //如果为0表示自动宽度。
-    labelWidth:{
-        type:Number,
-        default:160
-    },
-    //标签对齐方式
-    labelAlign:{
-        type:String,
-        default:"left"
-    },
-	//显示下划线。
-	border:{
-		type:Boolean,
-		default:true
-	},
-	transprent:{
-		type:Boolean,
-		default:false
-	}
-})
-const _modelVal = ref(props.modelValue)
+    required: true,
+  },
+  margin: {
+    type: Array as PropType<Array<number>>,
+    default: () => [32, 24],
+  },
+  padding: {
+    type: Array as PropType<Array<number>>,
+    default: () => [16, 0],
+  },
+  //表单标签是竖还是横排列。
+  //vertical,horizontal
+  layout: {
+    type: String as PropType<"vertical" | "horizontal">,
+    default: "horizontal",
+  },
+  //如果为0表示自动宽度。
+  labelWidth: {
+    type: Number,
+    default: 160,
+  },
+  //标签对齐方式
+  labelAlign: {
+    type: String,
+    default: "left",
+  },
+  //显示下划线。
+  border: {
+    type: Boolean,
+    default: true,
+  },
+  transprent: {
+    type: Boolean,
+    default: false,
+  },
+});
+const _modelVal = ref(props.modelValue);
 //备份，重置时，使用。
-const _backModelVal = uni.$tm.u.deepClone(props.modelValue)
+const _backModelVal = uni.$tm.u.deepClone(props.modelValue);
 // watchEffect(()=>{
 // 	_modelVal.value = props.modelValue
 // });
 //收集的字段。状态。它与_modelVal是有区别的，用户提供的字段，不一定就会在页面中存在，需要与已经渲染的字段进行匹配
-const _callBackModelVal:Ref<Array<formItem>> = ref([])
-const tmFormComnameId = "tmFormId"
+const _callBackModelVal: Ref<Array<formItem>> = ref([]);
+const tmFormComnameId = "tmFormId";
 //允许被推送的组件清单类型.其它的组件不会被收集进行检验。
 const safeFormCom = ref([
-    "tm-radio-group","tm-checkbox-box",
-    "tm-input","tm-rate","tm-slider",
-    "tm-segtab","tm-switch","tm-upload"
-    ])
+  "tm-radio-group",
+  "tm-checkbox-box",
+  "tm-input",
+  "tm-rate",
+  "tm-slider",
+  "tm-segtab",
+  "tm-switch",
+  "tm-upload",
+]);
 //需要对子级，响应的方法。
 // 这里为了更好的性能不再使用vue2版本中children方式，而是采用了provide方式与父子间传递。
-const formFunCallBack = ref("")
-provide("tmFormFun",computed(()=>formFunCallBack.value))
-provide("tmFormLabelWidth",computed(()=>props.labelWidth))
-provide("tmFormLabelAlign",computed(()=>props.labelAlign))
-provide("tmFormLayout",computed(()=>props.layout))
-provide("tmFormBorder",computed(()=>props.border))
-provide("tmFormTransprent",computed(()=>props.transprent))
-provide("formCallFiled",computed(()=>_modelVal.value))
-watch(()=>props.modelValue,()=>{
-    _modelVal.value = {...toRaw(props.modelValue)}
-
-},{deep:true})
+const formFunCallBack = ref("");
+provide(
+  "tmFormFun",
+  computed(() => formFunCallBack.value)
+);
+provide(
+  "tmFormLabelWidth",
+  computed(() => props.labelWidth)
+);
+provide(
+  "tmFormLabelAlign",
+  computed(() => props.labelAlign)
+);
+provide(
+  "tmFormLayout",
+  computed(() => props.layout)
+);
+provide(
+  "tmFormBorder",
+  computed(() => props.border)
+);
+provide(
+  "tmFormTransprent",
+  computed(() => props.transprent)
+);
+provide(
+  "formCallFiled",
+  computed(() => _modelVal.value)
+);
+watch(
+  () => props.modelValue,
+  () => {
+    _modelVal.value = { ...toRaw(props.modelValue) };
+  },
+  { deep: true }
+);
 
 let timid = 56321326898746;
-function reset(){
-    formFunCallBack.value = ""
-    nextTick(()=>{
-        formFunCallBack.value = 'reset'
-        clearTimeout(timid)
-		emits("reset")
-        timid = setTimeout(function() {
-            emits("reset")
-            emits("update:modelValue",_backModelVal)
-            _modelVal.value = _backModelVal
-        }, 500);
-    })
+function reset() {
+  formFunCallBack.value = "";
+  nextTick(() => {
+    formFunCallBack.value = "reset";
+    clearTimeout(timid);
+    emits("reset");
+    timid = setTimeout(function () {
+      emits("reset");
+      emits("update:modelValue", _backModelVal);
+      _modelVal.value = _backModelVal;
+    }, 500);
+  });
 }
-function clearValidate(){
-    formFunCallBack.value = ""
-    nextTick(()=>{
-        formFunCallBack.value = 'clearValidate'
-        nextTick(()=>{
-            emits("clearValidate")
-        })
-    })
+function clearValidate() {
+  formFunCallBack.value = "";
+  nextTick(() => {
+    formFunCallBack.value = "clearValidate";
+    nextTick(() => {
+      emits("clearValidate");
+    });
+  });
 }
-function submit(){
-    //发送检验状态。
-    formFunCallBack.value = ''
-	
-    nextTick(()=>{
-        formFunCallBack.value = 'validate'
-		let isPass = true;
-		uni.$tm.u.throttle(()=>{
-			let par = toRaw(_callBackModelVal.value);
-			for(let i=0,len=par.length;i<len;i++){
-			    if(par[i].isRequiredError==true){
-			        isPass = false;
-			        break;
-			    }
-			}
-            // console.log(par,_modelVal.value)
-			// const dataTest = {...readonly(_modelVal.value)};
-			// par.forEach(el=>{
-			//    setObjectVal(dataTest,el.field,el.value)
-			// })
-			//validate是否检验通过。
-			emits("submit",{data:toRaw(_modelVal.value),validate:isPass})
-		},220,false)
-    })
+function submit() {
+  //发送检验状态。
+  formFunCallBack.value = "";
+
+  nextTick(() => {
+    formFunCallBack.value = "validate";
+    let isPass = true;
+    uni.$tm.u.throttle(
+      () => {
+        let par = toRaw(_callBackModelVal.value);
+        for (let i = 0, len = par.length; i < len; i++) {
+          if (par[i].isRequiredError == true) {
+            isPass = false;
+            break;
+          }
+        }
+        // console.log(par,_modelVal.value)
+        // const dataTest = {...readonly(_modelVal.value)};
+        // par.forEach(el=>{
+        //    setObjectVal(dataTest,el.field,el.value)
+        // })
+        //validate是否检验通过。
+        emits("submit", { data: toRaw(_modelVal.value), validate: isPass });
+      },
+      220,
+      false
+    );
+  });
 }
 //执行表单检验，不会返回任何值。
-function validate(){
-    formFunCallBack.value = ''
-    nextTick(()=>{
-        formFunCallBack.value = 'validate'
-        nextTick(()=>{
-            emits("reset")
-        })
-    })
+function validate() {
+  formFunCallBack.value = "";
+  nextTick(() => {
+    formFunCallBack.value = "validate";
+    nextTick(() => {
+      emits("reset");
+    });
+  });
 }
 
-
-
-function pushKey(item:formItem){
-    if(!item.field) return;
-    let idsIndex = _callBackModelVal.value.findIndex(el=>el.id==item.id);
-    if(idsIndex==-1){
-        _callBackModelVal.value.push(item);
-    }else{
-        _callBackModelVal.value[idsIndex] = {...item};
-    }
+function pushKey(item: formItem) {
+  if (!item.field) return;
+  let idsIndex = _callBackModelVal.value.findIndex((el) => el.id == item.id);
+  if (idsIndex == -1) {
+    _callBackModelVal.value.push(item);
+  } else {
+    _callBackModelVal.value[idsIndex] = { ...item };
+  }
 }
-function delKey(item:formItem){
-    let idsIndex = _callBackModelVal.value.findIndex(el=>el.id==item.id);
-    if(idsIndex>-1){
-        _callBackModelVal.value.splice(idsIndex,1)
-    }
+function delKey(item: formItem) {
+  let idsIndex = _callBackModelVal.value.findIndex((el) => el.id == item.id);
+  if (idsIndex > -1) {
+    _callBackModelVal.value.splice(idsIndex, 1);
+  }
 }
-function setObjectVal(obj:any, field="", val:any){
-    if(field=="") return obj;
-    var arr = field.split('.');
-    while (arr.length > 1) {
-        let key = String(arr.shift());
-        obj = isProxy(obj[key])?toRaw(obj[key]):obj[key];
-    }
-   return obj[arr[0]] = isProxy(val)?toRaw(val):val;
+function setObjectVal(obj: any, field = "", val: any) {
+  if (field == "") return obj;
+  var arr = field.split(".");
+  while (arr.length > 1) {
+    let key = String(arr.shift());
+    obj = isProxy(obj[key]) ? toRaw(obj[key]) : obj[key];
+  }
+  return (obj[arr[0]] = isProxy(val) ? toRaw(val) : val);
 }
 /**
  * ref函数
@@ -195,9 +245,15 @@ function setObjectVal(obj:any, field="", val:any){
  * @method validate 手动校验表单
  * @method clearValidate 清除校验状态
  */
-defineExpose({reset,validate,clearValidate,submit,pushKey,delKey,tmFormComnameId})
+defineExpose({
+  reset,
+  validate,
+  clearValidate,
+  submit,
+  pushKey,
+  delKey,
+  tmFormComnameId,
+});
 </script>
 
-<style>
-
-</style>
+<style></style>

@@ -3,8 +3,12 @@
         <tm-sheet>
             <tm-text :font-size="24" _class="font-weight-b" label="基础示例，更多属性和功能见文档"></tm-text>
         </tm-sheet>
+		<tm-sheet :shadow="3" :round="3" :height="1600">
+		    <tm-text :font-size="24" _class="font-weight-b" label="请滚动页面到尾部,点击右下角按钮置顶页面功能."></tm-text>
+		</tm-sheet>
 		<tm-float-button position="tr" :btn="{ icon: 'tmicon-reply',linear:'bottom' }"></tm-float-button>
 		<tm-float-button position="bc" :btn="{ icon: 'tmicon-plus',linear:'bottom',color:'green' }"></tm-float-button>
+		<tm-float-button :disabledScrollTo="false" position="br" :btn="{ icon: 'tmicon-angle-up',linear:'',color:'white',label:'置顶' }"></tm-float-button>
     </tm-app>
 </template>
 <script lang="ts" setup>

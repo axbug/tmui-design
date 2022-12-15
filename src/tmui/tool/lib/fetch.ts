@@ -37,15 +37,24 @@ function request(cog:fetchConfig = config,complete?:Function,beforeRequest?:Func
             withCredentials:newConfig.withCredentials,
             firstIpv4:newConfig.firstIpv4,
             async success(result) {
-				if(result.statusCode !==newConfig.statusCode){
+				
+				if(result.statusCode !==newConfig?.statusCode){
 					reject(result)
 					return;
 				}
                 if(typeof afterRequest === 'function'){
                     let opts = await afterRequest(result);
-                    if(typeof opts !=='object'){
-                        opts = result;
-                    }
+                    
+					try{
+						if(typeof opts !=='object'){
+						    opts = result;
+						}
+						if(typeof opts ==='object' && Object.keys(opts)?.length==0){
+						    opts = result;
+						}
+					}catch(e){
+						console.error('tmui:',e)
+					}
                     result = {...opts};
                 }
                 resolve(result)

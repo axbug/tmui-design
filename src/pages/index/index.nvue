@@ -7,9 +7,10 @@
 				<view class="absolute l-0 t-0" :style="{width:`${sys.width}px`,height:`${sys.height}px`}">
 					<view :style="{height:sysinfo.sysinfo.statusBarHeight+'px'}"></view>
 					<view class="flex flex-row flex-row-center-between py-24 px-16">
-						<tm-text label="TMUI 3.0.81"></tm-text>
+						<tm-text label="TMUI 3.0.88"></tm-text>
 						<tm-icon @click="showf=false" color="white" :font-size="32" name="tmicon-times"></tm-icon>
 					</view>
+					
 					<tm-cell url="/pages/changyong/index" color="primary" :transprent="true" :margin="[10,0]"
 						title="通用组件"></tm-cell>
 					<tm-cell url="/pages/layout/index" color="primary" :transprent="true" :margin="[10,0]" title="布局组件">
@@ -21,7 +22,6 @@
 				</view>
 			</tm-sheet>
 		</template>
-		
 		
 		<tm-navbar :title="language('index.com.navtitle')" :shadow="0" hide-home>
 			<template v-slot:left>
@@ -40,18 +40,20 @@
 			<view class="flex-row flex-row-center-start pb-10">
 				<tm-image :width="108" :height="67.5" :src="logoimg"></tm-image>
 				<view class="pl-16 flex-1" style="width:0px">
-					<tm-text _class="text-weight-b" :font-size="36" label="TMUI 3.0.86"></tm-text>
+					<tm-text _class="text-weight-b" :font-size="36" label="TMUI 3.0.88"></tm-text>
 					<tm-text _class="opacity-6" :label="language('index.search.subtext')"></tm-text>
 				</view>
 			</view>
-		
 		</tm-sheet>
+
+
+		
 		<tm-sheet :margin="[0, 0]">
 			<tm-input :placeholder="language('index.search.tips')" :border="1" showClear prefix="tmicon-search"
 				v-model="str" @search='search' :searchLabel="language('index.search.btntext')"></tm-input>
 		</tm-sheet>
-		<view class="mt-24"></view>
-		<tm-sheet :margin="[32,0]" :round="3">
+		
+		<tm-sheet :margin="[24,24]" :round="3">
 			<tm-text :font-size="24" _class="font-weight-b" :label="language('index.com.themetext')"></tm-text>
 			<tm-divider></tm-divider>
 			<view class="flex flex-row flex-around">
@@ -69,14 +71,14 @@
 			</view>
 		</tm-sheet>
 		<!-- #ifdef MP-WEIXIN -->
-		<view class="px-32">
+		<view class="px-24">
 			<ad unit-id="adunit-8077b1c992ae8c8b"></ad>
 		</view>
 		<!-- #endif -->
-		<tm-sheet :round="3" :margin="[32, 24]">
-			<tm-text :font-size="24" _class="font-weight-b" :label="language('index.com.title')"></tm-text>
+		<tm-sheet :round="3" :margin="[24, 0]" :padding="[24, 0]">
+			<tm-text :font-size="24" _class="font-weight-b pt-24 px-24" :label="language('index.com.title')"></tm-text>
 			<tm-divider></tm-divider>
-			<tm-grid :col="3" :width="630">
+			<tm-grid :col="3" :width="654">
 				<tm-grid-item url="../changyong/index" :height="180" :count="3" color="primary">
 					<tm-icon color="primary" _class="pb-10" :font-size="52" name="tmicon-layergroup-fill"></tm-icon>
 					<tm-text :font-size="28" _class="font-weight-b" :label="language('index.com.tongyong')"></tm-text>
@@ -101,7 +103,7 @@
 					<tm-text color="grey" :font-size="22" _class="font-weight-b" :label="language('index.com.formSub')">
 					</tm-text>
 				</tm-grid-item>
-				<tm-grid-item url="../fankui/index" :height="180" count="YES">
+				<tm-grid-item  :transprent="false" text bg-color="green" url="../fankui/index" :height="180" count="YES">
 					<tm-icon color="green" _class="pb-10" :font-size="52" name="tmicon-lightbulb-fill"></tm-icon>
 					<tm-text :font-size="28" _class="font-weight-b" :label="language('index.com.fd')"></tm-text>
 					<tm-text color="grey" :font-size="22" _class="font-weight-b" :label="language('index.com.fdSub')">
@@ -113,21 +115,34 @@
 					<tm-text color="grey" :font-size="22" _class="font-weight-b" :label="language('index.com.navSub')">
 					</tm-text>
 				</tm-grid-item>
-				<tm-grid-item :transprent="false" bg-color="red" text url="../yewu/index" :height="180" count="HOT"
+				<tm-grid-item   url="../yewu/index" :height="180" count="HOT"
 					color="orange">
 					<tm-icon color="red" _class="pb-10" :font-size="52" name="tmicon-box-fill"></tm-icon>
 					<tm-text :font-size="28" _class="font-weight-b" :label="language('index.com.yewu')"></tm-text>
 					<tm-text color="grey" :font-size="22" _class="font-weight-b" :label="language('index.com.yewuSub')">
 					</tm-text>
 				</tm-grid-item>
-				<tm-grid-item url="../other/index" :height="180">
+				<tm-grid-item  url="../other/index" :height="180">
 					<tm-icon color="cyan" _class="pb-10" :font-size="52" name="tmicon-smile-fill"></tm-icon>
 					<tm-text :font-size="28" _class="font-weight-b" :label="language('index.com.other')"></tm-text>
 					<tm-text color="grey" :font-size="22" _class="font-weight-b"
 						:label="language('index.com.otherSub')"></tm-text>
 				</tm-grid-item>
-				
-				<tm-grid-item text url="../chart/index" :height="180" count="CHAR">
+				<tm-grid-item url="../pag/index" :height="180" count="PAG">
+					<tm-icon color="pink" _class="pb-10" :font-size="52" name="tmicon-ios-ice-cream">
+					</tm-icon>
+					<tm-text :font-size="28" _class="font-weight-b" label="PAG"></tm-text>
+					<tm-text color="grey" :font-size="22" _class="font-weight-b"
+						:label="language('index.com.pagSub')"></tm-text>
+				</tm-grid-item>
+				<tm-grid-item url="../render/index" :height="180" >
+					<tm-icon color="yellow" _class="pb-10" :font-size="52" name="tmicon-ios-rose">
+					</tm-icon>
+					<tm-text :font-size="28" _class="font-weight-b" :label="language('index.com.render')"></tm-text>
+					<tm-text color="grey" :font-size="22" _class="font-weight-b"
+						:label="language('index.com.renderSub')"></tm-text>
+				</tm-grid-item>
+				<tm-grid-item url="../chart/index" :height="180" count="CHAR">
 					<tm-icon color="blue-grey" _class="pb-10" :font-size="52" name="tmicon-borderbottom-fill">
 					</tm-icon>
 					<tm-text :font-size="28" _class="font-weight-b" :label="language('index.com.tubiao')"></tm-text>
@@ -138,20 +153,20 @@
 			</tm-grid>
 		</tm-sheet>
 		<!-- #ifndef MP-QQ -->
-		<tm-cell url="../wxaccount/user" :margin="[32,16]" showAvatar :round="3" :titleFontSize="30"
+		<tm-cell url="../wxaccount/user" :margin="[24,16]" showAvatar :round="3" :titleFontSize="30"
 			:title="language('index.com.love')" label="可登录模板市场" :rightText="language('index.com.loveSub')">
 			<template v-slot:avatar>
 				<tm-icon color="orange" :font-size="38" name="tmicon-heart-fill"></tm-icon>
 			</template>
 		</tm-cell>
 		<!-- #endif -->
-		<tm-cell @click="seLocal" showAvatar :round="3" :titleFontSize="30" :title="language('index.com.setLocal')"
+		<tm-cell :margin="[24, 0]" @click="seLocal" showAvatar :round="3" :titleFontSize="30" :title="language('index.com.setLocal')"
 			:rightText="language('language')">
 			<template v-slot:avatar>
 				<tm-icon color="primary" :font-size="38" name="tmicon-resource"></tm-icon>
 			</template>
 		</tm-cell>
-		<view class="py-32 mx-32">
+		<view class="py-32 mx-24">
 			<tm-divider color="grey-2" :label="language('index.com.bottom')"></tm-divider>
 		</view>
 		<tm-float-button @click="onChangeDark" :btn="{ icon: 'tmicon-ios-sunny',color:'pink',linear:'right'}">
@@ -171,6 +186,7 @@
 		</tm-drawer>
 	</tm-app>
 </template>
+
 <script lang="ts" setup>
 
 	import {
@@ -206,6 +222,8 @@
 	import tmText from "@/tmui/components/tm-text/tm-text.vue"
 	import tmDrawer from "@/tmui/components/tm-drawer/tm-drawer.vue"
 	import logoimg from "@/static/logo.png"
+
+	const proxy = getCurrentInstance()?.proxy??null;
 	const store = useTmpiniaStore();
 	const app = ref < InstanceType < typeof tmApp > | null > (null)
 	const msg = ref < InstanceType < typeof tmMessage > | null > (null)

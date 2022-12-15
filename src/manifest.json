@@ -2,7 +2,7 @@
     "name" : "tmui3.0",
     "appid" : "",
     "description" : "tmui3.0新一代组件库，拥抱vue3,pinia,tmui3.0 demo展示应用",
-    "versionName" : "3.0.85",
+    "versionName" : "3.0.88",
     "versionCode" : "100",
     "transformPx" : false,
     /* 5+App特有相关 */
@@ -21,7 +21,9 @@
         "modules" : {
             /* 使用Canvas模块 */
             "Canvas" : "nvue canvas",
-            "VideoPlayer" : {}
+            "VideoPlayer" : {},
+            "Camera" : {},
+            "Barcode" : {}
         },
         /* 应用发布信息 */
         "distribute" : {

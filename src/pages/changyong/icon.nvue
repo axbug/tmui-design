@@ -4,7 +4,7 @@
             <tm-text :font-size="24" _class="font-weight-b" label="基本示例"></tm-text>
             <tm-divider></tm-divider>
             <view class="flex flex-row flex-wrap">
-                <tm-icon :font-size="50" name="tmicon-playcircle-fill"></tm-icon>
+                <tm-icon  :font-size="50" name="tmicon-playcircle-fill"></tm-icon>
                 <tm-icon color="primary" :font-size="50" name="tmicon-user-fill"></tm-icon>
                 <tm-icon color="red" :font-size="50" name="tmicon-minus-circle-fill"></tm-icon>
             </view>
@@ -21,8 +21,19 @@
         <tm-sheet>
             <tm-text :font-size="24" _class="font-weight-b" label="spin 旋转图标"></tm-text>
             <tm-divider></tm-divider>
-            <tm-icon @click="spin=!spin" :spin="spin" :font-size="50" name="tmicon-loading"></tm-icon>
+            <tm-icon @click="spin=!spin" :spin="spin" :font-size="50" name="tmicon-shuaxin"></tm-icon>
         </tm-sheet>
+		<tm-sheet>
+		    <tm-text :font-size="24" _class="font-weight-b" label="rotate-deg 旋转图标角度与spin不能混用"></tm-text>
+		    <tm-divider></tm-divider>
+			<view class="flex flex-row">
+				<tm-button :margin="[24,0]" @click="deg+=90" label="+90deg"></tm-button>
+				<tm-button :shadow="0" text :border="2" outlined :margin="[24,0]" @click="deg-=90" label="-90deg"></tm-button>
+			</view>
+		    <view class="pa-32">
+				<tm-icon rotate :rotate-deg="deg"  :font-size="50" name="tmicon-angle-down"></tm-icon>
+			</view>
+		</tm-sheet>
         <tm-sheet>
             <tm-text :font-size="24" _class="font-weight-b" :label="`部分参考图标(共${fontList.glyphs.length}个)，前缀【tmicon-】`"></tm-text>
             <tm-divider></tm-divider>
@@ -41,9 +52,7 @@
     </tm-app>
 </template>
 <script lang="ts" setup>
-import { setClipboardData } from "../../tmui/tool/function/util";
 import { ref,onMounted,onBeforeUnmount } from "vue"
-import { onShow, onLoad } from "@dcloudio/uni-app";
 import tmApp from "@/tmui/components/tm-app/tm-app.vue"
 import tmSheet from "@/tmui/components/tm-sheet/tm-sheet.vue"
 import tmDivider from "@/tmui/components/tm-divider/tm-divider.vue"
@@ -55,6 +64,7 @@ import tmButton from "@/tmui/components/tm-button/tm-button.vue"
 import fontList from '@/tmui/tool/tmicon/iconfont.json';
 const spin = ref(true)
 let showAll = ref(false);
+const deg = ref(0)
 const list = ref([])
 onBeforeUnmount(()=>{
 	list.value = [];

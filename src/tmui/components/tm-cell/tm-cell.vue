@@ -1,59 +1,111 @@
 <template>
   <view class="relative overflow">
-    <tm-sheet :darkBgColor="props.darkBgColor" @click="cellClick" :color="props.color" :followTheme="props.followTheme" :dark="props.dark"
-      :followDark="props.followDark" :round="props.round" :shadow="props.shadow" :outlined="props.outlined"
-      :border="props.border" :borderStyle="props.borderStyle" :borderDirection="props.borderDirection"
-      :text="props.text" :transprent="props.transprent" :linear="props.linear" :linearDeep="props.linearDeep"
-      :width="props.width" :height="props.height" :margin="props.margin" :padding="props.padding"
-	  :_class="props._class"
-	  :_style="props._style"
-      hover-class="opacity-6">
-      <view :userInteractionEnabled="true" class="flex flex-row flex-row-center-center"
-        :class="[_computedValue.url ? 'url' : '']">
-        <view v-if="_computedValue.showAvatar" :style="{
-          width: `${_computedValue.avatarSize}rpx`,
-          height: `${_computedValue.avatarSize}rpx`,
-        }" class="flex flex-row flex-row-center-center">
+    <tm-sheet
+      :darkBgColor="props.darkBgColor"
+      @click="cellClick"
+      :color="props.color"
+      :followTheme="props.followTheme"
+      :dark="props.dark"
+      :followDark="props.followDark"
+      :round="props.round"
+      :shadow="props.shadow"
+      :outlined="props.outlined"
+      :border="props.border"
+      :borderStyle="props.borderStyle"
+      :borderDirection="props.borderDirection"
+      :text="props.text"
+      :transprent="props.transprent"
+      :linear="props.linear"
+      :linearDeep="props.linearDeep"
+      :width="props.width"
+      :height="props.height"
+      :margin="props.margin"
+      :padding="props.padding"
+      :_class="props._class"
+      :_style="props._style"
+      hover-class="opacity-6"
+    >
+      <view
+        :userInteractionEnabled="true"
+        class="flex flex-row flex-row-center-center"
+        :class="[_computedValue.url ? 'url' : '']"
+      >
+        <view
+          v-if="_computedValue.showAvatar"
+          :style="{
+            width: `${_computedValue.avatarSize}rpx`,
+            height: `${_computedValue.avatarSize}rpx`,
+          }"
+          class="flex flex-row flex-row-center-center"
+        >
           <slot name="avatar">
-            <tm-image :round="_computedValue.avatarRound" :width="_computedValue.avatarSize"
-              :height="_computedValue.avatarSize" :src="_computedValue.avatar"></tm-image>
-
+            <tm-image
+              :round="_computedValue.avatarRound"
+              :width="_computedValue.avatarSize"
+              :height="_computedValue.avatarSize"
+              :src="_computedValue.avatar"
+            ></tm-image>
           </slot>
         </view>
 
-		<view class="flex-1 flex flex-row flex-row-center-between" style="width: 0px">
-			<view >
-			  <view class="flex flex-5 flex-col" :class="[_computedValue.showAvatar ? 'pl-24' : '']">
-			    <slot name="title">
-			      <tm-text :color="_computedValue.titleColor" :fontSize="_computedValue.titleFontSize" :label="_computedValue.title"></tm-text>
-			    </slot>
-			    <slot name="label">
-			      <view v-if="_computedValue.label" class="mt-6">
-			        <tm-text :color="_computedValue.labelColor" :fontSize="_computedValue.labelFontSize" :label="_computedValue.label"></tm-text>
-			      </view>
-			    </slot>
-			  </view>
-			</view>
-			<view class="flex-1 flex-row flex-row-center-end" style="width: 0px">
-			 <slot name="rightText">
-			   <tm-text _class="nowrap pr-12" :color="_computedValue.rightColor" v-if="_computedValue.rightText" :fontSize="_computedValue.rightTextSize"
-			     :label="_computedValue.rightText"></tm-text>
-			 </slot>
-			  <slot name="right">
-			    <tm-icon v-if="_computedValue.rightIcon" _class="opacity-3" :name="_computedValue.rightIcon" :fontSize="22">
-			    </tm-icon>
-			  </slot>
-			</view>
-		</view>
-
-	  </view>
+        <view class="flex-1 flex flex-row flex-row-center-between" style="width: 0px">
+          <view>
+            <view
+              class="flex flex-5 flex-col"
+              :class="[_computedValue.showAvatar ? 'pl-24' : '']"
+            >
+              <slot name="title">
+                <tm-text
+                  :color="_computedValue.titleColor"
+                  :fontSize="_computedValue.titleFontSize"
+                  :label="_computedValue.title"
+                ></tm-text>
+              </slot>
+              <slot name="label">
+                <view v-if="_computedValue.label" class="mt-6">
+                  <tm-text
+                    :color="_computedValue.labelColor"
+                    :fontSize="_computedValue.labelFontSize"
+                    :label="_computedValue.label"
+                  ></tm-text>
+                </view>
+              </slot>
+            </view>
+          </view>
+          <view class="flex-1 flex-row flex-row-center-end" style="width: 0px">
+            <slot name="rightText">
+              <tm-text
+                _class="nowrap pr-12"
+                :color="_computedValue.rightColor"
+                v-if="_computedValue.rightText"
+                :fontSize="_computedValue.rightTextSize"
+                :label="_computedValue.rightText"
+              ></tm-text>
+            </slot>
+            <slot name="right">
+              <tm-icon
+                v-if="_computedValue.rightIcon"
+                _class="opacity-3"
+                :name="_computedValue.rightIcon"
+                :fontSize="22"
+              >
+              </tm-icon>
+            </slot>
+          </view>
+        </view>
+      </view>
     </tm-sheet>
-    <tm-divider v-if="_computedValue.bottomBorder" :margin="[0, 0]" :style="{
-      left: `${_computedValue.avatar !== ''
-          ? _computedValue.avatarSize + _computedValue.margin[0]
-          : 0
+    <tm-divider
+      v-if="_computedValue.bottomBorder"
+      :margin="[0, 0]"
+      :style="{
+        left: `${
+          _computedValue.avatar !== ''
+            ? _computedValue.avatarSize + _computedValue.margin[0]
+            : 0
         }rpx`,
-    }"></tm-divider>
+      }"
+    ></tm-divider>
   </view>
 </template>
 
@@ -78,17 +130,9 @@ import tmText from "../tm-text/tm-text.vue";
 import tmIcon from "../tm-icon/tm-icon.vue";
 import tmImage from "../tm-image/tm-image.vue";
 import tmDivider from "../tm-divider/tm-divider.vue";
-import {
-  getCurrentInstance,
-  computed,
-	PropType
-} from "vue";
-import {
-  cssDirection,
-} from "../../tool/lib/interface";
-import {
-  custom_props
-} from "../../tool/lib/minxs";
+import { getCurrentInstance, computed, PropType } from "vue";
+import { cssDirection } from "../../tool/lib/interface";
+import { custom_props } from "../../tool/lib/minxs";
 const emits = defineEmits(["click"]);
 const props = defineProps({
   ...custom_props,
@@ -142,7 +186,7 @@ const props = defineProps({
     type: String,
     default: "",
   },
-  labelFontSize:{
+  labelFontSize: {
     type: [Number],
     default: 22,
   },
@@ -165,9 +209,9 @@ const props = defineProps({
     default: "grey",
   },
   //右边文字大小。
-  rightTextSize:{
-	type: Number,
-	default: 24,
+  rightTextSize: {
+    type: Number,
+    default: 24,
   },
   showAvatar: {
     type: Boolean,
@@ -210,12 +254,12 @@ const props = defineProps({
   //只能是颜色值。
   darkBgColor: {
     type: String,
-    default: ''
+    default: "",
   },
 });
-function cellClick(e:any) {
+function cellClick(e: any) {
   emits("click", e);
-  if (props.url !== '') {
+  if (props.url !== "") {
     try {
       uni.navigateTo({
         url: props.url,

@@ -4,12 +4,12 @@
             <tm-text :font-size="24" _class="font-weight-b" label="基础示例,更多见文档"></tm-text>
 			<tm-divider></tm-divider>
 			<view class=" flex flex-row">
-				<tm-checkbox label="苹果"></tm-checkbox>
+				<tm-checkbox outlined label="苹果"></tm-checkbox>
 				<tm-checkbox color="orange" label="香蕉"></tm-checkbox>
 				<tm-checkbox color="green" label="其它水果"></tm-checkbox>
 			</view>
         </tm-sheet>
-       <tm-sheet>
+       <tm-sheet :margin="[32,0]">
             <tm-text :font-size="24" _class="font-weight-b" label="选择组"></tm-text>
 			<tm-divider></tm-divider>
 			<view class="pb-24">
@@ -25,7 +25,7 @@
 
         </tm-sheet>
 		
-		<tm-sheet>
+		<tm-sheet :margin="[32,0]">
 		    <tm-text :font-size="24" _class="font-weight-b" label="常规赋值测试3.2秒后观察自动选中结果"></tm-text>
 			<tm-divider></tm-divider>
 			<view class="pb-24">
@@ -53,7 +53,7 @@
 				<tm-checkbox border-style="dashed" color="green" value="other" label="虚线边框"></tm-checkbox>
 			</view>
         </tm-sheet>
-		<tm-sheet>
+		<tm-sheet :margin="[32,0]">
             <tm-text :font-size="24" _class="font-weight-b" label="选中前的勾子"></tm-text>
 			<tm-divider></tm-divider>
 			<view class=" flex flex-row flex-wrap">

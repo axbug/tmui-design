@@ -60,7 +60,9 @@ actionItem {
 | update:open-status |     |      | 滑动开启状态（更新v-model值） |
 
 ### :corn: slot插槽
-默认default
+默认default,内容区域
+left,左边低部菜单区域(暂时不开放),右滑显示出来.
+right,右边底部菜单区域,左滑时会显示出来
 
 ### :green_salad: ref方法
 无

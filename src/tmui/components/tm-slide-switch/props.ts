@@ -31,12 +31,14 @@ export const defaultProps = {
 		type: Boolean,
 		default: false
 	},
-	leftMenu:{
-		type: Array as PropType < Array < actionItem >> ,
-		default: () => []
+	/** 单位 px,为什么不rpx,原因在于uni的wxs暂时有bug,无法在wxs中去获取宽度,目前是死的120宽度 */
+	leftWidth:{
+		type: Number,
+		default: 120
 	},
-	rightMenu:{
-		type: Array as PropType < Array < actionItem >> ,
-		default: () => []
-	}
+	/** 单位 px,为什么不rpx,原因在于uni的wxs暂时有bug,无法在wxs中去获取宽度,目前是死的120宽度 */
+	rightWidth:{
+		type: Number,
+		default: 120
+	},
 }

@@ -9,9 +9,9 @@
             <tm-cell :margin="[0, 0]" :titleFontSize="30" title="卡片 Card"> </tm-cell>
         </view>
         <view class="mb-32 mx-32 round-3 overflow">
-            <tm-cell :round="3" :margin="[0, 8]" :titleFontSize="30" title="头像 Avatar"> </tm-cell>
-            <tm-cell :round="3" :margin="[0, 8]" rightText="简单组件简单组件" :titleFontSize="30" title="徽标 Badge"> </tm-cell>
-            <tm-cell :round="3" :margin="[0, 8]" rightColor="red" rightText="2个" :titleFontSize="30" title="卡片 Card"> </tm-cell>
+            <tm-cell :round="3" :margin="[0, 0,0,16]" :titleFontSize="30" title="头像 Avatar"> </tm-cell>
+            <tm-cell :round="3" :margin="[0, 0,0,16]" rightText="简单组件简单组件" :titleFontSize="30" title="徽标 Badge"> </tm-cell>
+            <tm-cell :round="3" :margin="[0, 0,0,16]" rightColor="red" rightText="2个" :titleFontSize="30" title="卡片 Card"> </tm-cell>
         </view>
         <view class="mb-32 mx-32 round-3 overflow">
             <tm-cell bottomBorder :margin="[0, 0]" :titleFontSize="30" title="头像 Avatar"> </tm-cell>

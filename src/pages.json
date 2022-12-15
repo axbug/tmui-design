@@ -32,49 +32,12 @@
 				"transparentTitle": "always"
 			}
 		}
-	    ,{
-            "path" : "pages/wxaccount/login",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "登录tmui",
-                "disableScroll": true
-				
-            }
-            
-        } ,{
-            "path" : "pages/wxaccount/user",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "",
-				"enablePullDownRefresh": true
-            }
-            
-        }
-        
-       
+	    
+
     ],
 	"subPackages": [
-		{
-			"root": "pages/render",
-			"pages": [
-				{
-				    "path" : "index",
-				    "style" :                                                                                    
-				    {
-				        "navigationBarTitleText": "Render实例",
-				        "enablePullDownRefresh": false
-				    }
-				    
-				},
-				{
-					"path": "pie",
-					"style": {
-						"navigationBarTitleText": "饼图和圆环",
-						"disableScroll": true
-					}
-				}
-			]
-		},
+
+
 		{
 			"root": "pages/yewu",
 			"pages": [

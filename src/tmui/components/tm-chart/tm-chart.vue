@@ -1,33 +1,68 @@
 <template>
-	<view>
-		<!-- #ifndef MP-WEIXIN || MP-ALIPAY || MP-QQ || APP-NVUE -->
+  <view>
+    <!-- #ifndef MP-WEIXIN || MP-ALIPAY || MP-QQ || APP-NVUE -->
 
-		<canvas @click="emits('click', $event)" v-if="!isPc" @touchstart="touchStart" @touchmove.stop="touchMove"
-			@touchend="touchEnd" :id="canvasId" :canvas-id="canvasId" class="canvas"
-			:style="{ width: `${_width}rpx`, height: `${_height}rpx` }"></canvas>
+    <canvas
+      @click="emits('click', $event)"
+      v-if="!isPc"
+      @touchstart="touchStart"
+      @touchmove.stop="touchMove"
+      @touchend="touchEnd"
+      :id="canvasId"
+      :canvas-id="canvasId"
+      class="canvas"
+      :style="{ width: `${_width}rpx`, height: `${_height}rpx` }"
+    ></canvas>
 
-		<canvas @click="emits('click', $event)" v-if="isPc" :id="canvasId" :canvas-id="canvasId" class="canvas"
-			:style="{ width: `${_width}rpx`, height: `${_height}rpx` }"></canvas>
-		<!-- #endif -->
-		<!-- #ifdef MP-WEIXIN || MP-QQ -->
-		<canvas @click="emits('click', $event)" @touchstart="touchStart" @touchmove.stop="touchMove"
-			@touchend="touchEnd" type="2d" id="canvasId" canvas-id="canvasId" class="canvas"
-			:style="{ width: `${_width}rpx`, height: `${_height}rpx` }"></canvas>
-		<!-- #endif -->
-		<!-- #ifdef MP-ALIPAY -->
-		<canvas @click="emits('click', $event)" @touchstart="touchStart" @touchmove.stop="touchMove"
-			@touchend="touchEnd" type="2d" :id="canvasId" :canvas-id="canvasId" class="canvas"
-			:style="{ width: `${_width}rpx`, height: `${_height}rpx` }"></canvas>
-		<!-- #endif -->
-		<!-- #ifdef APP-NVUE -->
-		<tm-text label="请使用vue页面,不支持nvue页面"></tm-text>
-		<gcanvas @touchstart="touchStart" @touchmove="touchMove" @touchend="touchEnd" :id="canvasId" :ref="canvasId"
-			class="canvas" :style="{ width: `${_width}rpx`, height: `${_height}rpx` }">
-		</gcanvas>
-		<!-- #endif -->
-
-
-	</view>
+    <canvas
+      @click="emits('click', $event)"
+      v-if="isPc"
+      :id="canvasId"
+      :canvas-id="canvasId"
+      class="canvas"
+      :style="{ width: `${_width}rpx`, height: `${_height}rpx` }"
+    ></canvas>
+    <!-- #endif -->
+    <!-- #ifdef MP-WEIXIN || MP-QQ -->
+    <canvas
+      @click="emits('click', $event)"
+      @touchstart="touchStart"
+      @touchmove.stop="touchMove"
+      @touchend="touchEnd"
+      type="2d"
+      id="canvasId"
+      canvas-id="canvasId"
+      class="canvas"
+      :style="{ width: `${_width}rpx`, height: `${_height}rpx` }"
+    ></canvas>
+    <!-- #endif -->
+    <!-- #ifdef MP-ALIPAY -->
+    <canvas
+      @click="emits('click', $event)"
+      @touchstart="touchStart"
+      @touchmove.stop="touchMove"
+      @touchend="touchEnd"
+      type="2d"
+      :id="canvasId"
+      :canvas-id="canvasId"
+      class="canvas"
+      :style="{ width: `${_width}rpx`, height: `${_height}rpx` }"
+    ></canvas>
+    <!-- #endif -->
+    <!-- #ifdef APP-NVUE -->
+    <tm-text label="请使用vue页面,不支持nvue页面"></tm-text>
+    <gcanvas
+      @touchstart="touchStart"
+      @touchmove="touchMove"
+      @touchend="touchEnd"
+      :id="canvasId"
+      :ref="canvasId"
+      class="canvas"
+      :style="{ width: `${_width}rpx`, height: `${_height}rpx` }"
+    >
+    </gcanvas>
+    <!-- #endif -->
+  </view>
 </template>
 <script lang="ts" setup>
 /**
@@ -38,14 +73,14 @@
  * 安装百度图表 npm install echarts --save 后需要作下生产下的兼容，发布不影响，但开发时会报错，很烦。
  * 请找到：node_modules/echarts/lib/core/echarts.js,
  * 原文：
- * 
+ *
  * if (process.env.NODE_ENV !== 'production') {
   var root =
   hasWindow ? window : global;
   defaultRenderer = root.__ECHARTS__DEFAULT__RENDERER__ || defaultRenderer;
   var devUseDirtyRect = root?.__ECHARTS__DEFAULT__USE_DIRTY_RECT__;
   defaultUseDirtyRect = devUseDirtyRect == null ? defaultUseDirtyRect : devUseDirtyRect;
-  
+
   改成：
   * if (process.env.NODE_ENV !== 'production') {
    var root =
@@ -99,7 +134,7 @@ let ctx: UniApp.CanvasContext;
 let chart: echarts.ECharts | null = null
 const pixelRatio = uni.getSystemInfoSync().pixelRatio
 const is2d = ref(false)
-// #ifdef MP-WEIXIN || MP-ALIPAY || MP-QQ 
+// #ifdef MP-WEIXIN || MP-ALIPAY || MP-QQ
 is2d.value = true
 // #endif
 const isPc = ref(false)

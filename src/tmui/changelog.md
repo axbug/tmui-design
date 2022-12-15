@@ -9,6 +9,33 @@ title: 关于tmUi3.0的更新日志
 # TMUI 3.0 by tm-vuefity 3.0
 
 ### :couplekiss: 更新日志
+## 3.0.88（2022-12-15）
+* [重要]uni sdk 3.6.13+,alphat 3.6.11+ ，更新导致本demo运行失败，现已修复，如果你是老项目升级最新sdk[3.0.0-3061320221209001]，请在app.vue补齐temlate标签，否则无法运行。
+* [增强] tm-sheet对margin,padding增强现在规则如下（向下兼容，不用担心升级）：[x]时表示四周的间隙,[x,x]时表示水平，上下的间隙，[x,x,x]时表示左，上，右，下：0的间隙,[x,x,x,x]时表示：左，上，右，下的x间隙
+* 此项增强，同样适用于以此为组件的增强：比如tag,button等等支持这两个属性的组件大部分支持此优化。
+* [修复]tm-text,tm-icon行高问题，导致相关的部分组件对齐丢失。
+* [重要]tm-slide-switch,舍弃了原有的原生组件movearea用法,改动自己写的手势,如果已用本组件的,请适配后再升级.本次更新主要是提高流畅度性能和使用的体验.
+* 升级后:滑动方面nvue采用bingdx,丝滑流畅的滑动体验.非nvue采用wxs,丝滑般的滑动体验.因目前的sdk版本uni有自身的bug,导致底部的可滑动区域被我固定在了120px的宽度,且不可更改.如果
+* 需要更改自定宽度,请自行修改源码.底部菜单方面:使用插槽,取消了原有的属性控制,这样大家布局更为自由,不再局限.
+* [增强]tm-keyborad键盘,新增属性:maxLength,最大长度,如果设置了值,当前输入内容达到该值时,将触发success事件,并且无法再继续输入内容
+* [增强]tm-icon 新增:rotate是否允许单独控制图标旋转的角度, rotate-deg:图标旋转的角度
+* [优化]主题计算中的border-color,渐变配色,边线的计算逻辑稍微调整了下.
+* [优化]tm-codeinput,优化了样式,开放了text,outlined样式属性
+* [优化]tm-card,修改了默认的内边距为24,之前是16
+* [修复]tm-side-menu内部类名写错了.
+* [优化]tm-radio,tm-checkbox开放了outlined属性,设置为true可用于镂空效果.
+* [修复]tm-upload新增的排序功能在微信小程序端不显示,原因是:sdk渲染templeat渲染成为一个空view导致的(其它平台不存在,只有微信有.具体原因不明)
+* [优化]tm-button文字图标对齐问题
+* tm-side-menu属性sliderMenu拼写错误,修改为sideMenu,如果已使用,请根据错误日志及时修正.
+* [修复]tm-calendar-view在设置dateStyle日期样式时,范围模式样式丢失.在单选时,在小程序样式有残留.
+* [修复]tm-upload,因为上个版本增加了排序功能,类多写了个,导致nvue端样式走位.
+* [优化]调整tm-grid,的角标位置在内容的右上一点。
+* [增强]tm-float-button,增加属性：disabledScrollTo：默认true禁用，是否开启置顶功能，scrollTo：[置顶参数见官网](https://uniapp.dcloud.net.cn/api/ui/scroll.html),nvue不支持。
+* [增强]tm-notification,show参数中,开放了color属性,现在允许通过show来传递color改变弹层的颜色.(注意:我再提醒下从3.0.8x开始color可以不用是主题,可以是任意16进制颜色值.)
+* [优化]加所牵涉到加载组件的图标更换成了tmicon-shuaxin图标.
+* [修复]tm-time-view,当显示其它不同属性时，会导致选项值不正确。[感谢](https://gitee.com/LYTB/tmui-design/pulls/94)
+* [增强]tm-comment，新增属性autoFormatTime是否自动格式化处理时间[见此，感谢](https://gitee.com/LYTB/tmui-design/pulls/93)
+* 修改文档错误部分.
 ## 3.0.86（2022-11-29）
 * ------------uni SDK Bug提醒,因官方未修复,以下为记录我踩过的坑----------------
 * uni sdk bug集合见我提交的ask 请前往[UNIASK](https://ask.dcloud.net.cn/question/158252)

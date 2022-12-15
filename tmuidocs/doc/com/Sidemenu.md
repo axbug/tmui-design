@@ -33,7 +33,7 @@ title: tmui 3.0 组件库
 | :--: | :--: | :--: | :-- |
 | width | Number | 750 | 组件宽度 |
 | height | Number | 500 | 组件高度 |
-| sliderWidth | Number | 190 | 侧边菜单栏宽度 |
+| sideWidth | Number | 190 | 侧边菜单栏宽度 |
 | itemHeight | Number | 100 | 侧边菜单项目高度 |
 | fontSize | Number | 26 | 菜单文字大小 |
 | active | Number | 0 | 默认选中的索引,可以使用v-model:active双向绑定 |

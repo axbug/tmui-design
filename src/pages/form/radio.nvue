@@ -8,14 +8,14 @@
 			</view>
 			
 			<tm-radio-group v-model="radiolist" >
-				<tm-radio value="apple" label="苹果基础示例"></tm-radio>
+				<tm-radio outlined value="apple" label="苹果基础示例"></tm-radio>
 				<tm-radio color="orange" value="banner" label="香蕉"></tm-radio>
 				<tm-radio color="pink" value="test" label="测试项"></tm-radio>
 				<tm-radio color="green" value="other" label="其它水果"></tm-radio>
 			</tm-radio-group>
         </tm-sheet>
 
-		<tm-sheet>
+		<tm-sheet :margin="[32,0]">
             <tm-text :font-size="24" _class="font-weight-b" label="其它属性和checkbox一样，拥有丰富的属性设置"></tm-text>
 			<tm-divider></tm-divider>
 			<view class="pb-24">

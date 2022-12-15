@@ -49,6 +49,7 @@ title: tmui 3.0 组件库
 | content | String |  | 内容 |
 | time | String |  | 时间 |
 | align | String | right | 时间和下面的操作按钮是靠左还是靠右：right,left |
+| autoFormatTime | Boolean | true | 是否格式化时间标签。 |
 
 ### :rose: 事件
 | 事件名 | 参数 | 返回数据 | 描述 |

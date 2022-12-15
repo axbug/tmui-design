@@ -46,11 +46,13 @@ title: tmui 3.0 组件库
 本组件含有公共属性 [公共属性](/doc/spec/组件公共样式.md)
 | 参数名 | 类型 | 默认值 | 描述 |
 | :--: | :--: | :--: | :-- |
-| fontSize | [Number,String] | 34 | 图标大小 |
+| fontSize | [Number] | 34 | 图标大小 |
 | color | String | '' | 图标颜色 |
 | name | String | '' | 图标名称 |
-| spin | [Boolean, String] | true | 是否使图标旋转 |
+| spin | [Boolean] | true | 是否使图标旋转 |
 | unit<Badge type="danger" text="v3.0.73+" vertical="middle" /> | [String] | rpx | 字号单位 |
+| rotate | [Boolean] | true | 是否允许单独控制图标旋转的角度 |
+| rotate-deg | [Number] | 0 | 图标旋转的角度 |
 
 ### :rose: 事件
 | 事件名 | 参数 | 返回数据 | 描述 |

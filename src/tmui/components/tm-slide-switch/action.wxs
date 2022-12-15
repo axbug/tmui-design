@@ -6,12 +6,12 @@ var state;
 var getState = function(ownerInstance) {
 	owner = ownerInstance;
 	state = owner.getState();
-	state.leftWidth = state.leftWidth || 0;
-	state.rightWidth = state.rightWidth || 0;
+	var lefrightwidth = owner.callMethod('getLeftRightwidth') ||{left:0,right:0}
+	state.leftWidth = lefrightwidth.left || 120;
+	state.rightWidth = lefrightwidth.right || 120;
 	state.offset = state.offset || 0;
 	state.startOffset = state.startOffset || 0;
 	state.opened = state.opened || false;
-	console.log(owner)
 };
 
 var initRightWidth = function(newVal, oldVal, ownerInstance) {
@@ -80,7 +80,11 @@ var range = function(num, min, max) {
 
 var swipeMove = function(_offset) {
 	if (_offset === undefined) _offset = 0;
-	state.offset = range(_offset, -state.rightWidth, +state.leftWidth);
+	//开启左右没滑动。
+	// state.offset = range(_offset, -state.rightWidth, +state.leftWidth);
+	//只开启右。
+	state.offset = range(_offset, -state.rightWidth, 0);
+	// state.offset = _offset;
 	var transform = 'translate3d(' + state.offset + 'px, 0, 0)';
 	var transition = state.dragging ? 'none' : 'transform .6s cubic-bezier(0.18, 0.89, 0.32, 1)';
 	owner.selectComponent('#wrapper').setStyle({
@@ -118,12 +122,14 @@ var touchStart = function(event) {
 	var touchPoint = event.touches[0];
 	state.startX = touchPoint.clientX;
 	state.startY = touchPoint.clientY;
+
 	owner.callMethod('closeOther');
 };
 
 var startDrag = function(event, ownerInstance) {
 	getState(ownerInstance);
 	touchStart(event);
+	// onOpenedChange
 };
 
 var onDrag = function(event, ownerInstance) {
@@ -133,6 +139,7 @@ var onDrag = function(event, ownerInstance) {
 		return;
 	}
 	state.dragging = true;
+	
 	swipeMove(state.startOffset + state.deltaX);
 };
 

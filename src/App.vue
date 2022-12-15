@@ -1,7 +1,7 @@
 
-<script  lang="ts" >
-
-</script>
+<template>
+</template>
+<script  lang="ts" setup></script>
 <style>
 	
 	/* #ifdef APP-PLUS-NVUE */

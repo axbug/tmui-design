@@ -38,10 +38,12 @@ title: tmui 3.0 组件库
 | width            | Number  | 112      | 按钮宽度                                 |
 | height           | Number  | 112      | 按钮高度                                 |
 | offset           | Array   | [32, 32] | 按钮位置                                 |
-| actions          | Array   | []       | 子按钮组数据                               |
-| btn              | Object  | {}       | *主按钮对象数据                             |
-| showActions      | Boolean | false    | 是否默认显示子菜单                            |
-| clickHidnActions | Boolean | true     | 点击子菜单后，是否需要隐藏                        |
+| actions          | Array   | []       | 子按钮组数据                              |
+| btn              | Object  | {}       | *主按钮对象数据                           |
+| showActions      | Boolean | false    | 是否默认显示子菜单                        |
+| clickHidnActions | Boolean | true     | 点击子菜单后，是否需要隐藏                 |
+| disabledScrollTo | Boolean | true     | 默认true禁用，是否开启置顶功能（nvue不支持）             |
+| scrollTo | \{scrollTop:number,selector:string,duration:number\} | \{scrollTop:0,selector:'',duration:300\}     | （nvue不支持）置顶参数详见解释[置顶参数见官网](https://uniapp.dcloud.net.cn/api/ui/scroll.html) |
 
 如果clickHidnActions为false,点击子按钮后不会隐藏按钮。始终保持展开子按钮
 

@@ -19,8 +19,9 @@
 
         <tm-drawer ref="calendarView" :placement="pos" v-model:show="showWin">
 			<tm-button :margin="[12, 12]" @click="showWin2 = true" color="green" :width="120" :height="56" :font-size="24" label="内弹出"></tm-button>
-			<tm-drawer  :width="300" :height="300" ref="calendarView" :placement="pos" v-model:show="showWin2">
+			<tm-drawer inContent :width="300" :height="300" ref="calendarView" :placement="pos" v-model:show="showWin2">
 			</tm-drawer>
+			<!-- <tm-picker :height="500" inContent v-model:show="showWin2" :columns="citydate"></tm-picker> -->
 		</tm-drawer>
     </tm-app>
 </template>
@@ -33,8 +34,11 @@ import tmText from "@/tmui/components/tm-text/tm-text.vue"
 import tmButton from "@/tmui/components/tm-button/tm-button.vue"
 import tmDivider from "@/tmui/components/tm-divider/tm-divider.vue"
 import tmDrawer from "@/tmui/components/tm-drawer/tm-drawer.vue"
+import tmPicker from "@/tmui/components/tm-picker/tm-picker.vue"
 const calendarView = ref<InstanceType<typeof tmCalendarView> | null>(null)
-
+const citydate = ref([
+	{ text: "苹果", id: 0 }, { text: "香蕉", id: 1 }, { text: "其它水果", id: 2 }, { text: "越南水果", id: 4 }
+])
 const showWin = ref(false)
 const showWin2 = ref(false)
 const pos = ref("bottom")

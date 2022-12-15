@@ -115,6 +115,7 @@ const totalList = [
 	{ path: "/pages/fankui/rollNotice", title: "滚动通知 RollNotice" },
 	{ path: "/pages/other/barCode", title: "条形码 BarCode" },
 	{ path: "/pages/other/html", title: "富文本 Html" },
+	{ path: "/pages/form/timebetween", title: "时间范围 Timebetween" },
 	
 ]
 const result = ref([])

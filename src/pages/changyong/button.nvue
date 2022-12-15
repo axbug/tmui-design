@@ -4,14 +4,14 @@
             <tm-text :font-size="24" _class="font-weight-b" label="基本示例"></tm-text>
             <tm-divider></tm-divider>
             <view class="flex flex-row flex-wrap">
-                <tm-button :margin="[10, 10]" size="mini" :shadow="0" label="mini"></tm-button>
-                <tm-button :margin="[10, 10]" size="small" :shadow="0" label="small"></tm-button>
-                <tm-button :margin="[10, 10]" :shadow="0" text size="normal" label="normal"></tm-button>
-                <tm-button :margin="[10, 10]" :shadow="0" text :border="2" borderStyle="dashed" size="large" label="large">
+                <tm-button :margin="[10]" size="mini" :shadow="0" label="mini"></tm-button>
+                <tm-button :margin="[10]" size="small" :shadow="0" label="small"></tm-button>
+                <tm-button :margin="[10]" :shadow="0" text size="normal" label="normal"></tm-button>
+                <tm-button :margin="[10]" :shadow="0" text :border="2" borderStyle="dashed" size="large" label="large">
                 </tm-button>
-				<tm-button :margin="[10, 10]" :shadow="0" text size="normal" outlined label="浅边框"></tm-button>
-                <tm-button :margin="[10, 10]" :shadow="0" outlined size="normal" label="深边框"></tm-button>
-                <tm-button :margin="[10, 10]" transprent text :shadow="0" size="normal" label="透明背景"></tm-button>
+				<tm-button :margin="[10]" :shadow="0" text size="normal" outlined label="浅边框"></tm-button>
+                <tm-button :margin="[10]" :shadow="0" :border="6" outlined size="normal" label="深边框"></tm-button>
+                <tm-button :margin="[10]" transprent text :shadow="0" size="normal" label="透明背景"></tm-button>
             </view>
             <tm-button block label="block"></tm-button>
         </tm-sheet>
@@ -19,16 +19,16 @@
             <tm-text :font-size="24" _class="font-weight-b" label="带图标"></tm-text>
             <tm-divider></tm-divider>
             <view class="flex flex-row flex-wrap">
-                <tm-button icon="tmicon-account" size="normal" label="按钮"></tm-button>
+                <tm-button icon="tmicon-tongzhifill" size="normal" label="按钮"></tm-button>
                 <tm-button color="red" icon="tmicon-account" :width="86" :round="10" :height="86" :fontSize="40"
-                    :margin="[10, 10]" :shadow="0" size="normal"></tm-button>
+                    :margin="[10]" :shadow="0" size="normal"></tm-button>
                 <tm-button color="green" icon="tmicon-account" :width="86" :round="10" :height="86" :fontSize="40"
-                    :margin="[10, 10]" :shadow="0" text size="normal"></tm-button>
-                <tm-button icon="tmicon-account" color="pink" :margin="[10, 10]" :shadow="0" text :border="2"
+                    :margin="[10]" :shadow="0" text size="normal"></tm-button>
+                <tm-button icon="tmicon-account" color="pink" :margin="[10]" :shadow="0" text :border="2"
                     borderStyle="dashed" size="normal" label="按钮"></tm-button>
             </view>
         </tm-sheet>
-        <tm-sheet>
+        <tm-sheet >
             <tm-text :font-size="24" _class="font-weight-b" label="渐变样式,更多属性见文档"></tm-text>
 			<tm-divider></tm-divider>
             <tm-button loading linear="right" block label="light 加载中"></tm-button>
