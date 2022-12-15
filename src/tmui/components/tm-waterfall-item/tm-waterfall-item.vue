@@ -42,12 +42,6 @@
  * @slot default 默认插槽，可以放置任意内容，但不允许异步更改高度，否则瀑布失效。
  * @method img-click 封面图被点击时触发。如果不提供封面图本事件不触发。
  */
-<<<<<<< HEAD
-import { onMounted, nextTick, inject, computed, Ref, ref, getCurrentInstance, toRaw ,ComputedRef} from "vue";
-import tmSheet from '../tm-sheet/tm-sheet.vue';
-import tmImage from '../tm-image/tm-image.vue';
-import { itemParenSG } from "../tm-waterfall/interface"
-=======
 import {
   onMounted,
   nextTick,
@@ -61,7 +55,7 @@ import {
 import tmSheet from "../tm-sheet/tm-sheet.vue";
 import tmImage from "../tm-image/tm-image.vue";
 import { itemParenSG } from "../tm-waterfall/interface";
->>>>>>> a9a04ee973759bb62b7763b2d20618456b85e74c
+
 // #ifdef APP-PLUS-NVUE
 const dom = uni.requireNativePlugin("dom");
 // #endif
