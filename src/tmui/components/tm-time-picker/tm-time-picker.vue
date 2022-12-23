@@ -10,7 +10,7 @@
     :ok-color="props.color"
     @open="open"
     :title="props.title"
-    :closable="true"
+    :closeable="true"
     @ok="confirm"
   >
     <tm-time-view
