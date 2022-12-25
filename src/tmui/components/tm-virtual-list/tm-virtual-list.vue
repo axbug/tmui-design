@@ -51,6 +51,12 @@
       <view class="flex flex-col relative" :style="[{ height: totalHeight + 'px' }]">
         <view
           class="absolute l-0 t-0 flex flex-col"
+          :style="{ height: `${props.topHeight}rpx`, width: `${props.width}rpx` }"
+        >
+          <slot name="top"></slot>
+        </view>
+        <view
+          class="absolute l-0 t-0 flex flex-col"
           :style="{ transform: `translateY(${offsetY}px)`, width: `${props.width}rpx` }"
         >
           <slot name="default" :data="visibleItems"></slot>
@@ -127,6 +133,10 @@ const props = defineProps({
     type: Number,
     default: 500,
   },
+  topHeight: {
+    type: Number,
+    default: 0,
+  },
   //预估项目的高度，必填。
   itemHeight: {
     type: Number,
@@ -153,6 +163,7 @@ const props = defineProps({
   },
 });
 const rowHeight = uni.upx2px(props.itemHeight);
+const outTopHeight = uni.upx2px(props.topHeight);
 const rootHeight = uni.upx2px(props.height);
 const scrollTop = ref(0);
 const renderAhead = 2;
@@ -165,16 +176,18 @@ const childPositions = computed(() => {
   return results;
 });
 const totalHeight = computed(() => {
-  return rowCount.value ? childPositions.value[rowCount.value - 1] + rowHeight : 0;
+  return (rowCount.value ? childPositions.value[rowCount.value - 1] + rowHeight : 0) + outTopHeight;
 });
 const firstVisibleNode = computed(() => findStartNode());
-const startNode = computed(() => Math.max(0, firstVisibleNode.value - renderAhead));
+const startNode = computed(() =>
+  Math.max(0, firstVisibleNode.value - renderAhead)
+);
 const lastVisibleNode = computed(() => findEndNode());
 const endNode = computed(() =>
   Math.min(rowCount.value - 1, lastVisibleNode.value + renderAhead)
 );
 const visibleNodeCount = computed(() => endNode.value - startNode.value + 1);
-const offsetY = computed(() => childPositions.value[startNode.value]);
+const offsetY = computed(() => childPositions.value[startNode.value] + outTopHeight);
 const visibleItems: ComputedRef<Array<any>> = computed(() => {
   return props.data.slice(startNode.value, startNode.value + visibleNodeCount.value);
 });
