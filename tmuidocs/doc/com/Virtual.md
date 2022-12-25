@@ -62,4 +62,4 @@ title: tmui 3.0 组件库
 无
 
 ### :couplekiss: 文档贡献
-此页文档由[夏天](https://gitee.com/Xia_5718)贡献，如果对该框架感兴趣的可以参与我们一同进步！
+此页文档由[夏天](https://gitee.com/Xia_5718)、[暗辰](https://gitee.com/iam_ac)贡献，如果对该框架感兴趣的可以参与我们一同进步！
