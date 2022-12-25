@@ -35,6 +35,7 @@ title: tmui 3.0 组件库
 | :--: | :--: | :--: | :-- |
 | width | Number | 300 | 宽度，单位rpx |
 | height | Number | 500 | 高度，单位rpx |
+| topHeight  | Number | 0 | 顶部自定义内容高度，单位rpx |
 | itemHeight | Number | 0 | 项目的高度 |
 | color<Badge type="danger" text="v3.0.7+" vertical="middle" /> | String | "primary" | 加载图标的主题色 |
 | data | `Array<string>` | [] | 虚拟列表数据 |
@@ -50,6 +51,11 @@ title: tmui 3.0 组件库
 | @pull-end<Badge type="danger" text="v3.0.7+" vertical="middle" /> | - | - | 触底时触发 |
 
 ### :corn: slot插槽
+| 插槽名 | 数据 | 类型 | 描述 |
+| --- | --- | --- | --- |
+| top | - | - | 顶部自定义内容，高度不超过topHeight 设定高度 |
+| default | data | `Arrray<any>` | 默认插槽，主要 |
+
 默认default，插槽数据名称：data,类型`Arrray<any>`;
 
 ### :green_salad: ref方法
