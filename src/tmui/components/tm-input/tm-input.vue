@@ -294,6 +294,7 @@
               :followTheme="props.followTheme"
               @click="searchClick"
               :color="props.focusColor"
+              :fontColor="props.searchFontColor"
               :font-size="24"
               :height="_height - 11"
               :padding="[16, 0]"
@@ -441,6 +442,10 @@ const props = defineProps({
   },
   //搜索
   searchLabel: {
+    type: String,
+    default: "",
+  },
+  searchFontColor: {
     type: String,
     default: "",
   },
