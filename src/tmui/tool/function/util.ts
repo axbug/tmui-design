@@ -389,7 +389,7 @@ export function quereyDom(t:ComponentInternalInstance,node:string){
 	const dom:any = uni.requireNativePlugin('dom')
 	return new Promise((res,rej)=>{
 		setTimeout(function(){
-			node = node.replace(/#\./g,'')
+			node = node.replace(/^[#\.]/g,'')
 			
 			dom.getComponentRect(t.refs[node], function(el:any) {
 				res(el.size);
