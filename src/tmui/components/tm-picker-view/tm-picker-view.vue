@@ -5,7 +5,7 @@
       :followTheme="props.followTheme"
       @end="emits('end')"
       @start="emits('start')"
-      :dataKey="props.dataKey"
+      :dataKey="props.mapKey||props.dataKey"
       @change="pickerChange($event, index)"
       :col="_colIndex[index]"
       v-for="(item, index) in _data"
@@ -85,6 +85,11 @@ const props = defineProps({
     type: String,
     default: "text",
   },
+  //当columns项目中的data数据为对象时的key取值字段。兼容上方dataKey,因为微信dataKey与本字段重名，无法设置。
+  mapKey: {
+    type: String,
+    default: "text",
+  },
   //当前改变index项时，改变时执行的函数。如果返回false，将会阻止本次改变,可以是Promise
   //提供了即将改变的数据和将要改变到目标的数据
   //结构 为 from:{itemindex,levelIndex,data},to:{itemindex,levelIndex,data}。
@@ -104,7 +109,7 @@ const _modelStr = computed(() => {
   _data.value.forEach((el, index) => {
     let item = el[_colIndex.value[index]];
     if (typeof item == "undefined") return;
-    str.push(item[props.dataKey] ?? "");
+    str.push(item[props.mapKey||props.dataKey] ?? "");
   });
   return str.join("/");
 });

@@ -10,11 +10,13 @@
       :disabled="nodeData['disabled']"
       v-model="_checked"
       :value="nodeData[props.fieldNames.id]"
+      ref="checkboxRef"
     ></TmCheckbox>
   </view>
 </template>
 <script lang="ts" setup>
 import TmCheckbox from "../tm-checkbox/tm-checkbox.vue";
+
 import {
   ref,
   getCurrentInstance,
@@ -27,6 +29,7 @@ import {
 } from "vue";
 import { baseNodeData } from "./interface";
 import { treeFlat, queryParentNode } from "./util";
+const checkboxRef = ref<InstanceType<typeof TmCheckbox> | null>(null);
 const { proxy } = getCurrentInstance();
 const props = defineProps({
   followTheme: {
@@ -217,4 +220,14 @@ watch(
     }
   }
 );
+
+function setStatus(){
+  if(nodeData.value['disabled']===true){
+    return;
+  }
+  checkboxRef.value?.hanlerClick()
+}
+
+defineExpose({setStatus})
+
 </script>

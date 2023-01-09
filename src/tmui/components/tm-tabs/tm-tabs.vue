@@ -88,7 +88,7 @@
           :class="[_align]"
           :style="[{ height: `${props.itemHeight + 4}rpx` }]"
         >
-          <view :id="tabsid + item.key" v-for="(item, index) in cacheTabs" :key="index">
+          <view :id="tabsid + item.key" v-for="(item, index) in cacheTabs" :key="index" class="flex flex-shrink">
             <tm-sheet
               @click="changeKey(item.key)"
               :round="props.itemRound"
@@ -223,7 +223,7 @@
         :class="[_align]"
         :style="[{ width: `${props.width}rpx`, height: `${props.itemHeight + 4}rpx` }]"
       >
-        <view :id="tabsid + item.key" v-for="(item, index) in cacheTabs" :key="index">
+        <view :id="tabsid + item.key" v-for="(item, index) in cacheTabs" :key="index" class="flex flex-shrink">
           <tm-sheet
             @click="changeKey(item.key)"
             :round="props.itemRound"

@@ -26,7 +26,7 @@ export default function(opts?:any){
 			if(checkFileisTmui(id)) return code;
 			const nodelistStringtag = code.match(customRule)
 			
-			//console.log(nodelistStringtag)
+			// console.log(nodelistStringtag)
 			if(!nodelistStringtag) return;
 			/** 正则color属性。 */
 			let attrRule = /\s(color)=([\s]{0,}".*")|\s(color)[\s]{0,}=[\s]{0,}('.*')/g

@@ -105,7 +105,9 @@ function nodeClick() {
     parent?.addActiveIndex(props.level + 1);
   } else {
     //说明已经到了最后一层，发布确认id请求。
-    parent?.endSelected();
+    nextTick(()=>{
+      parent?.endSelected();
+    })
   }
 
   parent?.pushValue(_value.value, props.level, _value.value.id);

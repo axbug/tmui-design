@@ -100,6 +100,10 @@
         >
           <slot name="default"></slot>
         </scroll-view>
+        <slot name="foot">
+          <view v-if="props.footHeight>0" class="flex">
+          </view>
+        </slot>
       </view>
     </tm-translate>
   </tm-overlay>
@@ -236,6 +240,10 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  footHeight:{
+    type:Number,
+    default:0
+  }
 });
 const emits = defineEmits(["click", "open", "close", "update:show", "ok", "cancel"]);
 const proxy = getCurrentInstance()?.proxy ?? null;
@@ -268,8 +276,8 @@ const syswidth = computed(() => sysinfo.value.width);
 const sysheight = computed(() => sysinfo.value.height);
 const reverse = ref(true);
 const timeid = ref(0);
-let timerId = NaN;
-let timerIdth = NaN;
+let timerId:any = NaN;
+let timerIdth:any = NaN;
 let timerIdth_flas = false;
 uni.hideKeyboard();
 
@@ -383,6 +391,7 @@ const anheight = computed(() => {
 });
 const contentHeight = computed(() => {
   let base_height = props.hideHeader ? 0 : 44;
+  let _footerHeight = uni.$tm.u.topx(props.footHeight)
   if (
     props.placement == "top" ||
     props.placement == "bottom" ||
@@ -392,9 +401,9 @@ const contentHeight = computed(() => {
     if (props.unit == "rpx") {
       h = uni.upx2px(props.height);
     }
-    return h - base_height + "px";
+    return (h - base_height - _footerHeight) + "px";
   }
-  return sysheight.value - base_height + "px";
+  return (sysheight.value - base_height - _footerHeight) + "px";
 });
 const align_rp = computed(() => {
   if (aniname.value == "down") {

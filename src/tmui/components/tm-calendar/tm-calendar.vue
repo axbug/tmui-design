@@ -268,8 +268,8 @@ let win_bottom = computed(() => {
   return sysinfo.value.bottom;
 });
 const dHeight = computed(() => {
-  if (_modelType.value == "day") return 900 + win_bottom.value;
-  if (_modelType.value == "rang") return 900 + win_bottom.value;
+  if (_modelType.value == "day") return 880 + win_bottom.value;
+  if (_modelType.value == "rang") return 880 + win_bottom.value;
   if (_modelType.value == "week") return 740 + win_bottom.value;
   if (_modelType.value == "month") return 720 + win_bottom.value;
   if (_modelType.value == "quarter") return 480 + win_bottom.value;

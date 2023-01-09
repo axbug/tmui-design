@@ -1,6 +1,7 @@
 <template>
   <view>
     <base-node-vue
+      @textClick="emits('node-click',$event)"
       :followTheme="props.followTheme"
       :fieldNames="props.fieldNames"
       :data="listData"

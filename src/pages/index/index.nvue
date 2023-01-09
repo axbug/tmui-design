@@ -7,10 +7,9 @@
 				<view class="absolute l-0 t-0" :style="{width:`${sys.width}px`,height:`${sys.height}px`}">
 					<view :style="{height:sysinfo.sysinfo.statusBarHeight+'px'}"></view>
 					<view class="flex flex-row flex-row-center-between py-24 px-16">
-						<tm-text label="TMUI 3.0.88"></tm-text>
+						<tm-text label="TMUI 3.0.89"></tm-text>
 						<tm-icon @click="showf=false" color="white" :font-size="32" name="tmicon-times"></tm-icon>
 					</view>
-					
 					<tm-cell url="/pages/changyong/index" color="primary" :transprent="true" :margin="[10,0]"
 						title="通用组件"></tm-cell>
 					<tm-cell url="/pages/layout/index" color="primary" :transprent="true" :margin="[10,0]" title="布局组件">
@@ -45,9 +44,6 @@
 				</view>
 			</view>
 		</tm-sheet>
-
-
-		
 		<tm-sheet :margin="[0, 0]">
 			<tm-input :placeholder="language('index.search.tips')" :border="1" showClear prefix="tmicon-search"
 				v-model="str" @search='search' :searchLabel="language('index.search.btntext')"></tm-input>
@@ -233,11 +229,9 @@
 	const showCustomColor = ref("#60ab41")
 	const showCustomName = ref("darkGreen")
 	const showCustom = ref(false)
-
 	function onChangeDark() {
 		app.value?.setDark()
 	}
-
 	function search() {
 
 		if (str.value.trim() === "") {

@@ -71,7 +71,7 @@
             v-if="_load"
             :font-size="viewSize.fontSize"
             :color="props.color"
-            name="tmicon-loading"
+            name="tmicon-shuaxin"
             spin
           ></tm-icon>
           <tmTranslate name="zoom" v-if="!_load && _CheckVal">

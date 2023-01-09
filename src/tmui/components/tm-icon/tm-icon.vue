@@ -104,6 +104,7 @@ import {
 import { useTmpiniaStore } from "../../tool/lib/tmpinia";
 // #ifdef APP-NVUE || APP-PLUS-NVUE
 import { tmiconFont } from "./tmicon";
+import { toUnicode } from "punycode";
 var domModule = weex.requireModule("dom");
 const animation = uni.requireNativePlugin("animation");
 // #endif
@@ -119,6 +120,7 @@ const props = defineProps({
     type: String,
     default: "",
   },
+  /** 自定义图标规则为:myicon-music-e617,图标前缀和字体名称相同-图标类名-图标unicode符 */
   name: {
     type: String, //图标名称。
     default: "",
@@ -144,6 +146,11 @@ const props = defineProps({
     type: Number,
     default: 0,
   },
+  //为了提高响应速度，只有开启了自定图标显示功能才会去解析用户自定义图标规则名称
+  customicon:{
+	  type: Boolean,
+	  default: false,
+  }
 });
 const _rotateDeg = computed(() => props.rotateDeg);
 const emits = defineEmits(["click", "longpress"]);
@@ -224,10 +231,6 @@ const isImg = computed(() => {
 });
 //图标前缀
 const prefx = computed(() => {
-  const index = props.name.indexOf("-icon-");
-  if (index > 0) {
-    return props.name.substring(0, index + 5);
-  }
   let prefix = props.name.split("-")?.[0];
   return prefix;
 });
@@ -236,17 +239,43 @@ const iconComputed = computed(() => {
   if (isImg.value) return props.name;
   // #ifdef APP-NVUE
   let name = props.name.substr(prefx.value.length + 1);
-
   let index = uni.$tm.tmicon.findIndex((el) => el.font == prefx.value);
   let itemIcon = uni.$tm.tmicon[index]?.fontJson.find((item, index) => {
     return item.font_class == name;
   });
   try {
-    return JSON.parse('"\\u' + String(itemIcon?.unicode ?? name) + '"');
+	  
+    if(itemIcon){
+		let ucode = '"\\u' + String(itemIcon?.unicode) + '"';
+        return JSON.parse(ucode);
+    }else if(props.customicon){
+		let names = name.split('-')
+		if(names.length===2){
+			let ucode = '"\\u' + String(names[1]) + '"';
+			return JSON.parse(ucode);
+		}
+	}
   } catch (e) {
     return props.name;
   }
   // #endif
+  
+  // #ifndef APP-NVUE
+  if(props.customicon){
+	  try{
+	  	let names = props.name.split('-')
+	  	if(/^e[0-9|a-z|A-Z]{3}/.test(names[names.length-1])){
+	  		let clasName = props.name.substring(0,props.name.lastIndexOf("-"));
+	  		console.log(clasName)
+	  	  return clasName
+	  	}
+	  }catch(e){
+	  	//TODO handle the exception
+	  }
+  }
+  
+  // #endif
+  
   return props.name;
 });
 

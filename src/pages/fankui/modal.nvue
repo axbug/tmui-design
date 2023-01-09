@@ -4,11 +4,18 @@
             <tm-text :font-size="24" _class="font-weight-b" label="下面是基础演示属性,更多玩法请前往文档。"></tm-text>
             <tm-divider></tm-divider>
             <view class="flex flex-row flex-wrap ">
-                <tm-button :margin="[12,12]" @click="showWin=true" color="white" :width="120" :height="56" :font-size="24"  label="默认"></tm-button>
+                <tm-button :margin="[0,12]" @click="showWin=true" color="white" :width="120" :height="56" :font-size="24"  label="默认"></tm-button>
                 <tm-button :margin="[12,12]" @click="showWin1=true" color="red" :width="120" :height="56" :font-size="24"  label="分离按钮"></tm-button>
-                <tm-button :margin="[12,12]" @click="showWin2=true" color="orange" :width="120" :height="56" :font-size="24"  label="个性化"></tm-button>
+                <tm-button :margin="[0,12]" @click="showWin2=true" color="orange" :width="120" :height="56" :font-size="24"  label="个性化"></tm-button>
                 <tm-button :margin="[12,12]" @click="showWin3=true" color="pink" :width="120" :height="56" :font-size="24"  label="异步关闭"></tm-button>
-                <tm-button :margin="[12,12]" @click="openDrawer" color="green" :width="120" :height="56" :font-size="24"  label="Ref打开"></tm-button>
+            </view>
+           
+        </tm-sheet>
+        <tm-sheet :margin="[32,0]">
+            <tm-text :font-size="24" _class="font-weight-b" label="下面是通过ref.open打开返回Promise示例。"></tm-text>
+            <tm-divider></tm-divider>
+            <view class="">
+                <tm-button block @click="openDrawer" color="green" :font-size="28"  label="Ref打开,返回Promise"></tm-button>
             </view>
         </tm-sheet>
        <tm-modal  title="信息框" content="主体内容哦" v-model:show="showWin"></tm-modal>
@@ -53,7 +60,13 @@ function beforeClose(){
 function test(e){
 	console.log('ok事件点击')
 }
-function openDrawer(){
-	modal.value.open()
+async function openDrawer(){
+	modal.value?.open()?.then(()=>{
+        console.log('点了确认按钮')
+        uni.showToast({title:"确认按钮",icon:'none'})
+    }).catch(()=>{
+        console.log('取消关闭')
+        uni.showToast({title:"被关闭取消",icon:'none'})
+    })
 }
 </script>

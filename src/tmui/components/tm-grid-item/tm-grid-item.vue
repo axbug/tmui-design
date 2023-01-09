@@ -24,7 +24,8 @@
           :icon="props.icon"
           :color="props.color"
         >
-          <view class="flex-col flex-col-center-center flex px-10">
+          <view class="flex-col flex-col-center-center flex px-10  my-5" 
+		  :class="[props.dot?'':'py-5 ']">
             <slot></slot>
           </view>
         </tm-badge>
@@ -172,16 +173,16 @@ function setStyleFun() {
   }
 
   if (uid.value.type == 1) {
-    wkStyle.value = `box-sizing: border-box;border:1rpx solid ${tmcomputed.value.border};width:${_colWidth}rpx`;
+    wkStyle.value = `box-sizing: border-box;border:1rpx solid ${tmcomputed.value.border};width:${_colWidth-1}rpx`;
   }
   if (uid.value.type == 2) {
-    wkStyle.value = `box-sizing: border-box;border-bottom:1rpx solid ${tmcomputed.value.border};border-right:1rpx solid ${tmcomputed.value.border};border-left:1rpx solid rgba(0,0,0,0);border-top:1rpx solid rgba(0,0,0,0);width:${_colWidth}rpx`;
+    wkStyle.value = `box-sizing: border-box;border-bottom:1rpx solid ${tmcomputed.value.border};border-right:1rpx solid ${tmcomputed.value.border};border-left:1rpx solid rgba(0,0,0,0);border-top:1rpx solid rgba(0,0,0,0);width:${_colWidth-1}rpx`;
   }
   if (uid.value.type == 3) {
-    wkStyle.value = `box-sizing: border-box;border-top:1rpx solid rgba(0,0,0,0);border-bottom:1rpx solid ${tmcomputed.value.border};border-right:1rpx solid ${tmcomputed.value.border};border-left:1rpx solid ${tmcomputed.value.border};width:${_colWidth}rpx`;
+    wkStyle.value = `box-sizing: border-box;border-top:1rpx solid rgba(0,0,0,0);border-bottom:1rpx solid ${tmcomputed.value.border};border-right:1rpx solid ${tmcomputed.value.border};border-left:1rpx solid ${tmcomputed.value.border};width:${_colWidth-1}rpx`;
   }
   if (uid.value.type == 4) {
-    wkStyle.value = `box-sizing: border-box;border-left:1rpx solid rgba(0,0,0,0);border-bottom:1rpx solid ${tmcomputed.value.border};border-top:1rpx solid ${tmcomputed.value.border};border-right:1rpx solid ${tmcomputed.value.border};width:${_colWidth}rpx`;
+    wkStyle.value = `box-sizing: border-box;border-left:1rpx solid rgba(0,0,0,0);border-bottom:1rpx solid ${tmcomputed.value.border};border-top:1rpx solid ${tmcomputed.value.border};border-right:1rpx solid ${tmcomputed.value.border};width:${_colWidth-1}rpx`;
   }
 }
 function onClick(e: Event) {

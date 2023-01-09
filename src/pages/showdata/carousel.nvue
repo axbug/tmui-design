@@ -11,11 +11,11 @@
         <tm-sheet>
             <tm-text :font-size="24" _class="font-weight-b" label="指示位置，包含视频播放"></tm-text>
         </tm-sheet>
-        <tm-carousel autoplay :margin="[0,16]" dotPosition="right" vertical model="rect" :round="3" :width="686" :height="300" :list="listvedio"></tm-carousel>
+        <tm-carousel rangKey="test" autoplay :margin="[0,16]" dotPosition="right" vertical model="rect" :round="3" :width="686" :height="300" :list="listvedio"></tm-carousel>
     </tm-app>
 </template> 
 <script lang="ts" setup>
-import { ref } from "vue"
+import { ref,Ref } from "vue"
 import { onShow, onLoad } from "@dcloudio/uni-app";
 import tmApp from "@/tmui/components/tm-app/tm-app.vue"
 import tmSheet from "@/tmui/components/tm-sheet/tm-sheet.vue"
@@ -29,12 +29,13 @@ const listimg = [
     "https://picsum.photos/200/300?id=459",
 ]
 
-const listvedio = ["https://picsum.photos/200/300?id=43335", {
-    url: "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4",
+const listvedio:Ref<any[]> = ref([{test:"https://picsum.photos/200/300?id=43335"}, {
+        test: "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4",
     img: "https://picsum.photos/200/300?id=43335",
     type: "video"
 },
     "https://picsum.photos/200/300?id=433"
-]
+])
+
 
 </script>

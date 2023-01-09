@@ -7,7 +7,8 @@ title: tmui 3.0 组件库
 ##### 组件库文档 tmui.design
 
 # 选择器 Picker
-Picker 选择器是一个提供基础单列数据选择以及可扩展为多级联动的选择器组件
+Picker 选择器是一个提供基础单列数据选择以及可扩展为多级联动的选择器组件<br>
+Picker与Picker-view两个组件属性相同。除了没有show属性。请自行按照Picker方法使用。
 
 ---
 
@@ -37,7 +38,8 @@ Picker 选择器是一个提供基础单列数据选择以及可扩展为多级�
 | defaultValue | String | "" | 默认选中的索引值 |
 | selectedModel |  String | index | 赋值和选值方式，共三种，分别为name:名称模式赋值和选择，id:id模式赋值和选择，index:索引模式赋值和选择 |
 | columns | Arrray | [] | 数据 |
-| dataKey | String | text | 当columns项目中的data数据为对象时的key取值字段 |
+| dataKey | String | text | [3.0.89后建议不使用，请使用mapKey]当columns项目中的data数据为对象时的key取值字段 |
+| mapKey | String | text | 与dataKey作用相同，从3.0.89开始启用，建议放弃使用dataKey字段。但会兼容dataKey，两者都有效，但微信中只有本字段 有效。 |
 | show | Boolean | false | 控制选择器的显示与隐藏 |
 | color | String | primary | 选择器的颜色，主要体现在按钮颜色上 |
 | btnRound | Number | 3 | 选择器按钮的圆角值 | 

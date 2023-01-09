@@ -1,97 +1,43 @@
 <template>
   <!-- #ifndef APP-NVUE -->
   <view @touchmove.stop="">
-    <view
-      v-if="!_disabled"
-      @touchstart="action.startDrag"
-      @touchmove="action.onDrag"
-      @touchend="action.endDrag"
-      @touchcancel="action.endDrag"
-      :style="`width:${attr.width}px;height:${attr.height}px `"
-      class="overflow relative"
-      :class="[attr.disabled ? 'opacity-7' : '']"
-    >
+    <view v-if="!_disabled" @touchstart="action.startDrag" @touchmove="action.onDrag" @touchend="action.endDrag"
+      @touchcancel="action.endDrag" :style="`width:${attr.width}px;height:${attr.height}px `" class="overflow relative"
+      :class="[attr.disabled ? 'opacity-7' : '']">
       <view class="flex flex-row flex-row-center-between">
         <view id="left" :style="{ width: `${leftWidth}px`, height: `${attr.height}px` }">
           <slot name="left"></slot>
         </view>
-        <view
-          id="right"
-          :style="{ width: `${rightWidth}px`, height: `${attr.height}px` }"
-        >
+        <view id="right" :style="{ width: `${rightWidth}px`, height: `${attr.height}px` }">
           <slot name="right"></slot>
         </view>
       </view>
-      <view
-        id="wrapper"
-        class="absolute l-0 t-0"
-        :style="`width:${attr.width}px;height:${attr.height}px;transform:${
-          opened ? '' : 'translate3d( 0px, 0, 0)'
-        }`"
-      >
-        <tm-sheet
-          @click="emits('click')"
-          :shadow="0"
-          :outlined="props.outlined"
-          :borderStyle="props.borderStyle"
-          unit="px"
-          :borderDirection="props.borderDirection"
-          :linearDeep="props.linearDeep"
-          :linear="props.linear"
-          :round="props.round"
-          :color="props.color"
-          :text="_disabled"
-          :transprent="props.transprent"
-          :width="attr.width"
-          :height="attr.height"
-          :margin="[0, 0]"
-          :padding="[0, 0]"
-        >
+      <view id="wrapper" class="absolute l-0 t-0" :style="`width:${attr.width}px;height:${attr.height}px;transform:${opened ? '' : 'translate3d( 0px, 0, 0)'
+      }`">
+        <tm-sheet @click="emits('click')" :shadow="0" :outlined="props.outlined" :borderStyle="props.borderStyle"
+          unit="px" :borderDirection="props.borderDirection" :linearDeep="props.linearDeep" :linear="props.linear"
+          :round="props.round" :color="props.color" :text="_disabled" :transprent="props.transprent" :width="attr.width"
+          :height="attr.height" :margin="[0, 0]" :padding="[0, 0]">
           <slot></slot>
         </tm-sheet>
       </view>
     </view>
 
-    <view
-      v-if="_disabled"
-      :style="`width:${attr.width}px;height:${attr.height}px `"
-      class="overflow relative"
-      :class="[attr.disabled ? 'opacity-7' : '']"
-    >
+    <view v-if="_disabled" :style="`width:${attr.width}px;height:${attr.height}px `" class="overflow relative"
+      :class="[attr.disabled ? 'opacity-7' : '']">
       <view class="flex flex-row flex-row-center-between">
         <view id="left" :style="{ width: `${leftWidth}px`, height: `${attr.height}px` }">
           <slot name="left"></slot>
         </view>
-        <view
-          id="right"
-          :style="{ width: `${rightWidth}px`, height: `${attr.height}px` }"
-        >
+        <view id="right" :style="{ width: `${rightWidth}px`, height: `${attr.height}px` }">
           <slot name="right"></slot>
         </view>
       </view>
-      <view
-        id="wrapper"
-        class="absolute l-0 t-0"
-        :style="`width:${attr.width}px;height:${attr.height}px `"
-      >
-        <tm-sheet
-          @click="emits('click')"
-          :shadow="0"
-          :outlined="props.outlined"
-          :borderStyle="props.borderStyle"
-          unit="px"
-          :borderDirection="props.borderDirection"
-          :linearDeep="props.linearDeep"
-          :linear="props.linear"
-          :round="props.round"
-          :color="props.color"
-          :text="_disabled"
-          :transprent="props.transprent"
-          :width="attr.width"
-          :height="attr.height"
-          :margin="[0, 0]"
-          :padding="[0, 0]"
-        >
+      <view id="wrapper" class="absolute l-0 t-0" :style="`width:${attr.width}px;height:${attr.height}px `">
+        <tm-sheet @click="emits('click')" :shadow="0" :outlined="props.outlined" :borderStyle="props.borderStyle"
+          unit="px" :borderDirection="props.borderDirection" :linearDeep="props.linearDeep" :linear="props.linear"
+          :round="props.round" :color="props.color" :text="_disabled" :transprent="props.transprent" :width="attr.width"
+          :height="attr.height" :margin="[0, 0]" :padding="[0, 0]">
           <slot></slot>
         </tm-sheet>
       </view>
@@ -99,11 +45,8 @@
   </view>
   <!-- #endif -->
   <!-- #ifdef APP-NVUE -->
-  <view
-    :style="`width:${attr.width}px;height:${attr.height}px `"
-    class="overflow relative"
-    :class="[attr.disabled ? 'opacity-7' : '']"
-  >
+  <view :style="`width:${attr.width}px;height:${attr.height}px `" class="overflow relative"
+    :class="[attr.disabled ? 'opacity-7' : '']">
     <view class="flex flex-row flex-row-center-between">
       <view id="left" :style="{ width: `${leftWidth}px`, height: `${attr.height}px` }">
         <slot name="left"></slot>
@@ -112,34 +55,13 @@
         <slot name="right"></slot>
       </view>
     </view>
-    <view
-      @click="emits('click')"
-      @touchstart.stop="touchstart"
-      id="wrapper"
-      ref="tabsDom"
-      class="absolute l-0 t-0"
-      :style="`width:${attr.width}px;height:${attr.height}px;transform:${
-        opened ? '' : 'translate3d( 0px, 0, 0)'
-      }`"
-    >
-      <tm-sheet
-        :eventPenetrationEnabled="true"
-        :shadow="0"
-        :outlined="props.outlined"
-        :borderStyle="props.borderStyle"
-        unit="px"
-        :borderDirection="props.borderDirection"
-        :linearDeep="props.linearDeep"
-        :linear="props.linear"
-        :round="props.round"
-        :color="props.color"
-        :text="_disabled"
-        :transprent="props.transprent"
-        :width="attr.width"
-        :height="attr.height"
-        :margin="[0, 0]"
-        :padding="[0, 0]"
-      >
+    <view @click="emits('click')" @touchstart.stop="touchstart" id="wrapper" ref="tabsDom" class="absolute l-0 t-0"
+      :style="`width:${attr.width}px;height:${attr.height}px;transform:${opened ? '' : 'translate3d( 0px, 0, 0)'
+      }`">
+      <tm-sheet :eventPenetrationEnabled="true" :shadow="0" :outlined="props.outlined" :borderStyle="props.borderStyle"
+        unit="px" :borderDirection="props.borderDirection" :linearDeep="props.linearDeep" :linear="props.linear"
+        :round="props.round" :color="props.color" :text="_disabled" :transprent="props.transprent" :width="attr.width"
+        :height="attr.height" :margin="[0, 0]" :padding="[0, 0]">
         <slot></slot>
       </tm-sheet>
     </view>
@@ -158,19 +80,13 @@ import {
   computed,
   nextTick,
   onMounted,
-  PropType,
   ref,
-  watch,
-  watchEffect,
   getCurrentInstance,
 } from "vue";
 import { custom_props } from "../../tool/lib/minxs";
-import { actionItem } from "./interface";
 import { defaultProps } from "./props";
 import tmSheet from "../tm-sheet/tm-sheet.vue";
-import tmText from "../tm-text/tm-text.vue";
-import tmIcon from "../tm-icon/tm-icon.vue";
-// #ifdef APP-NVUE || APP-PLUS-NVUE
+// #ifdef APP-NVUE
 var dom = weex.requireModule("dom");
 const Binding = uni.requireNativePlugin("bindingx");
 const animation = uni.requireNativePlugin("animation");
@@ -216,7 +132,6 @@ function getLeftRightwidth() {
   // getLeftRightwidth
   return 500;
 }
-
 // nvue bingx
 let nvue_now_left = 0;
 function getEl(el: HTMLElement) {
@@ -325,6 +240,9 @@ onMounted(() => {
 });
 
 defineExpose({ closeOther, close, open, getLeftRightwidth, rightWidth });
+
 </script>
 
-<style></style>
+<style>
+
+</style>

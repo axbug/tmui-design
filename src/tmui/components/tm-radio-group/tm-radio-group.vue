@@ -99,6 +99,8 @@ nextTick(() => {
 function addKey(key: string | number | boolean) {
   _mValue.value = key;
   emits("update:modelValue", _mValue.value);
+  // console.log(new Date().getSeconds(),'----3')
+
   nextTick(() => {
     emits("change", _mValue.value);
   });
@@ -109,8 +111,7 @@ provide(
   computed(() => props.disabled)
 );
 provide(
-  "tmRadioBoxVal",
-  computed(() => _mValue.value)
+  "tmRadioBoxVal",_mValue
 );
 provide(
   "tmRadioBoxModel",

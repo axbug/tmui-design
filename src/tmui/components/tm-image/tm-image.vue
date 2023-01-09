@@ -60,9 +60,9 @@
           class="flex flex-col flex-center opacity-5"
         >
           <slot name="error">
-            <view>
-              <tm-icon name="tmicon-exclamation-circle"></tm-icon>
-              <tm-text _class="pt-10" :font-size="26" :label="props.errorLabel"></tm-text>
+            <view @click="reloadImg">
+              <tm-icon :userInteractionEnabled="false" name="tmicon-exclamation-circle"></tm-icon>
+              <tm-text :userInteractionEnabled="false" _class="pt-10" :font-size="26" :label="props.errorLabel"></tm-text>
             </view>
           </slot>
         </view>
@@ -179,7 +179,7 @@ const props = defineProps({
   },
   errorLabel: {
     type: String,
-    default: "加载错误",
+    default: "重新加载",
   },
   loadIcon: {
     type: String,
@@ -320,6 +320,12 @@ function aniEnd() {
   isRmove.value = true;
   emits("close", props.src);
 }
+//出错时点击错误图标重新加载图片。
+function reloadImg(){
+	loading.value = true;
+	error.value = false;
+}
+
 </script>
 
 <style></style>

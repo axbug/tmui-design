@@ -394,28 +394,25 @@ class themeColors {
 				liner_color_1.s = nowColor.hsla.s;
 				if (config.linearDeep == 'light') {
 					liner_color_1.h = liner_color_1.h;//色相需要往前偏移加强色系
-					liner_color_1.s = 100;//饱和度需要加强
-					liner_color_1.l = 74;
-					
-					
-					liner_color_2.l = nowColor.hsla.l;
+					liner_color_1.s = 90;//饱和度需要加强
+					liner_color_1.l = 70;
+					liner_color_2.l = 44;
 
 				} else if (config.linearDeep == 'dark') {
-					liner_color_1.h -= 0;
-					liner_color_1.s = 60;
-					liner_color_1.l = 50;
 					
-					liner_color_2.h -= addling;
-					liner_color_2.s = 60;
-					liner_color_2.l = 50;
+					liner_color_2.s = 90;
+					liner_color_2.l = 26;
+					
+					liner_color_1.s = 90;
+					liner_color_1.l = 50;
 				} else if (config.linearDeep == 'accent') {
 					liner_color_1.h -= 0;//色相需要往前偏移加强色系
 					liner_color_1.s = 90;//饱和度需要加强
-					liner_color_1.l = 50;
+					liner_color_1.l = 54;
 					
 					liner_color_2.h -= addling;//偏移30度的色相搭配色进行渐变
-					liner_color_2.s = 100;//饱和度需要加强
-					liner_color_2.l = 50;
+					liner_color_2.s = 90;//饱和度需要加强
+					liner_color_2.l = 54;
 				}
 
 			}

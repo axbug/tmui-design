@@ -33,9 +33,9 @@
           <TmText
             v-if="typeof item == 'object'"
             _class="text-align-center"
-            :font-size="item[props.dataKey].length > 7 ? 24 : 30"
+            :font-size="item[props.mapKey||props.dataKey].length > 7 ? 24 : 30"
             :dark="isDark"
-            :label="item[props.dataKey] || ''"
+            :label="item[props.mapKey||props.dataKey] || ''"
           ></TmText>
           <!-- #endif -->
           <!-- #ifdef MP-ALIPAY -->
@@ -51,9 +51,9 @@
             v-if="typeof item == 'object'"
             :style="{ lineHeight: props.height + 'rpx' }"
             _class="text-align-center  pt-14"
-            :font-size="item[props.dataKey].length > 7 ? 24 : 30"
+            :font-size="item[props.mapKey||props.dataKey].length > 7 ? 24 : 30"
             :dark="isDark"
-            :label="item[props.dataKey] || ''"
+            :label="item[props.mapKey||props.dataKey] || ''"
           ></TmText>
           <!-- #endif -->
         </view>
@@ -91,9 +91,9 @@
           <TmText
             v-if="typeof item == 'object'"
             _class="text-align-center"
-            :font-size="item[props.dataKey].length > 7 ? 24 : 30"
+            :font-size="item[props.mapKey||props.dataKey].length > 7 ? 24 : 30"
             :dark="isDark"
-            :label="item[props.dataKey] || ''"
+            :label="item[props.mapKey||props.dataKey] || ''"
           ></TmText>
         </view>
       </picker-view-column>
@@ -161,6 +161,11 @@ const props = defineProps({
   },
   //当columns项目中的data数据为对象时的key取值字段。
   dataKey: {
+    type: String,
+    default: "text",
+  },
+  //当columns项目中的data数据为对象时的key取值字段。兼容上方dataKey,因为微信dataKey与本字段重名，无法设置。
+  mapKey: {
     type: String,
     default: "text",
   },

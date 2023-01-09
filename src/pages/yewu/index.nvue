@@ -24,7 +24,8 @@ import tmCell from "@/tmui/components/tm-cell/tm-cell.vue"
 import tmDivider from "@/tmui/components/tm-divider/tm-divider.vue"
 import logoimg from "@/static/logo.png"
 const list = ref([
-    { path: "/pages/yewu/coupon", title: "优惠券 Coupon" }
+    { path: "/pages/yewu/coupon", title: "优惠券 Coupon" },
+    { path: "/pages/yewu/sku", title: "商品型号选择器 Sku" },
 ])
 
 </script>

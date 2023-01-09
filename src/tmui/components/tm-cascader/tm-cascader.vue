@@ -62,6 +62,7 @@
       :color="props.activeColor"
       :height="props.height - 120 - slotTabHeigth"
       :data="listData"
+      @cell-click="emits('cell-click',$event)"
     ></BaseCascader>
   </tm-sheet>
 </template>
@@ -227,7 +228,9 @@ async function addActiveIndex(level: number) {
 
 function endSelected() {
   emits("update:modelValue", _idArrays.value);
-  emits("change", _idArrays.value);
+  nextTick(()=>{
+    emits("change", _idArrays.value);
+  })
 }
 watch(
   () => props.modelValue,

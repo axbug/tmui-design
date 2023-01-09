@@ -61,7 +61,7 @@
           </block>
         </view>
       </view>
-      
+      <!-- insert -->
       <!-- 富文本 -->
       <!-- #ifdef H5 || ((MP-WEIXIN || MP-QQ || APP-PLUS || MP-360) && VUE2) -->
       <rich-text v-else-if="!n.c&&!handler.isInline(n.name, n.attrs.style)" :id="n.attrs.id" :style="n.f" :user-select="opts[4]" :nodes="[n]" />
@@ -106,7 +106,6 @@ module.exports = {
 }
 </script>
 <script>
-
 import node from './node'
 export default {
   name: 'node',
@@ -138,8 +137,7 @@ export default {
     opts: Array
   },
   components: {
-
-    // #ifndef H5 && VUE3
+    // #ifndef (H5 || APP-PLUS) && VUE3
     node
     // #endif
   },
@@ -175,7 +173,7 @@ export default {
     }
     // #endif
   },
-  methods:{
+  methods: {
     // #ifdef MP-WEIXIN
     toJSON () { return this },
     // #endif
@@ -212,7 +210,6 @@ export default {
       }
       // #endif
     },
-
     /**
      * @description 图片点击事件
      * @param {Event} e
@@ -243,7 +240,6 @@ export default {
         })
       }
     },
-
     /**
      * @description 图片长按
      */
@@ -277,7 +273,6 @@ export default {
       }
       // #endif
     },
-
     /**
      * @description 图片加载完成事件
      * @param {Event} e
@@ -294,7 +289,6 @@ export default {
       }
       this.checkReady()
     },
-
     /**
      * @description 检查是否所有图片加载完毕
      */
@@ -305,12 +299,13 @@ export default {
           setTimeout(() => {
             this.root.getRect().then(rect => {
               this.root.$emit('ready', rect)
+            }).catch(() => {
+              this.root.$emit('ready', {})
             })
           }, 350)
         }
       }
     },
-
     /**
      * @description 链接点击事件
      * @param {Event} e
@@ -359,7 +354,6 @@ export default {
         }
       }
     },
-
     /**
      * @description 错误事件
      * @param {Event} e
@@ -407,63 +401,49 @@ export default {
   color: #366092;
   word-break: break-all;
 }
-
 /* a 标签点击态效果 */
 ._hover {
   text-decoration: underline;
   opacity: 0.7;
 }
-
 /* 图片默认效果 */
 ._img {
   max-width: 100%;
   -webkit-touch-callout: none;
 }
-
 /* 内部样式 */
-
 ._block {
   display: block;
 }
-
 ._b,
 ._strong {
   font-weight: bold;
 }
-
 ._code {
   font-family: monospace;
 }
-
 ._del {
   text-decoration: line-through;
 }
-
 ._em,
 ._i {
   font-style: italic;
 }
-
 ._h1 {
   font-size: 2em;
 }
-
 ._h2 {
   font-size: 1.5em;
 }
-
 ._h3 {
   font-size: 1.17em;
 }
-
 ._h5 {
   font-size: 0.83em;
 }
-
 ._h6 {
   font-size: 0.67em;
 }
-
 ._h1,
 ._h2,
 ._h3,
@@ -473,82 +453,65 @@ export default {
   display: block;
   font-weight: bold;
 }
-
 ._image {
   height: 1px;
 }
-
 ._ins {
   text-decoration: underline;
 }
-
 ._li {
   display: list-item;
 }
-
 ._ol {
   list-style-type: decimal;
 }
-
 ._ol,
 ._ul {
   display: block;
   padding-left: 40px;
   margin: 1em 0;
 }
-
 ._q::before {
   content: '"';
 }
-
 ._q::after {
   content: '"';
 }
-
 ._sub {
   font-size: smaller;
   vertical-align: sub;
 }
-
 ._sup {
   font-size: smaller;
   vertical-align: super;
 }
-
 ._thead,
 ._tbody,
 ._tfoot {
   display: table-row-group;
 }
-
 ._tr {
   display: table-row;
 }
-
 ._td,
 ._th {
   display: table-cell;
   vertical-align: middle;
 }
-
 ._th {
   font-weight: bold;
   text-align: center;
 }
-
 ._ul {
   list-style-type: disc;
 }
-
 ._ul ._ul {
   margin: 0;
   list-style-type: circle;
 }
-
 ._ul ._ul ._ul {
   list-style-type: square;
 }
-
 ._abbr,
 ._b,
 ._code,
@@ -564,7 +527,6 @@ export default {
 ._sup {
   display: inline;
 }
-
 /* #ifdef APP-PLUS */
 ._video {
   width: 300px;

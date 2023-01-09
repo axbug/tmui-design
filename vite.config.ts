@@ -15,8 +15,19 @@ export default defineConfig({
 			}
 		]
 	},
+	server:{
+		// 选项写法
+		proxy:{
+			'/pag': {
+				target: 'https://cdn.tmui.design',
+				changeOrigin: true,
+				rewrite: (path) => path.replace(/^\/api/, '/api')
+			},
+		}
+	},
 	plugins: [
 		uni(),
 		vueJsx(),
+		tmuiCss()
 	]
 });

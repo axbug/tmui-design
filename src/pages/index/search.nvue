@@ -120,7 +120,7 @@ const totalList = [
 ]
 const result = ref([])
 const str = ref("")
-onLoad((obj: Object) => {
+onLoad((obj: any) => {
 	if (typeof (obj?.key) === "string" && obj?.key != "") {
 		str.value = obj?.key;
 		setTimeout(function() {

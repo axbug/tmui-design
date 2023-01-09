@@ -257,6 +257,7 @@ export class uploadfile {
 		})
 		let filterFIle = cfilelist.filter(item=>!total_uid.has(item.uid)&&!total_url.has(item.url))
 		this.filelist.push(...filterFIle)
+
 	}
 	beforeSuccess(item:file){
 		return Promise.resolve(true);

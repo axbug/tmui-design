@@ -1,30 +1,27 @@
 <template>
   <view class="flex flex-row flex-row-center-start" @click.stop="">
-    <view
-      v-for="(item, index) in _count"
-      :key="item"
-      :class="[`pr-${gutter}`, props.disabled ? 'opacity-5' : '']"
-    >
-      <tm-icon
-        :follow-dark="false"
-        :color="item <= _start ? _color : 'grey-2'"
-        @click="startClick(item)"
-        :font-size="props.size"
-        :name="props.icon"
-      ></tm-icon>
+    <view v-for="(item, index) in _count" :key="item" :class="[`pr-${gutter}`, props.disabled ? 'opacity-6' : '']">
+      <view :class="[ani && index == _start - 1 ? 'rateOn' : '']">
+        <tm-icon ref="nvueElAni" :follow-dark="false" :color="item <= _start ? _color : 'grey-2'"
+          @click="startClick(item)" :font-size="props.size" :name="props.icon"></tm-icon>
+      </view>
     </view>
-    <slot
-      ><TmText :dark="isDark" v-if="showLabel" :color="_color" :label="_label"></TmText
-    ></slot>
+	
+    <slot><tm-text :dark="isDark" v-if="showLabel" :color="_color" :label="_label"></tm-text></slot>
   </view>
 </template>
 <script lang="ts" setup>
-import { computed, ref, watch, getCurrentInstance, inject, toRaw } from "vue";
+import { computed, ref, watch, getCurrentInstance, inject, toRaw, nextTick } from "vue";
 import tmIcon from "../tm-icon/tm-icon.vue";
 import { inputPushItem, rulesItem } from "./../tm-form-item/interface";
 import { custom_props, computedDark } from "../../tool/lib/minxs";
 import { useTmpiniaStore } from "../../tool/lib/tmpinia";
 import TmText from "../tm-text/tm-text.vue";
+// #ifdef APP-PLUS-NVUE
+const Binding = uni.requireNativePlugin("bindingx");
+const dom = uni.requireNativePlugin("dom");
+const animation = uni.requireNativePlugin("animation");
+// #endif
 const store = useTmpiniaStore();
 const emits = defineEmits(["click", "change", "update:modelValue"]);
 const proxy = getCurrentInstance()?.proxy ?? null;
@@ -95,7 +92,7 @@ const props = defineProps({
     default: false,
   },
 });
-
+let timid: any = NaN;
 const _count = computed(() => props.count);
 const _start = ref(props.defaultValue);
 // 设置响应式全局组件库配置表。
@@ -112,6 +109,7 @@ const _color = computed(() => {
   }
   return "grey-2";
 });
+const ani = ref(false);
 const _label = computed(() => {
   if (props.label != "") return props.label;
   return _start.value + ".0";
@@ -134,5 +132,67 @@ function startClick(index: number) {
   emits("change", _start.value);
   emits("update:modelValue", _start.value);
   emits("click", index - 1);
+  ani.value = false;
+  clearTimeout(timid);
+  timid = setTimeout(() => {
+    ani.value = true;
+    // #ifdef APP-NVUE
+    animationPlayNvue();
+    // #endif
+  }, 50);
+}
+
+function animationPlayNvue(s = 0.8, isend = false) {
+  var el = proxy?.$refs.nvueElAni[_start.value - 1];
+  if (!el) return;
+  animation.transition(
+    el,
+    {
+      styles: {
+        transform: `scale(${s},${s})`,
+        transformOrigin: "center center",
+      },
+      duration: 300, //ms
+      timingFunction: "ease",
+      delay: 0, //ms
+    },
+    () => {
+      if (isend) return;
+	  if(s==0.8){
+		  animationPlayNvue(1.04, false);
+	  }else{
+		  animationPlayNvue(1, true);
+	  }
+      
+    }
+  );
 }
 </script>
+<style scoped>
+/* #ifndef APP-NVUE */
+.rateOn {
+
+  transition-timing-function: ease-in;
+  transition-property: transform;
+  transition-duration: 0.3s;
+  transition-delay: 0s;
+  animation: scaleAni 0.3s ease-in;
+  
+}
+/* #endif */
+/* #ifndef APP-NVUE */
+@keyframes scaleAni {
+  0% {
+    transform: scale(0.8, 0.8);
+  }
+
+  50% {
+    transform: scale(1.1, 1.1);
+  }
+  100% {
+    transform: scale(1, 1);
+  }
+}
+
+/* #endif */
+</style>

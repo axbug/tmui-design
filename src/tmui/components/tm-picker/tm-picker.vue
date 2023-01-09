@@ -17,7 +17,7 @@
   >
     <tm-picker-view
       v-if="showCity"
-      :dataKey="props.dataKey"
+      :dataKey="props.mapKey||props.dataKey"
       :height="dHeight - 230"
       @end="aniover = true"
       @start="aniover = false"
@@ -129,6 +129,11 @@ const props = defineProps({
   },
   //当columns项目中的data数据为对象时的key取值字段。
   dataKey: {
+    type: String,
+    default: "text",
+  },
+  //当columns项目中的data数据为对象时的key取值字段。兼容上方dataKey,因为微信dataKey与本字段重名，无法设置。
+  mapKey: {
     type: String,
     default: "text",
   },

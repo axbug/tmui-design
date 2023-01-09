@@ -84,21 +84,16 @@ function pushKey(key: string | number | boolean) {
   _cacheBoxList.value.push(key);
 }
 function addKey(key: string | number | boolean) {
-  let seletedKeys = new Set(_mValue.value);
-  seletedKeys.add(key);
-  _mValue.value = [...seletedKeys];
+  if(_mValue.value.includes(key)) return;
+  _mValue.value.push(key)
   emits("update:modelValue", _mValue.value);
   nextTick(() => {
     emits("change", _mValue.value);
   });
 }
 function delKey(key: string | number | boolean) {
-  let seletedKeys = new Set(_cacheBoxList.value);
-  seletedKeys.delete(key);
-  _cacheBoxList.value = [...seletedKeys];
-  let selectedValue = new Set(_mValue.value);
-  selectedValue.delete(key);
-  _mValue.value = [...selectedValue];
+  _cacheBoxList.value = _cacheBoxList.value.filter(el=>el!==key)
+  _mValue.value = _mValue.value.filter(el=>el!==key)
   emits("update:modelValue", _mValue.value);
   nextTick(() => {
     emits("change", _mValue.value);
@@ -109,7 +104,7 @@ provide(
   "tmCheckedBoxDisabled",
   computed(() => props.disabled)
 );
-provide("tmCheckedBoxVal", reactive(_mValue));
+provide("tmCheckedBoxVal", _mValue);
 provide("tmCheckedBoxMax", _maxChecked);
 provide("tmCheckedBoxListChildren", _cacheBoxList);
 provide("tmCheckedBoxDir", props.direction);

@@ -3,7 +3,7 @@
 		<tm-sheet>
 			<tm-text :font-size="30" _class="font-weight-b" label="基础示例,更多见文档"></tm-text>
 			<tm-divider></tm-divider>
-			<tm-tree :data="dlist"></tm-tree>
+			<tm-tree @node-click="test" :data="dlist"></tm-tree>
 		</tm-sheet>
 	</tm-app>
 </template>
@@ -39,6 +39,11 @@ function loop(path = '0', level = 2) {
 		list.push(treeNode);
 	}
 	return list;
+}
+
+
+function test(e:any){
+	console.log(e)
 }
 
 

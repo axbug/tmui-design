@@ -300,7 +300,7 @@ const emits = defineEmits([
   "uploadComplete",
   "update:modelValue",
 ]);
-let timeId = NaN;
+let timeId:any = NaN;
 const itemWidth = computed(() => {
   return props.width / props.rows;
 });
@@ -404,7 +404,7 @@ _uploadObj.beforeSuccess = async function (item: file) {
     }
     if (!p) return false;
   }
-
+  
   return true;
 };
 //开始上传前执行。
@@ -420,11 +420,7 @@ _uploadObj.beforeStart = async function (item: file) {
 };
 //任何一个文件上传结束时都会触发。
 _uploadObj.complete = function (item: file) {
-  // _filelist.value = [..._uploadObj.filelist]
-  // emits("complete",toRaw(item),toRaw(_filelist.value));
-  // emits("update:modelValue",_filelist.value)
   _flist.value = [..._uploadObj.filelist];
-  emits("update:modelValue", _uploadObj.filelist);
 };
 //自动监听加入已上传文件到列表中。
 watch(
@@ -441,15 +437,18 @@ watch(
         _uploadObj.filelist = [];
         _flist.value = [];
       } else {
-        _uploadObj.addFile(addSuccess(fl));
-        _flist.value = [...uni.$tm.u.deepClone(_uploadObj.filelist)];
+        let nf = addSuccess(fl);
+        _uploadObj.addFile(nf);
+        let nsf:Array<file> = uni.$tm.u.deepClone(_uploadObj.filelist)
+        _flist.value = [...nsf]
       }
-    }, 200);
+    }, 100);
   },
   { deep: true }
 );
 _uploadObj.uploadComplete = function (filelist) {
   emits("uploadComplete", filelist);
+  emits("update:modelValue", _uploadObj.filelist);
 };
 _uploadObj.success = function (item, fileList) {
   emits("success", toRaw(item), toRaw(_uploadObj.filelist));

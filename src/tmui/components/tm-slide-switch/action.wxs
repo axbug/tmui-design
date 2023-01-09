@@ -122,7 +122,6 @@ var touchStart = function(event) {
 	var touchPoint = event.touches[0];
 	state.startX = touchPoint.clientX;
 	state.startY = touchPoint.clientY;
-
 	owner.callMethod('closeOther');
 };
 
@@ -139,7 +138,6 @@ var onDrag = function(event, ownerInstance) {
 		return;
 	}
 	state.dragging = true;
-	
 	swipeMove(state.startOffset + state.deltaX);
 };
 

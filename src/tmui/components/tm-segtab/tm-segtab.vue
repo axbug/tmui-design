@@ -13,19 +13,18 @@
       :no-level="true"
       :height="props.height"
       :color="props.bgColor"
-      :width="props.width"
+      :width="props.width-props.gutter * 2 "
       _class="flex-row relative overflow"
       :padding="[props.gutter, props.gutter]"
       :margin="[0, 0]"
     >
       <!-- #ifdef APP-NVUE -->
       <view
-        v-if="_cId !== ''"
+        v-if="_cId !== ''&&leftWidth>=0"
         ref="tmBgEl"
         class="relative flex flex-row"
-        :style="[{ width: leftWidth + 'px' }]"
+        :style="[{ width: leftWidth-1 + 'px' }]"
       >
-        <!-- left:leftPos+'px',width:leftWidth+'px' -->
         <tm-sheet
           :follow-dark="props.followDark"
           :round="props.round"
@@ -41,9 +40,8 @@
       <view
         v-if="_cId !== ''"
         class="relative flex flex-row bgbtnpos"
-        :style="[{ transform: 'translateX(' + leftPos + 'px)', width: leftWidth + 'px' }]"
+        :style="[{ transform: 'translateX(' + (leftPos) + 'px)', width: leftWidth + 'px' }]"
       >
-        <!-- left:leftPos+'px',width:leftWidth+'px' -->
         <tm-sheet
           :follow-dark="props.followDark"
           :round="props.round"
@@ -60,7 +58,7 @@
         class="absolute flex flex-row flex-row-center-start"
         :class="[`pa-${props.gutter}`, `l--${props.gutter / 2}`]"
         :style="[
-          { width: `${props.width}rpx`, height: `${props.height - props.gutter}rpx` },
+          { width: `${props.width-props.gutter}rpx`, height: `${props.height - props.gutter}rpx` },
         ]"
       >
         <view
@@ -73,6 +71,7 @@
           :key="index"
         >
           <tm-text
+          _style="transition: color 0.3s;"
             :color="item.id === _cId ? props.activeColor : ''"
             :font-size="props.fontSize"
             :userInteractionEnabled="false"
@@ -168,7 +167,7 @@ const props = defineProps({
     default: "primary",
   },
 });
-const leftPos = ref(0);
+const leftPos = ref(-100);
 const leftWidth = ref(0);
 let timid = uni.$tm.u.getUid();
 const _list = computed(() => {
@@ -190,7 +189,7 @@ const _list = computed(() => {
 
   return templist;
 });
-
+const firstRender = ref(true)
 //当前值。
 const _cId: Ref<string | number> = ref(props.defaultValue ?? 0);
 const _blackValue = _cId.value;
@@ -238,9 +237,14 @@ onMounted(() => {
 function initPos() {
   let indexel = _list.value.findIndex((el) => el.id === _cId.value);
   clearTimeout(timid);
+  let timerdur = 150
+  // #ifndef APP-NVUE
+  timerdur = 50
+  // #endif
+
   timid = setTimeout(() => {
     nextTick(() => getDomRectBound(indexel));
-  }, 300);
+  }, timerdur);
 }
 function getEl(el) {
   if (typeof el === "string" || typeof el === "number") return el;
@@ -259,19 +263,21 @@ function getDomRectBound(idx: number) {
         if (res?.size) {
           const { left, top, width } = res.size;
           let domx = getEl(proxy?.$refs["tmBgEl"]);
-          leftWidth.value = Math.ceil(width ?? 0);
-          leftPos.value = Math.ceil((left ?? 0) - uni.upx2px(props.gutter) - parentleft);
+          leftWidth.value = Math.ceil(width ?? 0 );
+          leftPos.value = Math.ceil((left ?? 0) - uni.upx2px(props.gutter) - parentleft - 1);
           animation.transition(
             proxy?.$refs["tmBgEl"],
             {
               styles: {
                 transform: "translateX(" + leftPos.value + "px)",
               },
-              duration: 200, //ms
+              duration: firstRender.value?1:200, //ms
               timingFunction: "ease",
               delay: 0, //ms
             },
-            () => {}
+            () => {
+              firstRender.value = false;
+            }
           );
         }
       });
@@ -292,7 +298,7 @@ function getDomRectBound(idx: number) {
         .boundingClientRect((node) => {
           if (!node) return;
           leftPos.value = (node?.left ?? 0) - uni.upx2px(props.gutter) - parentleft;
-          leftWidth.value = (node?.width ?? 0) - 0;
+          leftWidth.value = (node?.width ?? 0) + + uni.upx2px(props.gutter);
         })
         .exec();
     })
@@ -302,9 +308,10 @@ function getDomRectBound(idx: number) {
 </script>
 <style scoped>
 .bgbtnpos {
-  transition-timing-function: linear;
-  transition-duration: 0.2s;
+  transition-timing-function: cubic-bezier(0.18, 0.89, 0.32, 1);
+  transition-duration: 0.4s;
   transition-property: left, width, transform;
   transition-delay: 0s;
+  
 }
 </style>

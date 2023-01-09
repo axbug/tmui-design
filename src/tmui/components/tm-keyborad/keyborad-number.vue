@@ -26,6 +26,49 @@
       >
       </tm-text>
     </view>
+    <view>
+      <tm-row :column="7" align="start">
+        <tm-col :col="6" :height="0" :transprent="true">
+          <tm-row :column="3" >
+            <tm-col  @click="keydown(item)" hover-class="opacity-5" :margin="[8,0,4,8]" :round="props.round" :height="100" :col="1" v-for="(item, index) in 9" :key="index">
+              <tmText
+                :userInteractionEnabled="false"
+                :font-size="38"
+                _class="text-weight-b"
+                :label="item"
+              ></tmText>
+            </tm-col>
+            <tm-col  @click="keydown('0')" hover-class="opacity-5 " :margin="[8,0,4,0]" :round="props.round" :height="100" :col="2">
+              <tmText
+                :userInteractionEnabled="false"
+                :font-size="38"
+                _class="text-weight-b"
+                label="0"
+              ></tmText>
+            </tm-col>
+            <tm-col @click="keydown('.')"  hover-class="opacity-5 " :margin="[8,0,4,0]" :round="props.round" :height="100" :col="1">
+              <tmText
+                :userInteractionEnabled="false"
+                :font-size="38"
+                _class="text-weight-b"
+                label="."
+              ></tmText>
+            </tm-col>
+          </tm-row>
+        </tm-col>
+        <tm-col :col="1" :height="420" align="start"  :transprent="true">
+           <tm-row :column="1" >
+              <tm-col  @click="del" hover-class="opacity-5 " color="grey-1" :margin="[8,0,4,4]" :round="props.round" :height="100" :col="1">
+                <tm-icon :userInteractionEnabled="false" name="tmicon-caret-left"></tm-icon>
+              </tm-col>
+              <tm-col @click="confirm" hover-class="opacity-5 " :color="props.color" :margin="[8,8,0,0]"  :round="props.round" :height="312" :col="1">
+                <tm-icon :userInteractionEnabled="false" name="tmicon-check"></tm-icon>
+              </tm-col>
+           </tm-row>
+        </tm-col>
+      </tm-row>
+    </view>
+    <!--  
     <view class="flex flex-row">
       <view class="flex-5 flex flex-col">
         <view
@@ -102,12 +145,15 @@
         </view>
       </view>
     </view>
+    -->
   </tmSheet>
 </template>
 <script lang="ts" setup>
 import { computed, ref, toRaw, watch, Ref } from "vue";
 import tmText from "../tm-text/tm-text.vue";
 import tmSheet from "../tm-sheet/tm-sheet.vue";
+import tmRow from "../tm-row/tm-row.vue";
+import tmCol from "../tm-col/tm-col.vue";
 import tmIcon from "../tm-icon/tm-icon.vue";
 import { propsCutom } from "./props";
 const props = defineProps({ ...propsCutom });

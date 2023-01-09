@@ -184,7 +184,7 @@
           _dotPosition == 'left' || _dotPosition == 'right' ? 'flex flex-col ' : '',
           _align == 'center' ? 'flex-center' : '',
           _align == 'left' ? 'flex-row-center-start ' : '',
-          _align == 'right' ? 'flex-row-center-end ' : '',
+          _align == 'right' ? ' flex-row-center-end ' : '',
 
           _dotPosition == 'left' && _align == 'left' ? 'ml-12 mt-24' : '',
           _dotPosition == 'left' && _align == 'right' ? 'ml-12 pb-24' : '',
@@ -203,8 +203,6 @@
                 bottom: '0px',
                 width: `${props.width}rpx`,
                 height: `${60}rpx`,
-                display: 'flex',
-                justifyContent: 'center',
               }
             : '',
           _dotPosition == 'top'
@@ -231,9 +229,7 @@
           ]"
           style="background-color: rgba(0, 0, 0, 0.4); font-size: 0px"
         >
-          <text style="font-size: 22rpx; color: white"
-            >{{ _currentActive + 1 }}/{{ _list.length }}</text
-          >
+          <text style="font-size: 22rpx; color: white">{{ _currentActive + 1 }}/{{ _list.length }}</text>
         </view>
       </view>
     </view>
@@ -282,7 +278,7 @@ const props = defineProps({
     default: () => [],
   },
   rangKey: {
-    type: String as PropType<listItemTypeStr>,
+    type: String,
     default: "url",
   },
   defaultValue: {

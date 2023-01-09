@@ -52,7 +52,7 @@
                 <view style="width: 0px" class="flex-12 flex flex-col">
                   <view
                     v-if="item['title']"
-                    class="flex flex-col flex-col-top-start mt--4"
+                    class="flex flex-col flex-col-top-start "
                     :style="{ height: '36rpx' }"
                   >
                     <tm-text
@@ -229,5 +229,9 @@ function next() {
 
 function close() {
   bodyani.value?.play();
+  clearTimeout(timeid);
+  timeid = setTimeout(function () {
+    showBody.value = false;
+  }, 301);
 }
 </script>

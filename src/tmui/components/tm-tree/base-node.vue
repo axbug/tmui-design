@@ -5,8 +5,11 @@
         :followTheme="props.followTheme"
         :fieldNames="props.fieldNames"
         :data="item"
+        ref="expandedNodeRef"
+        @text-click="emits('textClick',$event)"
       >
         <treeNode
+          @text-click="textClick($event,item)"
           :followTheme="props.followTheme"
           :fieldNames="props.fieldNames"
           :data="item"
@@ -20,7 +23,9 @@
 import treeNode from "./tree-node.vue";
 import expandedNode from "./expanded-node.vue";
 import { inject, computed, getCurrentInstance, ref } from "vue";
+const expandedNodeRef = ref<InstanceType<typeof expandedNode> | null>(null);
 
+const emits = defineEmits(['textClick'])
 const props = defineProps({
   followTheme: {
     type: [Boolean, String],
@@ -49,4 +54,19 @@ const props = defineProps({
   },
 });
 const treeNodeData = computed(() => props.data);
+
+function textClick(event:any,item:any){
+  emits('textClick',event)
+  if(item&&item['children']){
+    if(Array.isArray(expandedNodeRef.value)){
+      let el = expandedNodeRef.value.find(el=>el?.filedId == item[props.fieldNames.id])
+      if(el){
+        el?.setStatus()
+      }
+    }else{
+      expandedNodeRef.value?.setStatus()
+    }
+    
+  }
+}
 </script>

@@ -35,11 +35,9 @@
     </view>
     <tm-divider></tm-divider>
     <view class="pb-24 flex wrap">
-      <slot name="content"
-        ><tm-text :font-size="26" _class="wrap" :label="props.content"></tm-text
-      ></slot>
+      <slot name="content"><tm-text :font-size="26" _class="wrap" :label="props.content"></tm-text></slot>
     </view>
-    <view class="flex pb-24">
+    <view class="flex pb-16">
       <slot name="action"></slot>
     </view>
   </tm-sheet>
@@ -62,7 +60,7 @@ const props = defineProps({
   },
   round: {
     type: [Number],
-    default: 4,
+    default: 6,
   },
   border: {
     type: [Number],
@@ -70,7 +68,7 @@ const props = defineProps({
   },
   margin: {
     type: Array as PropType<Array<number>>,
-    default: () => [32, 16],
+    default: () => [32, 0,32,24],
   },
   padding: {
     type: Array as PropType<Array<number>>,

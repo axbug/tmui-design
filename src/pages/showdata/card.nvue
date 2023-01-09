@@ -6,8 +6,8 @@
         <tm-card status="2022-5-2" title="卡片标题" content="这是一个基础卡片示例，非常简单且实用。这是一个基础卡片示例，非常简单且实用。">
             <template v-slot:action>
                 <view class="flex flex-row flex-row-center-end">
-                    <tm-button :margin="[24,0]" label="确认" :font-size="24" :width="120" :height="50"></tm-button>
-                    <tm-button color="white" label="取消"  :font-size="24" :width="120" :height="50"></tm-button>
+                    <tm-button :round="24" :margin="[24,0]" label="确认" :font-size="24" :width="120" :height="64"></tm-button>
+                    <tm-button :round="24" color="white" label="取消"  :font-size="24" :width="120" :height="64"></tm-button>
                 </view>
             </template>
         </tm-card>
@@ -16,8 +16,8 @@
         <tm-card status="2022-5-2" title="卡片标题" content="这是一个基础卡片示例，非常简单且实用。这是一个基础卡片示例，非常简单且实用。">
             <template v-slot:action>
                 <view class="flex flex-row flex-row-center-end">
-                    <tm-button color="red" :margin="[24,0]" label="确认" :font-size="24" :width="120" :height="50"></tm-button>
-                    <tm-button color="white" label="取消"  :font-size="24" :width="120" :height="50"></tm-button>
+                    <tm-button :round="24" color="red" :margin="[24,0]" label="确认" :font-size="24" :width="120" :height="64"></tm-button>
+                    <tm-button :round="24" color="white" label="取消"  :font-size="24" :width="120" :height="64"></tm-button>
                 </view>
             </template>
         </tm-card>

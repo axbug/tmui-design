@@ -13,7 +13,7 @@
     <view
       @click.stop="open"
       v-if="isMaxheight"
-      class="flex zIndex-10 flex-row flex-row-bottom-center py-24"
+      class="flex zIndex-10 flex-row flex-row-bottom-center py-24 flex"
       :class="[
         !css_is_nvue && !isOpen ? 'fulled-height' : '',
         isOpen ? '' : isDark ? 'darkBg absolute' : 'lightBg absolute',
@@ -26,19 +26,19 @@
       ]"
     >
       <slot name="more">
-        <tm-icon
-          :userInteractionEnabled="false"
-          :font-size="24"
-          :color="fontColor"
-          :name="isOpen ? 'tmicon-angle-up' : 'tmicon-angle-down'"
-        ></tm-icon>
-        <tm-text
-          :userInteractionEnabled="false"
-          :font-size="24"
-          :color="fontColor"
-          _class="px-16"
-          :label="isOpen ? props.openLabel : props.closeLabel"
-        ></tm-text>
+        <view :userInteractionEnabled="false" class="flex flex-row flex-row-center-center">
+            <tm-icon
+            :font-size="24"
+            :color="fontColor"
+            :name="isOpen ? 'tmicon-angle-up' : 'tmicon-angle-down'"
+          ></tm-icon>
+          <tm-text
+            :font-size="24"
+            :color="fontColor"
+            _class="px-16"
+            :label="isOpen ? props.openLabel : props.closeLabel"
+          ></tm-text>
+        </view>
       </slot>
     </view>
   </view>

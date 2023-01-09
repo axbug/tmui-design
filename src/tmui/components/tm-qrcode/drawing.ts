@@ -79,6 +79,7 @@ export async function qr(ctx,option,canvas2d) {
 		}else{
 			c2d.drawImage(backgroundImage, 0, 0, size, size)
 		}
+		
 	}
 
 	//now draw qrcode

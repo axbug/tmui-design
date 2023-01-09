@@ -102,7 +102,7 @@ export var colortool = {
                 a: 1
             }
         } else if (/^(rgb|RGB|rgba|RGBA)/.test(sColor)) {
-            let arr = sColor.replace(/(?:\(|\)|rgb|RGB|RGBA|rgba)*/g, "").split(",")
+            let arr = sColor.replace(/(?:\(|\)|rgba|rgb|RGB|RGBA)*/g, "").split(",")
             let p = arr.map(val => Number(val));
             if (p.length < 3) {
                 return {

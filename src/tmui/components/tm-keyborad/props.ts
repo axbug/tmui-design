@@ -35,4 +35,8 @@ export const propsCutom = {
 		type:Number,
 		default:0
 	},
+	round:{
+		type:Number,
+		default:2
+	}
 }

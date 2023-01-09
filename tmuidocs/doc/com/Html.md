@@ -12,7 +12,7 @@ title: tmui 3.0 组件库
 
 ---
 
-**此组件非本人开源作者地址见：[mp-html](https://github.com/jin-yufeng/mp-html)**
+**此组件非本人,开源作者地址见：[mp-html](https://github.com/jin-yufeng/mp-html)**
 
 ---
 

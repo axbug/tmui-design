@@ -1,94 +1,79 @@
 <template>
-  <tm-sheet
-    no-level
-    :_style="{ opacity: isclickOn || _disabled ? 0.7 : 1 }"
-    hover-class="none"
-    :round="btnSizeObj.round"
-    :width="btnSizeObj.w"
-    :height="btnSizeObj.h"
-    :padding="props.padding"
-    :margin="props.margin"
-    :color="props.color"
-    :shadow="props.shadow"
-    :transprent="props.transprent"
-    :linear="props.linear"
-    :linear-deep="props.linearDeep"
-    :text="props.text"
-    :outlined="props.outlined"
-    :dark="props.dark"
-    :follow-dark="props.followDark"
-    :follow-theme="props.followTheme"
-    :border-direction="props.borderDirection"
-    :border-style="props.borderStyle"
-    :border="props.border"
-    :blur="props.blur"
-    _class="flex flex-row flex-center "
-    ><button
-      @click="onclick"
-      @touchstart="touchstart"
-      @touchend="touchend"
-      @longpress="emits('longpress', $event)"
-      @touchcancel="
-        isclickOn = false;
-        emits('touchcancel', $event);
-      "
-      @touchmove="emits('touchmove', $event)"
-      @getphonenumber="emits('getphonenumber', $event)"
-      @error="emits('error', $event)"
-      @opensetting="emits('opensetting', $event)"
-      @launchapp="emits('launchapp', $event)"
-      @contact="emits('contact', $event)"
-      @chooseavatar="emits('chooseavatar', $event)"
-      :form-type="props.formType"
-      :openType="props.openType"
-      :appParameter="props.appParameter"
-      :sessionFrom="props.sessionFrom"
-      :sendMessageTitle="props.sendMessageTitle"
-      :sendMessagePath="props.sendMessagePath"
-      :sendMessageImg="props.sendMessageImg"
-      :sendMessageCard="props.sendMessageCard"
-      :loading="_load"
-      :disabled="_disabled"
-      :group-id="props.groupId"
-      :guild-id="props.guildId"
-      :public-id="props.publicId"
-      :hover-start-time="10000000"
-      hover-stop-propagation
-      hover-class="bhover"
-      class="button flex-1 flex-row-center-center flex flex-row"
-      :class="[customClass]"
-      :style="[
-        { lineHeight: '0px' },
-        customCSSStyle,
-        {
-          height: btnSizeObj.h - (isnvue ? 0 : _isBorder * 2) + 'rpx',
-          borderWidth: '0px',
-          top: '0px',
-        },
-      ]"
-    >
-      <slot>
-        <tm-icon
-          :lineHeight="btnSizeObj.fontSize * 0.9"
-          v-if="_icon"
-          :userInteractionEnabled="false"
-          :color="_fontColor"
-          :_class="_label ? 'pr-10' : ''"
-          :unit="props.unit"
-          :fontSize="btnSizeObj.fontSize * 0.9"
-          :name="_icon"
-        ></tm-icon>
-        <tm-text
-          :lineHeight="0"
-          :userInteractionEnabled="false"
-          :color="_fontColor"
-          :fontSize="btnSizeObj.fontSize"
-          :unit="props.unit"
-          :label="_label"
-        ></tm-text>
-      </slot>
-    </button>
-  </tm-sheet>
+	<button
+		@click="onclick"
+		@touchstart="touchstart"
+		@touchend="touchend"
+		@longpress="emits('longpress', $event)"
+		@touchcancel="isclickOn = false;emits('touchcancel', $event);"
+		@touchmove="emits('touchmove', $event)"
+		@getphonenumber="emits('getphonenumber', $event)"
+		@error="emits('error', $event)"
+		@opensetting="emits('opensetting', $event)"
+		@launchapp="emits('launchapp', $event)"
+		@contact="emits('contact', $event)"
+		@chooseavatar="emits('chooseavatar', $event)"
+		:form-type="props.formType"
+		:openType="props.openType"
+		:appParameter="props.appParameter"
+		:sessionFrom="props.sessionFrom"
+		:sendMessageTitle="props.sendMessageTitle"
+		:sendMessagePath="props.sendMessagePath"
+		:sendMessageImg="props.sendMessageImg"
+		:sendMessageCard="props.sendMessageCard"
+		:loading="_load"
+		:disabled="_disabled"
+		:group-id="props.groupId"
+		:guild-id="props.guildId"
+		:public-id="props.publicId"
+		:hover-start-time="10000000"
+		hover-stop-propagation
+		:class="[
+		  'button flex flex-row flex-row-center-center',
+      isclickOn?props.hoverClass+' bhover':'',
+      'webpc',
+		  !isDisabledRoundAndriod ? `round-${btnSizeObj.round}` : '',
+		   customClass
+		]"
+		:style="[
+		  {
+		    marginLeft: _margin[0] + 'rpx',
+		    marginTop: _margin[1] + 'rpx',
+		    marginRight: _margin[2] + 'rpx',
+		    marginBottom: _margin[3] + 'rpx',
+		    paddingLeft: _padding[0] + 'rpx',
+		    paddingTop: _padding[1] + 'rpx',
+		    paddingRight: _padding[2] + 'rpx',
+		    paddingBottom: _padding[3] + 'rpx'
+		  },
+		 { height:btnSizeObj.h + props.unit,fontSize:btnSizeObj.fontSize+ props.unit,color:textColor,lineHeight:btnSizeObj.h + props.unit},
+		  btnSizeObj.w&&!props.block ? { width: btnSizeObj.w + props.unit } : '',
+		  tmcomputed.borderCss,
+		  _bgcolor,
+		  !_transprent && props.shadow > 0 ? tmcomputed.shadowColor : '',
+		  customCSSStyle,
+		]"
+
+	>
+		<slot>
+			<tm-icon
+				:lineHeight="btnSizeObj.fontSize * 0.9"
+				v-if="_icon"
+				:userInteractionEnabled="false"
+				:color="_fontColor"
+				:_class="_label ? 'pr-10' : ''"
+				:unit="props.unit"
+				:fontSize="btnSizeObj.fontSize * 0.9"
+				:name="_icon"
+			></tm-icon>
+			<!-- #ifdef APP-NVUE -->
+			<tm-text :color="props.fontColor" :font-size="btnSizeObj.fontSize" :unit="props.unit" :label="_label"></tm-text>
+			<!-- #endif -->
+			<!-- #ifndef APP-NVUE -->
+			{{_label}}
+			<!-- #endif -->
+		</slot>
+	</button>
+	
 </template>
 
 <script lang="ts" setup>
@@ -98,11 +83,21 @@
  * @slot default 默认插槽。
  */
 import { btnSize } from "./interface";
-import { computed, PropType, ref, getCurrentInstance } from "vue";
+import { computed, PropType, ref, getCurrentInstance,provide } from "vue";
 import tmSheet from "../tm-sheet/tm-sheet.vue";
 import tmText from "../tm-text/tm-text.vue";
 import tmIcon from "../tm-icon/tm-icon.vue";
-import { custom_props, computedClass, computedStyle } from "../../tool/lib/minxs";
+import { cssstyle, tmVuetify } from "../../tool/lib/interface";
+import {
+  custom_props,
+  computedTheme,
+  computedClass,
+  computedStyle,
+  computedDark,
+} from "../../tool/lib/minxs";
+import { useTmpiniaStore } from "../../tool/lib/tmpinia";
+const store = useTmpiniaStore();
+
 /**
  * 事件说明
  * @description 事件属性与原生 一 致
@@ -140,6 +135,10 @@ const props = defineProps({
     type: Boolean,
     default: true,
   },
+  hoverClass: {
+    type: String,
+    default: "opacity-7",
+  },
   /**
    * mini,small,normal,middle,large
    */
@@ -163,7 +162,13 @@ const props = defineProps({
     type: Array as PropType<Array<number>>,
     default: () => [0, 0],
   },
-
+  //不是同层背景，默认是同层，为false
+  //如果输入框表单与tmshee在同一层下。他们的黑白暗黑背景色是相同的。为了区分这个问题，需要单独指示，以便区分背景同层。
+  //主意：它只在黑和白之间的色系才起作用，其它颜色下不起作用。
+  noLevel: {
+    type: Boolean,
+    default: false,
+  },
   shadow: {
     type: Number,
     default: 2,
@@ -259,7 +264,12 @@ const props = defineProps({
     type: String,
     default: "rpx",
   },
+  darkBgColor: {
+    type: String,
+    default: "",
+  },
 });
+
 /** -----------form专有------------ */
 const formtype = computed(() => props.formType);
 //父级方法。
@@ -287,18 +297,39 @@ if (formtype.value == "filterCancel" || formtype.value == "filterConfirm") {
   }
 }
 /** -----------end------------ */
+const _noLevel = computed(() => props.noLevel);
+//是否暗黑模式。
+const isDark = computed(() => computedDark(props, tmcfg.value));
+// 设置响应式主题文字色。
+let textColor = computed(() => {
+  return tmcomputed.value.textColor;
+});
 //自定义样式：
 const customCSSStyle = computed(() => {
   return {
-    height: btnSizeObj.value.h + props.unit,
+    // height: btnSizeObj.value.h + props.unit,
     ...computedStyle(props),
-    border: "0px solid rgba(0, 0, 0, 0)",
-    background: "rgba(0, 0, 0, 0)",
-    borderRadius: "0px",
+	// fontSize:props.fontSize,
+	// color:textColor,
+    // border: "0px solid rgba(0, 0, 0, 0)",
+    // background: "rgba(0, 0, 0, 0)",
+    // borderRadius: "0px",
   };
 });
 //自定类
 const customClass = computed(() => computedClass(props));
+// 设置响应式全局组件库配置表。
+const tmcfg = computed(() => store.tmStore);
+//计算主题
+const tmcomputed = computed<cssstyle>(() => {
+
+  return computedTheme(
+    { ...props },
+    isDark.value,
+    tmcfg.value
+  );
+});
+
 const isclickOn = ref(false);
 const _load = computed(() => props.loading);
 const _disabled = computed(() => props.disabled);
@@ -348,6 +379,56 @@ const btnSizeObj = computed(() => {
   };
 });
 const _fontColor = computed(() => props.fontColor);
+const _transprent = computed(() => props.transprent);
+/** 数组是左，上，右，下顺序。 */
+const _margin = computed(() => {
+  if (props.margin.length == 1)
+    return [props.margin[0], props.margin[0], props.margin[0], props.margin[0]];
+  if (props.margin.length == 2)
+    return [props.margin[0], props.margin[1], props.margin[0], props.margin[1]];
+  if (props.margin.length == 3)
+    return [props.margin[0], props.margin[1], props.margin[2], 0];
+  if (props.margin.length == 4)
+    return [props.margin[0], props.margin[1], props.margin[2], props.margin[3]];
+  return [0, 0, 0, 0];
+});
+const _padding = computed(() => {
+  if (props.padding.length == 1)
+    return [props.padding[0], props.padding[0], props.padding[0], props.padding[0]];
+  if (props.padding.length == 2)
+    return [props.padding[0], props.padding[1], props.padding[0], props.padding[1]];
+  if (props.padding.length == 3)
+    return [props.padding[0], props.padding[1], props.padding[2], 0];
+  if (props.padding.length == 4)
+    return [props.padding[0], props.padding[1], props.padding[2], props.padding[3]];
+  return [0, 0, 0, 0];
+})
+
+const _bgcolor = computed(() => {
+  if (_transprent.value === true) return `background-color:rgba(255,255,255,0);`;
+  if (props.darkBgColor !== "" && isDark.value === true) {
+    return `background-color:${props.darkBgColor};`;
+  }
+  if (tmcomputed.value.gradientColor?.length === 2) {
+    return tmcomputed.value.backgroundColorCss;
+  }
+  if (
+    _noLevel.value &&
+    tmcomputed.value.isBlackAndWhite === true &&
+    isDark.value === true
+  ) {
+    return `background-color: ${tmcomputed.value.inputcolor}`;
+  }
+  return `background-color: ${tmcomputed.value.backgroundColor}`;
+});
+
+
+
+
+
+
+
+
 
 function touchstart(e: Event) {
   isclickOn.value = true;
@@ -411,29 +492,42 @@ function onclick(e: Event) {
     // #endif
   }
 }
+
+
+provide("appTextColor", textColor);
 </script>
 
 <style scoped>
 .button {
-  background: rgba(0, 0, 0, 0);
-  border: 0px solid rgba(0, 0, 0, 0);
-  padding: 0px;
-  border-radius: 0px;
+	/* background: rgba(0, 0, 0, 0); */
+	/* border: 0px solid rgba(0, 0, 0, 0); */
+	padding: 0px;
+	/* border-radius: 0px; */
 }
 
 .buttonHover {
-  background: rgba(0, 0, 0, 0);
+	/* background: rgba(0, 0, 0, 0); */
 }
 
 .bhover {
-  opacity: 0.7;
+	opacity: 0.7;
 }
+/* #ifdef H5 */
+.webpc:hover{
+  cursor: pointer;
+	opacity: 0.7;
+
+}
+/* #endif */
 /* #ifndef APP-NVUE */
+.bhover:hover{
+	opacity: 0.7;
+}
 .button::after {
-  background: transparent !important;
-  background-color: transparent !important;
-  border: none !important;
-  border-radius: 0px !important;
+	background: transparent !important;
+	background-color: transparent !important;
+	border: none !important;
+	border-radius: 0px !important;
 }
 
 /* #endif */

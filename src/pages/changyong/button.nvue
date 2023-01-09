@@ -32,6 +32,7 @@
             <tm-text :font-size="24" _class="font-weight-b" label="渐变样式,更多属性见文档"></tm-text>
 			<tm-divider></tm-divider>
             <tm-button loading linear="right" block label="light 加载中"></tm-button>
+            <tm-button  linear="right" block label="light"></tm-button>
             <tm-button  linear="right" linearDeep="dark" block label="dark 被禁用"></tm-button>
             <tm-button disabled linear="right" linearDeep="dark" block label="dark 被禁用"></tm-button>
             <tm-button linear="right" linearDeep="accent" block label="accent"></tm-button>

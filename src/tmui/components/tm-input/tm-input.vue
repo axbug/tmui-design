@@ -13,6 +13,7 @@
       :shadow="props.shadow"
       :linear="props.linear"
       :linearDeep="props.linearDeep"
+      _style="transition:border 0.24s"
     >
       <view
         class="flex flex-row relative"
@@ -32,6 +33,7 @@
         <slot name="left"></slot>
         <view v-if="propsDetail.prefix" class="pr-16">
           <tm-icon
+            _style="transition:color 0.24s"
             :font-size="propsDetail.fontSize"
             :color="props.prefixColor"
             :name="propsDetail.prefix"
@@ -39,6 +41,7 @@
         </view>
         <view v-if="propsDetail.prefixLabel" class="pr-24">
           <tm-text
+            _style="transition:color 0.24s"
             :font-size="propsDetail.fontSize"
             :color="props.prefixColor"
             :label="propsDetail.prefixLabel"
@@ -83,6 +86,7 @@
                   : tmcomputed.textColor,
                 'text-align': props.align,
                 fontSize: `${propsDetail.fontSize_px}px`,
+                transition: 'color 0.24s',
               },
             ]"
             :placeholder-style="`fontSize:${propsDetail.fontSize_px}px;${props.placeholderStyle}`"
@@ -125,6 +129,7 @@
                   : tmcomputed.textColor,
                 'text-align': props.align,
                 fontSize: `${propsDetail.fontSize_px}px`,
+                transition: 'color 0.24s',
               },
             ]"
             class="wrap flex-1"
@@ -217,23 +222,30 @@
             :placeholder-style="`fontSize:${propsDetail.fontSize_px}px;${props.placeholderStyle}`"
           ></textarea>
         </view>
-        <view class="pl-16" v-if="propsDetail.showClear && _valueLenChar > 0">
+        <view
+          @click="clearBtn"
+          class="pl-16"
+          v-if="propsDetail.showClear && _valueLenChar > 0"
+        >
           <tm-icon
-            @click="clearBtn"
-            :font-size="propsDetail.fontSize * 0.9"
+            _style="transition:color 0.24s"
+            :userInteractionEnabled="false"
+            :font-size="propsDetail.fontSize"
             name="tmicon-times-circle-fill"
           >
           </tm-icon>
         </view>
         <view class="pl-16" v-if="_requiredError">
           <tm-icon
+            _style="transition:color 0.24s"
             :font-size="propsDetail.fontSize"
             name="tmicon-exclamation-circle"
           ></tm-icon>
         </view>
         <view class="pl-16" v-if="propsDetail.suffix">
           <tm-icon
-            :font-size="propsDetail.fontSize * 0.85"
+            _style="transition:color 0.24s"
+            :font-size="propsDetail.fontSize"
             :color="props.suffixColor"
             :name="propsDetail.suffix"
           ></tm-icon>
@@ -241,16 +253,18 @@
 
         <view v-if="propsDetail.suffixLabel" class="pl-16">
           <tm-text
+            _style="transition:color 0.24s"
             :font-size="propsDetail.fontSize"
             :color="props.suffixColor"
             :label="propsDetail.suffixLabel"
           ></tm-text>
         </view>
 
-        <view class="pl-16" v-if="showPasswordIcon">
+        <view @click="changeSeePassword" class="pl-16" v-if="showPasswordIcon">
           <!-- tmicon-eyeslash-fill -->
           <tm-icon
-            @click="changeSeePassword"
+            _style="transition:color 0.24s"
+            :userInteractionEnabled="false"
             :font-size="propsDetail.fontSize"
             :name="showPasswordText ? 'tmicon-eyeslash-fill' : 'tmicon-eye-fill'"
           ></tm-icon>
@@ -265,8 +279,9 @@
           "
           class="pl-16 flex-row flex"
         >
-          <tm-text :label="_valueLenChar"></tm-text>
+          <tm-text _style="transition:color 0.24s" :label="_valueLenChar"></tm-text>
           <tm-text
+            _style="transition:color 0.24s"
             v-if="propsDetail.maxlength > 0"
             :label="'/' + propsDetail.maxlength"
           ></tm-text>
@@ -281,8 +296,9 @@
           class="pl-16 flex-row flex absolute r-0"
           :class="[`b-${12}`]"
         >
-          <tm-text :label="_valueLenChar"></tm-text>
+          <tm-text _style="transition:color 0.24s" :label="_valueLenChar"></tm-text>
           <tm-text
+            _style="transition:color 0.24s"
             v-if="propsDetail.maxlength > 0"
             :label="'/' + propsDetail.maxlength"
           ></tm-text>
@@ -595,7 +611,7 @@ const _inputPadding = computed(() => {
   }
   return props.inputPadding;
 });
-let timerId = NaN;
+let timerId: any = NaN;
 function debounce(func: Function, wait = 500, immediate = false) {
   // 清除定时器
   if (!isNaN(timerId)) clearTimeout(timerId);

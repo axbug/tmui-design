@@ -238,8 +238,8 @@ function openAndClose(e: Event) {
 <style scoped>
 /* #ifdef APP-NVUE */
 .content {
-  transition-duration: 0.3s;
-  transition-timing-function: ease;
+  transition-duration: 0.6s;
+  transition-timing-function: cubic-bezier(.53,.07,.44,1.19);
   transition-delay: 0ms;
   transition-property: height;
 }
@@ -248,17 +248,19 @@ function openAndClose(e: Event) {
 
 /* #ifndef APP-NVUE */
 .content {
-  transition-duration: 0.3s;
-  transition-timing-function: ease;
+  transition-duration: 1.2s;
+  transition-timing-function:linear;
   transition-delay: 0ms;
-  transition-property: max-height;
   max-height: 0px;
+  transition-property: max-height;
   overflow: hidden;
   box-sizing: border-box;
   will-change: max-height;
 }
 .content.on {
-  max-height: 800px;
+  flex: 1 1 auto;
+  max-height: 1200px;
+ 
 }
 .content.off {
   max-height: 0px;

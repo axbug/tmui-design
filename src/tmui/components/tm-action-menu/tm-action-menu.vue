@@ -5,11 +5,11 @@
  * @Description: 文件
 -->
 <template>
-	<tm-drawer ref="drawer" @close="drawerClose" @open="drawerOpen" :duration="props.duration" :height="cHeight"
+	<tm-drawer ref="drawer" :disabble-scroll="true" @close="drawerClose" @open="drawerOpen" :duration="props.duration" :height="cHeight"
 		@update:show="show = $event" :show="show" :transprent="true" :hide-header="true">
 		<view @click.stop="" class=" flex flex-col">
 			<view style="height: 24rpx;"></view>
-			<tm-sheet :round="2">
+			<tm-sheet :round="2" :margin="[32,0,32,16]">
 				<view class=" flex flex-col flex-col-center-center round-2 overflow mx-32">
 					<tm-text _class="opacity-5 text-align-center" :font-size="24" label="请选择"></tm-text>
 					<tm-button :transprent="true" :fontColor="_active == index ? props.activeFontColor : ''"
@@ -19,7 +19,7 @@
 				</view>
 			</tm-sheet>
 			<tm-button :round="5" :fontColor="props.activeFontColor" :followTheme="false" @click="cancel" label="取消"
-				:font-size="28" :margin="[32, 8]" :color="_color" block :shadow="0"></tm-button>
+				:font-size="28" :margin="[32, 0]" :color="_color" block :shadow="0"></tm-button>
 			<view :style="{ height: sysinfo.bottom + 'px' }"></view>
 		</view>
 	</tm-drawer>
@@ -119,7 +119,7 @@ const _list = computed<Array<listitem>>(() => {
 
 const cHeight = computed(() => {
 	let len = _list.value.length + 1
-	return len * 80 + 180 + sysinfo.value.bottom
+	return len * 80 + 140 + sysinfo.value.bottom
 })
 
 const _color = computed(() => props.color)

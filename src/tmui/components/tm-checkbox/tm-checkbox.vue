@@ -31,6 +31,7 @@
         :round="props.round"
         _class="flex-row flex-row-center-center"
         :outlined="props.outlined"
+        _style="transition:background-color 0.24s"
       >
         <view v-if="!props.closeAni">
           <tm-translate
@@ -39,7 +40,7 @@
             name="zoom"
             style="line-height: 1"
           >
-            <tm-icon :font-size="props.size * 0.54" :name="props.icon"></tm-icon>
+            <tm-icon :font-size="props.size * 0.6" :name="props.icon"></tm-icon>
           </tm-translate>
           <tm-translate
             v-if="props.indeterminate"
@@ -47,18 +48,18 @@
             name="zoom"
             style="line-height: 1"
           >
-            <tm-icon :font-size="props.size * 0.54" name="tmicon-minus"></tm-icon>
+            <tm-icon :font-size="props.size * 0.6" name="tmicon-minus"></tm-icon>
           </tm-translate>
         </view>
         <view v-if="props.closeAni">
           <tm-icon
             v-if="_checked && !props.indeterminate"
-            :font-size="props.size * 0.54"
+            :font-size="props.size * 0.6"
             :name="props.icon"
           ></tm-icon>
           <tm-icon
             v-if="props.indeterminate"
-            :font-size="props.size * 0.54"
+            :font-size="props.size * 0.6"
             name="tmicon-minus"
           ></tm-icon>
         </view>
@@ -181,7 +182,7 @@ const props = defineProps({
   //是否关闭动画 ，对于大批量的数据时，建议关闭动画。
   closeAni: {
     type: [Boolean, String],
-    default: false,
+    default: true,
   },
   /**
    * 自定义选中的图标名称
@@ -195,7 +196,7 @@ const props = defineProps({
     default: "opacity-5",
   },
 });
-
+let timed:any = NaN;
 const _checked = ref(props.defaultChecked ?? false);
 const _groupCheckedVal: ComputedRef<Array<string | number | boolean>> = inject(
   "tmCheckedBoxVal",
@@ -228,8 +229,8 @@ function vailChecked(val?: Array<string | number | boolean>) {
   ) {
     checked_val = true;
   }
-  let index = val_self.findIndex((el) => el === props.value);
-  if (index > -1) {
+  // let index = val_self.findIndex((el) => el === props.value);
+  if (val_self.includes(props.value)) {
     checked_val = true;
   }
   return checked_val;
@@ -291,4 +292,6 @@ while (parent) {
 if (parent) {
   parent.pushKey(props.value);
 }
+
+defineExpose({hanlerClick})
 </script>

@@ -58,7 +58,7 @@
             <view style="width: 40rpx" class="flex flex-center flex-row">
               <tmText
                 :userInteractionEnabled="false"
-                :font-size="32"
+                :font-size="38"
                 _class="text-weight-b"
                 :label="item"
               ></tmText>

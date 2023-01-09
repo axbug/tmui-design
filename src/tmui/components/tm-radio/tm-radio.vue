@@ -31,15 +31,25 @@
         :color="_disabled ? 'grey-2' : props.color"
         :round="props.round"
         _class="flex-row flex-row-center-center"
+        _style="transition:background-color 0.24s"
       >
-        <tm-translate
-          :duration="100"
-          v-if="_checked && _is_radio"
-          name="zoom"
-          style="line-height: 1"
-        >
-          <tm-icon :font-size="props.size * 0.54" :name="props.icon"></tm-icon>
-        </tm-translate>
+          <view
+            v-if="_checked && _is_radio"
+            :style="{
+              width: props.size - props.border * 2 + 'rpx',
+              height: props.size - props.border * 2 + 'rpx',
+            }"
+            class="flex flex-row flex-row-center-center relative t--0"
+          >
+            <tm-icon
+              :font-size="props.size * 0.6"
+              :line-height="-1"
+              :name="props.icon"
+            ></tm-icon>
+          </view>
+        <!-- <tm-translate :duration="100" v-if="_checked && _is_radio" name="zoom">
+          
+        </tm-translate> -->
         <tm-text
           v-if="!_is_radio"
           :font-size="props.fontSize"
@@ -156,7 +166,10 @@ const props = defineProps({
     default: "opacity-5",
   },
 });
-
+const is_nvue = ref(false);
+// #ifdef APP-NVUE
+is_nvue.value = true;
+// #endif
 const _checked = ref(props.defaultChecked ?? false);
 const _groupCheckedVal = inject(
   "tmRadioBoxVal",
@@ -174,6 +187,7 @@ const tmCheckedBoxDir = inject(
   "tmCheckedBoxDir",
   computed(() => "row")
 );
+let timed:any = NaN;
 const _disabled = computed(() => props.disabled || tmCheckedBoxDisabled.value);
 function vailChecked(val?: string | number | boolean) {
   let checked_val = false;
@@ -197,6 +211,7 @@ if (vailChecked()) {
 }
 async function hanlerClick() {
   emits("click");
+  // console.log(new Date().getSeconds(),'-----1')
   if (_disabled.value || _checked.value) {
     return;
   }
@@ -218,7 +233,11 @@ async function hanlerClick() {
     parent.addKey(props.value);
   }
   emits("update:modelValue", props.value);
-  emits("change", _checked.value);
+  // console.log(new Date().getSeconds(),'-----2')
+
+  nextTick(()=>{
+    emits("change", _checked.value);
+  })
 }
 watch(
   [() => props.modelValue, () => props.value, () => _groupCheckedVal.value],
@@ -227,8 +246,6 @@ watch(
   },
   { deep: true }
 );
-const _blackValue = _groupCheckedVal.value;
-
 //父级方法。
 let parent: any = proxy?.$parent;
 

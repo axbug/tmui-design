@@ -37,10 +37,10 @@
       :class="alignKey[props.align]"
       :style="{ width: props.width + 'rpx', height: 32 + 'rpx' }"
     >
-      <view class="flex-1 pr-40" style="width: 0px">
+      <view v-if="props.align=='between'" class="flex-1 pr-40" style="width: 0px">
         <slot name="barll"></slot>
       </view>
-      <view class="px-32" style="width: 164rpx">
+      <view class="px-32" style="width: 100rpx">
         <tm-sheet
           no-level
           :round="6"
@@ -106,7 +106,7 @@ const props = defineProps({
   align: {
     type: String as PropType<alignType>,
     default: "center",
-  },
+  }
 });
 const left = ref(0);
 const totalWidth = uni.upx2px(50);

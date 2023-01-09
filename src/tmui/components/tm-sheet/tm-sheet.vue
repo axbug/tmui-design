@@ -6,7 +6,7 @@
 -->
 <template>
   <view
-    :hover-class="props.url ? 'opacity-7' : ''"
+    :hover-class="(props.url ? ' opacity-7 ' : '  ') + props.hoverClass"
     :render-whole="true"
     v-if="_blue_sheet"
     :blurEffect="_blurEffect"
@@ -21,8 +21,6 @@
     :class="[
       'flex flex-col noNvueBorder',
       parenClass_p,
-      isLongPress ? props.hoverClass : '',
-      props.hoverClass != '' && props.hoverClass != 'none' ? 'webpc' : '',
       !isDisabledRoundAndriod ? `round-${props.round}` : '',
     ]"
     :style="[

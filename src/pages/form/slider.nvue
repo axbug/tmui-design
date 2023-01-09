@@ -10,7 +10,9 @@
 		<tm-sheet>
 			<tm-text :font-size="24" _class="font-weight-b" label="双向滑块"></tm-text>
 			<tm-divider></tm-divider>
-			<tm-slider color="white" :width="600" :height="6" :defaultValue="[10,50]"></tm-slider>
+			<view class="flex flex-row flex-row-cneter-center">
+				<tm-slider color="white" :width="300" :height="6" :defaultValue="[10,50]"></tm-slider>
+			</view>
 		</tm-sheet>
 		<tm-sheet>
 			<tm-text :font-size="24" _class="font-weight-b" label="标签,格式化显示,拖动将显示百分比"></tm-text>

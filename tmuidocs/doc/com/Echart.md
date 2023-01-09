@@ -7,7 +7,7 @@ title: tmui 3.0 组件库
 ##### 组件库文档 tmui.design
 
 # 图表 Chart <Badge type="danger" text="NVUE页面不支持，请使用VUE页面" vertical="middle" />
-此百度图表，不兼容nvue页面，因此如果你想使用，必须vue页面来使用。
+百度图表，3.0.89开始已经兼容nvue平台,当前nvue平台为最新的5.4.3版本且是全量包。非nvue平台是5.3.2版本，包大小为精简包，具体见下方。
 
 ---
 
@@ -74,7 +74,7 @@ title: tmui 3.0 组件库
 
 | APP-VUE | APP-NVUE | 小程序 | WEB/H5 | VUE3/TS |
 | --- | --- | --- | --- | --- |
-| :heavy_check_mark: | :x: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
+| :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
 
 ### :seedling: 参数
 
@@ -89,17 +89,34 @@ title: tmui 3.0 组件库
 
 | 事件名 | 参数 | 返回数据 | 描述 |
 | --- | --- | --- | --- |
-| onInit | - | Chart对象 | 百度图表对象，[文档](https://echarts.apache.org/zh/index.html) |
-| click |  | event | 点击 |
-| touchstart |  | event | 按下 |
-| touchmove |  | event | 移动 |
-| touchend |  | event | 松开 |
-| mousedown |  | event | 按下 |
-| mousemove |  | event | 移动 |
-| mouseup |  | event | 松开 |
+| onInit | - | Chart对象 | nvue平台见下方ref方法中介绍,非nvue平台见：百度图表对象，[文档](https://echarts.apache.org/zh/index.html) |
+| click |  | event | 点击【nvue平台不支持】 |
+| touchstart |  | event | 按下【nvue平台不支持】 |
+| touchmove |  | event | 移动【nvue平台不支持】 |
+| touchend |  | event | 松开【nvue平台不支持】 |
+| mousedown |  | event | 按下【nvue平台不支持】 |
+| mousemove |  | event | 移动【nvue平台不支持】 |
+| mouseup |  | event | 松开【nvue平台不支持】 |
 
 ### :corn: slot插槽
 无
 
 ### :green_salad: ref方法
-无
+
+getChart(),可返回当前的chart对象。
+
+---
+
+注意在nvue平台，是由我封装映射的接口api，nvue平台性能强大，包为全量包，对标百度图表所有功能。但api接口只有下方列出可用:
+
+| 事件名 | 参数 | 返回数据 | 描述 |
+| --- | --- | --- | --- |
+| setOption | 对应百度echarts所需参数 | - | 百度图表，[文档](https://echarts.apache.org/zh/api.html#echartsInstance.setOption) |
+| getWidth | - | - | 百度图表，[文档](https://echarts.apache.org/zh/api.html#echartsInstance.getWidth) |
+| getHeight | - | - | 百度图表，[文档](https://echarts.apache.org/zh/api.html#echartsInstance.getHeight) |
+| getDom | - | refs.webview | 这里返回的是nvue下的webview对象 |
+| getOption | - | - | 百度图表，[文档](https://echarts.apache.org/zh/api.html#echartsInstance.getOption) |
+| resize | - | - | 百度图表，[文档](https://echarts.apache.org/zh/api.html#echartsInstance.resize) |
+| showLoading | - | - | 百度图表，[文档](https://echarts.apache.org/zh/api.html#echartsInstance.showLoading) |
+| hideLoading | - | - | 百度图表，[文档](https://echarts.apache.org/zh/api.html#echartsInstance.hideLoading) |
+

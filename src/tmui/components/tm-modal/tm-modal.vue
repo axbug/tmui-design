@@ -317,6 +317,9 @@ const isDark = computed(() => computedDark(props, tmcfg.value));
 const tmcomputed = computed<cssstyle>(() =>
   computedTheme(props, isDark.value, tmcfg.value)
 );
+let rejCall:any = null;
+let resCall:any = null;
+let isOkClose = false;
 //外部调用open或者close时将会执行相关参数函数.
 let nowCallFun: any = null;
 const reverse = ref(true);
@@ -371,7 +374,7 @@ watch(
   () => props.show,
   (val) => {
     if (val) {
-      open();
+      opens();
     } else {
       close();
     }
@@ -379,7 +382,7 @@ watch(
 );
 onMounted(() => {
   if (_show.value) {
-    open();
+    opens();
   }
 });
 
@@ -424,6 +427,7 @@ async function ok() {
         if (!p) return;
       }
       emits("ok", toRaw(nowCallFun));
+      isOkClose = true;
       close();
     },
     250,
@@ -434,8 +438,9 @@ async function ok() {
 function cancel() {
   if (props.disabled) return;
   if (okLoading.value) return;
-
+  isOkClose = false;
   emits("cancel", toRaw(nowCallFun));
+  
   close();
 }
 
@@ -453,6 +458,12 @@ function overclose() {
     emits("close");
     emits("update:show", false);
     _show.value = false;
+    if(resCall&&isOkClose){
+      resCall()
+    }
+    if(rejCall&&!isOkClose){
+      rejCall()
+    }
   });
 }
 
@@ -461,15 +472,21 @@ function open(arg: any = null) {
   if (props.disabled) return;
   if (okLoading.value) return;
   if (_show.value == true) return;
-  throttle(
-    async () => {
-      reverse.value = true;
-      overlayAni.value?.open(true);
-      nowCallFun = arg;
-    },
-    props.duration,
-    true
-  );
+  return new Promise((res,rej)=>{
+    throttle(
+      async () => {
+        reverse.value = true;
+        overlayAni.value?.open(true);
+        nowCallFun = arg;
+        
+          rejCall = rej;
+          resCall = res;
+        
+      },
+      props.duration,
+      true
+    );
+  })
 }
 
 // 内部调用
@@ -477,14 +494,12 @@ function opens() {
   if (!props.overlayClick) return;
   if (props.disabled) return;
   if (okLoading.value) return;
+  if (_show.value == true) return;
   debounce(
     () => {
-      reverse.value = reverse.value === false ? true : false;
+      reverse.value = true;
       _show.value = true;
-      emits("open");
-      nextTick(function () {
-        drawerANI.value?.play();
-      });
+      overlayAni.value?.open(true);
     },
     props.duration,
     true
@@ -508,6 +523,7 @@ function overlayClickFun(e: Event) {
   reverse.value = false;
   throttle(
     () => {
+      isOkClose = false;
       overlayAni.value?.close();
       drawerANI.value?.play();
     },

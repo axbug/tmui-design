@@ -11,6 +11,7 @@
     </view>
     <view v-if="_item['children'] && _checked">
       <base-node-vue
+        @text-click="emits('textClick',$event)"
         :followTheme="props.followTheme"
         :fieldNames="props.fieldNames"
         :data="_item['children']"
@@ -34,6 +35,8 @@ import TmIcon from "../tm-icon/tm-icon.vue";
 import baseNodeVue from "./base-node.vue";
 
 import { baseNodeData } from "./interface";
+const emits = defineEmits(['textClick'])
+
 const { proxy } = getCurrentInstance();
 const props = defineProps({
   followTheme: {
@@ -88,4 +91,11 @@ function isCheckedOpen(): void {
   _checked.value = sAr[0] ?? "";
 }
 watchEffect(() => isCheckedOpen());
+
+function setStatus(){
+  expandHandler(_item.value[props.fieldNames.id])
+}
+
+defineExpose({setStatus,filedId:_item.value[props.fieldNames.id]})
+
 </script>

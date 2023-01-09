@@ -181,9 +181,8 @@ const sysinfo = inject(
 const _typemodel = computed(() => props.type);
 watch([() => props.show, () => props.maxLength], () => {
   showPop.value = props.show;
-  console.log(props.maxLength);
 });
-let timerId = NaN;
+let timerId:any = NaN;
 
 function debounce(func: Function, wait = 200, immediate = false) {
   // 清除定时器

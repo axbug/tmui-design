@@ -6,7 +6,7 @@
       @click="emits('click', $event)"
       v-if="!isPc"
       @touchstart="touchStart"
-      @touchmove.stop="touchMove"
+      @touchmove="touchMove"
       @touchend="touchEnd"
       :id="canvasId"
       :canvas-id="canvasId"
@@ -27,7 +27,7 @@
     <canvas
       @click="emits('click', $event)"
       @touchstart="touchStart"
-      @touchmove.stop="touchMove"
+      @touchmove="touchMove"
       @touchend="touchEnd"
       type="2d"
       id="canvasId"
@@ -40,7 +40,7 @@
     <canvas
       @click="emits('click', $event)"
       @touchstart="touchStart"
-      @touchmove.stop="touchMove"
+      @touchmove="touchMove"
       @touchend="touchEnd"
       type="2d"
       :id="canvasId"
@@ -49,25 +49,16 @@
       :style="{ width: `${_width}rpx`, height: `${_height}rpx` }"
     ></canvas>
     <!-- #endif -->
-    <!-- #ifdef APP-NVUE -->
-    <tm-text label="请使用vue页面,不支持nvue页面"></tm-text>
-    <gcanvas
-      @touchstart="touchStart"
-      @touchmove="touchMove"
-      @touchend="touchEnd"
-      :id="canvasId"
-      :ref="canvasId"
-      class="canvas"
-      :style="{ width: `${_width}rpx`, height: `${_height}rpx` }"
-    >
-    </gcanvas>
-    <!-- #endif -->
+
+	<!-- #ifdef APP-NVUE -->
+	<web-view ref="web" src="/hybrid/html/local.html" :style="{ width: `${_width}rpx`, height: `${_height}rpx` }" @onPostMessage="_onMessage" ></web-view>
+	<!-- #endif -->
   </view>
 </template>
 <script lang="ts" setup>
 /**
  * Echart图表
- * @description 使用最新的5.3.2 ，注意不能在nvue上使用，请改用vue页面。已经兼容了pc端
+ * @description 非nvue端：5.3.2 ,nvue端：5.4.3
  * ref:getChart:获取成功渲染的图表。
  * 事件：onInit:渲染成功后执行，并返回chart对象。
  * 安装百度图表 npm install echarts --save 后需要作下生产下的兼容，发布不影响，但开发时会报错，很烦。
@@ -99,18 +90,13 @@ import {
 	ComponentInternalInstance,
 } from 'vue';
 import WxCanvas from './canvasinit';
+import mytmcharts from './nvuechart'
 import * as echarts from "echarts";
 import tmText from "../tm-text/tm-text.vue"
+
 // import * as echarts from "./simple";
-import {
-	optionChartTest
-} from "./option"
-// #ifdef APP-NVUE
-import {
-	enable,
-	WeexBridge,
-} from '../../tool/gcanvas/index.js';
-// #endif
+
+
 const proxy = getCurrentInstance()?.proxy??null;
 
 const emits = defineEmits(['onInit', 'touchStart', 'touchMove', 'touchEnd', 'mousedown', 'mousemove', 'mouseup', 'click'])
@@ -153,9 +139,6 @@ onMounted(() => {
 		if (is2d.value) {
 			setTimeout(() => MpWeix_init(), 100)
 		} else {
-			// #ifdef APP-PLUS-NVUE
-			setTimeout(() => drawNvue_init(), 300)
-			// #endif
 			// #ifndef APP-PLUS-NVUE
 			setTimeout(() => appvueH5Other(), 50)
 			// #endif
@@ -164,7 +147,7 @@ onMounted(() => {
 
 })
 //appvue,h5,和其它平台。
-function appvueH5Other() {
+function appvueH5Other(fun:Function) {
 	echarts.registerPreprocessor((option: any) => {
 		if (option && option.series) {
 			if (option.series.length > 0) {
@@ -198,9 +181,12 @@ function appvueH5Other() {
 	}
 
 	emits("onInit", chart)
+	if(typeof fun === 'function'){
+		fun(chart)
+	}
 }
 //支付宝和微信，QQ 支持2d渲染。
-function MpWeix_init() {
+function MpWeix_init(fun:Function) {
 	echarts.registerPreprocessor((option: any) => {
 		if (option && option.series) {
 			if (option.series.length > 0) {
@@ -235,6 +221,9 @@ function MpWeix_init() {
 		});
 		canvas.setChart(chart);
 		emits("onInit", chart)
+		if(typeof fun === 'function'){
+			fun(chart)
+		}
 	})
 	// #endif
 	// #ifdef MP-WEIXIN || MP-QQ
@@ -270,7 +259,7 @@ function MpWeix_init() {
 
 			canvas.setChart(chart);
 			emits("onInit", chart)
-
+			
 			// #endif
 
 
@@ -298,59 +287,58 @@ function MpWeix_init() {
 			canvas.setChart(chart);
 			emits("onInit", chart)
 			// #endif
+			
+			if(typeof fun === 'function'){
+				fun(chart)
+			}
 		})
 	// #endif
 
 
 }
 
-function drawNvue_init() {
-	/*获取元素引用*/
-	var ganvas = proxy?.$refs[canvasId.value];
-	// console.log(ganvas)
-	/*通过元素引用获取canvas对象*/
-	var canvasNode = enable(ganvas, {
-		bridge: WeexBridge
-	});
 
-	const ctxvb = canvasNode.getContext('2d')
-	canvasNode.width = uni.upx2px(props.width)
-	canvasNode.height = uni.upx2px(props.height)
-
-	ctx = ctxvb;
-	const canvas = new WxCanvas(ctx, canvasId.value, true, canvasNode)
-
-	echarts.setPlatformAPI({
-		// Same with the old setCanvasCreator
-		createCanvas() {
-			return canvas;
-		}
-	});
-	canvasNode.addEventListener = function (name2, handler, opt) { }
-
-	chart = echarts.init(canvas, undefined, {
-		width: uni.upx2px(_width.value),
-		height: uni.upx2px(_height.value),
-		devicePixelRatio: 1
-	});
-	canvas.setChart(chart);
-	emits("onInit", chart)
-
-
-
-
-
-
-
-
-
-}
 
 function getChart() {
-	return chart;
+	return new Promise((res,rej)=>{
+		if (is2d.value) {
+			setTimeout(() => MpWeix_init(chart=>res(chart)), 100)
+		} else {
+			// #ifdef APP-PLUS-NVUE
+			res(chart)
+			// #endif
+			// #ifndef APP-PLUS-NVUE
+			setTimeout(() => appvueH5Other(chart=>res(chart)), 50)
+			// #endif
+		}
+	})
 }
 
-defineExpose(getChart)
+
+function _onMessage(e){
+	const message = e.detail.data[0]
+	switch (message.action) {
+	  // web-view 初始化完毕
+	  case 'onJSBridgeReady':
+		// 初始化图表库。
+		let w = uni.$tm.u.topx(_width.value);
+		let h = uni.$tm.u.topx(_height.value);
+	    proxy?.$refs.web.evalJs(`echart_createDom(${w},${h})`);
+	    proxy?.$refs.web.evalJs(`echart_createChart()`);
+		chart = new mytmcharts(proxy?.$refs.web,w,h)
+		emits("onInit", chart)
+	    break
+		
+	   case 'tmColorView_getColor':
+	  
+	   break
+	}
+}
+
+
+
+
+defineExpose({getChart})
 
 function compareVersion(v11: string, v22: string) {
 	let v1 = v11.split('.')

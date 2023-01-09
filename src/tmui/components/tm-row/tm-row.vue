@@ -12,7 +12,7 @@
     :style="[
       { flexDirection: 'row', flexWrap: 'wrap' },
       props.height ? { height: props.height + 'rpx' } : '',
-      width_px_rect ? { width: width_px_rect + 'rpx' } : '',
+      width_px_rect_rp ? { width: width_px_rect + 'px' } : '',
       { justifyContent: justify_rp, alignItems: align_rp },
       !props.transprent ? tmcomputed.backgroundColorCss : '',
       !props.transprent ? tmcomputed.shadowColor : '',
@@ -52,6 +52,7 @@ import {
   nextTick,
   watch,
   PropType,
+  watchEffect,
 } from "vue";
 import { cssstyle, tmVuetify, colorThemeType } from "../../tool/lib/interface";
 import {
@@ -84,11 +85,6 @@ const props = defineProps({
   },
   round: {
     type: [Number, String],
-    default: 0,
-  },
-  //单元格之间的间距
-  gutter: {
-    type: Number,
     default: 0,
   },
   //总列数。
@@ -125,9 +121,11 @@ const isDark = computed(() => computedDark(props, tmcfg.value));
 const tmcomputed = computed<cssstyle>(() =>
   computedTheme(props, isDark.value, tmcfg.value)
 );
+//取得嵌套的col宽度
+const colWidth =inject("TmColWidth",computed(()=>0))
 
 //宽度，
-const width_px_rect = computed(() => props.width);
+const width_px_rect = ref(uni.upx2px(Number(props.width)));
 const width_px_rect_rp = computed(() => width_px_rect.value);
 //横向对齐方式
 const justifyAlign = {
@@ -146,44 +144,70 @@ const AlignAlign = {
 };
 const align_rp = computed(() => AlignAlign[props.align] || "start");
 function wxmpGetRect() {
-  if (props.width) {
-    return;
-  }
+  if (width_px_rect.value > 0) return;
   uni
     .createSelectorQuery()
     .in(proxy)
     .select(".tm-row")
     .boundingClientRect()
     .exec(function (res) {
-      width_px_rect.value = res[0].width;
+      if (res[0]?.width) {
+        width_px_rect.value = res[0]?.width;
+      }else{
+		  wxmpGetRect()
+	  }
     });
 }
 function nvueGetRect() {
-  if (props.width) {
-    return;
-  }
+	if (width_px_rect.value > 0) return;
   // #ifdef APP-PLUS-NVUE
   try {
-    nextTick(function () {
-      dom.getComponentRect(proxy.$refs.tmRow, function (res) {
+    dom.getComponentRect(proxy.$refs.tmRow, function (res) {
+      if (res?.size && res?.size?.width) {
         width_px_rect.value = res.size.width;
-      });
+      }else{
+		  nvueGetRect()
+	  }
     });
   } catch (e) {
     //TODO handle the exception
   }
   // #endif
 }
+
+onMounted(() => {
+  // #ifndef APP-NVUE
+  wxmpGetRect();
+  // #endif
+  // #ifdef APP-NVUE
+  nvueGetRect();
+  // #endif
+});
+
+onUpdated(() => {
+  // #ifndef APP-NVUE
+  wxmpGetRect();
+  // #endif
+  // #ifdef APP-NVUE
+  nvueGetRect();
+  // #endif
+});
+
 //对col子组件暴露数据。
 provide("TmRowWidth", width_px_rect_rp); //微信端面使用
 provide(
   "TmRowColumn",
   computed(() => props.column)
 );
-provide(
-  "TmRowGutter",
-  computed(() => props.gutter)
-);
+
+
+watchEffect(()=>{
+	if(colWidth.value>0){
+		width_px_rect.value = colWidth.value;
+	}
+})
+
+
 // 设置响应式主题文字色。
 let textColor = computed(() => tmcomputed.value.textColor);
 provide("appTextColor", textColor);

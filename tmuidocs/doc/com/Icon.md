@@ -19,10 +19,41 @@ title: tmui 3.0 组件库
 # 图标 Icon
 图标，提供了一个spin功能用于自动旋转图标在Nvue中使用原生动画
 
-**3.0.86+开始,允许自定图标**
-我们现在的图标是以tmicon-xxx,xxx表示图标名称的方式显示图标.<br>
-现在开始允许tmicon-icon-xxx,xxx为你的自定图标名称或者nvue下的16进制符号,比如:name="tmicon-icon-e7a6",或者"myicon-icon-e7a6"<br>
-前提是你需要自己事先引入你自己的图标css文件(nvue下要先加载字体)到你应用中,这样就可自定义显示自己的图标.
+**3.0.89+开始,允许自定图标,并且作了优化规则**
+
+因很多人看不懂规则，我现在重新写了个规则希望大家能看明白。按理是比较简单的。<br>
+1. 下载字体图标，通过iconfont或者其它方式下载字体图标都行
+2. 图标的字体名称一定要与前缀相同，以iconfont项目设置为例：前缀```myicon-``` ,字体名称：```myicon```
+3. 下载的图标包应该要包含：class的css文件以及ttf的base64文件（用于nvue安装）
+4. 引入好css图标，nvue安装好ttf base64图标文件
+5. 使用图标比如你有个图标名称叫```music```图标它的unicode符号为```&#xe617```.应该这么使用
+```ts
+//这就是自定义图标的使用方法，这样在全平台都可显示。
+<tm-icon name="myicon-music-e617"></tm-icon>
+```
+**如何在nvue下安装base64位的ttf文件？**
+```ts
+import { onBeforeMount } from "vue"
+// #ifdef APP-NVUE || APP-PLUS-NVUE
+//customfont为你的base64的ttf字体内容
+import { customfont } from "./customIcon/customiconfont";
+var domModule = weex.requireModule("dom");
+const animation = uni.requireNativePlugin("animation");
+// #endif
+
+// #ifdef APP-PLUS-NVUE
+onBeforeMount(() => {
+	//customfont为你的base64的ttf字体内容
+  domModule.addRule("fontFace", {
+    fontFamily: "myicon", //注意这里必须是驼峰命名，跟上面的css样式对照
+    src: "url('data:font/ttf;charset=utf-8;base64," + customfont + "')",
+  });
+});
+// #endif
+
+```
+
+**介绍完毕，如果还看不懂，我也无能为力了**
 
 ---
 

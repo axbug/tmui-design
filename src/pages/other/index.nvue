@@ -4,6 +4,8 @@
             <tm-cell v-for="(item, index) in list" :key="index" :url="item.path" :margin="[0, 0]" :titleFontSize="30"
                 :title="item.title"> </tm-cell>
         </view>
+		
+		
         <view class="py-32 mx-32">
             <tm-divider color="grey-2" label="tmui 3.0.0 原生渲染，全端兼容"></tm-divider>
         </view>
@@ -28,6 +30,9 @@ const list = ref([
     { path: "/pages/other/scrolly", title: "纵向滚动 Scrolly" },
     { path: "/pages/other/watermark", title: "水印 Watermark" },
     { path: "/pages/other/html", title: "富文本解析 Html" },
+    { path: "/pages/other/colorPicker", title: "颜色选择器 colorView" },
 ])
+
+
 
 </script>

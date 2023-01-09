@@ -54,30 +54,30 @@
           class="flex flex-row flex-row-center-center"
           :style="[{ height: '120rpx', flexWrap: 'wrap' }]"
         >
-          <tm-sheet
-            @click="clickWeek(item)"
-            :height="112"
-            :shadow="0"
-            :round="4"
-            _class="flex-row flex-center"
-            class="flex-3"
-            paren-class="flex-3"
-            :text="_nowMonth == item.month"
-            :color="_nowMonth == item.month ? _color : 'grey-4'"
-            :margin="[4, 4]"
-            :padding="[0, 0]"
-            v-for="(item, index) in item2"
-            :key="index"
-          >
-            <view
-              :style="[{ opacity: item.isVaild ? '0.3' : '1' }]"
-              :userInteractionEnabled="false"
-              style="width: 62rpx"
-              class="flex-center flex-col"
-            >
-              <tm-text :font-size="28" :label="item.month + '月'"></tm-text>
-            </view>
-          </tm-sheet>
+          <view class="flex-4" :style="{height:'112rpx'}"  v-for="(item, index) in item2"
+			    :key="index">
+			  <tm-sheet
+			    @click="clickWeek(item)"
+			    :height="112"
+			    :shadow="0"
+			    :round="4"
+			    _class="flex-row flex-center"
+			    :text="_nowMonth == item.month"
+			    :color="_nowMonth == item.month ? _color : 'grey-4'"
+			    :margin="[4, 4]"
+			    :padding="[0, 0]"
+			   
+			  >
+			    <view
+			      :style="[{ opacity: item.isVaild ? '0.3' : '1' }]"
+			      :userInteractionEnabled="false"
+			      style="width: 62rpx"
+			      class="flex-center flex-col"
+			    >
+			      <tm-text :font-size="28" :label="item.month + '月'"></tm-text>
+			    </view>
+			  </tm-sheet>
+		  </view>
         </view>
       </view>
     </view>

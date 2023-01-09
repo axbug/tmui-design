@@ -1,5 +1,5 @@
 <template>
-  <view class="flex flex-col relative">
+  <view class="relative">
     <tm-sheet
       v-if="!props.hideTool"
       :shadow="0"
@@ -60,8 +60,8 @@
             :shadow="0"
             :round="4"
             _class="flex-row flex-center"
-            class="flex-3"
-            paren-class="flex-3"
+            class="flex-4"
+            paren-class="flex-4"
             :text="_nowDate == item.year"
             :color="_nowDate == item.year ? _color : 'grey-4'"
             :margin="[4, 4]"

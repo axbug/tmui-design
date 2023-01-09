@@ -7,7 +7,9 @@ title: tmui 3.0 组件库
 ##### 组件库文档 tmui.design
 
 # 布局 Row
-你可以用来排版，排列，九宫格等需要排版布局时非常有用。比如自己作表格等。 它是按12列划分的
+你可以用来排版，排列，九宫格等需要排版布局时非常有用。比如自己作表格等。 它是按12列划分的,当然也可以通过属性更改列数哦。
+
+***特别注意：从3.0.89开始使用了新的布局方式，并且不会向下兼容，更新后比之前布局变得非常的简单***
 
 ---
 
@@ -28,30 +30,35 @@ title: tmui 3.0 组件库
 | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
 
 ### :seedling: 参数
-Row组件含有公共属性 [公共属性](/doc/spec/组件公共样式.md),必须配合tmCol，采用flex布局。必须在class上写flex-x，x=[1,12]
-> row和col为了高性能和兼容全平台，全部使用flex布局，因此用起来可能有点不方便,但这是值得的。  
-> 如果row设定了宽度，子col将会自动设定宽度。此时如果要切换，必须设定column列数。
+Row组件含有公共属性 [公共属性](/doc/spec/组件公共样式.md),必须配合tmCol
+
+**我建议row上最好定义width,这样性能与原生无异**
+当外部宽度不可预测时，width可以不设置，即让组件自动检测宽度，这样适合少量元素的布局。不适合大量数据布局。
 
 | 参数名 | 类型 | 默认值 | 描述 |
 | :--: | :--: | :--: | :-- |
-| height | [Number,String] | 0 | 高度，单位rpx |
+| height | [Number] | 50 | 高度，单位rpx,如果为0时，表示高度自动，不受限制。 |
 | margin | `Array<number>` | [0,0] | 外间距[x,y]x=左右，y=上下 |
-| width | [Number,String] | 0, | 宽度，单位rpx |
-| round | [Number,String] | 0 | 圆角0-25，单位rpx |
-| gutter | Number | 0 | 左右，和上下间距。优先级别小于col组件内部的间距。 |
+| width | [Number] | 0, | 宽度，单位rpx |
+| round | [Number] | 0 | 圆角0-25，单位rpx |
+| gutter | Number | 0 | 从3.0.89开始，此属性已经删除，请见col下的margin |
 | column | Number | 10 | 列 |
 | justify | String | start | 可选值：start/center/end/around/between |
 | align | String | center| 可选值：start/center/end/stretch |
 | color | String | white | 颜色 |
 
 ### :seedling: Col组件参数
-Col组件含有公共属性 [公共属性](/doc/spec/组件公共样式.md)，必须配置tmRow使用。否则报错。
+必须配置tmRow使用。否则报错。
 | 参数名 | 类型 | 默认值 | 描述 |
 | :--: | :--: | :--: | :-- |
-| height | [Number,String] | 50 | 高度，单位rpx |
+| height | [Number] | 50 | 高度，单位rpx，如果为0时，表示高度自动，不受限制。|
 | color | String | white | 颜色 |
 | transprent | [Boolean,String] | false | 是否透明 |
 | align | String | center|可选值：start/center/end |  
+| col | Number | 1 | 所占row中column的列数，这里默认占1列 |  
+| margin | `Array<number>` | [0] | 四周的间隙，规则见[公共属性margin](/doc/spec/组件公共样式.md) |  
+| borderColor | String | 'rgba(0,0,0,0.04)' | 边线的颜色 |  
+| borderGutter | `Array<number>` | [0,0,0,0] | 四周的边线大小，顺序为：0左，1上，2右，3下 |  
 
 ### :rose: 事件
 | 事件名 | 参数 | 返回数据 | 描述 |

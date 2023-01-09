@@ -11,6 +11,7 @@
           :followTheme="props.followTheme"
           :level="props.level"
           :data="item"
+          @click="onCellClick(item)"
         ></nodeCellVue>
       </view>
     </scroll-view>
@@ -21,6 +22,7 @@
       :height="props.height"
       :color="props.color"
       :data="nextChildData"
+      @cellClick="onCellClick"
     ></BaseCascader>
   </view>
 </template>
@@ -40,6 +42,7 @@ import BaseCascader from "./base-cascader.vue";
 import BaseNode from "./base-node.vue";
 import nodeCellVue from "./node-cell.vue";
 import { childrenData } from "./interface";
+const emits = defineEmits(["cellClick"])
 const props = defineProps({
   followTheme: {
     type: [Boolean, String],
@@ -92,4 +95,8 @@ watchEffect(() => {
     }
   }
 });
+
+function onCellClick(item:any){
+  emits("cellClick",item)
+}
 </script>
