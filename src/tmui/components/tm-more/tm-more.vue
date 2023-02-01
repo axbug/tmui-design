@@ -19,7 +19,7 @@
         isOpen ? '' : isDark ? 'darkBg absolute' : 'lightBg absolute',
       ]"
       :style="[
-        !css_is_nvue ? { width: '100%' } : '',
+        !css_is_nvue ? { width: '100%', 'box-sizing': 'border-box' } : '',
         css_is_nvue && !isOpen
           ? { width: css_nvue_size[0] + 'px', height: css_nvue_size[1] + 'px' }
           : '',
