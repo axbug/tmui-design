@@ -120,6 +120,16 @@ const props = defineProps({
     type: String,
     default: "id",
   },
+  /**
+   * 城市选择的级别
+   * province:省级别。
+   * city:省，市
+   * area:省，市，县/区.
+   */
+  cityLevel: {
+    type: String,
+    default: "area",
+  },
   // 手动赋值城市数据
   city: {
     type: Array as PropType<Array<childrenData>>,
