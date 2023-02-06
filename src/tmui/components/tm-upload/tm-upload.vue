@@ -281,6 +281,11 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  //文件选择的类型
+  fileType: {
+    type: Array as PropType<Array<'album' | 'camera'>>,
+    default: ['album','camera'],
+  },
 });
 /**
  * emits 事件说明
@@ -317,6 +322,7 @@ const _uploadObj = new uploadfile({
   formData: props.formData,
   maxFile: props.maxFile,
   maxSize: props.maxSize,
+  fileType: props.fileType,
 });
 
 const _flist: Ref<Array<file>> = ref([]);
