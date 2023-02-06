@@ -510,7 +510,7 @@ const props = defineProps({
       | "text"
       | "number"
       | "idcard"
-      | "idcard"
+      | "digit"
       | "tel"
       | "safe-password"
       | "nickname"
