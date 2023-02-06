@@ -5,7 +5,7 @@
     :round="props.round"
     ref="drawer"
     :height="dHeight"
-    :closable="true"
+    :closeable="true"
     :overlayClick="aniover"
     @open="drawerOpen"
     @cancel="cancel"
