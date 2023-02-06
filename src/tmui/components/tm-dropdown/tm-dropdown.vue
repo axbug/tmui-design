@@ -193,6 +193,7 @@
                     <tm-text :fontSize="32" :label="item.text"></tm-text>
                   </view>
                   <tm-icon
+                    v-if="item.haveArrow"
                     :font-size="22"
                     _class="pl-24"
                     name="tmicon-angle-right"
@@ -324,6 +325,7 @@
                     <tm-text :fontSize="32" :label="item.text"></tm-text>
                   </view>
                   <tm-icon
+                    v-if="item.haveArrow"
                     :font-size="22"
                     _class="pl-24"
                     name="tmicon-angle-right"
