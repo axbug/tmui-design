@@ -467,28 +467,7 @@ function onclick(e: Event) {
   }
   if (props.openType == "getUserInfo" || props.openType == "getUserProfile") {
     // #ifdef MP-WEIXIN
-    uni.getUserProfile({
-      desc: "用于完善会员资料",
-      success: function (userProfile) {
-        if (userProfile.errMsg != "getUserProfile:ok") {
-          uni.showToast({
-            title: userProfile.errMsg,
-            icon: "error",
-            mask: true,
-          });
-          return;
-        }
-        emits("getUserInfo", userProfile);
-        emits("getUserProfile", userProfile);
-      },
-      fail: (error) => {
-        console.log(error);
-        uni.showToast({
-          icon: "none",
-          title: typeof error == "object" ? error.errMsg : error,
-        });
-      },
-    });
+    console.warn("微信小程序已收回‘getUserProfile’以及‘getUserInfo’权限，请使用open-type='chooseAvatar'使用@chooseavatar回调，详见《微信小程序用户头像昵称获取规则调整公告》https://developers.weixin.qq.com/community/develop/doc/00022c683e8a80b29bed2142b56c01");
     // #endif
   }
 }
