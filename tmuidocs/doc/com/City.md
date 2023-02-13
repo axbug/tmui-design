@@ -35,7 +35,6 @@ title: tmui 3.0 组件库
 | :--: | :--: | :--: | :-- |
 | selectionModel | String | name | 赋值方式，id:城市id为返选赋值。name:以城市名称作为返选和赋值。 |
 | cityLevel | String | area | 城市选择的级别province:省级别。city:省，市,area:省，市，县/区. |
-| hotCity | Array | {name:"南昌市",data:["江西省","南昌市",'红谷滩区']},{name:"杭州市",data:["浙江省","杭州市",'余杭区']}| 热门城市选择。 |
 | defaultValue | Array | [] | 默认选中的数据 |
 | modelValue | Array | [] | 双向绑定输入数据,同v-model |
 | height | Number | 650 | 高度，单位rpx |

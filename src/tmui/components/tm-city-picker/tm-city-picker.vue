@@ -120,13 +120,13 @@ const props = defineProps({
     type: String,
     default: "id",
   },
-  /**
+    /**
    * 城市选择的级别
    * province:省级别。
    * city:省，市
    * area:省，市，县/区.
    */
-  cityLevel: {
+   cityLevel: {
     type: String,
     default: "area",
   },
@@ -160,7 +160,7 @@ const showCity = ref(true);
 const _cityData = computed(() => props.city);
 const _colIndex: Ref<Array<number>> = ref([]);
 const _data = ref(chiliFormatCity_area());
-let tmid = NaN;
+let tmid:any = NaN;
 const _colStr = ref("");
 const aniover = ref(true);
 const sysinfo = inject("tmuiSysInfo", {
@@ -242,7 +242,7 @@ function getIndexBymodel(
 ): Array<number | string> {
   if (value.length == 0) return [];
   if (model == "name") {
-    let item = vdata.filter((el) => value[parentIndex] == el["text"]);
+    let item:any = vdata.filter((el) => value[parentIndex] == el["text"]);
     if (item.length == 0) {
       item = vdata[0];
       if (item) {
@@ -264,7 +264,7 @@ function getIndexBymodel(
       }
     }
   } else if (model == "id") {
-    let item = vdata.filter((el) => value[parentIndex] == el["id"]);
+    let item:any = vdata.filter((el) => value[parentIndex] == el["id"]);
     if (item.length == 0) {
       item = vdata[0];
       if (item) {

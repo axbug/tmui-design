@@ -303,8 +303,8 @@ function setAppStyle() {
 
     if (isTabbarPage) {
       uni.setTabBarStyle({
-        backgroundColor: "#000000",
-        borderStyle: "#1a1a1a",
+        backgroundColor: "#141415",
+        borderStyle: "black",
         color: "#ffffff",
         selectedColor: uni.$tm.tabBar.selectedColor || tmcomputed.value.textColor,
       });
@@ -351,7 +351,7 @@ function setAppStyle() {
       uni
         .setTabBarStyle({
           backgroundColor: uni.$tm.tabBar.backgroundColor || props.navbar.background,
-          borderStyle: uni.$tm.tabBar.borderStyle || "#888888",
+          borderStyle: uni.$tm.tabBar.borderStyle || "white",
           color: uni.$tm.tabBar.color || props.navbar.fontColor,
           selectedColor: uni.$tm.tabBar.selectedColor || tmcomputed.value.textColor,
         })

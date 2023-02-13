@@ -1,0 +1,43 @@
+<template>
+	<tm-app>
+		<tm-sheet>
+			<tm-text label="以下为render实例渲染的简单图表,用于简单的数据展示,而非复杂场景下使用.支持全平台渲染."></tm-text>
+		</tm-sheet>
+		<tm-sheet :round="5" color="black" :padding="[0,0]">
+			<tm-render ref="rtx" :width="338" :height="338"></tm-render>
+		</tm-sheet>
+	</tm-app>
+</template>
+
+<script lang="ts" setup>
+import { ref, getCurrentInstance,onMounted, nextTick } from "vue"
+import tmApp from "@/tmui/components/tm-app/tm-app.vue"
+import tmSheet from "@/tmui/components/tm-sheet/tm-sheet.vue"
+import tmRender from "../../tmui/components/tm-render/tm-render.vue"
+import tmText from "../../tmui/components/tm-text/tm-text.vue"
+const rtx = ref<InstanceType<typeof tmRender> | null>(null);
+
+	onMounted(() => {
+		rtx.value?.init().then(tm=>{
+			tm.render?.add({
+				name:'circle',
+				drag:true,
+				shape:{
+					rx:50,
+					ry:50,
+					r:50
+				},
+				style:{
+					lineWidth:4,
+					fill:'rgb(255,0,0)'
+				}
+			})
+		})
+	})
+
+
+</script>
+
+<style>
+
+</style>

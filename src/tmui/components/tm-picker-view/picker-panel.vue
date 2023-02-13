@@ -205,6 +205,7 @@ const maskStyleNvue = computed(() => {
 
   return isDark ? str_black : str_white;
 });
+
 onMounted(() => {
   //在微信小程序因为有渲染等待30ms，为了兼容统一全部等待30ms
   showDom.value = true;

@@ -35,7 +35,7 @@ title: tmui 3.0 组件库
 | shadow | Number, String | 2 | 卡片投影，0-26 |
 | round | Number, String | 4 | 卡片圆角，0-26 |
 | border | Number | 0 | 边框 |
-| margin | Array | [32,16] | 外间距[x,y]x=左右，y=上下 |
+| margin | Array | [32, 0,32,24] | 外间距[x,y]x=左右，y=上下,详细规则见公共属性中的说明 |
 | padding | Array | [16, 0] | 内间距[x,y]x=左右，y=上下 |
 | transprent | Boolean,String | false |  |
 | color | String | white | 背景主题颜色名称 |

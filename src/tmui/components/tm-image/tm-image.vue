@@ -46,12 +46,14 @@
           ]"
           class="flex flex-center opacity-3"
         >
-          <tm-icon
-            v-if="props.showLoad"
-            :font-size="26"
-            spin
-            name="tmicon-shuaxin"
-          ></tm-icon>
+          <slot name="load">
+              <tm-icon
+              v-if="props.showLoad"
+              :font-size="26"
+              spin
+              :name="_loadIcon"
+            ></tm-icon>
+          </slot>
         </view>
 
         <view
@@ -61,7 +63,7 @@
         >
           <slot name="error">
             <view @click="reloadImg">
-              <tm-icon :userInteractionEnabled="false" name="tmicon-exclamation-circle"></tm-icon>
+              <tm-icon :userInteractionEnabled="false" :name="_errorIcon"></tm-icon>
               <tm-text :userInteractionEnabled="false" _class="pt-10" :font-size="26" :label="props.errorLabel"></tm-text>
             </view>
           </slot>
@@ -243,6 +245,9 @@ const img_src = computed(() => props.src);
 const loading = ref(true);
 const error = ref(false);
 const isRmove = ref(false);
+const _loadIcon = ref(props.loadIcon||'tmicon-shuaxin')
+const _errorIcon = ref(props.errorIcon||'tmicon-exclamation-circle')
+
 
 //父级方法。
 let parent: any = proxy?.$parent;

@@ -151,7 +151,7 @@ watch(
   { deep: true }
 );
 
-let timid = 56321326898746;
+let timid:any = NaN;
 function reset() {
   formFunCallBack.value = "";
   nextTick(() => {
@@ -159,10 +159,12 @@ function reset() {
     clearTimeout(timid);
     emits("reset");
     timid = setTimeout(function () {
+      let dblack = uni.$tm.u.deepClone(_backModelVal);
       emits("reset");
-      emits("update:modelValue", _backModelVal);
-      _modelVal.value = _backModelVal;
-    }, 500);
+      emits("update:modelValue", dblack);
+      _modelVal.value = dblack;
+      console.log(dblack)
+    }, 300);
   });
 }
 function clearValidate() {

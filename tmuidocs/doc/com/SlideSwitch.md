@@ -40,6 +40,7 @@ title: tmui 3.0 组件库
 | color      | String       | white | 主题颜色                            |
 | round      | Number       | 0     | 圆角像素                            |
 | openStatus | Boolean      | false | 为true状态下可以使用v-model:open-status |
+| rightWidth | Number       | 120     | 左滑区域的宽度(右边底部展开的宽度) |
 
 - 按钮数据参数
 ```javascript

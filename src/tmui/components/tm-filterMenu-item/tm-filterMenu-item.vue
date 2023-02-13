@@ -89,6 +89,7 @@ const props = defineProps({
   },
 });
 const _props = computed(() => props);
+let tid:any = NaN
 const activeIndex = inject(
   "activeIndex",
   computed(() => 0)
@@ -113,7 +114,12 @@ while (parent) {
   }
 }
 pushKey();
-
+watch(()=>_props.value,()=>{
+	clearTimeout(tid)
+	tid = setTimeout(function() {
+		pushKey();
+	}, 150);
+},{deep:true})
 onMounted(() => {
   setTimeout(() => {
     nextTick(() => {

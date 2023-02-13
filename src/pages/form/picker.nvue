@@ -3,7 +3,7 @@
 		<tm-sheet>
 			<tm-text :font-size="24" _class="font-weight-b" label="基础示例,更多见文档"></tm-text>
 			<tm-divider></tm-divider>
-			<tm-picker-view :columns="citydate"></tm-picker-view>
+			<tm-picker-view map-key="word" :columns="citydate"></tm-picker-view>
 		</tm-sheet>
 		<tm-cell @click="showdate = true" title="请选择水果种类" :right-text="dateStr || '请选择'"></tm-cell>
 		<tm-cell @click="showdateq = true" title="这里联动上边" :right-text="dateStr2 || '请选择'"></tm-cell>
@@ -36,7 +36,7 @@ const dateStr2 = ref('')
 const pickydata = ref([1,1])
 const pickydata2 = ref([])
 const citydate = ref([
-	{ text: "苹果", id: 0 }, { text: "香蕉", id: 1 }, { text: "其它水果", id: 2 }, { text: "越南水果", id: 4 }
+	{ word: "苹果", id: 0 }, { word: "香蕉", id: 1 }, { word: "其它水果", id: 2 }, { word: "越南水果", id: 4 }
 ])
 const citydate2 = ref([
 	{ text: "苹果", id: 0, children: [{ text: "香蕉", id: 10 }, { text: "香蕉2", id: 122 }] },

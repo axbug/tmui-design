@@ -6,7 +6,7 @@
 		</tm-sheet>
 
 		<view class="px-32">
-			<tm-row :width="686">
+			<tm-row :width="686" :column="10">
 				<tm-col :borderGutter="[0,0,2,0]" :col="2">
 					<tm-text label="2"></tm-text>
 				</tm-col>

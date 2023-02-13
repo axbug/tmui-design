@@ -1,10 +1,18 @@
 <template>
 	<tm-app>
 		<tm-sheet>
-			<tm-text :font-size="24" _class="font-weight-b" label="基础示例,更多见文档"></tm-text>
-			<tm-tag @click="showFixed=!showFixed" label="显示左固定栏"></tm-tag>
+			<tm-text :font-size="24" color='red' _class="font-weight-b" label="从3.0.9开始不向下兼容,老项目请继续使用3.0.89的版本即可"></tm-text>
+			<tm-text :font-size="28"  label="从3.0.9开始,table组件进行了改版,主要是为了解决非nvue端的性能问题.
+			由于nvue是使用nvue原生组件实现,所以性能这块不用担心.并且支持头部固定的功能,左侧固定功能删除了.
+			非nvue端没有固定的头部,并且取消了scroll-view,而采用原始的view组件生成滚动.
+			3.0.9开始采用同阿里的antv/S2数据结构,方便后续的功能更新迭代.
+			"></tm-text>
+			<view class="flex flex-row">
+				<tm-tag checkable v-model:checked="showFixed" @click="showFixed=!showFixed" label="显示/隐藏头部"></tm-tag>
+				<tm-tag checkable v-model:checked="stripe" @click="stripe=!stripe" label="显示/隐藏条纹"></tm-tag>
+			</view>
 			<tm-divider></tm-divider>
-			<tm-table :showHeader="true" :showFixed="showFixed" @rowClick='onClick' :height="550" :width="638" :table-data="tableData" :header="header"></tm-table>
+			<tm-table :table-data="testdata" :stripe="stripe" :showHeader="showFixed" @rowClick='onClick' :height="650" :width="638" ></tm-table>
 		</tm-sheet>
 	</tm-app>
 </template>
@@ -22,139 +30,13 @@
 	import tmTable from "@/tmui/components/tm-table/tm-table.vue"
 	import tmDivider from "@/tmui/components/tm-divider/tm-divider.vue"
 	import tmTag from "@/tmui/components/tm-tag/tm-tag.vue"
-	const showFixed = ref(true)
-	const header = ref([{
-			title: "支付时间",
-			bgColor: "green",
-			width: 120,
-			key: 'paytime'
-		},
-		{
-			title: "未付订金",
-			bgColor: "green",
-			width: 150,
-			key: 'unpayamount',
-			sort: true
-		},
-		{
-			title: "备注",
-			bgColor: "yellow",
-			width: 160,
-			key: 'desc'
-		},
-		{
-			title: "固定行/列",
-			bgColor: "pink",
-			cellColor: 'pink',
-			width: 160,
-			key: 'status',
-			fixed:true,
-		},
-		{
-			title: "已付订金",
-			bgColor: "green",
-			width: 150,
-			key: 'amount'
-		},
-	])
-	const tableData = ref([{
-			data: {
-				unpayamount: 100,
-				paytime: "2022/2/5",
-				amount: "100",
-				desc: "没有",
-				status: "行1",
-			}
-		}, {
-			data: {
-				unpayamount: 25,
-				paytime: {
-					text: "获取",
-					type: 'button'
-				},
-				amount: "100",
-				desc: {
-					text: "好吧",
-					color: 'orange',
-					light: true
-				},
-				status: "行2",
-			}
-		},
-		{
-			data: {
-				unpayamount: 36,
-				paytime: "2022/2/5",
-				amount: "100",
-				desc: {
-					text: "嘿",
-					type: 'button'
-				},
-				status: "行3",
-			}
-		}, {
-			color: 'green',
-			light: true,
-			data: {
-				unpayamount: 200,
-				paytime: "2022/2/5",
-				amount: "100",
-				desc: "没有",
-				status: "行4",
-			}
-		},
-		{
-			data: {
-				unpayamount: 80,
-				paytime: "2022/2/5",
-				amount: {
-					text: "100",
-				},
-				desc: "没有",
-				status: "行5",
-			}
-		}, {
-			data: {
-				unpayamount: {
-					text: 180,
-					color: 'green'
-				},
-				paytime: "2022/2/5",
-				amount: "100",
-				desc: "没有",
-				status: "行6",
-			}
-		},
-		{
-			data: {
-				unpayamount: 20,
-				paytime: "2022/2/5",
-				amount: "100",
-				desc: "没有",
-				status: "行7",
-			}
-		}, {
-			data: {
-				unpayamount: 35,
-				paytime: "2022/2/5",
-				amount: "100",
-				desc: "没有",
-				status: "行8",
-			}
-		},
-		{
-			data: {
-				unpayamount: 40,
-				paytime: "2022/2/5",
-				amount: "100",
-				desc: "没有",
-				status: "行9",
-			}
-		}
-	])
+	import testdata from "./smpledata"
 
-	function onClick(row, col) {
-		console.log(row)
+	const showFixed = ref(true)
+	const stripe = ref(false)
+
+
+	function onClick(row:number, col:number) {
 		uni.$tm.u.toast("行:" + String(row) + ",列" + String(col))
 	}
 </script>

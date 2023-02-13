@@ -90,7 +90,7 @@ const props = defineProps({
   //总列数。
   column: {
     type: Number,
-    default: 10,
+    default: 12,
   },
   //横向排列
   justify: {

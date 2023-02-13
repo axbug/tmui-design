@@ -3,3 +3,6 @@
 /tmuidocs/.vuepress/dist/
 /tmuidocs/.vuepress/.temp/
 /tmuidocs/node_modules/
+/tmuidocs/.vuepress/.cache/
+/node_modules/
+/tmui-cli/node_modules/

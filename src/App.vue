@@ -10,14 +10,13 @@
 	/* #endif */
 	
 	/* #ifndef APP-PLUS-NVUE */
-	
 	@import './tmui/scss/noNvue.css';
-	
+	/* //下面的是自定义图标页面使用,可不用引入 */
+	@import "./pages/changyong/customIcon/custom.css";
 	/* #endif */
 
 
 	/* #ifdef H5 */
-	
 	body::-webkit-scrollbar,
 	div::-webkit-scrollbar,
 	*::-webkit-scrollbar {

@@ -174,12 +174,12 @@ function play() {
   clearTimeout(tmid.value);
   nextTick(function () {
     tmid.value = setTimeout(function () {
-      nvueAmatons();
+		emits("start");
+		nvueAmatons();
     }, 50);
   });
   // #endif
-  // #ifndef APP-PLUS-NVUE
-
+  // #ifndef APP-NVUE
   noNvueAmations();
   // #endif
 }
@@ -275,15 +275,18 @@ function nvueAmatons() {
 }
 function noNvueAmations() {
   clearTimeout(tmid.value);
-  // animationData.value = null;
   tmid.value = setTimeout(() => {
     if (computedReverse.value) {
       animationClassName.value = animationName.value;
     } else {
       animationClassName.value = animationName.value + "-reverse";
     }
+	tmid.value = setTimeout(() => {
+	  emits("end");
+	}, props.duration);
+	
   }, 20);
-  return;
+  
 }
 </script>
 

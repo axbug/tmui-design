@@ -29,8 +29,8 @@
 		hover-stop-propagation
 		:class="[
 		  'button flex flex-row flex-row-center-center',
-      isclickOn?props.hoverClass+' bhover':'',
-      'webpc',
+			isclickOn?props.hoverClass+' bhover':'',
+			'webpc',
 		  !isDisabledRoundAndriod ? `round-${btnSizeObj.round}` : '',
 		   customClass
 		]"
@@ -302,7 +302,7 @@ const _noLevel = computed(() => props.noLevel);
 const isDark = computed(() => computedDark(props, tmcfg.value));
 // 设置响应式主题文字色。
 let textColor = computed(() => {
-  return tmcomputed.value.textColor;
+  return _fontColor.value ||  tmcomputed.value.textColor;
 });
 //自定义样式：
 const customCSSStyle = computed(() => {
@@ -341,24 +341,24 @@ const _isBorder = computed(() => {
   return 0;
 });
 const sizeObj = computed(() => {
-  if (props.unit == "px") {
-    return {
-      block: { w: 0, h: 80, fontSize: 28, round: 3 },
-      mini: { w: 44, h: 18, fontSize: 10, round: 2 },
-      small: { w: 60, h: 28, fontSize: 11, round: 3 },
-      normal: { w: 110, h: 40, fontSize: 14, round: 3 },
-      middle: { w: 180, h: 40, fontSize: 15, round: 3 },
-      large: { w: 268, h: 44, fontSize: 16, round: 4 },
-    };
-  }
-  return {
+  let ptest = {
     block: { w: 0, h: 80, fontSize: 28, round: 3 },
     mini: { w: 88, h: 36, fontSize: 20, round: 2 },
-    small: { w: 120, h: 56, fontSize: 22, round: 3 },
-    normal: { w: 220, h: 80, fontSize: 28, round: 3 },
-    middle: { w: 360, h: 80, fontSize: 30, round: 3 },
-    large: { w: 535, h: 88, fontSize: 32, round: 4 },
-  };
+    small: { w: 120, h: 56, fontSize: 22, round: 2 },
+    normal: { w: 220, h: 80, fontSize: 28, round: 2 },
+    middle: { w: 360, h: 80, fontSize: 30, round: 2 },
+    large: { w: 535, h: 88, fontSize: 32, round: 3 },
+  }
+  if (props.unit == "px"){
+    let key:'block'|'mini'|'small'|'normal'|'middle'|'large'='block'
+    let key2:'w'|'h'|'fontSize'|'round'='w'
+    for (key in ptest){
+      for (key2 in ptest[key]){
+        ptest[key][key2] = uni.upx2px(ptest[key][key2])
+      }
+    }
+  }
+  return ptest;
 });
 const btnSizeObj = computed(() => {
   let fontSize = props.fontSize || 0;
@@ -467,6 +467,28 @@ function onclick(e: Event) {
   }
   if (props.openType == "getUserInfo" || props.openType == "getUserProfile") {
     // #ifdef MP-WEIXIN
+    uni.getUserProfile({
+      desc: "用于完善会员资料",
+      success: function (userProfile) {
+        if (userProfile.errMsg != "getUserProfile:ok") {
+          uni.showToast({
+            title: userProfile.errMsg,
+            icon: "error",
+            mask: true,
+          });
+          return;
+        }
+        emits("getUserInfo", userProfile);
+        emits("getUserProfile", userProfile);
+      },
+      fail: (error) => {
+        console.log(error);
+        uni.showToast({
+          icon: "none",
+          title: typeof error == "object" ? error.errMsg : error,
+        });
+      },
+    });
     console.warn("微信小程序已收回‘getUserProfile’以及‘getUserInfo’权限，请使用open-type='chooseAvatar'使用@chooseavatar回调，详见《微信小程序用户头像昵称获取规则调整公告》https://developers.weixin.qq.com/community/develop/doc/00022c683e8a80b29bed2142b56c01");
     // #endif
   }

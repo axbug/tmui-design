@@ -1,14 +1,13 @@
 var THRESHOLD = 0.3;
 var MIN_DISTANCE = 10;
 var owner;
-var state;
-
-var getState = function(ownerInstance) {
+var state={
+	leftWidth:0,
+	rightWidth:0,
+};
+var getState = function(ownerInstance,prop) {
 	owner = ownerInstance;
-	state = owner.getState();
-	var lefrightwidth = owner.callMethod('getLeftRightwidth') ||{left:0,right:0}
-	state.leftWidth = lefrightwidth.left || 120;
-	state.rightWidth = lefrightwidth.right || 120;
+	
 	state.offset = state.offset || 0;
 	state.startOffset = state.startOffset || 0;
 	state.opened = state.opened || false;
@@ -126,6 +125,11 @@ var touchStart = function(event) {
 };
 
 var startDrag = function(event, ownerInstance) {
+	var prop = event.currentTarget.dataset.prop;
+	console.log(prop)
+	state.leftWidth =prop.leftWidth || 120;
+	state.rightWidth = prop.rightWidth || 120;
+	
 	getState(ownerInstance);
 	touchStart(event);
 	// onOpenedChange

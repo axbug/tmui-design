@@ -5,7 +5,7 @@
         </tm-sheet>
         
         <tm-sheet :padding="[12, 12]" :margin="[0, 0]">
-            <tm-pagination v-model:current="abv" color="red" :total="100"></tm-pagination>
+            <tm-pagination v-model:current="abv" color="primary" :total="100"></tm-pagination>
         </tm-sheet>
 		
 		<tm-sheet :padding="[12, 12]" :margin="[0, 16]">

@@ -53,6 +53,7 @@ title: tmui 3.0 组件库
 | list | Array | [] | 下拉选项的数据，格式见下方 |
 | rangKey | String | "text" |  |
 | disabled | Boolean | false | 是否禁用 |
+| haveArrow | Boolean | true | 是否显示右箭头。 |
 
 list数组数据格式：
 ```ts

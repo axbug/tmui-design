@@ -88,7 +88,7 @@
 	import tmButton from "@/tmui/components/tm-button/tm-button.vue"
 	import tmText from "@/tmui/components/tm-text/tm-text.vue"
 	import tmDivider from "@/tmui/components/tm-divider/tm-divider.vue"
-	const w = uni.$tm.u.torpx(60)
+	const w = uni.$tm.u.torpx(110)
 	const isopen = ref(true)
 	const action = ref([
 		{text:"操作",color:"black"},

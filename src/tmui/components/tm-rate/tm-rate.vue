@@ -31,7 +31,7 @@ const props = defineProps({
     type: Number,
     default: 5,
   },
-  modelvalue: {
+  modelValue: {
     type: Number,
     default: 0,
   },
@@ -114,11 +114,11 @@ const _label = computed(() => {
   if (props.label != "") return props.label;
   return _start.value + ".0";
 });
-const _blackValue = _start.value;
+
 watch(
-  () => props.modelvalue,
+  () => props.modelValue,
   () => {
-    let valueStart = props.modelvalue >= _count.value ? _count.value : props.modelvalue;
+    let valueStart = props.modelValue >= _count.value ? _count.value : props.modelValue;
     _start.value = valueStart <= 0 ? 0 : valueStart;
   }
 );

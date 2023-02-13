@@ -25,7 +25,7 @@
         { alignItems: alignComputed, justifyContent: 'center' },
         customCSSStyle,
       ]"
-      :class="['flex flex-col',`round-${props.round}`, customClass]"
+      :class="['flex flex-col flex-1',`round-${props.round}`, customClass]"
       ><slot></slot></view>
   </view>
 </template>

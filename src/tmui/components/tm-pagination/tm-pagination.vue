@@ -184,7 +184,7 @@ const props = defineProps({
   },
   round: {
     type: [Number],
-    default: 3,
+    default: 2,
   },
   shadow: {
     type: [Number],
@@ -196,7 +196,7 @@ const props = defineProps({
   },
   linear: {
     type: [String],
-    default: "bottom", //left:右->左，right:左->右。top:下->上，bottom:上->下。
+    default: "top", //left:右->左，right:左->右。top:下->上，bottom:上->下。
   },
   // 渐变的亮浅
   linearDeep: {

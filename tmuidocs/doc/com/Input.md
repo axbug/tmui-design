@@ -65,6 +65,7 @@ title: tmui 3.0 组件库
 | fontSize | Number | 30 | 字体大小 |
 | search | String | '' | tmicon-search |
 | searchLabel | String | '' | 搜索 |
+| searchFontColor | String | '' | 搜索按钮字体颜色，默认为自动 |
 | showClear | Boolean | false | 是否显示清空 |
 | password | Boolean | false | 是否密码框 |
 | disabled | Boolean | false | 是否禁用 |

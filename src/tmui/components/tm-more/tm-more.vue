@@ -1,43 +1,27 @@
 <template>
   <view class="flex flex-col relative">
-    <view
-      class="flex-1 flex flex-col relative contentbody overflow"
-      ref="contentbody"
-      :style="[
-        isMaxheight && !isOpen ? { height: props.height + 'rpx' } : '',
-        !isInit ? { transform: 'translateX(-1000px)' } : { transform: 'translateX(0px)' },
-      ]"
-    >
+    <view class="flex-1 flex flex-col relative contentbody overflow" ref="contentbody" :style="[
+      isMaxheight && !isOpen ? { height: props.height + 'rpx' } : '',
+      !isInit ? { transform: 'translateX(-1000px)' } : { transform: 'translateX(0px)' },
+    ]">
       <slot></slot>
     </view>
-    <view
-      @click.stop="open"
-      v-if="isMaxheight"
-      class="flex zIndex-10 flex-row flex-row-bottom-center py-24 flex"
+    <view @click.stop="open" v-if="isMaxheight" class="flex zIndex-10 flex-row flex-row-bottom-center py-24 flex"
       :class="[
         !css_is_nvue && !isOpen ? 'fulled-height' : '',
         isOpen ? '' : isDark ? 'darkBg absolute' : 'lightBg absolute',
-      ]"
-      :style="[
-        !css_is_nvue ? { width: '100%', 'box-sizing': 'border-box' } : '',
-        css_is_nvue && !isOpen
-          ? { width: css_nvue_size[0] + 'px', height: css_nvue_size[1] + 'px' }
-          : '',
-      ]"
-    >
+      ]" :style="[
+  !css_is_nvue ? { width: '100%', 'box-sizing': 'border-box'  } : '',
+  css_is_nvue && !isOpen
+    ? { width: css_nvue_size[0] + 'px', height: css_nvue_size[1] + 'px' }
+    : '',
+]">
       <slot name="more">
         <view :userInteractionEnabled="false" class="flex flex-row flex-row-center-center">
-            <tm-icon
-            :font-size="24"
-            :color="fontColor"
-            :name="isOpen ? 'tmicon-angle-up' : 'tmicon-angle-down'"
-          ></tm-icon>
-          <tm-text
-            :font-size="24"
-            :color="fontColor"
-            _class="px-16"
-            :label="isOpen ? props.openLabel : props.closeLabel"
-          ></tm-text>
+          <tm-icon :font-size="24" :color="fontColor"
+            :name="isOpen ? 'tmicon-angle-up' : 'tmicon-angle-down'"></tm-icon>
+          <tm-text :font-size="24" :color="fontColor" _class="px-16"
+            :label="isOpen ? props.openLabel : props.closeLabel"></tm-text>
         </view>
       </slot>
     </view>
@@ -124,7 +108,7 @@ const isMaxheight = ref(false);
 const maxHeight = computed(() => uni.upx2px(props.height));
 async function open() {
   if (typeof props.beforeOpen === "function") {
-    let p = await props.beforeOpen().catch((e) => {});
+    let p = await props.beforeOpen().catch((e) => { });
     if (typeof p === "function") {
       p = await p();
     }
@@ -179,11 +163,9 @@ function nvuegetClientRect() {
 </script>
 <style scoped>
 .lightBg {
-  background-image: linear-gradient(
-    to top,
-    rgba(255, 255, 255, 1) 30%,
-    rgba(255, 255, 255, 0.7) 50%
-  );
+  background-image: linear-gradient(to top,
+      rgba(255, 255, 255, 1) 30%,
+      rgba(255, 255, 255, 0.7) 50%);
 }
 
 .darkBg {

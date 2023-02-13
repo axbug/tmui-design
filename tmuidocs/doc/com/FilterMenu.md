@@ -7,7 +7,9 @@ title: tmui 3.0 组件库
 ##### 组件库文档 tmui.design
 
 # 下拉筛选器 FilterMenu
-本组件提供了基本逻辑框和动效,不集成任何数据逻辑,由使用者自行处理.
+本组件提供了基本逻辑框和动效,不集成任何数据逻辑,由使用者自行处理.<br>
+提醒各位：如果不开启fixed功能属性静态放置时，下拉错位，多半是你们用电脑浏览器模拟器的移动端，用鼠标滚动的。
+事实上我作了页面禁止滚动，手机上是滑动不了的，因此也不会出现下拉错位问题。如果你很在意要兼容电脑版本，那就开启fixed属性。
 
 **FilterMenu中必须放入FilterMenu-item才会生效.**
 
@@ -38,7 +40,9 @@ title: tmui 3.0 组件库
 | color | String | 'white' | 背景主题颜色 |
 | activeColor | String | 'primary' | 选中时的颜色 |
 | modelValue | Number | NaN | 打开时的索引,NaN时即关闭可双向绑定v-model="xx" |
-
+| fixed | Boolean | false | 是否开启悬浮 |
+**fixed的解释**
+开启后内容，展开会自动吸附到顶部，解决把此组件用到悬浮或者sticky中时，内容需要跟随页面置顶展示内容。关闭时，适合静态展示，展开后菜单不会吸顶。
 
 ### :rose: FilterMenu 事件
 | 事件名 | 参数 | 返回数据 | 描述 |

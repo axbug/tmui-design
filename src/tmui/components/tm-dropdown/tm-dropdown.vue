@@ -3,6 +3,7 @@
     <view
       v-if="show"
       @click.stop="closeDromenu"
+      @touchmove.stop=""
       class="l-0 t-0 fixed zIndex-9"
       :style="[
         {
@@ -193,10 +194,10 @@
                     <tm-text :fontSize="32" :label="item.text"></tm-text>
                   </view>
                   <tm-icon
-                    v-if="item.haveArrow"
                     :font-size="22"
                     _class="pl-24"
                     name="tmicon-angle-right"
+                    v-if="props.haveArrow"
                   ></tm-icon>
                 </view>
               </view>
@@ -325,9 +326,9 @@
                     <tm-text :fontSize="32" :label="item.text"></tm-text>
                   </view>
                   <tm-icon
-                    v-if="item.haveArrow"
                     :font-size="22"
                     _class="pl-24"
+                    v-if="props.haveArrow"
                     name="tmicon-angle-right"
                   ></tm-icon>
                 </view>
@@ -465,6 +466,11 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  /**是否显示箭头 */
+  haveArrow:{
+    type: Boolean,
+    default: true,
+  }
 });
 const windowWidth = computed(() => sysinfo.value.width);
 const windowHeight = computed(() => sysinfo.value.height);

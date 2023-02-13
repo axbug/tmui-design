@@ -1,7 +1,7 @@
 <template>
   <!-- #ifndef APP-NVUE -->
   <view @touchmove.stop="">
-    <view v-if="!_disabled" @touchstart="action.startDrag" @touchmove="action.onDrag" @touchend="action.endDrag"
+    <view :data-prop="attr" v-if="!_disabled" @touchstart="action.startDrag" @touchmove="action.onDrag" @touchend="action.endDrag"
       @touchcancel="action.endDrag" :style="`width:${attr.width}px;height:${attr.height}px `" class="overflow relative"
       :class="[attr.disabled ? 'opacity-7' : '']">
       <view class="flex flex-row flex-row-center-between">
@@ -102,16 +102,20 @@ const emits = defineEmits(["click", "update:open-status"]);
 const _disabled = ref(props.disabled);
 const opened = ref(false);
 const closed = ref(false);
+
+const leftWidth = computed(() => props.leftWidth);
+const rightWidth = computed(() => props.rightWidth);
 const attr = computed(() => {
   return {
     width: Math.ceil(uni.$tm.u.topx(props.width)),
     height: Math.ceil(uni.$tm.u.topx(props.height)),
     disabled: props.disabled,
+    leftWidth: props.leftWidth,
+    rightWidth: props.rightWidth,
+    opened:opened.value,
+    closed:closed.value
   };
 });
-const leftWidth = computed(() => props.leftWidth);
-const rightWidth = computed(() => props.rightWidth);
-
 function close() {
   opened.value = false;
   emits("update:open-status", false);
@@ -197,7 +201,7 @@ function touchstart(e: TouchEvent) {
         let lx = Math.abs(res.deltaX);
         let left = res.deltaX >= 0 ? false : true;
 
-        if (nvue_now_left == -120) {
+        if (nvue_now_left == -attr.value.rightWidth) {
           if (res.deltaX == 0) {
             spinNvueAniEnd(res.deltaX, 0);
           } else if (res.deltaX < 0) {
@@ -209,9 +213,9 @@ function touchstart(e: TouchEvent) {
           nvue_now_left = 0;
         } else {
           if (lx > 30 && left) {
-            spinNvueAniEnd(res.deltaX, left ? -(120 - lx) : 0, true);
+            spinNvueAniEnd(res.deltaX, left ? -(attr.value.rightWidth - lx) : 0, true);
             opened.value = true;
-            nvue_now_left = -120;
+            nvue_now_left = -attr.value.rightWidth;
           } else {
             spinNvueAniEnd(res.deltaX, -res.deltaX);
             opened.value = false;
@@ -231,9 +235,9 @@ onMounted(() => {
   // #ifdef APP-NVUE
   if (props.openStatus) {
     opened.value = true;
-    nvue_now_left = -120;
+    nvue_now_left = -attr.value.rightWidth;
     nextTick(() => {
-      spinNvueAniEnd(0, -120);
+      spinNvueAniEnd(0, -attr.value.rightWidth);
     });
   }
   // #endif

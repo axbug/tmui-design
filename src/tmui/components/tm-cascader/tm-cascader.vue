@@ -113,7 +113,7 @@ const props = defineProps({
    * 默认选中的数据
    */
   defaultValue: {
-    type: Array,
+    type: Array as PropType<Array<string>>,
     default: () => [],
   },
   /**

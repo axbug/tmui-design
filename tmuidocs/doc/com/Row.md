@@ -42,7 +42,7 @@ Row组件含有公共属性 [公共属性](/doc/spec/组件公共样式.md),必�
 | width | [Number] | 0, | 宽度，单位rpx |
 | round | [Number] | 0 | 圆角0-25，单位rpx |
 | gutter | Number | 0 | 从3.0.89开始，此属性已经删除，请见col下的margin |
-| column | Number | 10 | 列 |
+| column | Number | 12 | 列 |
 | justify | String | start | 可选值：start/center/end/around/between |
 | align | String | center| 可选值：start/center/end/stretch |
 | color | String | white | 颜色 |

@@ -141,17 +141,17 @@ const props = defineProps({
 
   //是否开启标签可选中状态。
   checkable: {
-    type: [Boolean, String],
+    type: [Boolean],
     default: false,
   },
   //只有当checkable为true时有效。
   checked: {
-    type: [Boolean, String],
+    type: [Boolean],
     default: false,
   },
   //标签是否处于加载中。
   load: {
-    type: [Boolean, String],
+    type: [Boolean],
     default: false,
   },
   //标签尺寸
@@ -200,7 +200,7 @@ const checked_com = computed({
   get: function () {
     return _checked_.value;
   },
-  set: function (val) {
+  set: function (val:boolean) {
     _checked_.value = val;
     emits("update:checked", _checked_.value);
   },
@@ -258,7 +258,7 @@ const wh = computed(() => {
   };
 });
 
-function onclick(e: any) {
+function onclick(e:TouchEvent|MouseEvent) {
   emits("click", e);
   if (loading.value) return;
   checked_com.value = !checked_com.value;
@@ -267,7 +267,7 @@ function aniEnd() {
   show.value = false;
   emits("close");
 }
-function closeTag(e) {
+function closeTag(e:TouchEvent|MouseEvent) {
   if (loading.value) return;
   e.stopPropagation();
   if (anitag.value) {

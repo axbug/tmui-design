@@ -11,34 +11,39 @@
         <view
           :class="[
             'flex',
-            tmFormLayout == 'horizontal' ? 'flex-row ' : 'flex-col ',
+            tmFormLayout == 'horizontal' ? 'flex-row ' : ' ',
             tmFormLayout == 'horizontal' && !props.align ? 'flex-row-center-start' : '',
-            tmFormLayout == 'vertical' && !props.align ? 'flex-col-center-start' : '',
+            tmFormLayout == 'vertical' && !props.align ? '' : '',
             props.align,
             props.parentClass,
           ]"
         >
           <view
             v-if="_label"
-            :style="[{ width: tmFormLabelWidth + 'rpx' }]"
-            class="mr-32 flex flex-row"
+            :style="[tmFormLayout == 'horizontal'?{ width: tmFormLabelWidth + 'rpx' }:'']"
+            class=" flex  flex-row"
             :class="[
-              tmFormLabelAlign == 'right' ? 'flex-row-center-end' : '',
-              tmFormLayout != 'horizontal' ? 'mb-24' : '',
+              tmFormLabelAlign == 'right' ? 'flex-row-center-end' : 'flex-row-center-start',
+              tmFormLayout != 'horizontal' ? 'mb-24 flex-1 ' : 'mr-32 ',
             ]"
           >
-            <tm-text v-if="_required" color="red" :font-size="30" label="*"></tm-text>
-            <tm-text
-              :color="
-                tmFormFun == 'validate' &&
-                item.isRequiredError == true &&
-                props.requiredTitleChangeColor
-                  ? 'red'
-                  : ''
-              "
-              :font-size="30"
-              :label="_label"
-            ></tm-text>
+            <view style="width:12px" class="flex flex-row flex-row-center-center">
+				<tm-text v-if="_required" color="red" :font-size="30" label="*"></tm-text>
+			</view>
+            <view class="flex flex-1 " style="width:0px">
+				<tm-text
+				  :color="
+				    tmFormFun == 'validate' &&
+				    item.isRequiredError == true &&
+				    props.requiredTitleChangeColor
+				      ? 'red'
+				      : ''
+				  "
+				  
+				  :font-size="30"
+				  :label="_label"
+				></tm-text>
+			</view>
           </view>
           <view
             class="flex-1"

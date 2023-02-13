@@ -5,9 +5,7 @@
 	// 		"^tm-(.*)": "@/tmui/components/tm-$1/tm-$1.vue"
 	// 	}
 	// },
-	
-	"pages": [
-		{
+	"pages": [{
 			"path": "pages/index/index",
 			"style": {
 				"navigationBarTitleText": "",
@@ -32,16 +30,38 @@
 				"transparentTitle": "always"
 			}
 		}
-	    
-
-    ],
-	"subPackages": [
-
-
+	],
+	"subPackages": [{
+			"root": "pages/pag",
+			"pages": [{
+				"path": "index",
+				"style": {
+					"navigationBarTitleText": "PAG 实例",
+					"enablePullDownRefresh": false
+				}
+			}]
+		},
+		{
+			"root": "pages/render",
+			"pages": [{
+					"path": "index",
+					"style": {
+						"navigationBarTitleText": "Render实例",
+						"enablePullDownRefresh": false
+					}
+				},
+				{
+					"path": "pie",
+					"style": {
+						"navigationBarTitleText": "饼图和圆环",
+						"disableScroll": true
+					}
+				}
+			]
+		},
 		{
 			"root": "pages/yewu",
-			"pages": [
-				{
+			"pages": [{
 					"path": "index",
 					"style": {
 						"navigationBarTitleText": "业务营销"
@@ -52,13 +72,18 @@
 					"style": {
 						"navigationBarTitleText": "优惠券 Coupon"
 					}
+				},
+				{
+					"path": "sku",
+					"style": {
+						"navigationBarTitleText": "商品型号选择器 Sku"
+					}
 				}
 			]
 		},
 		{
 			"root": "pages/chart",
-			"pages": [
-				{
+			"pages": [{
 					"path": "index",
 					"style": {
 						"navigationBarTitleText": "图表 Echarts"
@@ -74,8 +99,7 @@
 		},
 		{
 			"root": "pages/other",
-			"pages": [
-				{
+			"pages": [{
 					"path": "index",
 					"style": {
 						"navigationBarTitleText": "其它组件"
@@ -125,41 +149,48 @@
 						"navigationBarTitleText": "水印 Watermark",
 						"enablePullDownRefresh": false
 					}
+				},
+				{
+					"path": "scrollx",
+					"style": {
+						"navigationBarTitleText": "横向滚动 Scrollx",
+						"enablePullDownRefresh": false
+					}
+				},
+				{
+					"path": "scrolly",
+					"style": {
+						"navigationBarTitleText": "竖向滚动 Scrolly",
+						"enablePullDownRefresh": false,
+						"disableScroll": true
+					}
+				},
+				{
+					"path": "html",
+					"style": {
+						"navigationBarTitleText": "",
+						"enablePullDownRefresh": false
+					}
+				},
+				{
+					"path": "colorPicker",
+					"style": {
+						"navigationBarTitleText": "颜色选择 Colorview",
+						"enablePullDownRefresh": false
+					}
+				},
+				{
+					"path": "adsorb",
+					"style": {
+						"navigationBarTitleText": "吸附器 Adsorb",
+						"enablePullDownRefresh": false
+					}
 				}
-			    ,{
-                    "path" : "scrollx",
-                    "style" :                                                                                    
-                {
-                    "navigationBarTitleText": "横向滚动 Scrollx",
-                    "enablePullDownRefresh": false
-                }
-                
-                }
-                ,{
-                    "path" : "scrolly",
-                    "style" :                                                                                    
-                {
-                    "navigationBarTitleText": "",
-                    "enablePullDownRefresh": false,
-					"disableScroll": true
-                }
-                
-                }
-                ,{
-                    "path" : "html",
-                    "style" :                                                                                    
-                {
-                    "navigationBarTitleText": "",
-                    "enablePullDownRefresh": false
-                }
-                
-                }
-            ]
+			]
 		},
 		{
 			"root": "pages/daohang",
-			"pages": [
-				{
+			"pages": [{
 					"path": "index",
 					"style": {
 						"navigationBarTitleText": "导航类组件"
@@ -176,10 +207,8 @@
 					"style": {
 						"navigationBarTitleText": "",
 						"navigationStyle": "custom",
-						// #ifdef mp-MP-ALIPAY
 						"titlePenetrate": "YES",
 						"transparentTitle": "always"
-						// #endif
 					}
 				},
 				{
@@ -211,32 +240,26 @@
 					"style": {
 						"navigationBarTitleText": "底部导航 Tabbar"
 					}
+				},
+				{
+					"path": "tmFilterMenu",
+					"style": {
+						"navigationBarTitleText": "下拉筛选器",
+						"enablePullDownRefresh": false
+					}
+				},
+				{
+					"path": "sideMenu",
+					"style": {
+						"navigationBarTitleText": "侧边栏导航 sideMenu",
+						"enablePullDownRefresh": false
+					}
 				}
-			    ,{
-                    "path" : "tmFilterMenu",
-                    "style" :                                                                                    
-                {
-                    "navigationBarTitleText": "下拉筛选器",
-                    "enablePullDownRefresh": false
-                }
-                
-                }
-                
-                ,{
-                    "path" : "sideMenu",
-                    "style" :                                                                                    
-                {
-                    "navigationBarTitleText": "侧边栏导航 sideMenu",
-                    "enablePullDownRefresh": false
-                }
-                
-                }
-            ]
+			]
 		},
 		{
 			"root": "pages/fankui",
-			"pages": [
-				{
+			"pages": [{
 					"path": "index",
 					"style": {
 						"navigationBarTitleText": "反馈组件"
@@ -325,8 +348,7 @@
 		},
 		{
 			"root": "pages/form",
-			"pages": [
-				{
+			"pages": [{
 					"path": "index",
 					"style": {
 						"navigationBarTitleText": "表单录入"
@@ -427,22 +449,19 @@
 					"style": {
 						"navigationBarTitleText": "键盘 Keyborad"
 					}
+				},
+				{
+					"path": "timebetween",
+					"style": {
+						"navigationBarTitleText": "时间范围 Timebetween",
+						"enablePullDownRefresh": false
+					}
 				}
-			    ,{
-                    "path" : "timebetween",
-                    "style" :                                                                                    
-                {
-                    "navigationBarTitleText": "时间范围 Timebetween",
-                    "enablePullDownRefresh": false
-                }
-                
-                }
-            ]
+			]
 		},
 		{
 			"root": "pages/changyong",
-			"pages": [
-				{
+			"pages": [{
 					"path": "index",
 					"style": {
 						"navigationBarTitleText": "通用组件"
@@ -476,8 +495,7 @@
 		},
 		{
 			"root": "pages/layout",
-			"pages": [
-				{
+			"pages": [{
 					"path": "index",
 					"style": {
 						"navigationBarTitleText": "布局组件"
@@ -506,22 +524,19 @@
 					"style": {
 						"navigationBarTitleText": "布局 Row"
 					}
+				},
+				{
+					"path": "out/out",
+					"style": {
+						"navigationBarTitleText": "",
+						"enablePullDownRefresh": false
+					}
 				}
-			    ,{
-                    "path" : "out/out",
-                    "style" :                                                                                    
-                {
-                    "navigationBarTitleText": "",
-                    "enablePullDownRefresh": false
-                }
-                
-                }
-            ]
+			]
 		},
 		{
 			"root": "pages/showdata",
-			"pages": [
-				{
+			"pages": [{
 					"path": "index",
 					"style": {
 						"navigationBarTitleText": "展示组件"
@@ -679,7 +694,6 @@
 			]
 		}
 	],
-	
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
 		"navigationBarTitleText": "uni-app",
@@ -688,12 +702,10 @@
 	},
 	"condition": {
 		"current": 0,
-		"list": [
-			{
-				"name": "",
-				"path": "", 
-				"query": ""
-			}
-		]
+		"list": [{
+			"name": "",
+			"path": "",
+			"query": ""
+		}]
 	}
 }

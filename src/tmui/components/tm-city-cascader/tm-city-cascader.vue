@@ -18,7 +18,7 @@
  * 地区级联选择器
  * @description 这是一个城市级联选择器。基于tm-cascader级联选择器
  */
-import { Ref, ref, getCurrentInstance, isProxy } from "vue";
+import { Ref, ref, PropType, isProxy } from "vue";
 import { childrenData } from "./interface";
 import { provinceData } from "../../tool/static/province";
 import { cityData } from "../../tool/static/city";
@@ -48,25 +48,25 @@ const props = defineProps({
   /**
    * 热门城市选择。
    */
-  hotCity: {
-    type: Array,
-    default: () => [
-      { name: "南昌市", data: ["江西省", "南昌市", "红谷滩区"] },
-      { name: "杭州市", data: ["浙江省", "杭州市", "余杭区"] },
-    ],
-  },
+  // hotCity: {
+  //   type: Array,
+  //   default: () => [
+  //     { name: "南昌市", data: ["江西省", "南昌市", "红谷滩区"] },
+  //     { name: "杭州市", data: ["浙江省", "杭州市", "余杭区"] },
+  //   ],
+  // },
   /**
    * 默认选中的数据
    */
   defaultValue: {
-    type: Array,
+    type: Array as PropType<Array<string>>,
     default: () => [],
   },
   /**
    * 双向绑定输入数据
    */
   modelValue: {
-    type: Array,
+    type: Array as PropType<Array<string>>,
     default: () => [],
   },
   height: {
@@ -86,8 +86,8 @@ const props = defineProps({
 });
 const cityAlldata = ref(chiliFormatCity_area());
 let _value = ref([]);
-let _def = isProxy(props.defaultValue) ? props.defaultValue : ref(props.defaultValue);
-function changData(e) {
+let _def:Ref<Array<string>> = ref(props.defaultValue);
+function changData(e:any) {
   emits("update:modelValue", e);
 }
 

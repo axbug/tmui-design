@@ -310,12 +310,12 @@
               :followTheme="props.followTheme"
               @click="searchClick"
               :color="props.focusColor"
-              :fontColor="props.searchFontColor"
               :font-size="24"
               :height="_height - 11"
               :padding="[16, 0]"
               block
               :margin="[0, 0]"
+              :fontColor="props.searchFontColor"
               :icon="propsDetail.search"
               :label="propsDetail.searchLabel"
             ></TmButton>
@@ -371,6 +371,10 @@ const props = defineProps({
   color: {
     type: String,
     default: "grey-4",
+  },
+  searchFontColor:{
+    type: String,
+    default: "",
   },
   prefixColor: {
     type: String,
@@ -458,10 +462,6 @@ const props = defineProps({
   },
   //搜索
   searchLabel: {
-    type: String,
-    default: "",
-  },
-  searchFontColor: {
     type: String,
     default: "",
   },

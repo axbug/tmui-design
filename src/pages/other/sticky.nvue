@@ -22,7 +22,7 @@ import tmSticky from "@/tmui/components/tm-sticky/tm-sticky.vue"
 
 const offset =ref(0);
 // #ifdef H5
-offset.value = 68;
+offset.value = uni.$tm.u.torpx(44);
 // #endif
 
 

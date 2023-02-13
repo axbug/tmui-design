@@ -56,10 +56,8 @@ title: tmui 3.0 组件库
 | top | - | - | 顶部自定义内容，高度不超过topHeight 设定高度 |
 | default | data | `Arrray<any>` | 默认插槽，主要 |
 
-默认default，插槽数据名称：data,类型`Arrray<any>`;
-
 ### :green_salad: ref方法
 无
 
 ### :couplekiss: 文档贡献
-此页文档由[夏天](https://gitee.com/Xia_5718)、[暗辰](https://gitee.com/iam_ac)贡献，如果对该框架感兴趣的可以参与我们一同进步！
+此页文档由[夏天](https://gitee.com/Xia_5718)贡献，如果对该框架感兴趣的可以参与我们一同进步！

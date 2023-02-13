@@ -1,19 +1,9 @@
 <template>
   <view class="flex flex-row">
-    <pickerPanelVue
-      :immediateChange="props.immediateChange"
-      :followTheme="props.followTheme"
-      @end="emits('end')"
-      @start="emits('start')"
-      :dataKey="props.mapKey||props.dataKey"
-      @change="pickerChange($event, index)"
-      :col="_colIndex[index]"
-      v-for="(item, index) in _data"
-      :data="item"
-      :key="index"
-      :height="props.height"
-      class="flex-1"
-    ></pickerPanelVue>
+    <pickerPanelVue :immediateChange="props.immediateChange" :followTheme="props.followTheme" @end="emits('end')"
+      @start="emits('start')" :dataKey="props.mapKey || props.dataKey" :mapKey="props.mapKey || props.dataKey" @change="pickerChange($event, index)"
+      :col="_colIndex[index]" v-for="(item, index) in _data" :data="item" :key="index" :height="props.height"
+      class="flex-1"></pickerPanelVue>
   </view>
 </template>
 <script lang="ts" setup>
@@ -50,7 +40,7 @@ const emits = defineEmits([
 ]);
 const props = defineProps({
   followTheme: {
-    type: [Boolean, String],
+    type: [Boolean],
     default: true,
   },
   height: {
@@ -109,7 +99,7 @@ const _modelStr = computed(() => {
   _data.value.forEach((el, index) => {
     let item = el[_colIndex.value[index]];
     if (typeof item == "undefined") return;
-    str.push(item[props.mapKey||props.dataKey] ?? "");
+    str.push(item[props.mapKey || props.dataKey] ?? "");
   });
   return str.join("/");
 });

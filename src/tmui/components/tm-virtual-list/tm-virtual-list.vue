@@ -1,99 +1,41 @@
 <template>
   <view class="flex flex-col">
-    <scroll-view
-      :refresher-triggered="Loading"
-      @scrolltolower="pullEnd"
-      :scroll-with-animation="true"
-      @scroll="scroll"
-      :scroll-y="true"
-      :style="[
+    <scroll-view :refresher-triggered="Loading" @scrolltolower="pullEnd" :scroll-with-animation="true" @scroll="scroll"
+      :scroll-y="true" :style="[
         {
           height: rootHeight + 'px',
           'overflow-anchor': 'auto',
           width: `${props.width}rpx`,
         },
-      ]"
-    >
-      <tm-sheet
-        :height="40"
-        unit="px"
-        v-if="Loading && pullType == 'top'"
-        :margin="[0, 0]"
-        _class="flex flex-col flex-col-center-center"
-      >
-        <tm-icon
-          :color="props.color"
-          :font-size="24"
-          v-if="status == 'loading'"
-          spin
-          name="tmicon-shuaxin"
-        ></tm-icon>
-        <view
-          @click="reset('pullTop')"
-          v-if="status == 'error'"
-          class="flex flex-row flex-center"
-        >
-          <tm-icon
-            :userInteractionEnabled="false"
-            color="red"
-            :font-size="24"
-            name="tmicon-times-circle-fill"
-          ></tm-icon>
-          <tm-text
-            :userInteractionEnabled="false"
-            color="red"
-            :font-size="24"
-            _class="pl-16"
-            label="加载失败,点我重试"
-          ></tm-text>
+      ]">
+      <tm-sheet :height="40" unit="px" v-if="Loading && pullType == 'top'" :margin="[0, 0]"
+        _class="flex flex-col flex-col-center-center">
+        <tm-icon :color="props.color" :font-size="24" v-if="status == 'loading'" spin name="tmicon-shuaxin"></tm-icon>
+        <view @click="reset('pullTop')" v-if="status == 'error'" class="flex flex-row flex-center">
+          <tm-icon :userInteractionEnabled="false" color="red" :font-size="24"
+            name="tmicon-times-circle-fill"></tm-icon>
+          <tm-text :userInteractionEnabled="false" color="red" :font-size="24" _class="pl-16"
+            label="加载失败,点我重试"></tm-text>
         </view>
       </tm-sheet>
       <view class="flex flex-col relative" :style="[{ height: totalHeight + 'px' }]">
-        <view
-          class="absolute l-0 t-0 flex flex-col"
-          :style="{ height: `${props.topHeight}rpx`, width: `${props.width}rpx` }"
-        >
+        <view class="absolute l-0 t-0 flex flex-col"
+          :style="{ height: `${props.topHeight}rpx`, width: `${props.width}rpx` }">
           <slot name="top"></slot>
         </view>
-        <view
-          class="absolute l-0 t-0 flex flex-col"
-          :style="{ transform: `translateY(${offsetY}px)`, width: `${props.width}rpx` }"
-        >
+        <view class="absolute l-0 t-0 flex flex-col"
+          :style="{ transform: `translateY(${offsetY}px)`, width: `${props.width}rpx` }">
           <slot name="default" :data="visibleItems"></slot>
         </view>
       </view>
-      <tm-sheet
-        :height="40"
-        unit="px"
-        v-if="Loading && pullType == 'bottom'"
-        :margin="[0, 0]"
-        _class="flex flex-col flex-col-center-center"
-      >
-        <tm-icon
-          :color="props.color"
-          :font-size="24"
-          v-if="status == 'loading'"
-          spin
-          name="tmicon-shuaxin"
-        ></tm-icon>
-        <view
-          @click="reset('pullEnd')"
-          v-if="status == 'error'"
-          class="flex flex-row flex-center"
-        >
-          <tm-icon
-            :userInteractionEnabled="false"
-            color="red"
-            :font-size="24"
-            name="tmicon-times-circle-fill"
-          ></tm-icon>
-          <tm-text
-            :userInteractionEnabled="false"
-            color="red"
-            :font-size="24"
-            _class="pl-16"
-            label="加载失败,点我重试"
-          ></tm-text>
+      <tm-sheet :height="40" unit="px" v-if="Loading && pullType == 'bottom'" :margin="[0, 0]"
+        _class="flex flex-col flex-col-center-center">
+        <tm-icon :color="props.color" :font-size="24" v-if="status == 'loading'" spin name="tmicon-shuaxin"></tm-icon>
+        <view @click="reset('pullEnd')" v-if="status == 'error'" class="flex flex-row flex-center">
+          <tm-icon :userInteractionEnabled="false" color="red" :font-size="24"
+            name="tmicon-times-circle-fill"></tm-icon>
+          <tm-text :userInteractionEnabled="false" color="red" :font-size="24" _class="pl-16"
+            label="加载失败,点我重试"></tm-text>
         </view>
       </tm-sheet>
     </scroll-view>
@@ -105,18 +47,18 @@
  * @description 用来展示长列表数据使用，采用虚拟数据展示，只展示视窗内数据，其它不展示。因此上万条列表数据，也可以轻松展示。
  * @example 下面演示了加载1900张图片的示例
  * <tm-virtual-list :width="750" :height="800" :data="imglist" :itemHeight="160">
-		<template v-slot:default="{data}">
-			<tm-image-group >
-				<tm-image :padding="[5,5]" preview :width="750" :height="150" :src="item" 
-				v-for="(item,index) in data" :key="index"></tm-image>
-			</tm-image-group>
-		</template>
-	</tm-virtual-list>
-	-----js生成1900张图片链接。-----
-	const imglist = ref([])
-	for(let i=0;i<1900;i++){
-		imglist.value.push('https://picsum.photos/200/300?id='+i)
-	}
+    <template v-slot:default="{data}">
+      <tm-image-group >
+        <tm-image :padding="[5,5]" preview :width="750" :height="150" :src="item" 
+        v-for="(item,index) in data" :key="index"></tm-image>
+      </tm-image-group>
+    </template>
+  </tm-virtual-list>
+  -----js生成1900张图片链接。-----
+  const imglist = ref([])
+  for(let i=0;i<1900;i++){
+    imglist.value.push('https://picsum.photos/200/300?id='+i)
+  }
  */
 import { ref, computed, Ref, PropType, onMounted, ComputedRef } from "vue";
 import { scrollDetailFace, statusType } from "./interface";

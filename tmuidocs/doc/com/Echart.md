@@ -6,7 +6,7 @@ title: tmui 3.0 组件库
 
 ##### 组件库文档 tmui.design
 
-# 图表 Chart <Badge type="danger" text="NVUE页面不支持，请使用VUE页面" vertical="middle" />
+# 图表 Chart <Badge type="danger" text="3.0.89开始全端支持" vertical="middle" />
 百度图表，3.0.89开始已经兼容nvue平台,当前nvue平台为最新的5.4.3版本且是全量包。非nvue平台是5.3.2版本，包大小为精简包，具体见下方。
 
 ---
@@ -16,7 +16,7 @@ title: tmui 3.0 组件库
 如果你只是想使用某部分图表功能，需要精简的话，可以见[百度文档](https://echarts.apache.org/handbook/zh/basics/import#%E6%8C%89%E9%9C%80%E5%BC%95%E5%85%A5-echarts-%E5%9B%BE%E8%A1%A8%E5%92%8C%E7%BB%84%E4%BB%B6)<br>
 具体可以看下我组件目录tmui->components->tm-chart->simple.js,这是一个我配置好的精简包。使用时可在我的组件源码tm-chart中
 找到第67行，把此行注释去掉，引用。然后把第65行，注释掉不启用。当然你可根据自己的需要精简模块功能。
-
+:::
 ----
 
 :::tip 注意事项
@@ -53,11 +53,11 @@ title: tmui 3.0 组件库
 ```
 
 
-想升级包怎么办？<br>
+**想升级包怎么办？**<br>
 只要在cli项目的根目录下执行：```npm install echarts --save```,如果想要具体版本号：```npm install echarts@5.3.2 --save```，
 把后面的版本号改下目标版本号就可以了。
 
-:::
+
 
 ### :hot_pepper: 图表 Chart 示例效果
 
@@ -65,7 +65,7 @@ title: tmui 3.0 组件库
 
 ::: details 示例代码
 
-@[code vue](pages/chart/chart.vue)
+@[code vue](pages/chart/chart.nvue)
 
 :::
 
