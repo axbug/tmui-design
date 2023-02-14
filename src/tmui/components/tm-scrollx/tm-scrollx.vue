@@ -40,7 +40,7 @@
       <view v-if="props.align=='between'" class="flex-1 pr-40" style="width: 0px">
         <slot name="barll"></slot>
       </view>
-      <view class="px-32" style="width: 100rpx">
+      <view style="width: 100rpx">
         <tm-sheet
           no-level
           :round="6"
