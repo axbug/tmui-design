@@ -30,6 +30,7 @@
 		:class="[
 		  'button flex flex-row flex-row-center-center',
 			isclickOn?props.hoverClass+' bhover':'',
+      _disabled || _load ? 'disabled' : '',
 			'webpc',
 		  !isDisabledRoundAndriod ? `round-${btnSizeObj.round}` : '',
 		   customClass
@@ -73,7 +74,7 @@
 			<!-- #endif -->
 		</slot>
 	</button>
-	
+
 </template>
 
 <script lang="ts" setup>
@@ -506,8 +507,8 @@ provide("appTextColor", textColor);
 	/* border-radius: 0px; */
 }
 
-.buttonHover {
-	/* background: rgba(0, 0, 0, 0); */
+.disabled {
+	opacity: 0.6 !important;
 }
 
 .bhover {
