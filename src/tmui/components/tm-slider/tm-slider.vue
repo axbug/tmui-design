@@ -1,35 +1,35 @@
 <template>
-    <view class="flex " :class=" [props.direction=='vertical'?'flex-row':'flex-col',_disabled?'opacity-6':'']">
-
+    <view class="flex " :class=" [props.direction=='vertical'?'flex-row':'',_disabled?'opacity-6':'']">
+        
         <view class="relative flex flex-col " :class="[props.direction=='horizontal'?'flex-col-center-start':'flex-row-center-center']" :style="[
-
+        
         {width:_sliderBarCssWidth+'rpx',height:_sliderBarCssHeight+'rpx'}
-
+        
         ]">
-            <tm-sheet noLevel :round="10" :color="props.bgColor"
-            :height="props.direction=='horizontal'?props.height:_sliderBarCssHeight"
-            :width="props.direction=='horizontal'?_sliderBarCssWidth:props.height" :margin="[0,0]"
+            <tm-sheet noLevel :round="10" :color="props.bgColor" 
+            :height="props.direction=='horizontal'?props.height:_sliderBarCssHeight" 
+            :width="props.direction=='horizontal'?_sliderBarCssWidth:props.height" :margin="[0,0]" 
             :padding="[0,0]"></tm-sheet>
-            <slider-bar :followTheme="props.followTheme" :class="[props.direction=='horizontal'?'flex-col-center-start':'flex-row-center-center']"
-            :direction="props.direction" :color="props.color" :size="props.height" :x="_barLet"
+            <slider-bar :followTheme="props.followTheme" :class="[props.direction=='horizontal'?'flex-col-center-start':'flex-row-center-center']" 
+            :direction="props.direction" :color="props.color" :size="props.height" :x="_barLet" 
             :width="_barWidth"></slider-bar>
             <slider-mask :followTheme="props.followTheme" :color="props.color"  v-if="props.showLabel" :size="props.buttonSize" :step="props.step" :min="props.min" :max="props.max" :width="_sliderBarCssWidth"  :height="_sliderBarCssHeight" :direction="props.direction"></slider-mask>
             <slider-button :maxLeft="buttonStaticsMaxLeft" :followTheme="props.followTheme"  :direction="props.direction" ref="btn0" :color="props.color" :x="btnPos[0].x"  @movestart="butnMoveStart($event,0)" @moveing="butnMove($event,0)" @moveend="butnMoveEnd($event,0)" :size="props.buttonSize"></slider-button>
             <slider-button :maxLeft="buttonStaticsMaxLeft"  :followTheme="props.followTheme" :direction="props.direction" v-if="isDablue" ref="btn1" :color="props.color" :x="btnPos[1].x"  @movestart="butnMoveStart($event,1)" @moveing="butnMove($event,1)" @moveend="butnMoveEnd($event,1)" :size="props.buttonSize"></slider-button>
-
+            
         </view>
         <view v-if="props.showLabel" :class=" [props.direction=='vertical'?'flex-col':'flex-row']"  >
-            <slider-label :size="props.buttonSize" :step="props.step" :min="props.min" :max="props.max"
+            <slider-label :size="props.buttonSize" :step="props.step" :min="props.min" :max="props.max" 
             :width="_sliderBarCssWidth"  :height="_sliderBarCssHeight" :direction="props.direction"></slider-label>
         </view>
         <view v-if="showDetail" class="flex  absolute" :class="[props.direction=='horizontal'?'flex-col flex-col-start-center':' flex-row ']" :style="[
         props.direction=='horizontal'?{width:(props.width+props.buttonSize)+'rpx'}:{height:(props.width+props.buttonSize)+'rpx'}
         ]">
-            <view
+            <view 
             :class="[isNvue?'fixed':'absolute ',
             props.direction=='horizontal'?(isNvue?'t-0':'b-0'):'t-0 ',
             ]"
-            class="mb-0  flex flex-col flex-col-bottom-center"
+            class="mb-0  flex flex-col flex-col-bottom-center"  
             :style="[
             !isNvue?
             ( props.direction=='horizontal'?{transform:`translateX(${btnPos[BtnIndex].x}px)`,left:-(100-props.buttonSize+24)/2+'rpx'}:{transform:`translateY(${btnPos[BtnIndex].x}px)`,top:'-70rpx',left:-(100-props.buttonSize+24)/2+'rpx'})
@@ -108,11 +108,11 @@ const props = defineProps({
     },
     max:{
        type:Number,
-        default:100
+        default:100 
     },
     min:{
        type:Number,
-        default:0
+        default:0 
     },
     //默认的值一定要和v-model相同的类型，
     defaultValue:{
@@ -177,10 +177,10 @@ isNvue.value=true;
 
 const _sliderBarCssWidth = computed(()=>{
     if(props.direction=='horizontal') return props.width+props.buttonSize
-    return props.buttonSize
+    return props.buttonSize 
 })
 const _sliderBarCssHeight = computed(()=>{
-    if(props.direction=='horizontal') return props.buttonSize
+    if(props.direction=='horizontal') return props.buttonSize 
     return props.width+props.buttonSize
 })
 
@@ -208,7 +208,7 @@ zhuanghuaValue();
 watchEffect(()=>{
     let val = Math.ceil(Math.abs(btnPos.value[BtnIndex.value].x)/uni.upx2px(props.width) * _valueMax.value + props.min);
     if (typeof props.formart === 'function') {
-
+        
         let p = props.formart(val);
         if(typeof p === 'function'){
             p = p(val);
@@ -266,13 +266,13 @@ function getValue(){
 function butnMoveStart(e:btnMovetype,index:number){
     if(props.disabled) return
     isDarg.value = true;
-
+    
    if( props.direction == 'horizontal'){
        _x = e.x - btnPos.value[index].x;
    }else{
        _x = e.y - btnPos.value[index].x;
    }
-
+   
     BtnIndex.value = index;
 }
 function butnMove(e:btnMovetype,index:number){
@@ -287,7 +287,7 @@ function butnMove(e:btnMovetype,index:number){
     }else if(left > buttonStaticsMaxLeft) {
         left = buttonStaticsMaxLeft
     }
-
+    
     btnPos.value[index].x = left
     showDetail.value = true;
     getDomRectBound()
@@ -339,7 +339,7 @@ while (parentFormItem) {
         break;
     } else {
         parentFormItem = parentFormItem?.$parent ?? undefined
-
+       
     }
 }
 const validate =(rules:Array<rulesItem>)=>{
@@ -365,7 +365,7 @@ const validate =(rules:Array<rulesItem>)=>{
                 }
             }
         }
-
+        
     })
     let rules_filter:Array<rulesItem> = rules.filter(el=>{
         return typeof el.validator === "function" && el.required===true
@@ -415,11 +415,11 @@ async function pushFormItem(isCheckVail = true){
                     componentsName: 'tm-slider',//表单组件类型。
                     message: er.message,//检验信息提示语。
                 })
-
+                
             })
         }
     }
-
+    
 }
 pushFormItem()
 
