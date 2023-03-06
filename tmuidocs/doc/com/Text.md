@@ -46,6 +46,8 @@ title: tmui 3.0 组件库
 | color | String | "" | 字体颜色 |
 | selectable | [Boolean,String] | false | 是否可选 |
 | unit<Badge type="danger" text="v3.0.73+" vertical="middle" /> | [Number] | rpx | 字号单位 |
+| parentClass | String | false | 组件的最外层class类,组件内嵌view的class选择器，你可能还需要使用!important来加强自定义选择器的权重 |
+| lineHeight | [Number, String] | "auto" | 行高 |
 
 ### :rose: 事件
 | 事件名 | 参数 | 返回数据 | 描述 |
