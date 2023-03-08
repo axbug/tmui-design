@@ -19,7 +19,7 @@ title: tmui 3.0 组件库
 
 ::: details 示例模板
 
-@[code vue](pages/other/cropimg.nvue)
+@[code vue](pages/other/cropimg.vue)
 
 :::
 
