@@ -56,7 +56,7 @@ title: tmui 3.0 组件库
 本组件含有公共属性 [公共属性](/doc/spec/组件公共样式.md)
 | 参数名 | 类型 | 默认值 | 描述 |
 | :--: | :--: | :--: | :-- |
-| selectionModel | 可选:index,name,id | index | 赋值方式，id:城市id为返选赋值。name:以城市名称作为返选和赋值。index,默认以索引为返回数据选值 |
+| selectedModel | 可选:index,name,id | index | 赋值方式，id:城市id为返选赋值。name:以城市名称作为返选和赋值。index,默认以索引为返回数据选值 |
 | city | Array | [] | 城市数据,默认为空,使用自带城市数据,如果提供将使用自定义城市数据 |
 | modelValue| `<Array<string | number>>`| [] | v-model以selectedModel为索引的值结果 |
 | modelStr| string | '' | v-model:model-str,单向输出地区名称以/分割。不管selectedModel是以哪种索引选项，此处始终以地区名称输出显示。 |
