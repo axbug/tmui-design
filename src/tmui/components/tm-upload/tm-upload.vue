@@ -534,10 +534,10 @@ function clearFail() {
  */
 defineExpose({
   start: () => {
-    _uploadObj.start();
+   return _uploadObj.start();
   },
   stop: () => {
-    _uploadObj.stop();
+   return _uploadObj.stop();
   },
   clear,
   del,
