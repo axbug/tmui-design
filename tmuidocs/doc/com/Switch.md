@@ -38,7 +38,7 @@ Switch 开关是用于在两种状态下选择唯一一种状态或值的组件
 | margin | Array | [0,0] | 组件外边距 |
 | transprent | Boolean | false | 组件是否透明 |
 | modelValue / v-model | Boolean | false | 组件的值，可双向绑定  |
-| defautValue | Boolean | false | 组件默认值 |
+| defaultValue | Boolean | false | 组件默认值 |
 | selected<Badge type="danger" text="v3.0.83+" vertical="middle" /> | Boolean,String,Number | true | 打开时的值 |
 | unSelected<Badge type="danger" text="v3.0.83+" vertical="middle" /> | Boolean,String,Number | false | 关闭时的值 |
 | color | String | primary | 组件激活后的颜色，即按钮开启状态的颜色 |
