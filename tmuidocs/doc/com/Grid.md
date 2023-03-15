@@ -54,12 +54,14 @@ tm-grid-item
 
 | 参数名      | 类型              | 默认值   | 描述                           |
 |----------|-----------------|-------|------------------------------|
-| height   | Number          | 100   | 高度                           |
+| height   | Number          | 100   | 高度，如果提供为0，就表示自动高度。                           |
+| transprent | Boolean       | true  |                                |
 | dot      | Boolean, String | false | 是否显示红点                       |
 | icon     | Boolean, String | false | 显示图标                         |
 | count    | Number, String  | 0     | 为数字时，显示数字角标，如果为string是显示文本角标 |
 | maxCount | Number          | 999   | 数字角标显示最大值                    |
-| color    | String          | red   | 颜色                           |
+| color    | String          | red   | dot的主题色                         |
+| bgColor  | String          | white |                        |
 | url      | String          | ''    | 如果提供了链接，当点击格子时自动跳转页面         |
 
 ### :rose: 事件
