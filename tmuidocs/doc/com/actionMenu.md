@@ -48,6 +48,7 @@ title: tmui 3.0 组件库
 | activeFontColor | String | "primary" | 活动项的文字色，如果不提供使用默认 |
 | active | Number | NaN | 当前的活动项 |
 | allowClose | Boolean | true | 点按菜单后，是否允许关闭弹层。 |
+| duration | Number | 250 | 弹层动画时长 |
 
 ### :rose: 事件
 | 事件名 | 参数 | 返回数据 | 描述 |
