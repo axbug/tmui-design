@@ -1,5 +1,5 @@
 <template>
-    <view class="flex " :class=" [props.direction=='vertical'?'flex-row':'',_disabled?'opacity-6':'']">
+    <view class="flex " :class=" [props.direction=='vertical'?'flex-row':'flex-col',_disabled?'opacity-6':'']">
         
         <view class="relative flex flex-col " :class="[props.direction=='horizontal'?'flex-col-center-start':'flex-row-center-center']" :style="[
         
