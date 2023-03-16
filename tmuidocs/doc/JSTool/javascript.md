@@ -64,6 +64,76 @@ nowdate.isoWeek()
 
 ```
 
+
+### :tada: isNumber 检测是否是数字并设置默认值
+```
+/**
+ * 检测是否是数字
+ * @param arg 待检测的字符
+ * @param defaultNum 0,如果不符合值时设置默认值
+ * @returns number类型数值
+ */
+isNumber(arg: string | number | undefined | null, defaultNum:number):number
+```
+		
+### :tada: isString 检测是否是字符串并赋值默认值
+```
+/**
+* 检测是否是字符串
+* @param arg 待检测的字符
+* @param defaultNum 默认"",如果不符合值是设置默认值
+* @returns 字符串
+*/
+isString(arg: string | number | undefined | null, defaultStr:string):string
+```
+
+### :tada: paginate 数字进行分页
+```
+/**
+ * 把一个数字进行分页返回数字数组
+ * @param total 总数
+ * @param pageSize 分页大小
+ * @returns 数字数组
+ */
+paginate(total: number, pageSize: number): number[]
+```
+		
+### :tada: getValue 取对象数据值（可深层次取值）
+```
+/**
+* 取对象数据值（可深层次取值）
+* @example getValue(data,"a.b.c")
+* @param data 对象数据
+* @param keys 键值
+* @returns 返回值
+* @description 注意不会去改变原来的数据
+*/
+getValue(data: Data, keys: string): any 
+```
+
+### :tada: setValue 设置对象键值（可深层次设置值）
+```
+/**
+ * 设置对象键值（可深层次设置值）
+ * @example setValue(data,"a.b.c","haha")
+ * @param data 对象数据
+ * @param keys 键值
+ * @returns 修改后的对象数据。
+ * @description 改变原来的数据
+ */
+setValue(data: Data, keys: string, value: any): void
+```	
+		
+### :tada: getMaxDepth 获取最大的层级数
+```
+/**
+ * 计算并返回一个对象中最大的层级数
+ * @param data 待检测对象数据
+ * @returns 最大层级数
+ */
+getMaxDepth(data: Data): number
+```
+
 ### :tada: preview 预览图片
 
 ```ts

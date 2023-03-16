@@ -117,6 +117,7 @@ canvasId.value = "tm" + new Date().getTime();
 const _width = computed(() => props.width)
 const _height = computed(() => props.height)
 let ctx: UniApp.CanvasContext;
+let ctxNode:any;
 let chart: echarts.ECharts | null = null
 const pixelRatio = uni.getSystemInfoSync().pixelRatio
 const is2d = ref(false)
@@ -203,10 +204,12 @@ function MpWeix_init(fun:Function) {
 	// #ifdef MP-ALIPAY
 	query.select('#canvasId').node().exec((res2) => {
 		const canvasNode = res2[0].node;
+		
 		let ctxvb: UniApp.CanvasContext = canvas.getContext('2d');
 		canvasNode.width = res[0].width * pixelRatio
 		canvasNode.height = res[0].height * pixelRatio
 		ctx = ctxvb;
+		ctxNode = canvasNode
 		const canvas = new WxCanvas(ctx, canvasId.value, true, canvasNode)
 		echarts.setPlatformAPI({
 			// Same with the old setCanvasCreator
@@ -242,7 +245,7 @@ function MpWeix_init(fun:Function) {
 			canvasNode.height = res[0].height * pixelRatio
 			ctxvb.scale(pixelRatio, pixelRatio)
 			ctx = ctxvb;
-
+			ctxNode = canvasNode
 			const canvas = new WxCanvas(ctx, canvasId.value, true, canvasNode)
 			echarts.setPlatformAPI({
 				// Same with the old setCanvasCreator
@@ -261,9 +264,6 @@ function MpWeix_init(fun:Function) {
 			emits("onInit", chart)
 			
 			// #endif
-
-
-
 			// #ifdef MP-QQ
 
 			const canvasNode = {}
@@ -314,6 +314,31 @@ function getChart() {
 	})
 }
 
+function getImg(){
+	return new Promise((res,rej)=>{
+		if(!ctx){
+			console.error('tmChart没有初始化')
+			rej('没有初始化')
+			return
+		}
+		uni.canvasToTempFilePath({
+		  x: 0,
+		  y: 0,
+		  width: _width.value,
+		  height: _height.value,
+		  canvasId: canvasId.value,
+		  canvas: ctxNode,
+		  success: function (respone) {
+		    // 在H5平台下，tempFilePath 为 base64
+		    res(respone.tempFilePath);
+		  },
+		  fail: (respone) => {
+			console.error(respone)
+		    rej(res);
+		  },
+		});
+	})
+}
 
 function _onMessage(e){
 	const message = e.detail.data[0]
@@ -338,7 +363,7 @@ function _onMessage(e){
 
 
 
-defineExpose({getChart})
+defineExpose({getChart,getImg})
 
 function compareVersion(v11: string, v22: string) {
 	let v1 = v11.split('.')

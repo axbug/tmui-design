@@ -1,84 +1,38 @@
 <template>
-  <tm-sheet :transprent="true" :margin="props.margin" :padding="props.padding">
-    <tm-sheet
-      :transprent="props.transprent"
-      :round="props.round"
-      no-level
-      :margin="[0, 0]"
-      :padding="_inputPadding"
-      :border="props.border"
-      :text="props.text"
-      :color="_color"
-      :outlined="props.outlined"
-      :shadow="props.shadow"
-      :linear="props.linear"
-      :linearDeep="props.linearDeep"
-      _style="transition:border 0.24s"
-    >
-      <view
-        class="flex flex-row relative"
-        @click="inputClick($event, '')"
-        :class="[
-          propsDetail.type == 'textarea'
-            ? propsDetail.layoutAlign
-            : 'flex-row-center-start',
-        ]"
-        :style="[
-          propsDetail.autoHeight && propsDetail.type == 'textarea'
-            ? {}
-            : { height: `${_height}rpx` },
-        ]"
-      >
+  <tm-sheet :eventPenetrationEnabled="true" :transprent="true" :margin="props.margin" :padding="props.padding">
+    <tm-sheet :transprent="props.transprent" :round="props.round" no-level :margin="[0, 0]" :padding="_inputPadding"
+      :border="props.border" :text="props.text" :color="_color" :outlined="props.outlined" :shadow="props.shadow"
+      :linear="props.linear" :linearDeep="props.linearDeep" _style="transition:border 0.24s">
+      <view class="flex flex-row relative" @click="inputClick($event, '')" :class="[
+        propsDetail.type == 'textarea'
+          ? propsDetail.layoutAlign
+          : 'flex-row-center-start',
+      ]" :style="[
+  propsDetail.autoHeight && propsDetail.type == 'textarea'
+    ? {}
+    : { height: `${_height}rpx` },
+]">
         <view v-if="propsDetail.search || propsDetail.searchLabel" class="px-9"></view>
         <slot name="left"></slot>
         <view v-if="propsDetail.prefix" class="pr-16">
-          <tm-icon
-            _style="transition:color 0.24s"
-            :font-size="propsDetail.fontSize"
-            :color="props.prefixColor"
-            :name="propsDetail.prefix"
-          ></tm-icon>
+          <tm-icon _style="transition:color 0.24s" :font-size="propsDetail.fontSize" :color="props.prefixColor"
+            :name="propsDetail.prefix"></tm-icon>
         </view>
         <view v-if="propsDetail.prefixLabel" class="pr-24">
-          <tm-text
-            _style="transition:color 0.24s"
-            :font-size="propsDetail.fontSize"
-            :color="props.prefixColor"
-            :label="propsDetail.prefixLabel"
-          ></tm-text>
+          <tm-text _style="transition:color 0.24s" :font-size="propsDetail.fontSize" :color="props.prefixColor"
+            :label="propsDetail.prefixLabel"></tm-text>
         </view>
 
-        <view
-          v-if="!isAndroid"
-          @click.stop="inputClick($event, 'ali')"
-          class="flex-1 relative flex-row flex"
-          :style="[{ width: '0px' }]"
-        >
+        <view v-if="!isAndroid" @click="inputClick($event, 'ali')" class="flex-1 relative flex-row flex"
+          :style="[{ width: '0px' }]">
           <!-- <view @click.stop="emits('click',$event)" class=" l-0 t-0 flex-1 " :style="{height: `${_height}rpx`,background:'red'}"></view> -->
-          <input
-            class="flex-1"
-            :userInteractionEnabled="false"
-            v-if="propsDetail.type != 'textarea'"
-            :value="_value"
-            :focus="propsDetail.focus"
-            @focus="focus"
-            @blur="blur"
-            @confirm="confirm"
-            @input="inputHandler"
-            @keyboardheightchange="emits('keyboardheightchange')"
-            :password="showPasswordText"
-            :maxlength="propsDetail.maxlength"
-            :disabled="propsDetail.disabled"
-            :cursorSpacing="propsDetail.cursorSpacing"
-            :confirmType="propsDetail.confirmType"
-            :confirmHold="propsDetail.confirmHold"
-            :autoBlur="propsDetail.autoBlur"
-            :holdKeyboard="propsDetail.holdKeyboard"
-            :adjustPosition="propsDetail.adjustPosition"
-            :readonly="propsDetail.readyOnly"
-            :type="propsDetail.type"
-            :placeholder="propsDetail.placeholder"
-            :style="[
+          <input class="flex-1" :userInteractionEnabled="false" v-if="propsDetail.type != 'textarea'" :value="_value"
+            :focus="propsDetail.focus" @focus="focus" @blur="blur" @confirm="confirm" @input="inputHandler"
+            @keyboardheightchange="emits('keyboardheightchange')" :password="showPasswordText"
+            :maxlength="propsDetail.maxlength" :disabled="propsDetail.disabled" :cursorSpacing="propsDetail.cursorSpacing"
+            :confirmType="propsDetail.confirmType" :confirmHold="propsDetail.confirmHold" :autoBlur="propsDetail.autoBlur"
+            :holdKeyboard="propsDetail.holdKeyboard" :adjustPosition="propsDetail.adjustPosition"
+            :readonly="propsDetail.readyOnly" :type="propsDetail.type" :placeholder="propsDetail.placeholder" :style="[
               {
                 height: `${_height}rpx`,
                 color: propsDetail.fontColor
@@ -88,38 +42,18 @@
                 fontSize: `${propsDetail.fontSize_px}px`,
                 transition: 'color 0.24s',
               },
-            ]"
-            :placeholder-style="`fontSize:${propsDetail.fontSize_px}px;${props.placeholderStyle}`"
-          />
+            ]" :placeholder-style="`fontSize:${propsDetail.fontSize_px}px;${props.placeholderStyle}`" :ready-only="propsDetail.readyOnly" />
 
-          <textarea
-            :userInteractionEnabled="false"
-            v-if="propsDetail.type == 'textarea'"
-            :value="_value"
-            :focus="propsDetail.focus"
-            @focus="focus"
-            @blur="blur"
-            @confirm="confirm"
-            @input="inputHandler"
-            @keyboardheightchange="emits('keyboardheightchange')"
-            :maxlength="propsDetail.maxlength"
-            :disabled="propsDetail.disabled"
-            :placeholder="propsDetail.placeholder"
-            :cursorSpacing="propsDetail.cursorSpacing"
-            :confirmHold="propsDetail.confirmHold"
-            :autoBlur="propsDetail.autoBlur"
-            :holdKeyboard="propsDetail.holdKeyboard"
-            :cursor="propsDetail.cursor"
-            :show-confirm-bar="propsDetail.showConfirmBar"
-            :selectionStart="propsDetail.selectionStart"
-            :selectionEnd="propsDetail.selectionEnd"
-            :disable-default-padding="propsDetail.disableDefaultPadding"
-            :fixed="propsDetail.fixed"
-            :autoHeight="propsDetail.autoHeight"
-            :readonly="propsDetail.readyOnly"
-            :adjustPosition="propsDetail.adjustPosition"
-            :type="propsDetail.type"
-            :style="[
+          <textarea :userInteractionEnabled="false" v-if="propsDetail.type == 'textarea'" :value="_value"
+            :focus="propsDetail.focus" @focus="focus" @blur="blur" @confirm="confirm" @input="inputHandler"
+            @keyboardheightchange="emits('keyboardheightchange')" :maxlength="propsDetail.maxlength"
+            :disabled="propsDetail.disabled" :placeholder="propsDetail.placeholder"
+            :cursorSpacing="propsDetail.cursorSpacing" :confirmHold="propsDetail.confirmHold"
+            :autoBlur="propsDetail.autoBlur" :holdKeyboard="propsDetail.holdKeyboard" :cursor="propsDetail.cursor"
+            :show-confirm-bar="propsDetail.showConfirmBar" :selectionStart="propsDetail.selectionStart"
+            :selectionEnd="propsDetail.selectionEnd" :disable-default-padding="propsDetail.disableDefaultPadding"
+            :fixed="propsDetail.fixed" :autoHeight="propsDetail.autoHeight" :readonly="propsDetail.readyOnly"
+            :adjustPosition="propsDetail.adjustPosition" :type="propsDetail.type" :style="[
               propsDetail.autoHeight ? {} : { height: `${_height}rpx` },
               {
                 width: 'auto',
@@ -131,42 +65,19 @@
                 fontSize: `${propsDetail.fontSize_px}px`,
                 transition: 'color 0.24s',
               },
-            ]"
-            class="wrap flex-1"
-            :placeholder-style="`fontSize:${propsDetail.fontSize_px}px;${props.placeholderStyle}`"
-          ></textarea>
+            ]" class="wrap flex-1"
+            :placeholder-style="`fontSize:${propsDetail.fontSize_px}px;${props.placeholderStyle}`" :ready-only="propsDetail.readyOnly" ></textarea>
         </view>
-        <view
-          v-if="isAndroid"
-          class="flex-1 relative flex-row flex"
-          :style="[{ width: '0px' }]"
-        >
+        <view v-if="isAndroid" class="flex-1 relative flex-row flex" :style="[{ width: '0px' }]">
           <!-- <view @click.stop="emits('click',$event)" class=" l-0 t-0 flex-1 " :style="{height: `${_height}rpx`,background:'red'}"></view> -->
-          <input
-            class="flex-1"
-            @click.stop="emits('click', $event)"
-            :userInteractionEnabled="false"
-            v-if="propsDetail.type != 'textarea'"
-            :value="_value"
-            :focus="propsDetail.focus"
-            @focus="focus"
-            @blur="blur"
-            @confirm="confirm"
-            @input="inputHandler"
-            @keyboardheightchange="emits('keyboardheightchange')"
-            :password="showPasswordText"
-            :disabled="propsDetail.disabled"
-            :cursorSpacing="propsDetail.cursorSpacing"
-            :confirmType="propsDetail.confirmType"
-            :confirmHold="propsDetail.confirmHold"
-            :autoBlur="propsDetail.autoBlur"
-            :holdKeyboard="propsDetail.holdKeyboard"
-            :adjustPosition="propsDetail.adjustPosition"
-            :maxlength="propsDetail.maxlength"
-            :type="propsDetail.type"
-            :readonly="propsDetail.readyOnly"
-            :placeholder="propsDetail.placeholder"
-            :style="[
+          <input class="flex-1" @click.stop="emits('click', $event)" :userInteractionEnabled="false"
+            v-if="propsDetail.type != 'textarea'" :value="_value" :focus="propsDetail.focus" @focus="focus" @blur="blur"
+            @confirm="confirm" @input="inputHandler" @keyboardheightchange="emits('keyboardheightchange')"
+            :password="showPasswordText" :disabled="propsDetail.disabled" :cursorSpacing="propsDetail.cursorSpacing"
+            :confirmType="propsDetail.confirmType" :confirmHold="propsDetail.confirmHold" :autoBlur="propsDetail.autoBlur"
+            :holdKeyboard="propsDetail.holdKeyboard" :adjustPosition="propsDetail.adjustPosition"
+            :maxlength="propsDetail.maxlength" :type="propsDetail.type" :readonly="propsDetail.readyOnly"
+            :placeholder="propsDetail.placeholder" :style="[
               {
                 height: `${_height}rpx`,
                 color: propsDetail.fontColor
@@ -175,38 +86,18 @@
                 'text-align': props.align,
                 fontSize: `${propsDetail.fontSize_px}px`,
               },
-            ]"
-            :placeholder-style="`fontSize:${propsDetail.fontSize_px}px;${props.placeholderStyle}`"
-          />
-          <textarea
-            @click.stop="emits('click', $event)"
-            :userInteractionEnabled="false"
-            v-if="propsDetail.type == 'textarea'"
-            :value="_value"
-            :focus="propsDetail.focus"
-            @focus="focus"
-            @blur="blur"
-            @confirm="confirm"
-            @input="inputHandler"
-            @keyboardheightchange="emits('keyboardheightchange')"
-            :disabled="propsDetail.disabled"
-            :placeholder="propsDetail.placeholder"
-            :cursorSpacing="propsDetail.cursorSpacing"
-            :confirmHold="propsDetail.confirmHold"
-            :autoBlur="propsDetail.autoBlur"
-            :holdKeyboard="propsDetail.holdKeyboard"
-            :adjustPosition="propsDetail.adjustPosition"
-            :maxlength="propsDetail.maxlength"
-            :autoHeight="propsDetail.autoHeight"
-            :cursor="propsDetail.cursor"
-            :show-confirm-bar="propsDetail.showConfirmBar"
-            :selectionStart="propsDetail.selectionStart"
-            :selectionEnd="propsDetail.selectionEnd"
-            :disable-default-padding="propsDetail.disableDefaultPadding"
-            :readonly="propsDetail.readyOnly"
-            :fixed="propsDetail.fixed"
-            :type="propsDetail.type"
-            :style="[
+            ]" :placeholder-style="`fontSize:${propsDetail.fontSize_px}px;${props.placeholderStyle}`" />
+          <textarea @click.stop="emits('click', $event)" :userInteractionEnabled="false"
+            v-if="propsDetail.type == 'textarea'" :value="_value" :focus="propsDetail.focus" @focus="focus" @blur="blur"
+            @confirm="confirm" @input="inputHandler" @keyboardheightchange="emits('keyboardheightchange')"
+            :disabled="propsDetail.disabled" :placeholder="propsDetail.placeholder"
+            :cursorSpacing="propsDetail.cursorSpacing" :confirmHold="propsDetail.confirmHold"
+            :autoBlur="propsDetail.autoBlur" :holdKeyboard="propsDetail.holdKeyboard"
+            :adjustPosition="propsDetail.adjustPosition" :maxlength="propsDetail.maxlength"
+            :autoHeight="propsDetail.autoHeight" :cursor="propsDetail.cursor"
+            :show-confirm-bar="propsDetail.showConfirmBar" :selectionStart="propsDetail.selectionStart"
+            :selectionEnd="propsDetail.selectionEnd" :disable-default-padding="propsDetail.disableDefaultPadding"
+            :readonly="propsDetail.readyOnly" :fixed="propsDetail.fixed" :type="propsDetail.type" :style="[
               propsDetail.autoHeight ? {} : { height: `${_height}rpx` },
               {
                 width: 'auto',
@@ -217,120 +108,66 @@
                 'text-align': props.align,
                 fontSize: `${propsDetail.fontSize_px}px`,
               },
-            ]"
-            class="wrap flex-1"
-            :placeholder-style="`fontSize:${propsDetail.fontSize_px}px;${props.placeholderStyle}`"
-          ></textarea>
+            ]" class="wrap flex-1"
+            :placeholder-style="`fontSize:${propsDetail.fontSize_px}px;${props.placeholderStyle}`"></textarea>
         </view>
-        <view
-          @click="clearBtn"
-          class="pl-16"
-          v-if="propsDetail.showClear && _valueLenChar > 0"
-        >
-          <tm-icon
-            _style="transition:color 0.24s"
-            :userInteractionEnabled="false"
-            :font-size="propsDetail.fontSize"
-            name="tmicon-times-circle-fill"
-          >
+        <view @click="clearBtn" class="pl-16" v-if="propsDetail.showClear && _valueLenChar > 0">
+          <tm-icon _style="transition:color 0.24s" :userInteractionEnabled="false" :font-size="propsDetail.fontSize"
+            name="tmicon-times-circle-fill">
           </tm-icon>
         </view>
         <view class="pl-16" v-if="_requiredError">
-          <tm-icon
-            _style="transition:color 0.24s"
-            :font-size="propsDetail.fontSize"
-            name="tmicon-exclamation-circle"
-          ></tm-icon>
+          <tm-icon _style="transition:color 0.24s" :font-size="propsDetail.fontSize"
+            name="tmicon-exclamation-circle"></tm-icon>
         </view>
         <view class="pl-16" v-if="propsDetail.suffix">
-          <tm-icon
-            _style="transition:color 0.24s"
-            :font-size="propsDetail.fontSize"
-            :color="props.suffixColor"
-            :name="propsDetail.suffix"
-          ></tm-icon>
+          <tm-icon _style="transition:color 0.24s" :font-size="propsDetail.fontSize" :color="props.suffixColor"
+            :name="propsDetail.suffix"></tm-icon>
         </view>
 
         <view v-if="propsDetail.suffixLabel" class="pl-16">
-          <tm-text
-            _style="transition:color 0.24s"
-            :font-size="propsDetail.fontSize"
-            :color="props.suffixColor"
-            :label="propsDetail.suffixLabel"
-          ></tm-text>
+          <tm-text _style="transition:color 0.24s" :font-size="propsDetail.fontSize" :color="props.suffixColor"
+            :label="propsDetail.suffixLabel"></tm-text>
         </view>
 
         <view @click="changeSeePassword" class="pl-16" v-if="showPasswordIcon">
           <!-- tmicon-eyeslash-fill -->
-          <tm-icon
-            _style="transition:color 0.24s"
-            :userInteractionEnabled="false"
-            :font-size="propsDetail.fontSize"
-            :name="showPasswordText ? 'tmicon-eyeslash-fill' : 'tmicon-eye-fill'"
-          ></tm-icon>
+          <tm-icon _style="transition:color 0.24s" :userInteractionEnabled="false" :font-size="propsDetail.fontSize"
+            :name="showPasswordText ? 'tmicon-eyeslash-fill' : 'tmicon-eye-fill'"></tm-icon>
         </view>
 
         <!-- #ifndef MP-ALIPAY -->
-        <view
-          v-if="
-            propsDetail.showCharNumber &&
-            _valueLenChar > 0 &&
-            propsDetail.type != 'textarea'
-          "
-          class="pl-16 flex-row flex"
-        >
+        <view v-if="
+          propsDetail.showCharNumber &&
+          _valueLenChar > 0 &&
+          propsDetail.type != 'textarea'
+        " class="pl-16 flex-row flex">
           <tm-text _style="transition:color 0.24s" :label="_valueLenChar"></tm-text>
-          <tm-text
-            _style="transition:color 0.24s"
-            v-if="propsDetail.maxlength > 0"
-            :label="'/' + propsDetail.maxlength"
-          ></tm-text>
+          <tm-text _style="transition:color 0.24s" v-if="propsDetail.maxlength > 0"
+            :label="'/' + propsDetail.maxlength"></tm-text>
         </view>
         <!-- 原因是支付宝小程序自带了计数器。会导致重叠。 -->
-        <view
-          v-if="
-            propsDetail.showCharNumber &&
-            _valueLenChar > 0 &&
-            propsDetail.type == 'textarea'
-          "
-          class="pl-16 flex-row flex absolute r-0"
-          :class="[`b-${12}`]"
-        >
+        <view v-if="
+          propsDetail.showCharNumber &&
+          _valueLenChar > 0 &&
+          propsDetail.type == 'textarea'
+        " class="pl-16 flex-row flex absolute r-0" :class="[`b-${12}`]">
           <tm-text _style="transition:color 0.24s" :label="_valueLenChar"></tm-text>
-          <tm-text
-            _style="transition:color 0.24s"
-            v-if="propsDetail.maxlength > 0"
-            :label="'/' + propsDetail.maxlength"
-          ></tm-text>
+          <tm-text _style="transition:color 0.24s" v-if="propsDetail.maxlength > 0"
+            :label="'/' + propsDetail.maxlength"></tm-text>
         </view>
         <!-- #endif -->
         <slot name="right">
           <view v-if="propsDetail.search || propsDetail.searchLabel" class="pl-16">
-            <TmButton
-              :followTheme="props.followTheme"
-              @click="searchClick"
-              :color="props.focusColor"
-              :font-size="24"
-              :height="_height - 11"
-              :padding="[16, 0]"
-              block
-              :margin="[0, 0]"
-              :fontColor="props.searchFontColor"
-              :icon="propsDetail.search"
-              :label="propsDetail.searchLabel"
-            ></TmButton>
+            <TmButton :followTheme="props.followTheme" @click="searchClick" :color="props.focusColor" :font-size="24"
+              :height="_height - 11" :padding="[16, 0]" block :margin="[0, 0]" :fontColor="props.searchFontColor"
+              :icon="propsDetail.search" :label="propsDetail.searchLabel"></TmButton>
           </view>
         </slot>
       </view>
     </tm-sheet>
 
-    <!-- <view v-if="propsDetail.showBottomBotder" :class="[`mt-${props.margin[1]*2}`]">
-            <tm-divider :margin="[0,0]"></tm-divider>
-        </view> -->
-    <!-- _requiredError -->
-    <!-- <view v-if="false" class="pt-12">
-            <tmText :font-size="24" color="red" :label="_errorLabel"></tmText>
-        </view> -->
+
   </tm-sheet>
 </template>
 
@@ -372,7 +209,7 @@ const props = defineProps({
     type: String,
     default: "grey-4",
   },
-  searchFontColor:{
+  searchFontColor: {
     type: String,
     default: "",
   },
@@ -726,7 +563,7 @@ function inputHandler(e: CustomEvent) {
   return e.detail.value;
 }
 function inputClick(e: Event, type: string) {
-  e.stopPropagation();
+  // e.stopPropagation();
 
   if (type == "ali") {
     debounce(
@@ -737,9 +574,11 @@ function inputClick(e: Event, type: string) {
       true
     );
     return;
+  } else {
+    debounce(() => emits("click", e), 200, true);
+    console.log(type)
   }
 
-  debounce(() => emits("click", e), 200, true);
 }
 </script>
 
@@ -750,5 +589,6 @@ textarea {
   background-color: transparent;
   background: transparent;
 }
+
 /* #endif */
 </style>

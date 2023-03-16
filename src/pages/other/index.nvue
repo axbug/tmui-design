@@ -32,6 +32,7 @@ const list = ref([
     { path: "/pages/other/html", title: "富文本解析 Html" },
     { path: "/pages/other/colorPicker", title: "颜色选择器 colorView" },
     { path: "/pages/other/adsorb", title: "吸附器 Adsorb" },
+    { path: "/pages/other/sort", title: "宫格排序 Sort" },
     
 ])
 

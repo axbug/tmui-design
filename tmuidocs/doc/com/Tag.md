@@ -46,6 +46,7 @@ title: tmui 3.0 组件库
 | fontColor<Badge type="danger" text="v3.0.63+" vertical="middle" /> | [String] | "" | 默认空表示自动配色，填写了主题色将强制使用填写的颜色。 |
 | closable | [Boolean,String] | false | 是否允许被关闭  |
 | icon | [String] | '' | 图标 |
+| iconAlign | [String] | left | 图标位置，左，右,'left','right' |
 | label | [String] | '' | 文字 |
 
 ### :rose: 事件

@@ -2,6 +2,7 @@
 import colors from '../theme/theme';
 import { cssDirection, linearDirection, linearDeep, borderStyle, cssstyle, tmVuetify, cssDirectionType, linearDirectionType, linearDeepType, borderStyleType } from './interface';
 import { computed,PropType,ref } from "vue"
+import { borderDirectionType, linearType } from '@/tmui/interface';
 // import { useTmpiniaStore } from './tmpinia';
 // const store = useTmpiniaStore();
 //自定义props
@@ -82,29 +83,15 @@ export const custom_props = {
 	 * @default solid
 	 */
 	borderStyle: {
-		type: String as PropType<"solid"|"dashed"|"dotted">,
-		default: borderStyle.solid,
-		validator:(value:borderStyleType)=> {
-			let mp:Array<borderStyleType> = ["dashed","dotted","solid"]
-			if(!mp.includes(value)){
-				console.error('边线类型只能为borderStyle中的一种。')
-			}
-			return mp.includes(value)
-		}
+		type: String as PropType<borderStyleType>,
+		default: borderStyle.solid
 	},
 	/**
 	 * 边线的方向。
 	 */
 	borderDirection: {
-		type: String as PropType<"all"|"bottom"|"bottomleft"|"bottomright"|"left"|"leftright"|"right"|"right"|"top"|"topbottom"|"topleft"|"topright"|"x"|"y">,
-		default: cssDirection.all,
-		validator:(value:cssDirectionType)=> {
-			let mp:Array<cssDirectionType> = ["all","bottom","bottomleft","bottomright","left","leftright","right","right","top","topbottom","topleft","topright","x","y"]
-			if(!mp.includes(value)){
-				console.error('边线方向格式只能为cssDirection中的一种。')
-			}
-			return mp.includes(value)
-		}
+		type: String as PropType<borderDirectionType>,
+		default: cssDirection.all
 	},
 	/**
 	 * 是否浅色背景
@@ -121,30 +108,29 @@ export const custom_props = {
 		default: true
 	},
 	/**
-	 * 渐变背景方向
+	 * 是否透明背景,等同transprent,因单词拼写错误，现在写一个正确的。
+	 */
+	transparent: {
+		type: [Boolean, String],
+		default: true
+	},
+	/**
+	 * 渐变背景方向,
+	 * left:右->左，right:左->右。top:下->上，bottom:上->下。
 	 */
 	linear: {
-		type: String as PropType<'left'|'right'|'bottom'|'top'|''>,
-		default: linearDirection.none,//left:右->左，right:左->右。top:下->上，bottom:上->下。
-		validator:(value:linearDirectionType)=> {
-			let mp = ['left','right','bottom','top','']
-			if(!mp.includes(value)){
-				console.error('渐变方向只能为,left:右->左，right:左->右。top:下->上，bottom:上->下,中的一种。')
-			}
-			return mp.includes(value)
-		}
+		type: String as PropType<linearType>,
+		default: ''
 	},
-	// 渐变的亮浅
+	/** 渐变的亮浅 light,dark,accent亮系渐变和深色渐变。 */
 	linearDeep: {
-		type: String as PropType<"accent"|"dark"|"light">,
-		default: linearDeep.light,//light,dark,accent亮系渐变和深色渐变。
-		validator:(value:linearDeepType)=> {
-			let mp:Array<linearDeepType> = ["accent","dark","light"]
-			if(!mp.includes(value)){
-				console.error('渐变方向只能为light,dark,accent中的一种。')
-			}
-			return mp.includes(value)
-		}
+		type: String as PropType<linearDirectionType>,
+		default: 'light'
+	},
+	/**当开启渐变时，如果提供些数组属性将产生自定义颜色的渐变值。 */
+	linearColor:{
+		type:[Array] as PropType<Array<string>>,
+		default:()=>[]
 	},
 	//是否禁用圆角功能 ，针对安卓的特别处理。
 	isDisabledRoundAndriod: {
@@ -155,6 +141,11 @@ export const custom_props = {
 	blur:{
 		type:Boolean,
 		default:false
+	},
+	/**线的边线颜色,如果不提供自动从color中匹配计算。 */
+	borderColor:{
+		type:String,
+		default:""
 	}
 }
 //暗黑状态。
@@ -221,6 +212,7 @@ export const computedTheme = (props: any, dark:boolean,store:any):cssstyle => {
 	const linear = props.linear;
 	const linearDeep = props.linearDeep;
 	const blur = props.blur;
+	var borderColor = props?.borderColor??'';
 	var theme = new colors.themeColors(store.colorList);
 	if (colors.isCssColor(color)&&!theme.hasColors(color)) {
 		// console.error('不支持自定义组件上的颜色值，请在theme/theme.js中添加自定义的颜色值为主题。当前已切换为primary主题。');
@@ -230,6 +222,7 @@ export const computedTheme = (props: any, dark:boolean,store:any):cssstyle => {
 	
 	if(props?.followTheme==true&&store.color){
 		defaultColorName = store.color;
+		borderColor = ""
 	}
 	
 	
@@ -246,6 +239,7 @@ export const computedTheme = (props: any, dark:boolean,store:any):cssstyle => {
 		linearDirection: <linearDirectionType>linear,
 		linearDeep: <linearDeep>linearDeep,
 		blur: blur,
+		borderColor:borderColor
 	});
 	
 	return c;

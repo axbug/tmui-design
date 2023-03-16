@@ -219,7 +219,9 @@ const fontSizeComputed = computed(() => {
 const isImg = computed(() => {
   if (
     props.name[0] == "." ||
+    props.name[0] == "@" ||
     props.name[0] == "/" ||
+    props.name[0] == "~" ||
     props.name.substring(0, 5) == "data:" ||
     props.name.substring(0, 4) == "http" ||
     props.name.substring(0, 5) == "https" ||

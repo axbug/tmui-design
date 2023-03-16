@@ -1,70 +1,71 @@
 <template>
-  <view
-    v-if="showMask"
-    class="l-0 t-0"
-    :style="[
-      _inContent && !isNvue
-        ? { width: '100%', height: '100%', top: '0px', position: 'absolute' }
-        : {
-            width: width + 'px',
-            height: height + 'px',
-            top: top + 'px',
-            position: 'fixed',
-          },
-      zIndex ? { zIndex: zIndex } : '',
-    ]"
-  >
-    <view
-      ref="overlay"
-      :class="[bgColor_rp && !props.transprent && ani ? 'blurOn' : 'blurOff', 'overlay']"
-      :style="[
-        bgColor_rp && !props.transprent
-          ? { backgroundColor: showMask ? bgColor_rp : '' }
-          : '',
-        _inContent && !isNvue
-          ? { width: '100%', height: '100%' }
-          : { width: width + 'px', height: height + 'px' },
-        { transitionDuration: props.duration + 'ms' },
-      ]"
-    >
-    </view>
-    <!-- #ifndef APP-NVUE -->
-    <view
-      @click.stop="closeByclick"
-      :class="[
-        align_rpx,
-        ' absolute flex flex-col  l-0 t-0 ',
-        customClass,
+	<!-- #ifdef MP-WEIXIN || MP-ALIPAY-->
+	<root-portal>
+	<!-- #endif -->
+	<!-- #ifdef H5 -->
+	<teleport to="#app">
+	<!-- #endif -->
 
-        props.contentAnimation ? 'overlay' : '',
-        props.contentAnimation && ani ? 'blurOnOpacity ' : '',
-        props.contentAnimation && !ani ? 'blurOffOpacity overlay' : '',
-      ]"
-      :style="[
-        _inContent && !isNvue
-          ? { width: '100%', height: '100%', top: '0px' }
-          : { width: width + 'px', height: height + 'px' },
-        customCSSStyle,
-      ]"
-    >
-      <slot></slot>
-    </view>
-    <!-- #endif -->
-    <!-- #ifdef APP-NVUE -->
-    <view
-      @click.stop="closeByclick"
-      :class="[align_rpx, ' absolute flex flex-col  l-0 t-0 ', customClass]"
-      :style="[
-        _inContent && !isNvue
-          ? { width: '100%', height: '100%', top: '0px' }
-          : { width: width + 'px', height: height + 'px' },
-        customCSSStyle,
-      ]"
-    >
-      <slot></slot>
-    </view>
-    <!-- #endif -->
-  </view>
+		<view
+			v-if="showMask"
+			class="l-0 t-0"
+			:style="[
+				_inContent && !isNvue
+					? { width: '100%', height: '100%', top: '0px', position: 'absolute' }
+					: {
+							width: width + 'px',
+							height: height + 'px',
+							top: top + 'px',
+							position: 'fixed'
+					  },
+				zIndex ? { zIndex: zIndex } : ''
+			]"
+		>
+			<view
+				ref="overlay"
+				:class="[bgColor_rp && !props.transprent && ani ? 'blurOn' : 'blurOff', 'overlay']"
+				:style="[
+					bgColor_rp && !props.transprent ? { backgroundColor: showMask ? bgColor_rp : '' } : '',
+					_inContent && !isNvue ? { width: '100%', height: '100%' } : { width: width + 'px', height: height + 'px' },
+					{ transitionDuration: props.duration + 'ms' }
+				]"
+			></view>
+			<!-- #ifndef APP-NVUE -->
+			<view
+				@click.stop="closeByclick"
+				@touchmove.stop="touchmove"
+				:class="[
+					align_rpx,
+					' absolute flex flex-col  l-0 t-0 ',
+					customClass,
+
+					props.contentAnimation ? 'overlay' : '',
+					props.contentAnimation && ani ? 'blurOnOpacity ' : '',
+					props.contentAnimation && !ani ? 'blurOffOpacity overlay' : ''
+				]"
+				:style="[_inContent && !isNvue ? { width: '100%', height: '100%', top: '0px' } : { width: width + 'px', height: height + 'px' }, customCSSStyle]"
+			>
+				<slot></slot>
+			</view>
+			<!-- #endif -->
+			<!-- #ifdef APP-NVUE -->
+			<view
+				@click.stop="closeByclick"
+				:class="[align_rpx, ' absolute flex flex-col  l-0 t-0 ', customClass]"
+				:style="[_inContent && !isNvue ? { width: '100%', height: '100%', top: '0px' } : { width: width + 'px', height: height + 'px' }, customCSSStyle]"
+			>
+				<slot></slot>
+			</view>
+			<!-- #endif -->
+		</view>
+	
+	<!-- #ifdef MP-WEIXIN || MP-ALIPAY -->
+	</root-portal>
+	<!-- #endif -->
+	<!-- #ifdef H5 -->
+	</teleport>
+	<!-- #endif -->
+
 </template>
 <script lang="ts" setup>
 /**
@@ -234,7 +235,11 @@ function open(off: boolean) {
   fadeInVue(off);
   // #endif
 }
-
+function touchmove(e:TouchEvent){
+try{
+  e.preventDefault()
+}catch(e){}
+}
 function fadeInNvue(off: boolean = false) {
   if (off == false) {
     if (showMask.value == off) return;
@@ -281,7 +286,7 @@ function fadeInNvue(off: boolean = false) {
 }
 function fadeInVue(off = false) {
   if (showMask.value == off) return;
-  debounce(
+  uni.$tm.u.throttle(
     function () {
       if (off == false) {
         ani.value = false;
@@ -301,13 +306,14 @@ function fadeInVue(off = false) {
         }, props.duration);
       }
     },
-    props.duration + 10,
+    props.duration+10,
     true
   );
 }
 watch(
   () => props.show,
   (newval) => {
+    console.log(ani.value)
     open(newval);
   }
 );
@@ -319,28 +325,28 @@ defineExpose({
 
 <style scoped="scoped">
 .overlay {
-  transition-timing-function: ease;
-  transition-property: opacity;
-  transition-delay: 0;
-  opacity: 0;
+	transition-timing-function: ease;
+	transition-property: opacity;
+	transition-delay: 0;
+	opacity: 0;
 }
 .blurOn {
-  /* #ifndef APP-PLUS-NVUE */
-  backdrop-filter: blur(2px);
-  /* #endif */
-  opacity: 1;
+	/* #ifndef APP-PLUS-NVUE */
+	backdrop-filter: blur(2px);
+	/* #endif */
+	opacity: 1;
 }
 .blurOff {
-  /* #ifndef APP-PLUS-NVUE */
-  backdrop-filter: blur(0px);
-  /* #endif */
-  opacity: 0;
+	/* #ifndef APP-PLUS-NVUE */
+	backdrop-filter: blur(0px);
+	/* #endif */
+	opacity: 0;
 }
 
 .blurOnOpacity {
-  opacity: 1;
+	opacity: 1;
 }
 .blurOffOpacity {
-  opacity: 0;
+	opacity: 0;
 }
 </style>

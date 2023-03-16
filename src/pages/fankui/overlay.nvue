@@ -12,7 +12,6 @@
 					<tm-text label="更多属性动画时长这些请前文档"></tm-text>
 				</tm-sheet>
             </view>
-			
         </tm-overlay>
     </tm-app>
 </template>

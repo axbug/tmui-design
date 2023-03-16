@@ -2,7 +2,6 @@
   <view v-if="show" class="flex flex-row" :class="[loading ? 'opacity-5' : '']">
     <tm-translate @end="aniEnd" ref="anitag" name="zoom" reverse :autoPlay="false">
       <tm-sheet
-        hover-class="opacity-6"
         @click="onclick"
         :transprent="props.transprent"
         :color="props.color"
@@ -22,10 +21,11 @@
         :linearDeep="props.linearDeep"
         :margin="props.margin"
         :padding="[wh.px, wh.py]"
+        :border-color="props.borderColor"
       >
         <tm-icon
           :color="_fontColor"
-          v-if="props.icon"
+          v-if="props.icon&&props.iconAlign=='left'"
           :name="props.icon"
           :followDark="props.followDark"
           :fontSize="wh.fontSize"
@@ -33,11 +33,10 @@
           :userInteractionEnabled="false"
         ></tm-icon>
 
-        <view class="flex-1 flex flex-center">
+        <view class="flex-1 flex flex-center px-12">
           <slot name="default">
             <tm-text
               :color="_fontColor"
-              :_class="props.icon ? 'pl-10' : ''"
               :fontSize="wh.fontSize"
               :followDark="props.followDark"
               :userInteractionEnabled="false"
@@ -52,12 +51,21 @@
             @click="closeTag"
             :followDark="props.followDark"
             v-if="props.closable && !loading"
-            _class="pl-10"
+            :_class="props.icon?'pl-10':''"
             :fontSize="wh.fontSize * 0.8"
             name="tmicon-times"
             :dark="props.dark"
           ></tm-icon>
         </view>
+        <tm-icon
+          :color="_fontColor"
+          v-if="props.icon&&props.iconAlign=='right'"
+          :name="props.icon"
+          :followDark="props.followDark"
+          :fontSize="wh.fontSize"
+          :dark="props.dark"
+          :userInteractionEnabled="false"
+        ></tm-icon>
         <view
           :userInteractionEnabled="false"
           v-if="loading"
@@ -173,6 +181,11 @@ const props = defineProps({
     type: [String],
     default: "",
   },
+  /**图标在文字的左还是右 */
+  iconAlign: {
+    type: String as PropType<"left"|"right">,
+    default: "left",
+  },
   label: {
     type: [String],
     default: "",
@@ -181,6 +194,7 @@ const props = defineProps({
     type: String,
     default: "",
   },
+
 });
 const emits = defineEmits(["click", "close", "change", "update:checked"]);
 

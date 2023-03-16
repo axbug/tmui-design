@@ -5,8 +5,10 @@ import type { tmVuetify,wxshareConfig,colorThemeType } from './interface'
 let pdefault_cookies_color = u.getCookie('setTmVuetifyColor')||"";
 let pdefault_cookies_black = u.getCookie('setTmVuetifyBlack')
 let pdefault_cookies_local = u.getCookie('setTmVuetifyLocal')||'zh-Hans';
+
 let pdefault_cookies_colorArrayList = u.getCookie('colorArrayList');
 let dark = typeof pdefault_cookies_black === 'boolean' ? pdefault_cookies_black : false;
+
 let themeObj = new themeColor.themeColors()
 if(pdefault_cookies_colorArrayList){
 	const result2 = pdefault_cookies_colorArrayList.filter((item:colorThemeType) => themeObj.colors.every(subItem => subItem.name !== item.name));
@@ -45,6 +47,14 @@ export const useTmpiniaStore = defineStore('tmpinia', {
 			}
 		}
 	},
+	getters:{
+		getAutoDark:(state)=>{
+			let pdefault_cookies_autoDark = u.getCookie('setTmVuetifyAutoDark')??undefined;
+			console.log(pdefault_cookies_autoDark)
+			let autoDark = typeof pdefault_cookies_autoDark === 'boolean' ? pdefault_cookies_autoDark : state.tmuiConfig.autoDark;
+			return autoDark
+		}
+	},
 	actions: {
 		setPageNow(url:string) {
             this.tmStore = {
@@ -66,6 +76,28 @@ export const useTmpiniaStore = defineStore('tmpinia', {
 				dark: dark
 			}
 			
+		},
+		setTmAutoDark(autoDark:boolean){
+			u.setCookie('setTmVuetifyAutoDark',autoDark)
+			this.tmuiConfig = {
+				...this.tmuiConfig,
+				autoDark:autoDark
+			}
+			if(autoDark){
+				let nowstrdark = ''
+				// #ifdef H5
+				if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+					nowstrdark = 'dark'
+				} else {
+					nowstrdark = 'light'
+				}
+				// #endif
+			
+				// #ifndef H5
+				nowstrdark = uni.getSystemInfoSync()?.hostTheme??''
+				// #endif
+				this.setTmVuetifyDark(nowstrdark=='dark'?true:false)
+			}
 		},
 		setWxShare(cfg:wxshareConfig) {
 			let pcf = cfg || {};
@@ -107,3 +139,4 @@ export const useTmpiniaStore = defineStore('tmpinia', {
 		}
 	},
 });
+

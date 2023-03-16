@@ -70,6 +70,7 @@ title: tmui 3.0 组件库
 ### :corn: slot插槽
 默认default,内容插槽
 title <Badge type="danger" text="v3.0.77+" vertical="middle" />,标题插槽
+trigger可触发弹层的插槽占位内容，比如在里面布局按钮，输入框，点击这块内容可以直接显示弹层。
 
 ### :green_salad: ref方法
 | 方法名   | 参数  | 返回值 | 描述  |

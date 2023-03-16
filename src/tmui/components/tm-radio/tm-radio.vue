@@ -27,7 +27,7 @@
         :transprent="props.transprent"
         :outlined="props.outlined"
         :padding="_is_radio ? [0, 0] : [16, 10]"
-        :margin="_is_radio ? [16, 8] : [8, 8]"
+        :margin="_is_radio ? props.margin: [8, 8]"
         :color="_disabled ? 'grey-2' : props.color"
         :round="props.round"
         _class="flex-row flex-row-center-center"
@@ -80,7 +80,7 @@ import tmIcon from "../tm-icon/tm-icon.vue";
 import tmText from "../tm-text/tm-text.vue";
 import tmTranslate from "../tm-translate/tm-translate.vue";
 import { custom_props } from "../../tool/lib/minxs";
-import { ref, computed, watch, inject, getCurrentInstance, nextTick } from "vue";
+import { ref, computed, watch, inject, getCurrentInstance, nextTick,PropType } from "vue";
 const proxy = getCurrentInstance()?.proxy ?? null;
 const emits = defineEmits(["update:modelValue", "change", "click"]);
 const props = defineProps({
@@ -165,6 +165,10 @@ const props = defineProps({
     type: String,
     default: "opacity-5",
   },
+  margin:{
+    type:Array as PropType<number[]>,
+    default:()=>[16, 8]
+  }
 });
 const is_nvue = ref(false);
 // #ifdef APP-NVUE

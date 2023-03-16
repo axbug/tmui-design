@@ -4,10 +4,7 @@ var startY = 0;
 var left = 0;
 var top = 0;
 var prop;
-var getState = function(ownerInstance) {
-	owner = ownerInstance;
-	state = owner.getState();
-};
+
 var startDrag = function(event, ownerInstance) {
 	//getState(ownerInstance);
 	//ownerInstance.callMethod('gettest',333)

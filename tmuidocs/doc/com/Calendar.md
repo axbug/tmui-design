@@ -48,6 +48,7 @@ title: tmui 3.0 组件库
 | hideButton<Badge type="danger" text="v3.0.78+" vertical="middle" /> | Boolean | false | 是否隐藏底部按钮 | 
 | hideTool<Badge type="danger" text="v3.0.78+" vertical="middle" />  | Boolean | false | 是否隐藏头部工具栏 | 
 | round<Badge type="danger" text="v3.0.78+" vertical="middle" />  | Number | 0-25 | 弹层圆角 | 
+| format<Badge type="danger" text="v3.1.0+" vertical="middle" />  | String | 'YYYY/MM/DD' | 针对modelStr的时间格式化输出 | 
 
 dateItemStyle格式：
 ```ts
@@ -94,6 +95,7 @@ export interface dateItemStyle {
 | max | Number | 999 | 当multiple=true时，可以选择的最大日期数量 |
 | hideButton<Badge type="danger" text="v3.0.78+" vertical="middle" />  | Boolean | false | 是否隐藏底部按钮 | 
 | hideTool<Badge type="danger" text="v3.0.78+" vertical="middle" />  | Boolean | false | 是否隐藏头部工具栏 | 
+| format<Badge type="danger" text="v3.1.0+" vertical="middle" />  | String | 'YYYY/MM/DD' | 针对modelStr的时间格式化输出 | 
 
 ### :rose: CalendarView事件
 | 事件名 | 参数 | 返回数据 | 描述 |

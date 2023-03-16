@@ -1,15 +1,17 @@
 
 /**
  * 主题工具
- * @author tmzdy tmVuetify
+ * @author tmzdy tmui3.0
  * @description 主题样式生成工具
  * @copyright tmzdy|tmui|https://tmui.design
  */
 import { colortool } from './colortool';
 import  { cssStyleConfig, cssstyle, colorThemeType, cssDirection, linearDirection, linearDeep, linearDirectionType } from '../lib/interface';
 //导入用户自定义的主题色值。
-import { theme } from '../../../theme/index';
-import { color } from 'echarts';
+// import { theme } from '../../../theme/index';
+
+let theme = uni.$tm?.config?.theme??{}
+
 var colors: Array<colorThemeType> = [];
 var colorObj: any = {
 	red: '#FE1C00',
@@ -78,7 +80,7 @@ function getColor(colorName: string) {
 		isHand = colors.findIndex(function(el, index) {
 			return el.name == colorName;
 		});
-		console.error('主题中不存在相关名称的主题。');
+		console.warn('主题中不存在相关名称的主题。');
 	}
 
 
@@ -148,6 +150,12 @@ class themeColors {
 
 		return this.colors[isHand];
 	}
+	/**
+	 * 计算主题
+	 * @author tmui3.0|tmzdy
+	 * @param config 样式的细化
+	 * @returns cssstyle 返回一个计算好的主题系。
+	 */
 	public getTheme(config: cssStyleConfig = { colorname: 'primary', dark: false }): cssstyle {
 		if (!config['colorname']) {
 			console.error('颜色名称必填');
@@ -167,6 +175,7 @@ class themeColors {
 		let nowColor = { ...this.colors[index] };
 		config.borderWidth = isNaN(parseInt(String(config['borderWidth']))) ? 0 : config['borderWidth']??0;
 		config.borderStyle = config['borderStyle'] ? config['borderStyle'] : 'solid';
+		config.borderColor = config['borderColor'] || '';
 		config.borderDirection = config['borderDirection'] || cssDirection.all;
 		config.linearDirection = config['linearDirection'] || linearDirection.none;
 		config.linearDeep = config['linearDeep'] || linearDeep.light;
@@ -232,9 +241,7 @@ class themeColors {
 		if (nowColor.hsla.h == 0 && nowColor.hsla.s == 0 && !config.dark && nowColor.hsla.l == 0) {
 			css.border = colortool.rgbaToCss(colortool.hslaToRgba({ ...borderhsl, l: 12 }));
 		}
-
 		css.backgroundColorCss = { 'background-color': css.backgroundColor }
-
 		//文字颜色。
 		let txcolor = { ...nowColor.hsla };
 		//当亮度小于（含）50需要降低文本颜色的亮度，即加深。，否则加亮，即变浅色。
@@ -362,8 +369,7 @@ class themeColors {
 				addling = -37
 			}
 			
-			
-			
+	
 			//先计算渐变的亮色系。
 			// 先算白或者黑
 			// 如果是白
@@ -441,16 +447,19 @@ class themeColors {
 				}
 				css.backgroundColor = colortool.rgbaToCss(colortool.hslaToRgba(newBgcolor));
 				css.gradientColor = [color_t_1, color_t_2]
+				css.linearDirectionStr = dir_str;
 			}
 
 		}
 
 		if (config.dark == true) {
-			css.cardcolor = '#0A0A0B'; //项目
-			css.inputcolor = '#111112';//输入框，表单等
-			css.bodycolor = 'rgba(5,5,5, 1.0)';//背景
-			css.disablecolor = 'rgba(30, 30, 30, 1.0)';//禁用的项目或者表单
-			css.textDisableColor = 'rgba(100, 100, 100, 1.0)';//文本禁用色.
+			// css.cardcolor = '#0A0A0B'; //项目
+			// css.inputcolor = '#111112';//输入框，表单等
+			// css.bodycolor = 'rgba(5,5,5, 1.0)';//背景
+			// css.disablecolor = 'rgba(30, 30, 30, 1.0)';//禁用的项目或者表单
+			// css.textDisableColor = 'rgba(100, 100, 100, 1.0)';//文本禁用色.
+			css = {...css,...uni.$tm.config?.themeConfig?.dark??{}}
+			
 		}
 
 		css.textColor = colortool.rgbaToCss(colortool.hslaToRgba(txcolor));
@@ -476,6 +485,7 @@ class themeColors {
 				}
 	
 			}
+			css.border = config.borderColor||css.border
 		}
 
 		//设置边线样式。
@@ -502,8 +512,6 @@ class themeColors {
 		} else {
 			let str = '-' + config.borderDirection;
 			css.borderCss[`border${str}`] = `${config.borderWidth}rpx ${config.borderStyle} ${css.border}`;
-			
-
 		}
 		
 		return css;

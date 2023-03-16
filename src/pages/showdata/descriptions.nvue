@@ -1,21 +1,18 @@
 <template>
     <tm-app>
-        <tm-sheet>
-            <tm-text :font-size="24" _class="font-weight-b" label="基础示例"></tm-text>
-            <tm-divider></tm-divider>
+        <tm-sheet :padding="[0]" :margin="[32,16]">
             <tm-descriptions :data="list" ></tm-descriptions>
         </tm-sheet>
-        <tm-sheet>
-            <tm-text :font-size="24" _class="font-weight-b" label="配置颜色和字体大小，以及标题，插槽"></tm-text>
-            <tm-divider></tm-divider>
-            <tm-descriptions transprent :round="3" text title="时间工具标题">
-                <tm-descriptions-item  :font-size="24" v-for="(item,index) in list" :key="index" :label="item.label" :value="item.value"></tm-descriptions-item>
-                <tm-descriptions-item :font-size="24" color="red" label="开发工具" value="vscode">
-                    <tm-sheet color="red" text :border="1" :margin="[12,0]" :padding="[12,4]" :round="2">
-                        <tm-text :font-size="24" label="插槽配置"></tm-text>
+        <tm-sheet :margin="[32,0]" :padding="[0]">
+            <tm-descriptions :width="686" :column="3" transprent :round="3" text title="展示3列属性">
+                <tm-descriptions-item  :font-size="24" v-for="(item,index) in list2" :key="index" :label="item.label" :value="item.value"></tm-descriptions-item>
+                <tm-descriptions-item :font-size="24" color="red" label="工具" value="vscode">
+                    <tm-sheet color="red" text :border="1" :margin="[6,0]" :padding="[4]" :round="2">
+                        <tm-text :font-size="24" label="vscode"></tm-text>
                     </tm-sheet>
                 </tm-descriptions-item>
             </tm-descriptions>
+            
         </tm-sheet>
 
         
@@ -37,7 +34,12 @@ const list = [
     {label:'同步时间',value:'2022/5/12'},
     {label:'同步时间',value:'2022/5/12'},
 ]
-
+const list2 = [
+    {label:'客户',value:'同名自定义'},
+    {label:'金额',value:'￥256'},
+    {label:'状态',value:'正常'},
+    {label:'禁用',value:'否'},
+]
 
 
 </script>

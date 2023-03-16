@@ -41,27 +41,25 @@ export function getCanvas(proxy:ComponentInternalInstance,canvasid:string,w?:num
 					})
 					.exec((res) => {
 						
-						const canvas = res[0].node
+						const canvas = res[0]?.node??null;
+						
 						if(canvas){
 							const ctx = canvas.getContext('2d')
 							const dpr = uni.getSystemInfoSync().pixelRatio
 							canvas.width = res[0].width * dpr
 							canvas.height = res[0].height * dpr
-							if(canvas?.scale){
-								canvas.scale(dpr, dpr)
+							if(ctx?.scale){
+								ctx.scale(dpr, dpr)
 							}
-							resv({ctx:ctx,node:res[0].node})
+							resv({ctx:ctx,node:canvas})
 						
 						}else{
-							const ctx =  res[0].context
+							const ctx =  res[0]?.context??null
 							resv({ctx:ctx,node:null})
 						}
 						
 				})
 				// #endif
-			
-		
-		
 		}, 100)
 		// #endif
 		

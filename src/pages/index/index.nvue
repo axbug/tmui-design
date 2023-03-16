@@ -1,171 +1,123 @@
 <template>
 	<tm-app v-model:show-menu="showf" ref="app">
-		<template v-slot:menu="{sys}">
-			<tm-sheet :margin="[0,0]" :padding="[0,0]" color="indigo" linearDeep="accent" linear="bottom">
-				<image class="opacity-1" :style="{width:`${sys.width}px`,height:`${sys.height}px`}"
+		<template v-slot:menu="{ sys }">
+			<tm-sheet :margin="[0, 0]" :padding="[0, 0]" color="indigo" linearDeep="accent" linear="bottom">
+				<image class="opacity-1" :style="{ width: `${sys.width}px`, height: `${sys.height}px` }"
 					:src="`https://picsum.photos/${sys.width}/${sys.height}?id=${Math.random()}`" mode="scaleToFill" />
-				<view class="absolute l-0 t-0" :style="{width:`${sys.width}px`,height:`${sys.height}px`}">
-					<view :style="{height:sysinfo.sysinfo.statusBarHeight+'px'}"></view>
+				<view class="absolute l-0 t-0" :style="{ width: `${sys.width}px`, height: `${sys.height}px` }">
+					<view :style="{ height: sysinfo.sysinfo.statusBarHeight + 'px' }"></view>
 					<view class="flex flex-row flex-row-center-between py-24 px-16">
-						<tm-text label="TMUI 3.0.89"></tm-text>
-						<tm-icon @click="showf=false" color="white" :font-size="32" name="tmicon-times"></tm-icon>
+						<tm-text label="TMUI 3.1.0"></tm-text>
+						<tm-icon @click="showf = false" color="white" :font-size="32" name="tmicon-times"></tm-icon>
 					</view>
-					<tm-cell url="/pages/changyong/index" color="primary" :transprent="true" :margin="[10,0]"
+					<tm-cell url="/pages/changyong/index" color="primary" :transprent="true" :margin="[10, 0]"
 						title="通用组件"></tm-cell>
-					<tm-cell url="/pages/layout/index" color="primary" :transprent="true" :margin="[10,0]" title="布局组件">
+					<tm-cell url="/pages/layout/index" color="primary" :transprent="true" :margin="[10, 0]" title="布局组件">
 					</tm-cell>
-					<tm-cell url="/pages/showdata/index" color="primary" :transprent="true" :margin="[10,0]"
+					<tm-cell url="/pages/showdata/index" color="primary" :transprent="true" :margin="[10, 0]"
 						title="展示组件"></tm-cell>
-					<tm-cell url="/pages/form/index" color="primary" :transprent="true" :margin="[10,0]" title="表单录入">
+					<tm-cell url="/pages/form/index" color="primary" :transprent="true" :margin="[10, 0]" title="表单录入">
 					</tm-cell>
 				</view>
 			</tm-sheet>
 		</template>
-		
-		<tm-navbar :title="language('index.com.navtitle')" :shadow="0" hide-home>
-			<template v-slot:left>
-				<view class="flex flex-center flex-row">
-					<tm-icon @click="showf=true" :color="store.tmStore.dark?'primary':''" _class="px-24" :font-size="32"
-						name="tmicon-menu"></tm-icon>
-					<navigator url="settheme" class="px-12">
-						<tm-icon :font-size="32" name="tmicon-cog-fill"></tm-icon>
-					</navigator>
-					<tm-icon _class="px-24" @click="onChangeDark" :color="store.tmStore.dark?'yellow':''"
-						:font-size="32" name="tmicon-ios-sunny"></tm-icon>
+		<tm-sticky >
+			<template v-slot:sticky>
+				<tm-sheet
+				:linear="store.tmStore.dark?'':'bottom'" 
+				:linear-color="headerBgColor" 
+				:margin="[0, 0]" 
+				:followTheme="true">
+					<view :style="{ height: sysinfo.statusBarHeight + 'px' }"></view>
+					<view class="flex-row flex-row-center-start pb-10">
+						<tm-image :width="108" :height="67.5" :src="logoimg"></tm-image>
+						<view class="pl-16 flex-1" style="width:0px">
+							<tm-text :flow-theme="false" _class="text-weight-b" :font-size="36" label="TMUI 3.1.0"></tm-text>
+							<tm-text :flow-theme="false" _class="opacity-6" :label="language('index.search.subtext')"></tm-text>
+						</view>
+					</view>
+
+					<view class="px-0 pt-12">
+						<tm-input focus-color="white"  :text="false" color="white" :round="16" :transprent="store.tmStore.dark" :placeholder="language('index.search.tips')" showClear prefix="tmicon-search"
+							v-model="str" @confirm='search' ></tm-input>
+					</view>
+				</tm-sheet>
+				
+			</template>
+
+
+			<tm-sheet :shadow="6" :margin="[24]" :padding="[24]" :round="10">
+				<tm-text :font-size="28" _class="font-weight-b" :label="language('index.com.themetext')"></tm-text>
+				<tm-divider></tm-divider>
+				<view class="flex flex-row flex-around">
+
+					<tm-button text :border="2" :outlined="true" :shadow="0" :round="8" :width="100" color="yellow" size="small" @click="setTheme('yellow')"
+						:label="language('index.com.themeGreen')"></tm-button>
+					<tm-button text :border="2" :outlined="true" :shadow="0" :round="8" :width="100" color="blue" size="small" @click="setTheme('blue')"
+						:label="language('index.com.themeBlue')"></tm-button>
+					<tm-button text :border="2" :outlined="true" :shadow="0" :round="8" :width="100" color="red" size="small" @click="setTheme('red')"
+						:label="language('index.com.themeRed')"></tm-button>
+					<tm-button text :border="2" :outlined="true" :shadow="0" :round="8" color="brown" :width="100" size="small" @click="showCustom = true"
+						:label="language('index.com.themeCustText')">
+					</tm-button>
+					<tm-button text :border="2" :outlined="true" :shadow="0" :round="8" :width="160" size="small" @click="setTheme('')" :label="language('index.com.themeDefault')">
+					</tm-button>
 				</view>
-			</template>
-		</tm-navbar>
-		<tm-sheet :margin="[0, 0]" :followTheme="true">
-			<view class="flex-row flex-row-center-start pb-10">
-				<tm-image :width="108" :height="67.5" :src="logoimg"></tm-image>
-				<view class="pl-16 flex-1" style="width:0px">
-					<tm-text _class="text-weight-b" :font-size="36" label="TMUI 3.0.89"></tm-text>
-					<tm-text _class="opacity-6" :label="language('index.search.subtext')"></tm-text>
-				</view>
+			</tm-sheet>
+
+			<tm-sheet paren-class="overflow" :shadow="6" :round="10" :margin="[24, 0]" :padding="[24, 0]">
+				<tm-text :font-size="28" _class="font-weight-b pt-24" :label="language('index.com.title')"></tm-text>
+				<tm-divider></tm-divider>
+				<tm-row :width="654" :column="3">
+					<tm-col @click="toLinks(item.url)" :height="190" v-for="(item,index) in category" :key="index">
+						<tm-icon :color="item.color" _class="pb-10" :font-size="52" :name="item.icon"></tm-icon>
+						<tm-text :font-size="28" _class="font-weight-b" :label="language(item.title)"></tm-text>
+						<tm-text color="grey" :font-size="22" _class="font-weight-b"
+							:label="language(item.label)"></tm-text>
+					</tm-col>
+				</tm-row>
+			</tm-sheet>
+			<view class="py-24">
+			<!-- #ifdef MP-WEIXIN -->
+			<tm-cell url="../wxaccount/user" :margin="[24, 0,24,16]" showAvatar :round="6" :titleFontSize="30"
+				:title="language('index.com.love')" label="可登录模板市场" :rightText="language('index.com.loveSub')">
+				<template v-slot:avatar>
+					<tm-icon color="orange" :font-size="38" name="tmicon-heart-fill"></tm-icon>
+				</template>
+			</tm-cell>
+			<!-- #endif -->
+			<tm-cell :margin="[24, 0, 24, 16]" @click="seLocal" showAvatar :round="6" :titleFontSize="30"
+				:title="language('index.com.setLocal')" :rightText="language('language')">
+				<template v-slot:avatar>
+					<tm-icon color="primary" :font-size="38" name="tmicon-resource"></tm-icon>
+				</template>
+			</tm-cell>
+			<tm-cell :margin="[24, 0]" showAvatar :round="6" :titleFontSize="30" :title="language('index.com.autoDark')">
+				<template v-slot:avatar>
+					<tm-icon color="pink" :font-size="38" name="tmicon-ios-color-palette"></tm-icon>
+				</template>
+				<template v-slot:right>
+					<tm-checkbox @change="autoDarkChange" :round='24' v-model='autoDark'></tm-checkbox>
+				</template>
+			</tm-cell>
 			</view>
-		</tm-sheet>
-		<tm-sheet :margin="[0, 0]">
-			<tm-input :placeholder="language('index.search.tips')" :border="1" showClear prefix="tmicon-search"
-				v-model="str" @search='search' :searchLabel="language('index.search.btntext')"></tm-input>
-		</tm-sheet>
-		
-		<tm-sheet :margin="[24,24]" :round="3">
-			<tm-text :font-size="24" _class="font-weight-b" :label="language('index.com.themetext')"></tm-text>
-			<tm-divider></tm-divider>
-			<view class="flex flex-row flex-around">
-				<tm-button :width="100" color="yellow" size="small" @click="setTheme('yellow')"
-					:label="language('index.com.themeGreen')"></tm-button>
-				<tm-button :width="100" color="blue" size="small" @click="setTheme('blue')"
-					:label="language('index.com.themeBlue')"></tm-button>
-				<tm-button :width="100" color="red" size="small" @click="setTheme('red')"
-					:label="language('index.com.themeRed')"></tm-button>
-				<tm-button color="brown" :shadow="0" :width="100" size="small" @click="showCustom=true"
-					:label="language('index.com.themeCustText')">
-				</tm-button>
-				<tm-button :width="160" size="small" @click="setTheme('')" :label="language('index.com.themeDefault')">
-				</tm-button>
+
+			<!-- #ifdef MP-WEIXIN -->
+			<view class="px-24">
+				<ad unit-id="adunit-8077b1c992ae8c8b"></ad>
 			</view>
-		</tm-sheet>
-		<!-- #ifdef MP-WEIXIN -->
-		<view class="px-24">
-			<ad unit-id="adunit-8077b1c992ae8c8b"></ad>
-		</view>
-		<!-- #endif -->
-		<tm-sheet :round="3" :margin="[24, 0]" :padding="[24, 0]">
-			<tm-text :font-size="24" _class="font-weight-b pt-24 px-24" :label="language('index.com.title')"></tm-text>
-			<tm-divider></tm-divider>
-			<tm-grid :col="3" :width="654">
-				<tm-grid-item url="../changyong/index" :height="180" :count="3" color="primary">
-					<tm-icon color="primary" _class="pb-10" :font-size="52" name="tmicon-layergroup-fill"></tm-icon>
-					<tm-text :font-size="28" _class="font-weight-b" :label="language('index.com.tongyong')"></tm-text>
-					<tm-text color="grey" :font-size="22" _class="font-weight-b"
-						:label="language('index.com.tongyongSub')"></tm-text>
-				</tm-grid-item>
-				<tm-grid-item url="../layout/index" :height="180">
-					<tm-icon color="blue" _class="pb-10" :font-size="52" name="tmicon-map-fill"></tm-icon>
-					<tm-text :font-size="28" _class="font-weight-b" :label="language('index.com.row')"></tm-text>
-					<tm-text color="grey" :font-size="22" _class="font-weight-b" :label="language('index.com.rowSub')">
-					</tm-text>
-				</tm-grid-item>
-				<tm-grid-item url="../showdata/index" :height="180">
-					<tm-icon color="pink" _class="pb-10" :font-size="52" name="tmicon-paperplane-fill"></tm-icon>
-					<tm-text :font-size="28" _class="font-weight-b" :label="language('index.com.show')"></tm-text>
-					<tm-text color="grey" :font-size="22" _class="font-weight-b" :label="language('index.com.showSub')">
-					</tm-text>
-				</tm-grid-item>
-				<tm-grid-item url="../form/index" :height="180" dot color="green">
-					<tm-icon color="orange" _class="pb-10" :font-size="52" name="tmicon-commentdots-fill"></tm-icon>
-					<tm-text :font-size="28" _class="font-weight-b" :label="language('index.com.form')"></tm-text>
-					<tm-text color="grey" :font-size="22" _class="font-weight-b" :label="language('index.com.formSub')">
-					</tm-text>
-				</tm-grid-item>
-				<tm-grid-item  :transprent="false" text bg-color="green" url="../fankui/index" :height="180" count="YES">
-					<tm-icon color="green" _class="pb-10" :font-size="52" name="tmicon-lightbulb-fill"></tm-icon>
-					<tm-text :font-size="28" _class="font-weight-b" :label="language('index.com.fd')"></tm-text>
-					<tm-text color="grey" :font-size="22" _class="font-weight-b" :label="language('index.com.fdSub')">
-					</tm-text>
-				</tm-grid-item>
-				<tm-grid-item url="../daohang/index" :height="180" count="NEW">
-					<tm-icon color="teal" _class="pb-10" :font-size="52" name="tmicon-flag-fill"></tm-icon>
-					<tm-text :font-size="28" _class="font-weight-b" :label="language('index.com.nav')"></tm-text>
-					<tm-text color="grey" :font-size="22" _class="font-weight-b" :label="language('index.com.navSub')">
-					</tm-text>
-				</tm-grid-item>
-				<tm-grid-item   url="../yewu/index" :height="180" count="HOT"
-					color="orange">
-					<tm-icon color="red" _class="pb-10" :font-size="52" name="tmicon-box-fill"></tm-icon>
-					<tm-text :font-size="28" _class="font-weight-b" :label="language('index.com.yewu')"></tm-text>
-					<tm-text color="grey" :font-size="22" _class="font-weight-b" :label="language('index.com.yewuSub')">
-					</tm-text>
-				</tm-grid-item>
-				<tm-grid-item  url="../other/index" :height="180">
-					<tm-icon color="cyan" _class="pb-10" :font-size="52" name="tmicon-smile-fill"></tm-icon>
-					<tm-text :font-size="28" _class="font-weight-b" :label="language('index.com.other')"></tm-text>
-					<tm-text color="grey" :font-size="22" _class="font-weight-b"
-						:label="language('index.com.otherSub')"></tm-text>
-				</tm-grid-item>
-				<tm-grid-item url="../pag/index" :height="180" count="PAG">
-					<tm-icon color="pink" _class="pb-10" :font-size="52" name="tmicon-ios-ice-cream">
-					</tm-icon>
-					<tm-text :font-size="28" _class="font-weight-b" label="PAG"></tm-text>
-					<tm-text color="grey" :font-size="22" _class="font-weight-b"
-						:label="language('index.com.pagSub')"></tm-text>
-				</tm-grid-item>
-				<tm-grid-item url="../render/index" :height="180" >
-					<tm-icon color="yellow" _class="pb-10" :font-size="52" name="tmicon-ios-rose">
-					</tm-icon>
-					<tm-text :font-size="28" _class="font-weight-b" :label="language('index.com.render')"></tm-text>
-					<tm-text color="grey" :font-size="22" _class="font-weight-b"
-						:label="language('index.com.renderSub')"></tm-text>
-				</tm-grid-item>
-				<tm-grid-item url="../chart/index" :height="180" count="CHAR">
-					<tm-icon color="blue-grey" _class="pb-10" :font-size="52" name="tmicon-borderbottom-fill">
-					</tm-icon>
-					<tm-text :font-size="28" _class="font-weight-b" :label="language('index.com.tubiao')"></tm-text>
-					<tm-text color="grey" :font-size="22" _class="font-weight-b"
-						:label="language('index.com.tubiaoSub')"></tm-text>
-				</tm-grid-item>
-		
-			</tm-grid>
-		</tm-sheet>
-		<!-- #ifndef MP-QQ -->
-		<tm-cell url="../wxaccount/user" :margin="[24,16]" showAvatar :round="3" :titleFontSize="30"
-			:title="language('index.com.love')" label="可登录模板市场" :rightText="language('index.com.loveSub')">
-			<template v-slot:avatar>
-				<tm-icon color="orange" :font-size="38" name="tmicon-heart-fill"></tm-icon>
-			</template>
-		</tm-cell>
-		<!-- #endif -->
-		<tm-cell :margin="[24, 0]" @click="seLocal" showAvatar :round="3" :titleFontSize="30" :title="language('index.com.setLocal')"
-			:rightText="language('language')">
-			<template v-slot:avatar>
-				<tm-icon color="primary" :font-size="38" name="tmicon-resource"></tm-icon>
-			</template>
-		</tm-cell>
-		<view class="py-32 mx-24">
-			<tm-divider color="grey-2" :label="language('index.com.bottom')"></tm-divider>
-		</view>
-		<tm-float-button @click="onChangeDark" :btn="{ icon: 'tmicon-ios-sunny',color:'pink',linear:'right'}">
+			<!-- #endif -->
+
+			<view class="py-32 mx-24">
+				<tm-divider color="grey-2" :label="language('index.com.bottom')"></tm-divider>
+			</view>
+
+
+		</tm-sticky>
+
+
+		<view style="height:100px"></view>
+		<tm-float-button @click="onChangeDark" :btn="{ icon: 'tmicon-ios-sunny', color: 'pink', linear: 'right' }">
 		</tm-float-button>
 		<tm-message ref="msg"></tm-message>
 		<tm-drawer v-model:show="showCustom" placement="center" hideHeader :height="450" :width="600">
@@ -173,129 +125,206 @@
 				<view class="text-align-center py-24">
 					<tm-text _class="text-weight-b" :font-size="32" label="自定义主题"></tm-text>
 				</view>
-				<tm-input prefixLabel="颜色值" placeholder="请输入颜色值,比如:#FF00FF" :border="1" showClear
+				<tm-input :round="16" prefixLabel="颜色值" placeholder="请输入颜色值,比如:#FF00FF" :border="1" showClear
 					v-model="showCustomColor"></tm-input>
-				<tm-input prefixLabel="颜色名称" :margin="[0,24]" placeholder="字母,如:darkGreen" :border="1" showClear
+				<tm-input :round="16" prefixLabel="颜色名称" :margin="[0, 24]" placeholder="字母,如:darkGreen" :border="1" showClear
 					v-model="showCustomName"></tm-input>
-				<tm-button @click="changeCustomColor" block label="确认切换"></tm-button>
+				<tm-button  :round="16" @click="changeCustomColor" block label="确认切换"></tm-button>
 			</view>
 		</tm-drawer>
+
 	</tm-app>
 </template>
 
 <script lang="ts" setup>
 
-	import {
-		ref,
-		getCurrentInstance,
-		nextTick,
-		inject
-	} from "vue"
-	import {
-		onShow,
-		onLoad,
-		onInit
-	} from "@dcloudio/uni-app";
-	import {
-		language
-	} from "@/tmui/tool/lib/language"
-	import {
-		useTmpiniaStore
-	} from '@/tmui/tool/lib/tmpinia';
-	import tmApp from "@/tmui/components/tm-app/tm-app.vue"
-	import tmSheet from "@/tmui/components/tm-sheet/tm-sheet.vue"
-	import tmButton from "@/tmui/components/tm-button/tm-button.vue"
-	import tmFloatButton from "@/tmui/components/tm-float-button/tm-float-button.vue"
-	import tmMessage from "@/tmui/components/tm-message/tm-message.vue"
-	import tmInput from "@/tmui/components/tm-input/tm-input.vue"
-	import tmDivider from "@/tmui/components/tm-divider/tm-divider.vue"
-	import tmIcon from "@/tmui/components/tm-icon/tm-icon.vue"
-	import tmGridItem from "@/tmui/components/tm-grid-item/tm-grid-item.vue"
-	import tmGrid from "@/tmui/components/tm-grid/tm-grid.vue"
-	import tmNavbar from "@/tmui/components/tm-navbar/tm-navbar.vue"
-	import tmCell from "@/tmui/components/tm-cell/tm-cell.vue"
-	import tmImage from "@/tmui/components/tm-image/tm-image.vue"
-	import tmText from "@/tmui/components/tm-text/tm-text.vue"
-	import tmDrawer from "@/tmui/components/tm-drawer/tm-drawer.vue"
-	import logoimg from "@/static/logo.png"
-
-	const proxy = getCurrentInstance()?.proxy??null;
-	const store = useTmpiniaStore();
-	const app = ref < InstanceType < typeof tmApp > | null > (null)
-	const msg = ref < InstanceType < typeof tmMessage > | null > (null)
-	const showf = ref(false)
-	const sysinfo = uni.$tm.u.getWindow()
-	const str = ref("")
-	const showCustomColor = ref("#60ab41")
-	const showCustomName = ref("darkGreen")
-	const showCustom = ref(false)
-	function onChangeDark() {
-		app.value?.setDark()
+import {
+	ref,
+	getCurrentInstance,
+	computed,
+	inject
+} from "vue"
+import {
+	onShow,
+	onLoad,
+	onInit
+} from "@dcloudio/uni-app";
+import {
+	language
+} from "@/tmui/tool/lib/language"
+import {useTmpiniaStore} from '@/tmui/tool/lib/tmpinia';
+import tmApp from "@/tmui/components/tm-app/tm-app.vue"
+import tmSheet from "@/tmui/components/tm-sheet/tm-sheet.vue"
+import tmButton from "@/tmui/components/tm-button/tm-button.vue"
+import tmFloatButton from "@/tmui/components/tm-float-button/tm-float-button.vue"
+import tmMessage from "@/tmui/components/tm-message/tm-message.vue"
+import tmInput from "@/tmui/components/tm-input/tm-input.vue"
+import tmDivider from "@/tmui/components/tm-divider/tm-divider.vue"
+import tmIcon from "@/tmui/components/tm-icon/tm-icon.vue"
+import tmGridItem from "@/tmui/components/tm-grid-item/tm-grid-item.vue"
+import tmGrid from "@/tmui/components/tm-grid/tm-grid.vue"
+import tmNavbar from "@/tmui/components/tm-navbar/tm-navbar.vue"
+import tmCell from "@/tmui/components/tm-cell/tm-cell.vue"
+import tmImage from "@/tmui/components/tm-image/tm-image.vue"
+import tmText from "@/tmui/components/tm-text/tm-text.vue"
+import tmDrawer from "@/tmui/components/tm-drawer/tm-drawer.vue"
+import tmCheckbox from "@/tmui/components/tm-checkbox/tm-checkbox.vue"
+import tmSticky from "@/tmui/components/tm-sticky/tm-sticky.vue"
+import tmRow from "@/tmui/components/tm-row/tm-row.vue"
+import tmCol from "@/tmui/components/tm-col/tm-col.vue"
+import logoimg from "@/static/logo.png"
+const proxy = getCurrentInstance()?.proxy ?? null;
+const store = useTmpiniaStore();
+const app = ref<InstanceType<typeof tmApp> | null>(null)
+const msg = ref<InstanceType<typeof tmMessage> | null>(null)
+const showf = ref(false)
+const sysinfo = uni.$tm.u.getWindow()
+const str = ref("")
+const showCustomColor = ref("#60ab41")
+const showCustomName = ref("darkGreen")
+const showCustom = ref(false)
+const autoDark = ref(store.getAutoDark)
+const headerBgColor = computed(()=>{
+	if(store.tmStore.dark){
+		return []
 	}
-	function search() {
+	return store.tmStore.color?[]:['#9ec6ff','rgba(245,245,245,1)']
+})
 
-		if (str.value.trim() === "") {
-			msg.value?.show({
-				model: "error",
-				text: "不能为空",
-				mask: true
-			})
-			return
-		}
-		uni.navigateTo({
-			url: "search?key=" + str.value
+const category =[
+	{url:'../changyong/index',color:'primary',
+	icon:'tmicon-layergroup-fill',
+	title:'index.com.tongyong',
+	label:'index.com.tongyongSub'},
+
+	{url:'../layout/index',color:'yellow',
+	icon:'tmicon-map-fill',
+	title:'index.com.row',
+	label:'index.com.rowSub'},
+
+	{url:'../showdata/index',color:'pink',
+	icon:'tmicon-paperplane-fill',
+	title:'index.com.show',
+	label:'index.com.showSub'},
+
+	{url:'../form/index',color:'cyan',
+	icon:'tmicon-commentdots-fill',
+	title:'index.com.form',
+	label:'index.com.formSub'},
+
+	{url:'../fankui/index',color:'red',
+	icon:'tmicon-lightbulb-fill',
+	title:'index.com.fd',
+	label:'index.com.fdSub'},
+
+	{url:'../daohang/index',color:'orange',
+	icon:'tmicon-flag-fill',
+	title:'index.com.nav',
+	label:'index.com.navSub'},
+
+	{url:'../yewu/index',color:'purple',
+	icon:'tmicon-box-fill',
+	title:'index.com.yewu',
+	label:'index.com.yewuSub'},
+
+	{url:'../other/index',color:'blue-grey',
+	icon:'tmicon-smile-fill',
+	title:'index.com.other',
+	label:'index.com.otherSub'},
+
+	{url:'../pag/index',color:'indigo',
+	icon:'tmicon-ios-ice-cream',
+	title:"index.com.pag",
+	label:'index.com.pagSub'},
+
+	{url:'../render/index',color:'lime',
+	icon:'tmicon-ios-rose',
+	title:'index.com.render',
+	label:'index.com.renderSub'},
+
+	{url:'../chart/index',color:'brown',
+	icon:'tmicon-borderbottom-fill',
+	title:'index.com.tubiao',
+	label:'index.com.tubiaoSub'}
+]
+function toLinks(url:string){
+	uni.navigateTo({url:url})
+}
+function onChangeDark() {
+	app.value?.setDark()
+}
+function search() {
+
+	if (str.value.trim() === "") {
+		msg.value?.show({
+			model: "error",
+			text: "不能为空",
+			mask: true
+		})
+		return
+	}
+	uni.navigateTo({
+		url: "search?key=" + str.value
+	})
+}
+
+function seLocal() {
+	if (language("language") == "English-US") {
+		uni.setLocale("zh-Hans")
+	} else {
+		uni.setLocale("en")
+	}
+}
+
+function setTheme(colorname: string) {
+	app.value?.setTheme(colorname)
+}
+
+function changeCustomColor() {
+	if (!showCustomColor.value || !showCustomName.value) {
+		msg.value?.show({
+			model: "error",
+			text: "必填内容",
+			mask: true
+		})
+		return;
+	}
+	showCustom.value = false;
+	store.setTmVuetifyAddTheme(showCustomName.value, showCustomColor.value)
+}
+
+onLoad(() => {
+
+	// #ifdef MP-WEIXIN
+
+	// 在页面中定义插屏广告
+	let interstitialAd = null
+
+	// 在页面onLoad回调事件中创建插屏广告实例
+	if (wx.createInterstitialAd) {
+		interstitialAd = wx.createInterstitialAd({
+			adUnitId: 'adunit-197d1e1914ce88ec'
+		})
+		interstitialAd.onLoad(() => { })
+		interstitialAd.onError((err) => { })
+		interstitialAd.onClose(() => { })
+	}
+	// 在适合的场景显示插屏广告
+	if (interstitialAd) {
+		interstitialAd.show().catch((err) => {
+			console.error(err)
 		})
 	}
 
-	function seLocal() {
-		if (language("language") == "English-US") {
-			uni.setLocale("zh-Hans")
-		} else {
-			uni.setLocale("en")
-		}
-	}
+	// #endif
 
-	function setTheme(colorname: string) {
-		app.value?.setTheme(colorname)
-	}
+})
 
-	function changeCustomColor() {
-		if (!showCustomColor.value || !showCustomName.value) {
-			msg.value?.show({
-				model: "error",
-				text: "必填内容",
-				mask: true
-			})
-			return;
-		}
-		showCustom.value = false;
-		store.setTmVuetifyAddTheme(showCustomName.value, showCustomColor.value)
-	}
+function autoDarkChange(e: boolean) {
+	store.setTmAutoDark(e)
+	// store.setTmVuetifyDark(e)
+	autoDark.value = e;
 
-	onLoad(() => {
+}
 
-		// #ifdef MP-WEIXIN
-
-		// 在页面中定义插屏广告
-		let interstitialAd = null
-
-		// 在页面onLoad回调事件中创建插屏广告实例
-		if (wx.createInterstitialAd) {
-			interstitialAd = wx.createInterstitialAd({
-				adUnitId: 'adunit-197d1e1914ce88ec'
-			})
-			interstitialAd.onLoad(() => {})
-			interstitialAd.onError((err) => {})
-			interstitialAd.onClose(() => {})
-		}
-		// 在适合的场景显示插屏广告
-		if (interstitialAd) {
-			interstitialAd.show().catch((err) => {
-				console.error(err)
-			})
-		}
-
-		// #endif
-		
-	})
 </script>

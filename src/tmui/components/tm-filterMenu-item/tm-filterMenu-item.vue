@@ -1,23 +1,24 @@
 <template>
-  <scroll-view
-    @click.stop="close"
-    scroll-y
-    v-if="isActive && FilterMenuMaxHeight > 0 && !_props.isButton"
-    :style="{ height: FilterMenuMaxHeight + 'px' }"
-    class="overflow"
-  >
-    <tm-divider :margin="[0, 0]"></tm-divider>
-    <view @click.stop="stopEvent" ref="FilterMenuItemBody" class="FilterMenuItemBody">
-      <tm-sheet
-        :eventPenetrationEnabled="true"
-        :color="props.bgColor"
-        :margin="[0, 0]"
-        :padding="[32, 32]"
-      >
-        <slot></slot>
+  <view v-if="isActive && FilterMenuMaxHeight > 0 && !_props.isButton" @click.stop="close"
+    :style="{ height: FilterMenuMaxHeight + 'px' }" class="overflow ">
+    <view ref="FilterMenuItemBody" class="FilterMenuItemBody">
+      <tm-divider :margin="[0, 0]"></tm-divider>
+      <tm-sheet :eventPenetrationEnabled="true" :color="props.bgColor" :margin="[0, 0]" :padding="[24, 24]">
+        <scroll-view @click.stop="" scroll-y :style="{ height: (props.height) + 'rpx' }">
+          <view @click.stop="stopEvent">
+
+            <slot></slot>
+
+          </view>
+        </scroll-view>
+        <view v-if="props.footerHeight>0" :style="{ height: props.footerHeight + 'rpx' }" @click.stop="stopEvent">
+          <slot name="footer"></slot>
+        </view>
       </tm-sheet>
+
+
     </view>
-  </scroll-view>
+  </view>
 </template>
 <script lang="ts" setup>
 import tmSheet from "@/tmui/components/tm-sheet/tm-sheet.vue";
@@ -62,6 +63,11 @@ const props = defineProps({
     type: Number,
     default: 500,
   },
+  /**内容高度,非菜单栏高度 */
+  footerHeight: {
+    type: Number,
+    default: 0,
+  },
   unit: {
     type: String,
     default: "rpx",
@@ -89,7 +95,7 @@ const props = defineProps({
   },
 });
 const _props = computed(() => props);
-let tid:any = NaN
+let tid: any = NaN
 const activeIndex = inject(
   "activeIndex",
   computed(() => 0)
@@ -114,12 +120,12 @@ while (parent) {
   }
 }
 pushKey();
-watch(()=>_props.value,()=>{
-	clearTimeout(tid)
-	tid = setTimeout(function() {
-		pushKey();
-	}, 150);
-},{deep:true})
+watch(() => _props.value, () => {
+  clearTimeout(tid)
+  tid = setTimeout(function () {
+    pushKey();
+  }, 150);
+}, { deep: true })
 onMounted(() => {
   setTimeout(() => {
     nextTick(() => {
@@ -205,7 +211,7 @@ function showNvueAniMation() {
           timingFunction: "ease",
           delay: 0, //ms
         },
-        () => {}
+        () => { }
       );
     }
   );
@@ -222,16 +228,19 @@ function showNvueAniMation() {
   opacity: 0.4;
   /* #endif */
 }
+
 /* #ifndef APP-NVUE */
 @keyframes scaleTop {
   0% {
     opacity: 0.4;
     transform: translateY(-100%);
   }
+
   100% {
     opacity: 1;
     transform: translateY(0%);
   }
 }
+
 /* #endif */
 </style>

@@ -1,332 +1,278 @@
 <template>
-  <view class="flex flex-row relative">
-    <view
-      v-if="show"
-      @click.stop="show = false"
-      class="l-0 t-0 fixed zIndex-9"
-      :style="[
-        {
-          width: windowWidth + 'px',
-          height: windowHeight + 'px',
-          background: 'rgba(0,0,0,0)',
-        },
-      ]"
-    ></view>
-    <view
-      class="flex flex-col"
-      :class="[
-        props.position == 'tc' ? 'popover-tc' : '',
-        props.position == 'tl' ? 'popover-tl' : '',
-        props.position == 'tr' ? 'popover-tr' : '',
-        props.position == 'bc' ? 'popover-bc' : '',
-        props.position == 'bl' ? 'popover-bl' : '',
-        props.position == 'br' ? 'popover-br' : '',
-      ]"
-    >
-      <view @click="show = true" class="relative zIndex-1 flex flex-row">
-        <view
-          :userInteractionEnabled="false"
-          :eventPenetrationEnabled="true"
-          ref="popver"
-          class="flex flex-row"
-        >
-          <slot></slot>
-        </view>
-      </view>
-      <view
-        v-if="show"
-        class="zIndex-10"
-        :class="[
-          isNvue ? 'fixed' : 'absolute',
-          props.position == 'tc' || props.position == 'tl' || props.position == 'tr'
-            ? 'popover-tcc'
-            : '',
-          props.position == 'bc' || props.position == 'bl' || props.position == 'br'
-            ? 'popover-bcc'
-            : '',
-        ]"
-        :style="[
-          isNvue && props.position == 'tc'
-            ? {
-                top: domNvuePosCss.top - domNvueContentCss.height + 'px',
-                left:
-                  domNvuePosCss.left +
-                  domNvuePosCss.width / 2 -
-                  domNvueContentCss.width / 2 +
-                  'px',
-              }
-            : '',
-          isNvue && props.position == 'tl'
-            ? {
-                top: domNvuePosCss.top - domNvueContentCss.height + 'px',
-                left: domNvuePosCss.left + 'px',
-              }
-            : '',
-          isNvue && props.position == 'tr'
-            ? {
-                top: domNvuePosCss.top - domNvueContentCss.height + 'px',
-                left: domNvuePosCss.right - domNvueContentCss.width + 'px',
-              }
-            : '',
-          isNvue && props.position == 'bc'
-            ? {
-                top: domNvuePosCss.bottom + 'px',
-                left:
-                  domNvuePosCss.left +
-                  domNvuePosCss.width / 2 -
-                  domNvueContentCss.width / 2 +
-                  'px',
-              }
-            : '',
-          isNvue && props.position == 'bl'
-            ? {
-                top: domNvuePosCss.bottom + 'px',
-                left: domNvuePosCss.left + 'px',
-              }
-            : '',
-          isNvue && props.position == 'br'
-            ? {
-                top: domNvuePosCss.bottom + 'px',
-                left: domNvuePosCss.right - domNvueContentCss.width + 'px',
-              }
-            : '',
-        ]"
-        ref="content"
-      >
-        <tm-translate
-          ref="aniDom"
-          reverse
-          :name="tarnslateName"
-          :duration="120"
-          :autoPlay="!isNvue"
-        >
-          <view
-            class="flex flex-col"
-            :class="[
-              props.position == 'tc' ? 'flex-col-center-center' : '',
-              props.position == 'tl' ? 'flex-col-top-start' : '',
-              props.position == 'tr' ? 'flex-col-bottom-end' : '',
-              props.position == 'bc' ? 'flex-col-center-center' : '',
-              props.position == 'bl' ? 'flex-col-top-start' : '',
-              props.position == 'br' ? 'flex-col-bottom-end' : '',
-            ]"
-            :style="[props.width ? { width: props.width + 'rpx' } : '']"
-          >
-            <!-- #ifndef APP-PLUS-NVUE -->
-            <tm-sheet
-              :text="props.text"
-              :color="props.color"
-              _class="flex-col flex-col flex-col-center-center"
-              :followTheme="props.followTheme"
-              :dark="props.dark"
-              :round="0"
-              :shadow="props.shadow"
-              :outlined="props.outlined"
-              :border="props.border"
-              :borderStyle="props.borderStyle"
-              :borderDirection="props.borderDirection"
-              :transprent="props.transprent"
-              :linear="props.linear"
-              :linearDeep="props.linearDeep"
-              v-if="
-                props.position == 'bc' || props.position == 'bl' || props.position == 'br'
-              "
-              :_style="[
-                { zIndex: 1 },
-                props.position == 'bc'
-                  ? { transform: ' rotate(45deg) translateY(8rpx) translateX(8rpx)' }
-                  : {},
-                props.position == 'bl'
-                  ? { transform: ' rotate(45deg) translateY(-12rpx) translateX(30rpx)' }
-                  : {},
-                props.position == 'br'
-                  ? {
-                      transform: ' rotate(45deg) translateY(20rpx) translateX(-16rpx)',
-                      transformOrigin: '0rpx 50%',
-                    }
-                  : {},
-              ]"
-              :margin="[0, 0]"
-              :padding="[0, 0]"
-              :width="20"
-              :height="20"
-            ></tm-sheet>
-            <tm-sheet
-              :text="props.text"
-              :color="props.color"
-              :_class="props._class"
-              :_style="[{ zIndex: 2, position: 'relative' }]"
-              :followTheme="props.followTheme"
-              :dark="props.dark"
-              :round="props.round"
-              :shadow="props.shadow"
-              :outlined="props.outlined"
-              :border="props.border"
-              :borderStyle="props.borderStyle"
-              :borderDirection="props.borderDirection"
-              :transprent="props.transprent"
-              :linear="props.linear"
-              :linearDeep="props.linearDeep"
-              :margin="[0, 0]"
-              :padding="[16, 12]"
-            >
-              <tm-text
-                :font-size="24"
-                _style="line-height:normal;"
-                :_class="[props.width ? '' : 'nowrap  ']"
-                :label="props.label"
-              ></tm-text>
-            </tm-sheet>
-            <tm-sheet
-              :text="props.text"
-              :color="props.color"
-              :_class="props._class"
-              :followTheme="props.followTheme"
-              :dark="props.dark"
-              :round="0"
-              :shadow="props.shadow"
-              :outlined="props.outlined"
-              :border="props.border"
-              :borderStyle="props.borderStyle"
-              :borderDirection="props.borderDirection"
-              :transprent="props.transprent"
-              :linear="props.linear"
-              :linearDeep="props.linearDeep"
-              v-if="
-                props.position == 'tc' || props.position == 'tl' || props.position == 'tr'
-              "
-              :_style="[
-                { zIndex: 1 },
-                props.position == 'tc'
-                  ? { transform: ' rotate(45deg) translateY(-8rpx) translateX(-8rpx)' }
-                  : {},
-                props.position == 'tl'
-                  ? { transform: ' rotate(45deg) translateY(-26rpx) translateX(10rpx)' }
-                  : {},
-                props.position == 'tr'
-                  ? {
-                      transform: ' rotate(45deg) translateY(0rpx) translateX(-24rpx)',
-                      transformOrigin: '0rpx 50%',
-                    }
-                  : {},
-              ]"
-              :margin="[0, 0]"
-              :padding="[0, 0]"
-              :width="20"
-              :height="20"
-            >
-            </tm-sheet>
+	<view class="flex flex-row relative" @click.stop="">
+		<view
+			v-if="show"
+			@click.stop="show = false"
+			class="l-0 t-0 fixed zIndex-9"
+			:style="[
+				{
+					width: windowWidth + 'px',
+					height: windowHeight + 'px',
+					background: 'rgba(0,0,0,0)'
+				}
+			]"
+		></view>
+		<view
+			class="flex flex-col"
+			:class="[
+				props.position == 'tc' ? 'popover-tc' : '',
+				props.position == 'tl' ? 'popover-tl' : '',
+				props.position == 'tr' ? 'popover-tr' : '',
+				props.position == 'bc' ? 'popover-bc' : '',
+				props.position == 'bl' ? 'popover-bl' : '',
+				props.position == 'br' ? 'popover-br' : ''
+			]"
+		>
+			<view @click="show = true" class="relative zIndex-1 flex flex-row">
+				<view :userInteractionEnabled="false" :eventPenetrationEnabled="true" ref="popver" class="flex flex-row"><slot></slot></view>
+			</view>
+			<view
+				v-if="show"
+				class="zIndex-10"
+				:class="[
+					isNvue ? 'fixed' : 'absolute',
+					props.position == 'tc' || props.position == 'tl' || props.position == 'tr' ? 'popover-tcc' : '',
+					props.position == 'bc' || props.position == 'bl' || props.position == 'br' ? 'popover-bcc' : ''
+				]"
+				:style="[
+					isNvue && props.position == 'tc'
+						? {
+								top: domNvuePosCss.top - domNvueContentCss.height + 'px',
+								left: domNvuePosCss.left + domNvuePosCss.width / 2 - domNvueContentCss.width / 2 + 'px'
+						  }
+						: '',
+					isNvue && props.position == 'tl'
+						? {
+								top: domNvuePosCss.top - domNvueContentCss.height + 'px',
+								left: domNvuePosCss.left + 'px'
+						  }
+						: '',
+					isNvue && props.position == 'tr'
+						? {
+								top: domNvuePosCss.top - domNvueContentCss.height + 'px',
+								left: domNvuePosCss.right - domNvueContentCss.width + 'px'
+						  }
+						: '',
+					isNvue && props.position == 'bc'
+						? {
+								top: domNvuePosCss.bottom + 'px',
+								left: domNvuePosCss.left + domNvuePosCss.width / 2 - domNvueContentCss.width / 2 + 'px'
+						  }
+						: '',
+					isNvue && props.position == 'bl'
+						? {
+								top: domNvuePosCss.bottom + 'px',
+								left: domNvuePosCss.left + 'px'
+						  }
+						: '',
+					isNvue && props.position == 'br'
+						? {
+								top: domNvuePosCss.bottom + 'px',
+								left: domNvuePosCss.right - domNvueContentCss.width + 'px'
+						  }
+						: ''
+				]"
+				ref="content"
+			>
+				<tm-translate ref="aniDom" reverse :name="tarnslateName" :duration="120" :autoPlay="!isNvue">
+					<view
+						class="flex flex-col"
+						:class="[
+							props.position == 'tc' ? 'flex-col-center-center' : '',
+							props.position == 'tl' ? 'flex-col-top-start' : '',
+							props.position == 'tr' ? 'flex-col-bottom-end' : '',
+							props.position == 'bc' ? 'flex-col-center-center' : '',
+							props.position == 'bl' ? 'flex-col-top-start' : '',
+							props.position == 'br' ? 'flex-col-bottom-end' : ''
+						]"
+						:style="[props.width ? { width: props.width + 'rpx' } : '']"
+					>
+						<!-- #ifndef APP-PLUS-NVUE -->
+						<tm-sheet
+							:text="props.text"
+							:color="props.color"
+							_class="flex-col flex-col flex-col-center-center"
+							:followTheme="props.followTheme"
+							:dark="props.dark"
+							:round="0"
+							:shadow="props.shadow"
+							:outlined="props.outlined"
+							:border="props.border"
+							:borderStyle="props.borderStyle"
+							:borderDirection="props.borderDirection"
+							:transprent="props.transprent"
+							:linear="props.linear"
+							:linearDeep="props.linearDeep"
+							v-if="props.position == 'bc' || props.position == 'bl' || props.position == 'br'"
+							:_style="[
+								{ zIndex: 1 },
+								props.position == 'bc' ? { transform: ' rotate(45deg) translateY(8rpx) translateX(8rpx)' } : {},
+								props.position == 'bl' ? { transform: ' rotate(45deg) translateY(-12rpx) translateX(30rpx)' } : {},
+								props.position == 'br'
+									? {
+											transform: ' rotate(45deg) translateY(20rpx) translateX(-16rpx)',
+											transformOrigin: '0rpx 50%'
+									  }
+									: {}
+							]"
+							:margin="[0, 0]"
+							:padding="[0, 0]"
+							:width="20"
+							:height="20"
+						></tm-sheet>
+						<tm-sheet
+							@click="show=false"
+							:width="props.width"
+							:text="props.text"
+							:color="props.color"
+							:_class="props._class"
+							:_style="[{ zIndex: 2, position: 'relative' }]"
+							:followTheme="props.followTheme"
+							:dark="props.dark"
+							:round="props.round"
+							:shadow="props.shadow"
+							:outlined="props.outlined"
+							:border="props.border"
+							:borderStyle="props.borderStyle"
+							:borderDirection="props.borderDirection"
+							:transprent="props.transprent"
+							:linear="props.linear"
+							:linearDeep="props.linearDeep"
+							:margin="[0, 0]"
+							:padding="[0, 12]"
+						>
+							<slot name="label">
+								<tm-text :font-size="24" _style="line-height:normal;" :_class="[props.width ? '' : 'nowrap  ', 'px-16']" :label="props.label"></tm-text>
+							</slot>
+						</tm-sheet>
+						<tm-sheet
+							:text="props.text"
+							:color="props.color"
+							:_class="props._class"
+							:followTheme="props.followTheme"
+							:dark="props.dark"
+							:round="0"
+							:shadow="props.shadow"
+							:outlined="props.outlined"
+							:border="props.border"
+							:borderStyle="props.borderStyle"
+							:borderDirection="props.borderDirection"
+							:transprent="props.transprent"
+							:linear="props.linear"
+							:linearDeep="props.linearDeep"
+							v-if="props.position == 'tc' || props.position == 'tl' || props.position == 'tr'"
+							:_style="[
+								{ zIndex: 1 },
+								props.position == 'tc' ? { transform: ' rotate(45deg) translateY(-8rpx) translateX(-8rpx)' } : {},
+								props.position == 'tl' ? { transform: ' rotate(45deg) translateY(-26rpx) translateX(10rpx)' } : {},
+								props.position == 'tr'
+									? {
+											transform: ' rotate(45deg) translateY(0rpx) translateX(-24rpx)',
+											transformOrigin: '0rpx 50%'
+									  }
+									: {}
+							]"
+							:margin="[0, 0]"
+							:padding="[0, 0]"
+							:width="20"
+							:height="20"
+						></tm-sheet>
 
-            <!-- #endif -->
-            <!-- #ifdef APP-NVUE -->
-            <tm-sheet
-              :text="props.text"
-              :color="props.color"
-              :_class="props._class"
-              :followTheme="props.followTheme"
-              :dark="props.dark"
-              :round="0"
-              :shadow="props.shadow"
-              :outlined="props.outlined"
-              :border="props.border"
-              :borderStyle="props.borderStyle"
-              :borderDirection="props.borderDirection"
-              :transprent="props.transprent"
-              :linear="props.linear"
-              :linearDeep="props.linearDeep"
-              v-if="
-                props.position == 'bc' || props.position == 'bl' || props.position == 'br'
-              "
-              :_style="[
-                { zIndex: 1 },
-                props.position == 'bc'
-                  ? { transform: ' rotate(45deg)', bottom: '-10rpx', marginRight: '0rpx' }
-                  : {},
-                props.position == 'bl'
-                  ? { transform: ' rotate(45deg)', bottom: '-12rpx', marginLeft: '12rpx' }
-                  : {},
-                props.position == 'br'
-                  ? {
-                      transform: ' rotate(45deg)',
-                      bottom: '-12rpx',
-                      marginRight: '12rpx',
-                    }
-                  : {},
-              ]"
-              :margin="[0, 0]"
-              :padding="[0, 0]"
-              :width="20"
-              :height="20"
-            >
-            </tm-sheet>
-            <tm-sheet
-              :text="props.text"
-              :color="props.color"
-              _class="flex-col flex-col flex-col-center-center"
-              :_style="[{ zIndex: 2, position: 'relative' }]"
-              :followTheme="props.followTheme"
-              :dark="props.dark"
-              :round="props.round"
-              :shadow="props.shadow"
-              :outlined="props.outlined"
-              :border="props.border"
-              :borderStyle="props.borderStyle"
-              :borderDirection="props.borderDirection"
-              :transprent="props.transprent"
-              :linear="props.linear"
-              :linearDeep="props.linearDeep"
-              :margin="[0, 0]"
-              :padding="[16, 12]"
-            >
-              <tm-text
-                :font-size="24"
-                _style="line-height:normal;"
-                :_class="[props.width ? '' : 'nowrap  ']"
-                :label="props.label"
-              ></tm-text>
-            </tm-sheet>
-            <tm-sheet
-              :text="props.text"
-              :color="props.color"
-              :_class="props._class"
-              :followTheme="props.followTheme"
-              :dark="props.dark"
-              :round="0"
-              :shadow="props.shadow"
-              :outlined="props.outlined"
-              :border="props.border"
-              :borderStyle="props.borderStyle"
-              :borderDirection="props.borderDirection"
-              :transprent="props.transprent"
-              :linear="props.linear"
-              :linearDeep="props.linearDeep"
-              v-if="
-                props.position == 'tc' || props.position == 'tl' || props.position == 'tr'
-              "
-              :_style="[
-                { zIndex: 1 },
-                props.position == 'tc'
-                  ? { transform: ' rotate(45deg)', top: '-12rpx' }
-                  : {},
-                props.position == 'tl'
-                  ? { transform: ' rotate(45deg)', top: '-12rpx', marginLeft: '12rpx' }
-                  : {},
-                props.position == 'tr'
-                  ? { transform: ' rotate(45deg)', top: '-12rpx', marginRight: '12rpx' }
-                  : {},
-              ]"
-              :margin="[0, 0]"
-              :padding="[0, 0]"
-              :width="20"
-              :height="20"
-            >
-            </tm-sheet>
-            <!-- #endif -->
-          </view>
-        </tm-translate>
-      </view>
-    </view>
-  </view>
+						<!-- #endif -->
+						<!-- #ifdef APP-NVUE -->
+						<tm-sheet
+							:text="props.text"
+							:color="props.color"
+							:_class="props._class"
+							:followTheme="props.followTheme"
+							:dark="props.dark"
+							:round="0"
+							:shadow="props.shadow"
+							:outlined="props.outlined"
+							:border="props.border"
+							:borderStyle="props.borderStyle"
+							:borderDirection="props.borderDirection"
+							:transprent="props.transprent"
+							:linear="props.linear"
+							:linearDeep="props.linearDeep"
+							v-if="props.position == 'bc' || props.position == 'bl' || props.position == 'br'"
+							:_style="[
+								{ zIndex: 1 },
+								props.position == 'bc' ? { transform: ' rotate(45deg)', bottom: '-10rpx', marginRight: '0rpx' } : {},
+								props.position == 'bl' ? { transform: ' rotate(45deg)', bottom: '-12rpx', marginLeft: '12rpx' } : {},
+								props.position == 'br'
+									? {
+											transform: ' rotate(45deg)',
+											bottom: '-12rpx',
+											marginRight: '12rpx'
+									  }
+									: {}
+							]"
+							:margin="[0, 0]"
+							:padding="[0, 0]"
+							:width="20"
+							:height="20"
+						></tm-sheet>
+						<tm-sheet
+							@click="show=false"
+							:width="props.width"
+							:text="props.text"
+							:color="props.color"
+							_class="flex-col flex-col flex-col-center-center"
+							:_style="[{ zIndex: 2, position: 'relative' }]"
+							:followTheme="props.followTheme"
+							:dark="props.dark"
+							:round="props.round"
+							:shadow="props.shadow"
+							:outlined="props.outlined"
+							:border="props.border"
+							:borderStyle="props.borderStyle"
+							:borderDirection="props.borderDirection"
+							:transprent="props.transprent"
+							:linear="props.linear"
+							:linearDeep="props.linearDeep"
+							:margin="[0, 0]"
+							:padding="[16, 12]"
+						>
+							<view :eventPenetrationEnabled="true">
+								<slot name="label">
+									<tm-text :font-size="24" _style="line-height:normal;" :_class="[props.width ? '' : 'nowrap  ', 'px-16']" :label="props.label"></tm-text>
+								</slot>
+							</view>
+						</tm-sheet>
+						<tm-sheet
+							:text="props.text"
+							:color="props.color"
+							:_class="props._class"
+							:followTheme="props.followTheme"
+							:dark="props.dark"
+							:round="0"
+							:shadow="props.shadow"
+							:outlined="props.outlined"
+							:border="props.border"
+							:borderStyle="props.borderStyle"
+							:borderDirection="props.borderDirection"
+							:transprent="props.transprent"
+							:linear="props.linear"
+							:linearDeep="props.linearDeep"
+							v-if="props.position == 'tc' || props.position == 'tl' || props.position == 'tr'"
+							:_style="[
+								{ zIndex: 1 },
+								props.position == 'tc' ? { transform: ' rotate(45deg)', top: '-12rpx' } : {},
+								props.position == 'tl' ? { transform: ' rotate(45deg)', top: '-12rpx', marginLeft: '12rpx' } : {},
+								props.position == 'tr' ? { transform: ' rotate(45deg)', top: '-12rpx', marginRight: '12rpx' } : {}
+							]"
+							:margin="[0, 0]"
+							:padding="[0, 0]"
+							:width="20"
+							:height="20"
+						></tm-sheet>
+						<!-- #endif -->
+					</view>
+				</tm-translate>
+			</view>
+		</view>
+	</view>
 </template>
 
 <script lang="ts" setup>
@@ -343,7 +289,7 @@ import {
   getCurrentInstance,
   computed,
   ref,
-  provide,
+  PropType,
   inject,
   onUpdated,
   onMounted,
@@ -382,9 +328,10 @@ const props = defineProps({
     type: Number,
     default: 0,
   },
+  /**tl,tc,tr,bc,bl,br,上左，中，右。下左，中，右。 */
   position: {
-    type: String,
-    default: "tc", //tl,tc,tr,bc,bl,br,上左，中，右。下左，中，右。
+    type: String as PropType<"tl" | "tc" | "tr" | "bc" | "bl" | "br">,
+    default: "tc",
   },
   label: {
     type: String,
@@ -479,63 +426,63 @@ watch(
 <style scoped>
 /* #ifdef APP-PLUS-NVUE */
 .popover-tcc {
-  transform: translateY(-15rpx);
+	transform: translateY(-15rpx);
 }
 
 .popover-bcc {
-  transform: translateY(15rpx);
+	transform: translateY(15rpx);
 }
 
 .popover-tr {
-  display: flex;
-  justify-content: flex-start;
-  align-items: flex-start;
+	display: flex;
+	justify-content: flex-start;
+	align-items: flex-start;
 }
 
 /* #endif */
 /* #ifndef APP-PLUS-NVUE */
 .popover-tc {
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
+	display: flex;
+	justify-content: flex-end;
+	align-items: center;
 }
 
 .popover-tcc {
-  transform: translateY(-35rpx);
+	transform: translateY(-35rpx);
 }
 
 .popover-bcc {
-  transform: translateY(35rpx);
+	transform: translateY(35rpx);
 }
 
 .popover-tl {
-  display: flex;
-  justify-content: flex-end;
-  align-items: flex-start;
+	display: flex;
+	justify-content: flex-end;
+	align-items: flex-start;
 }
 
 .popover-tr {
-  display: flex;
-  justify-content: flex-end;
-  align-items: flex-end;
+	display: flex;
+	justify-content: flex-end;
+	align-items: flex-end;
 }
 
 .popover-bc {
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
+	display: flex;
+	justify-content: flex-start;
+	align-items: center;
 }
 
 .popover-bl {
-  display: flex;
-  justify-content: flex-start;
-  align-items: flex-start;
+	display: flex;
+	justify-content: flex-start;
+	align-items: flex-start;
 }
 
 .popover-br {
-  display: flex;
-  justify-content: flex-start;
-  align-items: flex-end;
+	display: flex;
+	justify-content: flex-start;
+	align-items: flex-end;
 }
 
 /* #endif */

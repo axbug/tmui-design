@@ -58,6 +58,7 @@ title: tmui 3.0 组件库
 | sendMessageImg | String | '' | [见文档](https://uniapp.dcloud.net.cn/component/button.html) |
 | sendMessageCard | String | '' | [见文档](https://uniapp.dcloud.net.cn/component/button.html) |
 | round | Number | 3 | 圆角0-25，单位rpx |
+| disabledColor | String | grey-1 | 按钮被禁用时展现的颜色 |
 
 
 ### :rose: 事件

@@ -110,7 +110,7 @@ import * as dayjs from "../../tool/dayjs/esm/index";
 import isoWeek from "../../tool/dayjs/esm/plugin/isoWeek/index";
 import isSameOrBefore from "../../tool/dayjs/esm/plugin/isSameOrBefore/index";
 import isBetween from "../../tool/dayjs/esm/plugin/isBetween/index";
-import QuarterOfYear from "../../tool/dayjs/esm/plugin/QuarterOfYear/index";
+import QuarterOfYear from "../../tool/dayjs/esm/plugin/quarterOfYear/index";
 import { monthYearItem } from "./interface";
 import { useTmpiniaStore } from "../../tool/lib/tmpinia";
 const store = useTmpiniaStore();

@@ -20,8 +20,8 @@
 		<view v-if="showActions&& _actionsItem.length>0" class="fixed zIndex-12 flex " :style="_pos?.children"
 			:userInteractionEnabled="showActions">
 			
-			<view :style="{width:props.width+'rpx',height:props.height+'rpx'}" class="flex flex-row flex-row-center-center" v-for="(item, index) in _actionsItem" :key="index">
-				<tm-button :followTheme="props.followTheme" @click="onclick"
+			<view ref="btnChildren" :style="{width:props.width+'rpx',height:props.height+'rpx'}" :class="[showActions&& _actionsItem.length>0?'scaleNvue':'']" class="flex flex-row flex-row-center-center scale" v-for="(item, index) in _actionsItem" :key="index">
+				<tm-button :followTheme="props.followTheme" @click="change(index,item)"
 					_class="flex flex-col flex-col-center-center" :shadow="3" :linear="item.linear"
 					:linear-deep="item.linearDeep" :color="item.color" :margin="[0, 0]" :round="16" :padding="[0, 0]"
 					:width="props.width - 24" :height="props.height - 24">
@@ -45,12 +45,15 @@
 	 * @method click 主按钮被点击，(e:Event)
 	 * @method change  子按钮被点击， (index:number,item:actionsItem)
 	 */
-	import { computed, PropType, ref, inject } from "vue";
+	import { computed, PropType, ref, inject,getCurrentInstance, onMounted } from "vue";
 	import { positionType, popDir, actionsItem } from "./interface";
 	import tmSheet from "../tm-sheet/tm-sheet.vue";
 	import tmIcon from "../tm-icon/tm-icon.vue";
 	import tmText from "../tm-text/tm-text.vue";
 	import tmButton from "../tm-button/tm-button.vue";
+	// #ifdef APP-PLUS-NVUE
+	const animation = uni.requireNativePlugin("animation");
+	// #endif
 	/**
 	 * 事件说明
 	 * click：主按钮被点击，
@@ -59,7 +62,7 @@
 	const emits = defineEmits(["click", "change"]);
 	const props = defineProps({
 		followTheme: {
-			type: [Boolean, String],
+			type: [Boolean],
 			default: true,
 		},
 		//主按钮的位置
@@ -136,7 +139,7 @@
 	);
 	const windowWidth = computed(() => sysinfo.value.width);
 	const windowTop = computed(() => sysinfo.value.top);
-
+	const proxy = getCurrentInstance()?.proxy??null;
 	const isH5 = ref(false);
 	// #ifdef H5
 	isH5.value = true;
@@ -514,6 +517,11 @@
 	function onclick(e: any) {
 		if (props.clickHidnActions) {
 			showActions.value = !showActions.value;
+			// #ifdef APP-NVUE
+			setTimeout(function() {
+				nvueani()
+			}, 50);
+			// #endif
 		} else {
 			showActions.value = true;
 		}
@@ -528,11 +536,72 @@
 		}
 		// #endif
 	}
-
+	onMounted(()=>{
+		if(showActions.value){
+			// #ifdef APP-NVUE
+			setTimeout(function() {
+				nvueani()
+			}, 50);
+			// #endif
+		}
+	})
 	function change(index: number, item: actionsItem) {
 		if (props.clickHidnActions) {
 			showActions.value = false;
 		}
 		emits("change", index, item);
 	}
+	function nvueani(){
+		let el = proxy?.$refs?.btnChildren??null;
+		if(!el) return;
+		let pel = []
+		if(!Array.isArray(el)){
+			pel = [el]
+		}else{
+			pel = [...el]
+		}
+		pel.forEach(element=>{
+			animation.transition(
+			  element,
+			  {
+			    styles: {
+					opacity: 1,
+					transform: "scale(1,1)",
+					transformOrigin: "center center",
+				},
+			    duration: 340, //ms
+			    timingFunction: "ease",
+			    delay: 0, //ms
+			  },
+			  () => {}
+			);
+		})
+		
+		
+	}
 </script>
+<style scoped>
+/* #ifdef APP-NVUE */
+	.scaleNvue{
+		opacity:0;
+		transform: scale(0);
+	}
+/* #endif */
+/* #ifndef APP-NVUE */
+	.scale{
+		animation: scale  0.34s ease;
+	}
+	@keyframes scale {
+		0%{
+			transform: scale(0);
+		}
+
+		40%{
+			transform: scale(1.2);
+		}
+		100%{
+			transform: scale(1);
+		}
+	}
+/* #endif */
+</style>

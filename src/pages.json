@@ -19,16 +19,6 @@
 			"style": {
 				"navigationBarTitleText": "搜索组件"
 			}
-		},
-		{
-			"path": "pages/index/settheme",
-			"style": {
-				"navigationBarTitleText": "",
-				"enablePullDownRefresh": false,
-				"navigationStyle": "custom",
-				"titlePenetrate": "YES",
-				"transparentTitle": "always"
-			}
 		}
 	],
 	"subPackages": [{
@@ -183,6 +173,13 @@
 					"path": "adsorb",
 					"style": {
 						"navigationBarTitleText": "吸附器 Adsorb",
+						"enablePullDownRefresh": false
+					}
+				},
+				{
+					"path": "sort",
+					"style": {
+						"navigationBarTitleText": "宫格排序 Sort",
 						"enablePullDownRefresh": false
 					}
 				}
@@ -700,6 +697,25 @@
 		"navigationBarBackgroundColor": "#FFFFFF",
 		"backgroundColor": "#FFFFFF"
 	},
+	// "tabBar": {
+	// 	"backgroundColor": "#FFFFFF",
+	// 	"color": "#333333",
+	// 	"selectedColor": "#0088FF",
+	// 	"list": [
+	// 		{
+	// 			"iconPath": "",
+	// 			"selectedIconPath": "",
+	// 			"text": "换电",
+	// 			"pagePath": "pages/index/index"
+	// 		},
+	// 		{
+	// 			"iconPath": "",
+	// 			"selectedIconPath": "",
+	// 			"text": "换电",
+	// 			"pagePath": "pages/wxaccount/user"
+	// 		}
+	// 	]
+	// },
 	"condition": {
 		"current": 0,
 		"list": [{

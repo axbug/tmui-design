@@ -1,7 +1,7 @@
 <template>
 	<tm-app ref="app" color="grey-5">
 	
-		<tm-form @submit="confirm" ref="form" v-model="show" :label-width="190" >
+		<tm-form @submit="confirm" ref="form"  v-model="show" :label-width="190">
 			<tm-form-item desc="你可以点击提交表单来验证" required label="身份证号码" field="nameuser.a"
 				:rules="[{required:true,message:'请输入66',validator:(val)=>val=='66'}]">
 				<!-- 不要问我为什么用v-model.lazy，我很受伤。 -->

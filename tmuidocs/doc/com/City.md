@@ -33,7 +33,7 @@ title: tmui 3.0 组件库
 本组件含有公共属性 [公共属性](/doc/spec/组件公共样式.md)
 | 参数名 | 类型 | 默认值 | 描述 |
 | :--: | :--: | :--: | :-- |
-| selectionModel | String | name | 赋值方式，id:城市id为返选赋值。name:以城市名称作为返选和赋值。 |
+| selectedModel | 可选:index,name,id | index | 赋值方式，id:城市id为返选赋值。name:以城市名称作为返选和赋值。index,默认以索引为返回数据选值 |
 | cityLevel | String | area | 城市选择的级别province:省级别。city:省，市,area:省，市，县/区. |
 | defaultValue | Array | [] | 默认选中的数据 |
 | modelValue | Array | [] | 双向绑定输入数据,同v-model |
@@ -56,7 +56,7 @@ title: tmui 3.0 组件库
 本组件含有公共属性 [公共属性](/doc/spec/组件公共样式.md)
 | 参数名 | 类型 | 默认值 | 描述 |
 | :--: | :--: | :--: | :-- |
-| selectedModel | 可选:index,name,id | index | 赋值方式，id:城市id为返选赋值。name:以城市名称作为返选和赋值。index,默认以索引为返回数据选值 |
+| selectionModel | 可选:index,name,id | index | 赋值方式，id:城市id为返选赋值。name:以城市名称作为返选和赋值。index,默认以索引为返回数据选值 |
 | city | Array | [] | 城市数据,默认为空,使用自带城市数据,如果提供将使用自定义城市数据 |
 | modelValue| `<Array<string | number>>`| [] | v-model以selectedModel为索引的值结果 |
 | modelStr| string | '' | v-model:model-str,单向输出地区名称以/分割。不管selectedModel是以哪种索引选项，此处始终以地区名称输出显示。 |
@@ -64,6 +64,7 @@ title: tmui 3.0 组件库
 | color | String | primary | 按钮主题色 |
 | btnRound | Number | 3 | 确认按钮的圆角0-25 |
 | round | Number | 12 | 弹出层的顶部圆角 |
+| disabled | Boolean | false | 当使用插槽占位触发显示时，打开禁用可阻止弹层显示，适合在表单内部使用 |
 
 **modelValue格式**
 双向绑定和默认的defaultValue数据格式是根据你的属性selectionModel来定义的.
@@ -79,7 +80,7 @@ title: tmui 3.0 组件库
 
 ### :corn: City-picker slot插槽
 
-无
+默认default，可触发弹层的插槽占位内容，比如在里面布局按钮，输入框，点击这块内容可以直接显示弹层。
 
 ### :green_salad: City-picker ref方法
 

@@ -25,7 +25,7 @@
         </tm-grid-item>
     </tm-grid>
  */
-import { computed, provide, ref, Ref } from "vue";
+import { computed, provide, ref, Ref,inject } from "vue";
 import { custom_props } from "../../tool/lib/minxs";
 import tmSheet from "../tm-sheet/tm-sheet.vue";
 const props = defineProps({
@@ -63,8 +63,23 @@ interface arrayid {
   id: string | number;
   type: string | number;
 }
+const sysinfo = inject(
+  "tmuiSysInfo",
+  computed(() => {
+    return {
+      bottom: 0,
+      height: 750,
+      width: uni.upx2px(750),
+      top: 0,
+      isCustomHeader: false,
+      sysinfo: null,
+    };
+  })
+);
 let _cachList: Ref<Array<arrayid>> = ref([]);
-const _colWidth = computed(() => Math.ceil(props.width / props.col - 1));
+const _colWidth = computed(() => {
+  return Math.ceil(props.width / props.col - 1)
+});
 provide("tmGridItemWidth", _colWidth.value + (props.showBorder ? 1 : 0));
 provide(
   "tmGridshowBorder",

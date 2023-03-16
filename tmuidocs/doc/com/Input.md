@@ -87,6 +87,7 @@ title: tmui 3.0 组件库
 | focus | Boolean | false | 是否聚焦 |
 | readonly | Boolean | false | 是否为只读状态，如果你是支付宝或者钉钉小程序，在使用disabled时，文字变灰，可使用此属性代替。 |
 | autoHeight| Boolean | false | type=textarea时生效 |
+| showTopErrorGap| Boolean | true | 用于隐藏顶部的错误间隙，但保留底部，以减少布局间的空隙 |
 
 ### :rose: 事件
 | 事件名 | 参数 | 返回数据 | 描述 |

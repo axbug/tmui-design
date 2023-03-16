@@ -8,7 +8,7 @@
         color="grey-3"
         v-if="_title !== ''"
         :height="50"
-        _class="flex flex-col flex-col-center-start"
+        _class="flex "
         :margin="[props.margin[0], 0]"
         :padding="[props.padding[0], 0]"
       >
@@ -31,7 +31,7 @@
     >
       <view
         :eventPenetrationEnabled="true"
-        class="flex-1 flex flex-col flex-col-center-start"
+        class="flex-1"
       >
         <slot></slot>
       </view>

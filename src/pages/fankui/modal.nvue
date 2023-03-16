@@ -9,6 +9,14 @@
                 <tm-button :margin="[0,12]" @click="showWin2=true" color="orange" :width="120" :height="56" :font-size="24"  label="个性化"></tm-button>
                 <tm-button :margin="[12,12]" @click="showWin3=true" color="pink" :width="120" :height="56" :font-size="24"  label="异步关闭"></tm-button>
             </view>
+			
+			<tm-modal title="插槽触发" >
+				<template v-slot:trigger>
+					<tm-button block :margin="[12, 12]" :padding="[24,0]" color="grey-1" 
+					    :height="56" :font-size="24" label="通过插槽触发弹层"></tm-button>
+				</template>
+				<tm-text :font-size="32" label="这里通过插槽触发弹层,无需定义show变量来控制显示和隐藏."></tm-text>
+			</tm-modal>
            
         </tm-sheet>
         <tm-sheet :margin="[32,0]">

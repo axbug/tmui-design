@@ -1,102 +1,61 @@
 <template>
-  <view
-    class="flex relative"
-    :class="[props.status ? 'flex-row flex-row-center-center mx-8' : '']"
-  >
-    <view v-if="!props.status"><slot></slot></view>
-    <view
-      v-if="show"
-      :class="[
-        (_dot || _count || _icon) && !props.status
-          ? 'absolute flex-top-start-end r-0'
-          : '',
-        props.top ? `t-${String(props.top)}` : '',
-        props.right ? `r-${String(props.right)}` : '',
-      ]"
-      :style="{ zIndex: 10 }"
-    >
-      <tm-sheet
-        @click="emits('click', $event)"
-        :color="props.color"
-        :_class="[customClass, 'flex-center flex-col']"
-        :_style="[customCSSStyle, { flexShrink: 1 }]"
-        :followTheme="props.followTheme"
-        :dark="props.dark"
-        :round="props.round"
-        :shadow="props.shadow"
-        :outlined="props.outlined"
-        :border="props.border"
-        :borderStyle="props.borderStyle"
-        :borderDirection="props.borderDirection"
-        :text="props.text"
-        :transprent="props.transprent"
-        :linear="props.linear"
-        :linearDeep="props.linearDeep"
-        :width="size.w"
-        :height="size.h"
-        :margin="props.margin"
-        :padding="props.padding"
-      >
-        <tm-text
-          color="white"
-          :font-size="props.fontSize"
-          :_class="size.h == 0 ? 'py-3 px-6' : ''"
-          v-if="_count > 0 && !istext"
-          :label="_count > props.maxCount ? props.maxCount + '+' : _count"
-        ></tm-text>
-        <tm-text
-          color="white"
-          :font-size="props.fontSize"
-          :_class="size.h == 0 ? 'py-3 px-6' : ''"
-          v-if="_count && istext"
-          :label="_count"
-        ></tm-text>
-        <tm-icon
-          color="white"
-          :font-size="props.fontSize"
-          :name="_icon"
-          v-if="_icon"
-        ></tm-icon>
+  <view @click="emits('click', $event)" class="flex relative" :class="[props.status ? 'flex-row flex-row-center-center mx-8' : '']">
+    <view v-if="!props.status" eventPenetrationEnabled="true">
+      <slot></slot>
+    </view>
+    <view eventPenetrationEnabled="true" v-if="show" :class="[
+      (_dot || _count || _icon) && !props.status
+        ? 'absolute flex-top-start-end r-0'
+        : '',
+      props.top ? `t-${String(props.top)}` : '',
+      props.right ? `r-${String(props.right)}` : '',
+    ]" :style="{ zIndex: 10 }">
+      <tm-sheet  :color="props.color" :_class="[customClass, 'flex-center flex-col']"
+        :_style="[customCSSStyle, { flexShrink: 1 }]" :followTheme="props.followTheme" :dark="props.dark"
+        :round="props.round" :shadow="props.shadow" :outlined="props.outlined" :border="props.border"
+        :borderStyle="props.borderStyle" :borderDirection="props.borderDirection" :text="props.text"
+        :transprent="props.transprent" :linear="props.linear" :linearDeep="props.linearDeep" :width="size.w"
+        :height="size.h" :margin="props.margin" :padding="props.padding">
+        <tm-text color="white" :font-size="props.fontSize" :_class="size.h == 0 ? 'py-3 px-6' : ''"
+          v-if="_count > 0 && !istext" :label="_count > props.maxCount ? props.maxCount + '+' : _count"></tm-text>
+        <tm-text color="white" :font-size="props.fontSize" :_class="size.h == 0 ? 'py-3 px-6' : ''"
+          v-if="_count && istext" :label="_count"></tm-text>
+        <tm-icon color="white" :font-size="props.fontSize" :name="_icon" v-if="_icon"></tm-icon>
       </tm-sheet>
     </view>
-    <tm-text
-      :font-size="props.fontSize"
-      _class="ml-10"
-      v-if="props.status"
-      :label="props.label"
-    ></tm-text>
+    <tm-text eventPenetrationEnabled="true" :font-size="props.fontSize" _class="ml-10" v-if="props.status" :label="props.label"></tm-text>
   </view>
 </template>
 
 <script lang="ts" setup>
 /**
-	 * 徽标
-	 * @description 可单独使用，也可使用插槽。
-	 * @example <view class="flex-row flex-wrap pa-32" >
-			<tm-badge dot color="red">
-				<tm-avatar :round="0" label="A"></tm-avatar>
-			</tm-badge>
-			<tm-badge :count="5"  color="red">
-				<tm-avatar label="A"></tm-avatar>
-			</tm-badge>
-			<tm-badge dot color="red">
-				<tm-icon color="primary" name="tmicon-clock-fill"></tm-icon>
-			</tm-badge>
-			<tm-badge :count="999"  color="red">
-				<tm-avatar label="A"></tm-avatar>
-			</tm-badge>
-			<tm-badge :count="1000"  color="red">
-				<tm-avatar label="A"></tm-avatar>
-			</tm-badge>
-			<tm-badge count="HOT"  color="red">
-				<tm-avatar label="A"></tm-avatar>
-			</tm-badge>
-			<tm-badge icon="tmicon-collection-fill" color="red">
-				<tm-avatar label="A"></tm-avatar>
-			</tm-badge>
-			<tm-badge status dot  label="情况不秒呀." color="green"></tm-badge>
-		</view>
-	 */
+   * 徽标
+   * @description 可单独使用，也可使用插槽。
+   * @example <view class="flex-row flex-wrap pa-32" >
+      <tm-badge dot color="red">
+        <tm-avatar :round="0" label="A"></tm-avatar>
+      </tm-badge>
+      <tm-badge :count="5"  color="red">
+        <tm-avatar label="A"></tm-avatar>
+      </tm-badge>
+      <tm-badge dot color="red">
+        <tm-icon color="primary" name="tmicon-clock-fill"></tm-icon>
+      </tm-badge>
+      <tm-badge :count="999"  color="red">
+        <tm-avatar label="A"></tm-avatar>
+      </tm-badge>
+      <tm-badge :count="1000"  color="red">
+        <tm-avatar label="A"></tm-avatar>
+      </tm-badge>
+      <tm-badge count="HOT"  color="red">
+        <tm-avatar label="A"></tm-avatar>
+      </tm-badge>
+      <tm-badge icon="tmicon-collection-fill" color="red">
+        <tm-avatar label="A"></tm-avatar>
+      </tm-badge>
+      <tm-badge status dot  label="情况不秒呀." color="green"></tm-badge>
+    </view>
+   */
 import { computed, PropType } from "vue";
 import {
   custom_props,

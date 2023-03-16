@@ -53,7 +53,8 @@ title: tmui 3.0 组件库
 | itemRound | Number | 0 | 圆角 |
 | align | String | "left" | left:左对齐,right：右对齐,center：居中,around：居中均分 |
 | swiper<Badge type="danger" text="v3.0.75+" vertical="middle" /> | [Boolean] | false | 是否启用左右滑动内容来切换tabs,开启后注意优化页面性能。 |
-| showTabsLineAni<Badge type="danger" text="v3.0.77+" vertical="middle" /> | [Boolean] | false | 是否启用底部边线，标题底部线段动画，点击某一项时，短线自动滑动到目标点=>使用动画必须指定宽度:item-width="110(宽度)" |
+| showTabsLineAni<Badge type="danger" text="v3.0.77+" vertical="middle" /> | [Boolean] | false | 是否启用底部边线动画，点击某一项时，短线自动滑动到目标点=>使用动画必须指定宽度:item-width="110(宽度)" |
+| showTabsLine | Boolean | true | 用于开启线性动画后，是否隐藏底部灰色的导轨 |
 | darkBgColor | String | '' | 有时自动的背景，可能不是你想要暗黑背景，此时可以使用此参数，强制使用背景色 |
 | subtract | Number | 2 | 当选中某一项时,内容会往前滚动的项目数量,类似于位置让选中项始终在中间 |
 

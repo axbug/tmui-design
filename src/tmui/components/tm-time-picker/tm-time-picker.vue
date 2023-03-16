@@ -1,47 +1,26 @@
 <template>
-  <tm-drawer
-    :disabbleScroll="true"
-    :round="props.round"
-    ref="drawer"
-    :height="dHeight"
-    @update:show="_show = $event"
-    :show="_show"
-    @close="close"
-    :ok-color="props.color"
-    @open="open"
-    :title="props.title"
-    :closeable="true"
-    @ok="confirm"
-  >
-    <tm-time-view
-      :height="dHeight - 230"
-      @update:model-value="_value = $event"
-      :model-value="_value"
-      @update:model-str="_strvalue = $event"
-      :model-str="_strvalue"
-      :default-value="_value"
-      @change="change"
-      :disabledDate="props.disabledDate"
-      :format="props.format"
-      :showDetail="props.showDetail"
-      :showSuffix="props.showSuffix"
-      :start="props.start"
-      :end="props.end"
-      :immediateChange="props.immediateChange"
-    ></tm-time-view>
-    <tm-button
-      label="确认选择"
-      block
-      :margin="[32, 12]"
-      :color="props.color"
-      :linear="props.linear"
-      :linear-deep="props.linearDeep"
-      @click="confirm"
-      :round="props.btnRound"
-    >
-    </tm-button>
-    <view :style="{ height: sysinfo.bottom + 'px' }"></view>
-  </tm-drawer>
+  <view @click="_show=!_show" >
+    
+    <!-- #ifdef APP-NVUE -->
+    <view :eventPenetrationEnabled="true"><slot></slot></view>
+    <!-- #endif -->
+    <!-- #ifndef APP-NVUE -->
+    <slot></slot>
+    <!-- #endif -->
+    <tm-drawer :disabbleScroll="true" :round="props.round" ref="drawer" :height="dHeight" @update:show="_show = $event"
+      :show="_show" @close="close" :ok-color="props.color" @open="open" :title="props.title" :closeable="true"
+      @ok="confirm">
+      <tm-time-view :height="dHeight - 230" @update:model-value="_value = $event" :model-value="_value"
+        @update:model-str="_strvalue = $event" :model-str="_strvalue" :default-value="_value" @change="change"
+        :disabledDate="props.disabledDate" :format="props.format" :showDetail="props.showDetail"
+        :showSuffix="props.showSuffix" :start="props.start" :end="props.end"
+        :immediateChange="props.immediateChange"></tm-time-view>
+      <tm-button label="确认选择" block :margin="[32, 12]" :color="props.color" :linear="props.linear"
+        :linear-deep="props.linearDeep" @click="confirm" :round="props.btnRound">
+      </tm-button>
+      <view :style="{ height: sysinfo.bottom + 'px' }"></view>
+    </tm-drawer>
+  </view>
 </template>
 <script lang="ts" setup>
 /**
@@ -242,7 +221,7 @@ function change(e: string | number) {
 }
 
 function confirm() {
-  console.log(_value.value);
+
   emits("confirm", _value.value);
   emits("update:modelValue", _value.value);
   emits("update:modelStr", _strvalue.value);

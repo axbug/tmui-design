@@ -189,7 +189,7 @@ const props = defineProps({
   },
   //链接打开方式同官方。
   openType: {
-    type: String as PropType<openUrlType>,
+    type: String as PropType<"navigate"|"redirect"|"switchTab"|"reLaunch"|"navigateBack">,
     default: "navigate",
   },
   //打开链接之前执行的勾子函数，返回fase阻止打开。也可以返回new Promise.

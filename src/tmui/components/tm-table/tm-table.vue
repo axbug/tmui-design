@@ -82,6 +82,7 @@ const emits = defineEmits(["rowClick"]);
 const props = defineProps(cutomProps);
 const _data: Ref<tableDataType> = ref(props.tableData)
 const sortType = ref('none')
+let tid:any = NaN;
 const _stripe = computed(()=>props.stripe)
 const totalTableWidth = computed(() => {
   let d = props.cellWidth *  _data.value.header.length;
@@ -100,9 +101,15 @@ onMounted(()=>{
 watch(
   [() => props.tableData],
   () => {
-    _data.value = {...props.tableData}
-    _rows.value = chuliRows(_data.value.data)
-    _rows_back = uni.$tm.u.deepClone(_rows.value)
+    clearTimeout(tid)
+    tid = setTimeout(() => {
+      let cdatas:any = uni.$tm.u.deepClone(props.tableData)
+      _data.value = {...cdatas}
+      _rows.value = chuliRows(_data.value.data)
+      _rows_back = uni.$tm.u.deepClone(_rows.value)
+     
+    }, 150);
+    
   },
   { deep: true }
 );

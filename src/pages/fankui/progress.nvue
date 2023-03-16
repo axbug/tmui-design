@@ -11,15 +11,12 @@
             <tm-progress linear="right" showBar :width="636" color="orange" v-model:percent="percent"></tm-progress>
         </tm-sheet>
         <tm-sheet>
-            <tm-text :fontSize="24" _class="font-weight-b" label="圆形"></tm-text>
+            <tm-text :fontSize="24" _class="font-weight-b" label="圆形，以及镜像"></tm-text>
             <tm-divider></tm-divider>
             <view class="flex flex-row">
                 <tm-progress model="circle" bgColor="grey-4" :height="24" :width="200" v-model:percent="percent"></tm-progress>
                 <view class="py-12"></view>
-                <tm-progress model="circle" bgColor="grey-4" color="pink"  :height="24" :width="200" v-model:percent="percent">
-                </tm-progress>
-                <view class="py-12"></view>
-                <tm-progress model="circle" semicircleFlip bgColor="grey-4" :height="24" :width="200" v-model:percent="percent"></tm-progress>
+                <tm-progress linear='left' linear-deep="accent" color='cyan' model="circle" semicircleFlip bgColor="grey-4" :height="24" :width="200" v-model:percent="percent"></tm-progress>
                 <view class="py-12"></view>
             </view>
 
@@ -28,10 +25,10 @@
             <tm-text :fontSize="24" _class="font-weight-b" label="半圆形，以及镜像"></tm-text>
             <tm-divider></tm-divider>
             <view class="flex flex-row">
-                <tm-progress model="circle" color="yellow" semicircle :height="24" :width="200" v-model:percent="percent"></tm-progress>
+                <tm-progress model="circle" color="pink" linear='left' linear-deep="accent" semicircle :height="24" :width="200" v-model:percent="percent"></tm-progress>
                 <view class="py-12"></view>
                 
-                <tm-progress model="circle" semicircle  semicircleFlip :height="24" color="orange" :width="200" v-model:percent="percent">
+                <tm-progress model="circle" linear='left' semicircle  semicircleFlip :height="24" color="cyan" linear-deep="accent" :width="200" v-model:percent="percent">
                 </tm-progress>
                 <view class="py-12"></view>
             </view>

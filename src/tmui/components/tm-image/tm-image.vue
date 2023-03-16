@@ -8,7 +8,7 @@
     name="zoom"
     reverse
   >
-    <view class="absolute" style="transform: translateX(1200px); opacity: 0">
+    <!-- <view class="absolute" style="transform: translateX(1200px); opacity: 0">
       <image
         v-if="loading"
         :src="img_src"
@@ -17,7 +17,7 @@
         @error="imageError"
         mode="scaleToFill"
       ></image>
-    </view>
+    </view> -->
     <tm-sheet
       :color="props.color"
       :transprent="props.transprent"
@@ -29,12 +29,14 @@
       :width="img_width - props.padding[0] * 2"
       :unit="props.unit"
     >
-      <view :class="[`pb-${props.padding[1]}`, 'flex flex-col flex-col-center-center']">
+      <view :class="[`pb-${props.padding[1]}`, 'flex flex-col flex-col-center-center','relative']">
         <image
+          @load="imageLoad"
+          @error="imageError"
           :show-menu-by-longpress="props.showMenuByLongPress"
           @click="imageClick"
-          :class="['round-' + props.round]"
-          v-if="!loading && !error"
+          :class="['round-' + props.round,loading?'opacity-0':'']"
+          v-if="!error"
           :src="img_src"
           :style="[{ width: img_width + props.unit, height: img_height + props.unit }]"
           :mode="props.model"
@@ -44,7 +46,7 @@
           :style="[
             { width: img_width + props.unit, height: img_height + 10 + props.unit },
           ]"
-          class="flex flex-center opacity-3"
+          class="flex flex-center opacity-3 absolute l-0 t-0"
         >
           <slot name="load">
               <tm-icon
@@ -59,7 +61,7 @@
         <view
           v-if="!loading && error"
           :style="[{ width: img_width + props.unit, height: img_height + props.unit }]"
-          class="flex flex-col flex-center opacity-5"
+          class="flex flex-col flex-center opacity-5  absolute l-0 t-0"
         >
           <slot name="error">
             <view @click="reloadImg">

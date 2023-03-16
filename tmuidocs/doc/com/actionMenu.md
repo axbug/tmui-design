@@ -68,7 +68,7 @@ interface listitem {
 
 ### :corn: slot插槽
 
-无
+默认default，可触发弹层的插槽占位内容，比如在里面布局按钮，输入框，点击这块内容可以直接显示弹层。
 
 ### :green_salad: ref方法
 

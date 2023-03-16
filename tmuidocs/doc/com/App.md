@@ -51,7 +51,7 @@ tabar<Badge type="danger" text="v3.0.75+" vertical="middle" />开始已经删除
 | 参数名 | 类型 | 默认值 | 描述 |
 | :--: | :--: | :--: | :-- |
 | theme | [String] | grey-5 | 当前应用主题(未开放) |
-| bgImg | [String] | https://picsum.photos/750/1448 | APP应用的背景图(未开放) |
+| bgImg | [String] | https://picsum.photos/750/1448 | APP应用的背景图,nvue不支持 |
 | color | [String] | grey-4 | 应用的背景颜色 |
 | darkColor<Badge type="danger" text="v3.0.74+" vertical="middle" /> | [String] | #050505 | 暗黑时的背景色值，只能是颜色值。 |
 | blur | [Boolean, String] | false | 模糊背景(未开放) |

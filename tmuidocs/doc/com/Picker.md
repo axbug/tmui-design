@@ -48,7 +48,7 @@ Picker与Picker-view两个组件属性相同。除了没有show属性。请自�
 | linear | String | / | 选择器确认选择按钮的渐变背景方向，可选值有：left:右->左，right:左->右。top:下->上，bottom:上->下 | 
 | linearDeep | String | light | 选择器确认选择按钮的渐变背景颜色深浅，可选值有：light,dark,accent亮系渐变和深色渐变 |
 | beforeChange | Function/Boolean | / | 当前改变index项时，改变时执行的函数。如果返回false，将会阻止本次改变,可以是Promise,提供了即将改变的数据和将要改变到目标的数据,结构 为 from:{itemindex,levelIndex,data},to:{itemindex,levelIndex,data}|
-|  |  |  |  |
+| disabled | Boolean | false | 当使用插槽占位触发显示时，打开禁用可阻止弹层显示，适合在表单内部使用 |
 
 ### :rose: 事件
 
@@ -61,7 +61,7 @@ Picker与Picker-view两个组件属性相同。除了没有show属性。请自�
 
 ### :corn: slot插槽
 
-默认default
+默认default，可触发弹层的插槽占位内容，比如在里面布局按钮，输入框，点击这块内容可以直接显示弹层。
 
 ### :green_salad: ref方法
 

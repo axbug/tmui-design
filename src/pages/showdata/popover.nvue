@@ -42,6 +42,19 @@
                 </view>
             </view>
         </tm-sheet>
+		<tm-sheet>
+		    <tm-text :font-size="24" _class="font-weight-b" label="自定义弹出内容,实现更复杂的布局"></tm-text>
+		    <tm-divider></tm-divider>
+		   <tm-popover position="bl" :width="400" linear="bottom" color="primary">
+		       <tm-text color="primary" label="点我弹出更多菜单"></tm-text>
+			   <template v-slot:label>
+				   <view class="flex flex-row flex-row-center-center">
+					   <tm-tag label="删除订单"></tm-tag>
+					   <tm-tag label="申请发票"></tm-tag>
+				   </view>
+			   </template>
+		   </tm-popover>
+		</tm-sheet>
 
     </tm-app>
 </template>
@@ -53,4 +66,6 @@ import tmSheet from "@/tmui/components/tm-sheet/tm-sheet.vue"
 import tmText from "@/tmui/components/tm-text/tm-text.vue"
 import tmPopover from "@/tmui/components/tm-popover/tm-popover.vue"
 import tmDivider from "@/tmui/components/tm-divider/tm-divider.vue"
+import tmTag from "@/tmui/components/tm-tag/tm-tag.vue"
+
 </script>

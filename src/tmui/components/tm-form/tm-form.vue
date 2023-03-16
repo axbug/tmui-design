@@ -44,8 +44,9 @@ import tmSheet from "../tm-sheet/tm-sheet.vue";
  */
 const emits = defineEmits<{
   (e: "submit", event: { data: any; validate: boolean }): void;
+  /**只要有数据更改就会触发校验并返回相关数据与submit相同 */
+  (e: "validate", event: formItem): void;
   (e: "reset"): void;
-  (e: "validate"): void;
   (e: "clearValidate"): void;
   (e: "update:modelValue", event: any): void;
 }>();
@@ -152,6 +153,7 @@ watch(
 );
 
 let timid:any = NaN;
+let ptimeId:any = 301120999856
 function reset() {
   formFunCallBack.value = "";
   nextTick(() => {
@@ -215,6 +217,12 @@ function validate() {
     });
   });
 }
+function checkValidate(arg:formItem){
+  clearTimeout(ptimeId)
+  ptimeId = setTimeout(() => {
+    emits("validate", arg);
+  }, 1000);
+}
 
 function pushKey(item: formItem) {
   if (!item.field) return;
@@ -251,6 +259,7 @@ defineExpose({
   reset,
   validate,
   clearValidate,
+  checkValidate,
   submit,
   pushKey,
   delKey,

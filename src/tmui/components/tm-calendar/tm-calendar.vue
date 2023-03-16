@@ -1,40 +1,26 @@
 <template>
-  <tm-drawer
-    :disabbleScroll="true"
-    ref="drawer"
-    :round="props.round"
-    :height="dHeight"
-    @close="close"
-    @open="open"
-    :hideHeader="true"
-  >
-    <view class="mx-16 mt-24">
-      <tm-calendar-view
-        :hideButton="props.hideButton"
-        :hideTool="props.hideTool"
-        @update:model-value="_value = $event"
-        :model-value="_value"
-        @update:model-str="_strvalue = $event"
-        :model-str="_strvalue"
-        :default-value="_value"
-        @change="change"
-        @confirm="confirm"
-        @click="onclick"
-        :model="props.model"
-        :color="props.color"
-        :linear="props.linear"
-        :linearDeep="props.linearDeep"
-        :start="props.start"
-        :end="props.end"
-        :disabledDate="props.disabledDate"
-        :multiple="props.multiple"
-        :dateStyle="props.dateStyle"
-        :max="props.max"
-        ref="calendarView"
-      >
-      </tm-calendar-view>
+  <view @click="_show = !_show">
+    <!-- #ifdef APP-NVUE -->
+    <view :eventPenetrationEnabled="true">
+      <slot></slot>
     </view>
-  </tm-drawer>
+    <!-- #endif -->
+    <!-- #ifndef APP-NVUE -->
+    <slot></slot>
+    <!-- #endif -->
+    <tm-drawer :disabbleScroll="true" ref="drawer" :round="props.round" :height="dHeight" @close="close" @open="open"
+      :hideHeader="true">
+      <view class="mx-16 mt-24">
+        <tm-calendar-view :format="props.format" :hideButton="props.hideButton" :hideTool="props.hideTool"
+          @update:model-value="_value = $event" :model-value="_value" @update:model-str="_strvalue = $event"
+          :model-str="_strvalue" :default-value="_value" @change="change" @confirm="confirm" @click="onclick"
+          :model="props.model" :color="props.color" :linear="props.linear" :linearDeep="props.linearDeep"
+          :start="props.start" :end="props.end" :disabledDate="props.disabledDate" :multiple="props.multiple"
+          :dateStyle="props.dateStyle" :max="props.max" ref="calendarView">
+        </tm-calendar-view>
+      </view>
+    </tm-drawer>
+  </view>
 </template>
 <script lang="ts" setup>
 /**
@@ -184,6 +170,11 @@ const props = defineProps({
   hideTool: {
     type: Boolean,
     default: false,
+  },
+  /**modelStr的格式化输出选项，不会影响value值，只对输出值有效 */
+  format: {
+    type: String,
+    default: "YYYY/MM/DD",
   },
 });
 const sysinfo = inject(

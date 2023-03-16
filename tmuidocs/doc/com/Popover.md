@@ -46,7 +46,8 @@ title: tmui 3.0 组件库
 无
 
 ### :corn: slot插槽
-默认default
+默认default，触发发弹层。
+label插槽，弹层显示内容的占位。
 
 ### :green_salad: ref方法
 无

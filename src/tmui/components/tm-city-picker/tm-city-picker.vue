@@ -1,44 +1,24 @@
 <template>
-  <tm-drawer
-    :disabbleScroll="true"
-    :round="props.round"
-    ref="drawer"
-    :height="820"
-    :closable="true"
-    :overlayClick="aniover"
-    @open="drawerOpen"
-    @cancel="cancel"
-    @ok="confirm"
-    :show="showCity"
-    @update:show="closeDrawer"
-    title="请选择地区"
-    ok-text="确认"
-  >
-    <tm-picker-view
-      v-if="showCity"
-      ref="picker"
-      :height="590"
-      @end="aniover = true"
-      @start="aniover = false"
-      :value="_colIndex"
-      @update:modelValue="_colIndex = $event"
-      @update:model-str="_colStr = $event"
-      :model-str="_colStr"
-      :default-value="_colIndex"
-      :columns="_data"
-    ></tm-picker-view>
-    <tm-button
-      label="确认选择"
-      block
-      :margin="[32, 12]"
-      :color="props.color"
-      :linear="props.linear"
-      :linear-deep="props.linearDeep"
-      @click="confirm"
-      :round="props.btnRound"
-    ></tm-button>
-    <view :style="{ height: win_bottom + 'px' }"></view>
-  </tm-drawer>
+  <view @click="showCity = !props.disabled?!showCity:false">
+    <!-- #ifdef APP-NVUE -->
+    <view :eventPenetrationEnabled="true">
+      <slot></slot>
+    </view>
+    <!-- #endif -->
+    <!-- #ifndef APP-NVUE -->
+    <slot></slot>
+    <!-- #endif -->
+    <tm-drawer :disabbleScroll="true" :round="props.round" ref="drawer" :height="820" :closable="true"
+      :overlayClick="aniover" @open="drawerOpen" @cancel="cancel" @ok="confirm" :show="showCity"
+      @update:show="closeDrawer" title="请选择地区" ok-text="确认">
+      <tm-picker-view v-if="showCity" ref="picker" :height="590" @end="aniover = true" @start="aniover = false"
+        :value="_colIndex" @update:modelValue="_colIndex = $event" @update:model-str="_colStr = $event"
+        :model-str="_colStr" :default-value="_colIndex" :columns="_data"></tm-picker-view>
+      <tm-button label="确认选择" block :margin="[32, 12]" :color="props.color" :linear="props.linear"
+        :linear-deep="props.linearDeep" @click="confirm" :round="props.btnRound"></tm-button>
+      <view :style="{ height: win_bottom + 'px' }"></view>
+    </tm-drawer>
+  </view>
 </template>
 <script lang="ts" setup>
 /**
@@ -120,13 +100,13 @@ const props = defineProps({
     type: String,
     default: "id",
   },
-    /**
-   * 城市选择的级别
-   * province:省级别。
-   * city:省，市
-   * area:省，市，县/区.
-   */
-   cityLevel: {
+  /**
+ * 城市选择的级别
+ * province:省级别。
+ * city:省，市
+ * area:省，市，县/区.
+ */
+  cityLevel: {
     type: String,
     default: "area",
   },
@@ -155,12 +135,17 @@ const props = defineProps({
     type: Number,
     default: 12,
   },
+  /**禁用时，通过插槽点击时，不会触发显示本组件，适合表单 */
+  disabled:{
+    type:Boolean,
+    default:false
+  }
 });
 const showCity = ref(true);
 const _cityData = computed(() => props.city);
 const _colIndex: Ref<Array<number>> = ref([]);
 const _data = ref(chiliFormatCity_area());
-let tmid:any = NaN;
+let tmid: any = NaN;
 const _colStr = ref("");
 const aniover = ref(true);
 const sysinfo = inject("tmuiSysInfo", {
@@ -242,7 +227,7 @@ function getIndexBymodel(
 ): Array<number | string> {
   if (value.length == 0) return [];
   if (model == "name") {
-    let item:any = vdata.filter((el) => value[parentIndex] == el["text"]);
+    let item: any = vdata.filter((el) => value[parentIndex] == el["text"]);
     if (item.length == 0) {
       item = vdata[0];
       if (item) {
@@ -264,7 +249,7 @@ function getIndexBymodel(
       }
     }
   } else if (model == "id") {
-    let item:any = vdata.filter((el) => value[parentIndex] == el["id"]);
+    let item: any = vdata.filter((el) => value[parentIndex] == el["id"]);
     if (item.length == 0) {
       item = vdata[0];
       if (item) {

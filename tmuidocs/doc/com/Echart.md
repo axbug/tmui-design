@@ -104,7 +104,7 @@ title: tmui 3.0 组件库
 ### :green_salad: ref方法
 
 getChart(),可返回当前的chart对象。
-
+getImg(),可以导出当前的图表图片。
 ---
 
 注意在nvue平台，是由我封装映射的接口api，nvue平台性能强大，包为全量包，对标百度图表所有功能。但api接口只有下方列出可用:

@@ -1,112 +1,74 @@
 <template>
-  <tm-overlay
-    :inContent="props.inContent"
-    ref="overlayAni"
-    :duration="props.duration + 80"
-    @open="OverLayOpen"
-    @close="overclose"
-    :zIndex="props.zIndex"
-    :transprent="!props.mask"
-    @click="overlayClickFun"
-    :align="align_rp"
-    :overlayClick="false"
-    v-model:show="_show"
-  >
-    <tm-translate
-      :reverse="reverse_rp"
-      :width="anwidth"
-      :height="anheight"
-      ref="drawerANI"
-      :auto-play="false"
-      :name="aniname"
-      :duration="props.duration"
-    >
-      <view
-        @click.stop="$event.stopPropagation()"
-        :style="[
-          { width: anwidth, height: anheight },
-          !props.transprent ? tmcomputed.borderCss : '',
-          !props.transprent ? tmcomputed.backgroundColorCss : '',
-          !props.transprent ? tmcomputed.shadowColor : '',
-          customCSSStyle,
-        ]"
-        :class="[round_rp, 'flex flex-col overflow ', customClass]"
-      >
-        <view
-          v-if="!props.closeable && !props.hideHeader"
-          class="flex flex-row flex-row-center-center flex-between px-24"
-          style="height: 44px"
-        >
-          <view class="flex-4 flex-shrink">
-            <tm-text
-              v-if="!props.hideCancel"
-              @click="cancel"
-              :label="props.cancelText"
-            ></tm-text>
-          </view>
-          <view class="flex-8 px-32 flex-center">
-            <slot name="title">
-              <tm-text _class="text-overflow-1 opacity-7" :label="props.title"></tm-text>
-            </slot>
-          </view>
-          <view class="flex-4 flex-shrink flex-row flex-row-center-end">
-            <tm-text
-              :color="okColor"
-              @click="ok"
-              v-if="!ok_loading"
-              :dark="props.dark"
-              :label="props.okText"
-            ></tm-text>
-            <tm-icon
-              :color="okColor"
-              v-if="ok_loading"
-              :spin="ok_loading"
-              :dark="isDark"
-              :_class="isDark !== true ? 'opacity-4' : ''"
-              :fontSize="34"
-              :name="ok_loading ? 'tmicon-jiazai_dan' : 'tmicon-times-circle-fill'"
-            ></tm-icon>
-          </view>
-        </view>
-        <view
-          v-if="props.closeable && !props.hideHeader"
-          class="flex flex-row flex-row-center-center flex-between px-24"
-          style="height: 44px"
-        >
-          <view class="flex-9 pr-32">
-            <slot name="title">
-              <tm-text
-                _class="text-overflow-1 opacity-7"
-                :dark="props.dark"
-                :label="props.title"
-              >
-              </tm-text>
-            </slot>
-          </view>
-          <view class="flex-3 flex-shrink flex-row flex-row-center-end">
-            <tm-icon
-              @click="cancel"
-              :dark="props.dark"
-              :_class="isDark !== true ? 'opacity-3' : ''"
-              :fontSize="36"
-              name="tmicon-times-circle-fill"
-            ></tm-icon>
-          </view>
-        </view>
-        <scroll-view
-          :scroll-y="!props.disabbleScroll"
-          :style="[{ height: contentHeight }]"
-          class="overflow"
-        >
-          <slot name="default"></slot>
-        </scroll-view>
-        <slot name="foot">
-          <view v-if="props.footHeight>0" class="flex">
-          </view>
-        </slot>
-      </view>
-    </tm-translate>
-  </tm-overlay>
+	<view>
+		<!-- #ifdef APP-NVUE -->
+		<view @click="open"><view :eventPenetrationEnabled="true"><slot name="trigger"></slot></view></view>
+		<!-- #endif -->
+		<!-- #ifndef APP-NVUE -->
+		<view @click="open"><slot name="trigger"></slot></view>
+		<!-- #endif -->
+
+		<tm-overlay
+			:inContent="props.inContent"
+			ref="overlayAni"
+			:duration="props.duration + 80"
+			@open="OverLayOpen"
+			@close="overclose"
+			:zIndex="props.zIndex"
+			:transprent="!props.mask"
+			@click="overlayClickFun"
+			:align="align_rp"
+			:overlayClick="false"
+			v-model:show="_show"
+		>
+			<tm-translate :reverse="reverse_rp" :width="anwidth" :height="anheight" ref="drawerANI" :auto-play="false" :name="aniname" :duration="props.duration">
+				<view
+					@click.stop="$event.stopPropagation()"
+					:style="[
+						{ width: anwidth, height: anheight },
+						!props.transprent ? tmcomputed.borderCss : '',
+						!props.transprent ? tmcomputed.backgroundColorCss : '',
+						!props.transprent ? tmcomputed.shadowColor : '',
+						customCSSStyle
+					]"
+					:class="[round_rp, 'flex flex-col overflow ', customClass]"
+				>
+					<view v-if="!props.closeable && !props.hideHeader" class="flex flex-row flex-row-center-center flex-between px-24" style="height: 44px">
+						<view class="flex-4 flex-shrink"><tm-text v-if="!props.hideCancel" @click="cancel" :label="props.cancelText"></tm-text></view>
+						<view class="flex-8 px-32 flex-center">
+							<slot name="title"><tm-text _class="text-overflow-1 opacity-7" :label="props.title"></tm-text></slot>
+						</view>
+						<view class="flex-4 flex-shrink flex-row flex-row-center-end">
+							<tm-text :color="okColor" @click="ok" v-if="!ok_loading" :dark="props.dark" :label="props.okText"></tm-text>
+							<tm-icon
+								:color="okColor"
+								v-if="ok_loading"
+								:spin="ok_loading"
+								:dark="isDark"
+								:_class="isDark !== true ? 'opacity-4' : ''"
+								:fontSize="34"
+								:name="ok_loading ? 'tmicon-jiazai_dan' : 'tmicon-times-circle-fill'"
+							></tm-icon>
+						</view>
+					</view>
+					<view v-if="props.closeable && !props.hideHeader" class="flex flex-row flex-row-center-center flex-between px-24" style="height: 44px">
+						<view class="flex-9 pr-32">
+							<slot name="title"><tm-text _class="text-overflow-1 opacity-7" :dark="props.dark" :label="props.title"></tm-text></slot>
+						</view>
+						<view class="flex-3 flex-shrink flex-row flex-row-center-end">
+							<tm-icon @click="cancel" :dark="props.dark" :_class="isDark !== true ? 'opacity-3' : ''" :fontSize="36" name="tmicon-times-circle-fill"></tm-icon>
+						</view>
+					</view>
+					<!-- #ifdef APP-NVUE -->
+					<scroll-view :scroll-y="!props.disabbleScroll" :style="[{ height: contentHeight }]" class="overflow"><slot name="default"></slot></scroll-view>
+					<!-- #endif -->
+					<!-- #ifndef APP-NVUE -->
+					<view :style="{ overflowY: props.disabbleScroll ? 'hided' : 'auto', height: contentHeight }"><slot name="default"></slot></view>
+					<!-- #endif -->
+					<slot name="foot"><view v-if="props.footHeight > 0" class="flex"></view></slot>
+				</view>
+			</tm-translate>
+		</tm-overlay>
+	</view>
 </template>
 
 <script lang="ts" setup>
@@ -167,7 +129,7 @@ const props = defineProps({
   },
   round: {
     type: Number,
-    default: 12,
+    default: 10,
   },
   //弹出的动画时间单位ms.
   duration: {
@@ -506,33 +468,33 @@ defineExpose({
 
 <style scoped>
 .flex-left-custom {
-  display: flex;
-  justify-content: flex-start;
-  align-items: flex-start;
+	display: flex;
+	justify-content: flex-start;
+	align-items: flex-start;
 }
 
 .flex-right-custom {
-  display: flex;
-  justify-content: flex-start;
-  align-items: flex-end;
+	display: flex;
+	justify-content: flex-start;
+	align-items: flex-end;
 }
 
 .flex-top-custom {
-  display: flex;
-  justify-content: flex-start;
-  align-items: flex-start;
+	display: flex;
+	justify-content: flex-start;
+	align-items: flex-start;
 }
 
 .flex-end-custom {
-  display: flex;
-  justify-content: flex-end;
-  align-items: flex-end;
+	display: flex;
+	justify-content: flex-end;
+	align-items: flex-end;
 }
 
 .flex-center-custom {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: row;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: row;
 }
 </style>

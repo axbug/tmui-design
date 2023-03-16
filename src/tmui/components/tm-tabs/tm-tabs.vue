@@ -95,11 +95,11 @@
               :linear="props.itemLinear"
               :linearDeep="props.itemLinearDeep"
               borderDirection="bottom"
-              :text="item.key == _active ? modelStyle.text : false"
-              :border="item.key == _active ? modelStyle.border : 0"
-              :transprent="item.key == _active ? modelStyle.transprent : true"
+              :text="item.key === _active ? modelStyle.text : false"
+              :border="item.key === _active ? modelStyle.border : 0"
+              :transprent="item.key === _active ? modelStyle.transprent : true"
               :color="
-                props.activeColor && item.key == _active ? props.activeColor : props.color
+                props.activeColor && item.key === _active ? props.activeColor : props.color
               "
               :width="props.itemWidth"
               _class="flex-col flex-col-center-center"
@@ -120,10 +120,10 @@
                     v-if="item.icon"
                     _class="pr-5"
                     :color="
-                      item.key == _active ? props.activeFontColor : props.unSelectedColor
+                      item.key === _active ? props.activeFontColor : props.unSelectedColor
                     "
                     :font-size="
-                      item.key == _active ? props.activeFontSize : props.itemFontSize
+                      item.key === _active ? props.activeFontSize : props.itemFontSize
                     "
                     :name="item.icon"
                   >
@@ -131,11 +131,11 @@
                   <tm-text
                     :userInteractionEnabled="false"
                     :font-size="
-                      item.key == _active ? props.activeFontSize : props.itemFontSize
+                      item.key === _active ? props.activeFontSize : props.itemFontSize
                     "
-                    :_class="item.key == _active ? 'text-weight-b' : ''"
+                    :_class="item.key === _active ? 'text-weight-b' : ''"
                     :color="
-                      item.key == _active ? props.activeFontColor : props.unSelectedColor
+                      item.key === _active ? props.activeFontColor : props.unSelectedColor
                     "
                     :label="item.title"
                   >
@@ -172,7 +172,7 @@
           </view>
         </view>
         <view
-          v-if="props.showTabsLineAni && props.itemWidth > 0"
+          v-if="props.showTabsLineAni && props.itemWidth > 0 && props.showTabsLine"
           class="anilineBar absolute l-0"
           :style="{
             width: `${contentWidth}rpx`,
@@ -282,7 +282,7 @@
           </tm-sheet>
         </view>
         <view
-          v-if="props.showTabsLineAni && props.itemWidth > 0"
+          v-if="props.showTabsLineAni && props.itemWidth > 0 && props.showTabsLine"
           class="absolute l-0 b-0"
           :style="{
             width: `${contentWidth}rpx`,
@@ -381,7 +381,7 @@
           </tm-sheet>
         </view>
         <view
-          v-if="props.showTabsLineAni && props.itemWidth > 0"
+          v-if="props.showTabsLineAni && props.itemWidth > 0 && props.showTabsLine"
           class="absolute l-0 b-0"
           :style="{
             width: `${contentWidth}rpx`,
@@ -609,6 +609,11 @@ const props = defineProps({
   showTabsLineAni: {
     type: Boolean,
     default: false,
+  },
+  //是否显示底部线条动的底部灰色导轨
+  showTabsLine: {
+    type: Boolean,
+    default: true,
   },
   //下面活动的横线的颜色。
   tabsLineAniColor: {

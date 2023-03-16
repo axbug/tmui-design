@@ -109,7 +109,6 @@ import tmSheet from "../tm-sheet/tm-sheet.vue";
 import tmText from "../tm-text/tm-text.vue";
 import tmIcon from "../tm-icon/tm-icon.vue";
 import tmTranslate from "../tm-translate/tm-translate.vue";
-import { itemType } from "./interface";
 import { custom_props } from "../../tool/lib/minxs";
 import {
   computed,
@@ -145,8 +144,8 @@ const props = defineProps({
     default: () => [24, 24],
   },
   content: {
-    type: Array as PropType<Array<itemType>>,
-    default: () => [],
+    type: [Array,Object] as PropType<Array<Tmui.tmAlert>|Tmui.tmAlert>,
+    default: ():Array<Tmui.tmAlert> => [],
   },
   autoPlay: {
     type: Boolean,
@@ -187,7 +186,16 @@ let timeid: any = uni.$tm.u.getUid(5);
 const reani = computed(() =>
   props.hidnAniName == "zoom" || props.hidnAniName == "fade" ? true : false
 );
-const list = computed(() => {
+const list = computed(():Tmui.tmAlert[] => {
+  if(!Array.isArray(props.content)){
+    return [
+      {
+        content:props.content?.content??'',
+        title:props.content?.title ?? "",
+        icon:props.content?.icon ?? "",
+      }
+    ]
+  }
   let c = props.content.map((el) => {
     el["content"] = el?.content ?? "";
     el["title"] = el?.title ?? "";

@@ -1,53 +1,182 @@
-declare interface Uni {
-    /**
-     * tmui3.0 函数库，更多请访问https://tmui.design
-     */
-    $tm: tmUtil,
+import 'pinia';
+import { ComponentInternalInstance, ComponentPublicInstance } from "vue"
+interface Data {
+	[key: string]: any;
+}
+/**渐变方向 left:右->左，right:左->右。top:下->上，bottom:上->下。 */
+export type linearType = 'left' | 'right' | 'bottom' | 'top' | ''
+/**渐变色调，light,dark,accent亮系渐变和深色渐变。 */
+export type linearDeepType = "accent" | "dark" | "light"
+
+/**边线的访问 */
+export type borderDirectionType = "all" | "bottom" | "bottomleft" | "bottomright" | "left" | "leftright" | "right" | "right" | "top" | "topbottom" | "topleft" | "topright" | "x" | "y"
+/**边线的样式 */
+export type borderStyleType = "solid" | "dashed" | "dotted"
+
+type componentKey = 'app' | 'button' | 'card' | 'tag' | 'sheet'
+/**定义对象字段的键值只能是规定的组件名称。 */
+type componentKeys = Partial<Record<componentKey, Tmui.components.all>>
+
+
+declare global {
+    interface Uni {
+        /**
+         * tmui3.0 函数库
+         * https://tmui.design
+         */
+        $tm: tmUtil,
+    }
+    namespace UniNamespace {
+        interface CanvasToTempFilePathOptions {
+            // @ts-ignore
+            canvas?: CanvasContext
+        }
+        interface CanvasContext {
+            width: number,
+            height: number,
+            /**dpr,屏幕的倍率 */
+            dpr: number,
+            /**nvue的gcanvas函数 */
+            toTempFilePath(any0: any, any1: any, any2: any, any3: any, any4: any, any5: any, any6: any, any7: any, any8: any): void
+        }
+        interface NodesRef {
+            /**节点，微信小程序上 */
+            node(callback?: (result: any) => void): SelectorQuery,
+            /**需要读取的字段属性 */
+            fields(fields: NodeField, callback?: (result: NodeInfo) => void): SelectorQuery;
+        }
+        interface NodeField {
+            /**包含的节点，部分小程序上会返回。 */
+            node?: boolean
+        }
+    }
+
+    namespace Tmui {
+        /**tmui配置表 */
+        interface tmuiConfig {
+            /** 自动跟随系统暗黑 */
+            autoDark?: boolean,
+            /**主题列表 */
+            theme?: {},
+            /**细化全局的主题配置表 */
+            themeConfig?: {
+                /**暗黑模式下的一些统一配置 */
+                dark?: {
+                    /**一般的卡片项目暗黑背景 */
+                    cardColor?: string,
+                    /**输入框，表单等暗黑背景 */
+                    inputColor?: string,
+                    /**禁用输入框，表单等暗黑背景 */
+                    disableColor?: string,
+                    /**暗黑下的页面背景 */
+                    bodyColor?: string,
+                    /**文本禁用色. */
+                    textDisableColor?: string,
+                },
+                /**
+                 * app整体字体大小的调整比例，
+                 * 只对使用tm-text组件以及自身组件的字号才会有效果 
+                 * 
+                 * */
+                globalFontSizeRatio?:number
+                /**
+                 * 针对不同的主题配置详细的配色方案。
+                 * 注意这里影响的时主题计算功能的配置
+                 */
+                theme?: {
+                    /**（如果该组件默认有值就会使用下列属性，如果组件默认为0不会使用。） */
+                    [key: string]: {
+                        /**待考虑编辑2023-2-18 00:23:35 */
+                    }
+                },
+                /**各个组件的统一配置 */
+                component?: componentKeys
+            },
+            /**router路由拦截代替外置文件 */
+            router?: {
+                /**页面访问前执行 */
+                useTmRouterBefore(arg: beforeRouterOpts): void,
+                /**页面访问后执行 */
+                useTmRouterAfter(arg: beforeRouterOpts): void,
+            },
+            /**用户自定义全局数据 */
+            custom?: {
+                [key: string]: any
+            }
+        }
+        interface beforeRouterOpts {
+            path: string | null,//当前页面路径，不含前缀 /
+            opts?: any,//页面参数
+            openType?: string,//当前页面打开的类型
+            context: ComponentPublicInstance | null,
+        }
+        /**actionMenu组件项目类型 */
+        interface tmActionMenu {
+            text?: string,
+            disabled?: boolean,
+            [key: string]: any;
+        }
+        interface tmAlert {
+            icon?: string,
+            title?: string,
+            content?: string
+        }
+        /**组件的配置 */
+        namespace components {
+            type all = button & sheet
+            interface button {
+                round?: number,
+                shadow?: number,
+                color?:string
+            }
+            interface sheet {
+
+            }
+        }
+
+
+    }
+
+}
+declare module 'pinia' {
+    export interface PiniaCustomProperties {
+        tmuiConfig: Tmui.tmuiConfig,
+    }
+    export interface PiniaCustomStateProperties {
+        tmuiConfig: Tmui.tmuiConfig
+    }
 }
 
-declare namespace UniNamespace {
-    interface CanvasToTempFilePathOptions{
-        canvas?:CanvasContext
-    }
-    interface CanvasContext {
-        width: number,
-        height: number,
-        dpr: number,
-        toTempFilePath(any0:any,any1:any,any2:any,any3:any,any4:any,any5:any,any6:any,any7:any,any8:any):void
-    }
-    interface NodesRef {
-        node(callback?: (result: any) => void): SelectorQuery,
-        fields(fields: NodeField, callback?: (result: NodeInfo) => void): SelectorQuery;
-    }
-    interface NodeField {
-        node?:boolean
-    }
-}
 
-type pagesCustomType = 'default' | 'custom'
-type pagesType = {
+export type pagesCustomType = 'default' | 'custom'
+export interface pagesType {
     //页面地址
     path: string,
     //导航栏模式
     custom: pagesCustomType,
-    navigationBarBackgroundColor:string,
-    navigationBarTextStyle:string,
-    subPackages?:Array<any>
+    navigationBarBackgroundColor: string,
+    navigationBarTextStyle: string,
+    subPackages?: Array<any>
 }
-type tabBarItemType = {
-    "pagePath": string,
-    "iconPath": string,
-    "selectedIconPath": string,
-    "text": string
+export interface tabBarItemType {
+    pagePath: string,
+    iconPath: string,
+    selectedIconPath: string,
+    text: string
 }
-type tabBarType = {
+export interface tabBarType {
     color: string,
     selectedColor: string,
     borderStyle: string,
     backgroundColor: string,
     list?: Array<tabBarItemType>
 }
-
+export interface beforeRouterOpts {
+    path: string | null,//当前页面路径，不含前缀 /
+    opts?: any,//页面参数
+    openType?: string,//当前页面打开的类型
+    context: ComponentPublicInstance | null,
+}
 type fetchConfigResponseType = "arraybuffer" | "text";
 type fetchConfigDataType = "json" | "text";
 type fetchConfigMethod = "GET" | "POST" | "PUT" | "DELETE" | "CONNECT" | "HEAD" | "OPTIONS" | "TRACE";
@@ -96,6 +225,8 @@ declare interface TouchEvent {
 }
 
 
+
+
 type tmUtil = {
     //pagejson下的pages配置。
     pages: Array<{ path: string, custom: 'custom' | 'default' }>,
@@ -140,9 +271,59 @@ type tmUtil = {
         request(cog: fetchConfig, beforeFun?: Function, afterFun?: Function, complete?: Function): Promise<UniApp.GeneralCallbackResult | UniApp.RequestSuccessCallbackResult>,
     },
     /**
-     * 快捷工具
+     * tmui3.0函数工具
      */
     u: {
+		
+		/**
+		 * 检测是否是数字
+		 * @param arg 待检测的字符
+		 * @param defaultNum 0,如果不符合值时设置默认值
+		 * @returns number类型数值
+		 */
+		isNumber(arg: string | number | undefined | null, defaultNum:number):number,
+		
+		/**
+		 * 检测是否是字符串
+		 * @param arg 待检测的字符
+		 * @param defaultNum 默认"",如果不符合值是设置默认值
+		 * @returns 字符串
+		 */
+		isString(arg: string | number | undefined | null, defaultStr:string):string,
+		
+		/**
+		 * 把一个数字进行分页返回数字数组
+		 * @param total 总数
+		 * @param pageSize 分页大小
+		 * @returns 数字数组
+		 */
+		paginate(total: number, pageSize: number): number[],
+		
+		/**
+		   * 取对象数据值（可深层次取值）
+		   * @example getValue(data,"a.b.c")
+		   * @param data 对象数据
+		   * @param keys 键值
+		   * @returns 返回值
+		   * @description 注意不会去改变原来的数据
+		   */
+		getValue(data: Data, keys: string): any ,
+		/**
+		 * 设置对象键值（可深层次设置值）
+		 * @example setValue(data,"a.b.c","haha")
+		 * @param data 对象数据
+		 * @param keys 键值
+		 * @returns 修改后的对象数据。
+		 * @description 改变原来的数据
+		 */
+		setValue(data: Data, keys: string, value: any): void,
+		/**
+		 * 计算并返回一个对象中最大的层级数
+		 * @param data 待检测对象数据
+		 * @returns 最大层级数
+		 */
+		getMaxDepth(data: Data): number,
+		
         /**
         * 预览图片。
         * @param {Object} url 必填 当前预览的图片链接。
@@ -150,13 +331,14 @@ type tmUtil = {
         * @param {Object} rangKey 如果list是对象数组，需要提供url字段。
         */
         preview(url: string, list?: Array<string>, rangKey?: string): void,
-        /**
-        * 数据分组
-        * @param {Array} oArr - 原数组列表
-        * @param {Number} length - 单个数组长度
-        * @return {Array}  arr - 分组后的新数组
-        */
-        splitData(oArr: Array<any>, length: number): Array<any>,
+		
+		/**
+		* 数据分组
+		* @param {Array} oArr - 原数组列表
+		* @param {Number} length - 单个数组长度
+		* @return {Array}  arr - 分组后的新数组
+		*/
+		splitData<T>(arr: Array<T>, size:number): Array<T[]> ,
 
         /**
         * 剩余时间格式化
@@ -230,33 +412,51 @@ type tmUtil = {
          */
         getQueryString(url: string, key: string): string,
         /**
-             * 取得唯一标识id
-             * @param length 标识长度
-             */
-        getUid(length?: number): number,
+         * 取得唯一标识id
+         * @param length 标识长度
+         */
+        getUid(length?: number): number | string,
         /**
          * 防抖
          * 防抖原理：在一定时间内，只有最后一次操作，再过wait毫秒后才执行函数
          * @param {Function} func 要执行的回调函数
          * @param {Number} wait 延迟的时间
          * @param {Boolean} immediate 是否要立即执行
-     */
+        */
         debounce(func: Function, wait?: number, immediate?: boolean): void,
         /**
-     * 节流
-     * 节流原理：在一定时间内，只能触发一次
-     * @param {Function} func 要执行的回调函数 
-     * @param {Number} wait 延时的时间
-     * @param {Boolean} immediate 是否立即执行
-     * @return void
-     */
+         * 节流
+         * 节流原理：在一定时间内，只能触发一次
+         * @param {Function} func 要执行的回调函数 
+         * @param {Number} wait 延时的时间
+         * @param {Boolean} immediate 是否立即执行
+         * @return void
+         */
         throttle(func: Function, wait?: number, immediate?: boolean, timer?: number, flags?: boolean): void,
         /**
          * 深度克隆
-         * @param obj Object 
+         * @param {T} data 待大克隆复制的数据
+         * @return {T} any
          */
-        deepClone(obj: any): any,
-        quereyDom(t: any, node: string): any,
+        deepClone<T>(data: T): T,
+        /**
+         * 等同：queryDom
+         */
+        quereyDom(t: ComponentInternalInstance, node: string): Promise<UniApp.NodeInfo | UniApp.NodeInfo[]>,
+        /**
+         * 查询文档节点信息
+         * @param t Vue上下文对象
+         * @param node 提供带#的id比如：'#id',在nvue中应该是元素上写明ref='id'
+         * @returns vue页面返回查询的节点信息，nvue返回weex的节点信息。
+         */
+        queryDom(t: ComponentInternalInstance, node: string): Promise<UniApp.NodeInfo | UniApp.NodeInfo[]>,
+        /**
+         * 深度合并对象
+         * @param FirstOBJ 需要合并的对象
+         * @param SecondOBJ 被合并的对象
+         * @returns 返回合并后的对象 
+         */
+        deepObjectMerge<T>(FirstOBJ: { [key: string]: any }, SecondOBJ: { [key: string]: any }): T,
         /**
          * 是否是手机号码
          * @param phone 号码
@@ -331,28 +531,39 @@ type tmUtil = {
          * 请一定要在onMounted或者onLoad中调用，否则不准确在h5端。
          * @return {height,width,top,isCustomHeader,sysinfo}
          */
-        getWindow(): { width: number, height: number, top: number, bottom: number,statusBarHeight:number, isCustomHeader: Boolean, sysinfo: UniApp.GetSystemInfoResult },
+        getWindow(): { width: number, height: number, top: number, bottom: number, statusBarHeight: number, isCustomHeader: Boolean, sysinfo: UniApp.GetSystemInfoResult },
 
         /**
          * 打开页面路径
          * @param url string 打开的页面路径
-         * @param type openUrlType "navigateTo"|"redirectTo"|"reLaunch"|"switchTab"
+         * @param type openUrlType "navigate" | "redirect" | "reLaunch" | "switchTab" | "navigateBack"
          */
         routerTo(url: string, type: openUrlType): void,
-		/**
-		 * 将rpx转换为px
-		 * @param v 待转换的数字
-		 * @param screenWidth 屏幕的宽度，如果不提供默认自动获取
-		 * @return number
-		 */
-		torpx(v:number,screenWidth?:number):number
-		/**
-		 * 将rpx转换为px
-		 * @param v 待转换的数字
-		 * @return number
-		 */
-		topx(v:number,screenWidth?:number):number
-		
+        /**
+         * 将rpx转换为px
+         * @param v 待转换的数字
+         * @param screenWidth 屏幕的宽度，如果不提供默认自动获取
+         * @return number
+         */
+        torpx(v: number, screenWidth?: number): number
+        /**
+         * 将rpx转换为px
+         * @param v 待转换的数字
+         * @return number
+         */
+        topx(v: number, screenWidth?: number): number,
+        /**
+         * 在下一次前执行回调函数
+         * @param callback 回调函数
+         * @returns 一个id值，取消时cancelAnimationFrame(id)来取消
+         */
+        requestAnimationFrame(callback: Function): number,
+        /**
+         * 取消回调执行
+         * @param id requestAnimationFrame产生的id
+         */
+        cancelAnimationFrame(id: number): void
+
 
     },
     tmicon: Array<{
@@ -365,5 +576,9 @@ type tmUtil = {
             unicode: string,
             unicode_decimal: number
         }>
-    }>
+    }>,
+    /**tmui3.0的全局配置，以代替router,theme等的外围文件夹。解耦相关目录 */
+    config: Tmui.tmuiConfig
 }
+
+

@@ -1,80 +1,34 @@
 <template>
-  <tm-drawer
-    ref="drawer"
-    @open="drawerOpen"
-    @close="drawerClose"
-    @update:show="showPop = $event"
-    :show="showPop"
-    :dark="isDark"
-    :follow-dark="props.followDark"
-    :follow-theme="false"
-    :height="dHeight"
-    :hide-header="true"
-    color="grey-3"
-    :mask="false"
-  >
-    <keyborad-number
-      @success="emits('success', $event)"
-      :maxLength="_maxLength"
-      :showInputContent="props.showInputContent"
-      :decimal="props.decimal"
-      :followTheme="props.followTheme"
-      :random="props.random"
-      :color="props.color"
-      v-if="_typemodel == 'number'"
-      @change="change"
-      @confirm="confirm"
-      :model-value="_value"
-      @update:modelValue="_value = $event"
-      :dark="isDark"
-      class="flex-1"
-    ></keyborad-number>
-    <keyborad-pass
-      @success="emits('success', $event)"
-      :maxLength="_maxLength"
-      :showInputContent="props.showInputContent"
-      :followTheme="props.followTheme"
-      :random="props.random"
-      :color="props.color"
-      v-if="_typemodel == 'password'"
-      @change="change"
-      @confirm="confirm"
-      :model-value="_value"
-      @update:modelValue="_value = $event"
-      :dark="isDark"
-      class="flex-1"
-    ></keyborad-pass>
-    <keyborad-car
-      @success="emits('success', $event)"
-      :maxLength="_maxLength"
-      :showInputContent="props.showInputContent"
-      :followTheme="props.followTheme"
-      :random="props.random"
-      :color="props.color"
-      v-if="_typemodel == 'car'"
-      @change="change"
-      @confirm="confirm"
-      :model-value="_value"
-      @update:modelValue="_value = $event"
-      :dark="isDark"
-      class="flex-1"
-    ></keyborad-car>
-    <keyborad-card
-      @success="emits('success', $event)"
-      :maxLength="_maxLength"
-      :showInputContent="props.showInputContent"
-      :followTheme="props.followTheme"
-      :random="props.random"
-      :color="props.color"
-      v-if="_typemodel == 'card'"
-      @change="change"
-      @confirm="confirm"
-      :model-value="_value"
-      @update:modelValue="_value = $event"
-      :dark="isDark"
-      class="flex-1"
-    ></keyborad-card>
-  </tm-drawer>
+  <view @click="showPop = !showPop">
+    <!-- #ifdef APP-NVUE -->
+    <view :eventPenetrationEnabled="true">
+      <slot></slot>
+    </view>
+    <!-- #endif -->
+    <!-- #ifndef APP-NVUE -->
+    <slot></slot>
+    <!-- #endif -->
+    <tm-drawer ref="drawer" @open="drawerOpen" @close="drawerClose" @update:show="showPop = $event" :show="showPop"
+      :dark="isDark" :follow-dark="props.followDark" :follow-theme="false" :height="dHeight" :hide-header="true"
+      color="grey-3" :mask="false">
+      <keyborad-number @success="emits('success', $event)" :maxLength="_maxLength"
+        :showInputContent="props.showInputContent" :decimal="props.decimal" :followTheme="props.followTheme"
+        :random="props.random" :color="props.color" v-if="_typemodel == 'number'" @change="change" @confirm="confirm"
+        :model-value="_value" @update:modelValue="_value = $event" :dark="isDark" class="flex-1"></keyborad-number>
+      <keyborad-pass @success="emits('success', $event)" :maxLength="_maxLength"
+        :showInputContent="props.showInputContent" :followTheme="props.followTheme" :random="props.random"
+        :color="props.color" v-if="_typemodel == 'password'" @change="change" @confirm="confirm" :model-value="_value"
+        @update:modelValue="_value = $event" :dark="isDark" class="flex-1"></keyborad-pass>
+      <keyborad-car @success="emits('success', $event)" :maxLength="_maxLength" :showInputContent="props.showInputContent"
+        :followTheme="props.followTheme" :random="props.random" :color="props.color" v-if="_typemodel == 'car'"
+        @change="change" @confirm="confirm" :model-value="_value" @update:modelValue="_value = $event" :dark="isDark"
+        class="flex-1"></keyborad-car>
+      <keyborad-card @success="emits('success', $event)" :maxLength="_maxLength"
+        :showInputContent="props.showInputContent" :followTheme="props.followTheme" :random="props.random"
+        :color="props.color" v-if="_typemodel == 'card'" @change="change" @confirm="confirm" :model-value="_value"
+        @update:modelValue="_value = $event" :dark="isDark" class="flex-1"></keyborad-card>
+    </tm-drawer>
+  </view>
 </template>
 <script lang="ts" setup>
 import {
@@ -182,7 +136,7 @@ const _typemodel = computed(() => props.type);
 watch([() => props.show, () => props.maxLength], () => {
   showPop.value = props.show;
 });
-let timerId:any = NaN;
+let timerId: any = NaN;
 
 function debounce(func: Function, wait = 200, immediate = false) {
   // 清除定时器

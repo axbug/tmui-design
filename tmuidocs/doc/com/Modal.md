@@ -68,8 +68,10 @@ title: tmui 3.0 组件库
 **手动ref调用open,可以传递参数:arg:any,,然后在上方事件中ok,cancel将会传回open打开时传递的数据**
 
 ### :corn: slot插槽
-默认default
-title标题栏,button底部按钮栏
+default内容插槽
+title标题栏,
+button底部按钮栏
+trigger可触发弹层的插槽占位内容，比如在里面布局按钮，输入框，点击这块内容可以直接显示弹层。
 
 ### :green_salad: ref方法
 | 方法名   | 参数  | 返回值 | 描述  |

@@ -1,95 +1,63 @@
 <template>
-  <view
-    class="flex flex-col relative"
-    :style="[
-      appConfig.theme ? { background: appConfig.theme } : '',
-      { width: appConfig.width + 'px', minHeight: appConfig.height + 'px' },
-    ]"
-  >
-    <view
-      :class="[blur ? 'blur' : '']"
-      ref="bodyEl"
-      class="flex flex-col flex-1"
-      :style="[
-        {
-          zIndex: 1,
-          width: appConfig.width + 'px',
-          minHeight: appConfig.height + 'px',
-        },
-        blur
-          ? { backgroundColor: isDark ? 'rgba(0,0,0,0.3)' : 'rgba(248, 248, 248, 0.7)' }
-          : '',
-      ]"
-    >
+  <view class="flex flex-col relative app" :style="[
+    appConfig.theme ? { background: appConfig.theme } : '',
+    { 
+      width: appConfig.width + 'px', 
+      minHeight: appConfig.height + 'px',
+      backgroundImage:`url(${_bgImg})`,
+      backgroundSize: `100% ${appConfig.height}px`
+     },
+  ]">
+    <view :class="[blur ? 'blur' : '']" ref="bodyEl" class="flex flex-col flex-1" :style="[
+      {
+        zIndex: 1,
+        width: appConfig.width + 'px',
+        minHeight: appConfig.height + 'px',
+      },
+      blur
+        ? { backgroundColor: isDark ? 'rgba(0,0,0,0.3)' : 'rgba(248, 248, 248, 0.7)' }
+        : '',
+    ]">
       <slot name="default">
         <text>在这里放置内容</text>
       </slot>
     </view>
-    <view
-      :blurEffect="_blurEffect"
-      @click.stop="toogleOpen(false)"
-      ref="menuEl"
-      :class="[_showMenu ? 'menuOn' : '']"
-      class="fixed l-0 t-0 menu"
-      :style="{
+    <view :blurEffect="_blurEffect" @click.stop="toogleOpen(false)" ref="menuEl" :class="[_showMenu ? 'menuOn' : '']"
+      class="fixed l-0 t-0 menu" :style="{
         width: appConfig.width + 'px',
         height: appConfig.height + 'px',
         background: 'rgba(0,0,0,0.6)',
         backdropFilter: 'blur(3px)',
-      }"
-    >
-      <view
-        v-if="_showMenu"
-        :style="{
+      }">
+      <view v-if="_showMenu" :style="{
+        width: appConfig.width * 0.7 + 'px',
+        height: appConfig.height + 'px',
+        boxShadow: '3px 0 16px rgba(0,0,0,0.3)',
+      }">
+        <scroll-view @click.stop="" :scroll-y="true" :style="{
           width: appConfig.width * 0.7 + 'px',
           height: appConfig.height + 'px',
-          boxShadow: '3px 0 16px rgba(0,0,0,0.3)',
-        }"
-      >
-        <scroll-view
-          @click.stop=""
-          :scroll-y="true"
-          :style="{
-            width: appConfig.width * 0.7 + 'px',
-            height: appConfig.height + 'px',
-          }"
-        >
-          <slot
-            name="menu"
-            :sys="{ width: appConfig.width * 0.7, height: appConfig.height }"
-          ></slot>
+        }">
+          <slot name="menu" :sys="{ width: appConfig.width * 0.7, height: appConfig.height }"></slot>
         </scroll-view>
       </view>
     </view>
   </view>
 </template>
 <script lang="ts" setup>
+
+
 /**
  * 应用容器
  * @description 这是所有创建应用的最外层基础容器。
  */
-import {
-  provide,
-  getCurrentInstance,
-  computed,
-  watchEffect,
-  ref,
-  watch,
-  onBeforeMount,
-  PropType,
-} from "vue";
+import { provide, getCurrentInstance, computed, onMounted, ref, watch, onBeforeMount, PropType } from "vue";
 import { useTmpiniaStore } from "../../tool/lib/tmpinia";
 import { colorThemeType, cssstyle, tmVuetify } from "../../tool/lib/interface";
 import { getWindow } from "../../tool/function/util";
-import {
-  custom_props,
-  computedTheme,
-  computedClass,
-  computedStyle,
-  computedDark,
-} from "../../tool/lib/minxs";
+import { custom_props, computedTheme, computedClass, computedStyle, computedDark, } from "../../tool/lib/minxs";
 import { onShow, onLoad, onInit } from "@dcloudio/uni-app";
-import { useTmRouterAfter, useTmRouterBefore } from "../../../router/index";
+
 import tmSheet from "../tm-sheet/tm-sheet.vue";
 // #ifdef APP-PLUS-NVUE
 const animation = uni.requireNativePlugin("animation");
@@ -99,25 +67,17 @@ const emits = defineEmits(["update:showMenu"]);
 const store = useTmpiniaStore();
 const proxy = getCurrentInstance()?.proxy ?? null;
 //路由守卫---------------------------------
-let pages = getCurrentPages().pop();
 
-onLoad((opts: any) => {
-  useTmRouterAfter({
-    path: pages?.route ?? "",
-    opts: opts,
-    context: proxy,
-  });
-});
 // end-----------------------------------------
 // 混淆props共有参数
 const props = defineProps({
   ...custom_props,
   //整体的主题色调同全局色一样。
+  /**暂时不可用 */
   theme: {
     type: String,
     default: "grey-5",
   },
-  //应用的背景图。https://picsum.photos/750/1448
   bgImg: {
     type: String,
     default: "",
@@ -127,14 +87,17 @@ const props = defineProps({
     type: String,
     default: "grey-4",
   },
+  /**自定义暗黑的背景，你也可以通过全局配置 */
   darkColor: {
     type: String,
     default: "#050505",
   },
+  /**是否模糊背景，暂时不可用 */
   blur: {
     type: [Boolean, String],
     default: false,
   },
+  /**这是一个淘汰的属性，请在pages.json中配置即可，会自动读取。而不需要在这里设置 */
   navbar: {
     type: Object as PropType<{ background: string; fontColor: "#ffffff" | "#000000" }>,
     default: () => {
@@ -165,49 +128,98 @@ const tmcomputed = computed<cssstyle>(() =>
 const _showMenu = ref(props.showMenu);
 const sysinfo = getWindow();
 const sysinfoRef = ref(sysinfo);
-// 向所有子组件传递本次获取的系统信息，以减少频繁的请求.
-provide(
-  "tmuiSysInfo",
-  computed(() => sysinfoRef.value)
-);
+const _bgImg = computed(()=>props.bgImg)
 // #ifdef H5
 window.addEventListener("resize", () => {
   throttle(() => {
     sysinfoRef.value = getWindow();
-    console.log(sysinfoRef.value);
   });
 });
 // #endif
-// 视察的宽。
+
+// 视窗的宽。
 const view_width = ref(sysinfo.width);
 //视窗的高度。
 let view_height = ref(sysinfo.height);
-let timids: any = uni.$tm.u.getUid(1);
+let timids: any = NaN;
 let flag = false;
 //本页面是否是tabar切换页面。
 let isTabbarPage = false;
 let nowPage = getCurrentPages().pop();
-let barLit = uni.$tm.tabBar?.list ?? [];
-for (let i = 0; i < barLit.length; i++) {
-  if (nowPage?.route == barLit[i].pagePath) {
-    isTabbarPage = true;
-    break;
-  }
-}
 
+/**设定ios下的模糊效果 */
 const _blurEffect = computed(() => {
   if (props.blur === true && isDark.value) return "dark";
   if (props.blur === true && !isDark.value) return "extralight";
   return "none";
 });
 
-// //https://picsum.photos/750/1440
+/**整体的配置 */
 let appConfig = ref({
   width: view_width,
   height: view_height,
   theme: tmcomputed.value.backgroundColor,
   bgImg: props.bgImg,
   dark: isDark.value,
+});
+
+onLoad((opts: any) => {
+  try {
+    store.tmuiConfig.router?.useTmRouterAfter({
+      path: nowPage?.route ?? "",
+      opts: opts,
+      context: proxy ?? null,
+    });
+  } catch (error) { }
+});
+onMounted(() => {
+  _onInit()
+})
+
+function _onInit() {
+  /**
+ * 读取pages.json中的bar页面列表。
+ */
+  let barLit = uni.$tm.tabBar?.list ?? [];
+  for (let i = 0; i < barLit.length; i++) {
+    if (nowPage?.route == barLit[i].pagePath) {
+      isTabbarPage = true;
+      break;
+    }
+  }
+
+  if (store.getAutoDark) {
+    // #ifdef H5
+    if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      osChangeTheme('dark')
+    } else {
+      osChangeTheme('light')
+    }
+    // #endif
+
+    // #ifndef H5
+    osChangeTheme(sysinfo.sysinfo.hostTheme)
+    // #endif
+  } else {
+    setAppStyle()
+  }
+
+}
+
+
+watch(
+  () => props.showMenu,
+  () => {
+    _showMenu.value = props.showMenu;
+    spinNvueAni();
+  }
+);
+watch([() => tmcfg.value.color, isDark], () => {
+  isSetThemeOk.value = false;
+  setAppStyle();
+});
+watch([() => props.color], () => {
+  appConfig.value.theme = tmcomputed.value.backgroundColor
 });
 
 function throttle(func: Function, wait = 100, immediate = false) {
@@ -234,7 +246,7 @@ function throttle(func: Function, wait = 100, immediate = false) {
 
 function setAppStyle() {
   if (isDark.value) {
-    appConfig.value.theme = props.darkColor;
+    appConfig.value.theme = store.tmuiConfig?.themeConfig?.dark?.bodyColor || props.darkColor;
   } else {
     appConfig.value.theme = tmcomputed.value.backgroundColor;
   }
@@ -256,22 +268,6 @@ function setAppStyle() {
       webviewBGTransparent: true,
     });
   }
-  // app安卓下设置底部虚拟区域的颜色。因部分机型兼容问题导致白屏，此代码暂时注释，待uni官方修复。
-  // if (sysinfo.osName == 'android') {
-  // 	var Color: any = plus.android.importClass("android.graphics.Color");
-  // 	plus.android.importClass("android.view.Window");
-  // 	var mainActivity: any = plus.android.runtimeMainActivity();
-  // 	var window_android = mainActivity?.getWindow();
-  // 	console.log(Color,mainActivity,window_android)
-  // 	if(Color&&mainActivity&&window_android){
-  // 		if (appConfig.value.dark) {
-  // 			window_android.setNavigationBarColor(Color.BLACK);
-  // 		} else {
-  // 			window_android.setNavigationBarColor(Color.WHITE);
-  // 		}
-  // 	}
-
-  // }
 
   // #endif
 
@@ -288,19 +284,23 @@ function setAppStyle() {
 
   if (isDark.value) {
     // #ifndef MP-ALIPAY
-    if (!sysinfo.isCustomHeader) {
+    try {
       uni.setNavigationBarColor({
-        backgroundColor: appConfig.value.theme,
+        backgroundColor: "#000000",
         frontColor: "#ffffff",
       });
+    } catch (error) {
+
     }
 
     // #endif
+
 
     // #ifdef APP
     plus.navigator.setStatusBarStyle("light");
     // #endif
 
+    /**如果当前页面有tabbar则需要设定原生的tabbar */
     if (isTabbarPage) {
       uni.setTabBarStyle({
         backgroundColor: "#141415",
@@ -311,7 +311,7 @@ function setAppStyle() {
     }
   } else {
     // #ifndef MP-ALIPAY
-    if (!sysinfo.isCustomHeader) {
+    try {
       let nowPageConfigs = uni.$tm.pages.filter((el) => el.path == nowPage?.route);
       if (nowPageConfigs.length > 0 && !props.navbar.background) {
         let tcolor = nowPageConfigs[0].navigationBarTextStyle;
@@ -342,32 +342,31 @@ function setAppStyle() {
           })
         );
       }
+    } catch (error) {
+
     }
     // #endif
     // #ifdef APP
     plus.navigator.setStatusBarStyle("dark");
     // #endif
-    if (isTabbarPage) {
-      uni
-        .setTabBarStyle({
-          backgroundColor: uni.$tm.tabBar.backgroundColor || props.navbar.background,
-          borderStyle: uni.$tm.tabBar.borderStyle || "white",
-          color: uni.$tm.tabBar.color || props.navbar.fontColor,
-          selectedColor: uni.$tm.tabBar.selectedColor || tmcomputed.value.textColor,
-        })
-        .catch((e) => {});
+    try {
+      if (isTabbarPage) {
+        uni
+          .setTabBarStyle({
+            backgroundColor: uni.$tm.tabBar.backgroundColor || props.navbar.background,
+            borderStyle: uni.$tm.tabBar.borderStyle || "white",
+            color: uni.$tm.tabBar.color || props.navbar.fontColor,
+            selectedColor: uni.$tm.tabBar.selectedColor || tmcomputed.value.textColor,
+          });
+      }
+    } catch (error) {
+
     }
   }
   isSetThemeOk.value = true;
 }
 
-//向下子组件传递，相关参数，可代替store使用。
-provide(
-  "appTextColor",
-  computed(() => tmcomputed.value.textColor)
-);
-//各个组件之间的间隙。
-provide("custom_space_size", [0, 0]);
+
 /**
  * 设定主题
  * @params colorName 主题名称
@@ -376,7 +375,10 @@ function setTheme(colorName: string) {
   store.setTmVuetifyTheme(colorName);
 }
 
-//设定暗黑
+/**
+ * 设定暗黑
+ * @param dark boolean 空表示自动处理和切换暗黑效果
+ */
 function setDark(dark?: boolean) {
   let maindark = !isDark.value;
   if (typeof dark !== "undefined" && typeof dark == "boolean") {
@@ -384,28 +386,9 @@ function setDark(dark?: boolean) {
   }
   appConfig.value.dark = maindark;
   store.setTmVuetifyDark(maindark);
+
   setAppStyle();
 }
-
-//向ref外层公开本组件的特定方法。
-defineExpose({
-  setTheme: setTheme,
-  setDark: setDark,
-});
-//监视全局主题并立即执行。
-
-onBeforeMount(() => setAppStyle());
-watch(
-  () => props.showMenu,
-  () => {
-    _showMenu.value = props.showMenu;
-    spinNvueAni();
-  }
-);
-watch([() => tmcfg.value.color, isDark], () => {
-  isSetThemeOk.value = false;
-  setAppStyle();
-});
 
 function toogleOpen(type: boolean) {
   _showMenu.value = type;
@@ -429,7 +412,7 @@ function spinNvueAni(reveser = false) {
       timingFunction: "ease",
       delay: 0, //ms
     },
-    () => {}
+    () => { }
   );
   setTimeout(function () {
     if (!proxy?.$refs.menuEl) return;
@@ -445,13 +428,57 @@ function spinNvueAni(reveser = false) {
         timingFunction: "ease",
         delay: 0, //ms
       },
-      () => {}
+      () => { }
     );
   }, 50);
   // #endif
 }
+
+/** 监听当前系统的主题变化。 */
+try {
+  uni.onThemeChange((ev) => {
+    osChangeTheme(ev.theme)
+  })
+} catch (error) {
+  console.warn("没有主题切换功能：", error)
+}
+/**自动跟随系统设定暗黑主题。 */
+function osChangeTheme(ev: 'light' | 'dark' | string | undefined) {
+  if (!store.getAutoDark) return
+  if (ev === 'light') {
+    setDark(false)
+  } else if (ev === 'dark') {
+    setDark(true)
+  }
+}
+
+// 向所有子组件传递本次获取的系统信息，以减少频繁的请求.
+provide(
+  "tmuiSysInfo",
+  computed(() => sysinfoRef.value)
+);
+//向下子组件传递，相关参数，可代替store使用。
+provide(
+  "appTextColor",
+  computed(() => tmcomputed.value.textColor)
+);
+//各个组件之间的间隙。
+provide("custom_space_size", [0, 0]);
+
+//向ref外层公开本组件的特定方法。
+defineExpose({
+  setTheme: setTheme,
+  setDark: setDark,
+});
 </script>
 <style scoped>
+.app{
+  /* #ifndef APP-NVUE */
+  background-attachment: fixed;
+  background-position: 0px 0px;
+  background-repeat: no-repeat;
+  /* #endif */
+}
 .menu {
   z-index: 999;
   transform: translateX(-101%);

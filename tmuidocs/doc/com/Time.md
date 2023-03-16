@@ -61,6 +61,7 @@ Time 时间选择器时一个用于选择事件的组件，常用于事件预约
 | btnRound | Number | 3 | 按钮圆角值 |
 | round | Number | 12 | 组件圆角值 |
 | title | String | 请选择时间 | 标题提示语 |
+| disabled | Boolean | false | 当使用插槽占位触发显示时，打开禁用可阻止弹层显示，适合在表单内部使用 |
 
 ### :rose: Time-view 事件
 
@@ -76,9 +77,10 @@ Time 时间选择器时一个用于选择事件的组件，常用于事件预约
 | confirm | / | modelValue | 点击选择按钮后返回modelValue值 |
 | cancel | / | / | 选择器关闭触发 |
 | open | / | / | 选择器打开触发 |
+
 ### :corn: slot插槽
 
-无
+time-picker 默认default，可触发弹层的插槽占位内容，比如在里面布局按钮，输入框，点击这块内容可以直接显示弹层。
 
 ### :green_salad: Time-view ref方法
 

@@ -3,7 +3,7 @@
 		<tm-sheet>
 			<tm-text :font-size="24" _class="font-weight-b" label="基础示例,更多见文档"></tm-text>
 			<tm-divider></tm-divider>
-			<tm-stepper v-model="val" :defaultValue="20"></tm-stepper>
+			<tm-stepper v-model="test.a" :defaultValue="20"></tm-stepper>
 		</tm-sheet>
 		<tm-sheet>
 			<tm-text :font-size="24" _class="font-weight-b" label="一些其它常见属性"></tm-text>
@@ -29,7 +29,7 @@
 	</tm-app>
 </template>
 <script lang="ts" setup>
-import { ref, computed } from "vue"
+import { ref, reactive } from "vue"
 import { onShow, onLoad } from "@dcloudio/uni-app";
 import tmApp from "@/tmui/components/tm-app/tm-app.vue"
 import tmSheet from "@/tmui/components/tm-sheet/tm-sheet.vue"
@@ -37,6 +37,10 @@ import tmText from "@/tmui/components/tm-text/tm-text.vue"
 import tmStepper from "@/tmui/components/tm-stepper/tm-stepper.vue"
 import tmDivider from "@/tmui/components/tm-divider/tm-divider.vue"
 const val=ref(0)
+const test = reactive({a:1})
+setTimeout(()=>{
+	test.a = 100
+},1000)
 function beforeEnter(){
 	return new Promise(res=>{
 		setTimeout(function() {
