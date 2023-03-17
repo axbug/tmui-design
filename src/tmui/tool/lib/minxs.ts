@@ -124,7 +124,7 @@ export const custom_props = {
 	},
 	/** 渐变的亮浅 light,dark,accent亮系渐变和深色渐变。 */
 	linearDeep: {
-		type: String as PropType<linearDirectionType>,
+		type: String as PropType<linearDeepType>,
 		default: 'light'
 	},
 	/**当开启渐变时，如果提供些数组属性将产生自定义颜色的渐变值。 */
