@@ -62,7 +62,7 @@
 					<scroll-view :scroll-y="!props.disabbleScroll" :style="[{ height: contentHeight }]" class="overflow"><slot name="default"></slot></scroll-view>
 					<!-- #endif -->
 					<!-- #ifndef APP-NVUE -->
-					<view :style="{ overflowY: props.disabbleScroll ? 'hided' : 'auto', height: contentHeight }"><slot name="default"></slot></view>
+					<view :style="{ overflowY: props.disabbleScroll ? 'normal' : 'auto', height: contentHeight }"><slot name="default"></slot></view>
 					<!-- #endif -->
 					<slot name="foot"><view v-if="props.footHeight > 0" class="flex"></view></slot>
 				</view>

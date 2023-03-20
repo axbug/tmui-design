@@ -31,7 +31,7 @@
     :hover-start-time="10000000"
     hover-stop-propagation
     :class="[
-      'button flex flex-row flex-row-center-center',
+      'button alipay flex flex-row flex-row-center-center',
       isclickOn && !_disabled && !_load ? props.hoverClass + ' bhover' : '',
       !_disabled && !_load ? 'webpc' : '',
       _load || _disabled ? 'opacity-8' : '',
@@ -429,13 +429,13 @@ const _bgcolor = computed(() => {
   if (props.darkBgColor !== "" && isDark.value === true) {
     return `background-color:${props.darkBgColor};`;
   }
-  if (tmcomputed.value.gradientColor?.length === 2 && props.linearColor.length==2) {
-    if(props.linearColor.length==2){
-      return { 'background-image': `linear-gradient(${tmcomputed.value.linearDirectionStr},${props.linearColor[0]},${props.linearColor[1]})` }
-    }else{
-      return tmcomputed.value.backgroundColorCss;
-    }
+  if (props.linearColor.length==2) {
+    return { 'background-image': `linear-gradient(${tmcomputed.value.linearDirectionStr},${props.linearColor[0]},${props.linearColor[1]})` }
   }
+  if ( tmcomputed.value.gradientColor?.length==2) {
+    return tmcomputed.value.backgroundColorCss;
+  }
+  
   if (
     _noLevel.value &&
     tmcomputed.value.isBlackAndWhite === true &&
@@ -447,6 +447,7 @@ const _bgcolor = computed(() => {
 });
 
 function touchstart(e: Event) {
+
   isclickOn.value = true;
   emits("touchstart", e);
 }
@@ -538,7 +539,7 @@ provide("appTextColor", textColor);
 /* #endif */
 /* #ifndef APP-NVUE */
 .bhover:hover {
-  opacity: 0.7;
+  opacity: 0.7 !important;
 }
 .button::after {
   background: transparent !important;
@@ -547,5 +548,10 @@ provide("appTextColor", textColor);
   border-radius: 0px !important;
 }
 
+/* #endif */
+/* #ifdef MP */
+.button.alipay{
+  transition:opacity 0.7s ;
+}
 /* #endif */
 </style>

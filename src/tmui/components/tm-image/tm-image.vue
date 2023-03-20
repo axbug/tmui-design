@@ -1,95 +1,87 @@
 <template>
-  <tm-translate
-    :width="img_width + props.padding[0] * 2 + props.unit"
+  <view
     v-if="!isRmove"
-    @end="aniEnd"
-    ref="aniplay"
-    :autoPlay="false"
-    name="zoom"
-    reverse
+    :style="{ margin: `${props.margin[0] + props.unit} ${props.margin[0] + props.unit}` }"
   >
-    <!-- <view class="absolute" style="transform: translateX(1200px); opacity: 0">
-      <image
-        v-if="loading"
-        :src="img_src"
-        style="width: 10px; height: 10px; opacity: 0"
-        @load="imageLoad"
-        @error="imageError"
-        mode="scaleToFill"
-      ></image>
-    </view> -->
-    <tm-sheet
-      :color="props.color"
-      :transprent="props.transprent"
-      :margin="props.margin"
-      :round="props.round"
-      :border="props.border"
-      :padding="[props.padding[0], 0]"
-      :class="['round-' + props.round]"
-      :width="img_width - props.padding[0] * 2"
-      :unit="props.unit"
+    <tm-translate
+      :width="img_width + props.padding[0] * 2 + props.unit"
+      @end="aniEnd"
+      ref="aniplay"
+      :autoPlay="false"
+      name="zoom"
+      reverse
     >
-      <view :class="[`pb-${props.padding[1]}`, 'flex flex-col flex-col-center-center','relative']">
-        <image
-          @load="imageLoad"
-          @error="imageError"
-          :show-menu-by-longpress="props.showMenuByLongPress"
-          @click="imageClick"
-          :class="['round-' + props.round,loading?'opacity-0':'']"
-          v-if="!error"
-          :src="img_src"
-          :style="[{ width: img_width + props.unit, height: img_height + props.unit }]"
-          :mode="props.model"
-        ></image>
+      <tm-sheet
+        :margin="[0]"
+        :color="props.color"
+        :transprent="props.transprent"
+        :round="props.round"
+        :border="props.border"
+        :padding="[props.padding[0], 0]"
+        :class="['round-' + props.round]"
+        :width="img_width - props.padding[0] * 2"
+        :unit="props.unit"
+      >
         <view
-          v-if="loading && !error"
-          :style="[
-            { width: img_width + props.unit, height: img_height + 10 + props.unit },
-          ]"
-          class="flex flex-center opacity-3 absolute l-0 t-0"
-        >
-          <slot name="load">
-              <tm-icon
-              v-if="props.showLoad"
-              :font-size="26"
-              spin
-              :name="_loadIcon"
-            ></tm-icon>
-          </slot>
-        </view>
-
-        <view
-          v-if="!loading && error"
-          :style="[{ width: img_width + props.unit, height: img_height + props.unit }]"
-          class="flex flex-col flex-center opacity-5  absolute l-0 t-0"
-        >
-          <slot name="error">
-            <view @click="reloadImg">
-              <tm-icon :userInteractionEnabled="false" :name="_errorIcon"></tm-icon>
-              <tm-text :userInteractionEnabled="false" _class="pt-10" :font-size="26" :label="props.errorLabel"></tm-text>
-            </view>
-          </slot>
-        </view>
-        <!-- extra -->
-        <view
-          :eventPenetrationEnabled="true"
-          v-if="props.extra"
           :class="[
-            props.extraPosition == 'in' ? 'absolute l-0 b-0 zIndex-5 ' : '',
-            'flex flex-col flex-col-bottom-start ',
-          ]"
-          :style="[
-            props.extra && props.extraPosition == 'in'
-              ? { height: img_height + props.unit, width: img_width + props.unit }
-              : '',
-            props.extra && props.extraPosition == 'out'
-              ? { width: img_width + props.unit }
-              : '',
+            `pb-${props.padding[1]}`,
+            'flex flex-col flex-col-center-center',
+            'relative',
           ]"
         >
+          <image
+            @load="imageLoad"
+            @error="imageError"
+            :show-menu-by-longpress="props.showMenuByLongPress"
+            @click="imageClick"
+            :class="['round-' + props.round, loading ? 'opacity-0' : '']"
+            v-if="!error"
+            :src="img_src"
+            :style="[{ width: img_width + props.unit, height: img_height + props.unit }]"
+            :mode="props.model"
+          ></image>
           <view
-            @click.stop="imageClick"
-            :class="['flex flex-col flex-col-bottom-start flex-1']"
+            v-if="loading && !error"
+            :style="[
+              { width: img_width + props.unit, height: img_height + 10 + props.unit },
+            ]"
+            class="flex flex-center opacity-3 absolute l-0 t-0"
+          >
+            <slot name="load">
+              <tm-icon
+                v-if="props.showLoad"
+                :font-size="26"
+                spin
+                :name="_loadIcon"
+              ></tm-icon>
+            </slot>
+          </view>
+
+          <view
+            v-if="!loading && error"
+            :style="[{ width: img_width + props.unit, height: img_height + props.unit }]"
+            class="flex flex-col flex-center opacity-5 absolute l-0 t-0"
+          >
+            <slot name="error">
+              <view @click="reloadImg">
+                <tm-icon :userInteractionEnabled="false" :name="_errorIcon"></tm-icon>
+                <tm-text
+                  :userInteractionEnabled="false"
+                  _class="pt-10"
+                  :font-size="26"
+                  :label="props.errorLabel"
+                ></tm-text>
+              </view>
+            </slot>
+          </view>
+          <!-- extra -->
+          <view
+            :eventPenetrationEnabled="true"
+            v-if="props.extra"
+            :class="[
+              props.extraPosition == 'in' ? 'absolute l-0 b-0 zIndex-5 ' : '',
+              'flex flex-col flex-col-bottom-start ',
+            ]"
             :style="[
               props.extra && props.extraPosition == 'in'
                 ? { height: img_height + props.unit, width: img_width + props.unit }
@@ -99,20 +91,33 @@
                 : '',
             ]"
           >
-            <slot name="extra"></slot>
+            <view
+              @click.stop="imageClick"
+              :class="['flex flex-col flex-col-bottom-start flex-1']"
+              :style="[
+                props.extra && props.extraPosition == 'in'
+                  ? { height: img_height + props.unit, width: img_width + props.unit }
+                  : '',
+                props.extra && props.extraPosition == 'out'
+                  ? { width: img_width + props.unit }
+                  : '',
+              ]"
+            >
+              <slot name="extra"></slot>
+            </view>
+          </view>
+          <!-- delete 展示删除按钮。 -->
+          <view
+            v-if="props.delete"
+            class="absolute r-4 t-4 flex flex-col flex-col-center-end zIndex-10"
+            :style="[props.delete ? { width: img_width + props.unit } : '']"
+          >
+            <tm-icon @click="del" color="red" name="tmicon-times-circle-fill"></tm-icon>
           </view>
         </view>
-        <!-- delete 展示删除按钮。 -->
-        <view
-          v-if="props.delete"
-          class="absolute r-4 t-4 flex flex-col flex-col-center-end zIndex-10"
-          :style="[props.delete ? { width: img_width + props.unit } : '']"
-        >
-          <tm-icon @click="del" color="red" name="tmicon-times-circle-fill"></tm-icon>
-        </view>
-      </view>
-    </tm-sheet>
-  </tm-translate>
+      </tm-sheet>
+    </tm-translate>
+  </view>
 </template>
 
 <script lang="ts" setup>
@@ -247,9 +252,8 @@ const img_src = computed(() => props.src);
 const loading = ref(true);
 const error = ref(false);
 const isRmove = ref(false);
-const _loadIcon = ref(props.loadIcon||'tmicon-shuaxin')
-const _errorIcon = ref(props.errorIcon||'tmicon-exclamation-circle')
-
+const _loadIcon = ref(props.loadIcon || "tmicon-shuaxin");
+const _errorIcon = ref(props.errorIcon || "tmicon-exclamation-circle");
 
 //父级方法。
 let parent: any = proxy?.$parent;
@@ -328,11 +332,10 @@ function aniEnd() {
   emits("close", props.src);
 }
 //出错时点击错误图标重新加载图片。
-function reloadImg(){
-	loading.value = true;
-	error.value = false;
+function reloadImg() {
+  loading.value = true;
+  error.value = false;
 }
-
 </script>
 
 <style></style>

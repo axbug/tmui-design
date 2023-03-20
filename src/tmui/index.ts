@@ -197,6 +197,10 @@ export default {
 		
 		/**对外暴露 */
 		uni.$tm = $tm;
+		// #ifdef APP
+		util.setCookie('$tm',$tm)
+		// #endif
+		
 		/**app应用上下文的暴露 */
 		app.config.globalProperties.tm = $tm;
 	}
