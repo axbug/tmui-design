@@ -40,7 +40,7 @@ title: tmui 3.0 组件库
 | round | [Number,String] | 0 | 圆角0-25，单位rpx |
 | margin | ArrayasPropType`<Array<number>>` | ()=>[0,0] | 外间距[x,y]x=左右，y=上下 |
 | padding | ArrayasPropType`<Array<number>>` | ()=>[0,0] | 内间距[x,y]x=左右，y=上下 |
-| height | [Number] | 44 | 高度，单位rpx |
+| height | [Number] | 44 | 高度，单位px |
 | leftWidth | [Number] | 220 | 指两边，左宽度除了中间，中间标题宽度为自动 |
 | rightWidth | [Number] | 220 | 指两边，左宽度除了中间，中间标题宽度为自动 |
 | fontSize | [Number] | 30 | 字体大小 |
