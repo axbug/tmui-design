@@ -7,6 +7,7 @@ title: tmui 3.0 组件库
 ##### 组件库文档 tmui.design
 
 # 选项卡 Tabs
+
 可以单独使用，配合tm-tabs-pane可实现卡片内容切换。
 
 ---
@@ -28,10 +29,12 @@ title: tmui 3.0 组件库
 | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
 
 ### :seedling: 参数
+
 本组件含有公共属性 [公共属性](/doc/spec/组件公共样式.md)
 | 参数名 | 类型 | 默认值 | 描述 |
 | :--: | :--: | :--: | :-- |
-| list | ArrayasPropType\<Array\<tabsobj>> | ()=>[] | tabs选项数据,格式见下方 |
+| list | ArrayasPropType\<Array\<Tmui.tabs>> | ()=>[] | tabs选项数据,格式见下方 |
+| rang-key | [String,undefined] | "title" | list标题字段值，默认是title |
 | color | String | "white" | tabs背景颜色 |
 | transprent | [Boolean,String] | false | 是否透明 |
 | width | Number | 500 | 宽度，单位rpx |
@@ -59,17 +62,19 @@ title: tmui 3.0 组件库
 | subtract | Number | 2 | 当选中某一项时,内容会往前滚动的项目数量,类似于位置让选中项始终在中间 |
 
 **tabsobj**的类型如下：
+
 ```ts
 export interface tabsobj {
-	key: string | number,//唯一标识
-	title: string,//标题
-	icon?: string,//图标
-	dot?:boolean,//是否显示角标点
-	dotColor?:string//角标点的颜色
+ key: string | number,//唯一标识
+ title: string,//标题
+ icon?: string,//图标
+ dot?:boolean,//是否显示角标点
+ dotColor?:string//角标点的颜色
 }
 ```
 
 ### :rose: 事件
+
 | 事件名 | 参数 | 返回数据 | 描述 |
 | --- | --- | --- | --- |
 | update:activeName | 当前key | - | 当前选中项的key值,v-model:active-name |
@@ -77,6 +82,7 @@ export interface tabsobj {
 | click |  |  |  |
 
 ### :corn: slot插槽
+
 默认default
 
 ### :green_salad: ref方法
@@ -84,11 +90,13 @@ export interface tabsobj {
 无
 
 # 选项卡面板 Tabs-Pane
+
 不可以单独使用，必须放置在tm-tabs组件中使用。
 
 ---
 
 ### :seedling: 参数
+
 本组件含有公共属性 [公共属性](/doc/spec/组件公共样式.md)
 | 参数名 | 类型 | 默认值 | 描述 |
 | :--: | :--: | :--: | :-- |
@@ -101,14 +109,17 @@ export interface tabsobj {
 | dotColor | String | "red" | 角标点的颜色 |
 
 ### :rose: 事件
+
 无
 
 ### :corn: slot插槽
+
 默认default
 
 ### :green_salad: ref方法
+
 无
 
-
 ### :couplekiss: 文档贡献
+
 此页文档由[夏天](https://gitee.com/Xia_5718)贡献，如果对该框架感兴趣的可以参与我们一同进步！
