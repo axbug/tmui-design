@@ -97,40 +97,7 @@ proxy.$refs.upload.clearFail()
 
 ```
 
-### :green_salad: 特殊示例
-uniCloud 上传文件
-```ts
-<template>
-    <tm-upload v-model="fileList" :onStart="uniCloudUpload"></tm-upload>
-</template>
 
-<script lang="ts" setup>
-import tmUpload from "@/tmui/components/tm-upload/tm-upload.vue"
-import {getCurrentInstance,ref} from "vue"
-
-let fileList = ref([])
-
-const uniCloudUpload = (fileRes) => {
-		const imageType = fileRes.url.split(".")[fileRes.url.split(".").length -1]
-		let randname = String(new Date().getTime()) + "." + imageType
-		uniCloud.uploadFile({
-			filePath: fileRes.url,
-			cloudPath: "TEST_" + randname,
-			success(e) {
-				fileList.value.forEach((item,index)=>{
-					if(item.uid === fileRes.uid){
-						fileList.value[index].status = "上传成功"
-						fileList.value[index].statusCode = 3
-						fileList.value[index].progress = 100
-						fileList.value[index].response = JSON.stringify({code:0,msg:"上传成功",data:e.fileID})
-					}
-				})
-			}
-		})
-	return false
-}
-</script>
-```
 ### :rage: 贡献者
 
 [Wicos](http://wicos.me)

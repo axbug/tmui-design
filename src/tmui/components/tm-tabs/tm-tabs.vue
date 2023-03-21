@@ -491,7 +491,6 @@ import tmText from "../tm-text/tm-text.vue";
 import tmIcon from "../tm-icon/tm-icon.vue";
 import tmBadge from "../tm-badge/tm-badge.vue";
 import { custom_props, computedClass } from "../../tool/lib/minxs";
-import { tabsobj } from "./interface";
 import { useTmpiniaStore } from "../../tool/lib/tmpinia";
 const store = useTmpiniaStore();
 // #ifdef APP-NVUE || APP-PLUS-NVUE
@@ -508,8 +507,12 @@ const props = defineProps({
   ...custom_props,
   //如果提供了，那么就不需要tm-tabs-pane，可以单独使用。
   list: {
-    type: Array as PropType<Array<tabsobj>>,
+    type: Array as PropType<Array<Tmui.tabs>>,
     default: () => [],
+  },
+  rangKey:{
+    type: String,
+    default: "key",
   },
   color: {
     type: String,
@@ -596,8 +599,11 @@ const props = defineProps({
     type: Number,
     default: 0,
   },
+  /**
+   * 标题的分布方式
+   */
   align: {
-    type: String as PropType<alignType>,
+    type: String as PropType<"left" | "center" | "around" | "right">,
     default: "left", //left:左对齐,right：右对齐,center：剧中,around：剧中均分
   },
   //是否启用pane滑动切换tabs。如果关闭有助于页面更顺畅。如果启用请不要大量内容。
@@ -689,7 +695,7 @@ const modelStyle = computed(() => {
 });
 const tmTabsId = "tmTabsId";
 const _tabPos = computed(() => props.tabPos);
-const cacheTabs = ref<Array<tabsobj>>([]);
+const cacheTabs = ref<Array<Tmui.tabs>>([]);
 
 const isDulitabs = computed(() => props.list.length > 0);
 const tabsid = "tabs_id_" + uni.$tm.u.getUid(1) + "_";
@@ -795,8 +801,8 @@ watchEffect(() => {
   cacheTabs.value = [];
   props.list.forEach((el, index) => {
     cacheTabs.value.push({
-      key: el?.key ?? String(index),
-      title: el?.title ?? String(index),
+      key: (el?.key??el?.id) ?? String(index),
+      title: el[props.rangKey] ?? String(index),
       icon: el?.icon ?? "",
       dot: el?.dot ?? false,
       count: el?.count ?? "",
@@ -1150,7 +1156,7 @@ function spinNvueAniEnd(start: number, end: number, time = timeDetail) {
   // #endif
 }
 
-function pushKey(o: tabsobj) {
+function pushKey(o: Tmui.tabs) {
   let index: number = cacheTabs.value.findIndex((el) => el.key === o.key);
   if (index > -1) {
     cacheTabs.value.splice(index, 1, {
@@ -1186,7 +1192,7 @@ function changeKey(key: string | number, isclick = true, isNomarlChange = true) 
   }
 }
 
-function setTitle(o: tabsobj) {
+function setTitle(o: Tmui.tabs) {
   let index: number = cacheTabs.value.findIndex((el) => el.key == o.key);
   if (index > -1) {
     cacheTabs.value.splice(index, 1, o);

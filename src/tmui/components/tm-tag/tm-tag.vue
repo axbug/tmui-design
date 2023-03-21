@@ -22,6 +22,7 @@
         :margin="props.margin"
         :padding="[wh.px, wh.py]"
         :border-color="props.borderColor"
+        :linear-color="props.linearColor"
       >
         <tm-icon
           :color="_fontColor"

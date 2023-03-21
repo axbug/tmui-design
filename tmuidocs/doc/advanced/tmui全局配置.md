@@ -25,12 +25,12 @@ title: TMUI3进阶指南
 ```ts
 //config.ts
 export const config = {
-  // 在进阶指南中会讲到类型文件的使用。请注意右右侧文档栏目。
+  // 在进阶指南中会讲到类型文件的使用。请注意右侧文档栏目。
   // 指定了类型后，在里面输入会有类型提示和校验。
 } as Tmui.tmuiConfig;
 ```
 
-开始引入你的config.ts文件。 在main.ts中配置，
+开始引入你的config.ts文件，在main.ts中配置
 
 ```ts
 // main.ts
@@ -109,19 +109,16 @@ interface tmuiConfig {
 ### 如何使用
 
 第一种方式：
-```ts
 在任意ts文件中，请输入``` uni.$tm.config.xxx ```
 上方的输入在vscode中全局的类型提示
 
-```
 第二种方式：
-我已经定义并且hooks合并 到全局的pinia中了，可以在组件生命期内，页面模板内调用上方所有配置和数据。
+我已经定义并且hooks合并到全局的pinia中了，可以在组件生命期内，页面模板内调用上方所有配置和数据。
 ```vue
 import {useTmpiniaStore} from '@/tmui/tool/lib/tmpinia';
 const store = useTmpiniaStore();
 //后面的提示与上方第一种一样，会全局提示。
 store.tmuiConfig.xxx
-
 ```
 
 ### 示例模板

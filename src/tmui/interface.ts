@@ -121,6 +121,15 @@ declare global {
             title?: string,
             content?: string
         }
+        interface tabs {
+            key?: string|number,
+            title?: string,
+            icon?: string,
+            dot?:boolean,
+            count?:string|number
+            dotColor?:string,
+            [key:string]:any
+        }
         /**组件的配置 */
         namespace components {
             type all = button & sheet

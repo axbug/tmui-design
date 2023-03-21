@@ -9,7 +9,7 @@ title: TMUI3进阶指南
 # TMUI 3.0 by tmzdy
 
 ### 前置条件
-如果你还没阅读[tmui全局配置表的设置](doc/)，请先访问 阅读。
+如果你还没阅读[tmui全局配置表的设置](/doc/advanced/tmui全局配置.html)，请先访问阅读。
 
 ### 编写路由文件
 你可以单独写个文件导出，并与config.ts合并进去。
@@ -20,7 +20,7 @@ import { ComponentPublicInstance, nextTick } from "vue"
 //如果想要使用框架的自带工具函数请输入uni.$tm.u.?你的方法
 //网络请示为uni.$tm.fetch.?你的方法
 interface beforeRouterOpts {
-	path:string|null,//当前页面路径，不含前缀 /
+	path:string|null,//当前页面路径，不含前缀/
 	opts?:any,//页面参数
 	openType?:string,//当前页面打开的类型
 	context:ComponentPublicInstance|null,
@@ -33,6 +33,7 @@ interface beforeRouterOpts {
 export const useTmRouterBefore = (arg:beforeRouterOpts):void=>{
     // 每一个页面在初化前都会执行
 	//返回事件，只有在h5端可以被拦截。
+	
 }
 /**
  * 路由访问后执行的函数
