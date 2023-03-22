@@ -34,7 +34,7 @@
     <!-- #endif -->
     <!-- #ifdef APP-NVUE -->
     <!-- @touchmove="onMove"
-		@touchend="onEnd" 
+		@touchend="onEnd"
 		@touchstart="onStart" -->
     <view
       @touchstart="spinNvueAni"
@@ -442,7 +442,7 @@
     <!-- #endif -->
     <!-- #ifdef APP-NVUE -->
     <!-- @touchmove="onMove"
-		@touchend="onEnd" 
+		@touchend="onEnd"
 		@touchstart="onStart" -->
     <!-- @touchmove="onMove" @touchend="onEnd" @touchcancel="onEnd"  -->
     <view
@@ -512,7 +512,7 @@ const props = defineProps({
   },
   rangKey:{
     type: String,
-    default: "key",
+    default: "title",
   },
   color: {
     type: String,

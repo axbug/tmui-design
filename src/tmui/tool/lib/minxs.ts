@@ -219,13 +219,13 @@ export const computedTheme = (props: any, dark:boolean,store:any):cssstyle => {
 		theme = new colors.themeColors(theme.add(color,color));
 	}
 	let defaultColorName = color || 'primary';
-	
+
 	if(props?.followTheme==true&&store.color){
 		defaultColorName = store.color;
 		borderColor = ""
 	}
-	
-	
+
+
 	let c = theme.getTheme({
 		colorname: defaultColorName,
 		dark: dark,
@@ -241,7 +241,7 @@ export const computedTheme = (props: any, dark:boolean,store:any):cssstyle => {
 		blur: blur,
 		borderColor:borderColor
 	});
-	
+
 	return c;
 
 };
