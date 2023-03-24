@@ -1,5 +1,6 @@
 <template>
-  <view class="flex flex-col overflow" :class="[disabled ? 'opacity-7' : '']">
+ 
+  <view class="flex col overflow" :class="[disabled ? 'opacity-7' : '']">
     <tm-sheet
       :transprent="props.transprent"
       @click="openAndClose"
@@ -66,12 +67,12 @@
 
 	<!-- #ifndef APP-NVUE -->
 	<view
-	class="flex overflow content"
+	class="flex overflow content col"
 	:style="[isActiveAfter?{ height: _contentHeight }:{ height: '0px', overflow: 'hidden' }]"
 	>
 	  <view
 		ref="contentIds" id="contentIds"
-	    class="flex  flex-col flex-1 on"
+	    class="flex  col flex-1 on"
 	  >
 	    <slot></slot>
 	  </view>
@@ -362,6 +363,17 @@ defineExpose({tmCollapseItem:'tmCollapseItem',updateHeight})
   overflow: hidden;
   box-sizing: border-box;
   will-change: height;
+}
+.col{
+/* #ifndef APP-NVUE */
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  flex-grow: 0;
+  flex-basis: auto;
+  align-items: stretch;
+  align-content: flex-start;
+/* #endif */
 }
 .content.on {
   flex: 1 1 auto;

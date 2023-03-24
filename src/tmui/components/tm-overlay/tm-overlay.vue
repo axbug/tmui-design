@@ -313,7 +313,6 @@ function fadeInVue(off = false) {
 watch(
   () => props.show,
   (newval) => {
-    console.log(ani.value)
     open(newval);
   }
 );

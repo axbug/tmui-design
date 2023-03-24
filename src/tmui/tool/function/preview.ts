@@ -1,5 +1,5 @@
 /**
- * 上传文件。
+ * 预览图片
  * 作者：tmzdy
  * 联系：zhongjihan@sina.com
  * 预览图片。
@@ -17,7 +17,7 @@
 	if(arguments.length==1){
 		uni.previewImage({
 			current:url,
-			urls:list?list:[url]
+			urls:[url]
 		})
 	}else if(arguments.length===3){
 		

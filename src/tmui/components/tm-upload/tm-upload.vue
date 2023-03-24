@@ -31,6 +31,7 @@
             :width="itemWidth - 10"
             extraPosition="in"
             :height="itemHeight - 10"
+            :model="props.imageModel"
           >
             <template
               v-slot:extra
@@ -201,6 +202,10 @@ const props = defineProps({
   imageHeight: {
     type: Number,
     default: 140,
+  },
+  imageModel:{
+    type:String,
+    default:'scaleToFill'
   },
   defaultValue: {
     type: Array as PropType<Array<file>>,

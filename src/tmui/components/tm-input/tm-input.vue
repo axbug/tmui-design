@@ -576,7 +576,6 @@ function inputClick(e: Event, type: string) {
     return;
   } else {
     debounce(() => emits("click", e), 200, true);
-    console.log(type)
   }
 
 }

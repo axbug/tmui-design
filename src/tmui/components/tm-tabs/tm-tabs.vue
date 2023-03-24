@@ -2,7 +2,7 @@
   <view
     class="flex flex-col overflow"
     :style="[
-      props.height && !isDulitabs && cacheTabs.lenght > 0
+      props.height && !isDulitabs && cacheTabs.length > 0
         ? { height: height + 'rpx' }
         : '',
       { width: props.width + 'rpx' },
@@ -34,7 +34,7 @@
     <!-- #endif -->
     <!-- #ifdef APP-NVUE -->
     <!-- @touchmove="onMove"
-		@touchend="onEnd"
+		@touchend="onEnd" 
 		@touchstart="onStart" -->
     <view
       @touchstart="spinNvueAni"
@@ -442,7 +442,7 @@
     <!-- #endif -->
     <!-- #ifdef APP-NVUE -->
     <!-- @touchmove="onMove"
-		@touchend="onEnd"
+		@touchend="onEnd" 
 		@touchstart="onStart" -->
     <!-- @touchmove="onMove" @touchend="onEnd" @touchcancel="onEnd"  -->
     <view
@@ -727,8 +727,8 @@ const anitLineLeft = ref(0);
 isNvue.value = true;
 // #endif
 
-let timerId = NaN;
-let timerId2 = NaN;
+let timerId:any = NaN;
+let timerId2:any = NaN;
 function debounce(func: Function, wait = 500, immediate = false) {
   // 清除定时器
   if (!isNaN(timerId)) clearTimeout(timerId);
@@ -834,7 +834,7 @@ function unbindKey(key: string | number) {
   let index2: number = cacheTabs.value.findIndex((el) => el.key == _active.value);
 
   if (index2 == -1 && cacheTabs.value.length > 0) {
-    changeKey(cacheTabs.value[0].key, false, false);
+    changeKey(cacheTabs.value[0]?.key??"", false, false);
   } else if (cacheTabs.value.length == 0) {
     changeKey("", false, false);
   }
@@ -852,7 +852,7 @@ onMounted(() => {
     _scrollToId.value = tabsid + _active.value;
     nextTick(() => {
       // #ifdef APP-NVUE
-      dom.getComponentRect(proxy.$refs.tabsDom, function (res) {
+      dom.getComponentRect(proxy?.$refs?.tabsDom, function (res) {
         if (res?.size) {
           ctxLeft = Math.floor(res.size.left);
           ctxTop = Math.floor(res.size.top);
@@ -867,7 +867,7 @@ onMounted(() => {
   }, 300);
 });
 watchEffect(() => {
-  directoStyle.value = String(Math.ceil(uni.upx2px(-activeIndex.value * props.width)));
+  directoStyle.value = Math.ceil(uni.upx2px(-activeIndex.value * props.width));
   spinNvueAniEnd(0, -uni.upx2px(activeIndex.value * props.width), timeDetail);
 });
 watch(
@@ -1010,7 +1010,7 @@ function setDirXy(x: number, y: number, isEnd = false) {
     if (x < maxLen || activeIndex.value <= 0) {
       directoStyle.value = -nowLeft;
     } else {
-      _active.value = cacheTabs.value[activeIndex.value - 1].key;
+      _active.value = cacheTabs.value[activeIndex.value - 1]?.key??-1;
       changeKey(_active.value, false);
     }
   }
@@ -1019,7 +1019,7 @@ function setDirXy(x: number, y: number, isEnd = false) {
     if (Math.abs(x) < maxLen || activeIndex.value >= cacheTabs.value.length - 1) {
       directoStyle.value = -nowLeft;
     } else {
-      _active.value = cacheTabs.value[activeIndex.value + 1].key;
+      _active.value = cacheTabs.value[activeIndex.value + 1]?.key??-1;
       changeKey(_active.value, false);
     }
   }
@@ -1027,10 +1027,11 @@ function setDirXy(x: number, y: number, isEnd = false) {
 
 function getEl(el: HTMLElement) {
   if (typeof el === "string" || typeof el === "number") return el;
+  // @ts-nocheck
   if (WXEnvironment) {
     return el.ref;
   } else {
-    return el instanceof HTMLElement ? el : el.$el;
+    return el instanceof HTMLElement ? el : el?.$el;
   }
 }
 onUnmounted(() => {
@@ -1064,7 +1065,7 @@ function setDirXyNvue(x: number, y: number, dirX = "none") {
       spinNvueAniEnd(-nowLeft, 0, 250);
     } else {
       // 进入上一个
-      _active.value = cacheTabs.value[activeIndex.value - 1].key;
+      _active.value = cacheTabs.value[activeIndex.value - 1]?.key??-1;
       nowLeft = uni.upx2px(activeIndex.value * props.width);
       _startx.value = nowLeft;
       spinNvueAniEnd(-nowLeft, 0, 250);
@@ -1083,7 +1084,7 @@ function setDirXyNvue(x: number, y: number, dirX = "none") {
       spinNvueAniEnd(-nowLeft, 0, 250);
     } else {
       // 进入下一个
-      _active.value = cacheTabs.value[activeIndex.value + 1].key;
+      _active.value = cacheTabs.value[activeIndex.value + 1]?.key??-1;
       nowLeft = uni.upx2px(activeIndex.value * props.width);
       _startx.value = nowLeft;
       spinNvueAniEnd(-nowLeft, 0, 250);
@@ -1096,10 +1097,10 @@ function setDirXyNvue(x: number, y: number, dirX = "none") {
 function spinNvueAni() {
   if (!props.swiper) return;
   // #ifdef APP-NVUE
-  if (!proxy.$refs?.tabsDom) return;
+  if (!proxy?.$refs?.tabsDom) return;
 
-  let icon = getEl(proxy.$refs.tabsDom);
-  let sliderBarDom = getEl(proxy.$refs.sliderBarDom);
+  let icon = getEl(proxy?.$refs?.tabsDom);
+  let sliderBarDom = getEl(proxy?.$refs?.sliderBarDom);
   let icon_bind = Binding.bind(
     {
       anchor: icon,
@@ -1112,7 +1113,7 @@ function spinNvueAni() {
         },
       ],
     },
-    function (res) {
+    function (res:any) {
       if (res.state == "end") {
         isMoveing.value = false;
         if (Math.abs(res.deltaY) > 80) {
@@ -1138,9 +1139,9 @@ function spinNvueAni() {
 function spinNvueAniEnd(start: number, end: number, time = timeDetail) {
   if (!props.swiper) return;
   // #ifdef APP-NVUE
-  if (!proxy.$refs?.tabsDom) return;
+  if (!proxy?.$refs?.tabsDom) return;
   animation.transition(
-    proxy.$refs.tabsDom,
+    proxy?.$refs?.tabsDom,
     {
       styles: {
         transform: `translateX(${start + end}px)`,
@@ -1168,7 +1169,7 @@ function pushKey(o: Tmui.tabs) {
   }
 
   if (_active.value == "") {
-    changeKey(cacheTabs.value[0].key, false);
+    changeKey(cacheTabs.value[0]?.key??-1, false);
   }
 }
 

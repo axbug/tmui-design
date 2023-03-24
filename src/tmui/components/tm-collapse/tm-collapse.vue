@@ -1,5 +1,5 @@
 <template>
-  <view class="flex-col flex">
+  <view class="col" style="box-sizing: border-box;">
     <slot></slot>
   </view>
 </template>
@@ -111,4 +111,16 @@ provide(
 );
 </script>
 
-<style></style>
+<style scoped>
+.col{
+/* #ifndef APP-NVUE */
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  flex-grow: 0;
+  flex-basis: auto;
+  align-items: stretch;
+  align-content: flex-start;
+/* #endif */
+}
+</style>

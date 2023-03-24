@@ -237,7 +237,7 @@ watch(
   () => props.modelValue,
   () => {
     _value.value = props.modelValue;
-    _strvalue.value = _value.value.join("~");
+    // _strvalue.value = _value.value.join("~");
   },
   { deep: true }
 );

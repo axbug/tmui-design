@@ -11,15 +11,38 @@ title: TMUI3进阶指南
 ### 前置条件
 如果你还没阅读[tmui全局配置表的设置](/doc/advanced/tmui全局配置.html)，请先访问阅读。
 
-### 编写主题文件
+### 编写路由文件
 你可以单独写个文件导出，并与config.ts合并进去。
 
 示例模板
 ```ts
-// theme.ts
-export const theme = {
- 	// 这里输入你定义的主题主色
-	//比如："primary": "#FF0000"
-	//名称如果与自带主题相同，将会覆盖。
+import { ComponentPublicInstance, nextTick } from "vue"
+//如果想要使用框架的自带工具函数请输入uni.$tm.u.?你的方法
+//网络请示为uni.$tm.fetch.?你的方法
+interface beforeRouterOpts {
+	path:string|null,//当前页面路径，不含前缀/
+	opts?:any,//页面参数
+	openType?:string,//当前页面打开的类型
+	context:ComponentPublicInstance|null,
 }
+
+/**
+ * 路由访问前执行的函数
+ * @param path 页面路径，不带前缀/
+ */
+export const useTmRouterBefore = (arg:beforeRouterOpts):void=>{
+    // 每一个页面在初化前都会执行
+	//返回事件，只有在h5端可以被拦截。
+	
+}
+/**
+ * 路由访问后执行的函数
+ * @param path 页面路径，不带前缀/
+ * @param opts 页面加载完成后返回的参数
+ */
+export const useTmRouterAfter = (arg:beforeRouterOpts):void=>{
+    //每一个页面初始后都会执行
+   
+}
+
 ```

@@ -84,7 +84,22 @@ title: tmui 3.0 组件库
 
 ### :green_salad: City-picker ref方法
 
-无
+getList,返回当前的城市数据结构
+getIndexs(list:城市数据，可通过getList返回，也可以自定,model:'name','id','index'可选三种,parentIndex:起始位置默认0，value：[名称，id,索引数组，根据model来]),返回当前的索引数组
+getRouterId(list:城市数据，可通过getList返回，也可以自定,parentIndex:起始位置默认0，value：[索引组]),返回当前的城市id数组
+
+```ts
+
+const dr = ['江西省','南昌市','东湖区']
+let listcity = cityPicker.value?.getList();
+//返回索引，通过名称来返回，model=name,index,id等
+let indexs = cityPicker.value?.getIndexs(listcity,'name',0,dr);
+let ids = cityPicker.value?.getRouterId(listcity,0,indexs);
+//返城市id数组
+console.log(ids)
+
+
+```
 
 ### :couplekiss: 文档贡献
 此页文档由[Sunlight](https://gitee.com/rzg)贡献，如果对该框架感兴趣的可以参与我们一同进步！

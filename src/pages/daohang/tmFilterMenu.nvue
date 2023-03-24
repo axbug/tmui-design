@@ -27,7 +27,7 @@
 					<tm-text :fontSize="24" _class="font-weight-b" label="下面是一个静态的示例."></tm-text>
 				</tm-sheet>
 				<tm-filterMenu ref="filter">
-					<tm-filterMenu-item icon="tmicon-filter-fill" un-icon="tmicon-filter" :height="450" title="多选项">
+					<tm-filterMenu-item :footerHeight="100" icon="tmicon-filter-fill" un-icon="tmicon-filter" :height="450" title="多选项">
 						<tm-checkbox-group direction='customCol' v-model="checbox" :default-value="checbox">
 							<tm-checkbox :value="item.id" v-for="(item, index) in checboxList" :key="index"
 								:custom="false">
@@ -41,17 +41,19 @@
 								</template>
 							</tm-checkbox>
 						</tm-checkbox-group>
-						<view class="flex flex-row flex-row-between ">
-							<view class="pl-24 pr-12 flex-1">
-								<tm-button @click="filter.close()" :shadow="0" text :outlined="true" block
-									label="取消"></tm-button>
+						<template v-slot:footer>
+							<view class="flex flex-row flex-row-between ">
+								<view class="pl-24 pr-12 flex-1">
+									<tm-button @click="filter.close()" :shadow="0" text :outlined="true" block
+										label="取消"></tm-button>
+								</view>
+								<view class="pr-24 pl-12 flex-1">
+									<tm-button @click="filter.close()" block :border="1" label="确认"></tm-button>
+								</view>
 							</view>
-							<view class="pr-24 pl-12 flex-1">
-								<tm-button @click="filter.close()" block :border="1" label="确认"></tm-button>
-							</view>
-						</view>
+						</template>
 					</tm-filterMenu-item>
-					<tm-filterMenu-item title="单选项">
+					<tm-filterMenu-item :footerHeight="100" title="单选项">
 						<tm-radio-group direction='customCol' v-model="radiobox" :default-value="radiobox">
 							<tm-radio :value="item.id" v-for="(item, index) in radioList3" :key="index" :custom="false">
 								<template v-slot:default="{ checked }">
@@ -64,8 +66,19 @@
 								</template>
 							</tm-radio>
 						</tm-radio-group>
+						<template v-slot:footer>
+							<view class="flex flex-row flex-row-between ">
+								<view class="pl-24 pr-12 flex-1">
+									<tm-button @click="filter.close()" :shadow="0" text :outlined="true" block
+										label="取消"></tm-button>
+								</view>
+								<view class="pr-24 pl-12 flex-1">
+									<tm-button @click="filter.close()" block :border="1" label="确认"></tm-button>
+								</view>
+							</view>
+						</template>
 					</tm-filterMenu-item>
-					<tm-filterMenu-item :height="650" title="杂类选项" un-icon="tmicon-stepmode" icon="tmicon-menu">
+					<tm-filterMenu-item :footerHeight="100" :height="650" title="杂类选项" un-icon="tmicon-stepmode" icon="tmicon-menu">
 						<tm-text :font-size="28" _class="font-weight-b" label="可以随便放自己想要的组件作为过滤"></tm-text>
 						<tm-divider></tm-divider>
 						<tm-text :font-size="32" _class="font-weight-b py-24" label="输入框"></tm-text>
@@ -80,6 +93,17 @@
 								</template>
 							</tm-checkbox>
 						</tm-checkbox-group>
+						<template v-slot:footer>
+							<view class="flex flex-row flex-row-between ">
+								<view class="pl-24 pr-12 flex-1">
+									<tm-button @click="filter.close()" :shadow="0" text :outlined="true" block
+										label="取消"></tm-button>
+								</view>
+								<view class="pr-24 pl-12 flex-1">
+									<tm-button @click="filter.close()" block :border="1" label="确认"></tm-button>
+								</view>
+							</view>
+						</template>
 					</tm-filterMenu-item>
 					<tm-filterMenu-item isButton title="按钮选项" un-icon="tmicon-ios-radio-button-off"
 						icon="tmicon-ios-radio-button-on">

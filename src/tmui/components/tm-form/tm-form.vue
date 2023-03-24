@@ -144,13 +144,13 @@ provide(
   "formCallFiled",
   computed(() => _modelVal.value)
 );
-watch(
-  () => props.modelValue,
-  () => {
-    _modelVal.value = { ...toRaw(props.modelValue) };
-  },
-  { deep: true }
-);
+// watch(
+//   () => props.modelValue,
+//   () => {
+//     _modelVal.value = { ...toRaw(props.modelValue) };
+//   },
+//   { deep: true }
+// );
 
 let timid:any = NaN;
 let ptimeId:any = 301120999856

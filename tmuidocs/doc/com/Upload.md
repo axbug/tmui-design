@@ -36,6 +36,7 @@ Upload 是一个常用的图片上传组件
 | rows | Number | 5 | 每行显示几张图片 |
 | imageHeight | Number | 140 | 图片高度 |
 | defaultValue | Array\<file> | [] | 默认的图片文件列表 |
+| imageModel | String | scaleToFill | 图片缩放模式 |
 | modelValue | Array\<file> | [] |文件列表，常用于双向绑定 |
 | color | String | primary | 组件颜色 | 
 | header | Object | { } | 图片上传http头 |

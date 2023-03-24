@@ -367,7 +367,7 @@ const sizeObj = computed(() => {
     small: { w: 120, h: 56, fontSize: 22, round: 2 },
     normal: { w: 220, h: 80, fontSize: 28, round: 2 },
     middle: { w: 360, h: 80, fontSize: 30, round: 2 },
-    large: { w: 535, h: 88, fontSize: 32, round: 3 },
+    large: { w: 535, h: 80, fontSize: 32, round: 3 },
   };
   if (props.unit == "px") {
     let key: "block" | "mini" | "small" | "normal" | "middle" | "large" = "block";

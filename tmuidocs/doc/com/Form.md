@@ -77,7 +77,7 @@ title: tmui 3.0 组件库
 | padding | `<Array<number>` | [0,0] | 内间距[x,y]x=左右，y=上下 |
 | field | String | '' | 如果在forom绑定的model为深层对象，这里的名称需要如下:比如model = {a:2,b:{c:333}}，如果想绑定c,则field = "b.c" |
 | help | String | '' | 表单底部的单项注意说明。 |
-| required | Boolean | false | 是否必填(如果不设置为true，标题上不会增加红色的*) |
+| required | Boolean | false | 是否显示必填的红色星号* |
 | rules<Badge type="danger" text="v3.0.71+" vertical="middle" /> | Object | Array\<rulesItem\> | 检验规则,格式见下方 |
 | border | Boolean | null | 显示下划线。 |
 | showError<Badge type="danger" text="v3.0.71+" vertical="middle" /> | Boolean | null | 校验不通过的情况下，是否显示错误信息提示 |

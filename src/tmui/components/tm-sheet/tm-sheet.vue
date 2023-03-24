@@ -185,8 +185,10 @@ const tmcomputed = computed<cssstyle>(() => {
   if (_blur.value && tmcfg.value.os == "ios" && _isNvue.value) {
     text = true;
   }
+  let _props_rs = uni.$tm.u.deepClone(props)
+  const customPropsDefault = uni.$tm.u.deepObjectMerge(_props_rs,{blur: _blur.value, text: text })
   return computedTheme(
-    { ...props, blur: _blur.value, text: text },
+    customPropsDefault,
     isDark.value,
     tmcfg.value
   );

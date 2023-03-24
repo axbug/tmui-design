@@ -7,7 +7,6 @@
 		</tm-sheet>
 		<tm-cell @click="showdate = true" title="请选择所在区域" :right-text="dateStr || '请选择'"></tm-cell>
 		<tm-city-picker v-model:show="showdate" v-model="citydate" v-model:model-str="dateStr"></tm-city-picker>
-
 	</tm-app>
 </template>
 <script lang="ts" setup>

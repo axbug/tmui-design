@@ -8,7 +8,7 @@
         color="grey-3"
         v-if="_title !== ''"
         :height="50"
-        _class="flex "
+        _class="flex flex-row flex-row-center-start"
         :margin="[props.margin[0], 0]"
         :padding="[props.padding[0], 0]"
       >

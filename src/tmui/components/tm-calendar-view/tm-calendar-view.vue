@@ -284,7 +284,7 @@ const _value = ref(props.defaultValue);
 const _modelType = computed(() => props.model);
 watch(
   () => props.modelValue,
-  () => (_value.value = props.modelValue),
+  () => _value.value = props.modelValue,
   { deep: true }
 );
 watch(

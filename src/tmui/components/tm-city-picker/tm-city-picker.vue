@@ -212,7 +212,6 @@ function defaultModerStrGet() {
   clearTimeout(tmid);
   tmid = setTimeout(function () {
     if (_colIndex.value.length > 0) {
-      console.log(_colIndex.value, 999);
       let text = getRouterText(_data.value, 0);
       emits("update:modelStr", text.join("/"));
     }
@@ -275,13 +274,15 @@ function getIndexBymodel(
 //返回 一个节点从父到子的路径id组。
 function getRouterId(
   list: Array<childrenData> = [],
-  parentIndex = 0
+  parentIndex = 0,
+ value: Array<number | string> = []
 ): Array<string | number> {
   let p: Array<string | number> = [];
+  const _defalutValue = value.length==0?_colIndex.value:value;
   for (let i = 0; i < list.length; i++) {
-    if (i == _colIndex.value[parentIndex]) {
+    if (i == _defalutValue[parentIndex]) {
       p.push(list[i]["id"]);
-      if (typeof _colIndex.value[parentIndex] != "undefined") {
+      if (typeof _defalutValue[parentIndex] != "undefined") {
         let c = getRouterId(list[i]["children"], parentIndex + 1);
         p = [...p, ...c];
       }
@@ -347,4 +348,10 @@ function chiliFormatCity_area() {
 
   return list;
 }
+
+defineExpose({
+  getList:chiliFormatCity_area,
+  getIndexs:getIndexBymodel,
+  getRouterId
+})
 </script>

@@ -24,7 +24,6 @@
 			</tm-checkbox-group>
 
         </tm-sheet>
-		
 		<tm-sheet :margin="[32,0]">
 		    <tm-text :font-size="24" _class="font-weight-b" label="常规赋值测试3.2秒后观察自动选中结果"></tm-text>
 			<tm-divider></tm-divider>
