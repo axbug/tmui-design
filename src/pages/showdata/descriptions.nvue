@@ -4,7 +4,7 @@
             <tm-descriptions :data="list" ></tm-descriptions>
         </tm-sheet>
         <tm-sheet :margin="[32,0]" :padding="[0]">
-            <tm-descriptions :width="686" :column="3" transprent :round="3" text title="展示3列属性">
+            <tm-descriptions :label-width="100" :width="686" :column="3" transprent :round="3" text title="展示3列属性">
                 <tm-descriptions-item  :font-size="24" v-for="(item,index) in list2" :key="index" :label="item.label" :value="item.value"></tm-descriptions-item>
                 <tm-descriptions-item :font-size="24" color="red" label="工具" value="vscode">
                     <tm-sheet color="red" text :border="1" :margin="[6,0]" :padding="[4]" :round="2">

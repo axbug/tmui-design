@@ -1,12 +1,12 @@
 <template>
   <view class="flex flex-col relative app" :style="[
-    appConfig.theme ? { background: appConfig.theme } : '',
+    appConfig.theme? { background: _tranparent?'':appConfig.theme } : '',
     { 
       width: appConfig.width + 'px', 
       minHeight: appConfig.height + 'px',
-      backgroundImage:`url(${_bgImg})`,
       backgroundSize: `100% ${appConfig.height}px`
      },
+     _bgImg?{backgroundImage:`url(${_bgImg})`}:''
   ]">
     <view :class="[blur ? 'blur' : '']" ref="bodyEl" class="flex flex-col flex-1" :style="[
       {
@@ -72,6 +72,20 @@ const proxy = getCurrentInstance()?.proxy ?? null;
 // 混淆props共有参数
 const props = defineProps({
   ...custom_props,
+  	/**
+	 * 是否透明背景
+	 */
+	transprent: {
+		type: [Boolean, String],
+		default: false
+	},
+	/**
+	 * 是否透明背景,等同transprent,因单词拼写错误，现在写一个正确的。
+	 */
+	transparent: {
+		type: [Boolean, String],
+		default: false
+	},
   //整体的主题色调同全局色一样。
   /**暂时不可用 */
   theme: {
@@ -129,6 +143,7 @@ const _showMenu = ref(props.showMenu);
 const sysinfo = getWindow();
 const sysinfoRef = ref(sysinfo);
 const _bgImg = computed(()=>props.bgImg)
+const _tranparent = computed(()=>props.transparent||props.transprent)
 // #ifdef H5
 window.addEventListener("resize", () => {
   throttle(() => {
@@ -188,7 +203,7 @@ function _onInit() {
     }
   }
 
-  if (store.getAutoDark) {
+  if (store.tmuiConfig.autoDark) {
     // #ifdef H5
     if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
       osChangeTheme('dark')
@@ -198,7 +213,7 @@ function _onInit() {
     // #endif
 
     // #ifndef H5
-    osChangeTheme(sysinfo.sysinfo.hostTheme)
+    osChangeTheme(sysinfo.sysinfo.osTheme)
     // #endif
   } else {
     setAppStyle()
@@ -255,7 +270,7 @@ function setAppStyle() {
     backgroundColor: appConfig.value.theme,
     backgroundColorBottom: appConfig.value.theme,
     backgroundColorTop: appConfig.value.theme,
-  });
+  }).catch(error=>{});
   // #endif
 
   // #ifdef APP-NVUE ||  APP-VUE
@@ -288,7 +303,7 @@ function setAppStyle() {
       uni.setNavigationBarColor({
         backgroundColor: "#000000",
         frontColor: "#ffffff",
-      });
+      }).catch(error=>{});
     } catch (error) {
 
     }
@@ -307,7 +322,7 @@ function setAppStyle() {
         borderStyle: "black",
         color: "#ffffff",
         selectedColor: uni.$tm.tabBar.selectedColor || tmcomputed.value.textColor,
-      });
+      }).catch(error=>{});
     }
   } else {
     // #ifndef MP-ALIPAY
@@ -321,7 +336,7 @@ function setAppStyle() {
         uni.setNavigationBarColor({
           backgroundColor: nowPageConfigs[0].navigationBarBackgroundColor,
           frontColor: tcolor,
-        });
+        }).catch(error=>{});
         uni.setStorageSync(
           "tmuiNavStyle",
           JSON.stringify({
@@ -333,7 +348,7 @@ function setAppStyle() {
         uni.setNavigationBarColor({
           backgroundColor: props.navbar.background,
           frontColor: props.navbar.fontColor,
-        });
+        }).catch(error=>{});
         uni.setStorageSync(
           "tmuiNavStyle",
           JSON.stringify({
@@ -357,7 +372,7 @@ function setAppStyle() {
             borderStyle: uni.$tm.tabBar.borderStyle || "white",
             color: uni.$tm.tabBar.color || props.navbar.fontColor,
             selectedColor: uni.$tm.tabBar.selectedColor || tmcomputed.value.textColor,
-          });
+          }).catch(error=>{});
       }
     } catch (error) {
 
@@ -438,13 +453,14 @@ function spinNvueAni(reveser = false) {
 try {
   uni.onThemeChange((ev) => {
     osChangeTheme(ev.theme)
+	
   })
 } catch (error) {
   console.warn("没有主题切换功能：", error)
 }
 /**自动跟随系统设定暗黑主题。 */
 function osChangeTheme(ev: 'light' | 'dark' | string | undefined) {
-  if (!store.getAutoDark) return
+  if (!store.tmuiConfig.autoDark) return
   if (ev === 'light') {
     setDark(false)
   } else if (ev === 'dark') {

@@ -15,7 +15,7 @@
 				<tm-sheet :round="5" :margin="[32, 0, 32, 16]">
 					<view class=" flex flex-col flex-col-center-center round-2 overflow mx-32">
 						<tm-text _class="opacity-5 text-align-center" :font-size="24" label="请选择"></tm-text>
-						<tm-button :transprent="true" :fontColor="_active == index ? _activeFontColor : ''"
+						<tm-button :open-type="item?.openType??''" :transprent="true" :fontColor="_active == index ? _activeFontColor : ''"
 							:followTheme="false" :disabled="item.disabled" @click="change(item, index)"
 							v-for="(item, index) in _list" :key="index" :label="item.text" :font-size="28" :margin="[0, 0]"
 							color="white" block :shadow="0" :round="-1"></tm-button>

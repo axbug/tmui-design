@@ -2,7 +2,7 @@
 	<tm-app ref="app" color="grey-5">
 		<tm-form @submit="confirm" ref="form"  v-model="show" :label-width="190">
 			<tm-form-item  desc="你可以点击提交表单来验证" required label="身份证号码" field="nameuser.a"
-				:rules="[{required:true,message:'请输入66',validator:(val)=>val=='66'}]">
+				:rules="[{required:true,message:'不能为空',validator:(val)=>val.length>0},{required:true,message:'请输入66',validator:(val)=>val=='66'}]">
 				<!-- 不要问我为什么用v-model.lazy，我很受伤。 -->
 				<tm-input :inputPadding="[0,0]" v-model.lazy="show.nameuser.a" :transprent="true"
 					:showBottomBotder="false"> </tm-input>
@@ -87,6 +87,9 @@
 			</tm-form-item>
 
 		</tm-form>
+		
+		
+		
 		<tm-calendar v-model="show.cale" v-model:show="showCal" :default-value="show.cale"></tm-calendar>
 		<tm-city-picker v-model="show.city" v-model:model-str="show.cityStr" v-model:show="showCity"
 			:default-value="show.city"></tm-city-picker>
@@ -189,8 +192,9 @@
 	const testClick = () => {
 		showCity.value = !showCity.value
 	}
+	
 
-	const showPickerFun = () => {
-		showPicker.value = !showPicker.value
-	}
+
+	
+
 </script>

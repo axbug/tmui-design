@@ -9,6 +9,7 @@
 		<view @click="opens"><slot name="trigger"></slot></view>
 		<!-- #endif -->
 		<tm-overlay
+			:zIndex="props.zIndex"
 			ref="overlayAni"
 			blur
 			:duration="props.duration"
@@ -264,6 +265,10 @@ const props = defineProps({
   titleStyle: {
     type: [Array, String, Object],
     default: () => [],
+  },
+  zIndex: {
+    type: [Number, String],
+    default: 999,
   },
 });
 const emits = defineEmits(["click", "open", "close", "update:show", "ok", "cancel"]);

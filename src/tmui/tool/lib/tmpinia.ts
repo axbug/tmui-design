@@ -47,13 +47,7 @@ export const useTmpiniaStore = defineStore('tmpinia', {
 			}
 		}
 	},
-	getters:{
-		getAutoDark:(state)=>{
-			let pdefault_cookies_autoDark = u.getCookie('setTmVuetifyAutoDark')??undefined;
-			let autoDark = typeof pdefault_cookies_autoDark === 'boolean' ? pdefault_cookies_autoDark : state.tmuiConfig.autoDark;
-			return autoDark
-		}
-	},
+
 	actions: {
 		setPageNow(url:string) {
             this.tmStore = {
@@ -76,12 +70,9 @@ export const useTmpiniaStore = defineStore('tmpinia', {
 			}
 			
 		},
-		setTmAutoDark(autoDark:boolean){
+		setTmAutoDark(autoDark=false){
 			u.setCookie('setTmVuetifyAutoDark',autoDark)
-			this.tmuiConfig = {
-				...this.tmuiConfig,
-				autoDark:autoDark
-			}
+			this.tmuiConfig.autoDark = autoDark
 			if(autoDark){
 				let nowstrdark = ''
 				// #ifdef H5
@@ -93,7 +84,7 @@ export const useTmpiniaStore = defineStore('tmpinia', {
 				// #endif
 			
 				// #ifndef H5
-				nowstrdark = uni.getSystemInfoSync()?.hostTheme??''
+				nowstrdark = uni.getSystemInfoSync()?.osTheme??''
 				// #endif
 				this.setTmVuetifyDark(nowstrdark=='dark'?true:false)
 			}

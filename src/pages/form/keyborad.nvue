@@ -13,7 +13,7 @@
 		</tm-sheet>
 		
 		<tm-cell @click="showdate=true" title="弹出键盘" rightColor="primary" :right-text="dateStr"></tm-cell>
-		<tm-keyborad decimal :type="modeltype" v-model="dateStr" v-model:show="showdate"></tm-keyborad>
+		<tm-keyboard decimal :type="modeltype" v-model="dateStr" v-model:show="showdate"></tm-keyboard>
 
 	</tm-app>
 </template>
@@ -27,7 +27,7 @@ import tmRadio from "@/tmui/components/tm-radio/tm-radio.vue"
 import tmRadioGroup from "@/tmui/components/tm-radio-group/tm-radio-group.vue"
 import tmDivider from "@/tmui/components/tm-divider/tm-divider.vue"
 import tmCell from "@/tmui/components/tm-cell/tm-cell.vue"
-import tmKeyborad from "@/tmui/components/tm-keyborad/tm-keyborad.vue"
+import tmKeyboard from "@/tmui/components/tm-keyboard/tm-keyboard.vue"
 const modeltype = ref('password')
 const dateStr = ref('')
 const showdate = ref(false)

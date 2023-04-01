@@ -252,8 +252,8 @@ const iconComputed = computed(() => {
         return JSON.parse(ucode);
     }else if(props.customicon){
 		let names = name.split('-')
-		if(names.length===2){
-			let ucode = '"\\u' + String(names[1]) + '"';
+		if(names.length>=2){
+			let ucode = '"\\u' + String(names[names.length-1]) + '"'
 			return JSON.parse(ucode);
 		}
 	}

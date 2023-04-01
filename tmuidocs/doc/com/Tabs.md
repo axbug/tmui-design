@@ -44,6 +44,7 @@ title: tmui 3.0 组件库
 | tabPos | String | 'top' | top导航在上方，bottom导航在下方 |
 | itemWidth | Number | 0 | 项目的宽度 |
 | activeColor | String | "primary" | tab选中的背景颜色 |
+| tabs-line-ani-color | String | "primary" | 启用线条动画时的，线条颜色 |
 | activeFontColor | String | "primary" | tab选中的字体颜色 |
 | activeFontSize | Number | 30 |tab选中的字体大小颜色  |
 | itemModel | String | "text" | line底部线条，card背景颜色模式，text文本模式,textLight背景减淡模式，文字会变灰 |

@@ -1,17 +1,28 @@
-import { shape } from "../shape";
+import { Shape } from "../shape";
 
-export default function(shape?:shape){
-    
-    if(!shape||!shape?.ctx) return;
-    
-    let ctx = shape.ctx;
-    const {x,y,w,h,fillColor,lineWidth} = shape.styleOpts;
-    ctx.fillStyle = fillColor||"red"
-    ctx.fillRect(x,y,w,h)
-    // @ts-ignore
-    if(ctx?.draw){
-        // @ts-ignore
-        ctx.draw()
+export class tmRect extends Shape {
+    draw():this{
+        if (!this.canvas.ctx) return this;
+        let ctx = this.canvas.ctx;
+        const x = this.x;
+        const y = this.y;
+        const width = this.width;
+        const height = this.height;
+        const fillStyle = this.fillStyle;
+        const strokeStyle = this.strokeStyle;
+        const lineWidth = this.lineWidth
+        if(ctx.setFillStyle){
+            ctx.setFillStyle(fillStyle)
+            ctx.setLineWidth(lineWidth)
+            ctx.setStrokeStyle(strokeStyle)
+        }else{
+            ctx.fillStyle = fillStyle;
+            ctx.lineWidth = lineWidth;
+            ctx.strokeStyle = strokeStyle;
+        }
+        
+        ctx.fillRect(x, y, width, height)
+        ctx.strokeRect(x,y,width,height)
+        return this;
     }
-    console.log(shape.styleOpts)
 }

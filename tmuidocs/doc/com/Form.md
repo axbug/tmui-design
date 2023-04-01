@@ -40,21 +40,40 @@ title: tmui 3.0 组件库
 | border | Boolean | true | 显示下划线。 |
 | transprent | Boolean | false | 是否透明背景。 |
 
+**submit,validate校验后都将得到一致的结果参数从3.1.03开始**
 
 ### :rose: 事件
 | 事件名 | 参数 | 返回数据 | 描述 |
 | --- | --- | --- | --- |
-| submit | - | - | 表单提交函数 |
+| submit | - | result | 表单提交函数 |
 | reset | - | - | 重置表单函数 |
-| validate | - | - | 执行表单检验，不会返回任何值。 |
+| validate | - | result | 执行表单检验，不会返回任何值。 |
 | clearValidate | - | - | 清除验证函数 |
 | update:modelValue | - | - | 更新表单绑定值 |
+
+**从3.1.03开始,result结构如下：**
+```ts
+{ 
+	data: {
+		...form的modelValue数据
+	},
+	// 所有与form-item绑定的filed字段校验的结果数组。
+	result:{
+		message:string,//校验后的提示文本
+		validator: boolean,//是否校验通过
+	}[],
+	isPass:boolean //是否校验通过
+}
+
+```
 
 
 ### :corn: slot插槽
 默认default
 
 ### :green_salad: ref方法
+
+
 | 方法名 | 参数 | 返回值 | 描述 |
 | :--: | :--: | :--: | :-- |
 | submit | - | - | 提交表单 |

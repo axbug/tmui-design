@@ -9,4 +9,5 @@ export interface inputPushItem {
     isRequiredError:boolean,//true,错误，false正常 检验状态
     componentsName:string,//表单组件类型。
     message:string,//检验信息提示语。
+    
 }

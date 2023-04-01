@@ -2,15 +2,16 @@
   <view
     v-if="_width != '0px' && _width != '0%'"
     :style="[_width ? { width: _width } : '']"
-    class="flex flex-row flex-row-center-start "
+    class="flex flex-row flex-row-top-start py-6"
   >
     <view
       :style="[labelWidth ? { width: labelWidth + 'rpx' } : '']"
-      class="flex flex-row flex-row-center-start"
+      class="flex-shrink "
     >
       <tm-text _class="opacity-7" :font-size="_fontSize" :label="props.label"></tm-text>
     </view>
-    <slot
+    <view class="flex-1 wrap" :style="{width:'0px'}">
+      <slot
       ><tm-text
         :color="props.color"
         _class="px-16"
@@ -18,6 +19,7 @@
         :label="props.value"
       ></tm-text
     ></slot>
+    </view>
   </view>
 </template>
 

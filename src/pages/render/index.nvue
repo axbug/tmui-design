@@ -19,7 +19,7 @@ import tmCell from "@/tmui/components/tm-cell/tm-cell.vue"
 import tmDivider from "@/tmui/components/tm-divider/tm-divider.vue"
 import logoimg from "@/static/logo.png"
 const list = ref([
-    { path: "/pages/render/pie", title: "饼图圆环图" }
+    { path: "/pages/render/pie", title: "tmCv示例（canvas渲染库）" }
 ])
 
 </script>

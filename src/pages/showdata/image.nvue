@@ -4,7 +4,7 @@
             <tm-text :font-size="24" _class="font-weight-b" label="基础示例,更多见文档"></tm-text>
             <tm-divider></tm-divider>
             <view>
-                <tm-image preview :width="300" :height="200" src="https://picsum.photos/200/300"></tm-image>
+                <tm-image preview :width="300" :height="200" src="https://picsum.photos/200/300---"></tm-image>
             </view>
         </tm-sheet>
         <tm-sheet>

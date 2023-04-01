@@ -50,6 +50,7 @@ title: tmui 3.0 组件库
 | allowClose | Boolean | true | 点按菜单后，是否允许关闭弹层。 |
 | duration | Number | 250 | 弹层动画时长 |
 
+
 ### :rose: 事件
 | 事件名 | 参数 | 返回数据 | 描述 |
 | --- | --- | --- | --- |
@@ -62,6 +63,8 @@ list[]格式为listitem 如下：
 interface listitem {
 	text ? : string,
 	disabled ? : boolean,
+	// 选项菜单按钮的open-type，同各家小程序的一样的参数。
+	openType ? : string,
 	[prop: string]: any;
 }
 ```

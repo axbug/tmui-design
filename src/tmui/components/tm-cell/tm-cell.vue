@@ -98,6 +98,9 @@
     <tm-divider
       v-if="_computedValue.bottomBorder"
       :margin="[0, 0]"
+      :border="2"
+      color="grey-5"
+      :real-color="!store.tmStore.dark"
       :style="{
         left: `${
           _computedValue.avatar !== ''
@@ -133,6 +136,7 @@ import tmDivider from "../tm-divider/tm-divider.vue";
 import { getCurrentInstance, computed, PropType } from "vue";
 import { cssDirection } from "../../tool/lib/interface";
 import { custom_props } from "../../tool/lib/minxs";
+import { useTmpiniaStore } from "@/tmui/tool/lib/tmpinia";
 const emits = defineEmits(["click"]);
 const props = defineProps({
   ...custom_props,
@@ -257,6 +261,7 @@ const props = defineProps({
     default: "",
   },
 });
+const store = useTmpiniaStore()
 function cellClick(e: any) {
   emits("click", e);
   if (props.url !== "") {

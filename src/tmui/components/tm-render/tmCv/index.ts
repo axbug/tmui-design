@@ -1,3 +1,4 @@
+import { tmRoundRect } from './shape/roundRect';
 // @ts-expect-error
 import * as TWEEN from "@/tmui/tool/lib/tween.min.js";
 import { getCanvas } from "@/tmui/tool/function/getCanvas";
@@ -6,75 +7,128 @@ import { enable, WeexBridge } from "@/tmui/tool/gcanvas/index.js";
 const dom = uni.requireNativePlugin("dom");
 // #endif
 import { ComponentPublicInstance } from "vue"
-import rect from "./shape/rect";
-import { shape } from "./shape";
+import { Shape } from "./shape";
 export interface tmCvOptsType {
-    left?: number,
-    top?: number,
-    width: number,
-    height: number,
-    dpr?: number
+	left?: number,
+	top?: number,
+	width: number,
+	height: number,
+	dpr?: number,
+	platform?: 'uni' | 'web'
 }
 /**
- * tmCv是tmui作者专为uniapp或者无dom下定制轻量级的canvas绘制插件
- * 非常轻量类jQ的链式调用，大道至简。
+ * tmCv
+ * 协议：MIT
+ * 功能特色：
+ * 1/图形为插件式类对象，分模块加载，大小可控，对小程序非常有效
+ * 2/保留了高效的内部动画，动画简单有趣，使用超级简单
+ * @description tmCv是tmui作者专为uniapp开发轻量级的canvas绘制插件
+ * @copyright tmui保留版权，不可随意拿来更改公开发布为自己的产品。不接受二次开发并公布为二次产品。
+ * @author tmui3.0附带库
+ * @default 2023年3月29日
  */
 export class tmCv {
-    private requestIdleCallback:Function|null = null
-    private requestAnimationFrame:Function|null = null
-    /**onFramdi，关闭时需要注销 */
-    private timid:any = null;
-    ctx:CanvasRenderingContext2D|null = null;
-	private canvasId:string = ""
-	private proxy:ComponentPublicInstance|null = null;
-    private opts:tmCvOptsType = {
-        left: 0,
-        top: 0,
-        width: 0,
-        height: 0,
-        dpr: 1
-    }
-    constructor(proxy:ComponentPublicInstance,domId:string,opts?:tmCvOptsType){
+	private requestIdleCallback: Function | null = null
+	private requestAnimationFrame: Function | null = null
+	/**onFramdi，关闭时需要注销 */
+	private timid: any = null;
+	ctx: UniApp.CanvasContext | null = null;
+	render:HTMLCanvasElement|null = null;
+	private canvasId: string = ""
+	private proxy: ComponentPublicInstance | null = null;
+	graphs:Array<Shape> = []
+	opts: tmCvOptsType = {
+		left: 0,
+		top: 0,
+		width: 0,
+		height: 0,
+		dpr: 1,
+		platform: 'uni'
+	}
+	constructor(proxy: ComponentPublicInstance, domId: string, opts?: tmCvOptsType) {
 		this.canvasId = domId;
 		this.proxy = proxy;
-		if(typeof opts !== 'undefined'){
-		    this.opts = {...this.opts,...opts}
+		if (typeof opts !== 'undefined') {
+			this.opts = { ...this.opts, ...opts }
 		}
-    }
-	init():Promise<tmCv>{
+
+	}
+	init(): Promise<tmCv> {
+
 		return this._getNodes(this.proxy)
 	}
-	private _getNodes(proxy:ComponentPublicInstance|null):Promise<tmCv>{
+
+	add(graph:any|any[]){
+		if(Array.isArray(graph)){
+			this.graphs.push(...graph)
+			return
+		}
+		this.graphs.push(graph)
+	}
+	draw(){
+		if(!this.ctx) return;
+		this.ctx.clearRect(0, 0, this.opts.width, this.opts.height)
+		for (const rect of this.graphs){
+			rect.draw()
+		}
+		if(this.ctx.draw) {
+			this.ctx.draw()
+		}
+	}
+
+	public animation<T>(arg: { duration?: number, repeat?: number,yoyo?:boolean } = { duration: 500, repeat: 0 ,yoyo:false}, 
+		onUpdate: (progress: number) => void, onStart?: (progress: number) => void): Promise<{[key:string]:any}> {
+		return new Promise((res, rej) => {
+			const tween = new TWEEN.Tween({ progress: 0 })
+				.easing(TWEEN.Easing.Linear.None) // 缓动函数
+				.to({ progress: 1 }, arg?.duration??0)
+				.onUpdate((e: any) => {
+					onUpdate(e.progress)
+				})
+				.onStart((e:any) => {
+					if (onStart) {
+						onStart(e.progress)
+					}
+				})
+				.onComplete((e:any) => {
+					res(e)
+				})
+				.delay(0)
+				.repeat(arg?.repeat??0)
+				.yoyo(arg?.yoyo??false)
+				.start();
+		})
+	}
+
+	private _getNodes(proxy: ComponentPublicInstance | null): Promise<tmCv> {
 		let t = this;
 		let sys = uni.getSystemInfoSync()
-		function initOpts(node:any){
+		function initOpts(node: any) {
 			try {
-			    if(typeof window !=='undefined'){
-			        t.requestIdleCallback = window.requestIdleCallback;
-			        t.requestAnimationFrame = window.requestAnimationFrame;
-			    }
-			    // @ts-expect-error
-			    if(node&&node !==null && typeof node !='undefined' && node?.requestAnimationFrame&&this.requestAnimationFrame == null){
-			        t.requestAnimationFrame = node.requestAnimationFrame
-			        t.requestIdleCallback = node.cancelAnimationFrame
-			    }
-			    if(t.requestAnimationFrame == null){
-			        t.requestAnimationFrame = uni.$tm.u.requestAnimationFrame;
-			        t.requestIdleCallback = uni.$tm.u.cancelAnimationFrame
-			    }
+				if (typeof window !== 'undefined') {
+					t.requestIdleCallback = window.requestIdleCallback;
+					t.requestAnimationFrame = window.requestAnimationFrame;
+				}
+				// @ts-expect-error
+				if (node && node !== null && typeof node != 'undefined' && node?.requestAnimationFrame && t.requestAnimationFrame == null) {
+					t.requestAnimationFrame = node.requestAnimationFrame
+					t.requestIdleCallback = node.cancelAnimationFrame
+					t.render = node;
+				}
+				if (t.requestAnimationFrame == null) {
+					t.requestAnimationFrame = uni.$tm.u.requestAnimationFrame;
+					t.requestIdleCallback = uni.$tm.u.cancelAnimationFrame
+				}
 			} catch (error) {
-			    console.error("tmCv:",error)
+				console.error("tmCv:", error)
 			}
-			
-			function updateFrame(){
-			    TWEEN.update()
-			    t.timid = uni.$tm.u.requestAnimationFrame(updateFrame)
-			}
-			updateFrame()
+
+
 		}
-		return new Promise((res,rej)=>{
-			if(!t.proxy) {
-				res(t)
+		return new Promise((res, rej) => {
+
+			if (!this.proxy) {
+				res(this)
 				return;
 			}
 			let delay = 10
@@ -95,9 +149,9 @@ export class tmCv {
 			// #ifdef APP-NVUE
 			setTimeout(() => {
 				/*获取元素引用*/
-				let domId = t.canvasId.replace(/[\.|#]/g,"")
+				let domId = t.canvasId.replace(/[\.|#]/g, "")
 				var ganvas: any = proxy?.$refs[domId] ?? null;
-				dom?.getComponentRect(ganvas, function(res: any) {
+				dom?.getComponentRect(ganvas, function (res: any) {
 					t.opts.left = res?.size?.left ?? 0;
 					t.opts.top = res?.size?.top ?? 0;
 					t.opts.dpr = sys.pixelRatio;
@@ -109,120 +163,62 @@ export class tmCv {
 					}).catch(error => {
 						console.error(error)
 					})
-					
+
 				});
-				
+
 			}, delay);
 			// #endif
 			// #ifndef APP-NVUE
 			setTimeout(() => {
-				
 				uni
 					.createSelectorQuery()
 					.in(proxy)
 					.select(".canvas")
-					.boundingClientRect((result) => {
-			        	// @ts-ignore
-						t.opts.left = result?.left ?? 0;
+					.boundingClientRect()
+					.exec(((resNodes) => {
+						const result = resNodes[0]
 						// @ts-ignore
-						t.opts.top = result?.top ?? 0;
-						t.opts.dpr = sys.pixelRatio;
+						this.opts.left = result?.left ?? 0;
 						// @ts-ignore
-						getCanvas(t.proxy, t.canvasId,t.opts.width, t.opts.height).then((e) => {
-							t.ctx = e.ctx
-							e.ctx.fillStyle = 'red'
-							e.ctx.fillRect(0,0,100,100)
-							if(e.ctx.draw){
-								e.ctx.draw()
-							}
-
-							console.log(e)
-							return
+						this.opts.top = result?.top ?? 0;
+						this.opts.dpr = sys.pixelRatio;
+						// @ts-ignore
+						getCanvas(proxy, this.canvasId, this.opts.width, this.opts.height).then((e) => {
 							initOpts(e.node)
-							res(t)
+							this.ctx = e.ctx
+							animate(this.requestAnimationFrame)
+							res(this)
+
 						}).catch(error => {
-							
+
 						})
-					})
-					.exec();
+					}));
 			}, delay);
 			// #endif
 		})
-		
+
 	}
-    
-    /**注销tmCv */
-    destory(){
-        if(!this.requestIdleCallback) return;
-        this.requestIdleCallback(this.timid)
-    }
 
-    rect(arg={x:0,y:0,w:0,h:0}){
-		if(!this.ctx) return
-		let ctx = this.ctx;
-		
-		const {x,y,w,h} = arg;
-        ctx.setFillStyle("red")
-        ctx.fillRect(0,0,100,100)
-        if(ctx.draw){
-            ctx.draw()
-        }
-		console.log(ctx)
-		return
-		new shape(this.ctx,this.opts,'rect',arg).draw()
-		// console.log(new shape(this.ctx,this.opts,'rect',arg))
-
-        // if(!this.ctx) return
-        // let ctx = this.ctx;
-        // this._rect(arg,ctx)
-        // const rfun = this._rect
-        // return {
-        //     animation:function<T>(to:T){
-        //         let t = this
-        //         return new Promise((res,rej)=>{
-        //             new TWEEN.Tween(arg)
-        //             .to(to,750)
-        //             .easing(TWEEN.Easing.Quadratic.InOut)
-        //             .onUpdate((e:any)=>{
-        //                 rfun(e,ctx)
-        //             })
-        //             .onStart(()=>{})
-        //             .onStop(()=>{})
-        //             .onComplete(()=>{
-        //                 res(t)
-        //             })
-        //             .start();
-        //         })
-                
-        //     }
-        // }
-    }
-    _rect(arg={x:0,y:0,w:0,h:0},ctx:CanvasRenderingContext2D){
-        const {x,y,w,h} = arg;
-        ctx.fillStyle = "red"
-        ctx.fillRect(x,y,w,h)
-        if(ctx.draw){
-            ctx.draw()
-        }
-    }
-    animation<T>(shape:Function,arg:T,duration=1000){
-        if(!this.ctx) return;
-        let ctx = this.ctx;
-        function rect(arg={x:10}){
-            ctx.fillStyle = "red"
-            ctx.fillRect(arg.x, 10, 150, 75)
-            if(ctx.draw){
-                ctx.draw()
-            }
-        }
-
-        new TWEEN.Tween({x:10})
-        .to({x:750},750)
-        .easing(TWEEN.Easing.Quadratic.InOut)
-        .onUpdate((e:any)=>{
-            console.log(e.x)
-            rect({x:e.x})
-        })
-        .start();
-    }
+	/**注销tmCv */
+	destory() {
+		if (!this.requestIdleCallback) return;
+		this.requestIdleCallback(this.timid)
+	}
 }
+
+
+function animate(requestAnimationFrames: any) {
+
+	if (!requestAnimationFrames) return;
+	function animateVC() {
+		requestAnimationFrames(animateVC);
+		TWEEN.update();
+	}
+	animateVC()
+}
+
+export {
+	Shape
+}
+
+

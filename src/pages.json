@@ -11,8 +11,7 @@
 				"navigationBarTitleText": "",
 				"navigationStyle": "custom",
 				"titlePenetrate": "YES",
-				"transparentTitle": "always",
-				"backgroundColor":"#f5f5f5"
+				"transparentTitle": "always"
 			}
 		},
 		{
@@ -68,7 +67,7 @@
 				{
 					"path": "pie",
 					"style": {
-						"navigationBarTitleText": "饼图和圆环",
+						"navigationBarTitleText": "tmCv示例",
 						"disableScroll": true
 					}
 				}
@@ -716,6 +715,7 @@
 			]
 		}
 	],
+
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
 		"navigationBarTitleText": "uni-app",

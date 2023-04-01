@@ -181,7 +181,7 @@ export default {
 			pinia.use(tmPiniaPlugin)
 			app.use(pinia)
 		}
-		
+
 		// #ifndef APP-NVUE
 		app.use(languageByGlobal())
 		// #endif

@@ -49,7 +49,7 @@ Picker与Picker-view两个组件属性相同。除了没有show属性。请自�
 | linearDeep | String | light | 选择器确认选择按钮的渐变背景颜色深浅，可选值有：light,dark,accent亮系渐变和深色渐变 |
 | beforeChange | Function/Boolean | / | 当前改变index项时，改变时执行的函数。如果返回false，将会阻止本次改变,可以是Promise,提供了即将改变的数据和将要改变到目标的数据,结构 为 from:{itemindex,levelIndex,data},to:{itemindex,levelIndex,data}|
 | disabled | Boolean | false | 当使用插槽占位触发显示时，打开禁用可阻止弹层显示，适合在表单内部使用 |
-
+| zIndex<Badge type="danger" text="v3.1.03+" vertical="middle" />     | Number, String        | 999   | 弹层的层级  |
 ### :rose: 事件
 
 | 事件名 | 参数 | 返回数据 | 描述 |

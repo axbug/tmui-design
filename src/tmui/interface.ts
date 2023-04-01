@@ -114,6 +114,8 @@ declare global {
         interface tmActionMenu {
             text?: string,
             disabled?: boolean,
+            /** 各家小程序的openType。 */
+            openType?:string
             [key: string]: any;
         }
         interface tmAlert {

@@ -13,11 +13,11 @@ title: tmui 3.0 组件库
 
 ### :hot_pepper: 侧边栏导航 sidemenu 示例
 
-<webview url="https://tmui.design/h5/#/pages/daohang/sidemenu"></webview>
+<webview url="https://tmui.design/h5/#/pages/daohang/sideMenu"></webview>
 
 ::: details 示例模板
 
-@[code vue](pages/daohang/sidemenu.nvue)
+@[code vue](pages/daohang/sideMenu.nvue)
 
 :::
 

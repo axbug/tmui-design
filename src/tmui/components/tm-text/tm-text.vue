@@ -97,7 +97,7 @@ const isDark = computed(() => computedDark(props, tmcfg.value));
 //计算主题
 // const tmcomputed = computed(() => computedTheme(props, isDark.value));
 const _label = computed(() => props.label);
-const _fontSize = computed(() => Number(props.fontSize)*(store.tmuiConfig.themeConfig?.globalFontSizeRatio??1));
+const _fontSize = computed(() => Number(props.fontSize)*(store?.tmuiConfig?.themeConfig?.globalFontSizeRatio??1));
 //从父应用组件中获取自动文字色。
 const appTextColor = inject(
   "appTextColor",

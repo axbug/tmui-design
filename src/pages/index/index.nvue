@@ -60,7 +60,7 @@
 					</tm-button>
 				</view>
 			</tm-sheet>
-
+			
 			<tm-sheet paren-class="overflow" :shadow="6" :round="6" :margin="[24, 0]" :padding="[0, 0]">
 				<tm-row :width="702" :column="3" :round="6">
 					<tm-col @click="toLinks(item.url)" :height="190" v-for="(item,index) in category" :key="index">
@@ -71,6 +71,7 @@
 					</tm-col>
 				</tm-row>
 			</tm-sheet>
+			
 			<view class="py-24">
 			<!-- #ifdef MP-WEIXIN -->
 			<tm-cell url="../wxaccount/user" :margin="[24, 0,24,16]" showAvatar :round="4" :titleFontSize="30"
@@ -132,7 +133,6 @@
 </template>
 
 <script lang="ts" setup>
-
 import {
 	ref,
 	getCurrentInstance,
@@ -178,14 +178,14 @@ const str = ref("")
 const showCustomColor = ref("#60ab41")
 const showCustomName = ref("darkGreen")
 const showCustom = ref(false)
-const autoDark = ref(store.getAutoDark)
+const autoDark = ref(store.tmuiConfig.autoDark)
 const headerBgColor = computed(()=>{
 	if(store.tmStore.dark){
 		return []
 	}
 	return store.tmStore.color?[]:['#f5f5f5','#f5f5f5']
 })
-const tmuiVer = "TMUI 3.1.02"
+const tmuiVer = "TMUI 3.1.03"
 
 const category =[
 	{url:'../changyong/index',color:'primary',
@@ -324,5 +324,7 @@ function autoDarkChange(e: boolean) {
 	autoDark.value = e;
 
 }
+
+
 
 </script>

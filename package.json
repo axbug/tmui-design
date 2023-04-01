@@ -1,8 +1,8 @@
 {
     "name": "tmui",
-    "version": "3.1.02",
+    "version": "3.1.03",
     "scripts": {
-        "dabao": "node buildTmui/build.js 3.1.02",
+        "dabao": "node buildTmui/build.js 3.1.03",
         "dev:app": "uni -p app",
         "dev:custom": "uni -p",
         "dev:h5": "uni",

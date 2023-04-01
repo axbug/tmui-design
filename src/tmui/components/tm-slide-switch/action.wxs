@@ -96,6 +96,7 @@ var swipeMove = function(_offset) {
 
 var close = function() {
 	swipeMove(0);
+	state.opened = false;
 };
 
 var onCloseChange = function(newVal, oldVal, ownerInstance) {
@@ -116,6 +117,7 @@ var onOpenedChange = function(newVal, oldVal, ownerInstance) {
 };
 
 var touchStart = function(event) {
+	console.log(event)
 	resetTouchStatus();
 	state.startOffset = state.offset;
 	var touchPoint = event.touches[0];
@@ -150,7 +152,9 @@ var open = function(position) {
 	owner.callMethod('open', {
 		position: position
 	});
+	state.opened = true;
 	swipeMove(_offset);
+	console.log(owner)
 };
 
 var endDrag = function(event, ownerInstance) {
@@ -173,6 +177,7 @@ var endDrag = function(event, ownerInstance) {
 		// 仅在有发生侧滑的情况下自动关闭（由js控制是否异步关闭）
 		if (state.startOffset !== state.offset) {
 			close();
+			
 		}
 	}
 };

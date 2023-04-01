@@ -9,6 +9,21 @@ title: 关于tmUi3.0的更新日志
 # TMUI 3.0 by tm-vuefity 3.0
 
 ### :couplekiss: 更新日志
+## 3.1.03（2023-4-1）
+* [新库]重新编写发布了tm-render库，不再引入第三方渲染库，而是采用了自写的轻量级canvas渲染库，目前暂不支持Nvue(后续兼容)，
+* 使用超级简单，具体[请看demo实例](https://tmui.design/h5/#/pages/render/pie)
+* ![tmCv](https://cdn.tmui.design/public/design/tmcvDemo.gif)
+* [优化]autoDark，优化，可能切换自动时有混乱的表现。
+* [优化]tm-text,主题判断优化下，增加容错率。
+* [优化]tm-form,校验优化，大家对校验的要求较高，希望给出手动校验值，以及校验后需要返回每一个字段校验的结果，因此我重构了校验流程，让校验变得更简单,方便手动或者自动校验功能。
+* 现在不管是submit还是手动vailidate校验，都将返回isPass:是否校验通过，和result[]校验结果列表集,以及绑定的model数据三个字段。
+* [修复]因为新的配置表采用了对pinia实例的插件安装，导致已有pinia store的pinia实例丢失，各位在引用自己的pinia实例时，记得在引入我的tmui之前引入创建实例即可，详见快速上手文档。
+* [优化]最近不少人反应运行到app报错，经过多次配合排查，发现是大家使用了pinia的持久化插件导致。帮本次升级针对pinia升级优化。大家安装pinia插件时，一定要在app.use(tmui)之前引入安装自己的插件。
+* [优化]actionMenu的list数据结构增加了属性openType，方便使用小程序和应用按钮的开放功能
+* [优化]picker,modal,增加了zIndex属性。
+* [优化]tm-icon，自定图标如果名称出现多个-时可能无法显示。
+* [修复]颜色计算公式rgbaToHsla转换精度有误差导致颜色值会相差0.6-1之间。
+* [优化]uni.getsystem下取值hostTheme无效，改为osTheme取值。
 ## 3.1.02（2023-3-25）
 * [重要]cli相关依赖全部升级到最新，pinia,vite,echart,uni sdk(3.7.9),经过本人测试优化的挺好，建议大家可以升级。如果你是使用cli开发
 * 请下载我的最新cli包[前往下载](https://tmui.design/doc/start/%E5%BF%AB%E9%80%9F%E4%B8%8A%E6%89%8B.html#%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9)，插件版本号已经帮你配置好。替换packejson后，请执行```npm cache clean --force```清下缓存包。然后再```npm i --save```执行安装依赖

@@ -1,6 +1,6 @@
 {
     "name": "tmui.design",
-    "version": "3.1.02",
+    "version": "3.1.03",
     "description": "tmui",
     "main": "index.js",
     "scripts": {

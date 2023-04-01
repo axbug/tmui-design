@@ -53,6 +53,8 @@ export function createApp() {
 
 ### 所有配置（完善中）
 
+** 目前可用的参数为:autoDark,theme,globalFontSizeRatio ,router**
+
 ```ts
 interface tmuiConfig {
   /** 自动跟随系统暗黑 */

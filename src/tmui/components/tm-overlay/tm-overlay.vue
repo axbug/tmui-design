@@ -33,7 +33,6 @@
 			<!-- #ifndef APP-NVUE -->
 			<view
 				@click.stop="closeByclick"
-				@touchmove.stop="touchmove"
 				:class="[
 					align_rpx,
 					' absolute flex flex-col  l-0 t-0 ',

@@ -54,7 +54,7 @@ title: tmui 3.0 组件库
 | content       | String         | ''      | 正文主体                                      |
 | disabled      | Boolean        | false   | 是否禁用                                      |
 | titleStyle      | Array, String, Object        | ```[]```   | 标题的样式表                                      |
-
+| zIndex<Badge type="danger" text="v3.1.03+" vertical="middle" />     | Number, String        | 999   | 弹层的层级  |
 ### :rose: 事件
 | 事件名         | 参数   | 返回数据    | 描述               |
 |-------------|------|---------|------------------|

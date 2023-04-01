@@ -33,8 +33,9 @@ import {
   unref,
   readonly,
 } from "vue";
-import { formItem } from "./interface";
+import { formItem,validateResultListType } from "./interface";
 import tmSheet from "../tm-sheet/tm-sheet.vue";
+import { validateFunCall,getObjectVal } from "../tm-form-item/validateFunCall"
 /**
  * 事件说明
  * @method submit 提交表单时触发。
@@ -116,6 +117,7 @@ const safeFormCom = ref([
 //需要对子级，响应的方法。
 // 这里为了更好的性能不再使用vue2版本中children方式，而是采用了provide方式与父子间传递。
 const formFunCallBack = ref("");
+const validateResultList = ref<validateResultListType[]>([])
 provide(
   "tmFormFun",
   computed(() => formFunCallBack.value)
@@ -144,84 +146,80 @@ provide(
   "formCallFiled",
   computed(() => _modelVal.value)
 );
-// watch(
-//   () => props.modelValue,
-//   () => {
-//     _modelVal.value = { ...toRaw(props.modelValue) };
-//   },
-//   { deep: true }
-// );
-
+provide(
+  "validateResultList",
+  computed(() => validateResultList.value)
+);
 let timid:any = NaN;
-let ptimeId:any = 301120999856
-function reset() {
-  formFunCallBack.value = "";
-  nextTick(() => {
-    formFunCallBack.value = "reset";
+let ptimeId:any = NaN
+watch(
+  () => props.modelValue,
+  () => {
     clearTimeout(timid);
-    emits("reset");
-    timid = setTimeout(function () {
-      let dblack = uni.$tm.u.deepClone(_backModelVal);
-      emits("reset");
-      emits("update:modelValue", dblack);
-      _modelVal.value = dblack;
-      console.log(dblack)
-    }, 300);
-  });
+    if(formFunCallBack.value == 'validate'){
+      timid = setTimeout(function() {
+		  const result = validate();
+		  validateResultList.value = [...result.result]
+	  }, 100);
+    }
+  },
+  { deep: true }
+);
+
+
+function reset() {
+  formFunCallBack.value = "reset";
+  let dblack = uni.$tm.u.deepClone(_backModelVal);
+  emits("update:modelValue", dblack);
+  emits("reset");
+  _modelVal.value = dblack;
 }
 function clearValidate() {
-  formFunCallBack.value = "";
+  formFunCallBack.value = "clearValidate";
   nextTick(() => {
-    formFunCallBack.value = "clearValidate";
-    nextTick(() => {
-      emits("clearValidate");
-    });
+    emits("clearValidate");
   });
 }
 function submit() {
-  //发送检验状态。
-  formFunCallBack.value = "";
-
-  nextTick(() => {
-    formFunCallBack.value = "validate";
-    let isPass = true;
-    uni.$tm.u.throttle(
-      () => {
-        let par = toRaw(_callBackModelVal.value);
-        for (let i = 0, len = par.length; i < len; i++) {
-          if (par[i].isRequiredError == true) {
-            isPass = false;
-            break;
-          }
-        }
-        // console.log(par,_modelVal.value)
-        // const dataTest = {...readonly(_modelVal.value)};
-        // par.forEach(el=>{
-        //    setObjectVal(dataTest,el.field,el.value)
-        // })
-        //validate是否检验通过。
-        emits("submit", { data: toRaw(_modelVal.value), validate: isPass });
-      },
-      220,
-      false
-    );
-  });
+  formFunCallBack.value = "validate";
+  let isPass = true;
+  uni.$tm.u.throttle(
+    () => {
+	  const result = validate();
+	  validateResultList.value = [...result.result]
+      emits("submit", { data: toRaw(_modelVal.value), ...result });
+	  
+    },
+    220,
+    false
+  );
 }
-//执行表单检验，不会返回任何值。
+//执行表单检验
 function validate() {
-  formFunCallBack.value = "";
-  nextTick(() => {
-    formFunCallBack.value = "validate";
-    nextTick(() => {
-      emits("reset");
-    });
-  });
-}
-function checkValidate(arg:formItem){
-  clearTimeout(ptimeId)
-  ptimeId = setTimeout(() => {
-    emits("validate", arg);
-  }, 1000);
+  formFunCallBack.value = "validate";
+  let par = toRaw(_callBackModelVal.value);
+  let isPass = true;
+  let list:validateResultListType[]= []
+  for (let i = 0, len = par.length; i < len; i++) {
+	  let item = par[i];
+	  let value = getObjectVal(_modelVal.value,item.field)
+	  const vallist = validateFunCall(item.rules,value);
+	  let rulstVal = {
+		  message: '校验通过',
+		  validator: true,
+	  }
+	  for(let j=0;j<vallist.length;j++){
+		  if(!vallist[j].validator){
+			  isPass = false
+			  rulstVal.message = vallist[j]?.message??'校验通过'
+			  rulstVal.validator = vallist[j]?.validator??true
+			  break;
+		  }
+	  }
+	  list.push({field:item.field,...rulstVal})
+  }
+  
+  return {result:list,isPass,data: toRaw(_modelVal.value),validate:isPass};
 }
 
 function pushKey(item: formItem) {
@@ -259,7 +257,6 @@ defineExpose({
   reset,
   validate,
   clearValidate,
-  checkValidate,
   submit,
   pushKey,
   delKey,

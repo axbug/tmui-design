@@ -86,6 +86,7 @@ import {
 import { custom_props } from "../../tool/lib/minxs";
 import { defaultProps } from "./props";
 import tmSheet from "../tm-sheet/tm-sheet.vue";
+// @ts-ignore
 // #ifdef APP-NVUE
 var dom = weex.requireModule("dom");
 const Binding = uni.requireNativePlugin("bindingx");
@@ -127,6 +128,7 @@ function closeOther() {
 function open(arg) {
   opened.value = true;
   emits("update:open-status", true);
+  console.log('------')
 }
 
 function tap() {
