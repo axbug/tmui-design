@@ -37,6 +37,7 @@ title: tmui 3.0 组件库
 | show         | Boolean        | false   | 是否显示双向绑定可使用v-model:show  |
 | width        | Number         | 500     | 宽      |
 | height       | Number         | 600     | 高        |
+| footHeight   | Number         | 0       | 抽屉底部高度     |
 | round        | Number, String | 12      | 圆角像素         |
 | duration     | Number         | 300     | 弹出动画的时间（毫秒）     |
 | overlayClick | Boolean        | true    | 是否允许点击遮罩关闭   |
