@@ -17,6 +17,7 @@
 			:transprent="!props.mask"
 			@click="overlayClickFun"
 			:align="align_rp"
+      :teleport="props.teleport"
 			:overlayClick="false"
 			v-model:show="_show"
 		>
@@ -205,7 +206,12 @@ const props = defineProps({
   footHeight:{
     type:Number,
     default:0
-  }
+  },
+  /** 是否使用teleport */
+  teleport:{
+    type: Boolean,
+    default: true,
+  },
 });
 const emits = defineEmits(["click", "open", "close", "update:show", "ok", "cancel"]);
 const proxy = getCurrentInstance()?.proxy ?? null;

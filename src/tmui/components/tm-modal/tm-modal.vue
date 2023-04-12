@@ -19,6 +19,7 @@
 			:align="align_rp"
 			:overlayClick="false"
 			v-model:show="_show"
+      :teleport="props.teleport"
 		>
 			<tm-translate :reverse="reverse_rp" :width="anwidth" :height="anheight" ref="drawerANI" :auto-play="false" :name="aniname" :duration="props.duration">
 				<view
@@ -269,6 +270,11 @@ const props = defineProps({
   zIndex: {
     type: [Number, String],
     default: 999,
+  },
+  /** 是否使用teleport */
+  teleport:{
+    type: Boolean,
+    default: true,
   },
 });
 const emits = defineEmits(["click", "open", "close", "update:show", "ok", "cancel"]);

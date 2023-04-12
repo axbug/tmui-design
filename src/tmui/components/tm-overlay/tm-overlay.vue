@@ -3,7 +3,7 @@
 	<root-portal>
 	<!-- #endif -->
 	<!-- #ifdef H5 -->
-	<teleport to="#app">
+	<teleport to="#app" :disabled="!props.teleport">
 	<!-- #endif -->
 
 		<view
@@ -57,7 +57,7 @@
 			</view>
 			<!-- #endif -->
 		</view>
-	
+
 	<!-- #ifdef MP-WEIXIN || MP-ALIPAY -->
 	</root-portal>
 	<!-- #endif -->
@@ -131,6 +131,11 @@ const props = defineProps({
   inContent: {
     type: Boolean,
     default: false,
+  },
+  /** 是否使用teleport */
+  teleport:{
+    type: Boolean,
+    default: true,
   },
 });
 const emits = defineEmits(["click", "open", "close", "update:show"]);
