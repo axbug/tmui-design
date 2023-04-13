@@ -428,7 +428,7 @@ routerTo(url: string, type: openUrlType): void
 ```
 ```ts
 /**
-* 将rpx转换为px
+* 将px转换为rpx
 * @param v 待转换的数字
 * @param screenWidth 屏幕的宽度，如果不提供默认自动获取
 * @return number
