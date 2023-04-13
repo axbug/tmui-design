@@ -62,7 +62,7 @@
             v-if="!loading && error"
             :style="[{ width: img_width + props.unit, height: img_height + props.unit }]"
             class="flex flex-col flex-center opacity-5 absolute l-0 t-0"
-          >9
+          >
             <slot name="error">
               <view @click="reloadImg">
                 <tm-icon :userInteractionEnabled="false" :name="_errorIcon"></tm-icon>
