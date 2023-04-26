@@ -12,7 +12,7 @@
 				<tm-tag checkable v-model:checked="stripe" @click="stripe=!stripe" label="显示/隐藏条纹"></tm-tag>
 			</view>
 			<tm-divider></tm-divider>
-			<tm-table :table-data="testdata" :stripe="stripe" :showHeader="showFixed" @rowClick='onClick' :height="650" :width="638" ></tm-table>
+			<tm-table :table-data="data" :stripe="stripe" :showHeader="showFixed" @rowClick='onClick' :height="650" :width="638" ></tm-table>
 		</tm-sheet>
 	</tm-app>
 </template>
@@ -30,15 +30,17 @@
 	import tmTable from "@/tmui/components/tm-table/tm-table.vue"
 	import tmDivider from "@/tmui/components/tm-divider/tm-divider.vue"
 	import tmTag from "@/tmui/components/tm-tag/tm-tag.vue"
-	import testdata from "./smpledata"
+	import {testData,testData2} from "./smpledata"
 
 	const showFixed = ref(true)
 	const stripe = ref(false)
-
+	const data = ref(testData)
 
 	function onClick(row:number, col:number) {
 		uni.$tm.u.toast("行:" + String(row) + ",列" + String(col))
 	}
+	
+
 </script>
 
 <style>

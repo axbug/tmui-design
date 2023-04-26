@@ -14,7 +14,7 @@
                     :height="56" :font-size="24" label="右边"></tm-button>
                 <tm-button :margin="[12, 12]" @click="changPos('center')" color="green" :width="120"
                     :height="56" :font-size="24" label="居中"></tm-button>
-				<tm-drawer>
+				<tm-drawer :beforeOk="beforeOk">
 					<template v-slot:trigger>
 						<tm-button block :margin="[12, 12]" :padding="[24,0]" color="cyan" 
 						    :height="56" :font-size="24" label="通过插槽触发弹层"></tm-button>
@@ -59,4 +59,11 @@ function changPos(params:string) {
     showWin.value=true
 }
 
+function beforeOk(){
+    return new Promise((res)=>{
+        setTimeout(()=>{
+            res(true)
+        },2000)
+    })
+}
 </script>

@@ -5,7 +5,7 @@
             <tm-text :fontSize="24" _class="font-weight-b" label="下面是一些其它属性,更多玩法请前往文档。"></tm-text>
             <tm-divider></tm-divider>
             <view class="flex flex-row flex-wrap ">
-                <tm-button :margin="[12,12]" @click="msg.show()" color="white" :width="120" :height="56" :fontSize="26"  label="默认"></tm-button>
+                <tm-button :margin="[12,12]" @click="msg.show({text:'默认默认默认默认默认默认默认默认默认默认默认',})" color="white" :width="120" :height="56" :fontSize="26"  label="默认"></tm-button>
                 <tm-button :margin="[12,12]" @click="msg.show({model:'error'})" color="red" :width="120" :height="56" :fontSize="26"  label="错误"></tm-button>
                 <tm-button :margin="[12,12]" @click="msg.show({model:'warn'})" color="orange" :width="120" :height="56" :fontSize="26"  label="警告"></tm-button>
                 <tm-button :margin="[12,12]" @click="msg.show({model:'quest'})" color="pink" :width="120" :height="56" :fontSize="26"  label="疑问"></tm-button>
@@ -15,7 +15,7 @@
                 <tm-button :margin="[12,12]" @click="msg.show({model:'load'})" color="primary" :width="120" :height="56" :fontSize="26"  label="加载中"></tm-button>
             </view>
         </tm-sheet>
-       <tm-message ref="msg"></tm-message>
+       <tm-message ref="msg" :lines="2"></tm-message>
     </tm-app>
 </template>
 <script lang="ts" setup>

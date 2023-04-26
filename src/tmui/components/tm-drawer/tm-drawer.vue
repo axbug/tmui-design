@@ -34,20 +34,22 @@
 					:class="[round_rp, 'flex flex-col overflow ', customClass]"
 				>
 					<view v-if="!props.closeable && !props.hideHeader" class="flex flex-row flex-row-center-center flex-between px-24" style="height: 44px">
-						<view class="flex-4 flex-shrink"><tm-text v-if="!props.hideCancel" @click="cancel" :label="props.cancelText"></tm-text></view>
+						<view class="flex-4 flex-shrink">
+              <tm-text v-if="!props.hideCancel&&!loading&&!ok_loading" @click="cancel" :label="props.cancelText"></tm-text>
+            </view>
 						<view class="flex-8 px-32 flex-center">
 							<slot name="title"><tm-text _class="text-overflow-1 opacity-7" :label="props.title"></tm-text></slot>
 						</view>
 						<view class="flex-4 flex-shrink flex-row flex-row-center-end">
-							<tm-text :color="okColor" @click="ok" v-if="!ok_loading" :dark="props.dark" :label="props.okText"></tm-text>
+							<tm-text :color="okColor" @click="ok" v-if="!ok_loading&&!loading" :dark="props.dark" :label="props.okText"></tm-text>
 							<tm-icon
 								:color="okColor"
-								v-if="ok_loading"
-								:spin="ok_loading"
+								v-if="ok_loading||loading"
+								:spin="ok_loading||loading"
 								:dark="isDark"
 								:_class="isDark !== true ? 'opacity-4' : ''"
-								:fontSize="34"
-								:name="ok_loading ? 'tmicon-jiazai_dan' : 'tmicon-times-circle-fill'"
+								:fontSize="24"
+								:name="ok_loading||loading ? 'tmicon-shuaxin' : 'tmicon-times-circle-fill'"
 							></tm-icon>
 						</view>
 					</view>
@@ -212,6 +214,22 @@ const props = defineProps({
     type: Boolean,
     default: true,
   },
+  /**打开前执行 */
+  beforeOpen:{
+    type:Function,
+    default:null
+  },
+  /**关点击ok前执行，如果返回是false，将阻止关闭. */
+  beforeOk:{
+    type:Function,
+    default:null
+  },
+  /**点击取消前执行，如果返回fase将阻止关闭. */
+  beforeCance:{
+    type:Function,
+    default:null
+  },
+
 });
 const emits = defineEmits(["click", "open", "close", "update:show", "ok", "cancel"]);
 const proxy = getCurrentInstance()?.proxy ?? null;
@@ -320,6 +338,7 @@ onMounted(() => {
   }
 });
 const ok_loading = computed(() => props.okLoading);
+const loading = ref(false)
 const round_rp = computed(() => {
   if (aniname.value == "left") return "round-r-" + props.round;
   if (aniname.value == "right") return "round-l-" + props.round;
@@ -391,10 +410,53 @@ const align_rp = computed(() => {
   }
 });
 
+
+async function _beforeOpenFun(){
+  if (typeof props.beforeOpen === "function") {
+      loading.value = true;
+      let p = await props.beforeOpen();
+      if (typeof p === "function") {
+        p = await p();
+      }
+      loading.value = false;
+  }
+}
+
+
+
+async function _beforeOkFun(){
+  let p = true;
+  if (typeof props.beforeOk === "function") {
+      loading.value = true;
+      p = await props.beforeOk();
+      if (typeof p === "function") {
+        p = await p();
+      }
+      loading.value = false;
+      if (!p) return;
+  }
+  return p
+}
+
+async function _beforeCancelFun(){
+  let p = true;
+  if (typeof props.beforeCance === "function") {
+      loading.value = true;
+      p = await props.beforeCance();
+      if (typeof p === "function") {
+        p = await p();
+      }
+      loading.value = false;
+      if (!p) return;
+  }
+  return p
+}
+
 function OverLayOpen() {
   // nextTick(function() {
   // 	drawerANI.value?.play();
   // })
+  _beforeOpenFun();
   _show.value = true;
   emits("open");
   emits("update:show", true);
@@ -406,9 +468,10 @@ function overclose() {
     emits("update:show", false);
   });
 }
-function overlayClickFun(e: Event) {
+async function overlayClickFun(e: Event) {
   emits("click", e);
-  if (!props.overlayClick || props.disabled || !overlayAni.value) return;
+  if (!props.overlayClick || props.disabled || !overlayAni.value || loading.value) return;
+  if(!await _beforeCancelFun()) return
   reverse.value = false;
   throttle(
     () => {
@@ -421,8 +484,9 @@ function overlayClickFun(e: Event) {
   );
 }
 
-function ok() {
-  if (props.disabled) return;
+async function ok() {
+  if (props.disabled || loading.value) return;
+  if(!await _beforeOkFun()) return
   reverse.value = false;
   debounce(
     () => {
@@ -435,8 +499,12 @@ function ok() {
   );
 }
 
-function cancel() {
-  if (props.disabled) return;
+
+
+
+async function cancel() {
+  if (props.disabled || loading.value) return;
+  if(!await _beforeCancelFun()) return
   reverse.value = false;
   debounce(
     () => {

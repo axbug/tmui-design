@@ -193,6 +193,19 @@ export default {
 
 		app.mixin({
 			...appconfig,
+			onShow(){
+				// $mpType
+				
+				// setTimeout(function() {
+				// 	if(app.config.globalProperties.$pinia.state.value?.tmpinia?.tmStore){
+				// 		const {dark} = app.config.globalProperties.$pinia.state.value.tmpinia.tmStore;
+				// 		console.log(dark)
+				// 		if(dark){
+				// 			//暂不实现。
+				// 		}
+				// 	}
+				// }, 10);
+			}
 		})
 
 

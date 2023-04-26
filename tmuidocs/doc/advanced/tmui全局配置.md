@@ -71,7 +71,7 @@ interface tmuiConfig {
       inputColor?: string;
       /**禁用输入框，表单等暗黑背景 */
       disableColor?: string;
-      /**暗黑下的页面背景 */
+      /**暗黑下的页面背景 3.1.03支持配置 */
       bodyColor?: string;
       /**文本禁用色. */
       textDisableColor?: string;
@@ -106,6 +106,17 @@ interface tmuiConfig {
     [key: string]: any;
   };
 }
+
+/**componentKeys*/
+namespace components {
+      type all = button & sheet
+      //3.1.04支持配置 button
+      interface button { 
+          round?: number,
+          shadow?: number,
+          color?:string
+      }
+  }
 ```
 
 ### 如何使用

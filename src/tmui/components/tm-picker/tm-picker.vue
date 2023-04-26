@@ -142,7 +142,7 @@ const props = defineProps({
   },
   btnRound: {
     type: Number,
-    default: 3,
+    default: 0,
   },
   round: {
     type: Number,
@@ -170,6 +170,11 @@ const props = defineProps({
     type: [Number, String],
     default: 999,
   },
+  //弹出的动画时间单位ms.
+  duration: {
+    type: Number,
+    default: 300,
+  },
 });
 const showCity = ref(true);
 const _colIndex: Ref<Array<number>> = ref([]);
@@ -189,7 +194,7 @@ const sysinfo = inject(
     };
   })
 );
-let tmid = NaN;
+let tmid:any = NaN;
 watchEffect(() => {
   showCity.value = props.show;
 });

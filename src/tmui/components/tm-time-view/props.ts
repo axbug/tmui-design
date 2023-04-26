@@ -1,7 +1,10 @@
 import type { showDetail } from "./interface"
 import { PropType } from "vue"
 export const propsOpts = {
-	//这里是动态返回时间戳。这是一个标准的时间，不管showDetail是如何设置都将不影响这里的输出。
+	/**
+	 * 这里是动态返回时间戳。这是一个标准的时间，不管showDetail是如何设置都将不影响这里的输出。
+	 * 并且fomart不会影响这里的双向绑定。只会影响model-str
+	 */
 	modelValue: {
 		type: [Number, String, Date],
 		default: ''

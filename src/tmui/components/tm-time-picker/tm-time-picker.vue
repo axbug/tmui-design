@@ -1,22 +1,51 @@
 <template>
-  <view @click="_show=!_show" >
-    
+  <view @click="_show = !_show">
     <!-- #ifdef APP-NVUE -->
     <view :eventPenetrationEnabled="true"><slot></slot></view>
     <!-- #endif -->
     <!-- #ifndef APP-NVUE -->
     <slot></slot>
     <!-- #endif -->
-    <tm-drawer :disabbleScroll="true" :round="props.round" ref="drawer" :height="dHeight" @update:show="_show = $event"
-      :show="_show" @close="close" :ok-color="props.color" @open="open" :title="props.title" :closeable="true"
-      @ok="confirm">
-      <tm-time-view :height="dHeight - 230" @update:model-value="_value = $event" :model-value="_value"
-        @update:model-str="_strvalue = $event" :model-str="_strvalue" :default-value="_value" @change="change"
-        :disabledDate="props.disabledDate" :format="props.format" :showDetail="props.showDetail"
-        :showSuffix="props.showSuffix" :start="props.start" :end="props.end"
-        :immediateChange="props.immediateChange"></tm-time-view>
-      <tm-button label="确认选择" block :margin="[32, 12]" :color="props.color" :linear="props.linear"
-        :linear-deep="props.linearDeep" @click="confirm" :round="props.btnRound">
+    <tm-drawer
+      :disabbleScroll="true"
+      :round="props.round"
+      ref="drawer"
+      :height="dHeight"
+      @update:show="_show = $event"
+      :show="_show"
+      @close="close"
+      :ok-color="props.color"
+      @open="open"
+      :title="props.title"
+      :closeable="true"
+      @ok="confirm"
+    >
+      <tm-time-view
+        :height="dHeight - 230"
+        @update:model-value="_value = $event"
+        :model-value="_value"
+        @update:model-str="_strvalue = $event"
+        :model-str="_strvalue"
+        :default-value="_value"
+        @change="change"
+        :disabledDate="props.disabledDate"
+        :format="props.format"
+        :showDetail="props.showDetail"
+        :showSuffix="props.showSuffix"
+        :start="props.start"
+        :end="props.end"
+        :immediateChange="props.immediateChange"
+      ></tm-time-view>
+      <tm-button
+        label="确认选择"
+        block
+        :margin="[32, 12]"
+        :color="props.color"
+        :linear="props.linear"
+        :linear-deep="props.linearDeep"
+        @click="confirm"
+        :round="props.btnRound"
+      >
       </tm-button>
       <view :style="{ height: sysinfo.bottom + 'px' }"></view>
     </tm-drawer>
@@ -73,13 +102,16 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
-  //这里是动态返回时间戳。这是一个标准的时间，不管showDetail是如何设置都将不影响这里的输出。
+  /**
+   * 这里是动态返回时间戳。这是一个标准的时间，不管showDetail是如何设置都将不影响这里的输出。
+   * 并且fomart不会影响这里的双向绑定。只会影响model-str
+   */
   modelValue: {
     type: [Number, String, Date],
     default: "",
   },
-  //这里和modelValue不一样，它只代表格式化输出显示，因此这里可能并不是一个有效的时间值。
   /**
+   * 这里和modelValue不一样，它只代表格式化输出显示，因此这里可能并不是一个有效的时间值。
    * 比如:format为"MM/DD",那这里就会显示12/10这样的时间格式，因此并不是一个正确的时间，
    * 这里主要是为了方便表单上页面的显示控制输入。如果真要保存到数据库，你应该保存modelValue的值。
    */
@@ -91,8 +123,8 @@ const props = defineProps({
     type: [Number, String, Date],
     default: "",
   },
-  //禁用的部分日期，禁用的日期将不会被选中，就算滑到了该位置，也会回弹到之前的时间。
   /**
+   * 禁用的部分日期，禁用的日期将不会被选中，就算滑到了该位置，也会回弹到之前的时间。
    * 现在暂时只禁用到天，也就是一个时间到天这如果==下面的禁用日期，就会选不中。
    */
   disabledDate: {
@@ -221,7 +253,6 @@ function change(e: string | number) {
 }
 
 function confirm() {
-
   emits("confirm", _value.value);
   emits("update:modelValue", _value.value);
   emits("update:modelStr", _strvalue.value);

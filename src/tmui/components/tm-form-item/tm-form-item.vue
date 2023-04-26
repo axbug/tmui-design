@@ -3,7 +3,7 @@
 		<tm-sheet :transprent="props.transprent !== null ? props.transprent : tmFormTransprent" :round="props.round"
 			:margin="[0, 0]" :padding="props.padding">
 			<view :class="[`py-${props.margin[1]}`]">
-				<view v-if="props.showError&&props.showTopErrorGap" style="height: 30rpx"> </view>
+				<view v-if="props.showError&&props.showTopErrorGap" :style="{height: `${props.errHeight}rpx`}"> </view>
 				<view :class="[
             'flex',
             tmFormLayout == 'horizontal' ? 'flex-row ' : ' ',
@@ -41,9 +41,12 @@
 						<tm-text color="grey-darken-2" :font-size="22" :label="props.desc"></tm-text>
 					</slot>
 				</view>
-				<view v-if="props.showError" style="height: 30rpx">
-					<tm-text v-if="tmFormFun == 'validate' && item.isRequiredError == true" color="red" :font-size="22"
-						:label="item.message"></tm-text>
+				<view v-if="props.showError" :style="{height: `${props.errHeight}rpx`}">
+					<view v-if="tmFormFun == 'validate' && item.isRequiredError == true">
+						<slot name="error" :data="{message:item.message}">
+							<tm-text  color="red" :font-size="22" :label="item.message"></tm-text>
+						</slot>
+					</view>
 				</view>
 			</view>
 		</tm-sheet>
@@ -160,6 +163,10 @@
 			type: Number,
 			default: 0,
 		},
+		errHeight:{
+			type: Number,
+			default: 30,
+		}
 	});
 	const item = ref<formItem>({
 		label: "", //标签名称。

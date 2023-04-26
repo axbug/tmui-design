@@ -5,6 +5,7 @@ import {resolve} from "path"
 // import Components from 'unplugin-vue-components/vite'
 // https://vitejs.dev/config/
 export default defineConfig({
+	
 	resolve:{
 		alias:[
 			{
@@ -14,6 +15,7 @@ export default defineConfig({
 		]
 	},
 	server:{
+		port:1314,
 		// 选项写法
 		proxy:{
 			'/pag': {

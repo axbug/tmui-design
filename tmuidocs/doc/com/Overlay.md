@@ -41,6 +41,7 @@ title: tmui 3.0 组件库
 | duration     | Number  | 300              | 弹出动画的时间（毫秒） |
 | contentAnimation     | Boolean  | false  | 是否让中间的内容和背景一样启用过渡动画显示和关闭，启用后内容显示和关闭时更为自然。 |
 | inContent     | Boolean        | false   | 是否允许嵌套弹层，开启后嵌套弹层只会在父组件内部弹层，不会全屏弹层。    |
+| teleport     | Boolean        | true   | (仅H5支持禁用)是否使用teleport    |
 
 ### :rose: 事件
 | 事件名         | 参数   | 返回数据    | 描述               |

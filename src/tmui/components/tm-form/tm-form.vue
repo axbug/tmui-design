@@ -32,6 +32,7 @@ import {
   isProxy,
   unref,
   readonly,
+  watchEffect
 } from "vue";
 import { formItem,validateResultListType } from "./interface";
 import tmSheet from "../tm-sheet/tm-sheet.vue";
@@ -97,9 +98,9 @@ const props = defineProps({
 const _modelVal = ref(props.modelValue);
 //备份，重置时，使用。
 const _backModelVal = uni.$tm.u.deepClone(props.modelValue);
-// watchEffect(()=>{
-// 	_modelVal.value = props.modelValue
-// });
+watchEffect(()=>{
+	_modelVal.value = props.modelValue
+});
 //收集的字段。状态。它与_modelVal是有区别的，用户提供的字段，不一定就会在页面中存在，需要与已经渲染的字段进行匹配
 const _callBackModelVal: Ref<Array<formItem>> = ref([]);
 const tmFormComnameId = "tmFormId";

@@ -52,6 +52,7 @@ Upload 是一个常用的图片上传组件
 | onSuccessAfter | Function / Boolean | true | 上传成功后，从服务器响应后立即执行，此时，还未更改当前文件上传的状态，是成功还是失败，如果此时返回false,将会让文件状态从成功改为上传失败，尽管 从服务器正确返回，但仍然显示失败 |
 | beforeChooese | Function / Boolean | true | 选择文件前执行，如果此时返回false,将阻止选择文件。你可以在这里做一些上传前的配置 |
 | fileType | `Array<string>` | `['album','camera']` | 选择图片的场景，默认是从相册中和相机中 |
+| status-code | Number | 200 | 服务器请求成功时的状态值 |
 
 
 ### :rose: 事件

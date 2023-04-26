@@ -31,12 +31,12 @@ export const defaultProps = {
 		type: Boolean,
 		default: false
 	},
-	/** 单位 px, */
+	/** 单位 rpx, */
 	leftWidth:{
 		type: Number,
 		default: 120
 	},
-	/** 单位 px, */
+	/** 单位 rpx, */
 	rightWidth:{
 		type: Number,
 		default: 220

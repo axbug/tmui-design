@@ -146,11 +146,13 @@ const props = defineProps({
     type: Number,
     default: 0,
   },
-  //为了提高响应速度，只有开启了自定图标显示功能才会去解析用户自定义图标规则名称
-  customicon:{
-	  type: Boolean,
-	  default: false,
-  }
+  /**
+   * 为了提高响应速度，只有开启了自定图标显示功能才会去解析用户自定义图标规则名称
+   */
+  customicon: {
+    type: Boolean,
+    default: false,
+  },
 });
 const _rotateDeg = computed(() => props.rotateDeg);
 const emits = defineEmits(["click", "longpress"]);
@@ -246,38 +248,37 @@ const iconComputed = computed(() => {
     return item.font_class == name;
   });
   try {
-	  
-    if(itemIcon){
-		let ucode = '"\\u' + String(itemIcon?.unicode) + '"';
+    if (itemIcon) {
+      let ucode = '"\\u' + String(itemIcon?.unicode) + '"';
+      return JSON.parse(ucode);
+    } else if (props.customicon) {
+      let names = name.split("-");
+      if (names.length >= 2) {
+        let ucode = '"\\u' + String(names[names.length - 1]) + '"';
         return JSON.parse(ucode);
-    }else if(props.customicon){
-		let names = name.split('-')
-		if(names.length>=2){
-			let ucode = '"\\u' + String(names[names.length-1]) + '"'
-			return JSON.parse(ucode);
-		}
-	}
+      }
+    }
   } catch (e) {
     return props.name;
   }
   // #endif
-  
+
   // #ifndef APP-NVUE
-  if(props.customicon){
-	  try{
-	  	let names = props.name.split('-')
-	  	if(/^e[0-9|a-z|A-Z]{3}/.test(names[names.length-1])){
-	  		let clasName = props.name.substring(0,props.name.lastIndexOf("-"));
-	  		console.log(clasName)
-	  	  return clasName
-	  	}
-	  }catch(e){
-	  	//TODO handle the exception
-	  }
+  if (props.customicon) {
+    try {
+      let names = props.name.split("-");
+      if (/^e[0-9|a-z|A-Z]{3}/.test(names[names.length - 1])) {
+        let clasName = props.name.substring(0, props.name.lastIndexOf("-"));
+        console.log(clasName);
+        return clasName;
+      }
+    } catch (e) {
+      //TODO handle the exception
+    }
   }
-  
+
   // #endif
-  
+
   return props.name;
 });
 

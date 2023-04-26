@@ -206,6 +206,13 @@
 						"navigationBarTitleText": "宫格排序 Sort",
 						"enablePullDownRefresh": false
 					}
+				},
+				{
+					"path": "flyView",
+					"style": {
+						"navigationBarTitleText": "飞元素 FlyView",
+						"enablePullDownRefresh": false
+					}
 				}
 			]
 		},

@@ -11,7 +11,7 @@
 </template>
 
 <script lang="ts" setup>
-	import { ref, getCurrentInstance, onMounted, nextTick } from "vue"
+	import { ref, getCurrentInstance, onMounted, nextTick,onUnmounted } from "vue"
 	import tmApp from "@/tmui/components/tm-app/tm-app.vue"
 	import tmSheet from "@/tmui/components/tm-sheet/tm-sheet.vue"
 	import tmRender from "../../tmui/components/tm-render/tm-render.vue"
@@ -27,7 +27,7 @@
 	onMounted(() => {
 		draw()
 	})
-	onMounted(()=>{
+	onUnmounted(()=>{
 		if(tmcv){
 			tmcv.destory()
 		}

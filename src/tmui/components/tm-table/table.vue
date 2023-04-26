@@ -100,7 +100,13 @@
 
 	const emits = defineEmits(["rowClick"]);
 
-	const _data: Ref < tableDataType > = ref(props.tableData)
+	const _data: Ref < tableDataType > = ref({	
+		fields: {
+			columns: [],
+		},
+		header:[],
+		data:[],
+	})
 	const sortType = ref('none')
 	const _stripe = computed(() => props.stripe)
 	const totalTableWidth = computed(() => {
@@ -114,8 +120,8 @@
 	const _maxrows = ref(0)
 
 	onMounted(() => {
-		_rows.value = chuliRows(_data.value.data)
-		_rows_back = uni.$tm.u.deepClone(_rows.value)
+		// _rows.value = chuliRows(_data.value.data)
+		// _rows_back = uni.$tm.u.deepClone(_rows.value)
 		setTimeout(function() {
 			bindingXscroll()
 		}, 200);
@@ -124,9 +130,9 @@
 		[() => props.tableData],
 		() => {
 			_data.value = { ...props.tableData }
-			_rows.value = chuliRows(_data.value.data)
+			_rows.value = chuliRows(uni.$tm.u.deepClone(props.tableData.data))
 			_rows_back = uni.$tm.u.deepClone(_rows.value)
-		}, { deep: true }
+		}, { deep: true,immediate:true }
 	);
 
 
@@ -152,14 +158,13 @@
 			el['opts'] = ptps;
 			return el;
 		})
-
+		
+		
 		_data.value.header.forEach(el => {
-
 			let pd: Array < tabaleCellData > = []
 			pd = _data.value.data.map((ele: {
 				[key: string]: any }) => {
 				let isasync = el?.opts?.asyncStyleCell ?? false
-
 				return {
 					value: ele[el.field] ?? '-',
 					opts: {
@@ -178,7 +183,7 @@
 			dlen.push(pd.length)
 
 		})
-		_maxrows.value = Math.max(...dlen)
+		_maxrows.value = Math.max(...(dlen.length?dlen:[0,0]))
 		return d;
 	}
 

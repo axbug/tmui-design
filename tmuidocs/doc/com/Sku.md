@@ -36,33 +36,31 @@ title: tmui 3.0 组件库
 | show | Boolean | false | 可使用双向绑定v-model:show |
 | round | Number | 6 | 圆角 |
 | num | Number | 1 | 购物数量 |
-| skuMap | `Array<Object>` | 格式见下方 | 属性字段映射 |
-| list | `Array<Object>` | 格式见下方 | 数据属性 |
-
-**skuMap**格式
-```
-[
-	{key:'size',value:'尺码'},
-	{key:'color',value:'颜色'},
-]
-```
+| list | `Tmui.sku` | 格式见下方 | 数据属性 |
 
 **list**格式
 ```
-Array<{
-	/** 数据id，必须唯一 */
+interface skuItem{
+	title:string,
 	id:string|number,
-	/** 价格 */
-	price:string|number,
-	/** 最终销售价 */
-	salePrice:string|number,
-	/** 提示语 */
-	tip:string,
-	/** 商品图片。 */
-	img:string,
-	/**其它字段在回调中返回。 */
-	[key:string]:any
-}>
+	num:number,
+	children:skuItem[]
+}
+interface sku {
+	data:skuItem[],
+	product:{
+		id: string, 
+		title: string, 
+		num: number,
+		max_buy:number,
+		/** 原价 */
+		price: number, 
+		/** 优惠价 */
+		salePrice: 54, 
+		tip: string,
+		img:string
+	}[]
+}
 ```
 
 ### :rose: 事件

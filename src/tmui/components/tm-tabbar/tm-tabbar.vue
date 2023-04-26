@@ -1,15 +1,11 @@
 <template>
-
-  <!--占位元素-->
-  <view v-if="props.placeholder" :style="{height: _totalBarHeight + 'px'}"></view>
-
   <view
-    class="fixed l-0 b-0 flex"
+    class="fixed l-0 b-0 flex tabbar"
     :style="{
       width: _width + 'px',
       height: _totalBarHeight + 'px',
       transform: `translateY(${props.bottom}rpx)`,
-      zIndex: props.zIndex + ' !important',
+	  zIndex:props.zIndex
     }"
   >
     <!-- 			@click="emits('click', $event)"    -->
@@ -56,16 +52,24 @@
  * @description 内部只能放置,tm-tabbar-item
  */
 import tmSheet from "../tm-sheet/tm-sheet.vue";
+import tmText from "../tm-text/tm-text.vue";
+import tmIcon from "../tm-icon/tm-icon.vue";
 import { custom_props } from "../../tool/lib/minxs";
 import {
+  getCurrentInstance,
   computed,
   Ref,
   ref,
   provide,
-  watch
+  inject,
+  onUpdated,
+  onMounted,
+  onUnmounted,
+  nextTick,
+  watch,
+  PropType,
 } from "vue";
 import { useTmpiniaStore } from "../../tool/lib/tmpinia";
-
 const store = useTmpiniaStore();
 const emits = defineEmits(["change", "update:active"]);
 const props = defineProps({
@@ -115,16 +119,12 @@ const props = defineProps({
     type: Boolean,
     default: true,
   },
-  //固定在底部时，是否在标签位置生成一个等高的占位元素
-  placeholder: {
-    type: Boolean,
-    default: false,
-  },
-  //z-index
+  /** 在nvue上没有用处，请自行放到最尾部的地方。 */
   zIndex: {
-    type: Number,
+    type: [Number],
     default: 200,
   },
+  
 });
 let sys = uni.getSystemInfoSync();
 const _width = computed(() => uni.upx2px(props.width) || sys?.windowWidth || 750);
@@ -206,7 +206,7 @@ watch(_activeIndex, () => {
   align-items: center;
 }
 .tabbar {
-  z-index: 200 !important;
+  
 }
 /* #endif */
 /* #ifndef APP-NVUE */

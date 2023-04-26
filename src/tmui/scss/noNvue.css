@@ -8093,6 +8093,10 @@
 .flex-between {
   justify-content: space-between; }
 
+.flex-col-full {
+  flex-direction: column;
+  align-items: stretch; }
+
 .flex-around {
   justify-content: space-around; }
 

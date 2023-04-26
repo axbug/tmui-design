@@ -4,8 +4,6 @@
             <tm-cell v-for="(item, index) in list" :key="index" :url="item.path" :margin="[0, 0]" :titleFontSize="30"
                 :title="item.title"> </tm-cell>
         </view>
-		
-		
         <view class="py-32 mx-32">
             <tm-divider color="grey-2" label="tmui 3.0.0 原生渲染，全端兼容"></tm-divider>
         </view>
@@ -33,6 +31,7 @@ const list = ref([
     { path: "/pages/other/colorPicker", title: "颜色选择器 colorView" },
     { path: "/pages/other/adsorb", title: "吸附器 Adsorb" },
     { path: "/pages/other/sort", title: "宫格排序 Sort" },
+    { path: "/pages/other/flyView", title: "飞元素 tmFlyView" },
     
 ])
 

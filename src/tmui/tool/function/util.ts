@@ -16,7 +16,7 @@ export default preview;
  * @param defaultNum 0,如果不符合值时设置默认值
  * @returns number类型数值
  */
-export function isNumber(arg: string | number | undefined | null, defaultNum = 0):number {
+export function isNumber(arg: string | number | undefined | null, defaultNum = 0): number {
 	const p = Number(arg);
 	return p || defaultNum;
 }
@@ -26,7 +26,7 @@ export function isNumber(arg: string | number | undefined | null, defaultNum = 0
  * @param defaultNum 默认"",如果不符合值是设置默认值
  * @returns 字符串
  */
-export function isString(arg: string | number | undefined | null, defaultStr = ""):string {
+export function isString(arg: string | number | undefined | null, defaultStr = ""): string {
 	let p = "";
 	if (typeof arg === "string" && arg != null) {
 		p = String(arg);
@@ -70,14 +70,7 @@ export function getValue(data: Data, keys: string): any {
 
 	return result;
 }
-/**
- * 设置对象键值（可深层次设置值）
- * @example setValue(data,"a.b.c","haha")
- * @param data 对象数据
- * @param keys 键值
- * @returns 修改后的对象数据。
- * @description 改变原来的数据
- */
+
 /**
  * 设置对象键值（可深层次设置值）
  * @example setValue(data,"a.b.c","haha")
@@ -249,7 +242,7 @@ export function getDateToNewData(timestamp: number | string | Date = new Date().
 	var minC = diffValue / minute;
 
 	// 数值补0方法
-	var zero = function(value: number) {
+	var zero = function (value: number) {
 		if (value < 10) {
 			return '0' + value;
 		}
@@ -259,7 +252,7 @@ export function getDateToNewData(timestamp: number | string | Date = new Date().
 	// 使用
 	if (monthC > 12) {
 		// 超过1年，直接显示年月日
-		return (function() {
+		return (function () {
 			var date = new Date(timestamp);
 			return date.getFullYear() + '年' + zero(date.getMonth() + 1) + '月' + zero(date.getDate()) + '日';
 		})();
@@ -331,9 +324,8 @@ export function setClipboardData(data: string): Promise<string | boolean> {
 		// #endif
 		// #ifdef H5
 		if (navigator.clipboard && window.isSecureContext) {
-			return navigator.clipboard.writeText(data)
-		}
-		else {
+			navigator.clipboard.writeText(data).then(()=>rs(true)).catch((error=>rs(error)))
+		} else {
 			const textArea = document.createElement('textarea')
 			textArea.style.opacity = "0"
 			textArea.style.position = "fixed"
@@ -499,8 +491,8 @@ export function debounce(func: Function, wait = 500, immediate = false) {
  * @param {Boolean} immediate 是否立即执行
  * @return null
  */
-var timesr:any = NaN
-export function throttle(func: Function, wait = 500, immediate = true,  flag = false) {
+var timesr: any = NaN
+export function throttle(func: Function, wait = 500, immediate = true, flag = false) {
 	if (immediate) {
 		if (!flag) {
 			flag = true;
@@ -533,9 +525,9 @@ export function quereyDom(t: ComponentInternalInstance, node: string): Promise<U
 	return new Promise((res, rej) => {
 		// #ifdef APP-NVUE
 		const dom: any = uni.requireNativePlugin('dom')
-		setTimeout(function() {
+		setTimeout(function () {
 			node = node.replace(/^[#\.]/g, '')
-			dom.getComponentRect(t.refs[node], function(el: any) {
+			dom.getComponentRect(t.refs[node], function (el: any) {
 				res(el?.size);
 			})
 		}, 60)

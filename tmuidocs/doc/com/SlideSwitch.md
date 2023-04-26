@@ -56,9 +56,10 @@ actionItem {
 ### :rose: 事件
 | 事件名                | 参数  | 返回数据 | 描述                 |
 |--------------------|-----|------|--------------------|
-| click              |     |      | 点击事件               |
-| action-click       |     |      | 子容器点击事件            |
-| update:open-status |     |      | 滑动开启状态（更新v-model值） |
+| click              |   -  |    -  | 内容区域点击事件 |
+| close              |   -  |   -   | 打开触发|
+| open              |    - |    -  | 关闭触发|
+| update:open-status |    - |    -  | 滑动开启状态（更新v-model值） |
 
 ### :corn: slot插槽
 默认default,内容区域

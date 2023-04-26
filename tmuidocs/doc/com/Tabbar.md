@@ -43,7 +43,7 @@ title: tmui 3.0 组件库
 | showSafe | [Boolean] | false | 是否显示安全区域 |
 | autoSelect<Badge type="danger" text="v3.0.77+" vertical="middle" /> | [Boolean] | true | 是否自动通过点击项目来选中项目，默认：true自动。如果设置为false时，则可以通过下方的active双向绑定来手动切换选中项 |
 | active<Badge type="danger" text="v3.0.77+" vertical="middle" /> | Number | -1 | 当前活动荐的索引，从0开始，可以使用v-model:active来双向绑定切换选中项，必须autoSelect设置为false才起效  |
-
+| zIndex | [Number] | 200 | 层级，注意：nvue是没有效果的，需要放到页面最后才能是页面的最顶部。 |
 
 ### :rose: 事件
 | 方法名 | 参数 | 返回值 | 描述 |
@@ -70,10 +70,8 @@ title: tmui 3.0 组件库
 | 参数名 | 类型 | 默认值 | 描述 |
 | :--: | :--: | :--: | :-- |
 | blur | [Boolean] | false | 是否开启磨砂效果背景 |
-| followTheme | [Boolean] | true | 是否跟随主题|
-| placeholder | [Boolean] | false | 是否在标签位置生成一个等高的占位元素 |
+| followTheme | [Boolean] | true | 是否跟随主题，可选值：false, true |
 | transprent | Boolean | true | 是否透明 |
-| zIndex | Number | 200 | z-index参数值 |
 | color | String | white | 背景主题色 |
 | fontColor | String | grey-darken-1 | 文字主题色 |
 | activeColor | String | primary | 激活后的主题色 |
@@ -84,7 +82,7 @@ title: tmui 3.0 组件库
 | unicon | String | '' | 未选中时的图标，如果不填写默认使用相同的图标 |
 | textSize | Number | 20 | 字体大小 |
 | iconSize | Number | 38 | icon尺寸 |
-| dot | [Boolean, String] | false | 是否显示圆点，可选值 |
+| dot | [Boolean, String] | false | 是否显示圆点，可选值：false, true |
 | dotColor | [String] | red | 圆点颜色 |
 | dotIcon | [Boolean, String] | false | 圆点使用icon图标 |
 | count | [Number, String] | 0 | count为数字时，显示数字角标，如果为string是显示文本角标 |
@@ -92,7 +90,7 @@ title: tmui 3.0 组件库
 | url | [String] | "" | 链接地址 |
 | openType | [String] | navigate | 链接打开方式同官方 |
 | beforeClick | [Function, Boolean] | (data)=>false | 参数：data，为下方自行绑定到属性data上的数据。打开链接之前执行的勾子函数，返回fase阻止打开。也可以返回new Promise |
-| load | [Boolean, String] | false | 是否开启异步加载动效 |
+| load | [Boolean, String] | false | 是否开启异步加载动效，可选值：false, true |
 | data<Badge type="danger" text="v3.0.63+" vertical="middle" /> | [Object,Number, String] | undefined | 自义绑定数据到项目上，beforeClick执行时，上下文参数 |
 | disabled | Boolean | true | 是否禁用 |
 

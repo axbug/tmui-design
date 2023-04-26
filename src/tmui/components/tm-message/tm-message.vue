@@ -35,7 +35,7 @@
           ></tm-icon>
           <tm-text
             :font-size="30"
-            :_class="`pt-8 text-overflow-${_lines}`"
+            :_class="`pt-8 text-overflow-${lines_ref}`"
             :label="text_ref"
           ></tm-text>
         </view>
@@ -154,6 +154,7 @@ const text_ref = ref("");
 const color_ref = ref("");
 const showMask = ref(props.mask);
 const dark_ref = ref(false);
+const lines_ref = ref(_lines.value);
 
 const modelIcon = computed(() => {
   return {
@@ -214,12 +215,14 @@ function show(argFs: config) {
 function showAction(argFs: config) {
   //显示所需要的参数
   let arg = argFs || {};
-  let { duration, icon, text, color, dark, model, mask } = arg;
+  let { duration, icon, text, color, dark, model, mask,lines } = arg;
   model_ref.value = typeof model == "undefined" ? model_ref.value : model;
   icon_ref.value = icon = icon ?? modelIcon.value[model_ref.value].icon;
   text_ref.value = text = text ?? modelIcon.value[model_ref.value].text;
   color_ref.value = color = color ?? modelIcon.value[model_ref.value].color;
   showMask.value = typeof mask === "boolean" ? mask : showMask.value;
+  lines_ref.value = lines??_lines.value
+  
   if (dark === true) {
     bgColor.value = "black";
   }

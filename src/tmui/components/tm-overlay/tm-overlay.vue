@@ -3,7 +3,7 @@
 	<root-portal>
 	<!-- #endif -->
 	<!-- #ifdef H5 -->
-	<teleport to="#app" :disabled="!props.teleport">
+	<teleport to="body" :disabled="!props.teleport">
 	<!-- #endif -->
 
 		<view
@@ -23,7 +23,12 @@
 		>
 			<view
 				ref="overlay"
-				:class="[bgColor_rp && !props.transprent && ani ? 'blurOn' : 'blurOff', 'overlay']"
+				:class="[
+					bgColor_rp && !props.transprent && ani ? 'blurOnOpacity' : 'blurOffOpacity', 
+				'overlay',
+				store.tmuiConfig?.themeConfig.overflowBlur&&bgColor_rp && !props.transprent && ani?'blurOn':'',
+				store.tmuiConfig?.themeConfig.overflowBlur&&bgColor_rp && !props.transprent && !ani?'blurOff':'',
+				]"
 				:style="[
 					bgColor_rp && !props.transprent ? { backgroundColor: showMask ? bgColor_rp : '' } : '',
 					_inContent && !isNvue ? { width: '100%', height: '100%' } : { width: width + 'px', height: height + 'px' },
@@ -85,10 +90,12 @@ import {
 } from "vue";
 import { cssstyle, tmVuetify } from "../../tool/lib/interface";
 import { custom_props, computedClass, computedStyle } from "../../tool/lib/minxs";
+import { useTmpiniaStore } from "../../tool/lib/tmpinia";
 // #ifdef APP-PLUS-NVUE
 const dom = uni.requireNativePlugin("dom");
 const animation = uni.requireNativePlugin("animation");
 // #endif
+const store = useTmpiniaStore();
 const defaultBgColor = "rgba(0,0,0,0.24)";
 // 混淆props共有参数
 const props = defineProps({
@@ -333,17 +340,20 @@ defineExpose({
 	transition-delay: 0;
 	opacity: 0;
 }
+.blur{
+	
+}
 .blurOn {
 	/* #ifndef APP-PLUS-NVUE */
 	backdrop-filter: blur(2px);
 	/* #endif */
-	opacity: 1;
+	/* opacity: 1; */
 }
 .blurOff {
 	/* #ifndef APP-PLUS-NVUE */
 	backdrop-filter: blur(0px);
 	/* #endif */
-	opacity: 0;
+	/* opacity: 0; */
 }
 
 .blurOnOpacity {

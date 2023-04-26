@@ -78,7 +78,9 @@ declare global {
                  * 只对使用tm-text组件以及自身组件的字号才会有效果 
                  * 
                  * */
-                globalFontSizeRatio?:number
+                globalFontSizeRatio?:number,
+				/** 是否关闭弹层背景的模糊 */
+				overflowBlur:false,
                 /**
                  * 针对不同的主题配置详细的配色方案。
                  * 注意这里影响的时主题计算功能的配置
@@ -131,6 +133,27 @@ declare global {
             count?:string|number
             dotColor?:string,
             [key:string]:any
+        }
+		interface skuItem{
+			title:string,
+			id:string|number,
+			num:number,
+			children:skuItem[]
+		}
+		interface sku {
+            data:skuItem[],
+			product:{
+				id: string, 
+				title: string, 
+				num: number,
+				max_buy:number,
+				/** 原价 */
+				price: number, 
+				/** 优惠价 */
+				salePrice: 54, 
+				tip: string,
+				img:string
+			}[]
         }
         /**组件的配置 */
         namespace components {

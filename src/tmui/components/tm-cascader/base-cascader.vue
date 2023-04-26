@@ -1,12 +1,12 @@
 <template>
   <!-- v-if="tmCascaderShowIndex==_level" -->
-  <view class="flex">
+  <view class="flex flex-1">
     <scroll-view
       v-if="tmCascaderShowIndex == props.level"
       :style="[{ height: `${props.height}rpx` }]"
       scroll-y
     >
-      <view v-for="(item, index) in _value" :key="index">
+      <view v-for="(item, index) in _value" :key="index" >
         <nodeCellVue
           :followTheme="props.followTheme"
           :level="props.level"

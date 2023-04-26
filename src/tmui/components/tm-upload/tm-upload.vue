@@ -294,6 +294,11 @@ const props = defineProps({
     type: Array as PropType<Array<'album' | 'camera'>>,
     default: ['album','camera'],
   },
+  /**服务器返回的状态码，默认200成功 */
+  statusCode:{
+    type: Number,
+    default: 200,
+  }
 });
 /**
  * emits 事件说明
@@ -330,7 +335,8 @@ const _uploadObj = new uploadfile({
   formData: props.formData,
   maxFile: props.maxFile,
   maxSize: props.maxSize,
-  fileType:props.fileType
+  fileType:props.fileType,
+  statusCode:props.statusCode
 });
 
 const _flist: Ref<Array<file>> = ref([]);

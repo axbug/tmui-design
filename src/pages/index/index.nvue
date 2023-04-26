@@ -185,7 +185,7 @@ const headerBgColor = computed(()=>{
 	}
 	return store.tmStore.color?[]:['#f5f5f5','#f5f5f5']
 })
-const tmuiVer = "TMUI 3.1.03"
+const tmuiVer = "TMUI 3.1.04"
 
 const category =[
 	{url:'../changyong/index',color:'primary',
@@ -320,11 +320,11 @@ function test(){
 }
 function autoDarkChange(e: boolean) {
 	store.setTmAutoDark(e)
+	
 	// store.setTmVuetifyDark(e)
 	autoDark.value = e;
 
 }
-
 
 
 </script>

@@ -58,14 +58,14 @@
       btnSizeObj.w && !props.block ? { width: btnSizeObj.w + props.unit } : '',
       tmcomputed.borderCss,
       _bgcolor,
-      !_transprent && props.shadow > 0 ? tmcomputed.shadowColor : '',
+      !_transprent && _shadow > 0 && !props.text ? tmcomputed.shadowColor : '',
       customCSSStyle,
     ]"
   >
     <slot>
       <tm-icon
         :lineHeight="btnSizeObj.fontSize * 0.9"
-        v-if="_icon"
+        v-if="_icon&&!_load"
         :userInteractionEnabled="false"
         :color="_fontColor"
         :_class="_label ? 'pr-10' : ''"
@@ -79,6 +79,7 @@
         :font-size="btnSizeObj.fontSize"
         :unit="props.unit"
         :label="_label"
+        _class="text-weight-b"
       ></tm-text>
       <!-- #endif -->
       <!-- #ifndef APP-NVUE -->
@@ -107,7 +108,7 @@ import {
   computedStyle,
   computedDark,
 } from "../../tool/lib/minxs";
-import { useTmpiniaStore } from "../../tool/lib/tmpinia";
+import { useTmpiniaStore } from "@/tmui/tool/lib/tmpinia";
 import theme from "@/tmui/tool/theme/theme";
 const store = useTmpiniaStore();
 
@@ -184,7 +185,7 @@ const props = defineProps({
   },
   shadow: {
     type: Number,
-    default: 2,
+    default: 0,
   },
   width: {
     type: Number,
@@ -342,8 +343,9 @@ const customClass = computed(() => computedClass(props));
 // 设置响应式全局组件库配置表。
 const tmcfg = computed(() => store.tmStore);
 //计算主题
+const _shadow = computed(()=>props.shadow||(store.tmuiConfig.themeConfig?.component?.button?.shadow??0));
 const tmcomputed = computed<cssstyle>(() => {
-  let nprops = { ...props };
+  let nprops = { ...props,shadow:_shadow.value };
   if (_disabled.value) {
     nprops.color = props.disabledColor;
   }
@@ -363,11 +365,11 @@ const _isBorder = computed(() => {
 const sizeObj = computed(() => {
   let ptest = {
     block: { w: 0, h: 80, fontSize: 28, round: 3 },
-    mini: { w: 88, h: 36, fontSize: 20, round: 2 },
-    small: { w: 120, h: 56, fontSize: 22, round: 2 },
-    normal: { w: 220, h: 80, fontSize: 28, round: 2 },
-    middle: { w: 360, h: 80, fontSize: 30, round: 2 },
-    large: { w: 535, h: 80, fontSize: 32, round: 3 },
+    mini: { w: 88, h: 36, fontSize: 20, round: 3 },
+    small: { w: 120, h: 56, fontSize: 22, round: 3 },
+    normal: { w: 220, h: 80, fontSize: 28, round: 3 },
+    middle: { w: 300, h: 80, fontSize: 30, round: 3 },
+    large: { w: 375, h: 80, fontSize: 32, round: 3 },
   };
   if (props.unit == "px") {
     let key: "block" | "mini" | "small" | "normal" | "middle" | "large" = "block";
@@ -382,20 +384,19 @@ const sizeObj = computed(() => {
 });
 const btnSizeObj = computed(() => {
   let fontSize = props.fontSize || 0;
-
   if (props.block) {
     return {
       w: 0,
       h: props.height || sizeObj.value.block.h,
       fontSize: fontSize || sizeObj.value.block.fontSize,
-      round: props.round == -1 ? 0 : props.round || sizeObj.value.normal.round,
+      round: props.round == -1 ? 0 : props.round || (store.tmuiConfig.themeConfig?.component?.button?.round??0) || sizeObj.value.normal.round,
     };
   }
   return {
     w: props.width || sizeObj.value[props.size].w,
     h: props.height || sizeObj.value[props.size].h,
     fontSize: fontSize || sizeObj.value[props.size].fontSize,
-    round: props.round == -1 ? 0 : props.round || sizeObj.value[props.size].round,
+    round: props.round == -1 ? 0 : (props.round || (store.tmuiConfig.themeConfig?.component?.button?.round??0) || sizeObj.value[props.size].round),
   };
 });
 const _fontColor = computed(() => props.fontColor);

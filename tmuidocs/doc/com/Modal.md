@@ -55,6 +55,7 @@ title: tmui 3.0 组件库
 | disabled      | Boolean        | false   | 是否禁用                                      |
 | titleStyle      | Array, String, Object        | ```[]```   | 标题的样式表                                      |
 | zIndex<Badge type="danger" text="v3.1.03+" vertical="middle" />     | Number, String        | 999   | 弹层的层级  |
+| teleport     | Boolean        | true   | (仅H5支持禁用)是否使用teleport    |
 ### :rose: 事件
 | 事件名         | 参数   | 返回数据    | 描述               |
 |-------------|------|---------|------------------|

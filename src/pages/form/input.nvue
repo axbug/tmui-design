@@ -15,7 +15,7 @@
 			<tm-input v-model="test" prefixLabel="字符统计" :margin="[0,24]" showCharNumber :maxlength="10" ></tm-input>
 			<tm-input v-model="test" suffix="tmicon-clock-fill" showClear></tm-input>
 			<tm-input prefix="tmicon-dollar" suffixLabel="元" :margin="[0,24]"  ></tm-input>
-			<tm-input prefix="tmicon-search" searchLabel="搜索" ></tm-input>
+			<tm-input @search="search"  prefix="tmicon-search" searchLabel="搜索" ></tm-input>
 		</tm-sheet>
 		<tm-sheet>
 			<tm-text :font-size="24" _class="font-weight-b" label="样式配置"></tm-text>
@@ -40,4 +40,7 @@ import tmText from "@/tmui/components/tm-text/tm-text.vue"
 import tmInput from "@/tmui/components/tm-input/tm-input.vue"
 import tmDivider from "@/tmui/components/tm-divider/tm-divider.vue"
 const test = ref('')
+function search(val:string){
+	console.log(val)
+}
 </script>

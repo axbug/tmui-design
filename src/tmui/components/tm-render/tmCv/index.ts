@@ -16,6 +16,7 @@ export interface tmCvOptsType {
 	dpr?: number,
 	platform?: 'uni' | 'web'
 }
+var requestAnimationFrameId = 0;
 /**
  * tmCv
  * 协议：MIT
@@ -202,7 +203,7 @@ export class tmCv {
 	/**注销tmCv */
 	destory() {
 		if (!this.requestIdleCallback) return;
-		this.requestIdleCallback(this.timid)
+		this.requestIdleCallback(requestAnimationFrameId)
 	}
 }
 
@@ -211,7 +212,7 @@ function animate(requestAnimationFrames: any) {
 
 	if (!requestAnimationFrames) return;
 	function animateVC() {
-		requestAnimationFrames(animateVC);
+		requestAnimationFrameId = requestAnimationFrames(animateVC);
 		TWEEN.update();
 	}
 	animateVC()

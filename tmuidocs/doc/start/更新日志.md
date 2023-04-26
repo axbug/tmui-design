@@ -9,6 +9,36 @@ title: 关于tmUi3.0的更新日志
 # TMUI 3.0 by tm-vuefity 3.0
 
 ### :couplekiss: 更新日志
+## 3.1.04（2023-4-26）
+* [提醒]刚发布的uni sdk 3.7.10还是未修复编译至支付宝时出现的编译问题，导致支付宝不可用。经过我测试哪怕使用官方的uni sdk也是有问题无法编译到支付宝小程序。
+* 因此我特意在我的gitee库中，保存了一份文件叫：package - alipay.json，如果要编译支付宝的把node_modules和package-lock.josn删除，
+* package.json里面的内容替换成ackage - alipay.json内容，再执行npm i,之后即可编译到支付宝。
+* 如果你们要使用最新的，又想用支付宝的，请自己向官方提bug（别让我提，我提太多了）。
+* [更新]现在全局配置表那已经允许配置按钮的全局配置属性，支持的字段见文档类型。
+* [新增]tm-fly-view，组件，是一个抛物线组件，从触发位置，把目标元素以抛物线的效果抛至目标点位，主要场景交互有：购物车添加商品，收藏夹等 一些交互效果的元素。
+* [修复]util在h5端setClipboardData设置剪切板内容，返回类型不正确。
+* [修复]tm-form无法监测对model整个全部重新赋值的改变。
+* [优化]tm-sku，组件进行了重新设计。具体见demo示例，不向下兼容。
+* [优化]tm-slide-switch，组件进行了重新设计。现在可以用来作为聊天列表使用了。uni的wxs坑至今无法修复。本次放弃wxs，改回原来touch事件。新增了：open,close事件触发。并且opoen-status也开放双向绑定了。可双向打开和关闭。
+* [优化]modal,overlay,drawer增加了teleport属性以便在h5禁用。
+* [修复]修复Image组件冗余代码
+* [新增]新添加一个第三方请求库，位置：tmui->tool->lwu-request.ts,暂时没有文档。代码非常工整。且条理清晰。请查看源码使用。由于大小原因。这个库合并为单独使用。如果需要使用，请自行导入使用。
+* 该请求库，有队列请求，错误重试控制请求，中断请求，拦截器配置等特性，功能强。该库原作者链接:[访问](https://ext.dcloud.net.cn/plugin?id=11409)，已经通过pr方式合并到tmui,tool中，版权同tmui版权，免费商用。
+* [修复]input组件在非微信小程序平台，如果不绑定值，可能在事件中不会返回相关值。
+* [优化]tm-picker,新增duration属性弹出动画时间。
+* [优化]tm-drawer,添加了beforeOpen,beforeOk,beforeCanse属性，后两者如果的函数如果返回fase会阻止关闭弹层。
+* [优化]tm-avatar，添加了iconColor属性，用于单独定义图标颜色。如果不提供使用主题色
+* [优化]tm-upload,添加status-code属性，用于服务状态码自定成功时的值，默认200
+* [修复]tm-modal,在vue页面的情况下添加border导致窗口宽度举出隐藏，边线缺失。
+* [修复]tm-table,当所有数据的值为空数组时[]，会导致bug。
+* [关于暗黑闪白问题]由于uni在最新的3.7.3+已经出了darkMode配置方法，我原先的一些方法将注销不再使用。如果你们的app,微信,h5出现暗黑闪白问题，请按照官方的配置方法去配置解决。[官方的暗黑配置教程](https://uniapp.dcloud.net.cn/tutorial/darkmode.html)
+* [优化]tm-waterfall-item,新增了click事件，当整个项目被点击时触发的方法。
+* [优化]tm-tabbar,增加了zIndex属性，注意:nvue是没有效果的，需要放到页面最后才能是页面的最顶部。
+* [优化]tm-time-between，start,end属性，可动态设置
+* [优化]css库，增加了一个类：flex-col-full，这个功能类似于类flex-1，我们知道在flex-row横向时，内只有一个元素时占比1就是相当于我们的100%宽度。但如果是纵向col布局时，
+* 如果让宽度100%呢，使用类flex-col-full就行了。一直这个属性缺失，今天补上。
+* [优化]form-item，组件增加属性errHeight，自行控制底部错误空间的高度。同时提供error插槽，自行显示当前错误的格式，插槽携带了错误信息的数据,见文档
+* [修复]picker,time-picker在支付宝样式问题。
 ## 3.1.03（2023-4-1）
 * [新库]重新编写发布了tm-render库，不再引入第三方渲染库，而是采用了自写的轻量级canvas渲染库，目前暂不支持Nvue(后续兼容)，
 * 使用超级简单，具体[请看demo实例](https://tmui.design/h5/#/pages/render/pie)

@@ -33,8 +33,8 @@ export interface fileConfig {
 	autoUpload?:Boolean,
 	header?:Object,//头部参数。
 	formData?:Object,//额外的表单数据。
-	formName?:string
-
+	formName?:string,
+	statusCode?:number,//服务返回成功的状态码标志，默认200表示成功。
 }
 export function getUid (length=3){
 	return Number(Number(Math.random().toString().substr(3,length) + Date.now()).toString(8));
@@ -336,7 +336,8 @@ export class uploadfile {
 					if(t.isStop) return
 					item.response = res.data;
 					let isOksuccess = await t.beforeSuccess(item);
-					if(res.statusCode !=200||!isOksuccess){
+					const statusCode_reonese = t.config?.statusCode??200
+					if(res.statusCode !=statusCode_reonese||!isOksuccess){
 						item.statusCode = statusCode.fail;
 						item.status = "上传失败";
 						t.fail(item)

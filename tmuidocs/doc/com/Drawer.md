@@ -37,7 +37,7 @@ title: tmui 3.0 组件库
 | show         | Boolean        | false   | 是否显示双向绑定可使用v-model:show  |
 | width        | Number         | 500     | 宽      |
 | height       | Number         | 600     | 高        |
-| footHeight   | Number         | 0       | 抽屉底部高度     |
+| footHeight   | Number         | 0       | 抽屉底部高度,可以固定底部的内容不受滚动影响     |
 | round        | Number, String | 12      | 圆角像素         |
 | duration     | Number         | 300     | 弹出动画的时间（毫秒）     |
 | overlayClick | Boolean        | true    | 是否允许点击遮罩关闭   |
@@ -56,6 +56,11 @@ title: tmui 3.0 组件库
 | unit<Badge type="danger" text="v3.0.75+" vertical="middle" />     | String        | rpx   | 高度单位，仅支持px,rpx  |
 | disabbleScroll     | Boolean        | false   | 是否禁用内容滚动(内容较少时可以禁用滚动条的出现)    |
 | inContent     | Boolean        | false   | 是否允许嵌套弹层，开启后嵌套弹层只会在父组件内部弹层，不会全屏弹层。    |
+| teleport     | Boolean        | true   | (仅H5支持禁用)是否使用teleport    |
+| beforeCance     | Function,null        | null   | 取消前执行，可以返回promise，如果是fase阻止关闭    |
+| beforeOk     | Function,null        | null   | 确认前执行，可以返回promise，如果是fase阻止关闭    |
+| beforeOpen     | Function,null        | null   | 打开前执行    |
+
 
 
 ### :rose: 事件
@@ -72,6 +77,7 @@ title: tmui 3.0 组件库
 默认default,内容插槽
 title <Badge type="danger" text="v3.0.77+" vertical="middle" />,标题插槽
 trigger可触发弹层的插槽占位内容，比如在里面布局按钮，输入框，点击这块内容可以直接显示弹层。
+foot,固定在弹层尾部内容。当drawer内容滚动时，这部分内容始终在尾部。属性footHeight必须大于0才会开启。
 
 ### :green_salad: ref方法
 | 方法名   | 参数  | 返回值 | 描述  |

@@ -50,6 +50,7 @@ title: tmui 3.0 组件库
 | text | Boolean | Boolean | 是否开启文本模式 |
 | color | String | white | 背景主题颜色名称 |
 | unit | String | 'rpx' | 单位，仅：rpx,px |
+| iconColor | String | '' | 图标颜色。如果不提供使用主题色 |
 
 
 ### :rose: 事件

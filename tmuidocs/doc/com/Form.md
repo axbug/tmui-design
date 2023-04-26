@@ -101,6 +101,7 @@ title: tmui 3.0 组件库
 | border | Boolean | null | 显示下划线。 |
 | showError<Badge type="danger" text="v3.0.71+" vertical="middle" /> | Boolean | null | 校验不通过的情况下，是否显示错误信息提示 |
 | requiredTitleChangeColor<Badge type="danger" text="v3.0.81+" vertical="middle" /> | Boolean | true | 校验不通过时，是否让标题跟着变化文字颜色，默认是。 |
+| errHeight<Badge type="danger" text="v3.1.04+" vertical="middle" /> | Number | 30 | 错误空间的高度 |
 
 **在3.0.71版本以前**rules只支持Object,之后支持Array\<rulesItem\>。为了向下兼容，之后的版本也是支持非数据校验函数。
 
@@ -115,6 +116,13 @@ export interface rulesItem {
 ### :corn: FormItem slot插槽
 默认default<br>
 插槽:desc,表单底部的说明文字
+插槽:error,表单底部的错误插槽，返回数据 data.message,
+
+```ts
+v-slot:error = "{data}"
+data.message读取错误信息
+
+```
 
 ### :couplekiss: 文档贡献
 此页文档由[Sunlight](https://gitee.com/rzg)贡献，如果对该框架感兴趣的可以参与我们一同进步！

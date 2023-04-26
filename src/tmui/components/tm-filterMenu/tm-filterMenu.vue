@@ -352,7 +352,7 @@ defineExpose({
 .bg {
   background-color: rgba(122, 106, 106, 0);
   /* #ifndef APP-NVUE */
-  backdrop-filter: blur(0px);
+  /* backdrop-filter: blur(0px); */
   z-index: 50;
   /* #endif */
 }
@@ -360,7 +360,7 @@ defineExpose({
 .bgContent {
   background-color: rgba(0, 0, 0, 0.35);
   /* #ifndef APP-NVUE */
-  backdrop-filter: blur(5px);
+  /* backdrop-filter: blur(5px); */
   z-index: 51;
   /* #endif */
   /* #ifdef APP-NVUE */
@@ -393,12 +393,12 @@ defineExpose({
 @keyframes bgcolorani {
   0% {
     background-color: rgba(0, 0, 0, 0);
-    backdrop-filter: blur(0px);
+    /* backdrop-filter: blur(0px); */
   }
 
   100% {
     background-color: rgba(0, 0, 0, 0.35);
-    backdrop-filter: blur(5px);
+    /* backdrop-filter: blur(5px); */
   }
 }
 

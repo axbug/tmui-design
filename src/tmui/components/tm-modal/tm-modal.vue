@@ -19,16 +19,17 @@
 			:align="align_rp"
 			:overlayClick="false"
 			v-model:show="_show"
-      :teleport="props.teleport"
+			:teleport="props.teleport"
 		>
 			<tm-translate :reverse="reverse_rp" :width="anwidth" :height="anheight" ref="drawerANI" :auto-play="false" :name="aniname" :duration="props.duration">
 				<view
 					@click.stop="$event.stopPropagation()"
 					:style="[
-						{ width: anwidth, height: anheight },
+						{ width: anwidth, height: anheight,boxSizing:'border-box'},
 						!props.transprent ? tmcomputed.borderCss : '',
 						!props.transprent ? tmcomputed.backgroundColorCss : '',
 						!props.transprent ? tmcomputed.shadowColor : '',
+            
 						customCSSStyle
 					]"
 					:class="[round_rp, 'flex flex-col overflow ', customClass]"
@@ -443,7 +444,6 @@ function overclose() {
 
 // 外部调用
 function open(arg: any = null) {
-  if (props.disabled) return;
   if (okLoading.value) return;
   if (_show.value == true) return;
   return new Promise((res,rej)=>{
@@ -465,7 +465,6 @@ function open(arg: any = null) {
 
 // 内部调用
 function opens() {
-  if (!props.overlayClick) return;
   if (props.disabled) return;
   if (okLoading.value) return;
   if (_show.value == true) return;
@@ -482,7 +481,6 @@ function opens() {
 
 //外部手动调用关闭方法
 async function close(arg: Function | null = null) {
-  if (props.disabled) return;
   reverse.value = false;
   if (!drawerANI.value) return;
   overlayAni.value?.close();

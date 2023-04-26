@@ -1,6 +1,6 @@
 <template>
   <view class="flex-1 relative" :style="{ height: props.height + 'rpx' }">
-    <!-- #ifndef APP-NVUE -->
+    <!-- #ifndef MP-ALIPAY -->
     <picker-view
       @pickend="emits('end')"
       @pickstart="emits('start')"
@@ -22,7 +22,6 @@
             item['disabled'] ? 'opacity-5' : '',
           ]"
         >
-          <!-- #ifndef MP-ALIPAY -->
           <TmText
             v-if="typeof item == 'string'"
             _class="text-align-center"
@@ -37,29 +36,40 @@
             :dark="isDark"
             :label="item[props.mapKey||props.dataKey] || ''"
           ></TmText>
-          <!-- #endif -->
-          <!-- #ifdef MP-ALIPAY -->
-          <TmText
-            v-if="typeof item == 'string'"
-            :style="{ lineHeight: props.height + 'rpx' }"
-            _class="text-align-center  pt-14"
-            :font-size="item.length > 7 ? 24 : 30"
-            :dark="isDark"
-            :label="item"
-          ></TmText>
-          <TmText
-            v-if="typeof item == 'object'"
-            :style="{ lineHeight: props.height + 'rpx' }"
-            _class="text-align-center  pt-14"
-            :font-size="item[props.mapKey||props.dataKey].length > 7 ? 24 : 30"
-            :dark="isDark"
-            :label="item[props.mapKey||props.dataKey] || ''"
-          ></TmText>
-          <!-- #endif -->
         </view>
       </picker-view-column>
     </picker-view>
     <!-- #endif -->
+	<!-- #ifdef MP-ALIPAY -->
+	<picker-view
+	  @pickend="emits('end')"
+	  @pickstart="emits('start')"
+	  v-if="showDom"
+	  :value="[colIndex]"
+	  @change="colchange"
+	  :style="[{ height: props.height + 'rpx' }]"
+	  :mask-style="maskStyle"
+	  :immediateChange="props.immediateChange"
+	>
+	  <picker-view-column>
+	    <view
+	      v-for="(item, index) in _data"
+	      :key="index"
+		  :class="[
+		    index == colIndex ? '' : 'UnitemSelected',
+		    item['disabled'] ? 'opacity-5' : '',
+		  ]"
+	     :style="{
+			 color:store.tmStore.dark?'white':'black',
+			 fontSize:(item.length > 7 ? 24 : 30)+'rpx'
+		 }"
+	    >
+	     {{typeof item =='string'?item:item[props.mapKey||props.dataKey] || ''}}
+	    </view>
+	  </picker-view-column>
+	</picker-view>
+	<!-- #endif -->
+	
     <!-- #ifdef APP-NVUE -->
     <picker-view
       ref="picker"
@@ -181,6 +191,7 @@ const showDom = ref(false);
 const maskHeight = computed(() => {
   return (uni.upx2px(props.height) - 34) / 2;
 });
+
 const maskWidth = ref(0);
 const maskStyle = computed(() => {
   let str_white =

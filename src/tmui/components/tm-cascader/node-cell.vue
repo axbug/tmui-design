@@ -1,7 +1,7 @@
 <template>
   <view
     @click.stop="nodeClick"
-    class="flex px-24"
+    class="flex px-24 flex-col-full"
     :class="[_value['disabled'] ? 'opacity-5' : '']"
   >
     <view :userInteractionEnabled="false" class="flex flex-row flex-between">

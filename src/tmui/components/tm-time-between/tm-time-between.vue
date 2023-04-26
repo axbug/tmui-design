@@ -244,9 +244,10 @@ const picker_focus_date = ref("");
 const defaultFormat = "YYYY/MM/DD HH:mm:ss";
 let tid = NaN;
 /** 开始时间 */
-const starTtime = ref(DayJs(props.start).format(defaultFormat));
+const starTtime = computed(()=>DayJs(props.start).format(defaultFormat))
 /** 结束时间 */
-const endTtime = ref(DayJs(props.end).format(defaultFormat));
+const endTtime = computed(()=>DayJs(props.end).format(defaultFormat))
+
 setDate(props.defaultValue);
 watch(
   () => props.modelValue,
