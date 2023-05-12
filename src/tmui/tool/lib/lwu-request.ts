@@ -113,6 +113,14 @@ export interface RequestOptionsConfig {
      */
     errorHandleByCode?: (code: number, errMsg?: string) => void;
     /**
+     * API错误拦截处理程序，请根据业务实际情况灵活设置
+     * + `1.1.0` 及以上版本支持
+     * 
+     * @param data API返回内容
+     * @param args uniapp请求API回调结果
+     */
+    apiErrorInterception?: (data: any, args?: UniApp.RequestSuccessCallbackResult) => void;
+    /**
      * 网络异常或者断网处理程序，建议更新缓存中是否断网或者网络繁忙的标识以便前端页面展示没有网络或者断网的通用异常页面
      * @returns
      */
@@ -221,6 +229,20 @@ export interface RequestOptions {
 const makeRetryTimeout = (times: number, maximum_offretry: number): number => {
     const random_number_milliseconds = Math.floor(Math.random() * 1000);
     return Math.min(Math.pow(2, times) * 1000 + random_number_milliseconds, maximum_offretry);
+}
+
+/**
+ * 对象转query string的参数字符串
+ * @param obj 需要转化的对象参数
+ */
+const objToQueryString = (obj: object): string => {
+    if (typeof obj === 'object' && obj !== null) {
+        return Object.keys(obj)
+            .map((key) => `${key}=${encodeURIComponent((obj as any)[key])}`)
+            .join('&');
+    }
+
+    return JSON.stringify(obj);
 }
 
 /**
@@ -354,6 +376,12 @@ class Http {
              * @returns 
              */
             errorHandleByCode: config.errorHandleByCode,
+            /**
+             * API错误拦截处理程序，请根据业务实际情况灵活设置
+             * @param data API返回内容
+             * @param args uniapp请求API回调结果
+             */
+            apiErrorInterception: config.apiErrorInterception,
             /**
              * 网络异常或者断网处理程序，建议更新缓存中是否断网或者网络繁忙的标识以便前端页面展示没有网络或者断网的通用异常页面
              * @returns
@@ -512,7 +540,8 @@ class Http {
                 if (args.method === 'GET') {
                     args.data = this.config.buildQueryString && this.config.buildQueryString(args.data)
                         ? this.config.buildQueryString(args.data)
-                        : new URLSearchParams(Object.entries(args.data)).toString();
+                        // : new URLSearchParams(Object.entries(args.data)).toString();
+                        : objToQueryString(args.data);
                     args.url = `${reqUrl}?${args.data}`;
                 } else {
                     args.url = reqUrl;
@@ -526,6 +555,8 @@ class Http {
             // 响应拦截
             success: (args: UniApp.RequestSuccessCallbackResult) => {
                 this.handleError(args.statusCode, (args.data as AnyObject)[this.config.requestSuccessResponseMsgName as string]);
+
+                this.config.apiErrorInterception && this.config.apiErrorInterception(args.data, args);
 
                 if (this.config.debug) {
                     console.warn(`【LwuRequest Debug:响应拦截】${JSON.stringify(args)}`);
@@ -618,18 +649,13 @@ class Http {
             setToken().then(getToken => {
                 if (getToken) {
                     if (this.config.takeTokenMethod === 'header') {
-                        header[this.config.takenTokenKeyName as string] = getToken;
+                        (options.header as any)[this.config.takenTokenKeyName as string] = getToken;
                     }
 
                     if (this.config.takeTokenMethod === 'body') {
                         data[this.config.takenTokenKeyName as string] = getToken;
                     }
                 }
-
-                // let reqHeader = {
-                //     header,
-                //     ...options.header
-                // };
 
                 // 发起请求
                 this.currentRequestTask = uni.request({
