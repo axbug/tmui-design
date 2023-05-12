@@ -54,7 +54,7 @@ title: tmui 3.0 组件库
 | skipHiddenItemLayout | Boolean | false |  |
 | disableTouch | Boolean | false |  |
 | touchable | Boolean | false |  |
-| indicatorDots | Boolean | true |  |
+| indicatorDots | Boolean | true | 是否显示指示点 |
 | showLoad<Badge type="danger" text="v3.0.77+" vertical="middle" /> | Boolean | true | 是否显示加载动画 |
 
 ### :rose: 事件
