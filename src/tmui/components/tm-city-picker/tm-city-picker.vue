@@ -1,5 +1,5 @@
 <template>
-  <view @click="showCity = !props.disabled?!showCity:false">
+  <view @click="showCity = !props.disabled ? !showCity : false">
     <!-- #ifdef APP-NVUE -->
     <view :eventPenetrationEnabled="true">
       <slot></slot>
@@ -8,14 +8,46 @@
     <!-- #ifndef APP-NVUE -->
     <slot></slot>
     <!-- #endif -->
-    <tm-drawer :disabbleScroll="true" :round="props.round" ref="drawer" :height="820" :closable="true"
-      :overlayClick="aniover" @open="drawerOpen" @cancel="cancel" @ok="confirm" :show="showCity"
-      @update:show="closeDrawer" title="请选择地区" ok-text="确认">
-      <tm-picker-view v-if="showCity" ref="picker" :height="590" @end="aniover = true" @start="aniover = false"
-        :value="_colIndex" @update:modelValue="_colIndex = $event" @update:model-str="_colStr = $event"
-        :model-str="_colStr" :default-value="_colIndex" :columns="_data"></tm-picker-view>
-      <tm-button label="确认选择" block :margin="[32, 12]" :color="props.color" :linear="props.linear"
-        :linear-deep="props.linearDeep" @click="confirm" :round="props.btnRound"></tm-button>
+    <tm-drawer
+      :disabbleScroll="true"
+      :round="props.round"
+      ref="drawer"
+      :height="820"
+      :closable="true"
+      :overlayClick="aniover"
+      @open="drawerOpen"
+      @cancel="cancel"
+      @ok="confirm"
+      :show="showCity"
+      @update:show="closeDrawer"
+      title="请选择地区"
+      ok-text="确认"
+      :ok-color="props.color"
+      :duration="props.duration"
+    >
+      <tm-picker-view
+        v-if="showCity"
+        ref="picker"
+        :height="590"
+        @end="aniover = true"
+        @start="aniover = false"
+        :value="_colIndex"
+        @update:modelValue="_colIndex = $event"
+        @update:model-str="_colStr = $event"
+        :model-str="_colStr"
+        :default-value="_colIndex"
+        :columns="_data"
+      ></tm-picker-view>
+      <tm-button
+        label="确认选择"
+        block
+        :margin="[32, 12]"
+        :color="props.color"
+        :linear="props.linear"
+        :linear-deep="props.linearDeep"
+        @click="confirm"
+        :round="props.btnRound"
+      ></tm-button>
       <view :style="{ height: win_bottom + 'px' }"></view>
     </tm-drawer>
   </view>
@@ -37,7 +69,7 @@ import {
   toRaw,
   computed,
   nextTick,
-  onMounted,
+  onMounted
 } from "vue";
 import { custom_props } from "../../tool/lib/minxs";
 import tmDrawer from "../tm-drawer/tm-drawer.vue";
@@ -68,29 +100,29 @@ const emits = defineEmits([
   "update:modelValue",
   "update:modelStr",
   "confirm",
-  "cancel",
+  "cancel"
 ]);
 const props = defineProps({
   ...custom_props,
   followTheme: {
     type: [Boolean, String],
-    default: true,
+    default: true
   },
   //v-model以selectedModel为索引的值结果。
   modelValue: {
     type: Array as PropType<Array<string | number>>,
-    default: () => [],
+    default: () => []
   },
   //单向输出地区名称以/分割。不管selectedModel是以哪种索引选项，此处始终以地区名称输出显示。
   //可以使用v-model:modelStr，外部不可更改。
   modelStr: {
     type: String,
-    default: "",
+    default: ""
   },
   //v-model:show来双向绑定显示和隐藏选择器。
   show: {
     type: [Boolean],
-    default: false,
+    default: false
   },
   //赋值和选值方式
   //name:名称模式赋值和选择
@@ -98,47 +130,51 @@ const props = defineProps({
   //index:索引模式赋值和选择
   selectedModel: {
     type: String,
-    default: "id",
+    default: "id"
   },
   /**
- * 城市选择的级别
- * province:省级别。
- * city:省，市
- * area:省，市，县/区.
- */
+   * 城市选择的级别
+   * province:省级别。
+   * city:省，市
+   * area:省，市，县/区.
+   */
   cityLevel: {
     type: String,
-    default: "area",
+    default: "area"
   },
   // 手动赋值城市数据
   city: {
     type: Array as PropType<Array<childrenData>>,
-    default: () => [],
+    default: () => []
   },
   color: {
     type: String,
-    default: "primary",
+    default: "primary"
   },
   linear: {
     type: String,
-    default: "",
+    default: ""
   },
   linearDeep: {
     type: String,
-    default: "light",
+    default: "light"
   },
   btnRound: {
     type: Number,
-    default: 3,
+    default: 3
   },
   round: {
     type: Number,
-    default: 12,
+    default: 12
+  },
+  duration: {
+    type: Number,
+    default: 300
   },
   /**禁用时，通过插槽点击时，不会触发显示本组件，适合表单 */
-  disabled:{
-    type:Boolean,
-    default:false
+  disabled: {
+    type: Boolean,
+    default: false
   }
 });
 const showCity = ref(true);
@@ -154,7 +190,7 @@ const sysinfo = inject("tmuiSysInfo", {
   width: uni.upx2px(750),
   top: 0,
   isCustomHeader: false,
-  sysinfo: null,
+  sysinfo: null
 });
 let win_bottom = sysinfo.bottom;
 
@@ -261,7 +297,9 @@ function getIndexBymodel(
     } else {
       item = item[0];
       if (item) {
-        _colIndex.value[parentIndex] = vdata.findIndex((el) => el["id"] == item["id"]);
+        _colIndex.value[parentIndex] = vdata.findIndex(
+          (el) => el["id"] == item["id"]
+        );
         if (item["children"]) {
           getIndexBymodel(item["children"], model, parentIndex + 1, value);
         }
@@ -275,10 +313,10 @@ function getIndexBymodel(
 function getRouterId(
   list: Array<childrenData> = [],
   parentIndex = 0,
- value: Array<number | string> = []
+  value: Array<number | string> = []
 ): Array<string | number> {
   let p: Array<string | number> = [];
-  const _defalutValue = value.length==0?_colIndex.value:value;
+  const _defalutValue = value.length == 0 ? _colIndex.value : value;
   for (let i = 0; i < list.length; i++) {
     if (i == _defalutValue[parentIndex]) {
       p.push(list[i]["id"]);
@@ -321,7 +359,7 @@ function chiliFormatCity_area() {
     list.push({
       id: item.value ?? "",
       text: String(item.label),
-      children: [],
+      children: []
     });
   });
   if (props.cityLevel == "province") return list;
@@ -330,7 +368,7 @@ function chiliFormatCity_area() {
       list[index]?.children.push({
         id: citem.value ?? "",
         text: citem.label ?? "",
-        children: [],
+        children: []
       });
     });
   });
@@ -340,7 +378,7 @@ function chiliFormatCity_area() {
       areaData[index][cindex].forEach((jitem) => {
         list[index]?.children[cindex]?.children.push({
           id: jitem.value ?? "",
-          text: jitem.label ?? "",
+          text: jitem.label ?? ""
         });
       });
     });
@@ -350,8 +388,8 @@ function chiliFormatCity_area() {
 }
 
 defineExpose({
-  getList:chiliFormatCity_area,
-  getIndexs:getIndexBymodel,
+  getList: chiliFormatCity_area,
+  getIndexs: getIndexBymodel,
   getRouterId
-})
+});
 </script>
