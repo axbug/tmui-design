@@ -491,23 +491,23 @@ export function debounce(func: Function, wait = 500, immediate = false) {
  * @param {Boolean} immediate 是否立即执行
  * @return null
  */
-var timesr: any = NaN
-export function throttle(func: Function, wait = 500, immediate = true, flag = false) {
+var timesr: any = NaN,throttleFlag: boolean;
+export function throttle(func: Function, wait = 500, immediate = true) {
 	if (immediate) {
-		if (!flag) {
-			flag = true;
+		if (!throttleFlag) {
+			throttleFlag = true;
 			// 如果是立即执行，则在wait毫秒内开始时执行
 			typeof func === 'function' && func();
 			timesr = setTimeout(() => {
-				flag = false;
+				throttleFlag = false;
 			}, wait);
 		}
 	} else {
-		if (!flag) {
-			flag = true
+		if (!throttleFlag) {
+			throttleFlag = true
 			// 如果是非立即执行，则在wait毫秒内的结束处执行
 			timesr = setTimeout(() => {
-				flag = false
+				throttleFlag = false
 				typeof func === 'function' && func();
 			}, wait);
 		}
