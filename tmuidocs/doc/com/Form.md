@@ -47,7 +47,7 @@ title: tmui 3.0 组件库
 | --- | --- | --- | --- |
 | submit | - | result | 表单提交函数 |
 | reset | - | - | 重置表单函数 |
-| validate | - | result | 执行表单检验，不会返回任何值。 |
+| validate | - | result | 执行表单检验，返回验证结果对象，内有isPass属性表示是否验证通过 |
 | clearValidate | - | - | 清除验证函数 |
 | update:modelValue | - | - | 更新表单绑定值 |
 
@@ -78,7 +78,7 @@ title: tmui 3.0 组件库
 | :--: | :--: | :--: | :-- |
 | submit | - | - | 提交表单 |
 | reset | - | - | 重置表单 |
-| validate | - | - | 手动校验表单 |
+| validate | - | result | 手动校验表单，返回验证结果对象，内有isPass属性表示是否验证通过 |
 | clearValidate | - | - | 清除校验状态 |
 | pushKey | item:formItem | - | - |
 | delKey | item:formItem | - | - |
