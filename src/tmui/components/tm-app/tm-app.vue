@@ -1,39 +1,21 @@
 <template>
+	<!-- #ifdef APP-NVUE -->
+	<view class="flex relative">
+		<slot name="default">
+			<text>在这里放置内容</text>
+		</slot>
+	</view>
+	<!-- #endif -->
+	<!-- #ifndef APP-NVUE -->
 	<view class="flex relative app flex-1" :style="[
 		appConfig.theme? { background: _tranparent?'':appConfig.theme } : '',
 	   _bgImg?{backgroundImage:`url(${_bgImg})`}:'' 
 	   ]">
-		<view :class="[blur ? 'blur' : '']" ref="bodyEl" class="flex flex-1 zIndex-1" :style="[
-		blur
-        ? { backgroundColor: isDark ? 'rgba(0,0,0,0.3)' : 'rgba(248, 248, 248, 0.7)' }
-        : '',
-		{flexDirection:'column'} 
-		]">
-			<slot name="default">
-				<text>在这里放置内容</text>
-			</slot>
-		</view>
-		<!-- 		<view :blurEffect="_blurEffect" @click.stop="toogleOpen(false)" ref="menuEl"
-			:class="[_showMenu ? 'menuOn' : '']" class="fixed l-0 t-0 menu" :style="{
-        width: appConfig.width + 'px',
-        height: appConfig.height + 'px',
-        background: 'rgba(0,0,0,0.6)',
-        backdropFilter: 'blur(3px)',
-      }">
-			<view v-if="_showMenu" :style="{
-        width: appConfig.width * 0.7 + 'px',
-        height: appConfig.height + 'px',
-        boxShadow: '3px 0 16px rgba(0,0,0,0.3)',
-      }">
-				<scroll-view @click.stop="" :scroll-y="true" :style="{
-          width: appConfig.width * 0.7 + 'px',
-          height: appConfig.height + 'px',
-        }">
-					<slot name="menu" :sys="{ width: appConfig.width * 0.7, height: appConfig.height }"></slot>
-				</scroll-view>
-			</view>
-		</view> -->
+		<slot name="default">
+			<text>在这里放置内容</text>
+		</slot>
 	</view>
+	<!-- #endif -->
 </template>
 <script lang="ts" setup>
 	/**
@@ -117,22 +99,22 @@
 	});
 	// 设置响应式全局组件库配置表。
 	const tmcfg = computed(() => store.tmStore);
-	
+
 	const isSetThemeOk = ref(false);
 	//是否暗黑模式。
 	const isDark = computed(() => tmcfg.value.dark);
-	
+
 	//计算主题
 	const tmcomputed = computed<cssstyle>(() =>
 		computedTheme(props, isDark.value, tmcfg.value)
 	);
-	
+
 	const _showMenu = ref(props.showMenu);
 	const sysinfo = getWindow();
 	const sysinfoRef = ref(sysinfo);
 	const _bgImg = computed(() => props.bgImg)
 	const _tranparent = computed(() => props.transparent || props.transprent)
-	
+
 	// #ifdef H5
 	window.addEventListener("resize", () => {
 		throttle(() => {
@@ -147,7 +129,7 @@
 	let view_height = ref(sysinfo.height);
 	let timids : any = NaN;
 	let flag = false;
-	
+
 	//本页面是否是tabar切换页面。
 	let isTabbarPage = false;
 	let nowPage = getCurrentPages().pop();
@@ -250,7 +232,7 @@
 	}
 
 	function setAppStyle() {
-		
+
 		if (isDark.value) {
 			appConfig.value.theme = store.tmuiConfig?.themeConfig?.dark?.bodyColor || props.darkColor;
 		} else {
@@ -291,13 +273,13 @@
 		if (isDark.value) {
 			// #ifndef MP-ALIPAY
 			try {
-				if(!uni.$tm.isOpenDarkModel){
+				if (!uni.$tm.isOpenDarkModel) {
 					uni.setNavigationBarColor({
 						backgroundColor: "#000000",
 						frontColor: "#ffffff",
 					}).catch(error => { });
 				}
-				
+
 			} catch (error) {
 
 			}
@@ -311,7 +293,7 @@
 
 			/**如果当前页面有tabbar则需要设定原生的tabbar */
 			if (isTabbarPage) {
-				if(uni.$tm.tabBar.selectedColor.indexOf("@")==-1){
+				if (uni.$tm.tabBar.selectedColor.indexOf("@") == -1) {
 					uni.setTabBarStyle({
 						backgroundColor: "#141415",
 						borderStyle: "black",
@@ -319,14 +301,14 @@
 						selectedColor: uni.$tm.tabBar.selectedColor || tmcomputed.value.textColor,
 					}).catch(error => { });
 				}
-				
+
 			}
 		} else {
 			// #ifndef MP-ALIPAY
 			try {
 				let nowPageConfigs = uni.$tm.pages.filter((el) => el.path == nowPage?.route);
 				if (nowPageConfigs.length > 0 && !props.navbar.background) {
-					if(nowPageConfigs[0].navigationBarTextStyle.indexOf("@")>-1) return;
+					if (nowPageConfigs[0].navigationBarTextStyle.indexOf("@") > -1) return;
 					let tcolor = nowPageConfigs[0].navigationBarTextStyle;
 					tcolor = tcolor.toLocaleLowerCase();
 					tcolor = tcolor == "black" ? "#000000" : tcolor;
@@ -342,8 +324,8 @@
 							navbarFontColor: tcolor,
 						})
 					);
-				} else if(!uni.$tm.isOpenDarkModel) {
-					
+				} else if (!uni.$tm.isOpenDarkModel) {
+
 					uni.setNavigationBarColor({
 						backgroundColor: props.navbar.background,
 						frontColor: props.navbar.fontColor,
@@ -364,7 +346,7 @@
 			plus.navigator.setStatusBarStyle("dark");
 			// #endif
 			try {
-				if (isTabbarPage&&!uni.$tm.isOpenDarkModel) {
+				if (isTabbarPage && !uni.$tm.isOpenDarkModel) {
 					uni
 						.setTabBarStyle({
 							backgroundColor: uni.$tm.tabBar.backgroundColor || props.navbar.background,
@@ -410,42 +392,7 @@
 	}
 
 	function spinNvueAni(reveser = false) {
-		// #ifdef APP-NVUE
-		if (!proxy?.$refs.bodyEl) return;
-		var testEl = proxy?.$refs.bodyEl;
-		animation.transition(
-			testEl,
-			{
-				styles: {
-					transform: _showMenu.value
-						? `translateX(70%)   scale(0.8)`
-						: `translateX(0%)  scale(1)`,
-					transformOrigin: "center center",
-				},
-				duration: 200, //ms
-				timingFunction: "ease",
-				delay: 0, //ms
-			},
-			() => { }
-		);
-		setTimeout(function () {
-			if (!proxy?.$refs.menuEl) return;
-			var testElx = proxy?.$refs.menuEl;
-			animation.transition(
-				testElx,
-				{
-					styles: {
-						transform: _showMenu.value ? `translateX(0%)` : `translateX(-101%)`,
-						transformOrigin: "center center",
-					},
-					duration: 200, //ms
-					timingFunction: "ease",
-					delay: 0, //ms
-				},
-				() => { }
-			);
-		}, 50);
-		// #endif
+		
 	}
 
 	/** 监听当前系统的主题变化。 */
@@ -495,7 +442,7 @@
 		background-repeat: no-repeat;
 		background-size: 100% 100%;
 		/* #endif */
-		flex-direction:column;
+		flex-direction: column;
 
 	}
 

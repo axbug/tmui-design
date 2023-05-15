@@ -2,9 +2,11 @@
 title: tmui 3.0 组件库
 ---
 
-<dirtoc></dirtoc>
+<script setup>
+import webview from '../components/mobileWebview.vue'
+</script>
 
-##### 组件库文档 tmui.design
+#### 组件库文档 tmui.design
 
 # 条形码 Barcode
 
@@ -13,24 +15,24 @@ title: tmui 3.0 组件库
 
 ---
 
-### :hot_pepper: 条形码 Barcode 示例
+## :hot_pepper: 条形码 Barcode 示例
 
 <webview url="https://tmui.design/h5/#/pages/other/barCode"></webview>
 
 ::: details 示例代码
 
-@[code vue](pages/other/barCode.nvue)
+<<< ../src/pages/other/barCode.nvue{vue}
 
 :::
 
 
-### :hot_pepper: 兼容性
+## :hot_pepper: 兼容性
 
 | APP-VUE | APP-NVUE | 小程序 | WEB/H5 | VUE3/TS |
 | --- | --- | --- | --- | --- |
 | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
 
-### :seedling: 参数
+## :seedling: 参数
 本组件含有公共属性 [公共属性](/doc/spec/组件公共样式.md)
 | 参数名 | 类型 | 默认值 | 描述 |
 | :--: | :--: | :--: | :-- |
@@ -52,14 +54,14 @@ export interface Baroptions {
 	lineColor?: string,//线条颜色
 }
 ```
-### :rose: 事件
+## :rose: 事件
 无
 
 
-### :corn: slot插槽
+## :corn: slot插槽
 默认default
 
-### :green_salad: ref方法
+## :green_salad: ref方法
 
 **如果在安卓端nvue原生的情况下保存二维码有未知问题，请使用vue页面使用本组件。**
 

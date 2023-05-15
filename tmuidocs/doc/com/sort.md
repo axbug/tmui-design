@@ -2,9 +2,11 @@
 title: tmui 3.0 组件库
 ---
 
-<dirtoc></dirtoc>
+<script setup>
+import webview from '../components/mobileWebview.vue'
+</script>
 
-##### 组件库文档 tmui.design
+#### 组件库文档 tmui.design
 
 # 宫格排序 Sort
 
@@ -22,23 +24,23 @@ title: tmui 3.0 组件库
 
 ---
 
-### :hot_pepper: 示例
+## :hot_pepper: 示例
 
 <webview url="https://tmui.design/h5/#/pages/other/sort"></webview>
 
 ::: details 示例模板
 
-@[code vue](pages/other/sort.vue)
+<<< ../src/pages/other/sort.vue{vue}
 
 :::
 
-### :hot_pepper: 兼容性
+## :hot_pepper: 兼容性
 
 | APP-VUE | APP-NVUE | 小程序 | WEB/H5 | VUE3/TS |
 | --- | --- | --- | --- | --- |
 | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
 
-### :seedling: 参数
+## :seedling: 参数
 
 | 参数名 | 类型 | 默认值 | 描述 |
 | :--: | :--: | :--: | :-- |
@@ -61,16 +63,16 @@ export interface itemType{
 }
 ```
 
-### :rose: 事件
+## :rose: 事件
 | 事件名 | 参数 | 返回数据 | 描述 |
 | --- | --- | --- | --- |
 | start | - | 提供的list原数据 | 拖动开始时触发 |
 | end | - | 排序后的数据，排序前的数据(newdata,olddata) | 拖动排序结束后触发 |
 
-### :corn: slot插槽
+## :corn: slot插槽
 默认default
 
-### :green_salad: ref方法
+## :green_salad: ref方法
 | 方法名 | 参数 | 返回值 | 描述 |
 | :--: | :--: | :--: | :-- |
 

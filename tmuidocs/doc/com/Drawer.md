@@ -2,32 +2,34 @@
 title: tmui 3.0 组件库
 ---
 
-<dirtoc></dirtoc>
+<script setup>
+import webview from '../components/mobileWebview.vue'
+</script>
 
-##### 组件库文档 tmui.design
+#### 组件库文档 tmui.design
 
 # 抽屉 Drawer
 弹出层容器，用于展示弹窗、信息提示等内容。
 
 ---
 
-### :hot_pepper: 抽屉 Drawer 示例
+## :hot_pepper: 抽屉 Drawer 示例
 
 <webview url="https://tmui.design/h5/#/pages/fankui/drawer"></webview>
 
 ::: details 示例模板
 
-@[code vue](pages/fankui/drawer.nvue)
+<<< ../src/pages/fankui/drawer.nvue{vue}
 
 :::
 
-### :hot_pepper: 兼容性
+## :hot_pepper: 兼容性
 
 | APP-VUE            | APP-NVUE           | 小程序                | WEB/H5             | VUE3/TS            |
 |--------------------|--------------------|--------------------|--------------------|--------------------|
 | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
 
-### :seedling: 参数
+## :seedling: 参数
 本组件含有公共属性 [公共属性](/doc/spec/组件公共样式.md)
 
 | 参数名          | 类型             | 默认值     | 描述   |
@@ -63,7 +65,7 @@ title: tmui 3.0 组件库
 
 
 
-### :rose: 事件
+## :rose: 事件
 | 事件名         | 参数   | 返回数据    | 描述               |
 |-------------|------|---------|------------------|
 | click       |      |         |                  |
@@ -73,17 +75,17 @@ title: tmui 3.0 组件库
 | cancel      |      |         | 取消按钮             |
 | update:show | show | Boolean | 显示状态（更新v-model:show值） |
 
-### :corn: slot插槽
+## :corn: slot插槽
 默认default,内容插槽
 title <Badge type="danger" text="v3.0.77+" vertical="middle" />,标题插槽
 trigger可触发弹层的插槽占位内容，比如在里面布局按钮，输入框，点击这块内容可以直接显示弹层。
 foot,固定在弹层尾部内容。当drawer内容滚动时，这部分内容始终在尾部。属性footHeight必须大于0才会开启。
 
-### :green_salad: ref方法
+## :green_salad: ref方法
 | 方法名   | 参数  | 返回值 | 描述  |
 |-------|-----|-----|-----|
 | open  |     |     | 显示  |
 | close |     |     | 隐藏  |
 
-### :couplekiss: 文档贡献
+## :couplekiss: 文档贡献
 此页文档由[Kyour](https://github.com/kyour-cn)贡献，如果对该框架感兴趣的可以参与我们一同进步！

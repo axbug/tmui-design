@@ -2,33 +2,35 @@
 title: tmui 3.0 组件库
 ---
 
-<dirtoc></dirtoc>
+<script setup>
+import webview from '../components/mobileWebview.vue'
+</script>
 
-##### 组件库文档 tmui.design
+#### 组件库文档 tmui.design
 
 # 按钮 Button
 常用组件按钮。
 
 ---
 
-### :hot_pepper: 按钮 Button 示例
+## :hot_pepper: 按钮 Button 示例
 
 <webview url="https://tmui.design/h5/#/pages/changyong/button"></webview>
 
 ::: details 示例代码
 
-@[code vue](pages/changyong/button.nvue)
+<<< ../src/pages/changyong/button.nvue{vue}
 
 :::
 
 
-### :hot_pepper: 兼容性
+## :hot_pepper: 兼容性
 
 | APP-VUE | APP-NVUE | 小程序 | WEB/H5 | VUE3/TS |
 | --- | --- | --- | --- | --- |
 | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
 
-### :seedling: 参数
+## :seedling: 参数
 本组件含有公共属性 [公共属性](/doc/spec/组件公共样式.md)
 | 参数名 | 类型 | 默认值 | 描述 |
 | :--: | :--: | :--: | :-- |
@@ -61,7 +63,7 @@ title: tmui 3.0 组件库
 | disabledColor | String | grey-1 | 按钮被禁用时展现的颜色 |
 
 
-### :rose: 事件
+## :rose: 事件
 | 事件名 | 参数 | 返回数据 | 描述 |
 | --- | --- | --- | --- |
 | click |  |  |  |
@@ -80,8 +82,8 @@ title: tmui 3.0 组件库
 | contact |  |  | [见文档](https://uniapp.dcloud.net.cn/component/button.html) |
 
 
-### :corn: slot插槽
+## :corn: slot插槽
 默认default,为文本内容。这个默认只有非nvue才有用。我不建议用默认插槽来书写按钮文本。原因是不能跨平台，建议使用按钮属性```label```
 
-### :green_salad: ref方法
+## :green_salad: ref方法
 无

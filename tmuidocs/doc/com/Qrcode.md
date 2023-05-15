@@ -2,33 +2,35 @@
 title: tmui 3.0 组件库
 ---
 
-<dirtoc></dirtoc>
+<script setup>
+import webview from '../components/mobileWebview.vue'
+</script>
 
-##### 组件库文档 tmui.design
+#### 组件库文档 tmui.design
 
 # 二维码 Qrcode	
 生成二维码。
 
 ---
 
-### :hot_pepper: 二维码 Qrcode 示例
+## :hot_pepper: 二维码 Qrcode 示例
 
 <webview url="https://tmui.design/h5/#/pages/showdata/qrcode"></webview>
 
 ::: details 示例代码
 
-@[code vue](pages/showdata/qrcode.nvue)
+<<< ../src/pages/showdata/qrcode.nvue{vue}
 
 :::
 
 
-### :hot_pepper: 兼容性
+## :hot_pepper: 兼容性
 
 | APP-VUE | APP-NVUE | 小程序 | WEB/H5 | VUE3/TS |
 | --- | --- | --- | --- | --- |
 | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
 
-### :seedling: 参数
+## :seedling: 参数
 本组件含有公共属性 [公共属性](/doc/spec/组件公共样式.md)
 | 参数名 | 类型 | 默认值 | 描述 |
 | :--: | :--: | :--: | :-- |
@@ -50,14 +52,14 @@ title: tmui 3.0 组件库
 | ecc | String | M | 容错等级[ 'L', 'M', 'Q', 'H' ] |
 | linearDir | String | tlbr | 如果forgroundColor是数组渐变色，则此可以更改渐变方向，left,right,bottom,top,tlbr:左顶点至底右下点，trbl,右顶点底右左点，bltr右底左点至顶右点。brtl底右点至顶左点。 |
 
-### :rose: 事件
+## :rose: 事件
 无
 
 
-### :corn: slot插槽
+## :corn: slot插槽
 默认default
 
-### :green_salad: ref方法
+## :green_salad: ref方法
 
 **如果在安卓端nvue原生的情况下保存二维码有未知问题，请使用vue页面使用本组件。**
 
@@ -65,5 +67,5 @@ title: tmui 3.0 组件库
 | :--: | :--: | :--: | :-- |
 | save<Badge type="danger" text="v3.0.63+" vertical="middle" /> | - | 图片路径string,h5端返回的是base64 | 保存当前生成的二维码图片 |
 
-### :couplekiss: 文档贡献
+## :couplekiss: 文档贡献
 此页文档由[﹎wj潕钶取玳](https://gitee.com/dxwj)贡献，如果对该框架感兴趣的可以参与我们一同进步！

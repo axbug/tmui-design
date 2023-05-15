@@ -2,32 +2,34 @@
 title: tmui 3.0 组件库
 ---
 
-<dirtoc></dirtoc>
+<script setup>
+import webview from '../components/mobileWebview.vue'
+</script>
 
-##### 组件库文档 tmui.design
+#### 组件库文档 tmui.design
 
 # 侧边栏导航 Sidemenu
 主要是应用于类目分类,产品分类,过多时的竖向展示切换.
 
 ---
 
-### :hot_pepper: 侧边栏导航 sidemenu 示例
+## :hot_pepper: 侧边栏导航 sidemenu 示例
 
 <webview url="https://tmui.design/h5/#/pages/daohang/sideMenu"></webview>
 
 ::: details 示例模板
 
-@[code vue](pages/daohang/sideMenu.nvue)
+<<< ../src/pages/daohang/sideMenu.nvue{vue}
 
 :::
 
-### :hot_pepper: 兼容性
+## :hot_pepper: 兼容性
 
 | APP-VUE | APP-NVUE | 小程序 | WEB/H5 | VUE3/TS |
 | --- | --- | --- | --- | --- |
 | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
 
-### :seedling: 参数
+## :seedling: 参数
 
 | 参数名 | 类型 | 默认值 | 描述 |
 | :--: | :--: | :--: | :-- |
@@ -52,7 +54,7 @@ title: tmui 3.0 组件库
 | isScroll | Boolean | false | 是否自定义右侧滚动区域的插槽，如果是原有的下拉，下拉的滚动组件将不显示并去除。 |
 
 
-### :rose: 事件
+## :rose: 事件
 
 | 事件名 | 参数 | 返回数据 | 描述 |
 | --- | --- | --- | --- |
@@ -61,11 +63,11 @@ title: tmui 3.0 组件库
 | load | / | type:'loading'\|'success'\|'pull'\|'bottom'\|'menu',index:number | 加载数据时触发此函数 |
 | restore | / | - | 重置下拉时触发 |
 
-### :corn: slot插槽
+## :corn: slot插槽
 
 默认右边内容插槽
 
-### :green_salad: ref方法
+## :green_salad: ref方法
 
 无
 

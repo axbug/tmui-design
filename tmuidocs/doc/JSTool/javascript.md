@@ -2,14 +2,13 @@
 title: 自带JS工具库
 ---
 
-<dirtoc></dirtoc>
 
-##### JSTool tmui.design
+#### JSTool tmui.design
 
 # JS工具库  <Badge type="danger" text="v3.0.5+" vertical="middle" />
 
 
-### :tada: 如何调用
+## :tada: 如何调用
 
 在全局任意位置均可调用，部分方法需要你导入相关包（主要是为了包大小考虑）<br>
 ***为什么在uni中是$tm而在上下文中使用tm。因为$tm在上下文里被系统使用了***
@@ -29,7 +28,7 @@ proxy.tm.u.callPhone("10086")
 
 ```
 
-### :tada: dayJs 日期插件
+## :tada: dayJs 日期插件
 
 具体使用方法见它的文档[dayjs文档](https://dayjs.fenxianglu.cn/category/getset.html)<br>
 这里我着重讲下如何导入和使用插件，好多小伙伴不知道在ts中使用。因dayjs已经被我集成在了插件中，无需你安装，
@@ -65,7 +64,7 @@ nowdate.isoWeek()
 ```
 
 
-### :tada: isNumber 检测是否是数字并设置默认值
+## :tada: isNumber 检测是否是数字并设置默认值
 ```
 /**
  * 检测是否是数字
@@ -76,7 +75,7 @@ nowdate.isoWeek()
 isNumber(arg: string | number | undefined | null, defaultNum:number):number
 ```
 		
-### :tada: isString 检测是否是字符串并赋值默认值
+## :tada: isString 检测是否是字符串并赋值默认值
 ```
 /**
 * 检测是否是字符串
@@ -87,7 +86,7 @@ isNumber(arg: string | number | undefined | null, defaultNum:number):number
 isString(arg: string | number | undefined | null, defaultStr:string):string
 ```
 
-### :tada: paginate 数字进行分页
+## :tada: paginate 数字进行分页
 ```
 /**
  * 把一个数字进行分页返回数字数组
@@ -98,7 +97,7 @@ isString(arg: string | number | undefined | null, defaultStr:string):string
 paginate(total: number, pageSize: number): number[]
 ```
 		
-### :tada: getValue 取对象数据值（可深层次取值）
+## :tada: getValue 取对象数据值（可深层次取值）
 ```
 /**
 * 取对象数据值（可深层次取值）
@@ -111,7 +110,7 @@ paginate(total: number, pageSize: number): number[]
 getValue(data: Data, keys: string): any 
 ```
 
-### :tada: setValue 设置对象键值（可深层次设置值）
+## :tada: setValue 设置对象键值（可深层次设置值）
 ```
 /**
  * 设置对象键值（可深层次设置值）
@@ -124,7 +123,7 @@ getValue(data: Data, keys: string): any
 setValue(data: Data, keys: string, value: any): void
 ```	
 		
-### :tada: getMaxDepth 获取最大的层级数
+## :tada: getMaxDepth 获取最大的层级数
 ```
 /**
  * 计算并返回一个对象中最大的层级数
@@ -134,7 +133,7 @@ setValue(data: Data, keys: string, value: any): void
 getMaxDepth(data: Data): number
 ```
 
-### :tada: preview 预览图片
+## :tada: preview 预览图片
 
 ```ts
 /*
@@ -146,7 +145,7 @@ getMaxDepth(data: Data): number
  export function preview(url:string="",list:Array<string>=[],rangKey:string = "url")
  
 ```
-### :tada: splitData 数组分组
+## :tada: splitData 数组分组
 
 ```ts
 /**
@@ -158,7 +157,7 @@ getMaxDepth(data: Data): number
 export function splitData(oArr = [], length = 1)
 
 ```
-### :tada: timeMuch 剩余时间
+## :tada: timeMuch 剩余时间
 ```ts
 /**
 * 剩余时间格式化
@@ -167,13 +166,13 @@ export function splitData(oArr = [], length = 1)
 */
 export function timeMuch(t:number) {
 ```
-### :tada: getDateToNewData 距离时间多久
+## :tada: getDateToNewData 距离时间多久
 ```ts
 //获取时间距离当前时间,多久前，刚刚这样的格式。
 export function getDateToNewData(timestamp:number|string|Date = new Date().getTime()){
 ```
 
-### :tada: callPhone 拨打电话
+## :tada: callPhone 拨打电话
 ```ts
 /**
 * 打电话
@@ -182,7 +181,7 @@ export function getDateToNewData(timestamp:number|string|Date = new Date().getTi
 */
 export function callPhone(phoneNumber = '')
 ```
-### :tada: scanCode 相机扫码
+## :tada: scanCode 相机扫码
 ```ts
 /**
  * 调起客户端相机扫码。
@@ -192,7 +191,7 @@ export function callPhone(phoneNumber = '')
  */
  export function scanCode(onlyFromCamera = true, scanType = ['barCode', 'qrCode', 'datamatrix','datamatrix']){
 ```
-### :tada: setClipboardData 设置剪切板
+## :tada: setClipboardData 设置剪切板
 ```ts
 /**
  * 设置剪切板内容。
@@ -201,7 +200,7 @@ export function callPhone(phoneNumber = '')
  */
  export function setClipboardData(data:string){
 ```
-### :tada: getClipboardData 获取剪切板
+## :tada: getClipboardData 获取剪切板
 ```ts
 /**
  * 获取剪切板内容
@@ -209,7 +208,7 @@ export function callPhone(phoneNumber = '')
  */
  export function getClipboardData(){
 ```
-### :tada: setCookie  置cookie数据
+## :tada: setCookie  置cookie数据
 ```ts
 /**
  * 设置cookie数据
@@ -219,7 +218,7 @@ export function callPhone(phoneNumber = '')
  */
  export function setCookie(key:string, data:any) {
 ```
-### :tada: delCookie 删除cookie
+## :tada: delCookie 删除cookie
 ```ts
 /**
  * 删除一个本地cookie
@@ -228,7 +227,7 @@ export function callPhone(phoneNumber = '')
  */
  export function delCookie(key:string) {
 ```
-### :tada: getCookie 获取cookie数据
+## :tada: getCookie 获取cookie数据
 ```ts
 /**
  * 获取一个cookie数据
@@ -238,7 +237,7 @@ export function callPhone(phoneNumber = '')
  */
  export function getCookie(key:string) {
 ```
-### :tada: httpUrlAddKey 向Url连接追加参数
+## :tada: httpUrlAddKey 向Url连接追加参数
 ```ts
 /**
  * 向地址连接追加参数。
@@ -249,7 +248,7 @@ export function callPhone(phoneNumber = '')
  */
  export function httpUrlAddKey(uri:string, key:string, value:string) {
 ```
-### :tada: getQueryString 取url参数
+## :tada: getQueryString 取url参数
 ```ts
 /**
  * 取url参数
@@ -260,7 +259,7 @@ export function callPhone(phoneNumber = '')
 function getQueryString(url:string,key:string):string|undefined {
 ```
 
-### :tada: getUid 随机一个唯一标识
+## :tada: getUid 随机一个唯一标识
 ```ts
 /**
  * 随机一个唯一标识
@@ -268,7 +267,7 @@ function getQueryString(url:string,key:string):string|undefined {
 export function getUid (length=12){
 ```
 
-### :tada: debounce 防抖 
+## :tada: debounce 防抖 
 
 ```ts
 /*
@@ -281,7 +280,7 @@ export function getUid (length=12){
 let timeout:number|null = null;
 export function debounce(func:Function, wait = 500, immediate = false) {
 ```
-### :tada: throttle 节流
+## :tada: throttle 节流
 ```ts
 /**
  * 节流
@@ -295,13 +294,13 @@ let timer:number|null, flag:boolean;
 export function throttle(func:Function, wait = 500, immediate = true) {
 ```
 
-### :tada: deepClone 深度克隆
+## :tada: deepClone 深度克隆
 
 ```ts
 // 深度克隆
 export function deepClone (obj:any) {
 ```
-### :tada: isPhone 是否是手机号码
+## :tada: isPhone 是否是手机号码
 ```ts
 /**
  * 是否是手机号码
@@ -310,7 +309,7 @@ export function deepClone (obj:any) {
  */
 export function isPhone(phone:string|number){
 ```
-### :tada: isChina 是否含有中文
+## :tada: isChina 是否含有中文
 ```ts
 /**
  * 是否含有中文
@@ -320,7 +319,7 @@ export function isPhone(phone:string|number){
  export function isChina(s:string){
 ```
 
-### :tada: isEmpty 是否为空
+## :tada: isEmpty 是否为空
 ```ts
 /**
  * 是否为空
@@ -329,7 +328,7 @@ export function isPhone(phone:string|number){
  */
 export function isEmpty(s:any){
 ```
-### :tada: isIdCard 是否身份证号
+## :tada: isIdCard 是否身份证号
 ```ts
 /**
  * 是否身份证号
@@ -338,7 +337,7 @@ export function isEmpty(s:any){
  */
 export function isIdCard (val:string|number) {
 ```
-### :tada: isIdCar 是否车牌
+## :tada: isIdCar 是否车牌
 ```ts
 /**
  * 是否车牌
@@ -349,7 +348,7 @@ export function isIdCard (val:string|number) {
 export function isIdCar(s:string){
 ```
 
-### :tada: isPasswordOfNumber 纯数字密码验证
+## :tada: isPasswordOfNumber 纯数字密码验证
 ```ts
 /**
  * 纯数字密码验证
@@ -360,7 +359,7 @@ export function isIdCar(s:string){
  */
 export function isPasswordOfNumber(s:number|string,len=6,maxLen=20){
 ```
-### :tada: isPasswordOfOther 密码验证
+## :tada: isPasswordOfOther 密码验证
 ```ts
 /**
  * 密码验证
@@ -373,7 +372,7 @@ export function isPasswordOfNumber(s:number|string,len=6,maxLen=20){
 export function isPasswordOfOther(s:string|number,len=6,maxLen=20,model=0){
 ```
 
-### :tada: isDate 是否是一个有效的日期
+## :tada: isDate 是否是一个有效的日期
 ```ts
 /**
  * 是否是一个有效的日期
@@ -382,7 +381,7 @@ export function isPasswordOfOther(s:string|number,len=6,maxLen=20,model=0){
  */
 export function isDate(s:string|number|Date){
 ```
-### :tada: isEmail 是否邮箱
+## :tada: isEmail 是否邮箱
 ```ts
 /**
  * 是否邮箱
@@ -391,7 +390,7 @@ export function isDate(s:string|number|Date){
  */
 export function isEmail(s:string){
 ```
-### :tada: toast 提示信息
+## :tada: toast 提示信息
 
 <Badge type="danger" text="v3.0.75+" vertical="middle" />
 
@@ -404,7 +403,7 @@ export function isEmail(s:string){
  */
 export function toast(word:string,mask:boolean=true,icon:any='none')
 ```
-### :tada: getWindow 安全区高度(全屏)
+## :tada: getWindow 安全区高度(全屏)
 
 <Badge type="danger" text="v3.0.75+" vertical="middle" />
 

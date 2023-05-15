@@ -2,32 +2,34 @@
 title: tmui 3.0 组件库
 ---
 
-<dirtoc></dirtoc>
+<script setup>
+import webview from '../components/mobileWebview.vue'
+</script>
 
-##### 组件库文档 tmui.design
+#### 组件库文档 tmui.design
 
 # 警告提示 Alert
 以横幅的形式显示提示内容，用于警告、通知、提示等场景。
 
 ---
 
-### :hot_pepper: 警告提示 Alert 示例
+## :hot_pepper: 警告提示 Alert 示例
 
 <webview url="https://tmui.design/h5/#/pages/fankui/alert"></webview>
 
 ::: details 示例模板
 
-@[code vue](pages/fankui/alert.nvue)
+<<< ../src/pages/fankui/alert.nvue{vue}
 
 :::
 
-### :hot_pepper: 兼容性
+## :hot_pepper: 兼容性
 
 | APP-VUE            | APP-NVUE           | 小程序                | WEB/H5             | VUE3/TS            |
 |--------------------|--------------------|--------------------|--------------------|--------------------|
 | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
 
-### :seedling: 参数
+## :seedling: 参数
 本组件含有公共属性 [公共属性](/doc/spec/组件公共样式.md)
 
 | 参数名         | 类型             | 默认值      | 描述                |
@@ -55,17 +57,17 @@ item {
 }
 ```
 
-### :rose: 事件
+## :rose: 事件
 | 事件名   | 参数  | 返回数据 | 描述   |
 |-------|-----|------|------|
 | click |     |      | 点击事件 |
 
-### :green_salad: slot 插槽
+## :green_salad: slot 插槽
 
 right,右边区域图标插槽.
 
-### :green_salad: ref方法
+## :green_salad: ref方法
 无
 
-### :couplekiss: 文档贡献
+## :couplekiss: 文档贡献
 此页文档由[Kyour](https://github.com/kyour-cn)贡献，如果对该框架感兴趣的可以参与我们一同进步！

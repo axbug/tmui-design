@@ -2,9 +2,11 @@
 title: tmui 3.0 组件库
 ---
 
-<dirtoc></dirtoc>
+<script setup>
+import webview from '../components/mobileWebview.vue'
+</script>
 
-##### 组件库文档 tmui.design
+#### 组件库文档 tmui.design
 
 # 城市选择 City
 主要应用于地址城市的快速选择，比较方便直观。<br>
@@ -13,23 +15,23 @@ title: tmui 3.0 组件库
 
 ---
 
-### :hot_pepper: 城市选择 City 示例
+## :hot_pepper: 城市选择 City 示例
 
 <webview url="https://tmui.design/h5/#/pages/form/city"></webview>
 
 ::: details 示例模板
 
-@[code vue](pages/form/city.nvue)
+<<< ../src/pages/form/city.nvue{vue}
 
 :::
 
-### :hot_pepper: 兼容性
+## :hot_pepper: 兼容性
 
 | APP-VUE | APP-NVUE | 小程序 | WEB/H5 | VUE3/TS |
 | --- | --- | --- | --- | --- |
 | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
 
-### :seedling: City-cascader 参数
+## :seedling: City-cascader 参数
 本组件含有公共属性 [公共属性](/doc/spec/组件公共样式.md)
 | 参数名 | 类型 | 默认值 | 描述 |
 | :--: | :--: | :--: | :-- |
@@ -41,18 +43,18 @@ title: tmui 3.0 组件库
 | activeColor | String | primary | 激活状态下的颜色。 |
 | color | String | white | 背景主题 |
 
-### :rose: City-cascader 事件
+## :rose: City-cascader 事件
 | 事件名 | 参数 | 返回数据 | 描述 |
 | --- | --- | --- | --- |
 | update:modelValue | - | modelValue | 绑定当前的城市级联数据。,同v-model |
 
-### :corn: City-cascader slot插槽
+## :corn: City-cascader slot插槽
 默认default
 
-### :green_salad: City-cascader ref方法
+## :green_salad: City-cascader ref方法
 无
 
-### :seedling: City-picker 参数
+## :seedling: City-picker 参数
 本组件含有公共属性 [公共属性](/doc/spec/组件公共样式.md)
 | 参数名 | 类型 | 默认值 | 描述 |
 | :--: | :--: | :--: | :-- |
@@ -65,6 +67,8 @@ title: tmui 3.0 组件库
 | btnRound | Number | 3 | 确认按钮的圆角0-25 |
 | round | Number | 12 | 弹出层的顶部圆角 |
 | disabled | Boolean | false | 当使用插槽占位触发显示时，打开禁用可阻止弹层显示，适合在表单内部使用 |
+| duration | number | 300 | 打开的动画时间 |
+
 
 **modelValue格式**
 双向绑定和默认的defaultValue数据格式是根据你的属性selectionModel来定义的.
@@ -73,16 +77,16 @@ title: tmui 3.0 组件库
 比如你设置selectionModel="id",那么就是索引模式modelValue="["110","111","123"]"这样的索引地区id模式.<br>
 至于你想要哪种模式,要看你后台交互使用的是哪种.自行选择.
 
-### :rose: City-picker 事件
+## :rose: City-picker 事件
 | 事件名 | 参数 | 返回数据 | 描述 |
 | --- | --- | --- | --- |
 | update:modelValue | - | modelValue | 绑定当前的城市级联数据。,同v-model |
 
-### :corn: City-picker slot插槽
+## :corn: City-picker slot插槽
 
 默认default，可触发弹层的插槽占位内容，比如在里面布局按钮，输入框，点击这块内容可以直接显示弹层。
 
-### :green_salad: City-picker ref方法
+## :green_salad: City-picker ref方法
 
 getList,返回当前的城市数据结构
 getIndexs(list:城市数据，可通过getList返回，也可以自定,model:'name','id','index'可选三种,parentIndex:起始位置默认0，value：[名称，id,索引数组，根据model来]),返回当前的索引数组
@@ -101,5 +105,5 @@ console.log(ids)
 
 ```
 
-### :couplekiss: 文档贡献
+## :couplekiss: 文档贡献
 此页文档由[Sunlight](https://gitee.com/rzg)贡献，如果对该框架感兴趣的可以参与我们一同进步！

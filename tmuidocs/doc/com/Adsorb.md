@@ -1,10 +1,11 @@
 ---
 title: tmui 3.0 组件库
 ---
+<script setup>
+import webview from '../components/mobileWebview.vue'
+</script>
 
-<dirtoc></dirtoc>
-
-##### 组件库文档 tmui.design
+#### 组件库文档 tmui.design
 
 # 吸附器 Adsorb
 
@@ -13,23 +14,23 @@ title: tmui 3.0 组件库
 
 ---
 
-### :hot_pepper: 示例
+## :hot_pepper: 示例
 
 <webview url="https://tmui.design/h5/#/pages/other/adsorb"></webview>
 
 ::: details 示例模板
 
-@[code vue](pages/other/adsorb.nvue)
+<<< ../src/pages/other/adsorb.nvue{vue}
 
 :::
 
-### :hot_pepper: 兼容性
+## :hot_pepper: 兼容性
 
 | APP-VUE | APP-NVUE | 小程序 | WEB/H5 | VUE3/TS |
 | --- | --- | --- | --- | --- |
 | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
 
-### :seedling: 参数
+## :seedling: 参数
 
 | 参数名 | 类型 | 默认值 | 描述 |
 | :--: | :--: | :--: | :-- |
@@ -40,14 +41,14 @@ title: tmui 3.0 组件库
 | offset  | `Array<number>`        | [0,0]    | 默认的位置   |
 | adsorbX  | Number        | 0    | 吸附的偏移量，比如为10：当向左吸附时，减去偏移量，向右是加上偏移量   |
 
-### :rose: 事件
+## :rose: 事件
 | 事件名 | 参数 | 返回数据 | 描述 |
 | --- | --- | --- | --- |
 
-### :corn: slot插槽
+## :corn: slot插槽
 默认default
 
-### :green_salad: ref方法
+## :green_salad: ref方法
 | 方法名 | 参数 | 返回值 | 描述 |
 | :--: | :--: | :--: | :-- |
 

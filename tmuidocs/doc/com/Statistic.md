@@ -2,33 +2,35 @@
 title: tmui 3.0 组件库
 ---
 
-<dirtoc></dirtoc>
+<script setup>
+import webview from '../components/mobileWebview.vue'
+</script>
 
-##### 组件库文档 tmui.design
+#### 组件库文档 tmui.design
 
 # 数值显示 Statistic
 主要用来显示数值，翻转动画。
 
 ---
 
-### :hot_pepper: 数值显示 Statistic 示例
+## :hot_pepper: 数值显示 Statistic 示例
 
 <webview url="https://tmui.design/h5/#/pages/showdata/statistic"></webview>
 
 ::: details 示例代码
 
-@[code vue](pages/showdata/statistic.nvue)
+<<< ../src/pages/showdata/statistic.nvue{vue}
 
 :::
 
 
-### :hot_pepper: 兼容性
+## :hot_pepper: 兼容性
 
 | APP-VUE | APP-NVUE | 小程序 | WEB/H5 | VUE3/TS |
 | --- | --- | --- | --- | --- |
 | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
 
-### :seedling: 参数
+## :seedling: 参数
 本组件含有公共属性 [公共属性](/doc/spec/组件公共样式.md)
 | 参数名 | 类型 | 默认值 | 描述 |
 | :--: | :--: | :--: | :-- |
@@ -49,13 +51,13 @@ title: tmui 3.0 组件库
 | frequentTime | Number,required:false | 5000 | 跳动间隔时间 |
 
 
-### :rose: 事件
+## :rose: 事件
 | 事件名    | 参数  | 返回数据 | 描述  |
 |--------|-----|------|-----|
 | mountedCallback | - | - | 组件挂载成功事件 |
 | callback |  |  |  |
 
-### :corn: slot插槽
+## :corn: slot插槽
 | 插槽名称    | 插槽参数  | 插槽数据 | 说明  |
 |--------|-----|------|-----|
 | prefix |  -| - | 前缀插槽 |
@@ -63,7 +65,7 @@ title: tmui 3.0 组件库
 | suffix |  -| - | 后缀插槽 |
 
 
-### :green_salad: ref方法
+## :green_salad: ref方法
 | 方法名称    | 参数  | 返回数据 | 描述  |
 |--------|-----|------|-----|
 | start | startVal:number | -  | 开始数值动画 |
@@ -71,5 +73,5 @@ title: tmui 3.0 组件库
 | pause |  -| - | 暂停数值动画 |
 
 
-### :couplekiss: 文档贡献
+## :couplekiss: 文档贡献
 此页文档由[夏天](https://gitee.com/Xia_5718)贡献，如果对该框架感兴趣的可以参与我们一同进步！

@@ -2,33 +2,35 @@
 title: tmui 3.0 组件库
 ---
 
-<dirtoc></dirtoc>
+<script setup>
+import webview from '../components/mobileWebview.vue'
+</script>
 
-##### 组件库文档 tmui.design
+#### 组件库文档 tmui.design
 
 # 头像 Avatar
 本组件一般用于展示头像的地方，如个人中心，或者评论列表页的用户头像展示等场所。
 
 ---
 
-### :hot_pepper: 示例效果
+## :hot_pepper: 示例效果
 
 <webview url="https://tmui.design/h5/#/pages/showdata/avatar"></webview>
 
 ::: details 头像 Avatar 示例
 
-@[code vue](pages/showdata/avatar.nvue)
+<<< ../src/pages/showdata/avatar.nvue{vue}
 
 :::
 
 
-### :hot_pepper: 兼容性
+## :hot_pepper: 兼容性
 
 | APP-VUE | APP-NVUE | 小程序 | WEB/H5 | VUE3/TS |
 | --- | --- | --- | --- | --- |
 | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
 
-### :seedling: 参数
+## :seedling: 参数
 本组件含有公共属性 [公共属性](/doc/spec/组件公共样式.md)
 | 参数名 | 类型 | 默认值 | 描述 |
 | :--: | :--: | :--: | :-- |
@@ -53,17 +55,17 @@ title: tmui 3.0 组件库
 | iconColor | String | '' | 图标颜色。如果不提供使用主题色 |
 
 
-### :rose: 事件
+## :rose: 事件
 | 事件名 | 参数 | 返回数据 | 描述 |
 | --- | --- | --- | --- |
 | click |  |  |  |
 
 
-### :corn: slot插槽
+## :corn: slot插槽
 默认default
 
-### :green_salad: ref方法
+## :green_salad: ref方法
 无
 
-### :couplekiss: 文档贡献
+## :couplekiss: 文档贡献
 此页文档由[﹎wj潕钶取玳](https://gitee.com/dxwj)贡献，如果对该框架感兴趣的可以参与我们一同进步！

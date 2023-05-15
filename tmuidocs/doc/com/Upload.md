@@ -2,32 +2,34 @@
 title: tmui 3.0 组件库
 ---
 
-<dirtoc></dirtoc>
+<script setup>
+import webview from '../components/mobileWebview.vue'
+</script>
 
-##### 组件库文档 tmui.design
+#### 组件库文档 tmui.design
 
 # 图片上传 Upload
 Upload 是一个常用的图片上传组件
 
 ---
 
-### :hot_pepper: 图片上传 Upload 示例
+## :hot_pepper: 图片上传 Upload 示例
 
 <webview url="https://tmui.design/h5/#/pages/form/upload"></webview>
 
 ::: details 示例模板
 
-@[code vue](pages/form/upload.nvue)
+<<< ../src/pages/form/upload.nvue{vue}
 
 :::
 
-### :hot_pepper: 兼容性
+## :hot_pepper: 兼容性
 
 | APP-VUE | APP-NVUE | 小程序 | WEB/H5 | VUE3/TS |
 | --- | --- | --- | --- | --- |
 | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
 
-### :seedling: 参数
+## :seedling: 参数
 
 本组件含有公共属性 [公共属性](/doc/spec/组件公共样式.md)
 | 参数名 | 类型 | 默认值 | 描述 |
@@ -55,7 +57,7 @@ Upload 是一个常用的图片上传组件
 | status-code | Number | 200 | 服务器请求成功时的状态值 |
 
 
-### :rose: 事件
+## :rose: 事件
 
 | 事件名 | 参数 | 返回数据 | 描述 |
 | --- | --- | --- | --- |
@@ -66,10 +68,10 @@ Upload 是一个常用的图片上传组件
 | change | / | item:当前改变文件的对象 | 返回一个值 item 为改变文件的对象 |
 > 注意：complete事件是无论上传成功与失败都会返回，success与fail事件对等，之后是complete事件
 
-### :corn: slot插槽
+## :corn: slot插槽
 icon<Badge type="danger" text="v3.0.77+" vertical="middle" />:用来自定义显示，上传提示的图标，可以自定义图标或者text名称。
 
-### :green_salad: ref方法
+## :green_salad: ref方法
 
 | 方法名 | 参数 | 返回值 | 描述 |
 | :--: | :--: | :--: | :-- |
@@ -100,6 +102,6 @@ proxy.$refs.upload.clearFail()
 ```
 
 
-### :rage: 贡献者
+## :rage: 贡献者
 
 [Wicos](http://wicos.me)

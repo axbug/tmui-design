@@ -2,32 +2,34 @@
 title: tmui 3.0 组件库
 ---
 
-<dirtoc></dirtoc>
+<script setup>
+import webview from '../components/mobileWebview.vue'
+</script>
 
-##### 组件库文档 tmui.design
+#### 组件库文档 tmui.design
 
 # 页面水印 Watermark
 给页面加个水印，或给组件加个水印。[此组件，作者还未审核修改，目前权支持h5和web端，其它端待我有时间来适配下。]
 
 ---
 
-### :hot_pepper: 页面水印 Watermark 示例
+## :hot_pepper: 页面水印 Watermark 示例
 
 <webview url="https://tmui.design/h5/#/pages/other/watermark"></webview>
 
 ::: details 示例模板
 
-@[code vue](pages/other/watermark.nvue)
+<<< ../src/pages/other/watermark.nvue{vue}
 
 :::
 
-### :hot_pepper: 兼容性
+## :hot_pepper: 兼容性
 
 | APP-VUE | APP-NVUE | 小程序 | WEB/H5 | VUE3/TS |
 | --- | --- | --- | --- | --- |
 | :x: | :x: | :x: | :heavy_check_mark: | :heavy_check_mark: |
 
-### :seedling: 参数
+## :seedling: 参数
 | 参数名           | 类型        | 默认值                               | 描述            |
 |---------------|-----------|-----------------------------------|---------------|
 | content       | 	string   | 	undefined                        | 	水印文本         |
@@ -56,13 +58,13 @@ title: tmui 3.0 组件库
 | z-index       | 	number   | 	10                               | 	z 轴高度        |           |             |          |
 
 
-### :corn: slot插槽
+## :corn: slot插槽
 
 默认default
 
-### :green_salad: ref方法
+## :green_salad: ref方法
 无
 | 方法名 | 参数 | 返回值 | 描述 |
 | :--: | :--: | :--: | :-- |
 
-### :rage: 贡献者：小超1263375375
+## :rage: 贡献者：小超1263375375

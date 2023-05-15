@@ -2,32 +2,34 @@
 title: tmui 3.0 组件库
 ---
 
-<dirtoc></dirtoc>
+<script setup>
+import webview from '../components/mobileWebview.vue'
+</script>
 
-##### 组件库文档 tmui.design
+#### 组件库文档 tmui.design
 
 # 优惠券 Coupon
 常用优惠券、卡券模板。
 
 ---
 
-### :hot_pepper: 优惠券 Coupon 示例
+## :hot_pepper: 优惠券 Coupon 示例
 
 <webview url="https://tmui.design/h5/#/pages/yewu/coupon"></webview>
 
 ::: details 示例模板
 
-@[code vue](pages/yewu/coupon.nvue)
+<<< ../src/pages/yewu/coupon.nvue{vue}
 
 :::
 
-### :hot_pepper: 兼容性
+## :hot_pepper: 兼容性
 
 | APP-VUE | APP-NVUE | 小程序 | WEB/H5 | VUE3/TS |
 | --- | --- | --- | --- | --- |
 | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
 
-### :seedling: 参数
+## :seedling: 参数
 本组件含有公共属性 [公共属性](/doc/spec/组件公共样式.md)
 | 参数名 | 类型 | 默认值 | 描述 |
 | :--: | :--: | :--: | :-- |
@@ -45,6 +47,10 @@ title: tmui 3.0 组件库
 | thumb | String | "" | 左边图片，如果为空则显示默认的金额，如果为图片地址，则优先显示图片 |
 | priceDetail | `Object<surplice>` | {} | 左边显示金额时的数据，格式见下方 |
 | rightDetail | `Object<rightSurplice>` | {} | 右边显示的数据，格式见下方 |
+| disableColor | string | grey-1 | 被禁用时的主题色 |
+| disableBgColor | string | grey-3 | 被禁用时的背景主题色 |
+
+
 
 **priceDetail格式**
 ```ts
@@ -65,13 +71,13 @@ export interface rightSurplice {
 }
 ```
 
-### :rose: 事件
+## :rose: 事件
 
 | 事件名 | 参数 | 返回数据 | 描述 |
 | --- | --- | --- | --- |
 | click | - | - | 右边按钮被点击时触发 |
 
-### :corn: slot插槽
+## :corn: slot插槽
 
 | 插槽名 | 参数 | 描述 |
 | :--: | :--: | :-- |
@@ -80,6 +86,6 @@ export interface rightSurplice {
 | extra | - | 客户更多内容的插槽 |
 | default | - | 默认插槽，右边标题和副标题插槽 |
 
-### :green_salad: ref方法
+## :green_salad: ref方法
 无
 

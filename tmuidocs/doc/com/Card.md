@@ -2,33 +2,35 @@
 title: tmui 3.0 组件库
 ---
 
-<dirtoc></dirtoc>
+<script setup>
+import webview from '../components/mobileWebview.vue'
+</script>
 
-##### 组件库文档 tmui.design
+#### 组件库文档 tmui.design
 
 # 卡片 Card
 卡片风格。
 
 ---
 
-### :hot_pepper: 卡片 Card 示例效果
+## :hot_pepper: 卡片 Card 示例效果
 
 <webview url="https://tmui.design/h5/#/pages/showdata/card"></webview>
 
 ::: details 示例代码
 
-@[code vue](pages/showdata/card.nvue)
+<<< ../src/pages/showdata/card.nvue{vue}
 
 :::
 
 
-### :hot_pepper: 兼容性
+## :hot_pepper: 兼容性
 
 | APP-VUE | APP-NVUE | 小程序 | WEB/H5 | VUE3/TS |
 | --- | --- | --- | --- | --- |
 | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
 
-### :seedling: 参数
+## :seedling: 参数
 本组件含有公共属性 [公共属性](/doc/spec/组件公共样式.md)
 | 参数名 | 类型 | 默认值 | 描述 |
 | :--: | :--: | :--: | :-- |
@@ -46,10 +48,10 @@ title: tmui 3.0 组件库
 | statusColor | String | primary | 状态文件的主题色 |
 | content | String |  | 卡片的正方内容 |
 
-### :rose: 事件
+## :rose: 事件
 无
 
-### :corn: slot插槽
+## :corn: slot插槽
 | 插槽名 | 数据 | 类型 | 描述 |
 | :--: | :--: | :--: | :-- |
 | title | - | - | 卡片标题 |
@@ -57,8 +59,8 @@ title: tmui 3.0 组件库
 | content | - | - | 卡片正文部分 |
 | action | - | - | 卡片底部操作部分，默认为空 |
 
-### :green_salad: ref方法
+## :green_salad: ref方法
 无
 
-### :couplekiss: 文档贡献
+## :couplekiss: 文档贡献
 此页文档由[﹎wj潕钶取玳](https://gitee.com/dxwj)贡献，如果对该框架感兴趣的可以参与我们一同进步！

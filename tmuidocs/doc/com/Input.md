@@ -2,9 +2,11 @@
 title: tmui 3.0 组件库
 ---
 
-<dirtoc></dirtoc>
+<script setup>
+import webview from '../components/mobileWebview.vue'
+</script>
 
-##### 组件库文档 tmui.design
+#### 组件库文档 tmui.design
 
 # 输入框 Input
 通过鼠标或键盘输入字符。
@@ -23,23 +25,23 @@ title: tmui 3.0 组件库
 
 ---
 
-### :hot_pepper: 输入框 Input 示例
+## :hot_pepper: 输入框 Input 示例
 
 <webview url="https://tmui.design/h5/#/pages/form/input"></webview>
 
 ::: details 示例模板
 
-@[code vue](pages/form/input.nvue)
+<<< ../src/pages/form/input.nvue{vue}
 
 :::
 
-### :hot_pepper: 兼容性
+## :hot_pepper: 兼容性
 
 | APP-VUE | APP-NVUE | 小程序 | WEB/H5 | VUE3/TS |
 | --- | --- | --- | --- | --- |
 | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
 
-### :seedling: 参数
+## :seedling: 参数
 本组件含有公共属性 [公共属性](/doc/spec/组件公共样式.md)
 | 参数名 | 类型 | 默认值 | 描述 |
 | :--: | :--: | :--: | :-- |
@@ -89,7 +91,7 @@ title: tmui 3.0 组件库
 | autoHeight| Boolean | false | type=textarea时生效 |
 | showTopErrorGap| Boolean | true | 用于隐藏顶部的错误间隙，但保留底部，以减少布局间的空隙 |
 
-### :rose: 事件
+## :rose: 事件
 | 事件名 | 参数 | 返回数据 | 描述 |
 | --- | --- | --- | --- |
 | focus | - | - | 获取焦点时触发。 |
@@ -103,15 +105,15 @@ title: tmui 3.0 组件库
 | click | - | - | 点击事件 |
 
 
-### :corn: slot插槽
+## :corn: slot插槽
 | 插槽名  | 描述 |
 | :--: | :-- |
 | left |  左边可放入的内容 |
 | right |  右边可放入的内容 |
 
-### :green_salad: ref方法
+## :green_salad: ref方法
 无
 
-### :couplekiss: 文档贡献
+## :couplekiss: 文档贡献
 此页文档由[Sunlight](https://gitee.com/rzg)贡献，如果对该框架感兴趣的可以参与我们一同进步！
 

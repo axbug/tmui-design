@@ -2,32 +2,34 @@
 title: tmui 3.0 组件库
 ---
 
-<dirtoc></dirtoc>
+<script setup>
+import webview from '../components/mobileWebview.vue'
+</script>
 
-##### 组件库文档 tmui.design
+#### 组件库文档 tmui.design
 
 # 表单 Form
 表单包含 输入框, 单选框, 下拉选择, 多选框 等用户输入的组件。 使用表单，您可以收集、验证和提交数据。。
 
 ---
 
-### :hot_pepper: 表单 Form 示例
+## :hot_pepper: 表单 Form 示例
 
 <webview url="https://tmui.design/h5/#/pages/form/form"></webview>
 
 ::: details 示例模板
 
-@[code vue](pages/form/form.nvue)
+<<< ../src/pages/form/form.nvue{vue}
 
 :::
 
-### :hot_pepper: 兼容性
+## :hot_pepper: 兼容性
 
 | APP-VUE | APP-NVUE | 小程序 | WEB/H5 | VUE3/TS |
 | --- | --- | --- | --- | --- |
 | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
 
-### :seedling: 参数
+## :seedling: 参数
 本组件含有公共属性 [公共属性](/doc/spec/组件公共样式.md)
 | 参数名 | 类型 | 默认值 | 描述 |
 | :--: | :--: | :--: | :-- |
@@ -42,7 +44,7 @@ title: tmui 3.0 组件库
 
 **submit,validate校验后都将得到一致的结果参数从3.1.03开始**
 
-### :rose: 事件
+## :rose: 事件
 | 事件名 | 参数 | 返回数据 | 描述 |
 | --- | --- | --- | --- |
 | submit | - | result | 表单提交函数 |
@@ -68,23 +70,23 @@ title: tmui 3.0 组件库
 ```
 
 
-### :corn: slot插槽
+## :corn: slot插槽
 默认default
 
-### :green_salad: ref方法
+## :green_salad: ref方法
 
 
 | 方法名 | 参数 | 返回值 | 描述 |
 | :--: | :--: | :--: | :-- |
 | submit | - | - | 提交表单 |
 | reset | - | - | 重置表单 |
-| validate | - | result | 手动校验表单，返回验证结果对象，内有isPass属性表示是否验证通过 |
+| validate | - | result  | 手动校验表单，返回验证结果对象，内有isPass属性表示是否验证通过 |
 | clearValidate | - | - | 清除校验状态 |
 | pushKey | item:formItem | - | - |
 | delKey | item:formItem | - | - |
 | tmFormComnameId | - | - | tmFormId |
 
-### :seedling: FormItem参数
+## :seedling: FormItem参数
 本组件含有公共属性 [公共属性](/doc/spec/组件公共样式.md)
 | 参数名 | 类型 | 默认值 | 描述 |
 | :--: | :--: | :--: | :-- |
@@ -113,7 +115,7 @@ export interface rulesItem {
     message?:string,//检验不合格时的文本
 }
 ```
-### :corn: FormItem slot插槽
+## :corn: FormItem slot插槽
 默认default<br>
 插槽:desc,表单底部的说明文字
 插槽:error,表单底部的错误插槽，返回数据 data.message,
@@ -124,6 +126,6 @@ data.message读取错误信息
 
 ```
 
-### :couplekiss: 文档贡献
+## :couplekiss: 文档贡献
 此页文档由[Sunlight](https://gitee.com/rzg)贡献，如果对该框架感兴趣的可以参与我们一同进步！
 

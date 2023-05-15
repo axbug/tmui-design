@@ -2,32 +2,34 @@
 title: tmui 3.0 组件库
 ---
 
-<dirtoc></dirtoc>
+<script setup>
+import webview from '../components/mobileWebview.vue'
+</script>
 
-##### 组件库文档 tmui.design
+#### 组件库文档 tmui.design
 
 # 商品属性选择 Sku
 超过指定高度，默认隐藏更多内容。
 
 ---
 
-### :hot_pepper: 商品属性选择 Sku 示例
+## :hot_pepper: 商品属性选择 Sku 示例
 
 <webview url="https://tmui.design/h5/#/pages/yewu/sku"></webview>
 
 ::: details 示例模板
 
-@[code vue](pages/yewu/sku.nvue)
+<<< ../src/pages/yewu/sku.nvue{vue}
 
 :::
 
-### :hot_pepper: 兼容性
+## :hot_pepper: 兼容性
 
 | APP-VUE | APP-NVUE | 小程序 | WEB/H5 | VUE3/TS |
 | --- | --- | --- | --- | --- |
 | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
 
-### :seedling: 参数
+## :seedling: 参数
 本组件含有公共属性 [公共属性](/doc/spec/组件公共样式.md)
 | 参数名 | 类型 | 默认值 | 描述 |
 | :--: | :--: | :--: | :-- |
@@ -63,7 +65,7 @@ interface sku {
 }
 ```
 
-### :rose: 事件
+## :rose: 事件
 | 事件名 | 参数 | 返回数据 | 描述 |
 | --- | --- | --- | --- |
 | @buy |  |  | 点击购买按钮时触发 |
@@ -71,12 +73,12 @@ interface sku {
 | @open |  |  | 打开弹层时触发 |
 | @close |  |  | 关闭弹层时触发 |
 
-### :corn: slot插槽
+## :corn: slot插槽
 | 属性名称 | 类型 | 数据 | 说明 |
 | --- | --- | --- | --- |
 | foot |  |  | 底部按钮区域 |
 | default |  |  | 在头部，内容插槽 |
 
-### :green_salad: ref方法
+## :green_salad: ref方法
 无
 

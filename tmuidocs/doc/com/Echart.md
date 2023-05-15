@@ -2,9 +2,11 @@
 title: tmui 3.0 组件库
 ---
 
-<dirtoc></dirtoc>
+<script setup>
+import webview from '../components/mobileWebview.vue'
+</script>
 
-##### 组件库文档 tmui.design
+#### 组件库文档 tmui.design
 
 # 图表 Chart <Badge type="danger" text="3.0.89开始全端支持" vertical="middle" />
 百度图表，3.0.89开始已经兼容nvue平台,当前nvue平台为最新的5.4.3版本且是全量包。非nvue平台是5.3.2版本，包大小为精简包，具体见下方。
@@ -26,7 +28,7 @@ title: tmui 3.0 组件库
 ```ts
 /**
  * Echart图表
- * @description 使用最新的5.3.2 ，注意不能在nvue上使用，请改用vue页面。已经兼容了pc端
+ * @description 使用最新的5.3.2 。已经兼容了pc端
  * ref:getChart:获取成功渲染的图表。
  * 事件：onInit:渲染成功后执行，并返回chart对象。
  * 安装百度图表 npm install echarts --save 后需要作下生产下的兼容，发布不影响，但开发时会报错，很烦。
@@ -59,24 +61,24 @@ title: tmui 3.0 组件库
 
 
 
-### :hot_pepper: 图表 Chart 示例效果
+## :hot_pepper: 图表 Chart 示例效果
 
 <webview url="https://tmui.design/h5/#/pages/chart/index"></webview>
 
 ::: details 示例代码
 
-@[code vue](pages/chart/chart.nvue)
+<<< ../src/pages/chart/chart.nvue{vue}
 
 :::
 
 
-### :hot_pepper: 兼容性
+## :hot_pepper: 兼容性
 
 | APP-VUE | APP-NVUE | 小程序 | WEB/H5 | VUE3/TS |
 | --- | --- | --- | --- | --- |
 | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
 
-### :seedling: 参数
+## :seedling: 参数
 
 | 参数名 | 类型 | 默认值 | 描述 |
 | :--: | :--: | :--: | :-- |
@@ -84,7 +86,7 @@ title: tmui 3.0 组件库
 | height | Number | 450 | 高度，单位rpx |
 
 
-### :rose: 事件
+## :rose: 事件
 想要渲染一个图表，一定要在onInit函数体内执行渲染图表。（即图表初始成功后）
 
 | 事件名 | 参数 | 返回数据 | 描述 |
@@ -98,10 +100,10 @@ title: tmui 3.0 组件库
 | mousemove |  | event | 移动【nvue平台不支持】 |
 | mouseup |  | event | 松开【nvue平台不支持】 |
 
-### :corn: slot插槽
+## :corn: slot插槽
 无
 
-### :green_salad: ref方法
+## :green_salad: ref方法
 
 getChart(),可返回当前的chart对象。
 getImg(),可以导出当前的图表图片。

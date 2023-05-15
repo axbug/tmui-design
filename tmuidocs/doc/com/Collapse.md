@@ -2,33 +2,35 @@
 title: tmui 3.0 组件库
 ---
 
-<dirtoc></dirtoc>
+<script setup>
+import webview from '../components/mobileWebview.vue'
+</script>
 
-##### 组件库文档 tmui.design
+#### 组件库文档 tmui.design
 
 # 折叠面板 Collapse
 通过折叠面板收纳内容区域。
 
 ---
 
-### :hot_pepper: 折叠面板 Collapse 示例效果
+## :hot_pepper: 折叠面板 Collapse 示例效果
 
 <webview url="https://tmui.design/h5/#/pages/showdata/collapse"></webview>
 
 ::: details 示例代码
 
-@[code vue](pages/showdata/collapse.nvue)
+<<< ../src/pages/showdata/collapse.nvue{vue}
 
 :::
 
 
-### :hot_pepper: 兼容性
+## :hot_pepper: 兼容性
 
 | APP-VUE | APP-NVUE | 小程序 | WEB/H5 | VUE3/TS |
 | --- | --- | --- | --- | --- |
 | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
 
-### :seedling: 参数
+## :seedling: 参数
 ## Collapse
 
 | 参数名 | 类型 | 默认值 | 描述 |
@@ -57,7 +59,7 @@ title: tmui 3.0 组件库
 | height<Badge type="danger" text="v3.0.77+" vertical="middle" /> | Number | 80 | 标题的高度 |
 | titleSize | Number | 30 | 标题字号大小 |
 
-### :rose: 事件
+## :rose: 事件
 ## Collapse
 | 事件名 | 参数 | 返回数据 | 描述 |
 | --- | --- | --- | --- |
@@ -68,14 +70,14 @@ title: tmui 3.0 组件库
 | --- | --- | --- | --- |
 | click |  |  |  |
 
-### :corn: slot插槽
+## :corn: slot插槽
 CollapseItem含有<br>
 插槽：title 标题插槽<br>
 icon 即标题前图标插槽
 rightLabel <Badge type="danger" text="v3.0.77+" vertical="middle" /> 右边图标的文本插槽
 
-### :green_salad: ref方法
+## :green_salad: ref方法
 无
 
-### :couplekiss: 文档贡献
+## :couplekiss: 文档贡献
 此页文档由[﹎wj潕钶取玳](https://gitee.com/dxwj)贡献，如果对该框架感兴趣的可以参与我们一同进步！

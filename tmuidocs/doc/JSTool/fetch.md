@@ -2,15 +2,14 @@
 title: 自带JS工具库
 ---
 
-<dirtoc></dirtoc>
 
-##### JSTool tmui.design
+#### JSTool tmui.design
 
 # JS工具库  <Badge type="danger" text="v3.0.5+" vertical="middle" />
 
 **文档还未完成**
 
-### :tada: 如何调用
+## :tada: 如何调用
 
 在全局任意位置均可调用，部分方法需要你导入相关包（主要是为了包大小考虑）<br>
 ***为什么在uni中是$tm而在上下文中使用tm。因为$tm在上下文里被系统使用了***
@@ -30,7 +29,7 @@ proxy.tm.fetch.get(url)
 
 ```
 
-### :tada: 参数说明
+## :tada: 参数说明
 请求返回的数据类型：
 ```ts
 type fetchConfigResponseType= "arraybuffer"|"text";
@@ -77,17 +76,17 @@ interface fetchConfigSuccessType{
 }
 ```
 
-### :tada: GET请求
+## :tada: GET请求
 ```ts
 uni.$tm.fetch.get(url:string,data:object={},opts:fetchConfig={})
 
 ```
-### :tada: POST请求
+## :tada: POST请求
 ```ts
 uni.$tm.fetch.post(url:string,data:object={},opts:fetchConfig={})
 
 ```
-### :tada: 自定义请求
+## :tada: 自定义请求
 `request`为自定义访问请求。
 ```ts
 uni.$tm.fetch.request(cog:fetchConfig = config,beforeFun?:Function,afterFun?:Function,complete?:Function)
@@ -109,7 +108,7 @@ complete：请求完成后执行。
 complete(result:fetchConfigSuccessType)
 ```
 
-### lwu-request请求库
+## lwu-request请求库
 本库需要你自行import使用，与我上方自带的fetch不是同一个库。
 该库原作者链接:[访问](https://ext.dcloud.net.cn/plugin?id=11409)
 在3.1.04新添加一个第三方请求库，位置：tmui->tool->lwu-request.ts,暂时没有文档。代码非常工整。且条理清晰。请查看源码使用。由于大小原因。这个库合并为单独使用。如果需要使用，请自行导入使用。

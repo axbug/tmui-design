@@ -2,9 +2,11 @@
 title: tmui 3.0 组件库
 ---
 
-<dirtoc></dirtoc>
+<script setup>
+import webview from '../components/mobileWebview.vue'
+</script>
 
-##### 组件库文档 tmui.design
+#### 组件库文档 tmui.design
 
 # 下拉筛选器 FilterMenu
 本组件提供了基本逻辑框和动效,不集成任何数据逻辑,由使用者自行处理.<br>
@@ -15,23 +17,23 @@ title: tmui 3.0 组件库
 
 ---
 
-### :hot_pepper: 示例
+## :hot_pepper: 示例
 
 <webview url="https://tmui.design/h5/#/pages/daohang/tmFilterMenu"></webview>
 
 ::: details 示例模板
 
-@[code vue](pages/daohang/tmFilterMenu.nvue)
+<<< ../src/pages/daohang/tmFilterMenu.nvue{vue}
 
 :::
 
-### :hot_pepper: 兼容性
+## :hot_pepper: 兼容性
 
 | APP-VUE | APP-NVUE | 小程序 | WEB/H5 | VUE3/TS |
 | --- | --- | --- | --- | --- |
 | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
 
-### :seedling: FilterMenu 参数
+## :seedling: FilterMenu 参数
 本组件含有公共属性 [公共属性](/doc/spec/组件公共样式.md)
 | 参数名 | 类型 | 默认值 | 描述 |
 | :--: | :--: | :--: | :-- |
@@ -44,7 +46,7 @@ title: tmui 3.0 组件库
 **fixed的解释**
 开启后内容，展开会自动吸附到顶部，解决把此组件用到悬浮或者sticky中时，内容需要跟随页面置顶展示内容。关闭时，适合静态展示，展开后菜单不会吸顶。
 
-### :rose: FilterMenu 事件
+## :rose: FilterMenu 事件
 | 事件名 | 参数 | 返回数据 | 描述 |
 | --- | --- | --- | --- |
 | @click | item,index | 返回索引数据和项目数据 | 导致菜单单击时触发 |
@@ -53,15 +55,15 @@ title: tmui 3.0 组件库
 | @confirm | index | 当前的索引值 | 当在tm-filter-menu-item中放入tm-buttom时,form-type属性为filterConfirm时,按钮被点击时会触发此事件 |
 | @cancel | index | 当前的索引值 | 当在tm-filter-menu-item中放入tm-buttom时,form-type属性为filterCancel时,按钮被点击时会触发此事件 |
 
-### :corn: slot FilterMenu插槽
+## :corn: slot FilterMenu插槽
 | 属性名称 | 类型 | 数据 | 说明 |
 | --- | --- | --- | --- |
 
 
-### :green_salad: ref FilterMenu方法
+## :green_salad: ref FilterMenu方法
 close,关闭当前选项菜单.
 
-### :green_salad: FilterMenu-item 属性
+## :green_salad: FilterMenu-item 属性
 
 | 参数名 | 类型 | 默认值 | 描述 |
 | :--: | :--: | :--: | :-- |
@@ -76,7 +78,7 @@ close,关闭当前选项菜单.
 | isButton | boolean | false | 是否当作按钮使用,点击时,只触发事件,不展开相关内容的动作 |
 | bgColor | string | 'white' | 当前选项页的背景色|
 
-### :corn: slot FilterMenu-item插槽
+## :corn: slot FilterMenu-item插槽
 | 属性名称 | 类型 | 数据 | 说明 |
 | --- | --- | --- | --- |
 | default |  |  | 自定内容 |

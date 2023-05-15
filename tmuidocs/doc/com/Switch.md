@@ -2,32 +2,33 @@
 title: tmui 3.0 组件库
 ---
 
-<dirtoc></dirtoc>
-
-##### 组件库文档 tmui.design
+<script setup>
+import webview from '../components/mobileWebview.vue'
+</script>
+#### 组件库文档 tmui.design
 
 # 开关 Switch
 Switch 开关是用于在两种状态下选择唯一一种状态或值的组件
 
 ---
 
-### :hot_pepper: 开关 Switch 示例
+## :hot_pepper: 开关 Switch 示例
 
 <webview url="https://tmui.design/h5/#/pages/form/switch"></webview>
 
 ::: details 示例模板
 
-@[code vue](pages/form/switch.nvue)
+<<< ../src/pages/form/switch.nvue{vue}
 
 :::
 
-### :hot_pepper: 兼容性
+## :hot_pepper: 兼容性
 
 | APP-VUE | APP-NVUE | 小程序 | WEB/H5 | VUE3/TS |
 | --- | --- | --- | --- | --- |
 | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
 
-### :seedling: 参数
+## :seedling: 参数
 
 本组件含有公共属性 [公共属性](/doc/spec/组件公共样式.md)
 | 参数名 | 类型 | 默认值 | 描述 |
@@ -51,21 +52,21 @@ Switch 开关是用于在两种状态下选择唯一一种状态或值的组件
 | disabled | Boolean | false | 是否禁用组件 |
 | label | Array | ["",""] | 开关开启关闭时内部的文字，如：["开启","关闭"] |
 
-### :rose: 事件
+## :rose: 事件
 
 | 事件名 | 参数 | 返回数据 | 描述 |
 | --- | --- | --- | --- |
 | change | / | modelValue | 开关状态改变时返回当前的状态 |
 | click | / | / | 开关被点击后的函数 |
 
-### :corn: slot插槽
+## :corn: slot插槽
 
 无
 
-### :green_salad: ref方法
+## :green_salad: ref方法
 
 无
 
-### :rage: 贡献者
+## :rage: 贡献者
 
 [Wicos](http://wicos.me)

@@ -2,9 +2,11 @@
 title: tmui 3.0 组件库
 ---
 
-<dirtoc></dirtoc>
+<script setup>
+import webview from '../components/mobileWebview.vue'
+</script>
 
-##### 组件库文档 tmui.design
+#### 组件库文档 tmui.design
 
 # 进度条 Progress
 进度条，圆形进度条，在不同的平台使用2d或者webgl方法，使得性能更加强劲。NVUE中貌似是uniapp的插件bug无法实现渐变绘制。Nvue中需要在manifest.json中设置canvas模块，才能打包详见：https://github.com/dcloudio/NvueCanvasDemo。
@@ -12,23 +14,23 @@ title: tmui 3.0 组件库
 ---
 
 
-### :hot_pepper: 进度条 Progress 示例
+## :hot_pepper: 进度条 Progress 示例
 
 <webview url="https://tmui.design/h5/#/pages/fankui/progress"></webview>
 
 ::: details 示例模板
 
-@[code vue](pages/fankui/progress.nvue)
+<<< ../src/pages/fankui/progress.nvue{vue}
 
 :::
 
-### :hot_pepper: 兼容性
+## :hot_pepper: 兼容性
 
 | APP-VUE | APP-NVUE | 小程序 | WEB/H5 | VUE3/TS |
 | --- | --- | --- | --- | --- |
 | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
 
-### :seedling: 参数
+## :seedling: 参数
 本组件含有公共属性 [公共属性](/doc/spec/组件公共样式.md)
 | 参数名 | 类型 | 默认值 | 描述 |
 | :--: | :--: | :--: | :-- |
@@ -50,18 +52,18 @@ title: tmui 3.0 组件库
 | showBar | [Boolean,String] | false | 显示数值点 |
 | disabled | Boolean | false | 是否禁用 |
 
-### :rose: 事件
+## :rose: 事件
 | 事件名 | 参数 | 返回数据 | 描述 |
 | --- | --- | --- | --- |
 | update:percent | 进度值 | number | 进度值变化时触发 |
 | change | 进度值 | number | 进度值变化时触发 |
-### :corn: slot插槽
+## :corn: slot插槽
 title,圆形进度条时中间的文字插槽。
 
-### :green_salad: ref方法
+## :green_salad: ref方法
 无
 | 方法名 | 参数 | 返回值 | 描述 |
 | :--: | :--: | :--: | :-- |
 
-### :couplekiss: 文档贡献
+## :couplekiss: 文档贡献
 此页文档由ygy贡献([git](https://gitee.com/ygy-promise),[github](https://github.com/ygy-97))，如果对该框架感兴趣的可以参与我们一同进步！

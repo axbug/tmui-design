@@ -2,16 +2,14 @@
 title: TMUI3进阶指南
 ---
 
-<dirtoc></dirtoc>
-
-##### 进阶指南 tmui.design
+#### 进阶指南 tmui.design
 
 # TMUI 3.0 by tmzdy
 
-### 前置条件
-如果你还没阅读[tmui全局配置表的设置](/doc/advanced/tmui全局配置.html)，请先访问阅读。
+## 前置条件
+如果你还没阅读[tmui全局配置表的设置](/advanced/tmui全局配置.html)，请先访问阅读。
 
-### 编写主题文件
+## 编写主题文件
 你可以单独写个文件导出，并与config.ts合并进去。
 
 示例模板

@@ -2,32 +2,34 @@
 title: tmui 3.0 组件库
 ---
 
-<dirtoc></dirtoc>
+<script setup>
+import webview from '../components/mobileWebview.vue'
+</script>
 
-##### 组件库文档 tmui.design
+#### 组件库文档 tmui.design
 
 # 级联器(点选) Cascader
 当一个数据集合有清晰的层级结构时，可通过级联选择器逐级查看并选择。
 
 ---
 
-### :hot_pepper: 级联器(点选) Cascader 示例
+## :hot_pepper: 级联器(点选) Cascader 示例
 
 <webview url="https://tmui.design/h5/#/pages/form/cascader"></webview>
 
 ::: details 示例模板
 
-@[code vue](pages/form/cascader.nvue)
+<<< ../src/pages/form/cascader.nvue{vue}
 
 :::
 
-### :hot_pepper: 兼容性
+## :hot_pepper: 兼容性
 
 | APP-VUE | APP-NVUE | 小程序 | WEB/H5 | VUE3/TS |
 | --- | --- | --- | --- | --- |
 | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
 
-### :seedling: 参数
+## :seedling: 参数
 本组件含有公共属性 [公共属性](/doc/spec/组件公共样式.md)
 | 参数名 | 类型 | 默认值 | 描述 |
 | :--: | :--: | :--: | :-- |
@@ -52,7 +54,7 @@ export interface childrenData {
 }
 ```
 
-### :rose: 事件
+## :rose: 事件
 | 事件名 | 参数 | 返回数据 | 描述 |
 | --- | --- | --- | --- |
 | update:modelValue | - | Array | 更新选中数据，为v-model |
@@ -61,14 +63,14 @@ export interface childrenData {
 | change | - | modelValue | 选中改变时返回当前的数据 |
 
 
-### :corn: slot插槽
+## :corn: slot插槽
 默认default，介于tab和下面选项之间的区域插槽。
 
-### :green_salad: ref方法
+## :green_salad: ref方法
 提供data就是使用data，如果不提供默认的[]空数组，将使用props.data进行刷新同步。
 ```ts
 reFresh(data:Array<childrenData>=[])
 ```
 
-### :couplekiss: 文档贡献
+## :couplekiss: 文档贡献
 此页文档由[Sunlight](https://gitee.com/rzg)贡献，如果对该框架感兴趣的可以参与我们一同进步！

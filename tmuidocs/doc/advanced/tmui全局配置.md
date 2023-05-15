@@ -2,9 +2,7 @@
 title: TMUI3进阶指南
 ---
 
-<dirtoc></dirtoc>
-
-##### 进阶指南 tmui.design
+#### 进阶指南 tmui.design
 
 # TMUI 3.0 by tmzdy
 
@@ -14,11 +12,11 @@ title: TMUI3进阶指南
 这些功能将从3.1.0开始逐步完善，有些性质的功能可能会被随时移除。请注意标签说明。
 :::
 
-### 注意事项
+## 注意事项
 
 下面提到的功能模块在后面的版本会一个一个完善，因此有些功能可能不可用，只是作为展望的存在。<br>
 
-### 如何配置？
+## 如何配置？
 
 首先你可准备一个自己的配置文件比如：config.ts：
 
@@ -51,7 +49,7 @@ export function createApp() {
 }
 ```
 
-### 所有配置（完善中）
+## 所有配置（完善中）
 
 ** 目前可用的参数为:autoDark,theme,globalFontSizeRatio ,router**
 
@@ -61,6 +59,8 @@ interface tmuiConfig {
   autoDark?: boolean;
   /**主题列表 */
   theme?: {};
+  /** 开启全局分离功能，默认关闭true */
+  shareDisable?:boolean,
   /**细化全局的主题配置表 */
   themeConfig?: {
     /**暗黑模式下的一些统一配置 */
@@ -72,7 +72,7 @@ interface tmuiConfig {
       /**禁用输入框，表单等暗黑背景 */
       disableColor?: string;
       /**暗黑下的页面背景 3.1.03支持配置 */
-      bodyColor?: string;
+      bodyColor?: string; 
       /**文本禁用色. */
       textDisableColor?: string;
     };
@@ -119,7 +119,7 @@ namespace components {
   }
 ```
 
-### 如何使用
+## 如何使用
 
 第一种方式：
 在任意ts文件中，请输入``` uni.$tm.config.xxx ```
@@ -134,10 +134,10 @@ const store = useTmpiniaStore();
 store.tmuiConfig.xxx
 ```
 
-### 示例模板
+## 示例模板
 
 ::: details 示例模板
 
-@[code vue](tmui/tool/lib/tmuiconfigDefault.ts)
+<<< ../src/tmui/tool/lib/tmuiconfigDefault.ts
 
 :::

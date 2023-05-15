@@ -2,13 +2,24 @@
 title: 关于tmUi3.0的更新日志
 ---
 
-<dirtoc></dirtoc>
-
 ##### 开发指南 tmui.design
 
 # TMUI 3.0 by tm-vuefity 3.0
 
 ### :couplekiss: 更新日志
+## 3.1.05（2023-5-xx）
+* [文档]升级了文档网站到vitepress
+**[重要提示]目前来说从3.7.10-3.7.11无法编译到nvue。3.8.12 alpha及3.7.9(含以下)可以编译到nvue.然后3.6.18(不含，以上)无法编译到支付宝。原因是uni sdk自己的插件问题，我无力修复。我只能把坑放到这大家避免。想要编译到支付宝请参考3.1.04的说明。**
+**如果uni升级解决了问题，我会在日志中说明。如果你可以解决上面问题欢迎到我的gitee上提供解决方案。感谢。**
+* [优化]3.1.05开始，兼容你配置的darkMode模式。当你开启了darkMode，内部不再设置状态栏，底部菜单，的颜色设置，
+* 使用你自己的配置的theme.json文件。这个好处是在app,微信暗黑下没有闪白。
+* [优化]tmapp，文件不再手动设置内容宽和高。采用flex方案代替100%
+* [优化]tm-cascader，边线改为内边线。取消单独边线，影响事件触发。
+* [修复]Cascader组件在vue页面布局问题。
+* [优化修复]city-picker,新增了duration,打开弹出的动画时间，同时修复弹出框右上角文字颜色未跟随color属性。
+* [优化]Coupon，新增了disableColor,disableBgColor
+* [优化]小程序分享功能，在全局的config中新增shareDisable,是否禁用全局分享，默认禁用。[如何自定分享见文档](https://tmui.design/start/%E5%B0%8F%E7%A8%8B%E5%BA%8F%E5%88%86%E4%BA%AB.html)
+* 修改了一些其它代码
 ## 3.1.04（2023-4-26）
 * [提醒]刚发布的uni sdk 3.7.10还是未修复编译至支付宝时出现的编译问题，导致支付宝不可用。经过我测试哪怕使用官方的uni sdk也是有问题无法编译到支付宝小程序。
 * 因此我特意在我的gitee库中，保存了一份文件叫：package - alipay.json，如果要编译支付宝的把node_modules和package-lock.josn删除，

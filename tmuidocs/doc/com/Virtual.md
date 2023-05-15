@@ -2,9 +2,11 @@
 title: tmui 3.0 组件库
 ---
 
-<dirtoc></dirtoc>
+<script setup>
+import webview from '../components/mobileWebview.vue'
+</script>
 
-##### 组件库文档 tmui.design
+#### 组件库文档 tmui.design
 
 # 虚拟列表 Virtual
  用来展示长列表数据使用，采用虚拟数据展示，只展示视窗内数据，其它不展示。因此上万条列表数据，也可以轻松展示。<br>
@@ -12,23 +14,23 @@ title: tmui 3.0 组件库
 
 ---
 
-### :hot_pepper: 虚拟列表 Virtual 示例
+## :hot_pepper: 虚拟列表 Virtual 示例
 
 <webview url="https://tmui.design/h5/#/pages/showdata/virtual"></webview>
 
 ::: details 示例模板
 
-@[code vue](pages/showdata/virtual.nvue)
+<<< ../src/pages/showdata/virtual.nvue{vue}
 
 :::
 
-### :hot_pepper: 兼容性
+## :hot_pepper: 兼容性
 
 | APP-VUE | APP-NVUE | 小程序 | WEB/H5 | VUE3/TS |
 | --- | --- | --- | --- | --- |
 | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
 
-### :seedling: 参数
+## :seedling: 参数
 本组件含有公共属性 [公共属性](/doc/spec/组件公共样式.md)
 
 | 参数名 | 类型 | 默认值 | 描述 |
@@ -44,20 +46,20 @@ title: tmui 3.0 组件库
 
 **load**为数据加载事件,参数加载类型：bottom 触底加载, top 下拉加载 
 
-### :rose: 事件
+## :rose: 事件
 | 事件名 | 参数 | 返回数据 | 描述 |
 | --- | --- | --- | --- |
 | @pull-start<Badge type="danger" text="v3.0.7+" vertical="middle" /> | - | - | 下拉时触发 |
 | @pull-end<Badge type="danger" text="v3.0.7+" vertical="middle" /> | - | - | 触底时触发 |
 
-### :corn: slot插槽
+## :corn: slot插槽
 | 插槽名 | 数据 | 类型 | 描述 |
 | --- | --- | --- | --- |
 | top | - | - | 顶部自定义内容，高度不超过topHeight 设定高度 |
 | default | data | `Arrray<any>` | 默认插槽，主要 |
 
-### :green_salad: ref方法
+## :green_salad: ref方法
 无
 
-### :couplekiss: 文档贡献
+## :couplekiss: 文档贡献
 此页文档由[夏天](https://gitee.com/Xia_5718)贡献，如果对该框架感兴趣的可以参与我们一同进步！

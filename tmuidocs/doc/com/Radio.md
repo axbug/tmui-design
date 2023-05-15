@@ -2,32 +2,34 @@
 title: tmui 3.0 组件库
 ---
 
-<dirtoc></dirtoc>
+<script setup>
+import webview from '../components/mobileWebview.vue'
+</script>
 
-##### 组件库文档 tmui.design
+#### 组件库文档 tmui.design
 
 # 单选框 Radio
 Radio 单选框提供多种选值下选择唯一内容的组件，重要：使用时需配合radio-group使用，无法单独使用
 
 ---
 
-### :hot_pepper: 单选框 Radio 示例
+## :hot_pepper: 单选框 Radio 示例
 
 <webview url="https://tmui.design/h5/#/pages/form/radio"></webview>
 
 ::: details 示例模板
 
-@[code vue](pages/form/radio.nvue)
+<<< ../src/pages/form/radio.nvue{vue}
 
 :::
 
-### :hot_pepper: 兼容性
+## :hot_pepper: 兼容性
 
 | APP-VUE | APP-NVUE | 小程序 | WEB/H5 | VUE3/TS |
 | --- | --- | --- | --- | --- |
 | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
 
-### :seedling: Radio-group 参数
+## :seedling: Radio-group 参数
 
 本组件含有公共属性 [公共属性](/doc/spec/组件公共样式.md)
 | 参数名 | 类型 | 默认值 | 描述 |
@@ -38,7 +40,7 @@ Radio 单选框提供多种选值下选择唯一内容的组件，重要：使�
 | model | String | radio  | 单选按钮的样式，可选值为：radio 正常单选样式,button 按钮样式 |
 | align | String | 'left'  | 对齐方式：left,center,right |
 
-### :seedling: Radio 参数
+## :seedling: Radio 参数
 
 本组件含有公共属性 [公共属性](/doc/spec/组件公共样式.md)
 | 参数名 | 类型 | 默认值 | 描述 |
@@ -58,19 +60,19 @@ Radio 单选框提供多种选值下选择唯一内容的组件，重要：使�
 | icon | String | tmicon-check | 选中状态图标名称，可自定义 |
 | custom | Boolean | false | 是否隐藏原本的状态组件 |
 
-### :rose: Radio-group事件
+## :rose: Radio-group事件
 
 | 事件名 | 参数 | 返回数据 | 描述 |
 | --- | --- | --- | --- |
 | change | / | 子组件radio的value值 | 当radio选中改变时，返回子组件radio的value值 |
 
-### :rose: Radio事件
+## :rose: Radio事件
 
 | 事件名 | 参数 | 返回数据 | 描述 |
 | --- | --- | --- | --- |
 | change | / | value | 若当前项被点击，则返回true |
 
-### :corn: slot插槽
+## :corn: slot插槽
 
 :::warning 注意事项
 
@@ -101,10 +103,10 @@ Radio 单选框提供多种选值下选择唯一内容的组件，重要：使�
 
 ```
 
-### :green_salad: ref方法
+## :green_salad: ref方法
 
 无
 
-### :rage: 贡献者
+## :rage: 贡献者
 
 [Wicos](http://wicos.me)

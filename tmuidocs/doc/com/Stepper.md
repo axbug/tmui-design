@@ -2,32 +2,34 @@
 title: tmui 3.0 组件库
 ---
 
-<dirtoc></dirtoc>
+<script setup>
+import webview from '../components/mobileWebview.vue'
+</script>
 
-##### 组件库文档 tmui.design
+#### 组件库文档 tmui.design
 
 # 步进器 Stepper
 Stepper 步进器是应用在数值较少且变动较精确的数值输入场景的组件
 
 ---
 
-### :hot_pepper: 步进器 Stepper 示例
+## :hot_pepper: 步进器 Stepper 示例
 
 <webview url="https://tmui.design/h5/#/pages/form/stepper"></webview>
 
 ::: details 示例模板
 
-@[code vue](pages/form/stepper.nvue)
+<<< ../src/pages/form/stepper.nvue{vue}
 
 :::
 
-### :hot_pepper: 兼容性
+## :hot_pepper: 兼容性
 
 | APP-VUE | APP-NVUE | 小程序 | WEB/H5 | VUE3/TS |
 | --- | --- | --- | --- | --- |
 | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
 
-### :seedling: 参数
+## :seedling: 参数
 
 本组件含有公共属性 [公共属性](/doc/spec/组件公共样式.md)
 
@@ -58,19 +60,19 @@ Stepper 步进器是应用在数值较少且变动较精确的数值输入场景
 | defaultValue | Number | null | 步进器默认值 |
 | beforeEnter | Function / Boolean | true | 返回参数(ty='+' / '-'):+表示增加按钮点击，-：表示减少按钮点击按钮增加或者减少前执行的勾子函数，返回 fase取消当前操作，可以是Promise\<boolean\> |
 
-### :rose: 事件
+## :rose: 事件
 
 | 事件名 | 参数 | 返回数据 | 描述 |
 | --- | --- | --- | --- |
 | change | / | modelValue | 步进器内容修改后返回当前数值 |
 
-### :corn: slot插槽
+## :corn: slot插槽
 
 无
 
-### :green_salad: ref方法
+## :green_salad: ref方法
 
 无
 
-### :rage: 贡献者
+## :rage: 贡献者
 [Wicos](http://wicos.me)

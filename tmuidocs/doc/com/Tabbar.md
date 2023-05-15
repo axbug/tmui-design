@@ -2,9 +2,11 @@
 title: tmui 3.0 组件库
 ---
 
-<dirtoc></dirtoc>
+<script setup>
+import webview from '../components/mobileWebview.vue'
+</script>
 
-##### 组件库文档 tmui.design
+#### 组件库文档 tmui.design
 
 # 底部导航栏 Tabbar
 
@@ -12,23 +14,23 @@ title: tmui 3.0 组件库
 
 ---
 
-### :hot_pepper: 底部导航栏 Tabbar 示例
+## :hot_pepper: 底部导航栏 Tabbar 示例
 
 <webview url="https://tmui.design/h5/#/pages/daohang/tabbar"></webview>
 
 ::: details 示例模板
 
-@[code vue](pages/daohang/tabbar.nvue)
+<<< ../src/pages/daohang/tabbar.nvue{vue}
 
 :::
 
-### :hot_pepper: 兼容性
+## :hot_pepper: 兼容性
 
 | APP-VUE | APP-NVUE | 小程序 | WEB/H5 | VUE3/TS |
 | --- | --- | --- | --- | --- |
 | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
 
-### :seedling: 参数
+## :seedling: 参数
 
 本组件含有公共属性 [公共属性](/doc/spec/组件公共样式.md)
 | 参数名 | 类型 | 默认值 | 描述 |
@@ -45,16 +47,16 @@ title: tmui 3.0 组件库
 | active<Badge type="danger" text="v3.0.77+" vertical="middle" /> | Number | -1 | 当前活动荐的索引，从0开始，可以使用v-model:active来双向绑定切换选中项，必须autoSelect设置为false才起效  |
 | zIndex | [Number] | 200 | 层级，注意：nvue是没有效果的，需要放到页面最后才能是页面的最顶部。 |
 
-### :rose: 事件
+## :rose: 事件
 | 方法名 | 参数 | 返回值 | 描述 |
 | :--: | :--: | :--: | :-- |
 | change<Badge type="danger" text="v3.0.77+" vertical="middle" /> | - | active | 通过手动切换选中值时触发本事件。 |
 
-### :corn: slot插槽
+## :corn: slot插槽
 
 默认default，注意：内部只能放置,tm-tabbar-item
 
-### :green_salad: ref方法
+## :green_salad: ref方法
 | 方法名 | 参数 | 返回值 | 描述 |
 | :--: | :--: | :--: | :-- |
 | tmTabbarId |  |  |  |
@@ -64,7 +66,7 @@ title: tmui 3.0 组件库
 
 # 子组件 tm-tabbar-item
 
-### :seedling: 参数
+## :seedling: 参数
 
 本组件含有公共属性 [公共属性](/doc/spec/组件公共样式.md)
 | 参数名 | 类型 | 默认值 | 描述 |
@@ -94,16 +96,16 @@ title: tmui 3.0 组件库
 | data<Badge type="danger" text="v3.0.63+" vertical="middle" /> | [Object,Number, String] | undefined | 自义绑定数据到项目上，beforeClick执行时，上下文参数 |
 | disabled | Boolean | true | 是否禁用 |
 
-### :rose: 事件
+## :rose: 事件
 
 | 事件名 | 参数 | 返回数据 | 描述 |
 | :--: | :--: | :--: | :-- |
 | click | 无 | 无 |  项目被点击时触发 |
 | beforeClick |  无| 无 |  点击切换之前执行，如果返回false或者`Promise<false>`时，将阻止链接的切换。如果没有提供url链接地地址将只作为切换使用|
 
-### :green_salad: ref方法
+## :green_salad: ref方法
 无
 
-### :couplekiss: 文档贡献
+## :couplekiss: 文档贡献
 
 此页文档由ygy贡献([git](https://gitee.com/ygy-promise),[github](https://github.com/ygy-97))，如果对该框架感兴趣的可以参与我们一同进步！

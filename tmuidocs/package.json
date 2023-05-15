@@ -1,11 +1,14 @@
 {
     "name": "tmui.design",
-    "version": "3.1.03",
+    "version": "3.1.05",
     "description": "tmui",
     "main": "index.js",
     "scripts": {
-        "dev": "vuepress dev",
-        "build": "vuepress build"
+        "dev": "vitepress dev doc",
+        "build": "vitepress build doc",
+        "docs:dev": "vitepress dev doc",
+        "docs:build": "vitepress build doc",
+        "docs:preview": "vitepress preview doc"
     },
     "keywords": [
         "tmui",
@@ -13,17 +16,9 @@
     ],
     "author": "tmzdy",
     "license": "ISC",
-    "devDependencies": {
-        "@vuepress/plugin-active-header-links": "^2.0.0-beta.46",
-        "@vuepress/plugin-docsearch": "^2.0.0-beta.38",
-        "@vuepress/plugin-register-components": "^2.0.0-beta.46",
-        "@vuepress/plugin-search": "^2.0.0-beta.53",
-        "@vuepress/plugin-toc": "^2.0.0-beta.46",
-        "vuepress": "^2.0.0-beta.38"
-    },
     "dependencies": {
-        "braces": "^3.0.2",
-        "uc.micro": "^1.0.6",
-        "vuepress-plugin-copy-code2": "^2.0.0-beta.122"
-    }
+        "vitepress": "^1.0.0-alpha.75",
+        "vitepress-plugin-pagefind": "^0.2.4"
+    },
+    "devDependencies": {}
 }

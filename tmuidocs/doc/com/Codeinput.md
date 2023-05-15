@@ -2,32 +2,34 @@
 title: tmui 3.0 组件库
 ---
 
-<dirtoc></dirtoc>
+<script setup>
+import webview from '../components/mobileWebview.vue'
+</script>
 
-##### 组件库文档 tmui.design
+#### 组件库文档 tmui.design
 
 # 验证码输入框 Codeinput
 带网格的输入框组件，用于输入密码、短信验证码等场景。
 
 ---
 
-### :hot_pepper: 验证码输入框 Codeinput 示例
+## :hot_pepper: 验证码输入框 Codeinput 示例
 
 <webview url="https://tmui.design/h5/#/pages/other/codeinput"></webview>
 
 ::: details 示例模板
 
-@[code vue](pages/other/codeinput.nvue)
+<<< ../src/pages/other/codeinput.nvue{vue}
 
 :::
 
-### :hot_pepper: 兼容性
+## :hot_pepper: 兼容性
 
 | APP-VUE            | APP-NVUE           | 小程序                | WEB/H5             | VUE3/TS            |
 |--------------------|--------------------|--------------------|--------------------|--------------------|
 | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
 
-### :seedling: 参数
+## :seedling: 参数
 本组件含有公共属性 [公共属性](/doc/spec/组件公共样式.md)
 
 | 参数名         | 类型            | 默认值     | 描述               |
@@ -44,13 +46,13 @@ title: tmui 3.0 组件库
 | count       | Number        | primary | 字符数量             |
 | value       | Number,String | ''      | 输入值              |
 
-### :rose: 事件
+## :rose: 事件
 | 事件名   | 参数  | 返回数据 | 描述  |
 |-------|-----|------|-----|
 | click |     |      |     |
 
-### :green_salad: ref方法
+## :green_salad: ref方法
 无
 
-### :couplekiss: 文档贡献
+## :couplekiss: 文档贡献
 此页文档由[Kyour](https://github.com/kyour-cn)贡献，如果对该框架感兴趣的可以参与我们一同进步！

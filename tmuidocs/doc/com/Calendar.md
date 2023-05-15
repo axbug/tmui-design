@@ -2,32 +2,34 @@
 title: tmui 3.0 组件库
 ---
 
-<dirtoc></dirtoc>
+<script setup>
+import webview from '../components/mobileWebview.vue'
+</script>
 
-##### 组件库文档 tmui.design
+#### 组件库文档 tmui.design
 
 # 日历 Calendar
 显示日期。
 
 ---
 
-### :hot_pepper: 日历 Calendar 示例
+## :hot_pepper: 日历 Calendar 示例
 
 <webview url="https://tmui.design/h5/#/pages/form/calendar"></webview>
 
 ::: details 示例模板
 
-@[code vue](pages/form/calendar.nvue)
+<<< ../src/pages/form/calendar.nvue{vue}
 
 :::
 
-### :hot_pepper: 兼容性
+## :hot_pepper: 兼容性
 
 | APP-VUE | APP-NVUE | 小程序 | WEB/H5 | VUE3/TS |
 | --- | --- | --- | --- | --- |
 | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
 
-### :seedling: 参数
+## :seedling: 参数
 本组件含有公共属性 [公共属性](/doc/spec/组件公共样式.md)
 | 参数名 | 类型 | 默认值 | 描述 |
 | :--: | :--: | :--: | :-- |
@@ -60,7 +62,7 @@ export interface dateItemStyle {
 }
 ```
 
-### :rose: 事件
+## :rose: 事件
 | 事件名 | 参数 | 返回数据 | 描述 |
 | --- | --- | --- | --- |
 | update:modelValue | - | modelValue | 绑定当前的时间。同v-model |
@@ -73,10 +75,10 @@ export interface dateItemStyle {
 | close | - | - | 关闭时触发 |
 | open | - | - | 打开函数 |
 
-### :corn: slot插槽
+## :corn: slot插槽
 默认default
 
-### :seedling: CalendarView参数
+## :seedling: CalendarView参数
 本组件含有公共属性 [公共属性](/doc/spec/组件公共样式.md)
 | 参数名 | 类型 | 默认值 | 描述 |
 | :--: | :--: | :--: | :-- |
@@ -97,7 +99,7 @@ export interface dateItemStyle {
 | hideTool<Badge type="danger" text="v3.0.78+" vertical="middle" />  | Boolean | false | 是否隐藏头部工具栏 | 
 | format<Badge type="danger" text="v3.1.0+" vertical="middle" />  | String | 'YYYY/MM/DD' | 针对modelStr的时间格式化输出 | 
 
-### :rose: CalendarView事件
+## :rose: CalendarView事件
 | 事件名 | 参数 | 返回数据 | 描述 |
 | --- | --- | --- | --- |
 | update:modelValue | - | modelValue | 绑定当前的时间。 |
@@ -107,8 +109,8 @@ export interface dateItemStyle {
 | change | `e: Array<string/number>` | - | 当切换年或者月的时候触发。 |
 
 
-### :green_salad: ref方法
+## :green_salad: ref方法
 无
 
-### :couplekiss: 文档贡献
+## :couplekiss: 文档贡献
 此页文档由[Sunlight](https://gitee.com/rzg)贡献，如果对该框架感兴趣的可以参与我们一同进步！

@@ -2,9 +2,11 @@
 title: tmui 3.0 组件库
 ---
 
-<dirtoc></dirtoc>
+<script setup>
+import webview from '../components/mobileWebview.vue'
+</script>
 
-##### 组件库文档 tmui.design
+#### 组件库文档 tmui.design
 
 # 通知提醒 Notification
 通知提醒,总共四个角和上下，6个位置的提醒,使用时请注意内容变动即可显示。如果想一开始不想显示，不要提供内容就行。
@@ -13,23 +15,23 @@ title: tmui 3.0 组件库
 
 
 
-### :hot_pepper: 知提醒 Notification 示例
+## :hot_pepper: 知提醒 Notification 示例
 
 <webview url="https://tmui.design/h5/#/pages/fankui/notification"></webview>
 
 ::: details 示例模板
 
-@[code vue](pages/fankui/notification.nvue)
+<<< ../src/pages/fankui/notification.nvue{vue}
 
 :::
 
-### :hot_pepper: 兼容性
+## :hot_pepper: 兼容性
 
 | APP-VUE | APP-NVUE | 小程序 | WEB/H5 | VUE3/TS |
 | --- | --- | --- | --- | --- |
 | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
 
-### :seedling: 参数
+## :seedling: 参数
 本组件含有公共属性 [公共属性](/doc/spec/组件公共样式.md)
 | 参数名 | 类型 | 默认值 | 描述 |
 | :--: | :--: | :--: | :-- |
@@ -45,15 +47,15 @@ title: tmui 3.0 组件库
 | placement | String | topLeft  | 位置，可选值：topLeft/topRight/bottomLeft/bottomRight/top/bottom |
 | label | String | "" | 展示的文字内容,注意：required:true,必传 |
 | icon | String | tmicon-info-circle-fill | 自定义图标 |
-### :rose: 事件
+## :rose: 事件
 | 事件名 | 参数 | 返回数据 | 描述 |
 | --- | --- | --- | --- |
 | click | 无 | 事件参数e | 点击 |
 | close | 无 | 无 | 关闭 |
-### :corn: slot插槽
+## :corn: slot插槽
 默认default
 
-### :green_salad: ref方法
+## :green_salad: ref方法
 无
 | 方法名 | 参数 | 返回值 | 描述 |
 | :--: | :--: | :--: | :-- |
@@ -70,5 +72,5 @@ export interface showOpts{
 }
 ```
 
-### :couplekiss: 文档贡献
+## :couplekiss: 文档贡献
 此页文档由ygy贡献([git](https://gitee.com/ygy-promise),[github](https://github.com/ygy-97))，如果对该框架感兴趣的可以参与我们一同进步！

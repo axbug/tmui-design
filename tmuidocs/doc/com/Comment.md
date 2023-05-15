@@ -2,33 +2,35 @@
 title: tmui 3.0 组件库
 ---
 
-<dirtoc></dirtoc>
+<script setup>
+import webview from '../components/mobileWebview.vue'
+</script>
 
-##### 组件库文档 tmui.design
+#### 组件库文档 tmui.design
 
 # 评论 Comment
 评论。
 
 ---
 
-### :hot_pepper: 评论 Comment 示例效果
+## :hot_pepper: 评论 Comment 示例效果
 
 <webview url="https://tmui.design/h5/#/pages/showdata/comment"></webview>
 
 ::: details 示例代码
 
-@[code vue](pages/showdata/comment.nvue)
+<<< ../src/pages/showdata/comment.nvue{vue}
 
 :::
 
 
-### :hot_pepper: 兼容性
+## :hot_pepper: 兼容性
 
 | APP-VUE | APP-NVUE | 小程序 | WEB/H5 | VUE3/TS |
 | --- | --- | --- | --- | --- |
 | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
 
-### :seedling: 参数
+## :seedling: 参数
 本组件含有公共属性 [公共属性](/doc/spec/组件公共样式.md)
 | 参数名 | 类型 | 默认值 | 描述 |
 | :--: | :--: | :--: | :-- |
@@ -51,7 +53,7 @@ title: tmui 3.0 组件库
 | align | String | right | 时间和下面的操作按钮是靠左还是靠右：right,left |
 | autoFormatTime | Boolean | true | 是否格式化时间标签。 |
 
-### :rose: 事件
+## :rose: 事件
 | 事件名 | 参数 | 返回数据 | 描述 |
 | --- | --- | --- | --- |
 | avatar-click |  |  |  |
@@ -59,7 +61,7 @@ title: tmui 3.0 组件库
 | content-click |  |  |  |
 | time-click |  |  |  |
 
-### :corn: slot插槽
+## :corn: slot插槽
 | 插槽名 | 参数| 参数类型 | 描述 |
 | --- | --- | --- | --- |
 | author | - | - | 评论的人 |
@@ -68,8 +70,8 @@ title: tmui 3.0 组件库
 | actions | - | - | 评论的底部插槽，默认是空内容，用于自定底部一些其它布局，比如输入框，先点赞按钮这些或者其它操作按钮等。 |
 | default | - | - | 默认插槽，主要，可以放置任意组件和元素，可以用来嵌套评论组件，把评论组件放置默认插槽中形成嵌套效果。 |
 
-### :green_salad: ref方法
+## :green_salad: ref方法
 无
 
-### :couplekiss: 文档贡献
+## :couplekiss: 文档贡献
 此页文档由[﹎wj潕钶取玳](https://gitee.com/dxwj)贡献，如果对该框架感兴趣的可以参与我们一同进步！

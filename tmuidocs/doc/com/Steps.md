@@ -1,43 +1,35 @@
-<!--
- * @Autor: 小超1263375375
- * @Date: 2022-06-18 10:31:03
- * @LastEditors: 小超1263375375
- * @LastEditTime: 2022-06-18 10:54:28
- * @FilePath: \tm-vuetify-for-vue3\tmuidocs\doc\com\Steps.md
- * @Description: 
- * 
- * Copyright (c) 2022 by 小超1263375375, All Rights Reserved. 
--->
 ---
 title: tmui 3.0 组件库
 ---
 
-<dirtoc></dirtoc>
+<script setup>
+import webview from '../components/mobileWebview.vue'
+</script>
 
-##### 组件库文档 tmui.design
+#### 组件库文档 tmui.design
 
 # 步骤条 Steps
 步骤条，可以方便的预览逻辑，事务条理。需要配合tm-steps-item组件，必须放置tm-steps-item组件才能使用。
 
 ---
 
-### :hot_pepper: 步骤条 Steps 示例
+## :hot_pepper: 步骤条 Steps 示例
 
 <webview url="https://tmui.design/h5/#/pages/daohang/steps"></webview>
 
 ::: details 示例模板
 
-@[code vue](pages/daohang/steps.nvue)
+<<< ../src/pages/daohang/steps.nvue{vue}
 
 :::
 
-### :hot_pepper: 兼容性
+## :hot_pepper: 兼容性
 
 | APP-VUE | APP-NVUE | 小程序 | WEB/H5 | VUE3/TS |
 | --- | --- | --- | --- | --- |
 | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
 
-### :seedling: 参数
+## :seedling: 参数
 本组件含有公共属性 [公共属性](/doc/spec/组件公共样式.md)
 | 参数名 | 类型 | 默认值 | 描述 |
 | :--: | :--: | :--: | :-- |
@@ -52,14 +44,14 @@ title: tmui 3.0 组件库
 | activeColor | String | 'primary' | 激活时的主题色。 |
 | type | String | 'dot' | 样式dot,number |
 
-### :rose: 事件
+## :rose: 事件
 | 事件名 | 参数 | 返回数据 | 描述 |
 | --- | --- | --- | --- |
 | change | --- | value | 当前切换步骤时触发。 |
 | update:current | --- | --- | 即v-model:current |
 | step-click | --- | index | 当点击步骤时触发。 |
 
-### :seedling: Steps-item 参数
+## :seedling: Steps-item 参数
 | color| [String ] | '' | 当前的主题，默认使用父组件的值 |
 | activeColor| [String ] | '' | 激活时的主题，默认使用父组件的值 |
 | title| [String ] | '' | 标题 |
@@ -68,13 +60,13 @@ title: tmui 3.0 组件库
 | size| [Number] | '' | 圆点的大小。 |
 | width| [Number] | 150 | 宽度。 |
 
-### :corn: slot插槽
+## :corn: slot插槽
 
 默认default
 
-### :green_salad: ref方法
+## :green_salad: ref方法
 无
 | 方法名 | 参数 | 返回值 | 描述 |
 | :--: | :--: | :--: | :-- |
 
-### :rage: 贡献者：小超1263375375
+## :rage: 贡献者：小超1263375375

@@ -2,9 +2,11 @@
 title: tmui 3.0 组件库
 ---
 
-<dirtoc></dirtoc>
+<script setup>
+import webview from '../components/mobileWebview.vue'
+</script>
 
-##### 组件库文档 tmui.design
+#### 组件库文档 tmui.design
 
 # 吸附器 FlyView
 
@@ -13,23 +15,23 @@ title: tmui 3.0 组件库
 
 ---
 
-### :hot_pepper: 示例
+## :hot_pepper: 示例
 
 <webview url="https://tmui.design/h5/#/pages/other/flyView"></webview>
 
 ::: details 示例模板
 
-@[code vue](pages/other/flyView.nvue)
+<<< ../src/pages/other/flyView.nvue{vue}
 
 :::
 
-### :hot_pepper: 兼容性
+## :hot_pepper: 兼容性
 
 | APP-VUE | APP-NVUE | 小程序 | WEB/H5 | VUE3/TS |
 | --- | --- | --- | --- | --- |
 | :heavy_check_mark: | :x: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
 
-### :seedling: 参数
+## :seedling: 参数
 
 | 参数名 | 类型 | 默认值 | 描述 |
 | :--: | :--: | :--: | :-- |
@@ -40,15 +42,15 @@ title: tmui 3.0 组件库
 | y  | Number        | 0    | 指定下落的目标位置y    |
 | zIndex  | Number        | 100    | 层级    |
 
-### :rose: 事件
+## :rose: 事件
 | 事件名 | 参数 | 返回数据 | 描述 |
 | --- | --- | --- | --- |
 
-### :corn: slot插槽
+## :corn: slot插槽
 默认default,触发区域内容。
 content，需要动画的内容。
 
-### :green_salad: ref方法
+## :green_salad: ref方法
 | 方法名 | 参数 | 返回值 | 描述 |
 | :--: | :--: | :--: | :-- |
 
