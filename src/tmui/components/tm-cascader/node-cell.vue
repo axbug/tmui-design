@@ -1,7 +1,7 @@
 <template>
   <view
     @click.stop="nodeClick"
-    class="flex px-24 flex-col-full"
+    class="flex px-24 py-24 border-b-1 flex-col-full"
     :class="[_value['disabled'] ? 'opacity-5' : '']"
   >
     <view :userInteractionEnabled="false" class="flex flex-row flex-between">
@@ -27,7 +27,7 @@
         ></tm-icon>
       </view>
     </view>
-    <tm-divider></tm-divider>
+    
   </view>
 </template>
 <script lang="ts" setup>

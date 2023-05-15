@@ -392,18 +392,22 @@ async function ok() {
   if (props.disabled) return;
   debounce(
     async () => {
-      if (typeof props.beforeClose === "function") {
-        okLoading.value = true;
-        let p = await props.beforeClose();
-        if (typeof p === "function") {
-          p = await p();
-        }
-        okLoading.value = false;
-        if (!p) return;
+      try{
+      	if (typeof props.beforeClose === "function") {
+      	  okLoading.value = true;
+      	  let p = await props.beforeClose()
+      	  if (typeof p === "function") {
+      	    p = await p();
+      	  }
+      	  okLoading.value = false;
+      	  if (!p) return;
+      	}
+      	emits("ok", toRaw(nowCallFun));
+      	isOkClose = true;
+      	close();
+      }catch(e){
+      	okLoading.value = false;
       }
-      emits("ok", toRaw(nowCallFun));
-      isOkClose = true;
-      close();
     },
     250,
     true

@@ -56,6 +56,8 @@ declare global {
         interface tmuiConfig {
             /** 自动跟随系统暗黑 */
             autoDark?: boolean,
+			/** 开启全局分离功能，默认关闭 */
+			shareDisable?:boolean,
             /**主题列表 */
             theme?: {},
             /**细化全局的主题配置表 */

@@ -1,6 +1,6 @@
 <template>
   <!-- v-if="tmCascaderShowIndex==_level" -->
-  <view class="flex flex-1">
+  <view >
     <scroll-view
       v-if="tmCascaderShowIndex == props.level"
       :style="[{ height: `${props.height}rpx` }]"

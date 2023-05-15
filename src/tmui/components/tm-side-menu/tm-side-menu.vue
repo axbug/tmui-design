@@ -207,15 +207,18 @@ const _refresh: Ref<boolean | string> = ref(true);
 const _isLoadding = ref(false); //是否刷新中.
 const _pullStauts: Ref<"pull" | "bottom" | "menu" | ""> = ref("");
 const _active = ref(props.active);
-const _width = ref(props.unit == "px" ? uni.$tm.u.torpx(props.width) : props.width);
 const _sliderMenuWidth = ref(
   props.unit == "px" ? uni.$tm.u.torpx(props.sideWidth) : props.sideWidth
 );
 const _sliderMenuItemHeight = ref(
   props.unit == "px" ? uni.$tm.u.torpx(props.itemHeight) : props.itemHeight
 );
-const _height = ref(props.unit == "px" ? uni.$tm.u.torpx(props.height) : props.height);
-
+const _width = computed(()=>{
+	return  props.unit == "px" ? uni.$tm.u.torpx(props.width) : props.width;
+})
+const _height = computed(()=>{
+	return  props.unit == "px" ? uni.$tm.u.torpx(props.height) : props.height;
+})
 watch(
   () => props.active,
   () => {

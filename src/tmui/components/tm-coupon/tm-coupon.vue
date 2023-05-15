@@ -5,7 +5,7 @@
       :padding="[24, 24]"
       paren-class="flex-1"
       class="flex-1"
-      :color="_disable ? 'grey-3' : props.color"
+      :color="_disable ? _disableBgColor : props.color"
       :_style="props._style"
       :followTheme="props.followTheme"
       :dark="props.dark"
@@ -29,13 +29,13 @@
               <tm-text
                 :follow-dark="true"
                 :userInteractionEnabled="false"
-                :color="_disable ? 'grey-1' : props.mainColor"
+                :color="_disable ? _disableColor : props.mainColor"
                 :font-size="22"
                 :label="_priceDetail.prefix"
               ></tm-text>
               <tm-text
                 :userInteractionEnabled="false"
-                :color="_disable ? 'grey-1' : props.mainColor"
+                :color="_disable ? _disableColor : props.mainColor"
                 _class="px-10 text-weight-b"
                 :font-size="42"
                 :label="_priceDetail.price"
@@ -43,7 +43,7 @@
               <tm-text
                 :follow-dark="true"
                 :userInteractionEnabled="false"
-                :color="_disable ? 'grey-1' : props.mainColor"
+                :color="_disable ? _disableColor : props.mainColor"
                 :font-size="22"
                 :label="_priceDetail.suffix"
               ></tm-text>
@@ -51,7 +51,7 @@
             <view class="flex flex-center">
               <tm-text
                 :userInteractionEnabled="false"
-                :color="_disable ? 'grey-1' : _fontColor"
+                :color="_disable ? _disableColor : _fontColor"
                 _class="pr-10 opacity-7"
                 :font-size="22"
                 :label="_priceDetail.subtext"
@@ -66,7 +66,7 @@
             <slot>
               <tm-text
                 :follow-dark="true"
-                :color="_disable ? 'grey-1' : _fontColor"
+                :color="_disable ? _disableColor : _fontColor"
                 :font-size="36"
                 _class="text-weight-b"
                 :label="_rightDetail.title"
@@ -74,7 +74,7 @@
               <tm-text
                 :follow-dark="true"
                 _class="opacity-7"
-                :color="_disable ? 'grey-1' : _fontColor"
+                :color="_disable ? _disableColor : _fontColor"
                 :font-size="24"
                 :label="_rightDetail.subtitle"
               ></tm-text>
@@ -85,7 +85,7 @@
               <tm-button
                 @click="emits('click', $event)"
                 :disabled="_disable"
-                :color="_disable ? 'grey-1' : props.mainColor"
+                :color="_disable ? _disableColor : props.mainColor"
                 :font-color="_disable ? 'grey' : ''"
                 :text="props.btnTextMode"
                 size="small"
@@ -99,52 +99,37 @@
           <view class="flex flex-row flex-between">
             <tm-text
               _class="opacity-7"
-              :color="_disable ? 'grey-1' : _fontColor"
+              :color="_disable ? _disableColor : _fontColor"
               :font-size="22"
               :label="_rightDetail.time"
             ></tm-text>
             <view
               @click="_extraActive = !_extraActive"
-              v-if="props.extra && !_extraActive"
+              v-if="props.extra"
               class="flex flex-row flex-row-center-center opacity-7"
             >
               <tm-text
                 :userInteractionEnabled="false"
-                :color="_disable ? 'grey-1' : _fontColor"
+                :color="_disable ? _disableColor : _fontColor"
                 _class="pr-10"
                 :font-size="22"
                 :label="_moreText"
               ></tm-text>
               <tm-icon
                 :userInteractionEnabled="false"
-                :color="_disable ? 'grey-1' : _fontColor"
+                :color="_disable ? _disableColor : _fontColor"
                 :font-size="20"
-                name="tmicon-angle-down"
+                :name="!_extraActive?'tmicon-angle-down':'tmicon-angle-up'"
               ></tm-icon>
             </view>
           </view>
-          <view class="flex flex-col pt-16" v-if="props.extra && _extraActive">
-            <slot name="extra"></slot>
-            <view
-              @click="_extraActive = !_extraActive"
-              class="flex flex-row flex-row-center-end opacity-7 pt-16"
-            >
-              <tm-text
-                :userInteractionEnabled="false"
-                :color="_disable ? 'grey-1' : _fontColor"
-                _class="pr-10"
-                :font-size="22"
-                :label="_moreText"
-              ></tm-text>
-              <tm-icon
-                :userInteractionEnabled="false"
-                v-if="props.extra && _extraActive"
-                :color="_disable ? 'grey-1' : _fontColor"
-                :font-size="20"
-                name="tmicon-angle-up"
-              ></tm-icon>
-            </view>
-          </view>
+		  <view  v-if="props.extra && _extraActive" class="flex flex-row flex-row-top-start">
+			  <view class="flex-1">
+				 <view style="height:12px"></view>
+				  <slot name="extra"></slot>
+			  </view>
+		  </view>
+            
         </view>
       </view>
     </tm-sheet>
@@ -265,6 +250,14 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  disableColor:{
+    type:String,
+    default:"grey-1"
+  },
+  disableBgColor:{
+    type:String,
+    default:"grey-3"
+  }
 });
 
 const _priceDetail = computed(() => props.priceDetail);
@@ -274,6 +267,8 @@ const _extraActive = ref(props.extraActive);
 const _moreText = computed(() => props.moreText);
 const _btnLabel = computed(() => props.btnLabel);
 const _disable = computed(() => props.disable);
+const _disableColor = computed(() => props.disableColor);
+const _disableBgColor = computed(() => props.disableBgColor);
 const _isDark = computed(() => store.tmStore.dark);
 const _fontColor = computed(() => {
   if (

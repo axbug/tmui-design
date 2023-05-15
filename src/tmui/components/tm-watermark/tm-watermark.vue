@@ -54,7 +54,9 @@ import {
   watch,
   watchEffect,
 } from "vue";
-
+// #ifdef APP-NVUE
+import { enable, WeexBridge } from "../../tool/gcanvas/index.js";
+// #endif
 const props = defineProps({
   cross: Boolean,
   debug: Boolean,
@@ -135,11 +137,7 @@ const props = defineProps({
   },
 });
 
-// #ifdef APP-NVUE
-import { enable, WeexBridge } from "../../tool/gcanvas/index.js";
-import { qr } from "../tm-qrcode/drawing";
-// #endif
-const { proxy }: any = getCurrentInstance();
+const proxy = getCurrentInstance()?.proxy??null;
 const waterCanvasRef = ref();
 const boxInfo = ref({ width: props.width, height: props.height });
 const base64UrlRef = ref();

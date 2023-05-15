@@ -7,6 +7,8 @@ export default {
         globalFontSizeRatio:1,
 		/** 是否关闭弹层背景的模糊 */
 		overflowBlur:false,
+		/** 开启全局分离功能，默认关闭 */
+		shareDisable:true,
         dark: {
             /**一般的卡片项目暗黑背景 */
             cardcolor: '#0A0A0B',

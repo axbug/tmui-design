@@ -236,12 +236,12 @@
 </script>
 
 <style scoped>
+	/* #ifndef APP-NVUE */
 	#flyView {
 	}
 
 	#flyViewBody {
-		/* #ifndef APP-NVUE */
 		position: relative;
-		/* #endif */
 	}
+	/* #endif */
 </style>

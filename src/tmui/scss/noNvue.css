@@ -5,6 +5,18 @@
   display: none;
   /*隐藏滚动条*/ }
 
+/* #ifndef APP-PLUS-NVUE */
+page, body {
+  display: flex;
+  flex-direction: column; }
+
+page, body, tm-app {
+  min-height: 100%;
+  flex: 1;
+  display: flex;
+  flex-direction: column; }
+
+/* #endif */
 .nvue {
   display: flex;
   flex-shrink: 0;

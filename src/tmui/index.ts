@@ -58,6 +58,7 @@ cusutomIconList = fontJson;
 let $tm = {
 	tabBar: tabBar,
 	pages: pages,
+	isOpenDarkModel:(PageJsonInit?.globalStyle?.navigationBarBackgroundColor??"").indexOf("@")>-1,
 	isColor: (color: string) => {
 		const reg1 = /^#([0-9a-fA-f]{3}|[0-9a-fA-f]{6})$/;
 		const reg2 = /^(rgb|RGB|rgba|RGBA)/;
@@ -187,8 +188,11 @@ export default {
 		// #endif
 		let appconfig = {};
 		// #ifdef MP
-		const { onShareAppMessage, onShareTimeline } = share()
-		appconfig = { ...appconfig, onShareAppMessage, onShareTimeline }
+		
+		if($tm.config.shareDisable){
+			const { onShareAppMessage, onShareTimeline } = share()
+			appconfig = { ...appconfig, onShareAppMessage, onShareTimeline }
+		}
 		// #endif
 
 		app.mixin({

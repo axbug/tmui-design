@@ -6,7 +6,8 @@
 		<tm-coupon extra thumb="https://picsum.photos/200/300">
 			<template v-slot:extra>
 				<tm-text :font-size="22" _class="opacity-7" label="1.使用不受限制"></tm-text>
-				<tm-text :font-size="22" _class="opacity-7"  label="2.使用不受限制"></tm-text>
+				<tm-text :font-size="22" _class="opacity-7"  label="2.使用不受限制使用"></tm-text>
+				<tm-text :font-size="22" _class="opacity-7"  label="3.使用不受限制使用"></tm-text>
 			</template>
 		</tm-coupon>
 		<tm-coupon extra :show-right="false">

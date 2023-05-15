@@ -725,9 +725,9 @@
 
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
-		"navigationBarTitleText": "uni-app",
+		"navigationBarTitleText": "tmui 3.0",
 		"navigationBarBackgroundColor": "#FFFFFF",
-		"backgroundColor": "#FFFFFF"
+		"backgroundColor": "#F5F5F5"
 	},
 
 	"condition": {
