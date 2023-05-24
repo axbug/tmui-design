@@ -62,14 +62,11 @@ import {
   getCurrentInstance,
   computed,
   ref,
-  provide,
   inject,
-  onUpdated,
   onMounted,
   onUnmounted,
   nextTick,
-  watch,
-  PropType,
+  type PropType,
   watchEffect,
 } from "vue";
 import { showOpts } from "./interface";

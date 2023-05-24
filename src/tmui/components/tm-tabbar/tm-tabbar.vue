@@ -52,22 +52,13 @@
  * @description 内部只能放置,tm-tabbar-item
  */
 import tmSheet from "../tm-sheet/tm-sheet.vue";
-import tmText from "../tm-text/tm-text.vue";
-import tmIcon from "../tm-icon/tm-icon.vue";
 import { custom_props } from "../../tool/lib/minxs";
 import {
-  getCurrentInstance,
   computed,
-  Ref,
+  type Ref,
   ref,
   provide,
-  inject,
-  onUpdated,
-  onMounted,
-  onUnmounted,
-  nextTick,
   watch,
-  PropType,
 } from "vue";
 import { useTmpiniaStore } from "../../tool/lib/tmpinia";
 const store = useTmpiniaStore();

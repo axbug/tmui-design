@@ -67,10 +67,8 @@
 import table from "./table.vue";
 // #endif
 // #ifndef APP-NVUE
-import type { headresItem, cellItem, dataTypeArray } from "./interface";
-import { tableDataType, tabaleCellStyleType, defaultCellStyle ,tabaleCellData,headerType} from "./newInterface";
-import { computed, nextTick, onMounted, PropType, Ref, ref, toRaw, watchEffect, watch, } from "vue";
-import tmSheet from "../tm-sheet/tm-sheet.vue";
+import { type tableDataType, type tabaleCellStyleType, defaultCellStyle , type tabaleCellData, type headerType} from "./newInterface";
+import { computed, nextTick, onMounted, type Ref, ref, watch } from "vue";
 import tmText from "../tm-text/tm-text.vue";
 import tmIcon from "../tm-icon/tm-icon.vue";
 import tmButton from "../tm-button/tm-button.vue";

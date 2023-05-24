@@ -73,7 +73,7 @@
  * @description 在h5和pc端，点击右边区域即可触发拖动。在MP和APP端需要长按右边区域触发拖动排序。
  * @description 已知hack:在nvue端，因zIndex不起作用，导致前端组件移动时，可能会被后面渲染的列表覆盖，但不影响使用，只影响些许美观。
  */
-import { Ref, ref, nextTick, toRaw, onMounted, getCurrentInstance, PropType } from "vue";
+import { type Ref, ref, nextTick, toRaw, onMounted, getCurrentInstance, type PropType } from "vue";
 import tmIcon from "../tm-icon/tm-icon.vue";
 import tmSheet from "../tm-sheet/tm-sheet.vue";
 import tmText from "../tm-text/tm-text.vue";

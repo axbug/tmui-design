@@ -43,7 +43,7 @@ import {
   computed,
   inject,
   provide,
-  Ref,
+  type Ref,
   ref,
   watchEffect,
   getCurrentInstance,
@@ -54,7 +54,7 @@ import {
 } from "vue";
 import tmSheet from "../tm-sheet/tm-sheet.vue";
 import tmBadge from "../tm-badge/tm-badge.vue";
-import { cssstyle, tmVuetify } from "../../tool/lib/interface";
+import type { cssstyle, tmVuetify } from "../../tool/lib/interface";
 import {
   custom_props,
   computedTheme,

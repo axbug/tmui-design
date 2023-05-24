@@ -60,7 +60,7 @@
     imglist.value.push('https://picsum.photos/200/300?id='+i)
   }
  */
-import { ref, computed, Ref, PropType, onMounted, ComputedRef } from "vue";
+import { ref, computed, type Ref, type PropType, onMounted, type ComputedRef } from "vue";
 import { scrollDetailFace, statusType } from "./interface";
 import tmSheet from "../tm-sheet/tm-sheet.vue";
 import tmIcon from "../tm-icon/tm-icon.vue";

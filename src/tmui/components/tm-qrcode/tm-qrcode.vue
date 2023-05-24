@@ -41,11 +41,8 @@ import {
   getCurrentInstance,
   computed,
   ref,
-  PropType,
-  inject,
-  onUpdated,
+  type PropType,
   onMounted,
-  onUnmounted,
   nextTick,
   watch,
 } from "vue";

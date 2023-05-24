@@ -106,9 +106,9 @@
 	 */
 import {
   computed,
-  PropType,
+  type PropType,
   ref,
-  Ref,
+  type Ref,
   nextTick,
   onMounted,
   getCurrentInstance,

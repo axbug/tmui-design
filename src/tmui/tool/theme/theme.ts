@@ -7,7 +7,8 @@
  */
 import { colortool } from './colortool';
 
-import  { cssStyleConfig, cssstyle, colorThemeType, cssDirection, linearDirection, linearDeep, linearDirectionType } from '../lib/interface';
+import type { cssStyleConfig, cssstyle, colorThemeType } from '../lib/interface';
+import { cssDirection, linearDirection, linearDeep } from '../lib/interface';
 //导入用户自定义的主题色值。
 // import { theme } from '../../../theme/index';
 let theme = (uni?.$tm?.config?.theme??uni.getStorageSync('$tm'))||{}

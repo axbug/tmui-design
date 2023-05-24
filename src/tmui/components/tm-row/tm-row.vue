@@ -48,13 +48,10 @@ import {
   inject,
   onUpdated,
   onMounted,
-  onUnmounted,
-  nextTick,
-  watch,
-  PropType,
+  type PropType,
   watchEffect,
 } from "vue";
-import { cssstyle, tmVuetify, colorThemeType } from "../../tool/lib/interface";
+import type { cssstyle, tmVuetify, colorThemeType } from "../../tool/lib/interface";
 import {
   custom_props,
   computedTheme,

@@ -62,19 +62,16 @@
 	import {
 		computed,
 		ref,
-		Ref,
+    type Ref,
 		getCurrentInstance,
 		onMounted,
 		nextTick,
 		onBeforeUnmount,
-		PropType,
 		watch,
 	} from "vue";
-	import type { headresItem, cellItem, dataTypeArray, FixedItemType } from "../interface";
 	import { tableDataType, tabaleCellStyleType, defaultCellStyle, tabaleCellData, headerType } from "./newInterface";
 	import tmIcon from "../tm-icon/tm-icon.vue";
 	import tmText from "../tm-text/tm-text.vue";
-	import tmSheet from "../tm-sheet/tm-sheet.vue";
 	import tmButton from "../tm-button/tm-button.vue";
 	import tmRow from "../tm-row/tm-row.vue";
 	import tmCol from "../tm-col/tm-col.vue";

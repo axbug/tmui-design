@@ -33,7 +33,7 @@
  * 快速操作栏
  * @description 从底部弹出的快速操作菜单栏，对于单项可选项目操作，非常有用，且便利。
  */
-import { ref, PropType, computed, watchEffect, watch, inject, onMounted } from "vue"
+import { ref, type PropType, computed, watchEffect, watch, inject, onMounted } from "vue"
 import tmDrawer from '../tm-drawer/tm-drawer.vue';
 import tmButton from "../tm-button/tm-button.vue";
 import tmText from "../tm-text/tm-text.vue";

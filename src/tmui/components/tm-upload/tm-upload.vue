@@ -164,20 +164,14 @@
 import {
   computed,
   ref,
-  PropType,
-  Ref,
+  type PropType,
+  type Ref,
   watch,
   toRaw,
-  nextTick,
   getCurrentInstance,
-  inject,
-  reactive,
-  onMounted,
-  isRef,
   isProxy,
 } from "vue";
-import { inputPushItem, rulesItem } from "./../tm-form-item/interface";
-import { file, fileConfig, statusCode, uploadfile } from "./upload";
+import { file, statusCode, uploadfile } from "./upload";
 import tmImage from "../tm-image/tm-image.vue";
 import tmText from "../tm-text/tm-text.vue";
 import tmIcon from "../tm-icon/tm-icon.vue";

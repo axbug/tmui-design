@@ -78,9 +78,8 @@
 import tmSheet from "../tm-sheet/tm-sheet.vue";
 import tmIcon from "../tm-icon/tm-icon.vue";
 import tmText from "../tm-text/tm-text.vue";
-import tmTranslate from "../tm-translate/tm-translate.vue";
 import { custom_props } from "../../tool/lib/minxs";
-import { ref, computed, watch, inject, getCurrentInstance, nextTick,PropType } from "vue";
+import { ref, computed, watch, inject, getCurrentInstance, nextTick, type PropType } from "vue";
 const proxy = getCurrentInstance()?.proxy ?? null;
 const emits = defineEmits(["update:modelValue", "change", "click"]);
 const props = defineProps({

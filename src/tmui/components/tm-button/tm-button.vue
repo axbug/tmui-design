@@ -95,12 +95,12 @@
  * @description 属性与原生按钮一致，对于微信登录授权进行了便捷封装。
  * @slot default 默认插槽。
  */
-import { btnSize } from "./interface";
-import { computed, PropType, ref, getCurrentInstance, provide } from "vue";
+import type { btnSize } from "./interface";
+import { computed, type PropType, ref, getCurrentInstance, provide } from "vue";
 import tmSheet from "../tm-sheet/tm-sheet.vue";
 import tmText from "../tm-text/tm-text.vue";
 import tmIcon from "../tm-icon/tm-icon.vue";
-import { cssstyle, tmVuetify } from "../../tool/lib/interface";
+import type { cssstyle, tmVuetify } from "../../tool/lib/interface";
 import {
   custom_props,
   computedTheme,

@@ -170,15 +170,13 @@
 import { useTmpiniaStore } from "../../tool/lib/tmpinia";
 import {
   computed,
-  PropType,
   getCurrentInstance,
   ref,
-  toRaw,
   onMounted,
   nextTick,
   watch,
   onUpdated,
-  Ref,
+  type Ref,
 } from "vue";
 import { showDetail, coltimeData, timeDetailType } from "./interface";
 import * as dayjs from "../../tool/dayjs/esm/index";

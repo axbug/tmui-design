@@ -61,19 +61,11 @@
  * 签名板
  * @description 方便签名业务。在当前截止最新的3.5.0版本，uni在h5端有自身的bug无法使用。等官方修复 即可使用。
  */
-import { number } from "echarts";
 import {
   getCurrentInstance,
-  computed,
   ref,
-  ComponentInternalInstance,
-  inject,
-  onUpdated,
   onMounted,
-  onUnmounted,
   nextTick,
-  watch,
-  ssrContextKey,
 } from "vue";
 import CanvasRenderingContext2D from "../../tool/gcanvas/context-2d/RenderingContext.js";
 // #ifdef APP-NVUE

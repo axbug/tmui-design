@@ -147,7 +147,7 @@
  * 按日选择的日历
  * @description 可以多选，单选
  */
-import { computed, nextTick, ref, Ref, watch, PropType } from "vue";
+import { computed, nextTick, ref, Ref, watch, type PropType } from "vue";
 import tmSheet from "../tm-sheet/tm-sheet.vue";
 import tmIcon from "../tm-icon/tm-icon.vue";
 import tmText from "../tm-text/tm-text.vue";

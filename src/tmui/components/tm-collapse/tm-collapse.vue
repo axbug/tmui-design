@@ -6,17 +6,10 @@
 
 <script lang="ts" setup>
 import {
-  getCurrentInstance,
   computed,
   ref,
   provide,
-  inject,
-  onMounted,
-  onUnmounted,
-  nextTick,
-  watch,
-  reactive,
-  Ref,
+  type Ref,
 } from "vue";
 import tmSheet from "../tm-sheet/tm-sheet.vue";
 const emits = defineEmits(["change", "update:active-key"]);

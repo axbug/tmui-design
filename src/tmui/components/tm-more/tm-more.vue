@@ -56,13 +56,10 @@ import {
   getCurrentInstance,
   computed,
   ref,
-  provide,
-  inject,
   onMounted,
   onUnmounted,
   onUpdated,
-  nextTick,
-  watch,
+  nextTick
 } from "vue";
 import tmIcon from "../tm-icon/tm-icon.vue";
 import tmText from "../tm-text/tm-text.vue";

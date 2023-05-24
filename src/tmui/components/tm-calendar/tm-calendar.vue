@@ -32,26 +32,17 @@ import {
   computed,
   ref,
   watch,
-  PropType,
-  nextTick,
+  type PropType,
   watchEffect,
   onMounted,
 } from "vue";
 import {
-  custom_props,
-  computedTheme,
-  computedClass,
-  computedStyle,
-  computedDark,
+  custom_props
 } from "../../tool/lib/minxs";
 import tmCalendarView from "../tm-calendar-view/tm-calendar-view.vue";
 import tmDrawer from "../tm-drawer/tm-drawer.vue";
 import {
-  monthDayItem,
-  dateItemStyle,
-  monthYearItem,
-  weekItem,
-  yearItem,
+  dateItemStyle
 } from "../tm-calendar-view/interface";
 const drawer = ref<InstanceType<typeof tmDrawer> | null>(null);
 const calendarView = ref<InstanceType<typeof tmCalendarView> | null>(null);

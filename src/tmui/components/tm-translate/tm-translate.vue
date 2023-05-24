@@ -51,7 +51,6 @@ import {
   nextTick,
   watch,
 } from "vue";
-import { cssstyle, tmVuetify } from "../../tool/lib/interface";
 import { custom_props, computedClass, computedStyle } from "../../tool/lib/minxs";
 // #ifdef APP-PLUS-NVUE
 const Binding = uni.requireNativePlugin("bindingx");

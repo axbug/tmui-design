@@ -30,13 +30,9 @@
 import {
   computed,
   ref,
-  Ref,
-  watch,
-  getCurrentInstance,
   inject,
-  toRaw,
   watchEffect,
-  PropType,
+  type PropType,
 } from "vue";
 import BaseCascader from "./base-cascader.vue";
 import BaseNode from "./base-node.vue";

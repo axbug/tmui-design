@@ -77,11 +77,11 @@ import {
   ref,
   toRaw,
   watch,
-  Ref,
+  type Ref,
   nextTick,
   isRef,
   isProxy,
-  PropType,
+  type PropType,
 } from "vue";
 import BaseCascader from "./base-cascader.vue";
 import tmSheet from "../tm-sheet/tm-sheet.vue";

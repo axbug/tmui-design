@@ -51,7 +51,7 @@
 	 * description 注意，如果想开启单滑块（默认），default-value=0单个值即可，如果想双滑块，值等于数组比如:=[0,5]
 	 */
 import {computed, ref,Ref,toRaw,getCurrentInstance, watchEffect, watch,inject} from "vue"
-import { inputPushItem, rulesItem } from "./../tm-form-item/interface"
+import type { rulesItem } from "./../tm-form-item/interface"
 import sliderBar from "./slider-bar.vue"
 import sliderButton from "./slider-button.vue"
 import tmSheet from '../tm-sheet/tm-sheet.vue';

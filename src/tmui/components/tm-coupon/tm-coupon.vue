@@ -147,7 +147,7 @@ import tmIcon from "../tm-icon/tm-icon.vue";
 import tmText from "../tm-text/tm-text.vue";
 import tmButton from "../tm-button/tm-button.vue";
 import { custom_props } from "../../tool/lib/minxs";
-import { computed, PropType, ref } from "vue";
+import { computed, type PropType, ref } from "vue";
 import { useTmpiniaStore } from "../../tool/lib/tmpinia";
 const store = useTmpiniaStore();
 const emits = defineEmits<{
