@@ -5,7 +5,7 @@
       :style="[
         {
           width: _containerWidth + 'rpx',
-          height: _containerHeight.maxHeight + 50 + 'px',
+          height: _containerHeight.maxHeight + props.bottomHeight + 'px',
         },
       ]"
     >
@@ -13,10 +13,11 @@
     </view>
     <!-- 虚拟加载占位符。 -->
     <tm-sheet
-      v-if="_totalNum.length != _list.length"
+      v-if="_totalNum.length != _list.length && props.isLoadPlaceholder"
       _class="flex flex-center"
       :margin="[0, 0]"
       :padding="[0, 0]"
+      :transprent="props.isLoadPlaceholderTransprent"
     >
       <tm-icon name="tmicon-shuaxin" spin></tm-icon>
     </tm-sheet>
@@ -44,6 +45,21 @@ const props = defineProps({
     type: Number,
     default: 12,
   },
+  /**底部高度 */
+  bottomHeight: {
+    type: Number,
+    default: 50,
+  },
+  /**是否开启虚拟加载占位符 */
+  isLoadPlaceholder: {
+    type: Boolean,
+    default: true,
+  },
+  /**虚拟加载占位符背景是否透明 */
+  isLoadPlaceholderTransprent: {
+    type: Boolean,
+    default: false,
+  }
 });
 
 //容器的宽度
