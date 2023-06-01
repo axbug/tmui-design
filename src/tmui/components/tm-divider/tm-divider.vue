@@ -89,7 +89,7 @@
  * @description 分割线，带文本标签，提供左，中，右文本标签。
  */
 import { getCurrentInstance, computed, ref, provide, inject } from "vue";
-import { tmVuetify } from "../../tool/lib/interface";
+import type { tmVuetify } from "../../tool/lib/interface";
 import { custom_props, computedTheme, computedDark } from "../../tool/lib/minxs";
 import { useTmpiniaStore } from "../../tool/lib/tmpinia";
 import tmText from "../tm-text/tm-text.vue";

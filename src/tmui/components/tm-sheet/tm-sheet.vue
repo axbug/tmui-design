@@ -63,10 +63,10 @@ import {
   ref,
   provide,
   watch,
-  PropType,
+  type PropType,
   nextTick,
 } from "vue";
-import { cssstyle, tmVuetify } from "../../tool/lib/interface";
+import type { cssstyle } from "../../tool/lib/interface";
 import {
   custom_props,
   computedTheme,

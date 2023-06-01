@@ -21,11 +21,11 @@
  */
 import {
   computed,
-  PropType,
+  type PropType,
   provide,
   ref,
   watch,
-  Ref,
+  type Ref,
   toRaw,
   shallowReadonly,
   nextTick,
@@ -34,7 +34,7 @@ import {
   readonly,
   watchEffect
 } from "vue";
-import { formItem,validateResultListType } from "./interface";
+import type { formItem,validateResultListType } from "./interface";
 import tmSheet from "../tm-sheet/tm-sheet.vue";
 import { validateFunCall,getObjectVal } from "../tm-form-item/validateFunCall"
 /**

@@ -100,7 +100,7 @@
  * 按年选择的日历
  * @description 可以按月，按日，按周，按季度显示
  */
-import { computed, ref, Ref, watch, PropType } from "vue";
+import { computed, ref, type Ref, watch, type PropType } from "vue";
 import tmSheet from "../tm-sheet/tm-sheet.vue";
 import tmIcon from "../tm-icon/tm-icon.vue";
 import tmText from "../tm-text/tm-text.vue";

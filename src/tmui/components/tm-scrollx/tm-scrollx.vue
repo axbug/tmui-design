@@ -72,9 +72,8 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, computed, PropType } from "vue";
+import { ref, computed, type PropType } from "vue";
 import tmSheet from "../tm-sheet/tm-sheet.vue";
-import tmText from "../tm-text/tm-text.vue";
 //居中，两边对齐。
 type alignType = "center" | "between";
 const emits = defineEmits(["change"]);

@@ -88,16 +88,15 @@ import tmIcon from "../tm-icon/tm-icon.vue";
 import tmText from "../tm-text/tm-text.vue";
 import { tabsobj } from "../tm-tabs/interface";
 import {
-  Ref,
+  type Ref,
   ref,
   computed,
   watch,
   onUnmounted,
   inject,
-  ComputedRef,
+  type ComputedRef,
   getCurrentInstance,
-  ComponentInternalInstance,
-  PropType,
+  type PropType,
   onMounted,
 } from "vue";
 import { custom_props } from "../../tool/lib/minxs";

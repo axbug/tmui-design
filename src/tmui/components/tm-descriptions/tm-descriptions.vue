@@ -60,12 +60,8 @@ import {
   computed,
   ref,
   provide,
-  inject,
-  onUpdated,
   onMounted,
-  onUnmounted,
-  nextTick,
-  watch,
+  nextTick
 } from "vue";
 import { cssstyle, tmVuetify, colorThemeType } from "../../tool/lib/interface";
 import {

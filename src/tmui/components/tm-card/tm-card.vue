@@ -47,7 +47,7 @@
 /**
  * 卡片
  */
-import { computed, PropType } from "vue";
+import { computed, type PropType } from "vue";
 import { custom_props, computedClass, computedStyle } from "../../tool/lib/minxs";
 import tmSheet from "../tm-sheet/tm-sheet.vue";
 import tmText from "../tm-text/tm-text.vue";

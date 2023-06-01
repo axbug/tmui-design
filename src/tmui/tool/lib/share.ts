@@ -1,7 +1,7 @@
 /**
  * 分享配置
  */
-import { wxshareConfig } from "./interface"
+import type { wxshareConfig } from "./interface"
 import { onShareAppMessage, onShareTimeline } from '@dcloudio/uni-app'
 export const share = (args : wxshareConfig = {}) => {
 	let defaultWxshareConfig : wxshareConfig = {

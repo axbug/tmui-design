@@ -55,20 +55,16 @@ import tmText from "../tm-text/tm-text.vue";
 import tmIcon from "../tm-icon/tm-icon.vue";
 import tmTranslate from "../tm-translate/tm-translate.vue";
 import tmOverlay from "../tm-overlay/tm-overlay.vue";
-import { config, modelType } from "./interface";
+import type { config, modelType } from "./interface";
 import { useTmpiniaStore } from "../../tool/lib/tmpinia";
 import {
   getCurrentInstance,
   computed,
   ref,
-  provide,
   inject,
-  ComponentInternalInstance,
-  onUnmounted,
   nextTick,
-  watch,
-  Ref,
-  PropType,
+  type Ref,
+  type PropType,
 } from "vue";
 // #ifdef APP-PLUS-NVUE
 const Binding = uni.requireNativePlugin("bindingx");

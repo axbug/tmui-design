@@ -25,7 +25,7 @@
         </tm-grid-item>
     </tm-grid>
  */
-import { computed, provide, ref, Ref,inject } from "vue";
+import { computed, provide, ref, type Ref, inject } from "vue";
 import { custom_props } from "../../tool/lib/minxs";
 import tmSheet from "../tm-sheet/tm-sheet.vue";
 const props = defineProps({

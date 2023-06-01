@@ -40,7 +40,7 @@
  * 文本
  * @description 自带主题和常用属性，能根据全局主题和暗黑自动切换，必须放在tmSheet下，获得更好的主题适应能力。
  */
-import { computed, getCurrentInstance, inject, ref, VNode } from "vue";
+import { computed, inject } from "vue";
 import theme from "../../tool/theme/theme";
 import {
   custom_props,
@@ -49,7 +49,7 @@ import {
   computedStyle,
   computedDark,
 } from "../../tool/lib/minxs";
-import { tmVuetify, colorThemeType } from "../../tool/lib/interface";
+import type { tmVuetify, colorThemeType } from "../../tool/lib/interface";
 import { useTmpiniaStore } from "../../tool/lib/tmpinia";
 const store = useTmpiniaStore();
 // 混淆props共有参数

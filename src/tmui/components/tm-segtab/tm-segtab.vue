@@ -88,17 +88,16 @@
  */
 import {
   computed,
-  PropType,
+  type PropType,
   toRaw,
   getCurrentInstance,
   ref,
   onMounted,
   nextTick,
   watch,
-  Ref,
+  type Ref,
   inject,
 } from "vue";
-import { inputPushItem, rulesItem } from "./../tm-form-item/interface";
 
 import tmSheet from "../tm-sheet/tm-sheet.vue";
 import tmText from "../tm-text/tm-text.vue";

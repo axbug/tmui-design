@@ -104,7 +104,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, computed, nextTick, PropType, watch } from "vue";
+import { ref, computed, nextTick, type PropType, watch } from "vue";
 import tmSheet from "@/tmui/components/tm-sheet/tm-sheet.vue";
 import tmTag from "@/tmui/components/tm-tag/tm-tag.vue";
 import tmText from "@/tmui/components/tm-text/tm-text.vue";

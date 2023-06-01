@@ -133,8 +133,7 @@ import {
   ref,
   inject,
   watch,
-  PropType,
-  ComponentInternalInstance,
+  type PropType,
 } from "vue";
 import tmSheet from "../tm-sheet/tm-sheet.vue";
 import tmText from "..//tm-text/tm-text.vue";

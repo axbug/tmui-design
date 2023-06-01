@@ -18,7 +18,7 @@
  * 地区级联选择器
  * @description 这是一个城市级联选择器。基于tm-cascader级联选择器
  */
-import { Ref, ref, PropType, isProxy } from "vue";
+import { type Ref, ref, type PropType } from "vue";
 import { childrenData } from "./interface";
 import { provinceData } from "../../tool/static/province";
 import { cityData } from "../../tool/static/city";

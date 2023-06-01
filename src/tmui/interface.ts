@@ -1,5 +1,5 @@
 import 'pinia';
-import { ComponentInternalInstance, ComponentPublicInstance } from "vue"
+import type { ComponentInternalInstance, ComponentPublicInstance } from "vue"
 interface Data {
 	[key: string]: any;
 }

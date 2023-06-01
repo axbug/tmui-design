@@ -46,13 +46,11 @@
  */
 import {
   computed,
-  PropType,
-  ref,
+  type PropType,
   getCurrentInstance,
   onUnmounted,
   onMounted,
-  onUpdated,
-  nextTick,
+  onUpdated
 } from "vue";
 import tmSheet from "../tm-sheet/tm-sheet.vue";
 import tmText from "../tm-text/tm-text.vue";

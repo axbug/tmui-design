@@ -102,14 +102,8 @@ import {
   getCurrentInstance,
   computed,
   ref,
-  provide,
-  inject,
-  onUpdated,
   onMounted,
-  onUnmounted,
-  nextTick,
-  watch,
-  PropType,
+  type PropType,
 } from "vue";
 import { useTmpiniaStore } from "../../tool/lib/tmpinia";
 const store = useTmpiniaStore();

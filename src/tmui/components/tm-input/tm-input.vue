@@ -172,8 +172,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, PropType, ref, watch, getCurrentInstance, inject, toRaw } from "vue";
-import { inputPushItem, rulesItem } from "./../tm-form-item/interface";
+import { computed, type PropType, ref, watch, getCurrentInstance, inject, toRaw } from "vue";
 import tmSheet from "../tm-sheet/tm-sheet.vue";
 import tmIcon from "../tm-icon/tm-icon.vue";
 import tmText from "../tm-text/tm-text.vue";

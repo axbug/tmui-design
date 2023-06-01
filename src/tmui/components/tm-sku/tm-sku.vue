@@ -96,7 +96,7 @@
     </tm-drawer>
 </template>
 <script lang="ts" setup>
-import {computed,ref,inject, PropType, toRaw,nextTick, watch} from "vue"
+import {computed, ref, inject, type PropType, toRaw, nextTick, watch} from "vue"
 import tmDrawer from '../tm-drawer/tm-drawer.vue';
 import tmButton from "../tm-button/tm-button.vue";
 import tmText from "../tm-text/tm-text.vue";

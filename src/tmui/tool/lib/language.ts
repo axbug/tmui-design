@@ -1,7 +1,7 @@
 //配置国际化标准语言。
 import en from '../../locale/en.json'
 import zhHans from '../../locale/zh-Hans.json'
-import { createI18n, I18nOptions,   } from 'vue-i18n'
+import { createI18n, type I18nOptions,   } from 'vue-i18n'
 import { initVueI18n} from '@dcloudio/uni-i18n'
 export const language= function(key:string){
 	const messages:any = {

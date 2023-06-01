@@ -56,7 +56,7 @@
  * 时间周
  * @description 按周显示可选的日期。
  */
-import { computed, PropType, Ref, ref, watch } from "vue";
+import { computed, type PropType, type Ref, ref, watch } from "vue";
 import {
   custom_props,
   computedTheme,

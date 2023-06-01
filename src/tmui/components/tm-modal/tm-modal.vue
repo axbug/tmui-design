@@ -127,13 +127,9 @@ import {
   getCurrentInstance,
   computed,
   ref,
-  provide,
-  inject,
   onMounted,
-  onUnmounted,
   nextTick,
   watch,
-  ComponentInternalInstance,
   toRaw,
 } from "vue";
 import { cssstyle, tmVuetify, colorThemeType } from "../../tool/lib/interface";

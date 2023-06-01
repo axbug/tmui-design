@@ -13,14 +13,12 @@
  */
 import {
   computed,
-  PropType,
-  watchEffect,
+  type PropType,
   ref,
   toRaw,
-  onMounted,
   nextTick,
   watch,
-  Ref,
+  type Ref,
 } from "vue";
 import { columnsItem } from "./interface";
 import pickerPanelVue from "./picker-panel.vue";

@@ -66,18 +66,12 @@
 	import {
 		computed,
 		watch,
-		PropType,
-		provide,
+    type PropType,
 		ref,
 		getCurrentInstance,
 		onUnmounted,
-		Ref,
 		inject,
-		isProxy,
-		toRaw,
-		ComputedRef,
-		onMounted,
-		nextTick,
+		onMounted
 	} from "vue";
 	import tmSheet from "../tm-sheet/tm-sheet.vue";
 	import tmText from "../tm-text/tm-text.vue";

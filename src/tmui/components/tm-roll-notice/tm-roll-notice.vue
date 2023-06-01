@@ -68,13 +68,11 @@ import tmIcon from "../tm-icon/tm-icon.vue";
 import tmText from "../tm-text/tm-text.vue";
 import { custom_props } from "../../tool/lib/minxs";
 import {
-  ComponentInternalInstance,
   computed,
   getCurrentInstance,
-  nextTick,
   onMounted,
   onUpdated,
-  PropType,
+  type PropType,
   ref,
 } from "vue";
 // #ifdef APP-NVUE

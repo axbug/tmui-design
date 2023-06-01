@@ -131,11 +131,9 @@ import {
   computed,
   ref,
   watch,
-  PropType,
-  Ref,
+  type PropType,
   getCurrentInstance,
-  nextTick,
-  watchEffect,
+  nextTick
 } from "vue";
 import {
   custom_props,
