@@ -43,7 +43,7 @@ import webview from '../components/mobileWebview.vue'
 | fontSize    | Number        | 44      | 字体大小             |
 | fontColor   | String        | ''      | 字体颜色             |
 | color       | String        | primary | 主题色              |
-| count       | Number        | primary | 字符数量             |
+| count       | Number        | 4       | 字符数量             |
 | value       | Number,String | ''      | 输入值              |
 
 ## :rose: 事件
