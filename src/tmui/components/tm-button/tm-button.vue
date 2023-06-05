@@ -474,6 +474,10 @@ function onclick(e: Event) {
   ) {
     FilterParent[formtype.value]();
   }
+  // if button loading , not handle click
+  if(props.loading){
+    return;
+  }
   emits("click", e);
   if (props.url !== "" && typeof props.url === "string") {
     let url = props.url;
