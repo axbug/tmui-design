@@ -123,10 +123,12 @@ import {
   ref,
   inject,
   watchEffect,
-  type PropType,
+  nextTick,
+  ComponentInternalInstance,
+  PropType,
   onMounted,
   onUpdated,
-  type Ref
+  Ref
 } from "vue";
 import tmSheet from "../tm-sheet/tm-sheet.vue";
 import tmText from "../tm-text/tm-text.vue";

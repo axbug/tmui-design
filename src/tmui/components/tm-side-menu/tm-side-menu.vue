@@ -165,7 +165,7 @@ import tmText from "@/tmui/components/tm-text/tm-text.vue";
 import tmIcon from "@/tmui/components/tm-icon/tm-icon.vue";
 import tmSheet from "@/tmui/components/tm-sheet/tm-sheet.vue";
 import tmBadge from "@/tmui/components/tm-badge/tm-badge.vue";
-import { ref, nextTick, type Ref, computed, watch } from "vue";
+import { ref, getCurrentInstance, nextTick, Ref, computed, PropType, watch } from "vue";
 import { propsCustom } from "./props";
 interface listItem {
   text: string;

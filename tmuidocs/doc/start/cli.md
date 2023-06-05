@@ -32,5 +32,5 @@ npm -g install tmui-cli
 
 ## 注意事项
 如果你是需要创建tmui新项目可以使用命令行创建全新的项目。<br>
-如果你是为老项目添加本tmui框架，你下载安装后，还需要按照文档步骤配置 [配置](https://tmui.design/doc/start/%E5%BF%AB%E9%80%9F%E4%B8%8A%E6%89%8B.html)<br>
+如果你是为老项目添加本tmui框架，你下载安装后，还需要按照文档步骤配置 [配置](https://tmui.design/start/%E5%BF%AB%E9%80%9F%E4%B8%8A%E6%89%8B.html)<br>
 如果是全新的使用本cli创建项目，则是一键配置到位，安装完立即就可以编译出一个tmui 程序的demo

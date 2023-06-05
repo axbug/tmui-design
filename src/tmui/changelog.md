@@ -7,7 +7,28 @@ title: 关于tmUi3.0的更新日志
 # TMUI 3.0 by tm-vuefity 3.0
 
 ### :couplekiss: 更新日志
-## 3.1.05（2023-5-xx）
+
+## 3.1.06（2023-6-xx）
+* [注意事项]3.8.3 uni sdk发布了，经过测试可以编译nvue app了。可能第一次编译会报appprieview的标点符号错误，
+我已经找到了问题是：uni sdk自己编译的html文件末尾少了个";"导致的，重新编译就正常预览了。但依然无法编译到支付宝。如果要编译到支付宝请继续使用3.6.18的 uni sdk见gitee库的备份json文件。
+* [修复]tm-dragList数据变动不更新问题。
+* [修复]tm-slide-switch，无法手动更改状态值。解决页面无法滚动问题
+* [修复]signBoard,qrCode组件在支付宝中无法保存和获取图片资源。
+* [文档]Scrolly文档现在重写编写，之前的文档存在错误，误导了大家的使用，导致使用出错。
+* [修复]tm-translate，组件ref的play方法失效，导致手动播放动画无法播放。
+* [修复]tm-segtab，动态修改list时，定位样式错乱。
+* [优化]tm-tag，增加了属性：before-close，关闭前执行的回调。
+* [优化]tm-upload,增加show-status 属性，以控制是去酒吧显示状态栏。
+* [优化]tm-roll-notice,list类型增加了object,object[]类型支持，也同步增加了rangeKey来指定显示的文本字段。
+* [优化]修正util.getUid函数的类型。
+* [优化]tm-waterfall,见[PR功能日志](https://gitee.com/LYTB/tmui-design/pulls/159)
+* [优化]tm-tabs,tm-scrollx，隐藏在安卓上的滚动条。
+* [优化]tm-icon，文档少了一个属性customicon，现已修正了文档。
+* [修复]tm-tabbar-item，少了一个属性customicon，导致如果你填写了自定图标名称，不能显示，要显示需要开启这个属性为true
+* [优化]tm-side-menu，属性单词require修正为required。
+* [修复]tm-button,loading状态下还能触发click.
+* [修复]tm-image,margin左右间距缺省第二个参数读取。
+## 3.1.05（2023-5-15）
 * [文档]升级了文档网站到vitepress
 **[重要提示]目前来说从3.7.10-3.7.11无法编译到nvue。3.8.12 alpha及3.7.9(含以下)可以编译到nvue.然后3.6.18(不含，以上)无法编译到支付宝。原因是uni sdk自己的插件问题，我无力修复。我只能把坑放到这大家避免。想要编译到支付宝请参考3.1.04的说明。**
 **如果uni升级解决了问题，我会在日志中说明。如果你可以解决上面问题欢迎到我的gitee上提供解决方案。感谢。**

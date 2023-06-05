@@ -148,12 +148,12 @@ import {
   nextTick,
   ref,
   onMounted,
-  type Ref,
+  Ref,
   provide,
   toRaw,
   watch,
 } from "vue";
-import type { FilterMenuType } from "./interface";
+import { FilterMenuType } from "./interface";
 import { useTmpiniaStore } from "@/tmui/tool/lib/tmpinia";
 // #ifdef APP-PLUS-NVUE
 const dom = uni.requireNativePlugin("dom");

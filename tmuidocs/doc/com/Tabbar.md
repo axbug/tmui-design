@@ -32,7 +32,7 @@ import webview from '../components/mobileWebview.vue'
 
 ## :seedling: 参数
 
-本组件含有公共属性 [公共属性](/doc/spec/组件公共样式.md)
+本组件含有公共属性 [公共属性](/spec/组件公共样式.html)
 | 参数名 | 类型 | 默认值 | 描述 |
 | :--: | :--: | :--: | :-- |
 | transprent | [Boolean, String] | false | 是否透明 |
@@ -68,7 +68,7 @@ import webview from '../components/mobileWebview.vue'
 
 ## :seedling: 参数
 
-本组件含有公共属性 [公共属性](/doc/spec/组件公共样式.md)
+本组件含有公共属性 [公共属性](/spec/组件公共样式.html)
 | 参数名 | 类型 | 默认值 | 描述 |
 | :--: | :--: | :--: | :-- |
 | blur | [Boolean] | false | 是否开启磨砂效果背景 |
@@ -95,6 +95,7 @@ import webview from '../components/mobileWebview.vue'
 | load | [Boolean, String] | false | 是否开启异步加载动效，可选值：false, true |
 | data<Badge type="danger" text="v3.0.63+" vertical="middle" /> | [Object,Number, String] | undefined | 自义绑定数据到项目上，beforeClick执行时，上下文参数 |
 | disabled | Boolean | true | 是否禁用 |
+| customicon | [Boolean] | false | 当你采用自定义图标名称时，请开启此属性 |
 
 ## :rose: 事件
 

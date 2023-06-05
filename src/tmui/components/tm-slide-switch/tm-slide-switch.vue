@@ -1,7 +1,7 @@
 <template>
   <!-- #ifndef APP-NVUE -->
 
-  <view @touchmove.stop="">
+  <view >
     <view v-if="!_disabled" 
     @touchstart="startDrag" 
     @touchmove="onDrag"
@@ -79,7 +79,7 @@
  * 左滑操作栏
  * @description  向左滑动显示底部操作按钮栏。
  */
-import { computed, nextTick, onMounted, ref, getCurrentInstance ,reactive} from "vue";
+import { computed, nextTick, onMounted, ref, getCurrentInstance ,reactive,watch} from "vue";
 import { custom_props } from "../../tool/lib/minxs";
 import { defaultProps } from "./props";
 import tmSheet from "../tm-sheet/tm-sheet.vue";
@@ -244,6 +244,14 @@ onMounted(() => {
   // #endif
 });
 
+watch(()=>props.openStatus,(newVal:boolean,oldVal:boolean)=>{
+  if(!newVal){
+    close();
+  }else{
+    open('right');
+  }
+})
+
 function funMethod(type: "style" | "closeOther" | "open" | "close", arg: any) {
   if (type == "style") {
     viewStyle.value = arg;
@@ -292,7 +300,7 @@ var close = function() {
 	opened.value = false;
   funMethod('close',false)
 };
-var open = function(position) {
+var open = function(position:'left'|'right') {
 	var _offset = position === 'left' ? +state.leftWidth : -state.rightWidth;
 	opened.value = true;
 	swipeMove(_offset);

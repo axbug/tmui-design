@@ -25,8 +25,9 @@ import {
   computed,
   getCurrentInstance,
   ref,
+  toRefs,
   toRaw,
-  type Ref,
+  Ref,
   watch,
   watchEffect,
 } from "vue";

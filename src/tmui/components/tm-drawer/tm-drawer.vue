@@ -94,7 +94,7 @@ import {
   nextTick,
   watch,
 } from "vue";
-import type { cssstyle, tmVuetify, colorThemeType } from "../../tool/lib/interface";
+import { cssstyle, tmVuetify, colorThemeType } from "../../tool/lib/interface";
 import {
   custom_props,
   computedTheme,

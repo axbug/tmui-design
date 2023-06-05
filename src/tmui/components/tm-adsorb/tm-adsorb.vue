@@ -26,7 +26,7 @@
 <script module="touch" lang="wxs" src="./touch.wxs"></script>
 <!-- #endif -->
 <script lang="ts" setup>
-import { ref, inject, computed, unref, type PropType, getCurrentInstance } from 'vue';
+import { ref, inject, computed, unref, PropType,getCurrentInstance } from 'vue';
 
 // #ifdef APP-NVUE
 // @ts-ignore

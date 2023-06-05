@@ -86,7 +86,9 @@ import {
   onUnmounted,
   nextTick,
   watch,
+  ComponentInternalInstance,
 } from "vue";
+import { cssstyle, tmVuetify } from "../../tool/lib/interface";
 import { custom_props, computedClass, computedStyle } from "../../tool/lib/minxs";
 import { useTmpiniaStore } from "../../tool/lib/tmpinia";
 // #ifdef APP-PLUS-NVUE

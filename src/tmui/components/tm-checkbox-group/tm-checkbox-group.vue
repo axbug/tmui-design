@@ -18,9 +18,13 @@ import {
   ref,
   watch,
   getCurrentInstance,
-  type PropType,
-  type Ref,
+  inject,
+  toRaw,
+  PropType,
+  reactive,
+  Ref,
 } from "vue";
+import { inputPushItem, rulesItem } from "./../tm-form-item/interface";
 const emits = defineEmits(["update:modelValue", "change"]);
 const proxy = getCurrentInstance()?.proxy ?? null;
 const props = defineProps({

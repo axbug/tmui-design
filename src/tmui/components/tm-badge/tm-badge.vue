@@ -56,7 +56,7 @@
       <tm-badge status dot  label="情况不秒呀." color="green"></tm-badge>
     </view>
    */
-import { computed, type PropType } from "vue";
+import { computed, PropType } from "vue";
 import {
   custom_props,
   computedTheme,

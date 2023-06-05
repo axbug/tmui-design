@@ -30,7 +30,7 @@ import webview from '../components/mobileWebview.vue'
 | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
 
 ## :seedling: 参数
-本组件含有公共属性 [公共属性](/doc/spec/组件公共样式.md)
+本组件含有公共属性 [公共属性](/spec/组件公共样式.html)
 
 | 参数名         | 类型            | 默认值     | 描述               |
 |-------------|---------------|---------|------------------|
@@ -43,7 +43,7 @@ import webview from '../components/mobileWebview.vue'
 | fontSize    | Number        | 44      | 字体大小             |
 | fontColor   | String        | ''      | 字体颜色             |
 | color       | String        | primary | 主题色              |
-| count       | Number        | 4       | 字符数量             |
+| count       | Number        | 4 | 字符数量             |
 | value       | Number,String | ''      | 输入值              |
 
 ## :rose: 事件

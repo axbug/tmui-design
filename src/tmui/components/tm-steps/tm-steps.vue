@@ -26,13 +26,17 @@
  * 步骤条
  * @description 步骤条，可以方便的预览逻辑，事务条理。需要配合tm-steps-item组件，必须放置tm-steps-item组件才能使用。
  */
+import { number } from "echarts";
 import {
   computed,
   provide,
   ref,
   getCurrentInstance,
   watch,
-  type PropType,
+  onUpdated,
+  onMounted,
+  nextTick,
+  PropType,
 } from "vue";
 // #ifdef APP-PLUS-NVUE
 const dom = uni.requireNativePlugin("dom");

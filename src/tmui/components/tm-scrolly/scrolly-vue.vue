@@ -84,7 +84,7 @@
 <script lang="ts" setup>
 import tmIcon from "../tm-icon/tm-icon.vue";
 import tmText from "../tm-text/tm-text.vue";
-import { getCurrentInstance, nextTick, onMounted, ref, type Ref, watch } from "vue";
+import { getCurrentInstance, nextTick, onMounted, ref, Ref, watch } from "vue";
 import { propsdetail } from "./propsdetail";
 const proxy = getCurrentInstance()?.proxy ?? null;
 const emits = defineEmits([

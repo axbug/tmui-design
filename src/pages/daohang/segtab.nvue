@@ -37,4 +37,9 @@ const list = ref([
     {text:'火龙果',id:'4'},
     {text:'tmui',id:'5'},
 ])
+
+setTimeout(()=>{
+    list.value = [{text:'苹果',id:'1'},
+    {text:'菠萝菠萝密',id:'2'},]
+},2000)
 </script>

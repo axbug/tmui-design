@@ -1,34 +1,20 @@
 <template>
-  <view
-    ref="bodywk"
-    @click="hanlder"
-    :class="[customClass, 'overflow']"
-    :style="[
-      computedHeight ? { height: computedHeight } : '',
-      computedWidth ? { width: computedWidth } : '',
-      customCSSStyle,
-    ]"
-  >
+  <view ref="bodywk" @click="hanlder" :class="[customClass, 'overflow']" :style="[
+    computedHeight ? { height: computedHeight } : '',
+    computedWidth ? { width: computedWidth } : '',
+    customCSSStyle,
+  ]">
     <!-- #ifdef APP-NVUE -->
-    <view
-      v-if="isLoadEl"
-      ref="nvueElAni"
-      :animation="animationData"
-      :class="['flex-col flex trani', animationName + reverseAniPrefxname, customClass]"
-    >
+    <view v-if="isLoadEl" ref="nvueElAni" :animation="animationData"
+      :class="['flex-col flex trani', animationName + reverseAniPrefxname, customClass]">
       <slot name="default"></slot>
     </view>
     <!-- #endif -->
     <!-- #ifndef APP-NVUE -->
-    <view
-      v-if="isLoadEl"
-      ref="nvueElAni"
-      :style="{
-        transitionDuration: `${props.duration}ms`,
-        transitionTimingFunction: 'ease',
-      }"
-      :class="['flex-col flex trani', animationClassName, customClass]"
-    >
+    <view v-if="isLoadEl" ref="nvueElAni" :style="{
+      transitionDuration: `${durationtos}ms`,
+      transitionTimingFunction: 'ease',
+    }" :class="['flex-col flex trani', animationClassName, customClass]">
       <slot name="default"></slot>
     </view>
     <!-- #endif -->
@@ -51,6 +37,7 @@ import {
   nextTick,
   watch,
 } from "vue";
+import { cssstyle, tmVuetify } from "../../tool/lib/interface";
 import { custom_props, computedClass, computedStyle } from "../../tool/lib/minxs";
 // #ifdef APP-PLUS-NVUE
 const Binding = uni.requireNativePlugin("bindingx");
@@ -137,7 +124,7 @@ const computedWidth = computed(() => {
 //动画名称
 const animationName = computed(() => props.name || "fade");
 //动画时长
-const durationtos = computed(() => props.duration);
+const durationtos = ref(props.duration);
 //是否反转。
 const computedReverse = computed(() => props.reverse);
 //反转动画前缀
@@ -146,7 +133,7 @@ const reverseAniPrefxname = computed(() => (computedReverse.value ? "-reverse" :
 const animationClassName = ref(animationName.value + reverseAniPrefxname.value);
 //动画播放状态。0未开始,结束播放，1开始播放中,2结束。
 const animationStatus = ref(0);
-const tmid = ref(Number(uni.$tm.u.getUid(3)));
+const tmid = ref<any>(Number(uni.$tm.u.getUid(3)));
 //是否渲染完成。
 const isLoadEl = ref(false);
 //css3动画数据。
@@ -167,14 +154,15 @@ function init() {
 }
 
 function play() {
+
   if (props.disabled == true) return;
   animationStatus.value = 0;
   // #ifdef APP-NVUE
   clearTimeout(tmid.value);
   nextTick(function () {
     tmid.value = setTimeout(function () {
-		emits("start");
-		nvueAmatons();
+      emits("start");
+      nvueAmatons();
     }, 50);
   });
   // #endif
@@ -187,12 +175,10 @@ function stop() {
   if (props.disabled == true) return;
   clearTimeout(tmid.value);
   animationStatus.value = 0;
-  // noNvueAmationsReset()
 }
 
 function reset() {
   stop();
-
   animationStatus.value = 0;
 }
 //对外暴露方法。
@@ -212,66 +198,123 @@ onUnmounted(() => {
   clearTimeout(tmid.value);
   animationStatus.value = 0;
 });
-
-function nvueAmatons() {
-  var el = proxy.$refs.nvueElAni;
+function nvueAmatonsReset() {
+  var el = proxy?.$refs.nvueElAni;
   let propsAni = {};
-
-  if (animationName.value == "fade") {
-    propsAni = {
-      opacity: computedReverse.value ? 0 : 1,
-      transformOrigin: "center center",
-    };
-  } else if (animationName.value == "up") {
-    propsAni = {
-      opacity: 1,
-      transform: computedReverse.value ? "translateY(0%)" : "translateY(-100%)",
-      transformOrigin: "center center",
-    };
-  } else if (animationName.value == "down") {
-    propsAni = {
-      opacity: 1,
-      transform: computedReverse.value ? "translateY(0%)" : "translateY(100%)",
-      transformOrigin: "center center",
-    };
-  } else if (animationName.value == "right") {
-    propsAni = {
-      opacity: 1,
-      transform: computedReverse.value ? "translateX(0%)" : "translateX(100%)",
-      transformOrigin: "center center",
-    };
-  } else if (animationName.value == "left") {
-    propsAni = {
-      opacity: 1,
-      transform: computedReverse.value ? "translateX(0%)" : "translateX(-100%)",
-      transformOrigin: "center center",
-    };
-  } else if (animationName.value == "zoom") {
-    propsAni = {
-      opacity: computedReverse.value ? 0 : 1,
-      transform: computedReverse.value ? "scale(0.7,0.7)" : "scale(1,1)",
-      transformOrigin: "center center",
-    };
-  }
-  emits("start");
-  animationStatus.value = 1;
-  clearTimeout(tmid.value);
-  tmid.value = setTimeout(function () {
+  let rs = !computedReverse.value;
+  return new Promise(su => {
+    if (animationName.value == "fade") {
+      propsAni = {
+        opacity: rs ? 0 : 1,
+        transformOrigin: "center center",
+      };
+    } else if (animationName.value == "up") {
+      propsAni = {
+        opacity: 1,
+        transform: rs ? "translateY(0%)" : "translateY(-100%)",
+        transformOrigin: "center center",
+      };
+    } else if (animationName.value == "down") {
+      propsAni = {
+        opacity: 1,
+        transform: rs ? "translateY(0%)" : "translateY(100%)",
+        transformOrigin: "center center",
+      };
+    } else if (animationName.value == "right") {
+      propsAni = {
+        opacity: 1,
+        transform: rs ? "translateX(0%)" : "translateX(100%)",
+        transformOrigin: "center center",
+      };
+    } else if (animationName.value == "left") {
+      propsAni = {
+        opacity: 1,
+        transform: rs ? "translateX(0%)" : "translateX(-100%)",
+        transformOrigin: "center center",
+      };
+    } else if (animationName.value == "zoom") {
+      propsAni = {
+        opacity: rs ? 0 : 1,
+        transform: rs ? "scale(0.7,0.7)" : "scale(1,1)",
+        transformOrigin: "center center",
+      };
+    }
     animation.transition(
       el,
       {
         styles: propsAni,
-        duration: props.duration, //ms
+        duration: 1, //ms
         timingFunction: "ease",
         delay: 0, //ms
       },
       () => {
-        emits("end");
-        animationStatus.value = 2;
+        su(true)
       }
     );
-  }, 20);
+  })
 }
+function nvueAmatons() {
+  var el = proxy?.$refs.nvueElAni;
+  let propsAni = {};
+  nvueAmatonsReset().then(() => {
+    if (animationName.value == "fade") {
+      propsAni = {
+        opacity: computedReverse.value ? 0 : 1,
+        transformOrigin: "center center",
+      };
+    } else if (animationName.value == "up") {
+      propsAni = {
+        opacity: 1,
+        transform: computedReverse.value ? "translateY(0%)" : "translateY(-100%)",
+        transformOrigin: "center center",
+      };
+    } else if (animationName.value == "down") {
+      propsAni = {
+        opacity: 1,
+        transform: computedReverse.value ? "translateY(0%)" : "translateY(100%)",
+        transformOrigin: "center center",
+      };
+    } else if (animationName.value == "right") {
+      propsAni = {
+        opacity: 1,
+        transform: computedReverse.value ? "translateX(0%)" : "translateX(100%)",
+        transformOrigin: "center center",
+      };
+    } else if (animationName.value == "left") {
+      propsAni = {
+        opacity: 1,
+        transform: computedReverse.value ? "translateX(0%)" : "translateX(-100%)",
+        transformOrigin: "center center",
+      };
+    } else if (animationName.value == "zoom") {
+      propsAni = {
+        opacity: computedReverse.value ? 0 : 1,
+        transform: computedReverse.value ? "scale(0.7,0.7)" : "scale(1,1)",
+        transformOrigin: "center center",
+      };
+    }
+    emits("start");
+    animationStatus.value = 1;
+    clearTimeout(tmid.value);
+    tmid.value = setTimeout(function () {
+      animation.transition(
+        el,
+        {
+          styles: propsAni,
+          duration: props.duration, //ms
+          timingFunction: "ease",
+          delay: 0, //ms
+        },
+        () => {
+          emits("end");
+          animationStatus.value = 2;
+        }
+      );
+    }, 20);
+  })
+
+}
+
 function noNvueAmations() {
   clearTimeout(tmid.value);
   tmid.value = setTimeout(() => {
@@ -280,12 +323,12 @@ function noNvueAmations() {
     } else {
       animationClassName.value = animationName.value + "-reverse";
     }
-	tmid.value = setTimeout(() => {
-	  emits("end");
-	}, props.duration);
-	
+    tmid.value = setTimeout(() => {
+      emits("end");
+    }, props.duration);
+
   }, 20);
-  
+
 }
 </script>
 
@@ -293,6 +336,7 @@ function noNvueAmations() {
 .fade {
   opacity: 0;
 }
+
 .fade-reverse {
   opacity: 1;
 }
@@ -302,7 +346,7 @@ function noNvueAmations() {
   transform: translateY(0%);
   /* #endif */
   /* #ifndef APP-NVUE || MP-WEIXIN || MP-ALIPAY || H5 */
-  top:0vh;
+  top: 0vh;
   /* #endif */
 }
 
@@ -311,7 +355,7 @@ function noNvueAmations() {
   transform: translateY(-101%);
   /* #endif */
   /* #ifndef APP-NVUE || MP-WEIXIN || MP-ALIPAY || H5 */
-  top:-100vh;
+  top: -100vh;
   /* #endif */
 }
 
@@ -320,7 +364,7 @@ function noNvueAmations() {
   transform: translateY(0%);
   /* #endif */
   /* #ifndef APP-NVUE || MP-WEIXIN || MP-ALIPAY || H5 */
-  top:0vh;
+  top: 0vh;
   /* #endif */
 
 }
@@ -330,7 +374,7 @@ function noNvueAmations() {
   transform: translateY(101%);
   /* #endif */
   /* #ifndef APP-NVUE || MP-WEIXIN || MP-ALIPAY || H5 */
-  top:100vh;
+  top: 100vh;
   /* #endif */
 }
 
@@ -382,6 +426,6 @@ function noNvueAmations() {
   transform: scale(1, 1);
   /* #endif */
   opacity: 1;
-  
+
 }
 </style>

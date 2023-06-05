@@ -1,4 +1,4 @@
-import type { ComponentInternalInstance } from 'vue'
+import { ComponentInternalInstance } from 'vue'
 interface Data {
 	[key : string] : any;
 }
@@ -448,9 +448,13 @@ export function getQueryString(url : string, key : string) : string {
 	}
 	return "";
 }
+
 /**
- * rdix 随机因子,
- * length 取的长度.
+ * 
+ * @param rdix 随机因子
+ * @param length 取的长度
+ * @param isAddStr 是否限制随机结果中的长度,不允许输出长度
+ * @returns String
  */
 export function getUid(rdix = 1, length = 12, isAddStr = false) {
 	return Math.floor(Math.random() * rdix * Math.floor(Math.random() * Date.now())).toString(isAddStr ? 16 : 10).substring(0, length);

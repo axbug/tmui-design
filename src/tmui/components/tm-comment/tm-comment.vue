@@ -101,8 +101,17 @@
  * @emits ['avatar-click','author-click','content-click','time-click']
  */
 import {
+  getCurrentInstance,
   computed,
-  type PropType,
+  ref,
+  provide,
+  inject,
+  onUpdated,
+  onMounted,
+  onUnmounted,
+  nextTick,
+  watch,
+  PropType,
 } from "vue";
 import { cssstyle, tmVuetify, colorThemeType } from "../../tool/lib/interface";
 import {

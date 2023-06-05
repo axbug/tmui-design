@@ -33,7 +33,7 @@ tm-time-between 时间范围选择器，这是一个实用组件，用来时间�
 
 ## :seedling: Time-between 参数
 
-本组件含有公共属性 [公共属性](/doc/spec/组件公共样式.md)
+本组件含有公共属性 [公共属性](/spec/组件公共样式.html)
 | 参数名 | 类型 | 默认值 | 描述 |
 | :--: | :--: | :--: | :-- |
 | modelValue | [Number / String / Date] | [] | 动态返回时间戳。这是一个标准的时间，不管showDetail是如何设置都将不影响这里的输出 |

@@ -36,9 +36,10 @@ import {
   computed,
   watch,
   toRaw,
+  getCurrentInstance,
   nextTick,
   inject,
-  type PropType,
+  PropType,
 } from "vue";
 import { custom_props, computedDark } from "../../tool/lib/minxs";
 import tmDrawer from "../tm-drawer/tm-drawer.vue";

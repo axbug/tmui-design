@@ -1,5 +1,5 @@
 import 'pinia';
-import type { ComponentInternalInstance, ComponentPublicInstance } from "vue"
+import { ComponentInternalInstance, ComponentPublicInstance } from "vue"
 interface Data {
 	[key: string]: any;
 }
@@ -448,10 +448,13 @@ type tmUtil = {
          */
         getQueryString(url: string, key: string): string,
         /**
-         * 取得唯一标识id
-         * @param length 标识长度
+         * 唯一标识
+         * @param rdix 1 随机因子
+         * @param length  12 取的长度
+         * @param isAddStr false 是否限制随机结果中的长度,不允许输出长度
+         * @returns String
          */
-        getUid(length?: number): number | string,
+        getUid(rdix?:number, length?:number, isAddStr?:boolean): number | string,
         /**
          * 防抖
          * 防抖原理：在一定时间内，只有最后一次操作，再过wait毫秒后才执行函数

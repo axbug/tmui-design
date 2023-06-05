@@ -147,7 +147,7 @@
 <script lang="ts" setup>
 import tmIcon from "../tm-icon/tm-icon.vue";
 import tmText from "../tm-text/tm-text.vue";
-import { getCurrentInstance, nextTick, onMounted, ref, type Ref, watch } from "vue";
+import { getCurrentInstance, nextTick, onMounted, ref, Ref, watch,computed } from "vue";
 import { propsdetail } from "./propsdetail";
 const proxy = getCurrentInstance()?.proxy ?? null;
 const emits = defineEmits([
@@ -172,15 +172,15 @@ const _maxBarHeight = ref(props.maxBarHeight); // 最大下拉高度，单位 rp
 // 松开时下拉高度大于这个值即会触发刷新，触发刷新后松开，会恢复到这个高度并保持，直到刷新结束
 const _barHeight = ref(0);
 /** 开始刷新 - 刷新成功/失败 最大间隔时间setTimeout句柄 */
-let maxRefreshAnimateTimeFlag: number | null = 0;
+let maxRefreshAnimateTimeFlag: any | null = 0;
 /** 关闭动画耗时setTimeout句柄 */
-let closingAnimateTimeFlag: number | null = 0;
+let closingAnimateTimeFlag: any | null = 0;
 //加载框的高度
 const refreshStatus = ref(-1);
 const loosing = ref(false);
 const enableToRefresh = ref(true);
 const scrollTop = ref(0);
-
+const loadingTexts = computed(()=>props.loadingTexts)
 /** 触底下拉刷新参数。 */
 const isBootRefresh = ref(props.bottomValue);
 
@@ -241,7 +241,7 @@ function scrollToTop() {
   setScrollTop(0);
 }
 
-function onTouchStart(e: WechatMiniprogram.Component.TrivialInstance) {
+function onTouchStart(e: TouchEvent) {
   if (isPulling.value || !enableToRefresh.value) return;
   const { touches } = e;
   if (touches.length !== 1) return;
@@ -255,7 +255,7 @@ function onTouchStart(e: WechatMiniprogram.Component.TrivialInstance) {
   isPulling.value = true;
 }
 
-function onTouchMove(e: WechatMiniprogram.Component.TrivialInstance) {
+function onTouchMove(e: TouchEvent) {
   if (!startPoint.value) return;
   const { touches } = e;
 
@@ -276,7 +276,7 @@ function onTouchMove(e: WechatMiniprogram.Component.TrivialInstance) {
   }
 }
 
-function onTouchEnd(e: WechatMiniprogram.Component.TrivialInstance) {
+function onTouchEnd(e: TouchEvent) {
   if (!startPoint.value) return;
   const { changedTouches } = e;
   if (changedTouches.length !== 1) return;
@@ -404,6 +404,7 @@ interface pullevent {
   viewHeight: number;
   type: string;
 }
+
 const showLoading = ref(false);
 const refreshing = ref(false);
 const isBootRefresh = ref(false);

@@ -30,7 +30,7 @@ import webview from '../components/mobileWebview.vue'
 | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
 
 ## :seedling: 参数
-本组件含有公共属性 [公共属性](/doc/spec/组件公共样式.md)
+本组件含有公共属性 [公共属性](/spec/组件公共样式.html)
 | 参数名 | 类型 | 默认值 | 描述 |
 | :--: | :--: | :--: | :-- |
 | margin | Array | [0,0] | 外间距[x,y]x=左右，y=上下 |

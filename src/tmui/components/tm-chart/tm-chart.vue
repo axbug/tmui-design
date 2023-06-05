@@ -86,7 +86,8 @@ import {
 	computed,
 	ref,
 	onMounted,
-	nextTick
+	nextTick,
+	ComponentInternalInstance,
 } from 'vue';
 import WxCanvas from './canvasinit';
 import mytmcharts from './nvuechart'

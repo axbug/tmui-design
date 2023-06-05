@@ -66,7 +66,7 @@ onBeforeMount(() => {
 | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
 
 ## :seedling: 参数
-本组件含有公共属性 [公共属性](/doc/spec/组件公共样式.md)
+本组件含有公共属性 [公共属性](/spec/组件公共样式.html)
 | 参数名 | 类型 | 默认值 | 描述 |
 | :--: | :--: | :--: | :-- |
 | fontSize | [Number] | 34 | 图标大小 |
@@ -76,7 +76,10 @@ onBeforeMount(() => {
 | unit<Badge type="danger" text="v3.0.73+" vertical="middle" /> | [String] | rpx | 字号单位 |
 | rotate | [Boolean] | true | 是否允许单独控制图标旋转的角度 |
 | rotate-deg | [Number] | 0 | 图标旋转的角度 |
+| customicon | [Boolean] | false | 当你采用自定义图标名称时，请开启此属性 |
 
+
+  
 ## :rose: 事件
 | 事件名 | 参数 | 返回数据 | 描述 |
 | --- | --- | --- | --- |

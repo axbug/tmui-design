@@ -22,7 +22,9 @@ import {
   ref,
   watch,
   getCurrentInstance,
-  type PropType,
+  inject,
+  toRaw,
+  PropType,
 } from "vue";
 import { inputPushItem, rulesItem } from "./../tm-form-item/interface";
 const emits = defineEmits(["update:modelValue", "change"]);

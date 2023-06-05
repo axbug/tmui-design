@@ -34,12 +34,14 @@
 import {
   computed,
   ref,
-  type Ref,
+  Ref,
+  watch,
   getCurrentInstance,
   inject,
+  toRaw,
   watchEffect,
   nextTick,
-  type PropType,
+  PropType,
 } from "vue";
 import tmText from "../tm-text/tm-text.vue";
 import tmIcon from "../tm-icon/tm-icon.vue";

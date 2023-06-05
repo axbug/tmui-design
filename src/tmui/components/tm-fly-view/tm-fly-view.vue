@@ -22,7 +22,7 @@
 </template>
 
 <script lang="ts" setup>
-	import { ref, inject, computed, unref, getCurrentInstance, onUnmounted, onMounted, reactive } from 'vue';
+	import { ref, inject, computed, unref, PropType, getCurrentInstance, onUnmounted, onMounted, reactive } from 'vue';
 	import * as TWEEN from "@/tmui/tool/lib/tween.min.js";
 	import { findXOnQuadraticBezierCurve } from "./parabola"
 	const proxy = getCurrentInstance()?.proxy ?? null;

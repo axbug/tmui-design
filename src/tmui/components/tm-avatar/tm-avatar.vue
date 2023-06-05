@@ -91,7 +91,7 @@
  * 头像
  * @description 也可以搭配头像组形成头像组合。tm-avatar-group
  */
-import { computed, type PropType } from "vue";
+import { computed, PropType } from "vue";
 import { custom_props, computedClass, computedStyle } from "../../tool/lib/minxs";
 import tmSheet from "../tm-sheet/tm-sheet.vue";
 import tmText from "../tm-text/tm-text.vue";

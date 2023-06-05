@@ -93,15 +93,24 @@
  * 标签
  */
 import tmSheet from "../tm-sheet/tm-sheet.vue";
+import tmApp from "../tm-app/tm-app.vue";
 import tmText from "../tm-text/tm-text.vue";
+import tmDivider from "../tm-divider/tm-divider.vue";
 import tmIcon from "../tm-icon/tm-icon.vue";
 import tmTranslate from "../tm-translate/tm-translate.vue";
 import {
+  getCurrentInstance,
   computed,
   ref,
+  provide,
+  inject,
+  onMounted,
+  onUnmounted,
+  nextTick,
   watch,
-  type PropType,
+  PropType,
 } from "vue";
+import { cssstyle, tmVuetify } from "../../tool/lib/interface";
 import { custom_props, computedClass, computedStyle } from "../../tool/lib/minxs";
 // #ifdef APP-PLUS-NVUE
 const Binding = uni.requireNativePlugin("bindingx");
@@ -186,7 +195,10 @@ const props = defineProps({
     type: String,
     default: "",
   },
-
+  beforeClose:{
+    type:Function,
+    default:null
+  }
 });
 const emits = defineEmits(["click", "close", "change", "update:checked"]);
 
@@ -273,9 +285,17 @@ function aniEnd() {
   show.value = false;
   emits("close");
 }
-function closeTag(e:TouchEvent|MouseEvent) {
+async function closeTag(e:TouchEvent|MouseEvent) {
   if (loading.value) return;
   e.stopPropagation();
+  let p:Function|boolean = true;
+  if(typeof props.beforeClose  == 'function'){
+    p = await props.beforeClose();
+    if(typeof p == 'function'){
+      p = await p();
+    }
+    if(!p) return;
+  }
   if (anitag.value) {
     anitag.value.play();
   } else {

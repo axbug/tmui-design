@@ -193,7 +193,7 @@
  * 按范围选择的日历。
  * @description 一次只能范围选择一个。
  */
-import { computed, ref, Ref, watch, type PropType, toRaw, nextTick } from "vue";
+import { computed, ref, Ref, watch, PropType, toRaw,nextTick } from "vue";
 import tmSheet from "../tm-sheet/tm-sheet.vue";
 import tmIcon from "../tm-icon/tm-icon.vue";
 import tmText from "../tm-text/tm-text.vue";

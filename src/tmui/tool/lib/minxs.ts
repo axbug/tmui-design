@@ -1,9 +1,8 @@
 
 import colors from '../theme/theme';
-import { cssDirection, linearDeep, borderStyle} from './interface';
-import type { cssstyle, tmVuetify, cssDirectionType, linearDirectionType, linearDeepType, borderStyleType } from './interface';
-import type { PropType } from "vue"
-import type { borderDirectionType, linearType } from '@/tmui/interface';
+import { cssDirection, linearDirection, linearDeep, borderStyle, cssstyle, tmVuetify, cssDirectionType, linearDirectionType, linearDeepType, borderStyleType } from './interface';
+import { computed,PropType,ref } from "vue"
+import { borderDirectionType, linearType } from '@/tmui/interface';
 // import { useTmpiniaStore } from './tmpinia';
 // const store = useTmpiniaStore();
 //自定义props

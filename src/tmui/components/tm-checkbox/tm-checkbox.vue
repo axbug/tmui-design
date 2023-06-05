@@ -93,8 +93,12 @@ import {
   watch,
   inject,
   getCurrentInstance,
-  type PropType,
-  type ComputedRef,
+  PropType,
+  ComponentInternalInstance,
+  ComputedRef,
+  onMounted,
+  onUnmounted,
+  onBeforeUnmount,
 } from "vue";
 const CheckboxGropup = ref<InstanceType<typeof tmCheckboxGroup> | null>(null);
 const proxy = getCurrentInstance()?.proxy ?? null;

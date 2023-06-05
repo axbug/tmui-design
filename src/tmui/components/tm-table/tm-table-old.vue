@@ -266,10 +266,11 @@ import {
   computed,
   nextTick,
   onMounted,
-  type PropType,
-  type Ref,
+  PropType,
+  Ref,
   ref,
   toRaw,
+  watchEffect,
   watch,
 } from "vue";
 import tmSheet from "../tm-sheet/tm-sheet.vue";

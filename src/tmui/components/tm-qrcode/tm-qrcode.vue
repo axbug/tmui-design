@@ -41,8 +41,11 @@ import {
   getCurrentInstance,
   computed,
   ref,
-  type PropType,
+  PropType,
+  inject,
+  onUpdated,
   onMounted,
+  onUnmounted,
   nextTick,
   watch,
 } from "vue";
@@ -231,19 +234,21 @@ function save(): Promise<string> {
     // #endif
 
     // #ifndef APP-NVUE
-
     uni.canvasToTempFilePath({
       x: 0,
       y: 0,
       width: uni.upx2px(size),
       height: uni.upx2px(size),
+      // #ifndef MP-ALIPAY
       canvasId: canvasId.value,
+      // #endif
       canvas: canvas2d,
       success: function (res) {
         // 在H5平台下，tempFilePath 为 base64
         su(res.tempFilePath);
       },
       fail: (res) => {
+        console.error(res);
         fa(res);
       },
     });

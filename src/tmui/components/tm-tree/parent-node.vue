@@ -25,7 +25,7 @@ import {
   toRaw,
   watch,
   watchEffect,
-  type Ref,
+  Ref,
 } from "vue";
 import { baseNodeData } from "./interface";
 import { treeFlat, queryParentNode } from "./util";

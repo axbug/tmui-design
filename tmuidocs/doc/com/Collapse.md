@@ -44,7 +44,7 @@ import webview from '../components/mobileWebview.vue'
 | closeIcon<Badge type="danger" text="v3.0.77+" vertical="middle" /> | String | "tmicon-angle-down" | 关闭时的图标 |
 
 ## CollapseItem
-本组件含有公共属性 [公共属性](/doc/spec/组件公共样式.md)
+本组件含有公共属性 [公共属性](/spec/组件公共样式.html)
 | 参数名 | 类型 | 默认值 | 描述 |
 | :--: | :--: | :--: | :-- |
 | color | String | white | 主题色 |

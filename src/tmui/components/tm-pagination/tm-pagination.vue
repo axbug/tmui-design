@@ -109,9 +109,16 @@ import tmSheet from "../tm-sheet/tm-sheet.vue";
 import tmText from "../tm-text/tm-text.vue";
 import tmIcon from "../tm-icon/tm-icon.vue";
 import {
+  getCurrentInstance,
   computed,
   ref,
-  watch
+  provide,
+  inject,
+  onUpdated,
+  onMounted,
+  onUnmounted,
+  nextTick,
+  watch,
 } from "vue";
 const emits = defineEmits(["update:current", "change"]);
 const props = defineProps({

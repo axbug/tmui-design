@@ -30,7 +30,7 @@ import webview from '../components/mobileWebview.vue'
 | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
 
 ## :seedling: 参数
-本组件含有公共属性 [公共属性](/doc/spec/组件公共样式.md)
+本组件含有公共属性 [公共属性](/spec/组件公共样式.html)
 
 | 参数名 | 类型 | 默认值 | 描述 |
 | :--: | :--: | :--: | :-- |
@@ -42,7 +42,8 @@ import webview from '../components/mobileWebview.vue'
 | showRight | Boolean | false | 是否显示右图标 |
 | margin | `Array<number>` | [32,0] | 外间距，x,y |
 | speed | number | 60 | 滚动速度 |
-| list | `Array<string>/string` | "" | 待滚动的消息内容 |
+| list | `Array<string>/string/object/Array<object>` | "" | 待滚动的消息内容 |
+| rangeKey | string | text | 当list是```object,object[]```时，需要指定此字段来显示文本 |
 
 
 ## :rose: 事件

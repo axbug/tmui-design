@@ -1,16 +1,9 @@
 <template>
   <view ref="tm-dragList" class="tm-dragList flex flex-col flex-col-center-center">
-    <view
-      :style="{ height: h * list.length + 'px', width: w + 'px' }"
-      class="relative flex flex-col"
-      :class="[disabled ? 'opacity-4' : '']"
-    >
-      <view
-        class="overflow flex flex-col"
-        :class="['absolute', 'tm-dragList-item', 'flex-between']"
-        v-for="(item, index) in listData"
-        :key="index"
-        :style="[
+    <view :style="{ height: h * list.length + 'px', width: w + 'px' }" class="relative flex flex-col"
+      :class="[disabled ? 'opacity-4' : '']">
+      <view class="overflow flex flex-col" :class="['absolute', 'tm-dragList-item', 'flex-between']"
+        v-for="(item, index) in listData" :key="index" :style="[
           {
             top: `${item.top}px`,
             height: h + 'px',
@@ -20,45 +13,24 @@
           isNvue
             ? { 'transition-delay': '0.1s' }
             : {
-                'transition-duration':
-                  nowMove_index == index || endDrage ? '0s' : '0.25s',
-              },
-        ]"
-      >
-        <tm-sheet
-          hover-class="opacity-6"
-          :border="1"
-          border-direction="bottom"
-          :color="nowMove_index == index ? 'grey-3' : 'white'"
-          _class="flex-1 flex flex-row flex-between"
-          class="flex-1"
-          :margin="[0, 0]"
-          :padding="[0, 0]"
-        >
-          <view
-            class="flex flex-row flex-row-center-start pl-12"
-            :style="{ height: h - 1 + 'px' }"
-          >
+              'transition-duration':
+                nowMove_index == index || endDrage ? '0s' : '0.25s',
+            },
+        ]">
+        <tm-sheet hover-class="opacity-6" :border="1" border-direction="bottom"
+          :color="nowMove_index == index ? 'grey-3' : 'white'" _class="flex-1 flex flex-row flex-between" class="flex-1"
+          :margin="[0, 0]" :padding="[0, 0]">
+          <view class="flex flex-row flex-row-center-start pl-12" :style="{ height: h - 1 + 'px' }">
             <view v-if="item['icon']" class="flex-shrink fulled-height flex-center">
-              <tm-icon
-                :color="item['color']"
-                :name="item['icon']"
-                :fontSize="40"
-              ></tm-icon>
+              <tm-icon :color="item['color']" :name="item['icon']" :fontSize="40"></tm-icon>
             </view>
             <tm-text _class=" pl-24" :font-size="30" :label="item.text"></tm-text>
           </view>
-          <view
-            :style="{ height: h - 1 + 'px', width: '100rpx' }"
-            @touchstart.stop.prevent="m_start($event, index)"
-            @longpress="m_start_longpress(index)"
-            @mousedown="m_start($event, index)"
-            @touchmove.stop.prevent="m_move($event, index)"
-            @mousemove.stop.prevent="m_move($event, index)"
-            @touchend="m_end($event, index)"
-            @mouseup="m_end($event, index)"
-            class="flex-shrink flex flex-row flex-row-center-center opacity-3"
-          >
+          <view :style="{ height: h - 1 + 'px', width: '100rpx' }" @touchstart.stop.prevent="m_start($event, index)"
+            @longpress="m_start_longpress(index)" @mousedown="m_start($event, index)"
+            @touchmove.stop.prevent="m_move($event, index)" @mousemove.stop.prevent="m_move($event, index)"
+            @touchend="m_end($event, index)" @mouseup="m_end($event, index)"
+            class="flex-shrink flex flex-row flex-row-center-center opacity-3">
             <tm-icon :userInteractionEnabled="false" name="tmicon-menu"></tm-icon>
           </view>
         </tm-sheet>
@@ -73,11 +45,13 @@
  * @description 在h5和pc端，点击右边区域即可触发拖动。在MP和APP端需要长按右边区域触发拖动排序。
  * @description 已知hack:在nvue端，因zIndex不起作用，导致前端组件移动时，可能会被后面渲染的列表覆盖，但不影响使用，只影响些许美观。
  */
-import { type Ref, ref, nextTick, toRaw, onMounted, getCurrentInstance, type PropType } from "vue";
+import { Ref, ref, nextTick, toRaw, onMounted, getCurrentInstance, PropType } from "vue";
 import tmIcon from "../tm-icon/tm-icon.vue";
 import tmSheet from "../tm-sheet/tm-sheet.vue";
 import tmText from "../tm-text/tm-text.vue";
 import { itemList } from "./interface";
+import { watch } from "vue";
+import { watchEffect } from "vue";
 const props = defineProps({
   disabled: {
     type: [String, Boolean],
@@ -117,7 +91,7 @@ const totalH = ref(0);
 let y = 0;
 const new_index: Ref<number> = ref(NaN); //即将被替换的索引（实质性被替换）
 const nowMove_index: Ref<number> = ref(NaN); //现在正在移动的索引
-const listData = ref([]);
+const listData = ref<itemList[]>([]);
 let new_item = []; //虚拟列表，内部排列好，但未在页面中渲染。
 const endDrage = ref(false);
 const isNvue = ref(false);
@@ -125,23 +99,30 @@ const isNvue = ref(false);
 isNvue.value = true;
 // #endif
 // tm-dragList
-onMounted(() => jishunTopData());
-
+// onMounted(() => jishunTopData());
+watch(() => props.list, () => {
+  jishunTopData()
+  console.log(8)
+}, {
+  deep: true,immediate:true
+})
 function jishunTopData() {
+  let nowList = uni.$tm.u.deepClone(props.list)
   nextTick(function () {
     listData.value = [];
     w.value = uni.upx2px(props.width) || 700;
     h.value = uni.upx2px(props.height) || 120;
-    totalH.value = h.value * props.list.length;
-    let list = [];
-    for (let i = 0; i < props.list.length; i++) {
-      let p: itemList = props.list[i];
+    totalH.value = h.value * nowList.length;
+    for (let i = 0; i < nowList.length; i++) {
+      let p: itemList = nowList[i];
       p["top"] = i * h.value;
       p["i"] = i;
       p["__id"] = uni.$tm.u.getUid();
-      listData.value.push(p);
+      // testList.push(p);
     }
-    new_item = [...listData.value];
+    // console.log(nowList)
+    listData.value = [...nowList];
+    new_item = [...nowList];
   });
 }
 function m_start_longpress(index: number) {
@@ -149,7 +130,7 @@ function m_start_longpress(index: number) {
   nowMove_index.value = index;
   // #ifdef APP-NVUE
   uni.vibrateShort({
-    success: function () {},
+    success: function () { },
   });
   // #endif
 }

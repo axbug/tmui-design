@@ -24,7 +24,7 @@ import {
   toRaw,
   watch,
   watchEffect,
-  type Ref,
+  Ref,
 } from "vue";
 import { baseNodeData } from "./interface";
 const checkboxRef = ref<InstanceType<typeof TmCheckbox> | null>(null);

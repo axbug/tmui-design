@@ -127,13 +127,16 @@
 import { useTmpiniaStore } from "../../tool/lib/tmpinia";
 import {
   computed,
-  type PropType,
+  PropType,
+  Ref,
   onUpdated,
+  watchEffect,
   ref,
   getCurrentInstance,
   nextTick,
   onMounted,
-  watch
+  watch,
+  toRaw,
 } from "vue";
 import TmText from "../tm-text/tm-text.vue";
 import { columnsItem } from "./interface";

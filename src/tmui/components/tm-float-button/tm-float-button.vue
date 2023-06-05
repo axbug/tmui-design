@@ -45,8 +45,8 @@
 	 * @method click 主按钮被点击，(e:Event)
 	 * @method change  子按钮被点击， (index:number,item:actionsItem)
 	 */
-	import { computed, type PropType, ref, inject,getCurrentInstance, onMounted } from "vue";
-  import type { actionsItem } from "./interface";
+	import { computed, PropType, ref, inject,getCurrentInstance, onMounted } from "vue";
+	import { positionType, popDir, actionsItem } from "./interface";
 	import tmSheet from "../tm-sheet/tm-sheet.vue";
 	import tmIcon from "../tm-icon/tm-icon.vue";
 	import tmText from "../tm-text/tm-text.vue";

@@ -30,7 +30,7 @@ import webview from '../components/mobileWebview.vue'
 | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
 
 ## :seedling: 参数
-本组件含有公共属性 [公共属性](/doc/spec/组件公共样式.md)
+本组件含有公共属性 [公共属性](/spec/组件公共样式.html)
 | 参数名 | 类型 | 默认值 | 描述 |
 | :--: | :--: | :--: | :-- |
 | show | Boolean | false | 显示,双向绑定，同v-model:show |
@@ -79,7 +79,7 @@ export interface dateItemStyle {
 默认default
 
 ## :seedling: CalendarView参数
-本组件含有公共属性 [公共属性](/doc/spec/组件公共样式.md)
+本组件含有公共属性 [公共属性](/spec/组件公共样式.html)
 | 参数名 | 类型 | 默认值 | 描述 |
 | :--: | :--: | :--: | :-- |
 | defaultValue | `Array<String/Number/Date>` | [] | 默认值，数组 |

@@ -98,10 +98,12 @@ import {
   ref,
   getCurrentInstance,
   onMounted,
+  toRaw,
   watchEffect,
   watch,
   nextTick,
-  type PropType,
+  inject,
+  PropType,
 } from "vue";
 import { inputPushItem, rulesItem } from "./../tm-form-item/interface";
 import { custom_props } from "../../tool/lib/minxs";

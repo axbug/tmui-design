@@ -30,12 +30,15 @@ import webview from '../components/mobileWebview.vue'
 | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
 
 ## :seedling: 参数
-本组件含有公共属性 [公共属性](/doc/spec/组件公共样式.md)
+本组件含有公共属性 [公共属性](/spec/组件公共样式.html)
 
 | 参数名    | 类型     | 默认值 | 描述      |
 |--------|--------|-----|---------|
 | width  | Number | 750 | 组件整体宽度  |
 | gutter | Number | 12  | 元素之间的间距 |
+| bottomHeight | Number | 50  | 底部高度 |
+| isLoadPlaceholder | Boolean | true  | 是否开启虚拟加载占位符 |
+| isLoadPlaceholderTransprent | Boolean | false  | 虚拟加载占位符背景是否透明 |
 
 ## :corn: slot插槽
 `注意，它内部只能放置tm-waterfall-item，且不能嵌套tm-waterfall`

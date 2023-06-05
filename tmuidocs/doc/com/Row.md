@@ -32,7 +32,7 @@ import webview from '../components/mobileWebview.vue'
 | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
 
 ## :seedling: 参数
-Row组件含有公共属性 [公共属性](/doc/spec/组件公共样式.md),必须配合tmCol
+Row组件含有公共属性 [公共属性](/spec/组件公共样式.html),必须配合tmCol
 
 **我建议row上最好定义width,这样性能与原生无异**
 当外部宽度不可预测时，width可以不设置，即让组件自动检测宽度，这样适合少量元素的布局。不适合大量数据布局。
@@ -58,7 +58,7 @@ Row组件含有公共属性 [公共属性](/doc/spec/组件公共样式.md),必�
 | transprent | [Boolean,String] | false | 是否透明 |
 | align | String | center|可选值：start/center/end |  
 | col | Number | 1 | 所占row中column的列数，这里默认占1列 |  
-| margin | `Array<number>` | [0] | 四周的间隙，规则见[公共属性margin](/doc/spec/组件公共样式.md) |  
+| margin | `Array<number>` | [0] | 四周的间隙，规则见[公共属性margin](/spec/组件公共样式.html) |  
 | borderColor | String | 'rgba(0,0,0,0.04)' | 边线的颜色 |  
 | borderGutter | `Array<number>` | [0,0,0,0] | 四周的边线大小，顺序为：0左，1上，2右，3下 |  
 

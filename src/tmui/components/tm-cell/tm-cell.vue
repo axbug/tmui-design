@@ -133,7 +133,7 @@ import tmText from "../tm-text/tm-text.vue";
 import tmIcon from "../tm-icon/tm-icon.vue";
 import tmImage from "../tm-image/tm-image.vue";
 import tmDivider from "../tm-divider/tm-divider.vue";
-import { getCurrentInstance, computed, type PropType } from "vue";
+import { getCurrentInstance, computed, PropType } from "vue";
 import { cssDirection } from "../../tool/lib/interface";
 import { custom_props } from "../../tool/lib/minxs";
 import { useTmpiniaStore } from "@/tmui/tool/lib/tmpinia";

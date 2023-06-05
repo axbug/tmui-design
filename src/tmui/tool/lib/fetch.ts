@@ -1,5 +1,5 @@
-import type { fetchConfig } from './interface';
-let config: fetchConfig = {
+import { fetchConfig,fetchConfigMethod } from './interface';
+let config:fetchConfig={
     url:"",
     data:{},
 	statusCode:200,

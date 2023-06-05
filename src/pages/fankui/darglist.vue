@@ -4,8 +4,7 @@
         <tm-sheet>
             <tm-text :font-size="24" _class="font-weight-b" label="长按图标开始拖动"></tm-text>
         </tm-sheet>
-
-       <tm-drag-list :list="lsit"></tm-drag-list>
+       <tm-drag-list :list="list"></tm-drag-list>
 
     </tm-app>
 </template>
@@ -20,7 +19,7 @@ import tmFilterMenu from "@/tmui/components/tm-filterMenu/tm-filterMenu.vue"
 import tmFilterMenuItem from "@/tmui/components/tm-filterMenu-item/tm-filterMenu-item.vue"
 const showWin = ref(false)
 const pos = ref("bottom")
-const lsit = ref([
+const list = ref([
     {text:"测试项目1-1"},
     {text:"测试项目2-1"},
     {text:"测试项目3-1"},

@@ -95,9 +95,9 @@
  * 步进器
  * @description 可以根据所需要的步骤进行增加和减少。
  */
-import { computed, type Ref, ref, nextTick, watch } from "vue";
+import { computed, Ref, ref, nextTick, watch } from "vue";
 import { custom_props, computedTheme, computedDark } from "../../tool/lib/minxs";
-import type { cssstyle, tmVuetify } from "../../tool/lib/interface";
+import { cssstyle, tmVuetify } from "../../tool/lib/interface";
 import tmSheet from "../tm-sheet/tm-sheet.vue";
 import tmIcon from "../tm-icon/tm-icon.vue";
 import { useTmpiniaStore } from "../../tool/lib/tmpinia";

@@ -7,12 +7,14 @@
     </view>
 </template>
 <script lang="ts" setup>
+import TmCheckbox from '../tm-checkbox/tm-checkbox.vue';
 import TmIcon from "../tm-icon/tm-icon.vue";
 import TmText from "../tm-text/tm-text.vue";
 import childNode from "./child-node.vue"
 import parentNode from "./parent-node.vue"
-import {ref, getCurrentInstance, computed} from "vue"
+import {ref,getCurrentInstance, inject, computed, toRaw, watch, watchEffect,Ref} from "vue"
 import { baseNodeData } from "./interface";
+import { treeFlat } from './util';
 const parentNodeRef = ref<InstanceType<typeof parentNode> | null>(null);
 const parentNodeRefNode = ref<InstanceType<typeof childNode> | null>(null);
     

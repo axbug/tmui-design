@@ -30,8 +30,8 @@
  * @description 这是弹出式级联
  */
 import {
-  type PropType,
-  type Ref,
+  PropType,
+  Ref,
   ref,
   watchEffect,
   onMounted,

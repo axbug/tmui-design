@@ -61,11 +61,19 @@
  * 签名板
  * @description 方便签名业务。在当前截止最新的3.5.0版本，uni在h5端有自身的bug无法使用。等官方修复 即可使用。
  */
+import { number } from "echarts";
 import {
   getCurrentInstance,
+  computed,
   ref,
+  ComponentInternalInstance,
+  inject,
+  onUpdated,
   onMounted,
+  onUnmounted,
   nextTick,
+  watch,
+  ssrContextKey,
 } from "vue";
 import CanvasRenderingContext2D from "../../tool/gcanvas/context-2d/RenderingContext.js";
 // #ifdef APP-NVUE
@@ -346,14 +354,16 @@ function save(): Promise<string> {
         destHeight: uni.upx2px(props.height),
         width: props.width,
         height: props.height,
+        // #ifndef MP-ALIPAY
         canvasId: canvasId.value,
+        // #endif
         canvas: canvasObject,
         success: function (res) {
           // 在H5平台下，tempFilePath 为 base64
           su(res.tempFilePath);
         },
         fail: (res) => {
-          console.log("2d save img");
+          console.error(res);
           fa(res);
         },
       },

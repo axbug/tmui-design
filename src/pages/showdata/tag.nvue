@@ -17,8 +17,7 @@
             <view class="flex-row flex flex-wrap">
                 <tm-tag closable size="n" label="标签"></tm-tag>
                 <tm-tag closable color="green" size="n" label="标签"></tm-tag>
-                <tm-tag closable color="orange" size="n" label="标签"></tm-tag>
-                <tm-tag closable color="red" size="n" label="标签"></tm-tag>
+                <tm-tag :before-close="testClose" closable color="red" size="n" label="异步关闭"></tm-tag>
             </view>
         </tm-sheet>
         <tm-sheet>
@@ -61,7 +60,13 @@ const tabsTitle = ref([
     { key: "4", title: "选项4", icon: "tmicon-ios-partly-sunny" },
 ])
 
-function tabschange(key: string | number) {
-    console.log(key)
+function testClose() {
+    return new Promise(su=>{
+        uni.showLoading({title:'操作中',mask:true})
+        setTimeout(() => {
+            uni.hideLoading();
+            su(true)
+        }, 1200);
+    })
 }
 </script>

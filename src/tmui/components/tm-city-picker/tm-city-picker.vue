@@ -27,9 +27,9 @@
  * @example <tm-city-picker v-model:show="show" v-model="status" v-model:model-str="statusw"></tm-city-picker>
  */
 import {
-  type PropType,
+  PropType,
   inject,
-  type Ref,
+  Ref,
   ref,
   watchEffect,
   getCurrentInstance,

@@ -31,21 +31,27 @@ import webview from '../components/mobileWebview.vue'
 | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
 
 ## :seedling: 参数
-本组件含有公共属性 [公共属性](/doc/spec/组件公共样式.md)
+本组件含有公共属性 [公共属性](/spec/组件公共样式.html)
 | 参数名 | 类型 | 默认值 | 描述 |
 | :--: | :--: | :--: | :-- |
 | width | Number | 0 | 宽度，单位rpx,默认为0表示自动宽度 |
 | height | Number | 300 | 高度，单位rpx |
-| openPull | Boolean | true | 是否开启下拉刷新 |
-| openBootom | Boolean | false | 是否否开触底刷新 |
-| pullFun | Function | (type:'bottom':'top')=>{} | 触发的函数(下拉或者触底时触发) |
-| label | String | '已最近更新' | 提示文字 |
+| loadingTexts | String | ```['下拉刷新', '松手刷新', '正在刷新', '刷新完成']``` | 提示文字 |
+| maxBarHeight | Number | 120 | 高度，单位px |
+| refreshTimeout | Number | 1000*5 | 刷新超时时间,单位毫秒 |
+| modelValue | boolean | null | 等同v-model，下拉状态，触发刷新时，请手动管理这个状态，如果不管理按照上面的超时自动管理 |
+| defaultValue | boolean | false | 默认的下拉状态 |
+| loadBarHeight | Number | 120 | 下拉多少高度触发，单位px |
+| bottomValue | boolean | null | 等同v-model:bottom-value,触底加载状态。请手动管理这个状态，如果不管理按照上面的超时自动管理 |
 
 
 ## :rose: 事件
 | 事件名 | 参数 | 返回数据 | 描述 |
 | :--: | :--: | :--: | :-- |
 | refresh | - | - | 松开时高度超过阈值则触发刷新 |
+| bottom | - | - | 触底时触发 |
+| change | - | - | 状态变化时触发 |
+| timeout | - | - | 加载超时触发 |
 
 ## :corn: slot插槽
 | 插槽名 | 数据 | 类型 | 描述 |

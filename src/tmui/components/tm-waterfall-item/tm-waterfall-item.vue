@@ -55,7 +55,7 @@ import {
   nextTick,
   inject,
   computed,
-  type Ref,
+  Ref,
   ref,
   getCurrentInstance,
   toRaw,

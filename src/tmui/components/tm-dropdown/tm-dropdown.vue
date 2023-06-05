@@ -388,18 +388,22 @@ import tmSheet from "../tm-sheet/tm-sheet.vue";
 import tmText from "../tm-text/tm-text.vue";
 import tmTranslate from "../tm-translate/tm-translate.vue";
 import tmIcon from "../tm-icon/tm-icon.vue";
+import tmDivider from "../tm-divider/tm-divider.vue";
 import { itemList } from "./interface";
-import { custom_props } from "../../tool/lib/minxs";
+import { cssstyle, tmVuetify, colorThemeType } from "../../tool/lib/interface";
+import { custom_props, computedDark, computedTheme } from "../../tool/lib/minxs";
 import {
   getCurrentInstance,
   computed,
   ref,
+  provide,
   inject,
   onUpdated,
   onMounted,
+  onUnmounted,
   nextTick,
   watch,
-  type PropType,
+  PropType,
 } from "vue";
 // #ifdef APP-PLUS-NVUE
 const dom = uni.requireNativePlugin("dom");

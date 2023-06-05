@@ -58,7 +58,7 @@ export const propsCustom = {
 	list:{
 		type:Array as PropType<Array<{text?:string|number,[key:string]:any}>>,
 		default:()=>[],
-		require:true
+		required:true
 	},
 	refresh:{
 		type:Boolean,

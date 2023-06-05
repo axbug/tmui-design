@@ -15,11 +15,13 @@
 				<tm-radio value="6" label="背景图"></tm-radio>
 			</tm-radio-group>
 			<tm-divider></tm-divider>
-			<tm-qrcode :option="cfig"></tm-qrcode>
+			<tm-qrcode  ref="qrcode" :option="cfig"></tm-qrcode>
+
+			<tm-button block @click="saveImg" label="获取图片数据"></tm-button>
 		</tm-sheet>
 
 
-
+		
 	</tm-app>
 </template>
 <script lang="ts" setup>
@@ -38,6 +40,8 @@ import tmRadioGroup from "@/tmui/components/tm-radio-group/tm-radio-group.vue"
 import tmQrcode from "@/tmui/components/tm-qrcode/tm-qrcode.vue"
 import tmDivider from "@/tmui/components/tm-divider/tm-divider.vue"
 import tmInput from "@/tmui/components/tm-input/tm-input.vue"
+import tmButton from "@/tmui/components/tm-button/tm-button.vue"
+const qrcode =  ref<InstanceType<typeof tmQrcode> | null>(null);
 const str = ref("我爱你tmui.design")
 const cfig = ref({str:str.value})
 const vsd = ref("0")
@@ -64,5 +68,11 @@ function change(e) {
 function changeStr(){
 	cfig.value = {baseColor:'#FFFFFF',forgroundColor:"#000000",str:str.value};
 	vsd.value="0"
+}
+function saveImg(){
+	qrcode.value?.save().then(img=>{
+		uni.$tm.u.toast("获取成功")
+		console.log(img)
+	})
 }
 </script>

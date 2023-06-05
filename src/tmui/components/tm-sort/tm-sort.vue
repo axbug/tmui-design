@@ -42,7 +42,7 @@ import type { cellOptsType } from "./interface";
 import tmSheet from "../tm-sheet/tm-sheet.vue";
 import tmText from "../tm-text/tm-text.vue";
 import tmIcon from "../tm-icon/tm-icon.vue";
-import { ref, type Ref, onMounted, watch, getCurrentInstance } from "vue";
+import { ref, Ref, nextTick, onMounted, watch, getCurrentInstance } from "vue";
 const props = defineProps(customProps);
 const emits = defineEmits(["start", "end"]);
 const boxHeight = ref(0);

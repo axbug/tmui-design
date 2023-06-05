@@ -6,14 +6,14 @@
             <tm-text color="red" _class="font-weight-b" label="一共6组动效，每组动效都可以反向播放。手动或者自动控制详见文档。本组件库所有动效都是由下面6组动效完成。"></tm-text>
             <tm-divider></tm-divider>
             <view class="flex flex-row flex-wrap ">
-                <tm-translate  ref="translate" name="fade">
+                <tm-translate   name="fade">
                     <tm-sheet color="blue" :padding="[0, 0]" :width="100" :height="100">
 					</tm-sheet>
                 </tm-translate>
-                <tm-translate v-if="test" name="zoom">
+                <tm-translate  name="zoom">
                     <tm-sheet color="blue" :padding="[0, 0]" :width="100" :height="100"></tm-sheet>
                 </tm-translate>
-                <tm-translate name="left">
+                <tm-translate  name="left">
                     <tm-sheet color="blue" :padding="[0, 0]" :width="100" :height="100"></tm-sheet>
                 </tm-translate>
                 <tm-translate name="right">
@@ -21,7 +21,7 @@
                 </tm-translate>
             </view>
             <view class="flex flex-row flex-wrap ">
-                <tm-translate name="down">
+                <tm-translate ref="translate" name="down">
                     <tm-sheet color="blue" :padding="[0, 0]" :width="100" :height="100"></tm-sheet>
                 </tm-translate>
                 <tm-translate name="up">
@@ -33,7 +33,7 @@
     </tm-app>
 </template>
 <script lang="ts" setup>
-import { ref, getCurrentInstance } from "vue"
+import { ref, nextTick } from "vue"
 import { onShow, onLoad } from "@dcloudio/uni-app";
 import tmApp from "@/tmui/components/tm-app/tm-app.vue"
 import tmSheet from "@/tmui/components/tm-sheet/tm-sheet.vue"
@@ -45,4 +45,5 @@ const  test = ref(false)
 setTimeout(()=>{
 	test.value = true
 },1500)
+
 </script>

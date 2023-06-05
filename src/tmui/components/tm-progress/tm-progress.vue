@@ -119,11 +119,14 @@ import {
   getCurrentInstance,
   computed,
   ref,
+  provide,
+  inject,
   onBeforeMount,
   onMounted,
   onUnmounted,
+  nextTick,
   watch,
-  type PropType,
+  PropType,
 } from "vue";
 import tmSheet from "../tm-sheet/tm-sheet.vue";
 import tmText from "../tm-text/tm-text.vue";

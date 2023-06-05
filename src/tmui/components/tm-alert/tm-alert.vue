@@ -115,7 +115,9 @@ import {
   ref,
   onMounted,
   onUnmounted,
-  type PropType
+  PropType,
+  ComponentInternalInstance,
+  InjectionKey,
 } from "vue";
 const bodyani = ref<InstanceType<typeof tmTranslate> | null>(null);
 const emits = defineEmits(["click"]);

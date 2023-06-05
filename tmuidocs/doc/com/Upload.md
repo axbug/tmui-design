@@ -31,7 +31,7 @@ Upload 是一个常用的图片上传组件
 
 ## :seedling: 参数
 
-本组件含有公共属性 [公共属性](/doc/spec/组件公共样式.md)
+本组件含有公共属性 [公共属性](/spec/组件公共样式.html)
 | 参数名 | 类型 | 默认值 | 描述 |
 | :--: | :--: | :--: | :-- |
 | width | Number | 400 | 组件宽度 |
@@ -55,6 +55,7 @@ Upload 是一个常用的图片上传组件
 | beforeChooese | Function / Boolean | true | 选择文件前执行，如果此时返回false,将阻止选择文件。你可以在这里做一些上传前的配置 |
 | fileType | `Array<string>` | `['album','camera']` | 选择图片的场景，默认是从相册中和相机中 |
 | status-code | Number | 200 | 服务器请求成功时的状态值 |
+| show-status | Boolean | true | 是否显示底部的状态栏 |
 
 
 ## :rose: 事件

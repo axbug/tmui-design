@@ -39,6 +39,7 @@
         >
           <slot>
             <tm-icon
+			  :customicon="props.customicon"
               v-if="!_load"
               _style="line-height: 0px;"
               :color="_color"
@@ -83,12 +84,17 @@ import { useTmpiniaStore } from "../../tool/lib/tmpinia";
 import {
   getCurrentInstance,
   computed,
+  watchEffect,
   ref,
+  provide,
   inject,
+  onUpdated,
+  onMounted,
   onUnmounted,
   nextTick,
   watch,
-  type PropType,
+  PropType,
+  ComponentInternalInstance,
 } from "vue";
 const store = useTmpiniaStore();
 /**
@@ -203,6 +209,13 @@ const props = defineProps({
   },
   /**是否禁用选项. */
   disabled: {
+    type: Boolean,
+    default: false,
+  },
+  /**
+   * 为了提高响应速度，只有开启了自定图标显示功能才会去解析用户自定义图标规则名称
+   */
+  customicon: {
     type: Boolean,
     default: false,
   },

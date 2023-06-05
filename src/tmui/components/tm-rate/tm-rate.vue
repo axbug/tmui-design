@@ -11,8 +11,9 @@
   </view>
 </template>
 <script lang="ts" setup>
-import { computed, ref, watch, getCurrentInstance } from "vue";
+import { computed, ref, watch, getCurrentInstance, inject, toRaw, nextTick } from "vue";
 import tmIcon from "../tm-icon/tm-icon.vue";
+import { inputPushItem, rulesItem } from "./../tm-form-item/interface";
 import { custom_props, computedDark } from "../../tool/lib/minxs";
 import { useTmpiniaStore } from "../../tool/lib/tmpinia";
 import TmText from "../tm-text/tm-text.vue";

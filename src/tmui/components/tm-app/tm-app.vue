@@ -22,13 +22,12 @@
  * 应用容器
  * @description 这是所有创建应用的最外层基础容器。
  */
-	import { provide, getCurrentInstance, computed, onMounted, ref, watch, type PropType } from "vue";
+	import { provide, getCurrentInstance, computed, onMounted, ref, watch, onBeforeMount, PropType } from "vue";
 	import { useTmpiniaStore } from "../../tool/lib/tmpinia";
-	import type { colorThemeType, cssstyle, tmVuetify } from "../../tool/lib/interface";
+	import { colorThemeType, cssstyle, tmVuetify } from "../../tool/lib/interface";
 	import { getWindow } from "../../tool/function/util";
 	import { custom_props, computedTheme, computedClass, computedStyle, computedDark, } from "../../tool/lib/minxs";
 	import { onShow, onLoad, onInit } from "@dcloudio/uni-app";
-
 	import tmSheet from "../tm-sheet/tm-sheet.vue";
 	// #ifdef APP-PLUS-NVUE
 	const animation = uni.requireNativePlugin("animation");

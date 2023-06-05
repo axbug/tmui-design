@@ -33,7 +33,7 @@ import {
   inject,
   ref,
   watchEffect,
-  type ComputedRef,
+  ComputedRef,
   nextTick,
   watch,
 } from "vue";

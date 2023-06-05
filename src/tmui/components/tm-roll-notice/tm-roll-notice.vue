@@ -68,11 +68,13 @@ import tmIcon from "../tm-icon/tm-icon.vue";
 import tmText from "../tm-text/tm-text.vue";
 import { custom_props } from "../../tool/lib/minxs";
 import {
+  ComponentInternalInstance,
   computed,
   getCurrentInstance,
+  nextTick,
   onMounted,
   onUpdated,
-  type PropType,
+  PropType,
   ref,
 } from "vue";
 // #ifdef APP-NVUE
@@ -131,8 +133,12 @@ const props = defineProps({
     default: 0,
   },
   list: {
-    type: [Array, String] as PropType<Array<string> | string>,
+    type: [Array, String,Object] as PropType<Array<string|object> | string |object>,
     default: () => "",
+  },
+  rangeKey:{
+    type:String,
+    default:"text"
   },
   speed: {
     type: Number,
@@ -150,13 +156,25 @@ const props = defineProps({
 });
 const _icon = computed(() => props.icon);
 const _list = computed<Array<string>>(() => {
+  let listData:string[] = []
   if (typeof props.list === "string") {
-    return [props.list];
+    listData.push(props.list)
+  }
+  if (typeof props.list === 'object') {
+    // @ts-expect-error
+    listData.push(props.list[props.rangeKey])
   }
   if (Array.isArray(props.list)) {
-    return props.list;
+    props.list.forEach(el=>{
+      if(typeof el=='string'){
+        listData.push(el)
+      }else if(typeof el=='object'&&props.rangeKey){
+        // @ts-expect-error
+        listData.push(el[props.rangeKey])
+      }
+    })
   }
-  return [];
+  return listData;
 });
 
 const _width = computed(() => Math.ceil(props.width - props.margin[0] * 2 - 24));

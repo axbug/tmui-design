@@ -1,19 +1,19 @@
 /**
  * 分享配置
  */
-import type { wxshareConfig } from "./interface"
+import { wxshareConfig } from "./interface"
 import { onShareAppMessage, onShareTimeline } from '@dcloudio/uni-app'
 export const share = (args : wxshareConfig = {}) => {
 	let defaultWxshareConfig : wxshareConfig = {
 		...args
 	}
 	// 分享朋友默认配置  
-	let shareAppOptions = {}
+	let shareAppOptions: wxshareConfig = {}
 	// 分享朋友圈默认配置  
-	let shareTimeOptions = {}
+	let shareTimeOptions: wxshareConfig = {}
 	// onShareAppMessage  
-	const shareApp = (options = {}) => {
-		onShareAppMessage((res) => {
+	const shareApp = (options: wxshareConfig = {}) => {
+		onShareAppMessage((res): wxshareConfig => {
 			return {
 				...defaultWxshareConfig,
 				...options,
@@ -22,12 +22,12 @@ export const share = (args : wxshareConfig = {}) => {
 		})
 	}
 	// 添加onShareAppMessage参数  
-	const setShareApp = (options = {}) => {
+	const setShareApp = (options: wxshareConfig = {}) => {
 		shareAppOptions = options
 	}
 	// onShareTimeline  
-	const shareTime = (options = {}) => {
-		onShareTimeline(() => {
+	const shareTime = (options: wxshareConfig = {}) => {
+		onShareTimeline((): wxshareConfig => {
 			return {
 				...defaultWxshareConfig,
 				...options,

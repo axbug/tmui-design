@@ -7,8 +7,6 @@ title: 自带JS工具库
 
 # JS工具库  <Badge type="danger" text="v3.0.5+" vertical="middle" />
 
-**文档还未完成**
-
 ## :tada: 如何调用
 
 在全局任意位置均可调用，部分方法需要你导入相关包（主要是为了包大小考虑）<br>
@@ -108,8 +106,3 @@ complete：请求完成后执行。
 complete(result:fetchConfigSuccessType)
 ```
 
-## lwu-request请求库
-本库需要你自行import使用，与我上方自带的fetch不是同一个库。
-该库原作者链接:[访问](https://ext.dcloud.net.cn/plugin?id=11409)
-在3.1.04新添加一个第三方请求库，位置：tmui->tool->lwu-request.ts,暂时没有文档。代码非常工整。且条理清晰。请查看源码使用。由于大小原因。这个库合并为单独使用。如果需要使用，请自行导入使用。
-该请求库，有队列请求，错误重试控制请求，中断请求，拦截器配置等特性，功能强。

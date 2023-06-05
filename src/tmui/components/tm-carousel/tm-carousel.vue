@@ -241,7 +241,7 @@
  * 图片轮播
  * @description 可以嵌入视频，图片。
  */
-import { ref, type PropType, computed, getCurrentInstance, nextTick } from "vue";
+import { ref, PropType, computed, getCurrentInstance, nextTick } from "vue";
 
 import tmImage from "../tm-image/tm-image.vue";
 import tmSheet from "../tm-sheet/tm-sheet.vue";

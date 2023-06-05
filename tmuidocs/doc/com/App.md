@@ -40,7 +40,7 @@ import tmApp from "@/tmui/components/tm-app/tm-app.vue"
 | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
 
 ## :seedling: 参数
-本组件含有公共属性 [公共属性](/doc/spec/组件公共样式.md)
+本组件含有公共属性 [公共属性](/spec/组件公共样式.html)
 
 :::tip 关于tabBar
 

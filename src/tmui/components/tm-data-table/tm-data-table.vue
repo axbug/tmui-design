@@ -221,7 +221,7 @@
   </view>
 </template>
 <script lang="ts" setup>
-import { computed, nextTick, onMounted, type PropType, ref, toRaw, watch } from "vue";
+import { computed, nextTick, onMounted, PropType, ref, toRaw, watch } from "vue";
 import { DataTableColumn } from "./interface";
 import TmSheet from "../tm-sheet/tm-sheet.vue";
 import TmText from "../tm-text/tm-text.vue";

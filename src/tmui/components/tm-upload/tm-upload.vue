@@ -38,7 +38,7 @@
               class="relative flex-1 flex flex-col flex-col-bottom-start"
             >
               <view
-                v-if="!_disabled"
+                v-if="!_disabled&&props.showStatus"
                 :style="{
                   background: 'rgba(0, 0, 0, 0.5)',
                   width: itemWidth - 10 + 'rpx',
@@ -164,14 +164,20 @@
 import {
   computed,
   ref,
-  type PropType,
-  type Ref,
+  PropType,
+  Ref,
   watch,
   toRaw,
+  nextTick,
   getCurrentInstance,
+  inject,
+  reactive,
+  onMounted,
+  isRef,
   isProxy,
 } from "vue";
-import { file, statusCode, uploadfile } from "./upload";
+import { inputPushItem, rulesItem } from "./../tm-form-item/interface";
+import { file, fileConfig, statusCode, uploadfile } from "./upload";
 import tmImage from "../tm-image/tm-image.vue";
 import tmText from "../tm-text/tm-text.vue";
 import tmIcon from "../tm-icon/tm-icon.vue";
@@ -292,6 +298,10 @@ const props = defineProps({
   statusCode:{
     type: Number,
     default: 200,
+  },
+  showStatus:{
+    type:Boolean,
+    default:true
   }
 });
 /**

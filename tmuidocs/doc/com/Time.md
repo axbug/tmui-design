@@ -31,7 +31,7 @@ Time 时间选择器时一个用于选择事件的组件，常用于事件预约
 
 ## :seedling: Time-view 参数
 
-本组件含有公共属性 [公共属性](/doc/spec/组件公共样式.md)
+本组件含有公共属性 [公共属性](/spec/组件公共样式.html)
 | 参数名 | 类型 | 默认值 | 描述 |
 | :--: | :--: | :--: | :-- |
 | height | Number | 400 | 组件高度 |
@@ -50,7 +50,7 @@ Time 时间选择器时一个用于选择事件的组件，常用于事件预约
 **showSuffix**:```{year:'年',month:'月',day:'日',hour:'时',minute:'分',second:'秒'}```
 
 ## :seedling: Time-picker 参数
-本组件含有公共属性 [公共属性](/doc/spec/组件公共样式.md)
+本组件含有公共属性 [公共属性](/spec/组件公共样式.html)
 | 参数名 | 类型 | 默认值 | 描述 |
 | :--: | :--: | :--: | :-- |
 | modelValue | Number / String / Date | '' | 动态返回时间戳。这是一个标准的时间，不管showDetail是如何设置都将不影响这里的输出 |
