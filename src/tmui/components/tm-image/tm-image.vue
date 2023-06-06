@@ -1,7 +1,7 @@
 <template>
   <view
     v-if="!isRmove"
-    :style="{ margin: `${props.margin[0] + props.unit} ${props.margin[0] + props.unit}` }"
+    :style="{ margin: `${props.margin[0] + props.unit} ${(props.margin.length > 1 ? props.margin[1] : props.margin[0]) + props.unit}` }"
   >
     <tm-translate
       :width="img_width + props.padding[0] * 2 + props.unit"
