@@ -9,7 +9,7 @@ import webview from '../components/mobileWebview.vue'
 #### 组件库文档 tmui.design
 
 # 应用节点 App
-这是所有页面的根节点，请务必在创建页面是把它作为页面的根节点。以后可扩展性非常强。
+这是所有页面的根节点，请务必在创建页面时把它作为页面的根节点。以后可扩展性非常强。
 
 ---
 ## 应用节点 App
