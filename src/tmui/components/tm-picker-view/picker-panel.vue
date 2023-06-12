@@ -1,5 +1,6 @@
 <template>
   <view class="flex-1 relative" :style="{ height: props.height + 'rpx' }">
+    <!-- #ifndef APP-NVUE -->
     <!-- #ifndef MP-ALIPAY -->
     <picker-view
       @pickend="emits('end')"
@@ -40,6 +41,7 @@
       </picker-view-column>
     </picker-view>
     <!-- #endif -->
+	  <!-- #endif -->
 	<!-- #ifdef MP-ALIPAY -->
 	<picker-view
 	  @pickend="emits('end')"
@@ -257,10 +259,7 @@ function nvuegetClientRect() {
 </script>
 <style scoped>
 .top {
-  background-image: linear-gradient(
-    to bottom,
-    rgba(17, 17, 17, 1),
-    rgba(36, 36, 36, 0.6)
+  background-image: linear-gradient(to bottom,rgba(17, 17, 17, 1),rgba(36, 36, 36, 0.6)
   );
 }
 .bottom {
@@ -272,12 +271,7 @@ function nvuegetClientRect() {
   align-items: center;
 }
 .itemSelected {
-  background-image: linear-gradient(
-    to bottom,
-    rgba(0, 0, 0, 0.04),
-    rgba(0, 0, 0, 0.01),
-    rgba(0, 0, 0, 0.04)
-  );
+  background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.04), rgba(0, 0, 0, 0.01), rgba(0, 0, 0, 0.04));
 }
 .UnitemSelected {
   background-image: rgba(0, 0, 0, 0);
