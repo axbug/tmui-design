@@ -282,13 +282,59 @@ function changeFocus(index: number) {
 
   setDate([vstd, vsed]);
 }
+function formatUpdate(evt: string,format:string){
+	if(DayJs(evt).format(format) == 'Invalid Date'){
+		let time = DayJs(new Date()).format(defaultFormat);
+		let str = evt.split('');
+		let positionY = props.format.indexOf('Y');
+		if( positionY != -1){
+			time = replaceStr(time,0,evt.substring(positionY,positionY+1))
+			time = replaceStr(time,1,evt.substring(positionY+1,positionY+2))
+			time = replaceStr(time,2,evt.substring(positionY+2,positionY+3))
+			time = replaceStr(time,3,evt.substring(positionY+3,positionY+4))
+		}
+		let positionM = props.format.indexOf('M');
+		if( positionM != -1){
+			time = replaceStr(time,5,evt.substring(positionM,positionM+1))
+			time = replaceStr(time,6,evt.substring(positionM+1,positionM+2))
+		}
+		let positionD = props.format.indexOf('D');
+		if( positionD != -1){
+			time = replaceStr(time,8,evt.substring(positionD,positionD+1))
+			time = replaceStr(time,9,evt.substring(positionD+1,positionD+2))
+		}
+		let positionH = props.format.indexOf('H');
+		if( positionH != -1){
+			time = replaceStr(time,11,evt.substring(positionH,positionH+1))
+			time = replaceStr(time,12,evt.substring(positionH+1,positionH+2))
+		}
+		let positionm = props.format.indexOf('m');
+		if( positionm != -1){
+			time = replaceStr(time,14,evt.substring(positionm,positionm+1))
+			time = replaceStr(time,15,evt.substring(positionm+1,positionm+2))
+		}
+		let positions = props.format.indexOf('s');
+		if( positions != -1){
+			time = replaceStr(time,16,evt.substring(positions,positions+1))
+			time = replaceStr(time,17,evt.substring(positions+1,positions+2))
+		}
+		return time;
+	}else{
+		return DayJs(evt).format(format)
+	}
+}
+function replaceStr(str:string, index:number, char:string){
+	 const strAry = str.split('');
+	 strAry[index] = char;
+	 return strAry.join('');
+}
 function timeChange(evt: string) {
   if (focusIndex.value == -1) focusIndex.value = 0;
 
   if (focusIndex.value == 0) {
-    valuedate_start.value = DayJs(evt).format(defaultFormat);
+    valuedate_start.value = formatUpdate(evt,defaultFormat);
   } else if (focusIndex.value == 1) {
-    valuedate_end.value = DayJs(evt).format(defaultFormat);
+    valuedate_end.value = formatUpdate(evt,defaultFormat);
   }
   // #ifdef APP-NVUE
   checkTimeVaild();
