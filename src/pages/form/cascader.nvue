@@ -6,7 +6,7 @@
 			<tm-button @click="testValue=[]"  label="清空选择"></tm-button>
 			<tm-text :label="str?str:'请选择'"></tm-text>
         </tm-sheet>
-       <tm-cascader @cell-click="test" v-model="testValue" :data="dlist"></tm-cascader>
+       <tm-cascader @cell-click="test" v-model="testValue" :defaultValue="testValue" :data="dlist"></tm-cascader>
         
     </tm-app>
 </template>
@@ -41,6 +41,6 @@ function loop(path = '0', level = 2) {
 	return list;
 }
 function test(item:any){
-	console.log(item)
+	// console.log(item,'test')
 }
 </script>

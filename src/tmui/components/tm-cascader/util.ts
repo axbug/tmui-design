@@ -23,6 +23,23 @@ export const getNodeRouterData = function (list:Array<any>,id='',prentId=[],idma
 	return null
 }
 
+
+interface Item {
+  id: string;
+  text: string;
+  children: Item[];
+}
+export function getNodeRouterCustomStr(itemList: any,idList: string[],strKey="text" ): Item[] {
+   if(!itemList) return []
+  const result: Item[] = [];
+  for (const item of itemList) {
+    if (idList.includes(item.id)) {
+      result.push(item);
+    }
+    result.push(...getNodeRouterCustomStr(item.children,idList,strKey));
+  }
+  return result;
+}
 //返回 一个节点从父到子的路径id组。
 export const getNodeRouter = function (list=[],id='',prentId=[],idmap='id'):string{
 	let p = [];

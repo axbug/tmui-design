@@ -60,7 +60,7 @@ item {
 ## :rose: 事件
 | 事件名   | 参数  | 返回数据 | 描述   |
 |-------|-----|------|------|
-| click |     |      | 点击事件 |
+| click |     |  item,index    | 点击事件 |
 
 ## :green_salad: slot 插槽
 

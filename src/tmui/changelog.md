@@ -7,8 +7,29 @@ title: 关于tmUi3.0的更新日志
 # TMUI 3.0 by tm-vuefity 3.0
 
 ### :couplekiss: 更新日志
-
-## 3.1.06（2023-6-xx）
+## 3.1.07（2023-6-28）
+* [修复]tm-app,在app vue页面类型没有铺满全屏.
+* [修复]app ios nvue 下tm-picker组件显示异常 [见gitee](https://gitee.com/LYTB/tmui-design/issues/I7CN16)
+* [修复]时间范围选择器，在format 为 HH:mm 时，出现无效数据的bug，[见gitee](https://gitee.com/LYTB/tmui-design/pulls/166/files)
+* [修复]tm-Segtab,在vue页面，使用gutter属性时，宽度计算有误。（nvue不受影响）[见gitee](https://gitee.com/LYTB/tmui-design/issues/I7D4FN)
+* [修复]tm-steps,当添加小标题时错乱。[见gitee](https://gitee.com/LYTB/tmui-design/issues/I7D5CD)
+* [优化]tm-alert,点击事件返回：item,index
+* [优化]tm-action-menu,[见gitee](https://gitee.com/LYTB/tmui-design/issues/I7C9LV)
+* 增加了事件：open-data，各家小程序开放事件统一在这触发获取：头像，电话，联系人等。
+* [优化]tm-button,去掉了兼容pc的hover效果
+* [修复]tm-stepper,修复在小微信小程序中当值为""时，如果最小值为0,此时用户可以通过删除输入框的值让输入框为"",而不是0。当最小值为负数时，用户清空输入框时，自动设置为最小的负数，而不是0
+* [修复]tm-switch,在vue页面，没对齐（nvue不受影响）
+* [修复]tm-overlay，如果同一个页面使用多个这组件，并同时触发显示或者关闭等动作，由于触发了节流，导致只有一个能触发。修复后可同时调用。
+* [优化]tm-upload,开放props属性chooesefileAfter，用于在传前最后一次文件列表的动态修改。上传以你return后的文件列表为准。
+* [优化]tm-input,事件keyboardheightchange补充上，$event属性。
+* [优化]forom-item,添加属性labelWidth，可以单独控制标题宽度。
+* [优化]tm-switch,增加offIcon属性，关闭时显示的图标，默认没有。
+* [优化]tm-cascader，优化标题显示为text标题，而不是显示id标题.
+* [修复]tm-translate，动画在app vue页面因兼容嵌套导致所有在app vue页面类型的动画失效。现已修复
+* [修复]tm-time-between,新增modelStr(一般用来显示，因为可能是一个不标准的时间格式，给后台时请使用v-model变量)，它是受fomat影响输出，但不允许输入，输入请用v-model来更改。这里只管输出format格式的时间。
+* [优化]tm-tree,添加了选中后文字显示主题色。也增加了禁用时节点文本为禁用色，但如果节点为父节点时，被禁用选中了，文本禁用色不生效（因为它的子节点可以选）[场景需求见gitee](https://gitee.com/LYTB/tmui-design/issues/I7FKZ3)
+* [优化]tm-filterMenu-item,增加了自定义标识属性uuid，[场景需求见gitee](https://gitee.com/LYTB/tmui-design/issues/I7FG7N)
+## 3.1.06（2023-6-6）
 * [注意事项]3.8.3 uni sdk发布了，经过测试可以编译nvue app了。可能第一次编译会报appprieview的标点符号错误，
 我已经找到了问题是：uni sdk自己编译的html文件末尾少了个";"导致的，重新编译就正常预览了。但依然无法编译到支付宝。如果要编译到支付宝请继续使用3.6.18的 uni sdk见gitee库的备份json文件。
 * [修复]tm-dragList数据变动不更新问题。
@@ -18,7 +39,7 @@ title: 关于tmUi3.0的更新日志
 * [修复]tm-translate，组件ref的play方法失效，导致手动播放动画无法播放。
 * [修复]tm-segtab，动态修改list时，定位样式错乱。
 * [优化]tm-tag，增加了属性：before-close，关闭前执行的回调。
-* [优化]tm-upload,增加show-status 属性，以控制是去酒吧显示状态栏。
+* [优化]tm-upload,增加show-status 属性，以控制是否显示上传的状态栏。
 * [优化]tm-roll-notice,list类型增加了object,object[]类型支持，也同步增加了rangeKey来指定显示的文本字段。
 * [优化]修正util.getUid函数的类型。
 * [优化]tm-waterfall,见[PR功能日志](https://gitee.com/LYTB/tmui-design/pulls/159)

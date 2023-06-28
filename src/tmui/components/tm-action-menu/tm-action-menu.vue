@@ -13,9 +13,9 @@
 			<view @click.stop="" class=" flex flex-col">
 				<view style="height: 24rpx;"></view>
 				<tm-sheet :round="5" :margin="[32, 0, 32, 16]">
-					<view class=" flex flex-col flex-col-center-center round-2 overflow mx-32">
+					<view class=" flex flex-col  round-2 overflow mx-32">
 						<tm-text _class="opacity-5 text-align-center" :font-size="24" label="请选择"></tm-text>
-						<tm-button :open-type="item?.openType??''" :transprent="true" :fontColor="_active == index ? _activeFontColor : ''"
+						<tm-button @contact="openEvent" @launchapp="openEvent" @opensetting="openEvent" @getphonenumber="openEvent" @chooseavatar="openEvent" :open-type="item?.openType??''" :transprent="true" :fontColor="_active == index ? _activeFontColor : ''"
 							:followTheme="false" :disabled="item.disabled" @click="change(item, index)"
 							v-for="(item, index) in _list" :key="index" :label="item.text" :font-size="28" :margin="[0, 0]"
 							color="white" block :shadow="0" :round="-1"></tm-button>
@@ -58,6 +58,8 @@ const emits = defineEmits<{
 	(event: 'change', item: Tmui.tmActionMenu, index: number): void,
 	/**取消关闭菜单  */
 	(event: 'cancel'): void,
+	/** 开放数据 */
+	(event: 'open-data',data:any): void,
 }>()
 
 
@@ -140,6 +142,7 @@ watch(() => props.active, () => {
 	_active.value = props.active;
 })
 function change(item: Tmui.tmActionMenu, index: number) {
+	
 	emits("change", item, index)
 	_active.value = index;
 	emits("update:active", index)
@@ -159,6 +162,10 @@ function drawerClose() {
 
 function drawerOpen() {
 	emits("update:modelValue", true)
+}
+
+function openEvent(event:any){
+	emits("open-data",event);
 }
 </script>
 

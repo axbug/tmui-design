@@ -36,7 +36,8 @@ tm-time-between 时间范围选择器，这是一个实用组件，用来时间�
 本组件含有公共属性 [公共属性](/spec/组件公共样式.html)
 | 参数名 | 类型 | 默认值 | 描述 |
 | :--: | :--: | :--: | :-- |
-| modelValue | [Number / String / Date] | [] | 动态返回时间戳。这是一个标准的时间，不管showDetail是如何设置都将不影响这里的输出 |
+| modelValue | [Number / String / Date] | [] | 动态返回时间戳。这是一个标准的时间，不管showDetail是如何设置都将不影响这里的输出,format也不会被影响 |
+| modelStr | [] | [] | 这里是受format影响的,输出使用v-model:model-str.一般用来显示，因为可能是一个不标准的时间格式，给后台时请使用v-model变量 |
 | defaultValue | [Number / String / Date] | [] | 默认显示的时间，格式与modelValue相同 |
 | format | String | YYYY/MM/DD | 这里会影响到modelValue的输出形式，请一定要规范,时间格式化形式，如：YYYY-MM-DD |
 | showDetail | Object | 见下方 | 说明下：这里不会影响输出，只会影响到当前显示的列,设置选择时间的精度，最小可到秒 |

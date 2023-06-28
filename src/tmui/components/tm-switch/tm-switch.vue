@@ -13,6 +13,7 @@
     :linear="_CheckVal ? props.linear : ''"
     :round="viewSize.round"
     :color="_CheckVal ? props.color : props.unCheckedColor"
+	:darkBgColor="_CheckVal?'':'rgba(255,255,255,0.06)'"
     :height="viewSize.height"
     :width="viewSize.width"
     parenClass="switchbgani"
@@ -23,7 +24,7 @@
     :margin="props.margin"
   >
     <view
-      class="relative flex relative flex-col"
+      class="relative flex relative flex-col nvue"
       :style="{
         padding: '2px',
         width: `${viewSize.width}px`,
@@ -74,13 +75,21 @@
             name="tmicon-shuaxin"
             spin
           ></tm-icon>
-          <tmTranslate name="zoom" v-if="!_load && _CheckVal">
+          <tmTranslate name="zoom" v-if="!_load">
             <tm-icon
+			v-if="props.barIcon&&_CheckVal"
               :followTheme="props.followTheme"
               :font-size="viewSize.fontSize"
               :color="props.color"
               :name="props.barIcon"
             ></tm-icon>
+			<tm-icon
+			v-if="props.offIcon&&!_CheckVal"
+			  :followTheme="props.followTheme"
+			  :font-size="viewSize.fontSize"
+			  :name="props.offIcon"
+			  _class="opacity-5"
+			></tm-icon>
           </tmTranslate>
         </tm-sheet>
       </view>
@@ -111,6 +120,9 @@ import tmSheet from "../tm-sheet/tm-sheet.vue";
 import tmText from "../tm-text/tm-text.vue";
 import tmIcon from "../tm-icon/tm-icon.vue";
 import tmTranslate from "../tm-translate/tm-translate.vue";
+import {useTmpiniaStore} from "../../tool/lib/tmpinia"
+const store = useTmpiniaStore();
+
 // #ifdef APP-PLUS-NVUE
 const animation = uni.requireNativePlugin("animation");
 // #endif
@@ -198,6 +210,13 @@ const props = defineProps({
   barIcon: {
     type: String,
     default: "tmicon-check",
+  },
+  /**
+   * 自定义关闭的小图标
+   */
+  offIcon: {
+    type: String,
+    default: "",
   },
   disabled: {
     type: Boolean,

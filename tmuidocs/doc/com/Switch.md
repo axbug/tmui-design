@@ -48,7 +48,8 @@ Switch 开关是用于在两种状态下选择唯一一种状态或值的组件
 | round | Number | 10 | 组件的圆角值 |
 | load | Boolean | false | 是否显示组件加载状态，加载状态下组件圆形内按钮会变成旋转的加载图标 |
 | beforeChecked | Function / String / Number | false | 开关状态改变前执行的函数 |
-| barIcon | String | tmicon-check | 开关按钮上圆形内的图标 |
+| barIcon | String | tmicon-check | 开启时，开关按钮上圆形内的图标 |
+| offIcon | String | - | 关闭时，开关按钮上圆形内的图标 |
 | disabled | Boolean | false | 是否禁用组件 |
 | label | Array | ["",""] | 开关开启关闭时内部的文字，如：["开启","关闭"] |
 

@@ -536,15 +536,15 @@ provide("appTextColor", textColor);
   opacity: 0.7;
 }
 /* #ifdef H5 */
-.webpc:hover {
+/* .webpc:hover {
   cursor: pointer;
   opacity: 0.7;
-}
+} */
 /* #endif */
 /* #ifndef APP-NVUE */
-.bhover:hover {
+/* .bhover:hover {
   opacity: 0.7 !important;
-}
+} */
 .button::after {
   background: transparent !important;
   background-color: transparent !important;

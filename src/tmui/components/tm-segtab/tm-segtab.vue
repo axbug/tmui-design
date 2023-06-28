@@ -3,7 +3,7 @@
     class="tm-segtab relative flex flex-col"
     :class="[`round-${props.round}`]"
     ref="tm-segtab"
-    :style="{ width: props.width + props.gutter * 2 + 'rpx' }"
+    :style="{ width: (wh.outerWidth)+ 'rpx',height:wh.outerHeight+'rpx' }"
   >
     <tm-sheet
       :round="props.round"
@@ -11,11 +11,12 @@
       :linear="props.linear"
       :linear-deep="props.linearDeep"
       :no-level="true"
-      :height="props.height"
       :color="props.bgColor"
-      :width="props.width-props.gutter * 2 "
-      _class="flex-row relative overflow"
-      :padding="[props.gutter, props.gutter]"
+	  darkBgColor="rgba(255,255,255,0.06)"
+	  :height="wh.outerHeight"
+      _class="flex-row relative overflow flex-1"
+	  class="flex-1"
+      :padding="[0,0]"
       :margin="[0, 0]"
     >
       <!-- #ifdef APP-NVUE -->
@@ -23,7 +24,7 @@
         v-if="_cId !== ''&&leftWidth>=0"
         ref="tmBgEl"
         class="relative flex flex-row"
-        :style="[{ width: leftWidth-1 + 'px' }]"
+        :style="[{ width: leftWidth + 'px',height:wh.innerHeight+'rpx',top:`${props.gutter}rpx`,left:'0px' }]"
       >
         <tm-sheet
           :follow-dark="props.followDark"
@@ -40,7 +41,7 @@
       <view
         v-if="_cId !== ''"
         class="relative flex flex-row bgbtnpos"
-        :style="[{ transform: 'translateX(' + (leftPos) + 'px)', width: leftWidth + 'px' }]"
+        :style="[{ transform: 'translateX(' + (leftPos+wh.gutterpx) + 'px)', width: (leftWidth) + 'px',height:(wh.innerHeight)+'rpx',top:`${props.gutter}rpx` }]"
       >
         <tm-sheet
           :follow-dark="props.followDark"
@@ -55,24 +56,22 @@
       </view>
       <!-- #endif -->
       <view
-        class="absolute flex flex-row flex-row-center-start"
-        :class="[`pa-${props.gutter}`, `l--${props.gutter / 2}`]"
-        :style="[
-          { width: `${props.width-props.gutter}rpx`, height: `${props.height - props.gutter}rpx` },
-        ]"
+        class="absolute flex flex-row flex-row-center-start tm-segtab"
+        :style="{ width: `${wh.innerWidth}rpx`, height: `100%`,padding:`${props.gutter}rpx`,top:`0rpx` }"
       >
         <view
           @click="itemClick(index, item.id)"
           :ref="'tab_'"
           :class="['tab' + index]"
-          :style="{ height: `${props.height - props.gutter}rpx` }"
           class="flex-1 flex flex-row flex-row-center-center"
           v-for="(item, index) in _list"
+		  :style="{margin:`${props.gutter}rpx 0`}"
           :key="index"
         >
           <tm-text
-          _style="transition: color 0.3s;"
+            _style="transition: color 0.3s;"
             :color="item.id === _cId ? props.activeColor : ''"
+			:lineHeight="0"
             :font-size="props.fontSize"
             :userInteractionEnabled="false"
             :label="item.text"
@@ -127,7 +126,7 @@ const props = defineProps({
   },
   gutter: {
     type: Number,
-    default: 2,
+    default: 4,
   },
   list: {
     type: Array as PropType<Array<string | listitem>>,
@@ -198,6 +197,20 @@ function zhunhuanid(val: string | number) {
   let index = _list.value.findIndex((el) => el.id == val);
   return index;
 }
+// 外框宽度
+const wh = computed(()=>{
+	let iw = props.width - props.gutter;
+	// #ifdef APP-NVUE
+	iw = props.width ;
+	// #endif
+	return {
+		outerWidth:props.width,
+		outerHeight:props.height,
+		innerWidth:iw,
+		innerHeight:props.height - props.gutter*2,
+		gutterpx:uni.upx2px(props.gutter)
+	};
+})
 
 async function itemClick(index: number, id: number | string) {
   emits("click", index);
@@ -257,12 +270,12 @@ function getDomRectBound(idx: number) {
           const { left, top, width } = res.size;
           let domx = getEl(proxy?.$refs["tmBgEl"]);
           leftWidth.value = Math.ceil(width ?? 0 );
-          leftPos.value = Math.ceil((left ?? 0) - uni.upx2px(props.gutter) - parentleft - 1);
+          leftPos.value = Math.ceil((left ?? 0) - uni.upx2px(props.gutter) - parentleft);
           animation.transition(
             proxy?.$refs["tmBgEl"],
             {
               styles: {
-                transform: "translateX(" + leftPos.value + "px)",
+                transform: "translateX(" + (leftPos.value+wh.value.gutterpx) + "px)",
               },
               duration: firstRender.value?1:200, //ms
               timingFunction: "ease",
@@ -306,5 +319,11 @@ function getDomRectBound(idx: number) {
   transition-property: left, width, transform;
   transition-delay: 0s;
   
+}
+.tm-segtab{
+	display: flex;
+	/* #ifndef APP-NVUE */
+	box-sizing: border-box;
+	/* #endif */
 }
 </style>

@@ -28,7 +28,7 @@ import {
 } from "vue";
 import { baseNodeData } from "./interface";
 const checkboxRef = ref<InstanceType<typeof TmCheckbox> | null>(null);
-const { proxy } = getCurrentInstance();
+const proxy = getCurrentInstance()?.proxy??null;
 const props = defineProps({
   followTheme: {
     type: [Boolean, String],
@@ -56,8 +56,9 @@ const props = defineProps({
     },
   },
 });
+const emits = defineEmits(["change"])
 //父级方法。
-let parent = proxy.$parent;
+let parent:any = proxy?.$parent;
 while (parent) {
   if (parent?.TreeParaentName == "tmTree" || !parent) {
     break;
@@ -98,6 +99,7 @@ function setChecked() {
   } else {
     _checked.value = "";
   }
+  emits('change',_checked.value?true:false)
 }
 watchEffect(() => setChecked());
 

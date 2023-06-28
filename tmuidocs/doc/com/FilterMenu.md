@@ -77,6 +77,7 @@ close,关闭当前选项菜单.
 | unFontColor | string | 'black' | 没有选中时的文本颜色 |
 | isButton | boolean | false | 是否当作按钮使用,点击时,只触发事件,不展开相关内容的动作 |
 | bgColor | string | 'white' | 当前选项页的背景色|
+| uuid | string,number | '' | 自定义标识，可通过click中的item获得 |
 
 ## :corn: slot FilterMenu-item插槽
 | 属性名称 | 类型 | 数据 | 说明 |

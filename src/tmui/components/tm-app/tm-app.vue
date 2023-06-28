@@ -193,13 +193,7 @@
 	}
 
 
-	watch(
-		() => props.showMenu,
-		() => {
-			_showMenu.value = props.showMenu;
-			spinNvueAni();
-		}
-	);
+
 	watch([() => tmcfg.value.color, isDark], () => {
 		isSetThemeOk.value = false;
 		setAppStyle();
@@ -385,14 +379,9 @@
 		setAppStyle();
 	}
 
-	function toogleOpen(type : boolean) {
-		_showMenu.value = type;
-		emits("update:showMenu", _showMenu.value);
-	}
 
-	function spinNvueAni(reveser = false) {
-		
-	}
+
+
 
 	/** 监听当前系统的主题变化。 */
 	try {
@@ -432,7 +421,9 @@
 		setDark: setDark,
 	});
 </script>
+<style>
 
+</style>
 <style scoped>
 	.app {
 		/* #ifndef APP-NVUE */
@@ -440,41 +431,9 @@
 		background-position: 0px 0px;
 		background-repeat: no-repeat;
 		background-size: 100% 100%;
+		min-height: 100%;
 		/* #endif */
 		flex-direction: column;
-
+		
 	}
-
-	.menu {
-		z-index: 999;
-		transform: translateX(-101%);
-	}
-
-	/* #ifndef APP-NVUE */
-	.menu {
-		transition-duration: 0.25s;
-		transition-timing-function: ease;
-		transition-property: transform;
-		transition-delay: 0ms;
-		transform: translateX(-101%);
-		z-index: 999;
-	}
-
-	.menuOn {
-		transform: translateX(0%);
-	}
-
-	.body {
-		transition-duration: 0.25s;
-		transition-timing-function: ease;
-		transition-property: transform;
-		transition-delay: 0ms;
-		transform: translateX(0%) scale(1);
-	}
-
-	.bodyOn {
-		transform: translateX(70%) scale(0.8);
-	}
-
-	/* #endif */
 </style>

@@ -1,9 +1,9 @@
 <template>
     <view class="flex flex-row flex-row-center-start">
-        <childNode  ref="parentNodeRefNode" :followTheme="props.followTheme"  v-if="!props.data['children']" :fieldNames="props.fieldNames" :data="props.data"></childNode>
+        <childNode @change="_checked=$event"  ref="parentNodeRefNode" :followTheme="props.followTheme"  v-if="!props.data['children']" :fieldNames="props.fieldNames" :data="props.data"></childNode>
         <parentNode ref="parentNodeRef" :followTheme="props.followTheme"  v-if="props.data['children']"  :fieldNames="props.fieldNames" :data="props.data"></parentNode>
         <TmIcon _class="pr-16" :color="nodeData['color']" :font-size="28" v-if="nodeData['icon']" :name="nodeData['icon']"></TmIcon>
-        <TmText @click="textClick(nodeData)" :font-size="28" :label="nodeData.text"></TmText>
+        <TmText :color="_checked?'primary':''" :_class="nodeData['disabled']&&!props.data['children']?'opacity-7':''" @click="textClick(nodeData)" :font-size="28" :label="nodeData.text"></TmText>
     </view>
 </template>
 <script lang="ts" setup>
@@ -17,8 +17,7 @@ import { baseNodeData } from "./interface";
 import { treeFlat } from './util';
 const parentNodeRef = ref<InstanceType<typeof parentNode> | null>(null);
 const parentNodeRefNode = ref<InstanceType<typeof childNode> | null>(null);
-    
-const {proxy} = getCurrentInstance();
+const proxy = getCurrentInstance()?.proxy??null;
 const emits = defineEmits(['textClick'])
 const props = defineProps({
 	followTheme: {
@@ -47,6 +46,7 @@ const props = defineProps({
         }
     },
 })
+const _checked = ref(false)
 //父级方法。
 let parent = proxy.$parent
 while (parent) {

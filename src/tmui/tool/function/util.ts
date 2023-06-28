@@ -727,12 +727,17 @@ export function getWindow() : { width : number, height : number, top : number, b
 	let isCustomHeader = false;
 	let pages = uni.$tm?.pages ?? []
 	let bottom = sysinfo.safeAreaInsets?.bottom ?? 0;
-	for (let i = 0; i < uni.$tm.pages.length; i++) {
-		if (nowPage?.route == uni.$tm.pages[i].path && uni.$tm.pages[i].custom == 'custom') {
-			isCustomHeader = true;
-			break;
+	if(uni.$tm?.globalNavStyle=='custom'){
+		isCustomHeader=true;
+	}else{
+		for (let i = 0; i < uni.$tm.pages.length; i++) {
+			if (nowPage?.route == uni.$tm.pages[i].path && uni.$tm.pages[i].custom == 'custom') {
+				isCustomHeader = true;
+				break;
+			}
 		}
 	}
+	
 	// #ifdef H5
 	// 兼容说明：h5端第一次获取的高度和第二次获取的高度是有差异 的。
 	if (isCustomHeader) {

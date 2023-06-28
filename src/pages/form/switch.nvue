@@ -4,7 +4,7 @@
 			<tm-text :font-size="24" _class="font-weight-b" label="基础示例,更多见文档"></tm-text>
 			<tm-divider></tm-divider>
 			<view class="flex flex-row">
-				<tm-switch size="mini"></tm-switch>
+				<tm-switch offIcon="tmicon-times" size="mini"></tm-switch>
 				<tm-switch  size="normal" color="red" :defaultValue="true" :margin="[12, 0]"></tm-switch>
 				<tm-switch size="large" color="green" :defaultValue="true" :margin="[12, 0]"></tm-switch>
 			</view>

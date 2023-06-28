@@ -194,7 +194,7 @@ const props = defineProps({
   },
 });
 const emits = defineEmits(["update:modelValue", "change"]);
-const setVal: Ref<number> = ref(props.defaultValue ?? 0);
+const setVal: Ref<number> = ref(props.defaultValue ?? "0");
 // 设置响应式全局组件库配置表。
 const tmcfg = computed<tmVuetify>(() => store.tmStore);
 //是否暗黑模式。
@@ -204,8 +204,8 @@ const tmcomputed = computed<cssstyle>(() =>
   computedTheme({ ...props, color: props.bgColor, text: true }, isDark.value, tmcfg.value)
 );
 
-let timeid: number = NaN;
-let timeid2: number = NaN;
+let timeid: any = NaN;
+let timeid2: any = NaN;
 
 const isJianDisabled = computed(() => {
   if (setVal.value <= props.min) return true;
@@ -244,7 +244,7 @@ async function setStep(ty: string) {
     uni.hideLoading();
     if (!p) return false;
   }
-  var val: string | number = !setVal.value ? 0 : setVal.value;
+  var val: string | number = forMart(setVal.value)
 
   if (props.fixed > 0) {
     val = val.toFixed(props.fixed);
@@ -272,6 +272,7 @@ async function setStep(ty: string) {
     val = parseInt(val);
     if (ty == "+") {
       val += props.step;
+      console.log(val,'+++')
       if (val > props.max) {
         val = props.max;
       }
@@ -283,10 +284,8 @@ async function setStep(ty: string) {
     }
   }
   val = Number(val.toFixed(props.fixed));
-  if (val < 0) {
-    if (val <= props.min) {
-      val = props.min;
-    }
+  if (val <= props.min) {
+    val = props.min;
     clearInterval(timeid);
   } else if (val >= props.max) {
     val = props.max;
@@ -302,10 +301,11 @@ async function setStep(ty: string) {
   });
 }
 
-function inputVal(e) {
+function inputVal(e:any) {
   var val = parseFloat(e.detail.value);
   clearTimeout(timeid2);
   timeid2 = setTimeout(function () {
+    
     jianchData(forMart(val));
   }, 150);
 }
@@ -326,9 +326,22 @@ function jianchData(val: number) {
   if (val > props.max) {
     val = Number(props.max);
   }
-  setVal.value = val;
+ 
+  if(!setVal.value||setVal.value==0){
+      // @ts-ignore
+    setVal.value = null;
+    nextTick(()=>{
+      // @ts-ignore
+      setVal.value = String(val);
+    })
+  }else{
+     // @ts-ignore
+    setVal.value = String(val);
+  }
+  
   emits("update:modelValue", val);
   emits("change", val);
+  
 }
 function longpressEvent(ty: string) {
   if (props.disabled) return;
@@ -343,7 +356,9 @@ function endlongpressEvent(ty: string) {
 
 function forMart(val: string | number): number {
   let v = Number(val);
-  if (isNaN(v)) return 0;
+  if (isNaN(v)){
+    return props.min;
+  }
   return v;
 }
 </script>

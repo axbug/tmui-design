@@ -45,7 +45,7 @@ import webview from '../components/mobileWebview.vue'
 | width | Number | 0 | 宽度，单位rpx |
 | height | Number | 0 | 高度，单位rpx |
 | block | Boolean | false | 使用按钮宽度自动100% |
-| round | Number | 2 | 圆角-1-25，单位rpx，如果想去除按钮圆角，请设置为-1 |
+| round | Number | 3 | 圆角-1-25，单位rpx，如果想去除按钮圆角，请设置为-1 |
 | loading | Boolean | false | 使按钮加载状态，其它事件不会触发 |
 | disabled | Boolean | false | 是否禁用 |
 | url | String | '' | 页面地址，当提供时，点击会跳转到相应页面 |

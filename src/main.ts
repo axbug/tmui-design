@@ -5,7 +5,7 @@ import App from "./App.vue";
 
 export function createApp() {
   const app = createSSRApp(App);
-  app.use(tmui,{shareDisable:false} as Tmui.tmuiConfig)
+  app.use(tmui, {shareDisable: false} as Tmui.tmuiConfig)
   return {
     app,
     Pinia

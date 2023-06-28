@@ -28,7 +28,7 @@
           <!-- <view @click.stop="emits('click',$event)" class=" l-0 t-0 flex-1 " :style="{height: `${_height}rpx`,background:'red'}"></view> -->
           <input class="flex-1" :userInteractionEnabled="false" v-if="propsDetail.type != 'textarea'" :value="_value"
             :focus="propsDetail.focus" @focus="focus" @blur="blur" @confirm="confirm" @input="inputHandler"
-            @keyboardheightchange="emits('keyboardheightchange')" :password="showPasswordText"
+            @keyboardheightchange="emits('keyboardheightchange',$event)" :password="showPasswordText"
             :maxlength="propsDetail.maxlength" :disabled="propsDetail.disabled" :cursorSpacing="propsDetail.cursorSpacing"
             :confirmType="propsDetail.confirmType" :confirmHold="propsDetail.confirmHold" :autoBlur="propsDetail.autoBlur"
             :holdKeyboard="propsDetail.holdKeyboard" :adjustPosition="propsDetail.adjustPosition"
@@ -46,7 +46,7 @@
 
           <textarea :userInteractionEnabled="false" v-if="propsDetail.type == 'textarea'" :value="_value"
             :focus="propsDetail.focus" @focus="focus" @blur="blur" @confirm="confirm" @input="inputHandler"
-            @keyboardheightchange="emits('keyboardheightchange')" :maxlength="propsDetail.maxlength"
+            @keyboardheightchange="emits('keyboardheightchange',$event)" :maxlength="propsDetail.maxlength"
             :disabled="propsDetail.disabled" :placeholder="propsDetail.placeholder"
             :cursorSpacing="propsDetail.cursorSpacing" :confirmHold="propsDetail.confirmHold"
             :autoBlur="propsDetail.autoBlur" :holdKeyboard="propsDetail.holdKeyboard" :cursor="propsDetail.cursor"
@@ -72,7 +72,7 @@
           <!-- <view @click.stop="emits('click',$event)" class=" l-0 t-0 flex-1 " :style="{height: `${_height}rpx`,background:'red'}"></view> -->
           <input class="flex-1" @click.stop="emits('click', $event)" :userInteractionEnabled="false"
             v-if="propsDetail.type != 'textarea'" :value="_value" :focus="propsDetail.focus" @focus="focus" @blur="blur"
-            @confirm="confirm" @input="inputHandler" @keyboardheightchange="emits('keyboardheightchange')"
+            @confirm="confirm" @input="inputHandler" @keyboardheightchange="emits('keyboardheightchange',$event)"
             :password="showPasswordText" :disabled="propsDetail.disabled" :cursorSpacing="propsDetail.cursorSpacing"
             :confirmType="propsDetail.confirmType" :confirmHold="propsDetail.confirmHold" :autoBlur="propsDetail.autoBlur"
             :holdKeyboard="propsDetail.holdKeyboard" :adjustPosition="propsDetail.adjustPosition"
@@ -89,7 +89,7 @@
             ]" :placeholder-style="`fontSize:${propsDetail.fontSize_px}px;${props.placeholderStyle}`" />
           <textarea @click.stop="emits('click', $event)" :userInteractionEnabled="false"
             v-if="propsDetail.type == 'textarea'" :value="_value" :focus="propsDetail.focus" @focus="focus" @blur="blur"
-            @confirm="confirm" @input="inputHandler" @keyboardheightchange="emits('keyboardheightchange')"
+            @confirm="confirm" @input="inputHandler" @keyboardheightchange="emits('keyboardheightchange',$event)"
             :disabled="propsDetail.disabled" :placeholder="propsDetail.placeholder"
             :cursorSpacing="propsDetail.cursorSpacing" :confirmHold="propsDetail.confirmHold"
             :autoBlur="propsDetail.autoBlur" :holdKeyboard="propsDetail.holdKeyboard"

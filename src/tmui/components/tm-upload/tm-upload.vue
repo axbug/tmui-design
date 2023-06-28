@@ -282,6 +282,12 @@ const props = defineProps({
       return (item: file) => true;
     },
   },
+  chooesefileAfter: {
+    type: [Function, Boolean],
+    default: () => {
+      return (item: file[]) => true;
+    },
+  },
   //是否显示排序功能
   showSort: {
     type: Boolean,
@@ -419,6 +425,18 @@ _uploadObj.beforeChooesefile = async function () {
   }
   return true;
 };
+
+_uploadObj.chooesefileAfter = async function(filelist:file[]){
+	let tep = uni.$tm.u.deepClone(filelist)
+	if (typeof props.beforeChooese === "function") {
+	  let p = await props.beforeChooese(tep);
+	  if (typeof p === "function") {
+	    p = await p(tep);
+	  }
+	}
+	return tep;
+}
+
 //上传成功后，即将更新文件状态前执行，如果返回false，文件将标记为失败，尽管已经上传成功。
 _uploadObj.beforeSuccess = async function (item: file) {
   if (typeof props.onSuccessAfter === "function") {

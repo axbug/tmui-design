@@ -66,7 +66,7 @@ const modeltype = ref('day')
 const dateStr = ref('')
 const showdate = ref(false)
 const multiple = ref(false)
-const test = (e)=>{
-	console.log(e)
+const test = (e:any)=>{
+	console.log(e,'test')
 }
 </script>

@@ -10,6 +10,8 @@ import { useTmRouterAfter, useTmRouterBefore } from "./tool/router/index"
 import tmuiconfigdefault from "./tool/lib/tmuiconfigDefault"
 import { pagesType, tabBarItemType, tabBarType, beforeRouterOpts, pagesCustomType } from './interface';
 import * as Pinia from 'pinia';
+import { useTmpiniaStore } from './tool/lib/tmpinia';
+
 let pages: Array<pagesType> = [];
 if (typeof PageJsonInit?.pages == 'undefined') {
 	PageJsonInit.pages = [];
@@ -58,6 +60,7 @@ cusutomIconList = fontJson;
 let $tm = {
 	tabBar: tabBar,
 	pages: pages,
+	globalNavStyle:(PageJsonInit?.globalStyle.navigationStyle??""),
 	isOpenDarkModel:(PageJsonInit?.globalStyle?.navigationBarBackgroundColor??"").indexOf("@")>-1,
 	isColor: (color: string) => {
 		const reg1 = /^#([0-9a-fA-f]{3}|[0-9a-fA-f]{6})$/;
@@ -151,9 +154,9 @@ export default {
 			}
 		})
 		// #ifdef H5
-		window.addEventListener('popstate', (ev) => {
+		window.addEventListener('popstate', (ev:any) => {
 			linsInko({
-				path: ev.state.forward,
+				path: ev?.state?.forward??"",
 				context: null,
 				openType: "navigateBack"
 			})
@@ -197,19 +200,6 @@ export default {
 
 		app.mixin({
 			...appconfig,
-			onShow(){
-				// $mpType
-				
-				// setTimeout(function() {
-				// 	if(app.config.globalProperties.$pinia.state.value?.tmpinia?.tmStore){
-				// 		const {dark} = app.config.globalProperties.$pinia.state.value.tmpinia.tmStore;
-				// 		console.log(dark)
-				// 		if(dark){
-				// 			//暂不实现。
-				// 		}
-				// 	}
-				// }, 10);
-			}
 		})
 
 
@@ -221,8 +211,8 @@ export default {
 		
 		/**对外暴露 */
 		uni.$tm = $tm;
-		// #ifdef APP
-		util.setCookie('$tm',$tm)
+		// #ifdef APP-VUE
+		uni.setStorageSync("$tm",JSON.stringify($tm.config.theme));
 		// #endif
 		
 		/**app应用上下文的暴露 */

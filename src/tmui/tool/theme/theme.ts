@@ -6,11 +6,20 @@
  * @copyright tmzdy|tmui|https://tmui.design
  */
 import { colortool } from './colortool';
-
+import { ssrRef } from '@dcloudio/uni-app'
 import  { cssStyleConfig, cssstyle, colorThemeType, cssDirection, linearDirection, linearDeep, linearDirectionType } from '../lib/interface';
 //导入用户自定义的主题色值。
 // import { theme } from '../../../theme/index';
-let theme = (uni?.$tm?.config?.theme??uni.getStorageSync('$tm'))||{}
+
+let localTheme = {};
+// #ifdef APP
+try{
+	localTheme = JSON.parse(uni.getStorageSync("$tmTheme"))
+}catch(e){
+	//TODO handle the exception
+}
+// #endif
+let theme = uni?.$tm?.config?.theme?{...uni.$tm.config.theme}:localTheme;
 
 var colors: Array<colorThemeType> = [];
 var colorObj: any = {

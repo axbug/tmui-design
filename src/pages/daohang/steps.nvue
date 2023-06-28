@@ -5,7 +5,7 @@
         </tm-sheet>
         <tm-sheet :padding="[0, 24]" :margin="[0, 0]" >
             <tm-steps color="primary"  :defaultCurrent="1">
-                <tm-steps-item :width="150" :title="item.title" v-for="(item, index) in list" :key="index">
+                <tm-steps-item :label="item.label" :width="150" :title="item.title" v-for="(item, index) in list" :key="index">
                 </tm-steps-item>
             </tm-steps>
         </tm-sheet>
@@ -36,11 +36,11 @@ import tmDivider from "@/tmui/components/tm-divider/tm-divider.vue"
 import tmSteps from "@/tmui/components/tm-steps/tm-steps.vue"
 import tmStepsItem from "@/tmui/components/tm-steps-item/tm-steps-item.vue"
 const list = ref([
-    { title: "开始" },
-    { title: "投放中" },
-    { title: "审核" },
-    { title: "最后审查" },
-    { title: "完成" },
+    { title: "开始" ,label:"33"},
+    { title: "投放中" ,label:"" },
+    { title: "审核" ,label:"" },
+    { title: "最后审查" ,label:"" },
+    { title: "完成" ,label:"" },
 ])
 const list2 = ref([
     { title: "开始" },

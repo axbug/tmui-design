@@ -53,10 +53,21 @@ Upload 是一个常用的图片上传组件
 | onStart | Function / Boolean | true | 上传前执行，如果返回false,将阻止上传 |
 | onSuccessAfter | Function / Boolean | true | 上传成功后，从服务器响应后立即执行，此时，还未更改当前文件上传的状态，是成功还是失败，如果此时返回false,将会让文件状态从成功改为上传失败，尽管 从服务器正确返回，但仍然显示失败 |
 | beforeChooese | Function / Boolean | true | 选择文件前执行，如果此时返回false,将阻止选择文件。你可以在这里做一些上传前的配置 |
+| chooesefileAfter | Function / Boolean | true | 选择文件后执行，函数中参数：file[]，最后return file[]后，上传时以你修改后的文件列表为准 |
 | fileType | `Array<string>` | `['album','camera']` | 选择图片的场景，默认是从相册中和相机中 |
 | status-code | Number | 200 | 服务器请求成功时的状态值 |
 | show-status | Boolean | true | 是否显示底部的状态栏 |
 
+** chooesefileAfter **
+
+```ts
+const chooesefileAfter = (files:file[])=>{
+	//files为你选择图片后的的文件列表，已经处理过了，里面有一个url待上传的路径。
+	//如果你通过uni.compressImage压缩后，修改url路径，最后上传以你提供的路径 准
+	
+	return files
+}
+```
 
 ## :rose: 事件
 

@@ -17,7 +17,7 @@
     >
       <view style="height: 68rpx" class="flex flex-row flex-row-center-start">
         <view
-          v-for="(item, index) in _idArrays"
+          v-for="(item, index) in _idArrays_str"
           :key="index"
           class="flex flex-row flex-row-center-start"
         >
@@ -82,12 +82,13 @@ import {
   isRef,
   isProxy,
   PropType,
+  onMounted
 } from "vue";
 import BaseCascader from "./base-cascader.vue";
 import tmSheet from "../tm-sheet/tm-sheet.vue";
 import tmText from "../tm-text/tm-text.vue";
 import { childrenData } from "./interface";
-import { getNodeRouterData, queryNodeIsParent } from "./util";
+import { getNodeRouterData,getNodeRouterCustomStr, queryNodeIsParent } from "./util";
 /**
  * 事件说明。
  * @update:modelValue 为v-model
@@ -99,7 +100,7 @@ const emits = defineEmits(["update:modelValue", "tab-click", "cell-click", "chan
 const props = defineProps({
   followTheme: {
     type: [Boolean, String],
-    default: true,
+    default: true
   },
   /**
    * 导入的数据
@@ -107,7 +108,7 @@ const props = defineProps({
   data: {
     type: Array as PropType<Array<childrenData>>,
     default: () => [],
-    required: true,
+    required: true
   },
   /**
    * 默认选中的数据
@@ -164,6 +165,8 @@ let save_value_obj: Ref<Array<childrenData>> = ref([]);
 //当前选中的id数组。
 const _value: Ref<string | number> = ref("");
 const _idArrays: Ref<Array<string | number>> = ref([]);
+const _idArrays_str = ref<string[]>([])
+
 
 //当前的层级
 const _activeIndex = ref(0);
@@ -173,25 +176,34 @@ const _nowLevel = ref(0);
 //查找节点路径。
 // 判断是父节点还是子节点，如果是父或者不存在的节点，不作操作。
 function initNode(once: boolean = false) {
-  let moisref = isProxy(props.modelValue) ? toRaw(props.modelValue) : props.modelValue;
+   let listdata = uni.$tm.u.deepClone(props.data);
+  let moisref = uni.$tm.u.deepClone(props.modelValue);
   if (once) {
-    moisref = isProxy(props.defaultValue)
-      ? toRaw(props.defaultValue)
-      : props.defaultValue;
+    moisref = uni.$tm.u.deepClone(props.defaultValue)
   }
   let ls_ids = Array.isArray(moisref) ? moisref : [];
   _value.value = ls_ids.length == 0 ? "" : ls_ids[ls_ids.length - 1];
+  
   if (_value.value == "" || typeof _value.value == "undefined") return;
-  let isParent = queryNodeIsParent(toRaw(props.data), String(_value.value), "id");
+  let isParent = queryNodeIsParent(listdata, String(_value.value), "id");
+ 
   //父节点不能选中。
   if (isParent) return;
+  let parentStr = getNodeRouterCustomStr(listdata,ls_ids, "text");
+ 
   _idArrays.value = moisref;
+  if(parentStr.length>0){
+	  _idArrays_str.value = parentStr.map((el)=>el.text)
+  }
   _activeIndex.value = _idArrays.value.length ? _idArrays.value.length - 1 : 0;
   _nowLevel.value = _activeIndex.value;
+  
 }
 
-//初始化
-initNode(true);
+onMounted(()=>{
+	//初始化
+	nextTick(()=>initNode(true))
+})
 
 provide(
   "tmCascaderValue",
@@ -205,11 +217,18 @@ provide(
 function pushValue(key: childrenData, level: number, id: string | number) {
   if (_idArrays.value.length < level) {
     _idArrays.value.push(id);
+    _idArrays_str.value.push(key.text);
+	
   } else {
     _idArrays.value[level] = id;
-
-    nextTick(() => (_idArrays.value = _idArrays.value.slice(0, level + 1)));
+	_idArrays_str.value.splice(level,1,key.text)
+    nextTick(() => {
+		_idArrays.value = _idArrays.value.slice(0, level + 1);
+		_idArrays_str.value = _idArrays_str.value.slice(0, level + 1);
+	});
   }
+  
+  
 }
 
 async function addActiveIndex(level: number) {
@@ -239,6 +258,7 @@ watch(
       _value.value = "";
       save_value_obj.value = [];
       _idArrays.value = [];
+      _idArrays_str.value = [];
       _activeIndex.value = 0;
       _nowLevel.value = 0;
       return;
@@ -254,6 +274,7 @@ watch(
     _activeIndex.value = 0;
     _nowLevel.value = 0;
     _idArrays.value = [];
+	_idArrays_str.value = [];
   },
   { deep: true }
 );
@@ -261,9 +282,9 @@ watch(
  * 返回当前选中的数据对象数组。
  */
 function getValueObject() {
-  let [lastId] = _idArrays.value.reverse();
-  let moisref = isProxy(props.data) ? toRaw(props.data) : props.data;
-  let ar = getNodeRouterData(moisref, String(lastId), [], "id");
+	let pr = uni.$tm.u.deepClone(_idArrays.value)
+  let [lastId] = pr.reverse();
+  let ar = getNodeRouterData(uni.$tm.u.deepClone(props.data), String(lastId), [], "id");
   return ar;
 }
 /**
@@ -287,6 +308,7 @@ async function tabClick(index: number) {
   }
   _activeIndex.value = index;
   emits("tab-click", index);
+  
 }
 
 function reFresh(data: Array<childrenData> = []) {

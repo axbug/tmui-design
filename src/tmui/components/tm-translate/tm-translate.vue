@@ -6,7 +6,7 @@
   ]">
     <!-- #ifdef APP-NVUE -->
     <view v-if="isLoadEl" ref="nvueElAni" :animation="animationData"
-      :class="['flex-col flex trani', animationName + reverseAniPrefxname, customClass]">
+      :class="['flex-col flex ', animationName + reverseAniPrefxname, customClass]">
       <slot name="default"></slot>
     </view>
     <!-- #endif -->
@@ -14,7 +14,7 @@
     <view v-if="isLoadEl" ref="nvueElAni" :style="{
       transitionDuration: `${durationtos}ms`,
       transitionTimingFunction: 'ease',
-    }" :class="['flex-col flex trani', animationClassName, customClass]">
+    }" :class="['flex-col flex ', animationClassName, customClass]">
       <slot name="default"></slot>
     </view>
     <!-- #endif -->
@@ -346,7 +346,8 @@ function noNvueAmations() {
   transform: translateY(0%);
   /* #endif */
   /* #ifndef APP-NVUE || MP-WEIXIN || MP-ALIPAY || H5 */
-  top: 0vh;
+  position: absolute;
+  top: 0%;
   /* #endif */
 }
 
@@ -355,7 +356,8 @@ function noNvueAmations() {
   transform: translateY(-101%);
   /* #endif */
   /* #ifndef APP-NVUE || MP-WEIXIN || MP-ALIPAY || H5 */
-  top: -100vh;
+  position: absolute;
+  top: -100%;
   /* #endif */
 }
 
@@ -364,7 +366,8 @@ function noNvueAmations() {
   transform: translateY(0%);
   /* #endif */
   /* #ifndef APP-NVUE || MP-WEIXIN || MP-ALIPAY || H5 */
-  top: 0vh;
+  position: absolute;
+  bottom: 0%;
   /* #endif */
 
 }
@@ -374,7 +377,8 @@ function noNvueAmations() {
   transform: translateY(101%);
   /* #endif */
   /* #ifndef APP-NVUE || MP-WEIXIN || MP-ALIPAY || H5 */
-  top: 100vh;
+  position: absolute;
+  bottom: -100%;
   /* #endif */
 }
 
@@ -384,6 +388,7 @@ function noNvueAmations() {
   /* #endif */
   /* #ifndef APP-NVUE || MP-WEIXIN || MP-ALIPAY || H5 */
   left: 0%;
+  position: absolute;
   /* #endif */
 }
 
@@ -393,6 +398,7 @@ function noNvueAmations() {
   /* #endif */
   /* #ifndef APP-NVUE || MP-WEIXIN || MP-ALIPAY || H5 */
   left: -101%;
+  position: absolute;
   /* #endif */
 }
 
@@ -401,7 +407,8 @@ function noNvueAmations() {
   transform: translateX(0%);
   /* #endif */
   /* #ifndef APP-NVUE || MP-WEIXIN || MP-ALIPAY || H5 */
-  left: 0%;
+  right: 0%;
+  position: absolute;
   /* #endif */
 }
 
@@ -410,7 +417,8 @@ function noNvueAmations() {
   transform: translateX(101%);
   /* #endif */
   /* #ifndef APP-NVUE || MP-WEIXIN || MP-ALIPAY || H5 */
-  left: 101%;
+  right: -101%;
+  position: absolute;
   /* #endif */
 }
 

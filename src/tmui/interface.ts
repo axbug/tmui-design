@@ -82,7 +82,7 @@ declare global {
                  * */
                 globalFontSizeRatio?:number,
 				/** 是否关闭弹层背景的模糊 */
-				overflowBlur:false,
+				overflowBlur?:false,
                 /**
                  * 针对不同的主题配置详细的配色方案。
                  * 注意这里影响的时主题计算功能的配置
@@ -268,6 +268,7 @@ type tmUtil = {
     pages: Array<{ path: string, custom: 'custom' | 'default' }>,
     //pagejson下的配置。
     tabBar: tabBarType,
+	globalNavStyle:"custom"|"default",
     /**
      * 判断是否是颜色值
      * @param color 颜色值

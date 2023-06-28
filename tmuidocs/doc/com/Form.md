@@ -104,6 +104,7 @@ import webview from '../components/mobileWebview.vue'
 | showError<Badge type="danger" text="v3.0.71+" vertical="middle" /> | Boolean | null | 校验不通过的情况下，是否显示错误信息提示 |
 | requiredTitleChangeColor<Badge type="danger" text="v3.0.81+" vertical="middle" /> | Boolean | true | 校验不通过时，是否让标题跟着变化文字颜色，默认是。 |
 | errHeight<Badge type="danger" text="v3.1.04+" vertical="middle" /> | Number | 30 | 错误空间的高度 |
+| labelWidth<Badge type="danger" text="v3.1.07+" vertical="middle" /> | Number | 0 | 标题宽度，如果为0统一使用form上的设置的宽度 |
 
 **在3.0.71版本以前**rules只支持Object,之后支持Array\<rulesItem\>。为了向下兼容，之后的版本也是支持非数据校验函数。
 

@@ -19,8 +19,6 @@
 
 			<tm-button block @click="saveImg" label="获取图片数据"></tm-button>
 		</tm-sheet>
-
-
 		
 	</tm-app>
 </template>
@@ -45,6 +43,7 @@ const qrcode =  ref<InstanceType<typeof tmQrcode> | null>(null);
 const str = ref("我爱你tmui.design")
 const cfig = ref({str:str.value})
 const vsd = ref("0")
+
 function change(e) {
 	let type = Number(e)
 	if(type===0){

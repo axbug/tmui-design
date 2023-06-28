@@ -49,6 +49,7 @@ import webview from '../components/mobileWebview.vue'
 | update:modelValue |  | false/true | v-model:显示和隐藏 |
 | change |  | listitem | 当点击项目时触发，返回(listitem,index)数据 |
 | cancel |  |  | 点击取消时触发 |
+| open-data |  | 各自平台开放数据 | 开放事件，mp小程序上通过listitem中openType设置的开放数据事件触发，包括：选择头像，电话，分离，联系人等统一触发 |
 
 list[]格式为listitem 如下：
 ```ts

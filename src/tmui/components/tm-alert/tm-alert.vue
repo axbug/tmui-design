@@ -56,7 +56,7 @@
                     :style="{ height: '36rpx' }"
                   >
                     <tm-text
-                      @click="emits('click', $event)"
+                      @click="emits('click', item,index)"
                       _class="text-size-m  text-overflow-1 text-weight-b"
                       :fontSize="30"
                       :lineHeight="0"
@@ -66,7 +66,7 @@
 
                   <view v-if="item['content']" class="flex-12 overflow">
                     <tm-text
-                      @click="emits('click', $event)"
+                      @click="emits('click', item,index)"
                       :fontSize="26"
                       :_class="'text-overflow-' + props.maxLine"
                       :lineHeight="0"

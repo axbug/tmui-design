@@ -5,6 +5,7 @@
             <tm-divider></tm-divider>
             <tm-segtab :width="636" :list="list" defaultValue="2"></tm-segtab>
         </tm-sheet>
+		
         <tm-sheet >
             <tm-text :fontSize="24" _class="font-weight-b" label="改变按钮主题"></tm-text>
             <tm-divider></tm-divider>
@@ -38,8 +39,5 @@ const list = ref([
     {text:'tmui',id:'5'},
 ])
 
-setTimeout(()=>{
-    list.value = [{text:'苹果',id:'1'},
-    {text:'菠萝菠萝密',id:'2'},]
-},2000)
+
 </script>

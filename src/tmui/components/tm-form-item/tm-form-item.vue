@@ -14,7 +14,7 @@
             props.align,
             props.parentClass,
           ]">
-					<view v-if="_label" :style="[tmFormLayout == 'horizontal'?{ width: tmFormLabelWidth + 'rpx' }:'']"
+					<view v-if="_label" :style="[tmFormLayout == 'horizontal'?{ width: (props.labelWidth||tmFormLabelWidth) + 'rpx' }:'']"
 						class=" flex  flex-row" :class="[
               tmFormLabelAlign == 'right' ? 'flex-row-center-end' : 'flex-row-center-start',
               tmFormLayout != 'horizontal' ? 'mb-24 flex-1 ' : 'mr-32 ',
@@ -166,7 +166,11 @@
 		errHeight:{
 			type: Number,
 			default: 30,
-		}
+		},
+		labelWidth:{
+			type: Number,
+			default: 0,
+		},
 	});
 	const item = ref<formItem>({
 		label: "", //标签名称。

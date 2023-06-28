@@ -2,7 +2,7 @@
   <!-- #ifdef MP-WEIXIN -->
   <view
     class="flex relative"
-    :class="[props.direction == 'horizontal' ? 'flex-row flex-row-center-center' : '']"
+    :class="[props.direction == 'horizontal' ? 'flex-row flex-row-top-center' : '']"
     ref="contentbody"
   >
     <slot name="default"></slot>
@@ -13,7 +13,7 @@
     <view
       class="flex relative"
       :style="{ width: widthComputed }"
-      :class="[props.direction == 'horizontal' ? 'flex-row flex-row-center-center' : '']"
+      :class="[props.direction == 'horizontal' ? 'flex-row flex-row-top-center' : '']"
       ref="contentbody"
     >
       <slot name="default"></slot>

@@ -8,5 +8,6 @@ export interface FilterMenuType{
     fontSize:number,
     fontColor:string,
     unFontColor:string,
-    isButton:Boolean
+    isButton:Boolean,
+    uuid:String|Number
 }

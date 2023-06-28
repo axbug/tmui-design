@@ -93,6 +93,10 @@ const props = defineProps({
     type: String,
     default: "white",
   },
+  uuid:{
+    type:[String,Number],
+    default:""
+  }
 });
 const _props = computed(() => props);
 let tid: any = NaN
@@ -109,6 +113,7 @@ const AllList: ComputedRef<FilterMenuType[]> = inject(
   computed(() => [])
 );
 const id = "filterItem_" + uni.$tm.u.getUid(1);
+const uuid = computed(()=>props.uuid)
 const isActive = ref(false);
 //父级方法。
 let parent: any = proxy?.$parent;
@@ -163,6 +168,7 @@ function pushKey() {
       unFontColor: _props.value.unFontColor,
       text: _props.value.title,
       isButton: _props.value.isButton,
+      uuid:uuid.value
     });
   }
 }

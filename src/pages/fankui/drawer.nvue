@@ -44,7 +44,7 @@ import tmText from "@/tmui/components/tm-text/tm-text.vue"
 import tmButton from "@/tmui/components/tm-button/tm-button.vue"
 import tmDivider from "@/tmui/components/tm-divider/tm-divider.vue"
 import tmDrawer from "@/tmui/components/tm-drawer/tm-drawer.vue"
-import tmPicker from "@/tmui/components/tm-picker/tm-picker.vue"
+import tmCalendarView from "@/tmui/components/tm-calendar-view/tm-calendar-view.vue"
 const calendarView = ref<InstanceType<typeof tmCalendarView> | null>(null)
 const citydate = ref([
 	{ text: "苹果", id: 0 }, { text: "香蕉", id: 1 }, { text: "其它水果", id: 2 }, { text: "越南水果", id: 4 }
@@ -53,7 +53,6 @@ const showWin = ref(false)
 const showWin2 = ref(false)
 const showWin3 = ref(false)
 const pos = ref("bottom")
-
 function changPos(params:string) {
     pos.value = params;
     showWin.value=true

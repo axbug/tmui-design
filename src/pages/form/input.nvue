@@ -4,7 +4,7 @@
 		<tm-sheet>
 			<tm-text :font-size="24" _class="font-weight-b" label="基础示例,更多见文档"></tm-text>
 			<tm-divider></tm-divider>
-			<tm-input ></tm-input>
+			<tm-input></tm-input>
 			<tm-input :margin="[0,24]" password placeholder="请输入密码,显示隐藏内容"  prefix="tmicon-lock-fill" ></tm-input>
 			<tm-input :inputPadding="[12]" placeholder="文本域，输入自动增高。" confirm-hold confirm-type="换行" showCharNumber :maxlength="100" :border="1" color="grey-5" autoHeight type="textarea"></tm-input>
 		</tm-sheet>

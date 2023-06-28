@@ -182,6 +182,8 @@ const bgColor_rp = computed(() => {
 });
 const _inContent = ref(props.inContent);
 const isNvue = ref(false);
+let timerIdth:any = NaN;
+let timerIdth_flas = false;
 // #ifdef APP-NVUE
 _inContent.value = false;
 isNvue.value = true;
@@ -192,21 +194,26 @@ onMounted(() => {
   open(props.show);
 });
 
-function debounce(func: Function, wait = 500, immediate = false) {
-  // 清除定时器
-  if (!isNaN(timerId)) clearTimeout(timerId);
-  // 立即执行，此类情况一般用不到
+function throttle(func: Function, wait = 500, immediate = true) {
   if (immediate) {
-    var callNow = !timerId;
-    timerId = setTimeout(() => {
-      timerId = NaN;
-    }, wait);
-    if (callNow) typeof func === "function" && func();
-  } else {
-    // 设置定时器，当最后一次操作后，timeout不会再被清除，所以在延时wait毫秒后执行func回调方法
-    timerId = setTimeout(() => {
+    if (!timerIdth_flas) {
+      timerIdth_flas = true;
+      // 如果是立即执行，则在wait毫秒内开始时执行
       typeof func === "function" && func();
-    }, wait);
+
+      timerIdth = setTimeout(() => {
+        timerIdth_flas = false;
+      }, wait);
+    }
+  } else {
+    if (!timerIdth_flas) {
+      timerIdth_flas = true;
+      // 如果是非立即执行，则在wait毫秒内的结束处执行
+      timerIdth = setTimeout(() => {
+        timerIdth_flas = false;
+        typeof func === "function" && func();
+      }, wait);
+    }
   }
 }
 
@@ -297,7 +304,7 @@ function fadeInNvue(off: boolean = false) {
 }
 function fadeInVue(off = false) {
   if (showMask.value == off) return;
-  uni.$tm.u.throttle(
+  throttle(
     function () {
       if (off == false) {
         ani.value = false;
