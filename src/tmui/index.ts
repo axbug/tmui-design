@@ -192,7 +192,7 @@ export default {
 		let appconfig = {};
 		// #ifdef MP
 		
-		if($tm.config.shareDisable){
+		if(!$tm.config.shareDisable){
 			const { onShareAppMessage, onShareTimeline } = share()
 			appconfig = { ...appconfig, onShareAppMessage, onShareTimeline }
 		}

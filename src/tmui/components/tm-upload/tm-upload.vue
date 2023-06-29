@@ -428,11 +428,12 @@ _uploadObj.beforeChooesefile = async function () {
 
 _uploadObj.chooesefileAfter = async function(filelist:file[]){
 	let tep = uni.$tm.u.deepClone(filelist)
-	if (typeof props.beforeChooese === "function") {
-	  let p = await props.beforeChooese(tep);
+	if (typeof props.chooesefileAfter === "function") {
+	  let p = await props.chooesefileAfter(tep);
 	  if (typeof p === "function") {
 	    p = await p(tep);
 	  }
+    return p;
 	}
 	return tep;
 }
@@ -493,12 +494,14 @@ _uploadObj.uploadComplete = function (filelist) {
   emits("update:modelValue", _uploadObj.filelist);
 };
 _uploadObj.success = function (item, fileList) {
-  emits("success", toRaw(item), toRaw(_uploadObj.filelist));
-  emits("change", toRaw(_uploadObj.filelist));
+  let files = uni.$tm.u.deepClone(_uploadObj.filelist);
+  emits("success", toRaw(item), files);
+  emits("change", files);
 };
 _uploadObj.fail = function (item) {
-  emits("success", toRaw(item), toRaw(_uploadObj.filelist));
-  emits("change", toRaw(_uploadObj.filelist));
+	let files = uni.$tm.u.deepClone(_uploadObj.filelist);
+  emits("fail", toRaw(item), files);
+  emits("change",files);
 };
 function chooseFile() {
   if(_disabled.value) return;
