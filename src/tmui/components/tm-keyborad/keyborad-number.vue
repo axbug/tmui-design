@@ -15,7 +15,7 @@
         v-if="!_value && !props.showInputContent"
         :font-size="28"
         _class="text-weight-b"
-        label="安全键盘放心输入"
+         :label="props.title"
       >
       </tm-text>
       <tm-text

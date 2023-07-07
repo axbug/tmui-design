@@ -14,14 +14,14 @@
 				<view style="height: 24rpx;"></view>
 				<tm-sheet :round="5" :margin="[32, 0, 32, 16]">
 					<view class=" flex flex-col  round-2 overflow mx-32">
-						<tm-text _class="opacity-5 text-align-center" :font-size="24" label="请选择"></tm-text>
+						<tm-text _class="opacity-5 text-align-center" :font-size="24" :label="_title"></tm-text>
 						<tm-button @contact="openEvent" @launchapp="openEvent" @opensetting="openEvent" @getphonenumber="openEvent" @chooseavatar="openEvent" :open-type="item?.openType??''" :transprent="true" :fontColor="_active == index ? _activeFontColor : ''"
 							:followTheme="false" :disabled="item.disabled" @click="change(item, index)"
 							v-for="(item, index) in _list" :key="index" :label="item.text" :font-size="28" :margin="[0, 0]"
 							color="white" block :shadow="0" :round="-1"></tm-button>
 					</view>
 				</tm-sheet>
-				<tm-button :round="5" :fontColor="_activeFontColor" :followTheme="false" @click="cancel" label="取消"
+				<tm-button :round="5" :fontColor="_activeFontColor" :followTheme="false" @click="cancel" :label="_cancelText"
 					:font-size="28" :margin="[32, 0]" :color="_color" block :shadow="0"></tm-button>
 				<view :style="{ height: sysinfo.bottom + 'px' }"></view>
 			</view>
@@ -102,6 +102,16 @@ const props = defineProps({
 		default: 250
 	},
 	followTheme: custom_props.followTheme,
+	//请选择
+	title:{
+		type: String,
+		default: "请选择"
+	},
+	//取消按钮文字
+	cancelText:{
+		type: String,
+		default: "取消"
+	}
 })
 const show = ref(props?.modelValue ?? false);
 const _active = ref(props.active)
@@ -132,7 +142,8 @@ const cHeight = computed(() => {
 
 const _color = computed(() => props.color)
 const _activeFontColor = computed(() => props.followTheme ? store.tmStore.color : props.activeFontColor)
-
+const _title=computed(()=>props.title)
+const _cancelText=computed(()=>props.cancelText)
 onMounted(() => {
 	watchEffect(() => {
 		show.value = props.modelValue;

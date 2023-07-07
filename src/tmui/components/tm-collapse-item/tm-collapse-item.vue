@@ -35,7 +35,7 @@
             <tm-icon
               style="line-height: 0px"
               :color="_leftIconColor"
-              :font-size="24"
+              :font-size="_leftIconSize"
               :name="_leftIcon"
             ></tm-icon>
           </view>
@@ -195,6 +195,10 @@ const props = defineProps({
     type: [String],
     default: "",
   },
+  leftIconSize: {
+    type: [Number, String],
+    default: 24,
+  },
 });
 const _activekeyArray = inject(
   "tmCollapseKeyList",
@@ -213,6 +217,7 @@ const _tmCollapseopenIcon = inject(
   computed(() => "tmicon-sort-down")
 );
 const _leftIcon = computed(() => props.leftIcon);
+const _leftIconSize = computed(() => props.leftIconSize);
 const _contentHeight:Ref<number|string> = ref(setcontentHeight(props.contentHeight))
 const _contentHeightNumber:Ref<number|string> = ref(0)
 const isNvue = ref(false);
