@@ -1,5 +1,4 @@
 /node_modules
-/dist/
 /tmuidocs/.vuepress/dist/
 /tmuidocs/.vuepress/.temp/
 /tmuidocs/node_modules/
