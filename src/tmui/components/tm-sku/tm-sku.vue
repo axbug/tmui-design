@@ -46,12 +46,12 @@
 					<view class="" v-for="(item,index) in _list.data" :key="index">
 					    <tm-text _class="mb-24" :font-size="28" :label="item.title"></tm-text>
 					    <tm-radio-group v-model="nowSelected[index]" v-if="item?.children" direction="row">
-							<tm-radio :disabled="!item2.num" :value="item2.id" v-for="(item2,index2) in item.children" :key="index2" :custom="false">
+							<tm-radio :disabled="!checkPropsStock(item2,index)" :value="item2.id" v-for="(item2,index2) in item.children" :key="index2" :custom="false">
 								<template v-slot:default="{checked}">
-									<tm-badge :count="!item2.num?'缺货':0" >
-									    <view :class="[!item2.num?'opacity-6':'','']" >
+									<tm-badge :count="!checkPropsStock(item2,index)?'缺货':0" >
+									    <view :class="[!checkPropsStock(item2,index)?'opacity-6':'','']" >
 									        <tm-tag :shadow="0"
-									        :color="checked.checked&&item2.num?'red':'grey'" 
+									        :color="checked.checked&&checkPropsStock(item2,index)?'red':'grey'" 
 									        :round="24" 
 									        :font-size="26" 
 									        size="n"
@@ -183,7 +183,34 @@ function init(){
     nowSelected.value = new Array(MaxLen).fill("");
 }
 
+// 根据选择自动计算属性库存
+const checkPropsStock=computed(()=>{
+    return (e:any,index:number)=>{
+        // 复制选择的数组
+        let selectIds = nowSelected.value.concat();
+        // 是否选中此属性,没选中则加入传入的属性,检测是否有库存
+        selectIds[index]=e.id;
 
+        let stocked:any=false;
+        //是否有选中项
+        const selectCount=nowSelected.value.filter(value=>value).length;
+        if(selectCount>0){
+            stocked=props.list?.product.some((item)=>{
+                const dataIds=item.id.split("-");
+                for (let x = 0; x < selectIds.length; x++) {
+                    if(!selectIds[x]) dataIds[x]="";
+                }
+                return dataIds.join("-")===selectIds.join("-") && item.num>0
+            })      
+        } else {
+            // 属性ID是否在库存表中
+            stocked=props.list?.product.some((item)=>{
+                return item.id.split("-").includes(e.id,index)
+            })
+        }
+        return e.num || stocked;
+    }
+})
 
 
 
