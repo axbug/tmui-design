@@ -38,5 +38,9 @@ export const propsCutom = {
 	round:{
 		type:Number,
 		default:2
+	},
+	title:{
+		type:String,
+		default:'安全键盘放心输入'
 	}
 }

@@ -8,22 +8,22 @@
     <!-- #ifndef APP-NVUE -->
     <slot></slot>
     <!-- #endif -->
-    <tm-drawer ref="drawer" @open="drawerOpen" @close="drawerClose" @update:show="showPop = $event" :show="showPop"
+    <tm-drawer :zIndex="props.zIndex" ref="drawer" @open="drawerOpen" @close="drawerClose" @update:show="showPop = $event" :show="showPop"
       :dark="isDark" :follow-dark="props.followDark" :follow-theme="false" :height="dHeight" :hide-header="true"
       color="grey-3" :mask="false">
-      <keyborad-number @success="emits('success', $event)" :maxLength="_maxLength"
+      <keyborad-number @success="emits('success', $event)" :maxLength="_maxLength" :title="props.title"
         :showInputContent="props.showInputContent" :decimal="props.decimal" :followTheme="props.followTheme"
         :random="props.random" :color="props.color" v-if="_typemodel == 'number'" @change="change" @confirm="confirm"
         :model-value="_value" @update:modelValue="_value = $event" :dark="isDark" class="flex-1"></keyborad-number>
-      <keyborad-pass @success="emits('success', $event)" :maxLength="_maxLength"
+      <keyborad-pass @success="emits('success', $event)" :maxLength="_maxLength" :title="props.title"
         :showInputContent="props.showInputContent" :followTheme="props.followTheme" :random="props.random"
         :color="props.color" v-if="_typemodel == 'password'" @change="change" @confirm="confirm" :model-value="_value"
         @update:modelValue="_value = $event" :dark="isDark" class="flex-1"></keyborad-pass>
-      <keyborad-car @success="emits('success', $event)" :maxLength="_maxLength" :showInputContent="props.showInputContent"
+      <keyborad-car @success="emits('success', $event)" :maxLength="_maxLength" :title="props.title" :showInputContent="props.showInputContent"
         :followTheme="props.followTheme" :random="props.random" :color="props.color" v-if="_typemodel == 'car'"
         @change="change" @confirm="confirm" :model-value="_value" @update:modelValue="_value = $event" :dark="isDark"
         class="flex-1"></keyborad-car>
-      <keyborad-card @success="emits('success', $event)" :maxLength="_maxLength"
+      <keyborad-card @success="emits('success', $event)" :maxLength="_maxLength" :title="props.title"
         :showInputContent="props.showInputContent" :followTheme="props.followTheme" :random="props.random"
         :color="props.color" v-if="_typemodel == 'card'" @change="change" @confirm="confirm" :model-value="_value"
         @update:modelValue="_value = $event" :dark="isDark" class="flex-1"></keyborad-card>
@@ -110,14 +110,21 @@ const props = defineProps({
     type: Number,
     default: 0,
   },
+  zIndex: {
+    type: [Number, String],
+    default: 1000,
+  },
 });
 
 // 设置响应式全局组件库配置表。
 const tmcfg = computed(() => store.tmStore);
+// console.log('key',props.zIndex)
+
 //是否暗黑模式。
 const isDark = computed(() => computedDark(props, tmcfg.value));
 const showPop = ref(props?.show ?? false);
 const _value = ref(props?.defaultValue ?? "");
+
 const _maxLength = computed(() => props.maxLength);
 const sysinfo = inject(
   "tmuiSysInfo",
