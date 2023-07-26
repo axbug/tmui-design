@@ -1,4 +1,12 @@
 export const propsdetail = {
+	_class: {
+		type: String,
+		default: ""
+	},
+	_style: {
+		type: String,
+		default: ""
+	},
 	width: {
 		type: Number,
 		default: 0

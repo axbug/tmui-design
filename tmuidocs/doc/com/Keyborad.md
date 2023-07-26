@@ -8,11 +8,11 @@ import webview from '../components/mobileWebview.vue'
 
 #### 组件库文档 tmui.design
 
-# 键盘 keyboard
+# 键盘 keyborad
 
 键盘组件提供四种模式，可以适应多种输入环境，分别为密码输入，身份证号输入，车牌输入以及常见的数字键盘
 
-因这个组件名字拼错了，现在为了纠正：keyboard和keyborad，两个组件同时存在，可以共用。到了年底错误的组件将删除，请大家做好使用正确组件。
+因这个组件名字拼错了，现在为了纠正：keyborad和keyborad，两个组件同时存在，可以共用。到了年底错误的组件将删除，请大家做好使用正确组件。
 
 
 ---
@@ -45,6 +45,7 @@ import webview from '../components/mobileWebview.vue'
 | color | String | primary | 键盘颜色 |
 | random | Boolean | false | 是否为随机键盘 |
 | decimal | Boolean | true | 是否显示小数点（数字键盘有效） |
+| zIndex | number | 401 | 层级,nvue无效 |
 
 ## :rose: 事件
 

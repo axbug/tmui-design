@@ -1,5 +1,5 @@
-export function addition(arg1 : number[], arg2 : number[]) {
-	const result : number[] = []
+export function addition(arg1: number[], arg2: number[]) {
+	const result: number[] = []
 	if (arg1.length === arg2.length) {
 		// 遍历数组并相加对应的值
 		for (let i = 0; i < arg1.length; i++) {
@@ -8,8 +8,8 @@ export function addition(arg1 : number[], arg2 : number[]) {
 	}
 	return result;
 }
-export function subtract(arg1 : number[], arg2 : number[], reserver : boolean = false) {
-	const result : number[] = []
+export function subtract(arg1: number[], arg2: number[], reserver: boolean = false) {
+	const result: number[] = []
 	if (arg1.length === arg2.length) {
 		// 遍历数组并相加对应的值
 		for (let i = 0; i < arg1.length; i++) {
@@ -22,16 +22,16 @@ export function subtract(arg1 : number[], arg2 : number[], reserver : boolean = 
 	}
 	return result;
 }
-export function multiply(arg1 : number[], arg2 : number) {
-	const result : number[] = []
+export function multiply(arg1: number[], arg2: number) {
+	const result: number[] = []
 	// 遍历数组并相加对应的值
 	for (let i = 0; i < arg1.length; i++) {
 		result.push(arg1[i] * arg2);
 	}
 	return result;
 }
-export function division(arg1 : number[], arg2 : number) {
-	const result : number[] = []
+export function division(arg1: number[], arg2: number) {
+	const result: number[] = []
 	// 遍历数组并相加对应的值
 	for (let i = 0; i < arg1.length; i++) {
 		result.push(arg1[i] / arg2);
@@ -40,7 +40,7 @@ export function division(arg1 : number[], arg2 : number) {
 }
 
 
-export function uuid(len = 24, radix : number) {
+export function uuid(len = 24, radix: number) {
 	var chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'.split('');
 	var uuid = [],
 		i;

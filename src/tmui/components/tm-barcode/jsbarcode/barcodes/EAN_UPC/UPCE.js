@@ -34,43 +34,43 @@ const PARITIES = [
 	["EOOEOE", "OEEOEO"]
 ];
 
-class UPCE extends Barcode{
-	constructor(data, options){
+class UPCE extends Barcode {
+	constructor(data, options) {
 		// Code may be 6 or 8 digits;
 		// A 7 digit code is ambiguous as to whether the extra digit
 		// is a UPC-A check or number system digit.
 		super(data, options);
 		this.isValid = false;
-		if(data.search(/^[0-9]{6}$/) !== -1){
+		if (data.search(/^[0-9]{6}$/) !== -1) {
 			this.middleDigits = data;
 			this.upcA = expandToUPCA(data, "0");
 			this.text = options.text ||
 				`${this.upcA[0]}${data}${this.upcA[this.upcA.length - 1]}`;
 			this.isValid = true;
 		}
-		else if(data.search(/^[01][0-9]{7}$/) !== -1){
+		else if (data.search(/^[01][0-9]{7}$/) !== -1) {
 			this.middleDigits = data.substring(1, data.length - 1);
 			this.upcA = expandToUPCA(this.middleDigits, data[0]);
 
-			if(this.upcA[this.upcA.length - 1] === data[data.length - 1]){
+			if (this.upcA[this.upcA.length - 1] === data[data.length - 1]) {
 				this.isValid = true;
 			}
-			else{
+			else {
 				// checksum mismatch
 				return;
 			}
 		}
-		else{
+		else {
 			return;
 		}
 
 		this.displayValue = options.displayValue;
 
 		// Make sure the font is not bigger than the space between the guard bars
-		if(options.fontSize > options.width * 10){
+		if (options.fontSize > options.width * 10) {
 			this.fontSize = options.width * 10;
 		}
-		else{
+		else {
 			this.fontSize = options.fontSize;
 		}
 
@@ -78,20 +78,20 @@ class UPCE extends Barcode{
 		this.guardHeight = options.height + this.fontSize / 2 + options.textMargin;
 	}
 
-	valid(){
+	valid() {
 		return this.isValid;
 	}
 
-	encode(){
-		if(this.options.flat){
+	encode() {
+		if (this.options.flat) {
 			return this.flatEncoding();
 		}
-		else{
+		else {
 			return this.guardedEncoding();
 		}
 	}
 
-	flatEncoding(){
+	flatEncoding() {
 		var result = "";
 
 		result += "101";
@@ -104,43 +104,43 @@ class UPCE extends Barcode{
 		};
 	}
 
-	guardedEncoding(){
+	guardedEncoding() {
 		var result = [];
 
 		// Add the UPC-A number system digit beneath the quiet zone
-		if(this.displayValue){
+		if (this.displayValue) {
 			result.push({
 				data: "00000000",
 				text: this.text[0],
-				options: {textAlign: "left", fontSize: this.fontSize}
+				options: { textAlign: "left", fontSize: this.fontSize }
 			});
 		}
 
 		// Add the guard bars
 		result.push({
 			data: "101",
-			options: {height: this.guardHeight}
+			options: { height: this.guardHeight }
 		});
 
 		// Add the 6 UPC-E digits
 		result.push({
 			data: this.encodeMiddleDigits(),
 			text: this.text.substring(1, 7),
-			options: {fontSize: this.fontSize}
+			options: { fontSize: this.fontSize }
 		});
 
 		// Add the end bits
 		result.push({
 			data: "010101",
-			options: {height: this.guardHeight}
+			options: { height: this.guardHeight }
 		});
 
 		// Add the UPC-A check digit beneath the quiet zone
-		if(this.displayValue){
+		if (this.displayValue) {
 			result.push({
 				data: "00000000",
 				text: this.text[7],
-				options: {textAlign: "right", fontSize: this.fontSize}
+				options: { textAlign: "right", fontSize: this.fontSize }
 			});
 		}
 
@@ -161,7 +161,7 @@ function expandToUPCA(middleDigits, numberSystem) {
 
 	let result = "";
 	let digitIndex = 0;
-	for(let i = 0; i < expansion.length; i++) {
+	for (let i = 0; i < expansion.length; i++) {
 		let c = expansion[i];
 		if (c === 'X') {
 			result += middleDigits[digitIndex++];

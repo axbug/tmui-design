@@ -54,8 +54,8 @@ import webview from '../components/mobileWebview.vue'
 本组件含有公共属性 [公共属性](/spec/组件公共样式.html)
 | 参数名 | 类型 | 默认值 | 描述 |
 | :--: | :--: | :--: | :-- |
-| size | Number | 24 | 字体大小 |
-| color | String | "primary" | 字体颜色 |
+| size | Number | 24 | 节点大小 |
+| color | String | "primary" | 主题色 |
 | icon | String | "" | 图标 |
 | border | Number | 2 | 边框宽度 |
 | type | String | 'outlined' | 填充类型,'outlined','fill' |

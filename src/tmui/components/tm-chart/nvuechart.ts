@@ -1,45 +1,45 @@
 import { EChartsCoreOption, EChartsOption } from "echarts";
 
 class mytmcharts {
-    web = null;
-	width=0;
-	height=0;
-	optionNow:EChartsOption|null = null;
-    constructor(c:any,w=0,h=0){
-        this.web = c;
+	web = null;
+	width = 0;
+	height = 0;
+	optionNow: EChartsOption | null = null;
+	constructor(c: any, w = 0, h = 0) {
+		this.web = c;
 		this.width = w;
 		this.height = h;
-    }
-    setOption(option:EChartsOption,opts:any={}){
-        if(!this.web) return;
+	}
+	setOption(option: EChartsOption, opts: any = {}) {
+		if (!this.web) return;
 		this.optionNow = option;
-        this.web.evalJs(`mychart.setOption(${JSON.stringify(option)},${JSON.stringify(opts)})`)
-    }
-	getWidth(){
+		this.web.evalJs(`mychart.setOption(${JSON.stringify(option)},${JSON.stringify(opts)})`)
+	}
+	getWidth() {
 		return this.width;
 	}
-	getHeight(){
+	getHeight() {
 		return this.height;
 	}
-	getDom(){
+	getDom() {
 		return this.web;
 	}
-	getOption(){
+	getOption() {
 		return this.optionNow;
 	}
-	resize(){
-		if(!this.web) return;
+	resize() {
+		if (!this.web) return;
 		this.web.evalJs(`mychart.resize()`)
 	}
-	showLoading(opts:any){
-		if(!this.web) return;
+	showLoading(opts: any) {
+		if (!this.web) return;
 		this.web.evalJs(`mychart.showLoading(${JSON.stringify(opts)})`)
 	}
-	hideLoading(){
-		if(!this.web) return;
+	hideLoading() {
+		if (!this.web) return;
 		this.web.evalJs(`mychart.hideLoading()`)
 	}
-	getDataURL(){
+	getDataURL() {
 		//暂不实现。
 	}
 }

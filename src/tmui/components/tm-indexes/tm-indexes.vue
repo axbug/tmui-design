@@ -187,12 +187,13 @@ const navright = computed(() => {
 //兼容滑块选中的参数。
 const winOffsetY = ref(0);
 const itemHeight = Math.ceil(uni.upx2px(navHeight.value));
-const winHeight = computed(() => navright.value.length * navHeight);
+const winHeight = computed(() => navright.value.length * navHeight.value);
 const winHeightPx = computed(() => Math.ceil(uni.upx2px(winHeight.value)));
 
-function throttle(func: Function, delay: Number = 40) {
+function throttle(func: Function, delay: number = 40) {
   var prev = Date.now();
   return function () {
+    // @ts-ignore
     var context: any = this;
     var args = arguments;
     var now = Date.now();

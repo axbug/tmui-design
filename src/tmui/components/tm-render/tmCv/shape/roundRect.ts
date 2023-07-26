@@ -2,15 +2,15 @@ import { tmCv } from "..";
 import { shapeStyle } from "../interface";
 import { Shape } from "../shape";
 interface roundRect extends shapeStyle {
-    radius:[number,number,number,number]
+    radius: [number, number, number, number]
 }
 export class tmRoundRect extends Shape {
-    radius:[number,number,number,number] = [0,0,0,0]
-    constructor(tmcv: tmCv, arg: Partial<roundRect>){
-        super(tmcv,arg)
-        this.radius = arg?.radius??this.radius;
+    radius: [number, number, number, number] = [0, 0, 0, 0]
+    constructor(tmcv: tmCv, arg: Partial<roundRect>) {
+        super(tmcv, arg)
+        this.radius = arg?.radius ?? this.radius;
     }
-    draw():this{
+    draw(): this {
         if (!this.canvas.ctx) return this;
         let ctx = this.canvas.ctx;
         const x = this.x;
@@ -20,7 +20,7 @@ export class tmRoundRect extends Shape {
         const fillStyle = this.fillStyle;
         const strokeStyle = this.strokeStyle;
         const lineWidth = this.lineWidth
-        const radius:[number,number,number,number] = this.radius
+        const radius: [number, number, number, number] = this.radius
         const topLeftRadius = radius[0];
         const topRightRadius = radius[1];
         const bottomLeftRadius = radius[3];
@@ -37,16 +37,16 @@ export class tmRoundRect extends Shape {
         ctx.quadraticCurveTo(x, y, x + topLeftRadius, y);
         ctx.closePath();
 
-        if(ctx.setFillStyle){
+        if (ctx.setFillStyle) {
             ctx.setFillStyle(fillStyle)
             ctx.setLineWidth(lineWidth)
             ctx.setStrokeStyle(strokeStyle)
-        }else{
+        } else {
             ctx.fillStyle = fillStyle;
             ctx.lineWidth = lineWidth;
             ctx.strokeStyle = strokeStyle;
         }
-        
+
         ctx.fill()
         ctx.stroke()
         return this;

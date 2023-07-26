@@ -121,7 +121,7 @@
 							:height="20"
 						></tm-sheet>
 						<tm-sheet
-							@click="show=false"
+							@click="show = false"
 							:width="props.width"
 							:text="props.text"
 							:color="props.color"
@@ -142,7 +142,12 @@
 							:padding="[0, 12]"
 						>
 							<slot name="label">
-								<tm-text :font-size="24" _style="line-height:normal;" :_class="[props.width ? '' : 'nowrap  ', 'px-16']" :label="props.label"></tm-text>
+								<tm-text
+									:font-size="24"
+									_style="line-height:normal;"
+									:_class="[props.width ? '' : 'nowrap  ', 'px-16']"
+									:label="props.label"
+								></tm-text>
 							</slot>
 						</tm-sheet>
 						<tm-sheet
@@ -214,7 +219,7 @@
 							:height="20"
 						></tm-sheet>
 						<tm-sheet
-							@click="show=false"
+							@click="show = false"
 							:width="props.width"
 							:text="props.text"
 							:color="props.color"
@@ -236,7 +241,12 @@
 						>
 							<view :eventPenetrationEnabled="true">
 								<slot name="label">
-									<tm-text :font-size="24" _style="line-height:normal;" :_class="[props.width ? '' : 'nowrap  ', 'px-16']" :label="props.label"></tm-text>
+									<tm-text
+										:font-size="24"
+										_style="line-height:normal;"
+										:_class="[props.width ? '' : 'nowrap  ', 'px-16']"
+										:label="props.label"
+									></tm-text>
 								</slot>
 							</view>
 						</tm-sheet>
@@ -281,146 +291,134 @@
  * @description 用来提示，帮助展示信息等。
  */
 
-import tmSheet from "../tm-sheet/tm-sheet.vue";
-import tmText from "../tm-text/tm-text.vue";
-import tmTranslate from "../tm-translate/tm-translate.vue";
-import { custom_props } from "../../tool/lib/minxs";
-import {
-  getCurrentInstance,
-  computed,
-  ref,
-  PropType,
-  inject,
-  onUpdated,
-  onMounted,
-  onUnmounted,
-  nextTick,
-  watch,
-} from "vue";
+import tmSheet from '../tm-sheet/tm-sheet.vue'
+import tmText from '../tm-text/tm-text.vue'
+import tmTranslate from '../tm-translate/tm-translate.vue'
+import { custom_props } from '../../tool/lib/minxs'
+import { getCurrentInstance, computed, ref, PropType, inject, onUpdated, onMounted, onUnmounted, nextTick, watch } from 'vue'
 // #ifdef APP-PLUS-NVUE
-const dom = uni.requireNativePlugin("dom");
+const dom = uni.requireNativePlugin('dom')
 // #endif
-const proxy = getCurrentInstance()?.proxy ?? null;
-const aniDom = ref<InstanceType<typeof tmTranslate> | null>(null);
+const proxy = getCurrentInstance()?.proxy ?? null
+const aniDom = ref<InstanceType<typeof tmTranslate> | null>(null)
 const props = defineProps({
-  ...custom_props,
-  shadow: {
-    type: Number,
-    default: 0,
-  },
-  border: {
-    type: [Number, String],
-    default: 0,
-  },
-  round: {
-    type: [Number, String],
-    default: 3,
-  },
-  transprent: {
-    type: [Boolean, String],
-    default: false,
-  },
-  color: {
-    type: String,
-    default: "white",
-  },
-  width: {
-    type: Number,
-    default: 0,
-  },
-  /**tl,tc,tr,bc,bl,br,上左，中，右。下左，中，右。 */
-  position: {
-    type: String as PropType<"tl" | "tc" | "tr" | "bc" | "bl" | "br">,
-    default: "tc",
-  },
-  label: {
-    type: String,
-    default: "提示内容",
-  },
-});
+	...custom_props,
+	shadow: {
+		type: Number,
+		default: 0
+	},
+	border: {
+		type: [Number, String],
+		default: 0
+	},
+	round: {
+		type: [Number, String],
+		default: 3
+	},
+	transprent: {
+		type: [Boolean, String],
+		default: false
+	},
+	color: {
+		type: String,
+		default: 'white'
+	},
+	width: {
+		type: Number,
+		default: 0
+	},
+	/**tl,tc,tr,bc,bl,br,上左，中，右。下左，中，右。 */
+	position: {
+		type: String as PropType<'tl' | 'tc' | 'tr' | 'bc' | 'bl' | 'br'>,
+		default: 'tc'
+	},
+	label: {
+		type: String,
+		default: '提示内容'
+	}
+})
 const sysinfo = inject(
-  "tmuiSysInfo",
-  computed(() => {
-    return {
-      bottom: 0,
-      height: 750,
-      width: uni.upx2px(750),
-      top: 0,
-      isCustomHeader: false,
-      sysinfo: null,
-    };
-  })
-);
-const windowWidth = computed(() => sysinfo.value.width);
-const windowHeight = computed(() => sysinfo.value.height);
-let isNvue = ref(false);
+	'tmuiSysInfo',
+	computed(() => {
+		return {
+			bottom: 0,
+			height: 750,
+			width: uni.upx2px(750),
+			top: 0,
+			isCustomHeader: false,
+			sysinfo: null
+		}
+	})
+)
+const windowWidth = computed(() => sysinfo.value.width)
+const windowHeight = computed(() => sysinfo.value.height)
+let isNvue = ref(false)
 // #ifdef APP-PLUS-NVUE
-isNvue.value = true;
+isNvue.value = true
 // #endif
 
-let timeid = ref(uni.$tm.u.getUid(5));
-let show = ref(false);
+let timeid = ref(uni.$tm.u.getUid(5))
+let show = ref(false)
 let domNvuePosCss = ref({
-  left: 0,
-  right: 0,
-  bottom: 0,
-  top: 0,
-  width: 0,
-  height: 0,
-});
+	left: 0,
+	right: 0,
+	bottom: 0,
+	top: 0,
+	width: 0,
+	height: 0
+})
 let domNvueContentCss = ref({
-  left: 0,
-  right: 0,
-  bottom: 0,
-  top: 0,
-  width: 0,
-  height: 0,
-});
+	left: 0,
+	right: 0,
+	bottom: 0,
+	top: 0,
+	width: 0,
+	height: 0
+})
 
 const tarnslateName = computed(() => {
-  if (props.position == "bc" || props.position == "bl" || props.position == "br")
-    return "up";
-  return "down";
-});
+	if (props.position == 'bc' || props.position == 'bl' || props.position == 'br') return 'up'
+	return 'down'
+})
 function nvueDomPos() {
-  // #ifdef APP-PLUS-NVUE
-  try {
-    nextTick(function () {
-      dom.getComponentRect(proxy?.$refs.popver, function (res) {
-        domNvuePosCss.value = { ...res.size };
-      });
-      dom.getComponentRect(proxy?.$refs.content, function (res) {
-        if (res?.size) {
-          domNvueContentCss.value = { ...res.size };
-        }
-      });
-    });
-  } catch (e) {
-    //TODO handle the exception
-  }
-  // #endif
+	// #ifdef APP-PLUS-NVUE
+	try {
+		nextTick(function () {
+			dom.getComponentRect(proxy?.$refs.popver, function (res) {
+				domNvuePosCss.value = { ...res.size }
+			})
+			dom.getComponentRect(proxy?.$refs.content, function (res) {
+				if (res?.size) {
+					domNvueContentCss.value = { ...res.size }
+				}
+			})
+		})
+	} catch (e) {
+		//TODO handle the exception
+	}
+	// #endif
 }
 onUpdated(() => {
-  // #ifdef APP-PLUS-NVUE
-  if (domNvuePosCss.value.width == 0 || !domNvueContentCss.value.height) {
-    nvueDomPos();
-  }
-  // #endif
-});
-onMounted(() => nvueDomPos());
+	// #ifdef APP-PLUS-NVUE
+	if (domNvuePosCss.value.width == 0 || !domNvueContentCss.value.height) {
+		nvueDomPos()
+	}
+	// #endif
+})
+onMounted(() => nvueDomPos())
 watch(
-  () => show.value,
-  () => {
-    // #ifdef APP-PLUS-NVUE
-    clearTimeout(timeid.value);
-    if (show.value == true) {
-      setTimeout(function () {
-        aniDom.value?.play();
-      }, 80);
-    }
-    // #endif
-  }
-);
+	() => show.value,
+	() => {
+		// #ifdef APP-PLUS-NVUE
+		clearTimeout(timeid.value)
+		if (show.value == true) {
+			setTimeout(function () {
+				aniDom.value?.play()
+			}, 80)
+		}
+		// #endif
+	}
+)
 </script>
 
 <style scoped>

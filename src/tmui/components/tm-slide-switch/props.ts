@@ -1,5 +1,5 @@
-import {PropType} from "vue"
-import {actionItem} from "./interface"
+import { PropType } from "vue"
+import { actionItem } from "./interface"
 export const defaultProps = {
 	width: {
 		type: Number,
@@ -32,12 +32,12 @@ export const defaultProps = {
 		default: false
 	},
 	/** 单位 rpx, */
-	leftWidth:{
+	leftWidth: {
 		type: Number,
 		default: 120
 	},
 	/** 单位 rpx, */
-	rightWidth:{
+	rightWidth: {
 		type: Number,
 		default: 220
 	},

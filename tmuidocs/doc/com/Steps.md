@@ -33,7 +33,7 @@ import webview from '../components/mobileWebview.vue'
 本组件含有公共属性 [公共属性](/spec/组件公共样式.html)
 | 参数名 | 类型 | 默认值 | 描述 |
 | :--: | :--: | :--: | :-- |
-| direction | String | "horizontal" | 步骤条显示的方向<br> horizontal &#124; vertical |
+| direction | String | "horizontal" | (这个属性没有用)步骤条显示的方向,为了更好的兼容，如果需要竖向，请使用时间轴组件 |
 | current | [Number] | 0 | 当前的步骤。可使用v-model:current |
 | defaultCurrent | Number | 0 | 当前默认初始，显示的步骤数。 |
 | status | String | "" | 当前步骤的状态。<br> wait &#124; process &#124; finish &#124; error |

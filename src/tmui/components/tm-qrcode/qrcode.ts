@@ -10,7 +10,7 @@
 
 // Alignment pattern.
 var ALIGNMENT_DELTA = [
-	0,  11, 15, 19, 23, 27, 31,
+	0, 11, 15, 19, 23, 27, 31,
 	16, 18, 20, 22, 24, 26, 28, 20, 22, 24, 24, 26, 28, 28, 22, 24, 24,
 	26, 26, 28, 28, 24, 24, 26, 26, 26, 28, 28, 24, 26, 26, 26, 28, 28
 ]
@@ -18,54 +18,54 @@ var ALIGNMENT_DELTA = [
 // There are four elements per version. The first two indicate the number of blocks, then the
 // data width, and finally the ECC width.
 var ECC_BLOCKS = [
-	1,  0,  19,  7,     1,  0,  16,  10,    1,  0,  13,  13,    1,  0,  9,   17,
-	1,  0,  34,  10,    1,  0,  28,  16,    1,  0,  22,  22,    1,  0,  16,  28,
-	1,  0,  55,  15,    1,  0,  44,  26,    2,  0,  17,  18,    2,  0,  13,  22,
-	1,  0,  80,  20,    2,  0,  32,  18,    2,  0,  24,  26,    4,  0,  9,   16,
-	1,  0,  108, 26,    2,  0,  43,  24,    2,  2,  15,  18,    2,  2,  11,  22,
-	2,  0,  68,  18,    4,  0,  27,  16,    4,  0,  19,  24,    4,  0,  15,  28,
-	2,  0,  78,  20,    4,  0,  31,  18,    2,  4,  14,  18,    4,  1,  13,  26,
-	2,  0,  97,  24,    2,  2,  38,  22,    4,  2,  18,  22,    4,  2,  14,  26,
-	2,  0,  116, 30,    3,  2,  36,  22,    4,  4,  16,  20,    4,  4,  12,  24,
-	2,  2,  68,  18,    4,  1,  43,  26,    6,  2,  19,  24,    6,  2,  15,  28,
-	4,  0,  81,  20,    1,  4,  50,  30,    4,  4,  22,  28,    3,  8,  12,  24,
-	2,  2,  92,  24,    6,  2,  36,  22,    4,  6,  20,  26,    7,  4,  14,  28,
-	4,  0,  107, 26,    8,  1,  37,  22,    8,  4,  20,  24,    12, 4,  11,  22,
-	3,  1,  115, 30,    4,  5,  40,  24,    11, 5,  16,  20,    11, 5,  12,  24,
-	5,  1,  87,  22,    5,  5,  41,  24,    5,  7,  24,  30,    11, 7,  12,  24,
-	5,  1,  98,  24,    7,  3,  45,  28,    15, 2,  19,  24,    3,  13, 15,  30,
-	1,  5,  107, 28,    10, 1,  46,  28,    1,  15, 22,  28,    2,  17, 14,  28,
-	5,  1,  120, 30,    9,  4,  43,  26,    17, 1,  22,  28,    2,  19, 14,  28,
-	3,  4,  113, 28,    3,  11, 44,  26,    17, 4,  21,  26,    9,  16, 13,  26,
-	3,  5,  107, 28,    3,  13, 41,  26,    15, 5,  24,  30,    15, 10, 15,  28,
-	4,  4,  116, 28,    17, 0,  42,  26,    17, 6,  22,  28,    19, 6,  16,  30,
-	2,  7,  111, 28,    17, 0,  46,  28,    7,  16, 24,  30,    34, 0,  13,  24,
-	4,  5,  121, 30,    4,  14, 47,  28,    11, 14, 24,  30,    16, 14, 15,  30,
-	6,  4,  117, 30,    6,  14, 45,  28,    11, 16, 24,  30,    30, 2,  16,  30,
-	8,  4,  106, 26,    8,  13, 47,  28,    7,  22, 24,  30,    22, 13, 15,  30,
-	10, 2,  114, 28,    19, 4,  46,  28,    28, 6,  22,  28,    33, 4,  16,  30,
-	8,  4,  122, 30,    22, 3,  45,  28,    8,  26, 23,  30,    12, 28, 15,  30,
-	3,  10, 117, 30,    3,  23, 45,  28,    4,  31, 24,  30,    11, 31, 15,  30,
-	7,  7,  116, 30,    21, 7,  45,  28,    1,  37, 23,  30,    19, 26, 15,  30,
-	5,  10, 115, 30,    19, 10, 47,  28,    15, 25, 24,  30,    23, 25, 15,  30,
-	13, 3,  115, 30,    2,  29, 46,  28,    42, 1,  24,  30,    23, 28, 15,  30,
-	17, 0,  115, 30,    10, 23, 46,  28,    10, 35, 24,  30,    19, 35, 15,  30,
-	17, 1,  115, 30,    14, 21, 46,  28,    29, 19, 24,  30,    11, 46, 15,  30,
-	13, 6,  115, 30,    14, 23, 46,  28,    44, 7,  24,  30,    59, 1,  16,  30,
-	12, 7,  121, 30,    12, 26, 47,  28,    39, 14, 24,  30,    22, 41, 15,  30,
-	6,  14, 121, 30,    6,  34, 47,  28,    46, 10, 24,  30,    2,  64, 15,  30,
-	17, 4,  122, 30,    29, 14, 46,  28,    49, 10, 24,  30,    24, 46, 15,  30,
-	4,  18, 122, 30,    13, 32, 46,  28,    48, 14, 24,  30,    42, 32, 15,  30,
-	20, 4,  117, 30,    40, 7,  47,  28,    43, 22, 24,  30,    10, 67, 15,  30,
-	19, 6,  118, 30,    18, 31, 47,  28,    34, 34, 24,  30,    20, 61, 15,  30
+	1, 0, 19, 7, 1, 0, 16, 10, 1, 0, 13, 13, 1, 0, 9, 17,
+	1, 0, 34, 10, 1, 0, 28, 16, 1, 0, 22, 22, 1, 0, 16, 28,
+	1, 0, 55, 15, 1, 0, 44, 26, 2, 0, 17, 18, 2, 0, 13, 22,
+	1, 0, 80, 20, 2, 0, 32, 18, 2, 0, 24, 26, 4, 0, 9, 16,
+	1, 0, 108, 26, 2, 0, 43, 24, 2, 2, 15, 18, 2, 2, 11, 22,
+	2, 0, 68, 18, 4, 0, 27, 16, 4, 0, 19, 24, 4, 0, 15, 28,
+	2, 0, 78, 20, 4, 0, 31, 18, 2, 4, 14, 18, 4, 1, 13, 26,
+	2, 0, 97, 24, 2, 2, 38, 22, 4, 2, 18, 22, 4, 2, 14, 26,
+	2, 0, 116, 30, 3, 2, 36, 22, 4, 4, 16, 20, 4, 4, 12, 24,
+	2, 2, 68, 18, 4, 1, 43, 26, 6, 2, 19, 24, 6, 2, 15, 28,
+	4, 0, 81, 20, 1, 4, 50, 30, 4, 4, 22, 28, 3, 8, 12, 24,
+	2, 2, 92, 24, 6, 2, 36, 22, 4, 6, 20, 26, 7, 4, 14, 28,
+	4, 0, 107, 26, 8, 1, 37, 22, 8, 4, 20, 24, 12, 4, 11, 22,
+	3, 1, 115, 30, 4, 5, 40, 24, 11, 5, 16, 20, 11, 5, 12, 24,
+	5, 1, 87, 22, 5, 5, 41, 24, 5, 7, 24, 30, 11, 7, 12, 24,
+	5, 1, 98, 24, 7, 3, 45, 28, 15, 2, 19, 24, 3, 13, 15, 30,
+	1, 5, 107, 28, 10, 1, 46, 28, 1, 15, 22, 28, 2, 17, 14, 28,
+	5, 1, 120, 30, 9, 4, 43, 26, 17, 1, 22, 28, 2, 19, 14, 28,
+	3, 4, 113, 28, 3, 11, 44, 26, 17, 4, 21, 26, 9, 16, 13, 26,
+	3, 5, 107, 28, 3, 13, 41, 26, 15, 5, 24, 30, 15, 10, 15, 28,
+	4, 4, 116, 28, 17, 0, 42, 26, 17, 6, 22, 28, 19, 6, 16, 30,
+	2, 7, 111, 28, 17, 0, 46, 28, 7, 16, 24, 30, 34, 0, 13, 24,
+	4, 5, 121, 30, 4, 14, 47, 28, 11, 14, 24, 30, 16, 14, 15, 30,
+	6, 4, 117, 30, 6, 14, 45, 28, 11, 16, 24, 30, 30, 2, 16, 30,
+	8, 4, 106, 26, 8, 13, 47, 28, 7, 22, 24, 30, 22, 13, 15, 30,
+	10, 2, 114, 28, 19, 4, 46, 28, 28, 6, 22, 28, 33, 4, 16, 30,
+	8, 4, 122, 30, 22, 3, 45, 28, 8, 26, 23, 30, 12, 28, 15, 30,
+	3, 10, 117, 30, 3, 23, 45, 28, 4, 31, 24, 30, 11, 31, 15, 30,
+	7, 7, 116, 30, 21, 7, 45, 28, 1, 37, 23, 30, 19, 26, 15, 30,
+	5, 10, 115, 30, 19, 10, 47, 28, 15, 25, 24, 30, 23, 25, 15, 30,
+	13, 3, 115, 30, 2, 29, 46, 28, 42, 1, 24, 30, 23, 28, 15, 30,
+	17, 0, 115, 30, 10, 23, 46, 28, 10, 35, 24, 30, 19, 35, 15, 30,
+	17, 1, 115, 30, 14, 21, 46, 28, 29, 19, 24, 30, 11, 46, 15, 30,
+	13, 6, 115, 30, 14, 23, 46, 28, 44, 7, 24, 30, 59, 1, 16, 30,
+	12, 7, 121, 30, 12, 26, 47, 28, 39, 14, 24, 30, 22, 41, 15, 30,
+	6, 14, 121, 30, 6, 34, 47, 28, 46, 10, 24, 30, 2, 64, 15, 30,
+	17, 4, 122, 30, 29, 14, 46, 28, 49, 10, 24, 30, 24, 46, 15, 30,
+	4, 18, 122, 30, 13, 32, 46, 28, 48, 14, 24, 30, 42, 32, 15, 30,
+	20, 4, 117, 30, 40, 7, 47, 28, 43, 22, 24, 30, 10, 67, 15, 30,
+	19, 6, 118, 30, 18, 31, 47, 28, 34, 34, 24, 30, 20, 61, 15, 30
 ]
 
 // Map of human-readable ECC levels.
 var ECC_LEVELS = {
 	L: 1
-	,M: 2
-	,Q: 3
-	,H: 4
+	, M: 2
+	, Q: 3
+	, H: 4
 }
 
 // Final format bits with mask (level << 3 | mask).
@@ -123,7 +123,7 @@ var N3 = 40
 var N4 = 10
 
 // Version pattern.
-var VERSION_BLOCK = [ 
+var VERSION_BLOCK = [
 	0xc94, 0x5bc, 0xa99, 0x4d3, 0xbf6, 0x762, 0x847, 0x60d, 0x928, 0xb78, 0x45d, 0xa17, 0x532,
 	0x9a6, 0x683, 0x8c9, 0x7ec, 0xec4, 0x1e1, 0xfab, 0x08e, 0xc1a, 0x33f, 0xd75, 0x250, 0x9d5,
 	0x6f0, 0x8ba, 0x79f, 0xb0b, 0x42e, 0xa64, 0x541, 0xc69
@@ -133,9 +133,9 @@ var VERSION_BLOCK = [
 // Generate the encoded QR image for the string provided.
 export function generateFrame(_str, ecc) {
 	var i, j, k, m, t, v, x, y, version
-	,eccLevel = ECC_LEVELS[ecc || 'L'] || 1
-	,str = _str || ''
-	,width
+		, eccLevel = ECC_LEVELS[ecc || 'L'] || 1
+		, str = _str || ''
+		, width
 
 	// Run lengths for badness.
 	var badBuffer = []
@@ -167,20 +167,20 @@ export function generateFrame(_str, ecc) {
 	// Set bit to indicate cell in frame is immutable (symmetric around diagonal).
 	function setMask(_x, _y) {
 		var bit
-		,x = _x
-		,y = _y
+			, x = _x
+			, y = _y
 
 		if (x > y) {
 			bit = x
-			x   = y
-			y   = bit
+			x = y
+			y = bit
 		}
 
-		bit   = y
-		bit  *= y
-		bit  += y
+		bit = y
+		bit *= y
+		bit += y
 		bit >>= 1
-		bit  += x
+		bit += x
 
 		frameMask[bit] = 1
 	}
@@ -189,16 +189,16 @@ export function generateFrame(_str, ecc) {
 	// with mask later.
 	function addAlignment(_x, _y) {
 		var i
-		,x = _x
-		,y = _y
+			, x = _x
+			, y = _y
 
 		frameBuffer[x + width * y] = 1
 
 		for (i = -2; i < 2; i++) {
-			frameBuffer[(x + i)     + width * (y - 2)]     = 1
-			frameBuffer[(x - 2)     + width * (y + i + 1)] = 1
-			frameBuffer[(x + 2)     + width * (y + i)]     = 1
-			frameBuffer[(x + i + 1) + width * (y + 2)]     = 1
+			frameBuffer[(x + i) + width * (y - 2)] = 1
+			frameBuffer[(x - 2) + width * (y + i + 1)] = 1
+			frameBuffer[(x + 2) + width * (y + i)] = 1
+			frameBuffer[(x + i + 1) + width * (y + 2)] = 1
 		}
 
 		for (i = 0; i < 2; i++) {
@@ -214,7 +214,7 @@ export function generateFrame(_str, ecc) {
 		var x = _x
 		while (x >= 255) {
 			x -= 255
-			x  = (x >> 8) + (x & 255)
+			x = (x >> 8) + (x & 255)
 		}
 
 		return x
@@ -224,10 +224,10 @@ export function generateFrame(_str, ecc) {
 	// indices to buffers are used.
 	function appendData(_data, _dataLength, _ecc, _eccLength) {
 		var bit, i, j
-		,data = _data
-		,dataLength = _dataLength
-		,ecc = _ecc
-		,eccLength = _eccLength
+			, data = _data
+			, dataLength = _dataLength
+			, ecc = _ecc
+			, eccLength = _eccLength
 
 		for (i = 0; i < eccLength; i++) {
 			stringBuffer[ecc + i] = 0
@@ -239,7 +239,7 @@ export function generateFrame(_str, ecc) {
 			if (bit !== 255) {
 				for (j = 1; j < eccLength; j++) {
 					stringBuffer[ecc + j - 1] = stringBuffer[ecc + j] ^
-							GALOIS_EXPONENT[modN(bit + polynomial[eccLength - j])]
+						GALOIS_EXPONENT[modN(bit + polynomial[eccLength - j])]
 				}
 			} else {
 				for (j = ecc; j < ecc + eccLength; j++) {
@@ -248,26 +248,26 @@ export function generateFrame(_str, ecc) {
 			}
 
 			stringBuffer[ecc + eccLength - 1] = bit === 255 ? 0 :
-					GALOIS_EXPONENT[modN(bit + polynomial[0])]
+				GALOIS_EXPONENT[modN(bit + polynomial[0])]
 		}
 	}
 
 	// Check mask since symmetricals use half.
 	function isMasked(_x, _y) {
 		var bit
-		,x = _x
-		,y = _y
+			, x = _x
+			, y = _y
 
 		if (x > y) {
 			bit = x
-			x   = y
-			y   = bit
+			x = y
+			y = bit
 		}
 
-		bit   = y
-		bit  += y * y
+		bit = y
+		bit += y * y
 		bit >>= 1
-		bit  += x
+		bit += x
 
 		return frameMask[bit] === 1
 	}
@@ -275,102 +275,102 @@ export function generateFrame(_str, ecc) {
 	// Apply the selected mask out of the 8 options.
 	function applyMask(_mask) {
 		var x, y, r3x, r3y
-		,mask = _mask
+			, mask = _mask
 
-		if(mask === 0)
-				for (y = 0; y < width; y++) {
-					for (x = 0; x < width; x++) {
-						if (!((x + y) & 1) && !isMasked(x, y)) {
-							frameBuffer[x + y * width] ^= 1
-						}
+		if (mask === 0)
+			for (y = 0; y < width; y++) {
+				for (x = 0; x < width; x++) {
+					if (!((x + y) & 1) && !isMasked(x, y)) {
+						frameBuffer[x + y * width] ^= 1
 					}
 				}
+			}
 
-		if(mask === 1)
-				for (y = 0; y < width; y++) {
-					for (x = 0; x < width; x++) {
-						if (!(y & 1) && !isMasked(x, y)) {
-							frameBuffer[x + y * width] ^= 1
-						}
+		if (mask === 1)
+			for (y = 0; y < width; y++) {
+				for (x = 0; x < width; x++) {
+					if (!(y & 1) && !isMasked(x, y)) {
+						frameBuffer[x + y * width] ^= 1
 					}
 				}
+			}
 
-		if(mask === 2)
-				for (y = 0; y < width; y++) {
-					for (r3x = 0, x = 0; x < width; x++, r3x++) {
-						if (r3x === 3) r3x = 0
+		if (mask === 2)
+			for (y = 0; y < width; y++) {
+				for (r3x = 0, x = 0; x < width; x++, r3x++) {
+					if (r3x === 3) r3x = 0
 
-						if (!r3x && !isMasked(x, y)) {
-							frameBuffer[x + y * width] ^= 1
-						}
+					if (!r3x && !isMasked(x, y)) {
+						frameBuffer[x + y * width] ^= 1
 					}
 				}
+			}
 
-		if(mask === 3)
-				for (r3y = 0, y = 0; y < width; y++, r3y++) {
-					if (r3y === 3) r3y = 0
+		if (mask === 3)
+			for (r3y = 0, y = 0; y < width; y++, r3y++) {
+				if (r3y === 3) r3y = 0
 
-					for (r3x = r3y, x = 0; x < width; x++, r3x++) {
-						if (r3x === 3) r3x = 0
+				for (r3x = r3y, x = 0; x < width; x++, r3x++) {
+					if (r3x === 3) r3x = 0
 
-						if (!r3x && !isMasked(x, y)) {
-							frameBuffer[x + y * width] ^= 1
-						}
+					if (!r3x && !isMasked(x, y)) {
+						frameBuffer[x + y * width] ^= 1
 					}
 				}
+			}
 
-		if(mask === 4)
-				for (y = 0; y < width; y++) {
-					for (r3x = 0, r3y = ((y >> 1) & 1), x = 0; x < width; x++, r3x++) {
-						if (r3x === 3) {
-							r3x = 0
-							r3y = !r3y
-						}
+		if (mask === 4)
+			for (y = 0; y < width; y++) {
+				for (r3x = 0, r3y = ((y >> 1) & 1), x = 0; x < width; x++, r3x++) {
+					if (r3x === 3) {
+						r3x = 0
+						r3y = !r3y
+					}
 
-						if (!r3y && !isMasked(x, y)) {
-							frameBuffer[x + y * width] ^= 1
-						}
+					if (!r3y && !isMasked(x, y)) {
+						frameBuffer[x + y * width] ^= 1
 					}
 				}
+			}
 
-		if(mask === 5)
-				for (r3y = 0, y = 0; y < width; y++, r3y++) {
-					if (r3y === 3) r3y = 0
+		if (mask === 5)
+			for (r3y = 0, y = 0; y < width; y++, r3y++) {
+				if (r3y === 3) r3y = 0
 
-					for (r3x = 0, x = 0; x < width; x++, r3x++) {
-						if (r3x === 3) r3x = 0
+				for (r3x = 0, x = 0; x < width; x++, r3x++) {
+					if (r3x === 3) r3x = 0
 
-						if (!((x & y & 1) + !(!r3x | !r3y)) && !isMasked(x, y)) {
-							frameBuffer[x + y * width] ^= 1
-						}
+					if (!((x & y & 1) + !(!r3x | !r3y)) && !isMasked(x, y)) {
+						frameBuffer[x + y * width] ^= 1
 					}
 				}
+			}
 
-		if(mask === 6)
-				for (r3y = 0, y = 0; y < width; y++, r3y++) {
-					if (r3y === 3) r3y = 0
+		if (mask === 6)
+			for (r3y = 0, y = 0; y < width; y++, r3y++) {
+				if (r3y === 3) r3y = 0
 
-					for (r3x = 0, x = 0; x < width; x++, r3x++) {
-						if (r3x === 3) r3x = 0
+				for (r3x = 0, x = 0; x < width; x++, r3x++) {
+					if (r3x === 3) r3x = 0
 
-						if (!(((x & y & 1) + (r3x && (r3x === r3y))) & 1) && !isMasked(x, y)) {
-							frameBuffer[x + y * width] ^= 1
-						}
+					if (!(((x & y & 1) + (r3x && (r3x === r3y))) & 1) && !isMasked(x, y)) {
+						frameBuffer[x + y * width] ^= 1
 					}
 				}
+			}
 
-		if(mask === 7)
-				for (r3y = 0, y = 0; y < width; y++, r3y++) {
-					if (r3y === 3) r3y = 0
+		if (mask === 7)
+			for (r3y = 0, y = 0; y < width; y++, r3y++) {
+				if (r3y === 3) r3y = 0
 
-					for (r3x = 0, x = 0; x < width; x++, r3x++) {
-						if (r3x === 3) r3x = 0
+				for (r3x = 0, x = 0; x < width; x++, r3x++) {
+					if (r3x === 3) r3x = 0
 
-						if (!(((r3x && (r3x === r3y)) + ((x + y) & 1)) & 1) && !isMasked(x, y)) {
-							frameBuffer[x + y * width] ^= 1
-						}
+					if (!(((r3x && (r3x === r3y)) + ((x + y) & 1)) & 1) && !isMasked(x, y)) {
+						frameBuffer[x + y * width] ^= 1
 					}
 				}
+			}
 
 	}
 
@@ -390,13 +390,13 @@ export function generateFrame(_str, ecc) {
 		// FBFFFBF as in finder.
 		for (i = 3; i < length - 1; i += 2) {
 			if (badBuffer[i - 2] === badBuffer[i + 2] &&
-					badBuffer[i + 2] === badBuffer[i - 1] &&
-					badBuffer[i - 1] === badBuffer[i + 1] &&
-					badBuffer[i - 1] * 3 === badBuffer[i] &&
-					// Background around the foreground pattern? Not part of the specs.
-					(badBuffer[i - 3] === 0 || i + 3 > length ||
-					 badBuffer[i - 3] * 3 >= badBuffer[i] * 4 ||
-					 badBuffer[i + 3] * 3 >= badBuffer[i] * 4)) {
+				badBuffer[i + 2] === badBuffer[i - 1] &&
+				badBuffer[i - 1] === badBuffer[i + 1] &&
+				badBuffer[i - 1] * 3 === badBuffer[i] &&
+				// Background around the foreground pattern? Not part of the specs.
+				(badBuffer[i - 3] === 0 || i + 3 > length ||
+					badBuffer[i - 3] * 3 >= badBuffer[i] * 4 ||
+					badBuffer[i + 3] * 3 >= badBuffer[i] * 4)) {
 				badRuns += N3
 			}
 		}
@@ -413,16 +413,16 @@ export function generateFrame(_str, ecc) {
 		// Blocks of same colour.
 		for (y = 0; y < width - 1; y++) {
 			for (x = 0; x < width - 1; x++) {
-						// All foreground colour.
+				// All foreground colour.
 				if ((frameBuffer[x + width * y] &&
-						 frameBuffer[(x + 1) + width * y] &&
-						 frameBuffer[x + width * (y + 1)] &&
-						 frameBuffer[(x + 1) + width * (y + 1)]) ||
-						// All background colour.
-						!(frameBuffer[x + width * y] ||
-							frameBuffer[(x + 1) + width * y] ||
-							frameBuffer[x + width * (y + 1)] ||
-							frameBuffer[(x + 1) + width * (y + 1)])) {
+					frameBuffer[(x + 1) + width * y] &&
+					frameBuffer[x + width * (y + 1)] &&
+					frameBuffer[(x + 1) + width * (y + 1)]) ||
+					// All background colour.
+					!(frameBuffer[x + width * y] ||
+						frameBuffer[(x + 1) + width * y] ||
+						frameBuffer[x + width * (y + 1)] ||
+						frameBuffer[(x + 1) + width * (y + 1)])) {
 					bad += N2
 				}
 			}
@@ -439,7 +439,7 @@ export function generateFrame(_str, ecc) {
 					badBuffer[++h] = 1
 				}
 
-				b   = b1
+				b = b1
 				bw += b ? 1 : -1
 			}
 
@@ -448,8 +448,8 @@ export function generateFrame(_str, ecc) {
 
 		if (bw < 0) bw = -bw
 
-		big   = bw
-		big  += big << 2
+		big = bw
+		big += big << 2
 		big <<= 1
 
 		while (big > width * width) {
@@ -482,11 +482,11 @@ export function generateFrame(_str, ecc) {
 		var out, i, len, c;
 		out = "";
 		len = str.length;
-		for(i = 0; i < len; i++) {
+		for (i = 0; i < len; i++) {
 			c = str.charCodeAt(i);
-			if((c >= 0x0001) && (c <= 0x007F)) {
+			if ((c >= 0x0001) && (c <= 0x007F)) {
 				out += str.charAt(i);
-			} else if(c > 0x07FF) {
+			} else if (c > 0x07FF) {
 				out += String.fromCharCode(0xE0 | ((c >> 12) & 0x0F));
 				out += String.fromCharCode(0x80 | ((c >> 6) & 0x3F));
 				out += String.fromCharCode(0x80 | ((c >> 0) & 0x3F));
@@ -497,7 +497,7 @@ export function generateFrame(_str, ecc) {
 		}
 		return out;
 	}
-	
+
 	//end functions
 
 	// Find the smallest version that fits the string.
@@ -513,8 +513,8 @@ export function generateFrame(_str, ecc) {
 
 		neccBlock1 = ECC_BLOCKS[k++]
 		neccBlock2 = ECC_BLOCKS[k++]
-		dataBlock  = ECC_BLOCKS[k++]
-		eccBlock   = ECC_BLOCKS[k]
+		dataBlock = ECC_BLOCKS[k++]
+		eccBlock = ECC_BLOCKS[k]
 
 		k = dataBlock * (neccBlock1 + neccBlock2) + neccBlock2 - 3 + (version <= 9)
 
@@ -577,7 +577,7 @@ export function generateFrame(_str, ecc) {
 		t = ALIGNMENT_DELTA[version]
 		y = width - 7
 
-		for (;;) {
+		for (; ;) {
 			x = width - 7
 
 			while (x > t - 3) {
@@ -733,7 +733,7 @@ export function generateFrame(_str, ecc) {
 
 		for (j = i; j > 0; j--) {
 			polynomial[j] = polynomial[j] ? polynomial[j - 1] ^
-					GALOIS_EXPONENT[modN(GALOIS_LOG[polynomial[j]] + i)] : polynomial[j - 1]
+				GALOIS_EXPONENT[modN(GALOIS_LOG[polynomial[j]] + i)] : polynomial[j - 1]
 		}
 
 		polynomial[0] = GALOIS_EXPONENT[modN(GALOIS_LOG[polynomial[0]] + i)]
@@ -814,7 +814,7 @@ export function generateFrame(_str, ecc) {
 							y--
 						} else {
 							x -= 2
-							k  = !k
+							k = !k
 
 							if (x === 6) {
 								x--
@@ -826,7 +826,7 @@ export function generateFrame(_str, ecc) {
 							y++
 						} else {
 							x -= 2
-							k  = !k
+							k = !k
 
 							if (x === 6) {
 								x--
@@ -905,6 +905,6 @@ export function generateFrame(_str, ecc) {
 	// Finally, return the image data.
 	return {
 		frameBuffer: frameBuffer
-		,width: width
+		, width: width
 	}
 }

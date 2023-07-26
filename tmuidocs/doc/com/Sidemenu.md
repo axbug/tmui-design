@@ -49,7 +49,8 @@ import webview from '../components/mobileWebview.vue'
 | refresh | Boolean | false | 默认加载状态 |
 | load | Function | (type: 'pull'|'bottom'|'menu',item:listItem,index:number)=>{} | 默认加载数据的触发函数 |
 | firstLoad | Boolean | true | 首次是否进行load数据加载触发状态. |
-| disabledBottom | Boolean | false | 是否禁用下拉刷新功能 |
+| disabledBottom | Boolean | false | 是否禁用触底刷新功能 |
+| disabledPull | Boolean | false | 是否禁用下拉刷新功能 |
 | rangKey | String | text | 菜单名称的字段key |
 | isScroll | Boolean | false | 是否自定义右侧滚动区域的插槽，如果是原有的下拉，下拉的滚动组件将不显示并去除。 |
 

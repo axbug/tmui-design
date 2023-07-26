@@ -1,7 +1,7 @@
 import 'pinia';
 import { ComponentInternalInstance, ComponentPublicInstance } from "vue"
 interface Data {
-	[key: string]: any;
+    [key: string]: any;
 }
 /**渐变方向 left:右->左，right:左->右。top:下->上，bottom:上->下。 */
 export type linearType = 'left' | 'right' | 'bottom' | 'top' | ''
@@ -56,8 +56,8 @@ declare global {
         interface tmuiConfig {
             /** 自动跟随系统暗黑 */
             autoDark?: boolean,
-			/** 开启全局分离功能，默认关闭 */
-			shareDisable?:boolean,
+            /** 开启全局分离功能，默认关闭 */
+            shareDisable?: boolean,
             /**主题列表 */
             theme?: {},
             /**细化全局的主题配置表 */
@@ -80,9 +80,9 @@ declare global {
                  * 只对使用tm-text组件以及自身组件的字号才会有效果 
                  * 
                  * */
-                globalFontSizeRatio?:number,
-				/** 是否关闭弹层背景的模糊 */
-				overflowBlur?:false,
+                globalFontSizeRatio?: number,
+                /** 是否关闭弹层背景的模糊 */
+                overflowBlur?: false,
                 /**
                  * 针对不同的主题配置详细的配色方案。
                  * 注意这里影响的时主题计算功能的配置
@@ -119,7 +119,7 @@ declare global {
             text?: string,
             disabled?: boolean,
             /** 各家小程序的openType。 */
-            openType?:string
+            openType?: string
             [key: string]: any;
         }
         interface tmAlert {
@@ -128,34 +128,50 @@ declare global {
             content?: string
         }
         interface tabs {
-            key?: string|number,
+            key?: string | number,
             title?: string,
             icon?: string,
-            dot?:boolean,
-            count?:string|number
-            dotColor?:string,
-            [key:string]:any
+            dot?: boolean,
+            count?: string | number
+            dotColor?: string,
+            [key: string]: any
         }
-		interface skuItem{
-			title:string,
-			id:string|number,
-			num:number,
-			children:skuItem[]
-		}
-		interface sku {
-            data:skuItem[],
-			product:{
-				id: string, 
-				title: string, 
-				num: number,
-				max_buy:number,
-				/** 原价 */
-				price: number, 
-				/** 优惠价 */
-				salePrice: 54, 
-				tip: string,
-				img:string
-			}[]
+        interface skuItem {
+            title: string,
+            id: string | number,
+            num: number,
+            children: skuItem[]
+        }
+        interface sku {
+            data: skuItem[],
+            product: {
+                id: string,
+                title: string,
+                num: number,
+                max_buy: number,
+                /** 原价 */
+                price: number,
+                /** 优惠价 */
+                salePrice: 54,
+                tip: string,
+                img: string
+            }[]
+        }
+
+        interface tmFormSubmitResult {
+            data: { [key: string]: any };
+            isPass: boolean,
+            result: {
+                message: string,//校验后的提示文本
+                validator: boolean,//是否校验通过
+            }[]
+        }
+        interface tmFormRules {
+            validator?: Function | boolean,//检验函数。可以是Promise异步回调。
+            required?: boolean,//是否必填。
+            message?: string,//检验不合格时的文本
+            type?: string,//校验类型.
+            [key: string]: any
         }
         /**组件的配置 */
         namespace components {
@@ -163,7 +179,7 @@ declare global {
             interface button {
                 round?: number,
                 shadow?: number,
-                color?:string
+                color?: string
             }
             interface sheet {
 
@@ -268,7 +284,7 @@ type tmUtil = {
     pages: Array<{ path: string, custom: 'custom' | 'default' }>,
     //pagejson下的配置。
     tabBar: tabBarType,
-	globalNavStyle:"custom"|"default",
+    globalNavStyle: "custom" | "default",
     /**
      * 判断是否是颜色值
      * @param color 颜色值
@@ -311,56 +327,56 @@ type tmUtil = {
      * tmui3.0函数工具
      */
     u: {
-		
-		/**
-		 * 检测是否是数字
-		 * @param arg 待检测的字符
-		 * @param defaultNum 0,如果不符合值时设置默认值
-		 * @returns number类型数值
-		 */
-		isNumber(arg: string | number | undefined | null, defaultNum:number):number,
-		
-		/**
-		 * 检测是否是字符串
-		 * @param arg 待检测的字符
-		 * @param defaultNum 默认"",如果不符合值是设置默认值
-		 * @returns 字符串
-		 */
-		isString(arg: string | number | undefined | null, defaultStr:string):string,
-		
-		/**
-		 * 把一个数字进行分页返回数字数组
-		 * @param total 总数
-		 * @param pageSize 分页大小
-		 * @returns 数字数组
-		 */
-		paginate(total: number, pageSize: number): number[],
-		
-		/**
-		   * 取对象数据值（可深层次取值）
-		   * @example getValue(data,"a.b.c")
-		   * @param data 对象数据
-		   * @param keys 键值
-		   * @returns 返回值
-		   * @description 注意不会去改变原来的数据
-		   */
-		getValue(data: Data, keys: string): any ,
-		/**
-		 * 设置对象键值（可深层次设置值）
-		 * @example setValue(data,"a.b.c","haha")
-		 * @param data 对象数据
-		 * @param keys 键值
-		 * @returns 修改后的对象数据。
-		 * @description 改变原来的数据
-		 */
-		setValue(data: Data, keys: string, value: any): void,
-		/**
-		 * 计算并返回一个对象中最大的层级数
-		 * @param data 待检测对象数据
-		 * @returns 最大层级数
-		 */
-		getMaxDepth(data: Data): number,
-		
+
+        /**
+         * 检测是否是数字
+         * @param arg 待检测的字符
+         * @param defaultNum 0,如果不符合值时设置默认值
+         * @returns number类型数值
+         */
+        isNumber(arg: string | number | undefined | null, defaultNum: number): number,
+
+        /**
+         * 检测是否是字符串
+         * @param arg 待检测的字符
+         * @param defaultNum 默认"",如果不符合值是设置默认值
+         * @returns 字符串
+         */
+        isString(arg: string | number | undefined | null, defaultStr: string): string,
+
+        /**
+         * 把一个数字进行分页返回数字数组
+         * @param total 总数
+         * @param pageSize 分页大小
+         * @returns 数字数组
+         */
+        paginate(total: number, pageSize: number): number[],
+
+        /**
+           * 取对象数据值（可深层次取值）
+           * @example getValue(data,"a.b.c")
+           * @param data 对象数据
+           * @param keys 键值
+           * @returns 返回值
+           * @description 注意不会去改变原来的数据
+           */
+        getValue(data: Data, keys: string): any,
+        /**
+         * 设置对象键值（可深层次设置值）
+         * @example setValue(data,"a.b.c","haha")
+         * @param data 对象数据
+         * @param keys 键值
+         * @returns 修改后的对象数据。
+         * @description 改变原来的数据
+         */
+        setValue(data: Data, keys: string, value: any): void,
+        /**
+         * 计算并返回一个对象中最大的层级数
+         * @param data 待检测对象数据
+         * @returns 最大层级数
+         */
+        getMaxDepth(data: Data): number,
+
         /**
         * 预览图片。
         * @param {Object} url 必填 当前预览的图片链接。
@@ -368,14 +384,14 @@ type tmUtil = {
         * @param {Object} rangKey 如果list是对象数组，需要提供url字段。
         */
         preview(url: string, list?: Array<string>, rangKey?: string): void,
-		
-		/**
-		* 数据分组
-		* @param {Array} oArr - 原数组列表
-		* @param {Number} length - 单个数组长度
-		* @return {Array}  arr - 分组后的新数组
-		*/
-		splitData<T>(arr: Array<T>, size:number): Array<T[]> ,
+
+        /**
+        * 数据分组
+        * @param {Array} oArr - 原数组列表
+        * @param {Number} length - 单个数组长度
+        * @return {Array}  arr - 分组后的新数组
+        */
+        splitData<T>(arr: Array<T>, size: number): Array<T[]>,
 
         /**
         * 剩余时间格式化
@@ -455,7 +471,7 @@ type tmUtil = {
          * @param isAddStr false 是否限制随机结果中的长度,不允许输出长度
          * @returns String
          */
-        getUid(rdix?:number, length?:number, isAddStr?:boolean): number | string,
+        getUid(rdix?: number, length?: number, isAddStr?: boolean): number | string,
         /**
          * 防抖
          * 防抖原理：在一定时间内，只有最后一次操作，再过wait毫秒后才执行函数

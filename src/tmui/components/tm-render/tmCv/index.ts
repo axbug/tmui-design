@@ -16,7 +16,9 @@ export interface tmCvOptsType {
 	dpr?: number,
 	platform?: 'uni' | 'web'
 }
-var requestAnimationFrameId = 0;
+var requestAnimationFrameId:IdleRequestCallback|any = 0;
+let stopDrawer = false;
+let tween:TWEEN|null = null;
 /**
  * tmCv
  * 协议：MIT
@@ -34,10 +36,10 @@ export class tmCv {
 	/**onFramdi，关闭时需要注销 */
 	private timid: any = null;
 	ctx: UniApp.CanvasContext | null = null;
-	render:HTMLCanvasElement|null = null;
+	render: HTMLCanvasElement | null = null;
 	private canvasId: string = ""
 	private proxy: ComponentPublicInstance | null = null;
-	graphs:Array<Shape> = []
+	graphs: Array<Shape> = [];
 	opts: tmCvOptsType = {
 		left: 0,
 		top: 0,
@@ -55,48 +57,48 @@ export class tmCv {
 
 	}
 	init(): Promise<tmCv> {
-
 		return this._getNodes(this.proxy)
 	}
 
-	add(graph:any|any[]){
-		if(Array.isArray(graph)){
+	add(graph: any | any[]) {
+		if (Array.isArray(graph)) {
 			this.graphs.push(...graph)
 			return
 		}
 		this.graphs.push(graph)
 	}
-	draw(){
-		if(!this.ctx) return;
+	draw() {
+		if (!this.ctx) return;
 		this.ctx.clearRect(0, 0, this.opts.width, this.opts.height)
-		for (const rect of this.graphs){
+		for (const rect of this.graphs) {
 			rect.draw()
 		}
-		if(this.ctx.draw) {
+		if (this.ctx.draw) {
 			this.ctx.draw()
 		}
 	}
 
-	public animation<T>(arg: { duration?: number, repeat?: number,yoyo?:boolean } = { duration: 500, repeat: 0 ,yoyo:false}, 
-		onUpdate: (progress: number) => void, onStart?: (progress: number) => void): Promise<{[key:string]:any}> {
+	public animation(arg: { duration?: number, repeat?: number, yoyo?: boolean } = { duration: 500, repeat: 0, yoyo: false },
+		onUpdate: (progress: number) => void, onStart?: (progress: number) => void): Promise<{ [key: string]: any }> {
 		return new Promise((res, rej) => {
-			const tween = new TWEEN.Tween({ progress: 0 })
+			
+			tween = new TWEEN.Tween({ progress: 0 })
 				.easing(TWEEN.Easing.Linear.None) // 缓动函数
-				.to({ progress: 1 }, arg?.duration??0)
+				.to({ progress: 1 }, arg?.duration ?? 0)
 				.onUpdate((e: any) => {
 					onUpdate(e.progress)
 				})
-				.onStart((e:any) => {
+				.onStart((e: any) => {
 					if (onStart) {
 						onStart(e.progress)
 					}
 				})
-				.onComplete((e:any) => {
+				.onComplete((e: any) => {
 					res(e)
 				})
 				.delay(0)
-				.repeat(arg?.repeat??0)
-				.yoyo(arg?.yoyo??false)
+				.repeat(arg?.repeat ?? 0)
+				.yoyo(arg?.yoyo ?? false)
 				.start();
 		})
 	}
@@ -104,6 +106,7 @@ export class tmCv {
 	private _getNodes(proxy: ComponentPublicInstance | null): Promise<tmCv> {
 		let t = this;
 		let sys = uni.getSystemInfoSync()
+		
 		function initOpts(node: any) {
 			try {
 				if (typeof window !== 'undefined') {
@@ -126,6 +129,7 @@ export class tmCv {
 
 
 		}
+		
 		return new Promise((res, rej) => {
 
 			if (!this.proxy) {
@@ -148,6 +152,7 @@ export class tmCv {
 			delay = 30
 			// #endif
 			// #ifdef APP-NVUE
+			
 			setTimeout(() => {
 				/*获取元素引用*/
 				let domId = t.canvasId.replace(/[\.|#]/g, "")
@@ -171,6 +176,7 @@ export class tmCv {
 			// #endif
 			// #ifndef APP-NVUE
 			setTimeout(() => {
+				
 				uni
 					.createSelectorQuery()
 					.in(proxy)
@@ -187,9 +193,9 @@ export class tmCv {
 						getCanvas(proxy, this.canvasId, this.opts.width, this.opts.height).then((e) => {
 							initOpts(e.node)
 							this.ctx = e.ctx
+							stopDrawer = false;
 							animate(this.requestAnimationFrame)
 							res(this)
-
 						}).catch(error => {
 
 						})
@@ -202,16 +208,33 @@ export class tmCv {
 
 	/**注销tmCv */
 	destory() {
+		
 		if (!this.requestIdleCallback) return;
-		this.requestIdleCallback(requestAnimationFrameId)
+		stopDrawer = true;
+		try{
+			this.requestIdleCallback(requestAnimationFrameId);
+			requestIdleCallback(requestAnimationFrameId)
+		}catch(e){
+			//TODO handle the exception
+		}
 	}
 }
 
 
 function animate(requestAnimationFrames: any) {
-
+	
 	if (!requestAnimationFrames) return;
 	function animateVC() {
+		if(stopDrawer){
+			try{
+				tween.stop();
+			}catch(e){
+				//TODO handle the exception
+			}
+			tween = null;
+			clearTimeout(requestAnimationFrameId)
+			return;
+		}
 		requestAnimationFrameId = requestAnimationFrames(animateVC);
 		TWEEN.update();
 	}

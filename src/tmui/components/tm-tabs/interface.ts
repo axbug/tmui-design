@@ -3,8 +3,8 @@ export interface tabsobj {
 	id?: string | number,
 	title: string,
 	icon?: string,
-	dot?:boolean,
-	count?:string|number,
-	dotColor?:string,
-	[key:string]:any
+	dot?: boolean,
+	count?: string | number,
+	dotColor?: string,
+	[key: string]: any
 }

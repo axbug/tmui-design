@@ -4,6 +4,6 @@ export interface scrollDetailFace {
     scrollHeight: number,
     scrollLeft: number,
     scrollTop: number,
-    scrollWidth:number,
+    scrollWidth: number,
 }
-export type statusType = "loading"|"error"|"success"|"never"
+export type statusType = "loading" | "error" | "success" | "never"

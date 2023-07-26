@@ -35,6 +35,7 @@ import webview from '../components/mobileWebview.vue'
 | 参数名         | 类型            | 默认值     | 描述               |
 |-------------|---------------|---------|------------------|
 | followTheme | Boolean       | true    | 是否跟随主题           |
+| showLine | Boolean       | true    | 是否显示占位符           |
 | size        | Number        | 100     | 输入框大小 px         |
 | gutter      | Number        | 24      | 格子间距             |
 | round       | Number        | 2       | 圆角像素             |

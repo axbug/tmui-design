@@ -31,25 +31,26 @@ import webview from '../components/mobileWebview.vue'
 ## :seedling: 参数
 本组件含有公共属性 [公共属性](/spec/组件公共样式.html)
 
-| 参数名       | 类型              | 默认值      | 描述                        |
-|-----------|-----------------|----------|---------------------------|
-| color     | String          | grey-3   | 颜色                        |
-| vertical  | Boolean | false    | 是否纵向展示                    |
-| height    | Number          | 26       | 高度（只有为纵向时起作用。）                        |
-| label     | String          | ''       | 文字内容                      |
-| fontColor | String          | grey-1   | 文字颜色                      |
-| fontSize | Number          | 26   | 字号大小                      |
+| 参数名     | 类型            | 默认值    | 描述 |
+|-----------|-----------------|----------|-----|
+| color     | String          | grey-3   | 颜色 |
+| vertical  | Boolean         |false    | 是否纵向展示  |
+| height    | Number          | 26       | 高度（只有为纵向时起作用。）|
+| showLable  | Boolean        |false    | 当你的label为空时，使用插槽label时，需要这里设置为true,不然插槽无法显示  |
+| label     | String          | ''       | 文字内容 |
+| fontColor | String          | grey-1   | 文字颜色  |
+| fontSize | Number          | 26   | 字号大小 |
 | align     | String          | center   | 文字位置 可选：left,right,center |
-| margin    | Array           | [16, 24] | 外边距                       |
-| border    | Number          | 1        | 分割线粗细                     |
-| realColor<Badge type="danger" text="v3.0.63+" vertical="middle" /> | Boolean         | false    | 是否使用原始色值，未经过处理的颜色值，因黑白灰会被处理，如果不想处理设置此为真即可。                     |
+| margin    | Array           | [16, 24] | 外边距  |
+| border    | Number          | 1        | 分割线粗细 |
+| realColor<Badge type="danger" text="v3.0.63+" vertical="middle" /> | Boolean | false    | 是否使用原始色值，未经过处理的颜色值，因黑白灰会被处理，如果不想处理设置此为真即可。|
 
 
 ## :rose: 事件
 click , 点击横线时触发。
 
 ## :corn: slot插槽
-无
+label,文字区域插槽。
 
 ## :green_salad: ref方法
 无

@@ -1,59 +1,64 @@
 <template>
-  <view>
-    <!-- #ifndef MP-WEIXIN || MP-ALIPAY || MP-QQ || APP-NVUE -->
+	<view>
+		<!-- #ifndef MP-WEIXIN || MP-ALIPAY || MP-QQ || APP-NVUE -->
 
-    <canvas
-      @click="emits('click', $event)"
-      v-if="!isPc"
-      @touchstart="touchStart"
-      @touchmove="touchMove"
-      @touchend="touchEnd"
-      :id="canvasId"
-      :canvas-id="canvasId"
-      class="canvas"
-      :style="{ width: `${_width}rpx`, height: `${_height}rpx` }"
-    ></canvas>
+		<canvas
+			@click="emits('click', $event)"
+			v-if="!isPc"
+			@touchstart="touchStart"
+			@touchmove="touchMove"
+			@touchend="touchEnd"
+			:id="canvasId"
+			:canvas-id="canvasId"
+			class="canvas"
+			:style="{ width: `${_width}rpx`, height: `${_height}rpx` }"
+		></canvas>
 
-    <canvas
-      @click="emits('click', $event)"
-      v-if="isPc"
-      :id="canvasId"
-      :canvas-id="canvasId"
-      class="canvas"
-      :style="{ width: `${_width}rpx`, height: `${_height}rpx` }"
-    ></canvas>
-    <!-- #endif -->
-    <!-- #ifdef MP-WEIXIN || MP-QQ -->
-    <canvas
-      @click="emits('click', $event)"
-      @touchstart="touchStart"
-      @touchmove="touchMove"
-      @touchend="touchEnd"
-      type="2d"
-      id="canvasId"
-      canvas-id="canvasId"
-      class="canvas"
-      :style="{ width: `${_width}rpx`, height: `${_height}rpx` }"
-    ></canvas>
-    <!-- #endif -->
-    <!-- #ifdef MP-ALIPAY -->
-    <canvas
-      @click="emits('click', $event)"
-      @touchstart="touchStart"
-      @touchmove="touchMove"
-      @touchend="touchEnd"
-      type="2d"
-      :id="canvasId"
-      :canvas-id="canvasId"
-      class="canvas"
-      :style="{ width: `${_width}rpx`, height: `${_height}rpx` }"
-    ></canvas>
-    <!-- #endif -->
+		<canvas
+			@click="emits('click', $event)"
+			v-if="isPc"
+			:id="canvasId"
+			:canvas-id="canvasId"
+			class="canvas"
+			:style="{ width: `${_width}rpx`, height: `${_height}rpx` }"
+		></canvas>
+		<!-- #endif -->
+		<!-- #ifdef MP-WEIXIN || MP-QQ -->
+		<canvas
+			@click="emits('click', $event)"
+			@touchstart="touchStart"
+			@touchmove="touchMove"
+			@touchend="touchEnd"
+			type="2d"
+			id="canvasId"
+			canvas-id="canvasId"
+			class="canvas"
+			:style="{ width: `${_width}rpx`, height: `${_height}rpx` }"
+		></canvas>
+		<!-- #endif -->
+		<!-- #ifdef MP-ALIPAY -->
+		<canvas
+			@click="emits('click', $event)"
+			@touchstart="touchStart"
+			@touchmove="touchMove"
+			@touchend="touchEnd"
+			type="2d"
+			:id="canvasId"
+			:canvas-id="canvasId"
+			class="canvas"
+			:style="{ width: `${_width}rpx`, height: `${_height}rpx` }"
+		></canvas>
+		<!-- #endif -->
 
-	<!-- #ifdef APP-NVUE -->
-	<web-view ref="web" src="/hybrid/html/local.html" :style="{ width: `${_width}rpx`, height: `${_height}rpx` }" @onPostMessage="_onMessage" ></web-view>
-	<!-- #endif -->
-  </view>
+		<!-- #ifdef APP-NVUE -->
+		<web-view
+			ref="web"
+			src="/hybrid/html/local.html"
+			:style="{ width: `${_width}rpx`, height: `${_height}rpx` }"
+			@onPostMessage="_onMessage"
+		></web-view>
+		<!-- #endif -->
+	</view>
 </template>
 <script lang="ts" setup>
 /**
@@ -204,7 +209,7 @@ function MpWeix_init(fun:Function) {
 	// #ifdef MP-ALIPAY
 	query.select('#canvasId').node().exec((res2) => {
 		const canvasNode = res2[0].node;
-		
+
 		let ctxvb: UniApp.CanvasContext = canvas.getContext('2d');
 		canvasNode.width = res[0].width * pixelRatio
 		canvasNode.height = res[0].height * pixelRatio
@@ -262,7 +267,7 @@ function MpWeix_init(fun:Function) {
 
 			canvas.setChart(chart);
 			emits("onInit", chart)
-			
+
 			// #endif
 			// #ifdef MP-QQ
 
@@ -287,7 +292,7 @@ function MpWeix_init(fun:Function) {
 			canvas.setChart(chart);
 			emits("onInit", chart)
 			// #endif
-			
+
 			if(typeof fun === 'function'){
 				fun(chart)
 			}
@@ -353,9 +358,9 @@ function _onMessage(e){
 		chart = new mytmcharts(proxy?.$refs.web,w,h)
 		emits("onInit", chart)
 	    break
-		
+
 	   case 'tmColorView_getColor':
-	  
+
 	   break
 	}
 }

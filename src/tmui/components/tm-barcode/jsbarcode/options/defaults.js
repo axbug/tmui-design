@@ -18,7 +18,7 @@ var defaults = {
 	marginBottom: undefined,
 	marginLeft: undefined,
 	marginRight: undefined,
-	valid: function(){}
+	valid: function () { }
 };
 
 

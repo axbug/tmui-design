@@ -6,7 +6,7 @@ const matchSetBLength = (string) => string.match(new RegExp(`^${B_CHARS}*`))[0].
 const matchSetC = (string) => string.match(new RegExp(`^${C_CHARS}*`))[0];
 
 // CODE128A or CODE128B
-function autoSelectFromAB(string, isA){
+function autoSelectFromAB(string, isA) {
 	const ranges = isA ? A_CHARS : B_CHARS;
 	const untilC = string.match(new RegExp(`^(${ranges}+?)(([0-9]{2}){2,})([^0-9]|$)`));
 

@@ -21,7 +21,7 @@ import webview from '../components/mobileWebview.vue'
 
 ::: details 示例模板
 
-@[code vue](pages/other/cropimg.vue)
+<<< ../src/pages/other/cropimg.vue{vue}
 
 :::
 

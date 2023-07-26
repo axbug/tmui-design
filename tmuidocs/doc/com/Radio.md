@@ -36,7 +36,7 @@ Radio 单选框提供多种选值下选择唯一内容的组件，重要：使�
 | :--: | :--: | :--: | :-- |
 | disabled | Boolean |  false | 是否禁用整个radio-group |
 | modelValue / v-model | String / Number / Boolean  | "" | 按钮组标题，显示在左上方 | 
-| direction | String | row | 单选按钮排列方向，可选值为 row横排，col为竖排 |
+| direction | String | row | 单选按钮排列方向，可选值为 row横排，col为竖排 ，customCol：当你为竖向排列，且文字多行，要自动断行时使用此|
 | model | String | radio  | 单选按钮的样式，可选值为：radio 正常单选样式,button 按钮样式 |
 | align | String | 'left'  | 对齐方式：left,center,right |
 
@@ -54,7 +54,7 @@ Radio 单选框提供多种选值下选择唯一内容的组件，重要：使�
 | v-model | String / Boolean / Number | false | 双向绑定，如果选中后以数组形式给出value值 |
 | label | String |  | 单选框显示内容 |
 | defaultChecked | Boolean | false | 是否默认选中，不受modelValue控制，直接选中 |
-| beforChecked | Function / String / Boolean | false | 选中前的勾子。返回false将阻止选中。也可以返回 Promise异步 |
+| beforeChecked | Function / String / Boolean | false | 选中前的勾子。返回false将阻止选中。也可以返回 Promise异步,函数内已经传递当前的value值，可以直接赋值取得。 |
 | disabled | Boolean | false | 是否禁用单选框 |
 | fontSize | Number | 26 | label 显示内容的字体大小 |
 | icon | String | tmicon-check | 选中状态图标名称，可自定义 |

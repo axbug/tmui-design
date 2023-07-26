@@ -10,7 +10,7 @@
       <!-- #endif -->
       <!-- #ifndef H5 || (APP-PLUS && VUE2) -->
       <!-- 表格中的图片，使用 rich-text 防止大小不正确 -->
-      <rich-text v-if="n.name==='img'&&n.t" :style="'display:'+n.t" :nodes="'<img class=\'_img\' style=\''+n.attrs.style+'\' src=\''+n.attrs.src+'\'>'" :data-i="i" @tap.stop="imgTap" />
+      <rich-text v-if="n.name==='img'&&n.t" :style="'display:'+n.t" :nodes="[{attrs:{style:n.attrs.style,src:n.attrs.src},name:'img'}]" :data-i="i" @tap.stop="imgTap" />
       <!-- #endif -->
       <!-- #ifndef H5 || APP-PLUS -->
       <image v-else-if="n.name==='img'" :id="n.attrs.id" :class="'_img '+n.attrs.class" :style="(ctrl[i]===-1?'display:none;':'')+'width:'+(ctrl[i]||1)+'px;height:1px;'+n.attrs.style" :src="n.attrs.src" :mode="!n.h?'widthFix':(!n.w?'heightFix':'')" :lazy-load="opts[0]" :webp="n.webp" :show-menu-by-longpress="opts[3]&&!n.attrs.ignore" :image-menu-prevent="!opts[3]||n.attrs.ignore" :data-i="i" @load="imgLoad" @error="mediaError" @tap.stop="imgTap" @longpress="imgLongTap" />
@@ -67,7 +67,7 @@
       <rich-text v-else-if="!n.c&&!handler.isInline(n.name, n.attrs.style)" :id="n.attrs.id" :style="n.f" :user-select="opts[4]" :nodes="[n]" />
       <!-- #endif -->
       <!-- #ifndef H5 || ((MP-WEIXIN || MP-QQ || APP-PLUS || MP-360) && VUE2) -->
-      <rich-text v-else-if="!n.c" :id="n.attrs.id" :style="n.f+';display:inline'" :preview="false" :selectable="opts[4]" :user-select="opts[4]" :nodes="[n]" />
+      <rich-text v-else-if="!n.c" :id="n.attrs.id" :style="'display:inline;'+n.f" :preview="false" :selectable="opts[4]" :user-select="opts[4]" :nodes="[n]" />
       <!-- #endif -->
       <!-- 继续递归 -->
       <view v-else-if="n.c===2" :id="n.attrs.id" :class="'_block _'+n.name+' '+n.attrs.class" :style="n.f+';'+n.attrs.style">
@@ -210,6 +210,7 @@ export default {
       }
       // #endif
     },
+
     /**
      * @description 图片点击事件
      * @param {Event} e
@@ -240,6 +241,7 @@ export default {
         })
       }
     },
+
     /**
      * @description 图片长按
      */
@@ -273,6 +275,7 @@ export default {
       }
       // #endif
     },
+
     /**
      * @description 图片加载完成事件
      * @param {Event} e
@@ -289,11 +292,12 @@ export default {
       }
       this.checkReady()
     },
+
     /**
      * @description 检查是否所有图片加载完毕
      */
     checkReady () {
-      if (!this.root.lazyLoad) {
+      if (this.root && !this.root.lazyLoad) {
         this.root._unloadimgs -= 1
         if (!this.root._unloadimgs) {
           setTimeout(() => {
@@ -306,6 +310,7 @@ export default {
         }
       }
     },
+
     /**
      * @description 链接点击事件
      * @param {Event} e
@@ -354,6 +359,7 @@ export default {
         }
       }
     },
+
     /**
      * @description 错误事件
      * @param {Event} e
@@ -401,49 +407,63 @@ export default {
   color: #366092;
   word-break: break-all;
 }
+
 /* a 标签点击态效果 */
 ._hover {
   text-decoration: underline;
   opacity: 0.7;
 }
+
 /* 图片默认效果 */
 ._img {
   max-width: 100%;
   -webkit-touch-callout: none;
 }
+
 /* 内部样式 */
+
 ._block {
   display: block;
 }
+
 ._b,
 ._strong {
   font-weight: bold;
 }
+
 ._code {
   font-family: monospace;
 }
+
 ._del {
   text-decoration: line-through;
 }
+
 ._em,
 ._i {
   font-style: italic;
 }
+
 ._h1 {
   font-size: 2em;
 }
+
 ._h2 {
   font-size: 1.5em;
 }
+
 ._h3 {
   font-size: 1.17em;
 }
+
 ._h5 {
   font-size: 0.83em;
 }
+
 ._h6 {
   font-size: 0.67em;
 }
+
 ._h1,
 ._h2,
 ._h3,
@@ -453,65 +473,82 @@ export default {
   display: block;
   font-weight: bold;
 }
+
 ._image {
   height: 1px;
 }
+
 ._ins {
   text-decoration: underline;
 }
+
 ._li {
   display: list-item;
 }
+
 ._ol {
   list-style-type: decimal;
 }
+
 ._ol,
 ._ul {
   display: block;
   padding-left: 40px;
   margin: 1em 0;
 }
+
 ._q::before {
   content: '"';
 }
+
 ._q::after {
   content: '"';
 }
+
 ._sub {
   font-size: smaller;
   vertical-align: sub;
 }
+
 ._sup {
   font-size: smaller;
   vertical-align: super;
 }
+
 ._thead,
 ._tbody,
 ._tfoot {
   display: table-row-group;
 }
+
 ._tr {
   display: table-row;
 }
+
 ._td,
 ._th {
   display: table-cell;
   vertical-align: middle;
 }
+
 ._th {
   font-weight: bold;
   text-align: center;
 }
+
 ._ul {
   list-style-type: disc;
 }
+
 ._ul ._ul {
   margin: 0;
   list-style-type: circle;
 }
+
 ._ul ._ul ._ul {
   list-style-type: square;
 }
+
 ._abbr,
 ._b,
 ._code,
@@ -527,6 +564,7 @@ export default {
 ._sup {
   display: inline;
 }
+
 /* #ifdef APP-PLUS */
 ._video {
   width: 300px;

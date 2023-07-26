@@ -41,8 +41,10 @@ import webview from '../components/mobileWebview.vue'
 | activeColor | String | primary | 激活状态下的颜色。 |
 | color | String | white | 背景主题 |
 | beforeTabClick | [Function,Boolean] | false | 点击tab切换之前执行的勾子函数。可以是promise.返回假时阻止切换。为true时，切换正常。方便动态加载数据。 |
-| beforeCellClick | [Function,Boolean] | false | 点击列表中项目时再自动切换到下一项时之前执行的勾子函数，方便动态加载数据。 |
+| beforeCellClick | [Function(level,childrenIndex,childrenData),Boolean] | false | 点击列表中项目时再自动切换到下一项时之前执行的勾子函数，方便动态加载数据。 |
 | slotTabHeigth | Number | 0 | 介于tab和下面选项中间的插槽区域。如果想自定内容在这之间，可以设置高度，将会显示 。 |
+
+**上述beforeCellClick中返回的level参数是一个层级索引数组，可以根据这个值进行定位赋值异步加载数据。**
 
 data[]格式如下：
 ```ts
@@ -50,6 +52,7 @@ export interface childrenData {
     id:number|string,
     text:string,
     disabled?:boolean,
+	//如果没有下级，这个字段不要出现，或者设置为null值。
     children?:Array<childrenData>
 }
 ```

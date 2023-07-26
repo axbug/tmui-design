@@ -222,21 +222,25 @@ function close() {
     clearTimeout(timerId);
     timerId = NaN;
   }
+  
   open(false);
 }
 
 function closeByclick(e: Event) {
+
   try {
     e.stopPropagation();
     e.stopImmediatePropagation();
   } catch (e) {
     //TODO handle the exception
   }
-  emits("click", e);
+  
   if (timerId) {
     clearTimeout(timerId);
     timerId = NaN;
   }
+  
+  emits("click", e);
   if (!props.overlayClick) return;
   open(false);
 }
@@ -306,6 +310,7 @@ function fadeInVue(off = false) {
   if (showMask.value == off) return;
   throttle(
     function () {
+		
       if (off == false) {
         ani.value = false;
         setTimeout(function () {

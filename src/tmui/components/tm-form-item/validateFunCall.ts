@@ -1,13 +1,13 @@
 import type { rulesItem } from "./interface"
 import type { formItem } from "./../tm-form/interface";
-export function validateFunCall(rules : Array<rulesItem>, value : any) {
+export function validateFunCall(rules: Array<rulesItem>, value: any) {
 	rules = rules.map((el) => {
 		if (typeof el.validator === "function" && el.required === true) {
 			return el;
 		} else if (typeof el.validator === "boolean" && el.required === true) {
 			return {
 				...el,
-				validator: (val : any) => {
+				validator: (val: any) => {
 					if (val === null || val === "" || typeof val == "undefined") return false;
 					if (typeof val === "object") {
 						if (Array.isArray(val)) {
@@ -32,16 +32,16 @@ export function validateFunCall(rules : Array<rulesItem>, value : any) {
 		} else {
 			return {
 				...el,
-				validator: (val : string | number) => {
+				validator: (val: string | number) => {
 					return true;
 				},
 			};
 		}
 	});
-	let rules_filter : Array<rulesItem> = rules.filter((el) => {
+	let rules_filter: Array<rulesItem> = rules.filter((el) => {
 		return typeof el.validator === "function" && el.required === true;
 	});
-	let rules_fun : Array<rulesItem> = rules_filter.map((el) => {
+	let rules_fun: Array<rulesItem> = rules_filter.map((el) => {
 		let validator = true;
 		if (typeof el.validator === "function") {
 			let vr = el.validator(value);
@@ -53,7 +53,7 @@ export function validateFunCall(rules : Array<rulesItem>, value : any) {
 		} else {
 			validator = true;
 		}
-		
+
 		return {
 			message: String(el.message),
 			validator: validator,
@@ -65,7 +65,7 @@ export function validateFunCall(rules : Array<rulesItem>, value : any) {
 
 
 
-export function getObjectVal(obj : any, field = "") {
+export function getObjectVal(obj: any, field = "") {
 	if (field == "") return obj;
 	var arr = field.split(".");
 	while (arr.length > 1) {

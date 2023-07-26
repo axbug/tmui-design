@@ -54,10 +54,12 @@ tabar<Badge type="danger" text="v3.0.75+" vertical="middle" />开始已经删除
 | :--: | :--: | :--: | :-- |
 | theme | String | grey-5 | 当前应用主题(未开放) |
 | bgImg | String | https://picsum.photos/750/1448 | APP应用的背景图,nvue不支持 |
-| color | String | grey-4 | 应用的背景颜色 |
+| color | String | grey-4 | 应用的背景颜色,会使子组件文字颜色继承这个主题色（自动计算的文字色，不是主题本身,因此不能设置为透明，否则继承的文字没有颜色） |
 | darkColor<Badge type="danger" text="v3.0.74+" vertical="middle" /> | [String] | #050505 | 暗黑时的背景色值，只能是颜色值。 |
 | blur | Boolean, String | false | 模糊背景(未开放) |
-| navbar | Object | ```{background: '#ffffff',fontColor: '#000000'}``` | 标题导航配色|
+| navbar | Object | ```{background: '#ffffff',fontColor: '#000000'}``` | 标题导航配色(可选)，这里默认是读取你page.json中的配置，如果你没有配置，这里才会起作用。|
+| text | Boolean | true | 是否浅色背景,比如white,如果为true它是浅灰，不是白，只有设置为false才是使用原色白 |
+| transparent | Boolean | false | 是否透明背景 |
 
 
 ## :rose: 事件

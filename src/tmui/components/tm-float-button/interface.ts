@@ -1,4 +1,4 @@
-import { linearDeep,linearDirection } from "../../tool/lib/interface"
+import { linearDeep, linearDirection } from "../../tool/lib/interface"
 //按钮的位置
 export enum positionType {
     tl = 'tl',
@@ -17,13 +17,15 @@ export enum popDir {
 }
 
 export interface actionsItem {
-    icon:string,
-    label?:string,
-    iconSize?:number,
-    fontSize?:number,
-    color?:string,//背景
-    fontColor?:string,
-    linear?:string,
-    linearDeep?:string
-    [key:string]:any
+    icon: string,
+    label?: string,
+    iconSize?: number,
+    fontSize?: number,
+    color?: string,//背景
+    fontColor?: string,
+    linear?: string,
+    linearDeep?: string
+	openType?:string,
+	callback?:Function,
+    [key: string]: any
 }

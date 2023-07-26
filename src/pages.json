@@ -5,7 +5,8 @@
 	// 		"^tm-(.*)": "@/tmui/components/tm-$1/tm-$1.vue"
 	// 	}
 	// },
-	"pages": [{
+	"pages": [
+		{
 			"path": "pages/index/index",
 			"style": {
 				"navigationBarTitleText": "",
@@ -45,19 +46,23 @@
 			}
 		}
 	],
-	"subPackages": [{
+	"subPackages": [
+		{
 			"root": "pages/pag",
-			"pages": [{
-				"path": "index",
-				"style": {
-					"navigationBarTitleText": "PAG 实例",
-					"enablePullDownRefresh": false
+			"pages": [
+				{
+					"path": "index",
+					"style": {
+						"navigationBarTitleText": "PAG 实例",
+						"enablePullDownRefresh": false
+					}
 				}
-			}]
+			]
 		},
 		{
 			"root": "pages/render",
-			"pages": [{
+			"pages": [
+				{
 					"path": "index",
 					"style": {
 						"navigationBarTitleText": "Render实例",
@@ -75,7 +80,8 @@
 		},
 		{
 			"root": "pages/yewu",
-			"pages": [{
+			"pages": [
+				{
 					"path": "index",
 					"style": {
 						"navigationBarTitleText": "业务营销"
@@ -97,7 +103,8 @@
 		},
 		{
 			"root": "pages/chart",
-			"pages": [{
+			"pages": [
+				{
 					"path": "index",
 					"style": {
 						"navigationBarTitleText": "图表 Echarts"
@@ -113,7 +120,8 @@
 		},
 		{
 			"root": "pages/other",
-			"pages": [{
+			"pages": [
+				{
 					"path": "index",
 					"style": {
 						"navigationBarTitleText": "其它组件"
@@ -218,7 +226,8 @@
 		},
 		{
 			"root": "pages/daohang",
-			"pages": [{
+			"pages": [
+				{
 					"path": "index",
 					"style": {
 						"navigationBarTitleText": "导航类组件"
@@ -287,7 +296,8 @@
 		},
 		{
 			"root": "pages/fankui",
-			"pages": [{
+			"pages": [
+				{
 					"path": "index",
 					"style": {
 						"navigationBarTitleText": "反馈组件"
@@ -376,7 +386,8 @@
 		},
 		{
 			"root": "pages/form",
-			"pages": [{
+			"pages": [
+				{
 					"path": "index",
 					"style": {
 						"navigationBarTitleText": "表单录入"
@@ -489,7 +500,8 @@
 		},
 		{
 			"root": "pages/changyong",
-			"pages": [{
+			"pages": [
+				{
 					"path": "index",
 					"style": {
 						"navigationBarTitleText": "通用组件"
@@ -523,7 +535,8 @@
 		},
 		{
 			"root": "pages/layout",
-			"pages": [{
+			"pages": [
+				{
 					"path": "index",
 					"style": {
 						"navigationBarTitleText": "布局组件"
@@ -564,7 +577,8 @@
 		},
 		{
 			"root": "pages/showdata",
-			"pages": [{
+			"pages": [
+				{
 					"path": "index",
 					"style": {
 						"navigationBarTitleText": "展示组件"
@@ -722,20 +736,20 @@
 			]
 		}
 	],
-
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
 		"navigationBarTitleText": "tmui 3.0",
 		"navigationBarBackgroundColor": "#FFFFFF",
 		"backgroundColor": "#F5F5F5"
 	},
-
 	"condition": {
 		"current": 0,
-		"list": [{
-			"name": "",
-			"path": "",
-			"query": ""
-		}]
+		"list": [
+			{
+				"name": "",
+				"path": "",
+				"query": ""
+			}
+		]
 	}
 }

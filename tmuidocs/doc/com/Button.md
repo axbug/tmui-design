@@ -48,7 +48,7 @@ import webview from '../components/mobileWebview.vue'
 | round | Number | 3 | 圆角-1-25，单位rpx，如果想去除按钮圆角，请设置为-1 |
 | loading | Boolean | false | 使按钮加载状态，其它事件不会触发 |
 | disabled | Boolean | false | 是否禁用 |
-| url | String | '' | 页面地址，当提供时，点击会跳转到相应页面 |
+| url | String | '' | 页面地址，当提供时，点击会跳转到相应页面，必须为绝对路径，不能是'./'开头，是全路径且以'/'开头，比如'/pages/xx' |
 | label | String | '' | 按钮文字 |
 | icon | String | '' | 按钮图标 |
 | formType | String | '' | submit,reset,本组件额外新增:'filterCancel','filterConfirm',提供此值时，此按钮可以配合form组件用来提交事件表单 |

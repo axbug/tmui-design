@@ -1,18 +1,18 @@
 <template>
   <view id="_root" :class="(selectable?'_select ':'')+'_root'" :style="containerStyle">
-    <slot v-if="!nodes[0]" ></slot>
+    <slot v-if="!nodes[0]" />
     <!-- #ifndef APP-PLUS-NVUE -->
-    <node v-else :childs="nodes" :opts="[lazyLoad,loadingImg,errorImg,showImgMenu,selectable]" name="span" ></node>
+    <node v-else :childs="nodes" :opts="[lazyLoad,loadingImg,errorImg,showImgMenu,selectable]" name="span" />
     <!-- #endif -->
     <!-- #ifdef APP-PLUS-NVUE -->
-    <web-view ref="web" src="/hybrid/html/local.html" :style="'margin-top:-2px;height:' + height + 'rpx;'" @onPostMessage="_onMessage" ></web-view>
-    <!-- #endif -->
+	<web-view ref="web" src="/hybrid/html/local.html" :style="'margin-top:-2px;height:' + height + 'rpx;'" @onPostMessage="_onMessage" ></web-view>
+	 <!-- #endif -->
   </view>
 </template>
 
 <script>
 /**
- * mp-html v2.4.1
+ * mp-html v2.4.2
  * @description 富文本组件
  * @tutorial https://github.com/jin-yufeng/mp-html
  * @property {String} container-style 容器的样式
@@ -50,9 +50,9 @@ export default {
   data () {
     return {
       nodes: [],
-	  // #ifdef APP-PLUS-NVUE
-	  height: 3,
-	  // #endif
+      // #ifdef APP-PLUS-NVUE
+      height: 3
+      // #endif
     }
   },
   props: {
@@ -100,8 +100,7 @@ export default {
       default: true
     },
     tagStyle: Object,
-    useAnchor: [Boolean, Number],
-
+    useAnchor: [Boolean, Number]
   },
   // #ifdef VUE3
   emits: ['load', 'ready', 'imgtap', 'linktap', 'play', 'error'],
@@ -123,7 +122,6 @@ export default {
     }
   },
   mounted () {
-	  
     if (this.content && !this.nodes.length) {
       this.setContent(this.content)
     }
@@ -149,6 +147,7 @@ export default {
       }
       // #endif
     },
+
     /**
      * @description 锚点跳转
      * @param {String} id 要跳转的锚点 id
@@ -215,6 +214,7 @@ export default {
         // #endif
       })
     },
+
     /**
      * @description 获取文本内容
      * @return {String}
@@ -248,6 +248,7 @@ export default {
       })(nodes || this.nodes)
       return text
     },
+
     /**
      * @description 获取内容大小和位置
      * @return {Promise}
@@ -261,6 +262,7 @@ export default {
           .select('#_root').boundingClientRect().exec(res => res[0] ? resolve(res[0]) : reject(Error('Root label not found')))
       })
     },
+
     /**
      * @description 暂停播放媒体
      */
@@ -280,6 +282,7 @@ export default {
       // #endif
       // #endif
     },
+
     /**
      * @description 设置媒体播放速率
      * @param {Number} rate 播放速率
@@ -301,6 +304,7 @@ export default {
       // #endif
       // #endif
     },
+
     /**
      * @description 设置内容
      * @param {String} content html 内容
@@ -317,12 +321,14 @@ export default {
       }
       // #endif
       this.$set(this, 'nodes', append ? (this.nodes || []).concat(nodes) : nodes)
+
       // #ifndef APP-PLUS-NVUE
       this._videos = []
       this.$nextTick(() => {
         this._hook('onLoad')
         this.$emit('load')
       })
+
       if (this.lazyLoad || this.imgList._unloadimgs < this.imgList.length / 2) {
         // 设置懒加载，每 350ms 获取高度，不变则认为加载完毕
         let height = 0
@@ -351,6 +357,7 @@ export default {
       }
       // #endif
     },
+
     /**
      * @description 调用插件钩子函数
      */
@@ -361,6 +368,7 @@ export default {
         }
       }
     },
+
     // #ifdef APP-PLUS-NVUE
     /**
      * @description 设置内容
@@ -368,6 +376,7 @@ export default {
     _set (nodes, append) {
       this.$refs.web.evalJs('setContent(' + JSON.stringify(nodes).replace(/%22/g, '') + ',' + JSON.stringify([this.containerStyle.replace(/(?:margin|padding)[^;]+/g, ''), this.errorImg, this.loadingImg, this.pauseVideo, this.scrollTable, this.selectable]) + ',' + append + ')')
     },
+
     /**
      * @description 接收到 web-view 消息
      */
@@ -480,6 +489,7 @@ export default {
   overflow-y: hidden;
   -webkit-overflow-scrolling: touch;
 }
+
 /* 长按复制 */
 ._select {
   user-select: text;

@@ -11,12 +11,11 @@ import tmuiconfigdefault from "./tool/lib/tmuiconfigDefault"
 import { pagesType, tabBarItemType, tabBarType, beforeRouterOpts, pagesCustomType } from './interface';
 import * as Pinia from 'pinia';
 import { useTmpiniaStore } from './tool/lib/tmpinia';
-
 let pages: Array<pagesType> = [];
 if (typeof PageJsonInit?.pages == 'undefined') {
 	PageJsonInit.pages = [];
 }
-PageJsonInit.pages.forEach((el:any) => {
+PageJsonInit.pages.forEach((el: any) => {
 	let customType: pagesCustomType = <pagesCustomType>(el?.style?.navigationStyle ?? "default");
 	let bg = (el.style?.navigationBarBackgroundColor ?? PageJsonInit?.globalStyle?.navigationBarBackgroundColor ?? '#FFFFFF') || '#FFFFFF'
 	let txtColor = (el.style?.navigationBarTextStyle ?? PageJsonInit?.globalStyle?.navigationBarTextStyle ?? 'black') || 'black'
@@ -60,8 +59,8 @@ cusutomIconList = fontJson;
 let $tm = {
 	tabBar: tabBar,
 	pages: pages,
-	globalNavStyle:(PageJsonInit?.globalStyle.navigationStyle??""),
-	isOpenDarkModel:(PageJsonInit?.globalStyle?.navigationBarBackgroundColor??"").indexOf("@")>-1,
+	globalNavStyle: (PageJsonInit?.globalStyle.navigationStyle ?? ""),
+	isOpenDarkModel: (PageJsonInit?.globalStyle?.navigationBarBackgroundColor ?? "").indexOf("@") > -1,
 	isColor: (color: string) => {
 		const reg1 = /^#([0-9a-fA-f]{3}|[0-9a-fA-f]{6})$/;
 		const reg2 = /^(rgb|RGB|rgba|RGBA)/;
@@ -81,7 +80,6 @@ let $tm = {
 	],
 	config: tmuiconfigdefault as Tmui.tmuiConfig
 };
-
 
 export default {
 	/**
@@ -154,9 +152,9 @@ export default {
 			}
 		})
 		// #ifdef H5
-		window.addEventListener('popstate', (ev:any) => {
+		window.addEventListener('popstate', (ev: any) => {
 			linsInko({
-				path: ev?.state?.forward??"",
+				path: ev?.state?.forward ?? "",
 				context: null,
 				openType: "navigateBack"
 			})
@@ -170,7 +168,9 @@ export default {
 			obj.path = obj.path[0] == "/" ? obj.path.substr(1) : obj.path
 			useTmRouterBefore(obj)
 		}
-		options =util.deepObjectMerge($tm.config, options)
+
+		options = util.deepObjectMerge($tm.config, options)
+
 		const pinia = app.config.globalProperties.$pinia || null
 		const tmPiniaPlugin = (context: Pinia.PiniaPluginContext) => {
 			if (context.store.$id === 'tmpinia') {
@@ -191,10 +191,11 @@ export default {
 		// #endif
 		let appconfig = {};
 		// #ifdef MP
-		
-		if(!$tm.config.shareDisable){
+
+		if (!$tm.config.shareDisable) {
 			const { onShareAppMessage, onShareTimeline } = share()
 			appconfig = { ...appconfig, onShareAppMessage, onShareTimeline }
+
 		}
 		// #endif
 
@@ -208,13 +209,13 @@ export default {
 			...$tm,
 			config: options
 		}
-		
+
 		/**对外暴露 */
 		uni.$tm = $tm;
 		// #ifdef APP-VUE
-		uni.setStorageSync("$tm",JSON.stringify($tm.config.theme));
+		uni.setStorageSync("$tm", JSON.stringify($tm.config.theme));
 		// #endif
-		
+
 		/**app应用上下文的暴露 */
 		app.config.globalProperties.tm = $tm;
 	}

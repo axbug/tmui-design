@@ -17,8 +17,8 @@ class s {
 	}
 	mark(e) {
 		e ? Object.keys(this.markers).find((t => t === e)) ? console.log(
-				`Clock.mark(): The specified marker name '${e}' already exists!`) : this.markers[e] = r() : console
-			.log("Clock.mark(): An empty marker name was specified!")
+			`Clock.mark(): The specified marker name '${e}' already exists!`) : this.markers[e] = r() : console
+				.log("Clock.mark(): An empty marker name was specified!")
 	}
 	measure(e, t) {
 		let i, s;
@@ -41,7 +41,7 @@ function a(e) {
 		.prototype[t]));
 	const i = (e, t) => {
 		const i = e[t];
-		e[t] = function(...e) {
+		e[t] = function (...e) {
 			if (!this.destroyed) return i.call(this, ...e);
 			console.error(`Don't call ${t} of the PAGView that is destroyed.`)
 		}
@@ -55,13 +55,13 @@ const n = {
 	antialias: !1
 };
 var o = (e => (e[e.Normal = 0] = "Normal", e[e.Multiply = 1] = "Multiply", e[e.Screen = 2] = "Screen", e[e.Overlay =
-		3] = "Overlay", e[e.Darken = 4] = "Darken", e[e.Lighten = 5] = "Lighten", e[e.ColorDodge = 6] =
-		"ColorDodge", e[e.ColorBurn = 7] = "ColorBurn", e[e.HardLight = 8] = "HardLight", e[e.SoftLight = 9] =
-		"SoftLight", e[e.Difference = 10] = "Difference", e[e.Exclusion = 11] = "Exclusion", e[e.Hue = 12] = "Hue",
-		e[e.Saturation = 13] = "Saturation", e[e.Color = 14] = "Color", e[e.Luminosity = 15] = "Luminosity", e[e
-			.DestinationIn = 21] = "DestinationIn", e[e.DestinationOut = 22] = "DestinationOut", e[e
+	3] = "Overlay", e[e.Darken = 4] = "Darken", e[e.Lighten = 5] = "Lighten", e[e.ColorDodge = 6] =
+	"ColorDodge", e[e.ColorBurn = 7] = "ColorBurn", e[e.HardLight = 8] = "HardLight", e[e.SoftLight = 9] =
+	"SoftLight", e[e.Difference = 10] = "Difference", e[e.Exclusion = 11] = "Exclusion", e[e.Hue = 12] = "Hue",
+	e[e.Saturation = 13] = "Saturation", e[e.Color = 14] = "Color", e[e.Luminosity = 15] = "Luminosity", e[e
+		.DestinationIn = 21] = "DestinationIn", e[e.DestinationOut = 22] = "DestinationOut", e[e
 			.DestinationATop = 23] = "DestinationATop", e[e.SourceIn = 24] = "SourceIn", e[e.SourceOut = 25] =
-		"SourceOut", e[e.Xor = 26] = "Xor", e))(o || {}),
+	"SourceOut", e[e.Xor = 26] = "Xor", e))(o || {}),
 	h = (e => (e[e.None = 0] = "None", e[e.Linear = 1] = "Linear", e[e.Bezier = 2] = "Bezier", e[e.Hold = 3] = "Hold",
 		e))(h || {});
 const l = navigator && /(ios|ipad|iphone)/.test(navigator.userAgent.toLowerCase()),
@@ -107,7 +107,7 @@ class m {
 	}
 	mvhd() {
 		return u(d("mvhd"), new Uint8Array([0, 0, 0, 0, ...c(2082873600), ...c(2082873600), ...c(this.param
-				.timescale), ...c(this.param.duration), 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+			.timescale), ...c(this.param.duration), 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
 			0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
 			0, 64, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
 			0, 0, 2
@@ -228,7 +228,7 @@ class m {
 	mfhd() {
 		return u(d("mfhd"), new Uint8Array([0, 0, 0, 0, this.param.sequenceNumber >> 24, this.param
 			.sequenceNumber >> 16 & 255, this.param.sequenceNumber >> 8 & 255, 255 & this.param
-			.sequenceNumber
+				.sequenceNumber
 		]))
 	}
 	traf() {
@@ -255,7 +255,7 @@ class m {
 			} = e;
 			i.push(...c(t)), i.push(...c(r)), i.push(s.isLeading << 2 | s.dependsOn), i.push(s
 				.isDependedOn << 6 | s.hasRedundancy << 4 | 0 | s.isNonSync), i.push(61440 & s
-				.degradPrio), i.push(15 & s.degradPrio), i.push(...c(a))
+					.degradPrio), i.push(15 & s.degradPrio), i.push(...c(a))
 		})), u(d("trun"), new Uint8Array(i))
 	}
 	sdtp() {
@@ -282,47 +282,47 @@ var f = Object.defineProperty,
 		return e
 	};
 const b = e => {
-		const t = l ? T(e) : e,
-			i = S(t);
-		if (!i || 0 === i.len) throw new Error("mp4Track is empty");
-		const r = {
-				offset: 0,
-				tracks: [i],
-				track: i,
-				duration: i.duration,
-				timescale: i.timescale,
-				sequenceNumber: 1,
-				baseMediaDecodeTime: 0,
-				nalusBytesLen: i.len,
-				videoSequence: t
-			},
-			s = new m(r);
-		return (e => {
-			let t = 0;
-			for (const i of e) t += i.byteLength;
-			const i = new Uint8Array(t);
-			let r = 0;
-			for (const t of e) i.set(t, r), r += t.byteLength;
-			return i
-		})([s.ftyp(), s.moov(), s.moof(), s.mdat()])
+	const t = l ? T(e) : e,
+		i = S(t);
+	if (!i || 0 === i.len) throw new Error("mp4Track is empty");
+	const r = {
+		offset: 0,
+		tracks: [i],
+		track: i,
+		duration: i.duration,
+		timescale: i.timescale,
+		sequenceNumber: 1,
+		baseMediaDecodeTime: 0,
+		nalusBytesLen: i.len,
+		videoSequence: t
 	},
+		s = new m(r);
+	return (e => {
+		let t = 0;
+		for (const i of e) t += i.byteLength;
+		const i = new Uint8Array(t);
+		let r = 0;
+		for (const t of e) i.set(t, r), r += t.byteLength;
+		return i
+	})([s.ftyp(), s.moov(), s.moof(), s.mdat()])
+},
 	S = e => {
 		if (e.headers.length < 2) throw new Error("Bad header data in video sequence!");
 		if (0 === e.frames.length) throw new Error("There is no frame data in the video sequence!");
 		const t = {
-				id: 1,
-				type: "video",
-				timescale: 6e3,
-				duration: Math.floor(6e3 * e.frames.length / e.frameRate),
-				width: e.getVideoWidth(),
-				height: e.getVideoHeight(),
-				sps: [e.headers[0]],
-				pps: [e.headers[1]],
-				implicitOffset: E(e.frames),
-				len: 0,
-				pts: [],
-				samples: []
-			},
+			id: 1,
+			type: "video",
+			timescale: 6e3,
+			duration: Math.floor(6e3 * e.frames.length / e.frameRate),
+			width: e.getVideoWidth(),
+			height: e.getVideoHeight(),
+			sps: [e.headers[0]],
+			pps: [e.headers[1]],
+			implicitOffset: E(e.frames),
+			len: 0,
+			pts: [],
+			samples: []
+		},
 			i = e.headers.reduce(((e, t) => e + t.length), 0),
 			r = t.duration / e.frames.length;
 		return e.frames.forEach(((e, s) => {
@@ -455,19 +455,19 @@ let B = class {
 						handler: t,
 						capture: i
 					}) => e.removeEventListener(r, t, i))), D[r] = null == (n = D[r]) ?
-					void 0 : n.filter((({
-						node: t,
-						handler: i
-					}) => !(t === e && i === s)))) : (null == (o = D[r]) || o.filter((({
-						node: t
-					}) => t === e)).forEach((({
-						node: e,
-						handler: t,
-						capture: i
-					}) => e.removeEventListener(r, t, i))), D[r] = null == (h = D[r]) ?
-					void 0 : h.filter((({
-						node: t
-					}) => t !== e)))), t()
+						void 0 : n.filter((({
+							node: t,
+							handler: i
+						}) => !(t === e && i === s)))) : (null == (o = D[r]) || o.filter((({
+							node: t
+						}) => t === e)).forEach((({
+							node: e,
+							handler: t,
+							capture: i
+						}) => e.removeEventListener(r, t, i))), D[r] = null == (h = D[r]) ?
+							void 0 : h.filter((({
+								node: t
+							}) => t !== e)))), t()
 			};
 			k(this.videoElement, "seeked", i), this.videoElement.currentTime = e
 		}))
@@ -481,19 +481,19 @@ let B = class {
 			var i, r;
 			const s = t;
 			null == (i = D[s]) || i.filter((({
-					node: t
-				}) => t === e)).forEach((({
-					node: e,
-					handler: t,
-					capture: i
-				}) => e.removeEventListener(s, t, i))), D[s] = null == (r = D[s]) ? void 0 : r
+				node: t
+			}) => t === e)).forEach((({
+				node: e,
+				handler: t,
+				capture: i
+			}) => e.removeEventListener(s, t, i))), D[s] = null == (r = D[s]) ? void 0 : r
 				.filter((({
 					node: t
 				}) => t !== e))
 		}))
 	}
-	getFrameData(e) {}
-	clearCallback() {}
+	getFrameData(e) { }
+	clearCallback() { }
 	destroy() {
 		this.removeAllListeners(), this.videoElement = void 0, this.destroyed = !0
 	}
@@ -529,7 +529,7 @@ let I = class extends B {
 	constructor() {
 		super(...arguments), this.started = !1, this.frameDataBuffers = [], this.getFrameDataLooping = !1, this
 			.getFrameDataCallback = null, this.getFrameDataLoopTimer = null, this.currentFrame = 0, this
-			.seeking = !1
+				.seeking = !1
 	}
 	static create(e) {
 		const t = new I(e),
@@ -554,13 +554,13 @@ let I = class extends B {
 	async start() {
 		this.started || (this.started = !0, await this.loadedPromise, this.startGetFrameDataLoop())
 	}
-	pause() {}
+	pause() { }
 	async seek(e) {
 		var t;
 		const i = Math.floor(e * this.frameRate);
 		if (this.frameDataBuffers.length > 0) {
 			const e = this.frameDataBuffers.findIndex((e => e.id === i));
-			if (-1 !== e) return void(this.frameDataBuffers = this.frameDataBuffers.slice(e));
+			if (-1 !== e) return void (this.frameDataBuffers = this.frameDataBuffers.slice(e));
 			this.frameDataBuffers = []
 		}
 		i !== this.currentFrame && (this.seeking = !0, await (null == (t = this.videoDecoder) ? void 0 : t.seek(
@@ -568,7 +568,7 @@ let I = class extends B {
 	}
 	getFrameData(e) {
 		if (this.frameDataBuffers.length <= 2 && !this.getFrameDataLooping && this.startGetFrameDataLoop(),
-			0 === this.frameDataBuffers.length) return void(this.getFrameDataCallback = e);
+			0 === this.frameDataBuffers.length) return void (this.getFrameDataCallback = e);
 		const t = this.frameDataBuffers.shift();
 		t ? e(t) : this.getFrameDataCallback = e
 	}
@@ -577,7 +577,7 @@ let I = class extends B {
 		const r = e;
 		null == (i = this.videoDecoder) || i.on(r, t)
 	}
-	removeAllListeners() {}
+	removeAllListeners() { }
 	destroy() {
 		var e;
 		this.clearFrameDataLoop(), this.clearCallback(), null == (e = this.videoDecoder) || e.remove(), this
@@ -607,12 +607,12 @@ let I = class extends B {
 		})(t), r.mark("createDir");
 		const a = b(e);
 		return r.mark("coverMP4"), ((e, t) => {
-				try {
-					i.writeFileSync(e, t, "utf8")
-				} catch (e) {
-					throw new Error(e)
-				}
-			})(this.mp4Path, a.buffer), r.mark("writeFile"), this.videoDecoder = wx.createVideoDecoder(), r
+			try {
+				i.writeFileSync(e, t, "utf8")
+			} catch (e) {
+				throw new Error(e)
+			}
+		})(this.mp4Path, a.buffer), r.mark("writeFile"), this.videoDecoder = wx.createVideoDecoder(), r
 			.mark("createDecoder"), this.loadedPromise = this.videoDecoder.start({
 				source: this.mp4Path,
 				mode: 1
@@ -622,11 +622,11 @@ let I = class extends B {
 					this.currentFrame = 0
 				}))
 			})), {
-				createDir: r.measure("", "createDir"),
-				coverMP4: r.measure("createDir", "coverMP4"),
-				writeFile: r.measure("coverMP4", "writeFile"),
-				createDecoder: r.measure("writeFile", "createDecoder")
-			}
+			createDir: r.measure("", "createDir"),
+			coverMP4: r.measure("createDir", "coverMP4"),
+			writeFile: r.measure("coverMP4", "writeFile"),
+			createDecoder: r.measure("writeFile", "createDecoder")
+		}
 	}
 	startGetFrameDataLoop() {
 		this.getFrameDataLooping = !0, this.getFrameDataLoopTimer = setInterval((() => {
@@ -640,8 +640,8 @@ let I = class extends B {
 			.clearFrameDataLoop();
 		const e = this.videoDecoder.getFrameData();
 		null !== e && (this.getFrameDataCallback ? (this.getFrameDataCallback(M(this.currentFrame, e)), this
-				.getFrameDataCallback = null) : this.frameDataBuffers.push(M(this.currentFrame, e)), this
-			.currentFrame += 1)
+			.getFrameDataCallback = null) : this.frameDataBuffers.push(M(this.currentFrame, e)), this
+				.currentFrame += 1)
 	}
 	clearFrameDataLoop() {
 		this.getFrameDataLoopTimer && (clearInterval(this.getFrameDataLoopTimer), this.getFrameDataLoopTimer =
@@ -656,7 +656,7 @@ I = ((e, t, i, r) => {
 var O = (e => (e.Canvas2D = "2d", e.WebGL = "WebGL", e))(O || {}),
 	q = (e => (e.onAnimationStart = "onAnimationStart", e.onAnimationEnd = "onAnimationEnd", e.onAnimationCancel =
 		"onAnimationCancel", e.onAnimationRepeat = "onAnimationRepeat", e.onAnimationUpdate = "onAnimationUpdate", e
-		.onAnimationPlay = "onAnimationPlay", e.onAnimationPause = "onAnimationPause", e))(q || {}),
+			.onAnimationPlay = "onAnimationPlay", e.onAnimationPause = "onAnimationPause", e))(q || {}),
 	G = (e => (e.None = "None", e.Stretch = "Stretch", e.LetterBox = "LetterBox", e.Zoom = "Zoom", e))(G || {}),
 	N = Object.freeze({
 		__proto__: null,
@@ -707,16 +707,16 @@ var X = Object.defineProperty,
 let J = class {
 	constructor(e, t, i) {
 		this.canvasSize = {
-				width: 0,
-				height: 0
-			}, this.playing = !1, this.viewportSize = {
-				x: 0,
-				y: 0,
-				width: 0,
-				height: 0,
-				scaleX: 1,
-				scaleY: 1
-			}, this.destroyed = !1, this.renderTimer = null, this.repeatCount = 0, this.viewScaleMode = G
+			width: 0,
+			height: 0
+		}, this.playing = !1, this.viewportSize = {
+			x: 0,
+			y: 0,
+			width: 0,
+			height: 0,
+			scaleX: 1,
+			scaleY: 1
+		}, this.destroyed = !1, this.renderTimer = null, this.repeatCount = 0, this.viewScaleMode = G
 			.LetterBox, this.debugData = {
 				FPS: 0,
 				decodePAGFile: 0,
@@ -730,18 +730,18 @@ let J = class {
 		const r = e.getVideoSequence();
 		if (!r) throw new Error("PAGFile has no BMP video sequence!");
 		delete r.composition, this.videoSequence = r, this.canvas = t, this.videoParam = ((e, t) => ({
-				width: e.mainComposition.width,
-				height: e.mainComposition.height,
-				hasAlpha: t.alphaStartX > 0 || t.alphaStartY > 0,
-				alphaStartX: t.alphaStartX,
-				alphaStartY: t.alphaStartY,
-				sequenceWidth: t.width,
-				sequenceHeight: t.height,
-				MP4Width: (t.width + t.alphaStartX) % 2 == 0 ? t.width + t.alphaStartX : t.width + t
-					.alphaStartX + 1,
-				MP4Height: (t.height + t.alphaStartY) % 2 == 0 ? t.height + t.alphaStartY : t.height + t
-					.alphaStartY + 1
-			}))(e, r), this.eventManager = new W, this.renderingMode = i.renderingMode || O.WebGL, this
+			width: e.mainComposition.width,
+			height: e.mainComposition.height,
+			hasAlpha: t.alphaStartX > 0 || t.alphaStartY > 0,
+			alphaStartX: t.alphaStartX,
+			alphaStartY: t.alphaStartY,
+			sequenceWidth: t.width,
+			sequenceHeight: t.height,
+			MP4Width: (t.width + t.alphaStartX) % 2 == 0 ? t.width + t.alphaStartX : t.width + t
+				.alphaStartX + 1,
+			MP4Height: (t.height + t.alphaStartY) % 2 == 0 ? t.height + t.alphaStartY : t.height + t
+				.alphaStartY + 1
+		}))(e, r), this.eventManager = new W, this.renderingMode = i.renderingMode || O.WebGL, this
 			.updateSize(i.useScale), this.setScaleMode()
 	}
 	isPlaying() {
@@ -803,20 +803,20 @@ let J = class {
 					scaleY: i
 				}
 			}
-			break;
-		case G.Zoom: {
-			const e = this.canvas.width / this.videoParam.sequenceWidth,
-				t = this.canvas.height / this.videoParam.sequenceHeight,
-				i = Math.max(e, t);
-			this.viewportSize = {
-				x: (this.canvas.width - this.videoParam.sequenceWidth * i) / 2,
-				y: (this.canvas.height - this.videoParam.sequenceHeight * i) / 2,
-				width: this.videoParam.sequenceWidth * i,
-				height: this.videoParam.sequenceHeight * i,
-				scaleX: i,
-				scaleY: i
+				break;
+			case G.Zoom: {
+				const e = this.canvas.width / this.videoParam.sequenceWidth,
+					t = this.canvas.height / this.videoParam.sequenceHeight,
+					i = Math.max(e, t);
+				this.viewportSize = {
+					x: (this.canvas.width - this.videoParam.sequenceWidth * i) / 2,
+					y: (this.canvas.height - this.videoParam.sequenceHeight * i) / 2,
+					width: this.videoParam.sequenceWidth * i,
+					height: this.videoParam.sequenceHeight * i,
+					scaleX: i,
+					scaleY: i
+				}
 			}
-		}
 		}
 	}
 	updateSize(e = !0) {
@@ -838,7 +838,7 @@ let J = class {
 				height: this.canvas.height
 			}
 		}
-		if (!e) return this.canvas.width = this.canvas.width || t.width, void(this.canvas.height = this.canvas
+		if (!e) return this.canvas.width = this.canvas.width || t.width, void (this.canvas.height = this.canvas
 			.height || t.height);
 		this.canvas.style.width = `${t.width}px`, this.canvas.style.height = `${t.height}px`, this.canvas
 			.width = t.width * window.devicePixelRatio, this.canvas.height = t.height * window.devicePixelRatio
@@ -849,8 +849,8 @@ let J = class {
 	setDebugData(e) {
 		this.debugData = Z(Z({}, this.debugData), e)
 	}
-	loadContext() {}
-	clearRender() {}
+	loadContext() { }
+	clearRender() { }
 };
 J = ((e, t, i, r) => {
 	for (var s, a = r > 1 ? void 0 : r ? H(t, i) : t, n = e.length - 1; n >= 0; n--)(s = e[n]) && (a = (r ? s(t,
@@ -893,7 +893,7 @@ let te = class extends J {
 	flush() {
 		return this.flushInternal(!0)
 	}
-	draw() {}
+	draw() { }
 	createVideoReader(e) {
 		const {
 			videoReader: t,
@@ -905,14 +905,14 @@ let te = class extends J {
 	}
 	async repeat() {
 		return 0 === this.repeatCount ? (this.setProgress(1), await this.flushInternal(!0), this.videoReader
-				.pause(), this.clearTimer(), this.playing = !1, this.eventManager.emit("onAnimationEnd"), !1) :
+			.pause(), this.clearTimer(), this.playing = !1, this.eventManager.emit("onAnimationEnd"), !1) :
 			(this.repeatCount -= 1, l ? await this.videoReader.seek(0) : this.videoReader.start(), this
 				.eventManager.emit("onAnimationRepeat"), !0)
 	}
 	flushLoop() {
 		return this.renderTimer = window.requestAnimationFrame((() => {
-				this.flushLoop()
-			})), l && this.duration() - this.videoReader.currentTime() <= 1 / this.frameRate() && this.repeat(),
+			this.flushLoop()
+		})), l && this.duration() - this.videoReader.currentTime() <= 1 / this.frameRate() && this.repeat(),
 			this.flushInternal(!1)
 	}
 	clearTimer() {
@@ -932,11 +932,11 @@ let te = class extends J {
 	async flushInternal(e) {
 		const t = new s;
 		this.needSeek ? (e ? await this.videoReader.seek(this.currentFrame / this.frameRate()) : this
-				.videoReader.seek(this.currentFrame / this.frameRate()), this.needSeek = !1) : this
-			.currentFrame = Math.floor(this.videoReader.currentTime() * this.frameRate()), this.draw(), t.mark(
-				"draw"), this.setDebugData({
-				draw: t.measure("", "draw")
-			}), this.updateFPS(), this.eventManager.emit(q.onAnimationUpdate)
+			.videoReader.seek(this.currentFrame / this.frameRate()), this.needSeek = !1) : this
+				.currentFrame = Math.floor(this.videoReader.currentTime() * this.frameRate()), this.draw(), t.mark(
+					"draw"), this.setDebugData({
+						draw: t.measure("", "draw")
+					}), this.updateFPS(), this.eventManager.emit(q.onAnimationUpdate)
 	}
 };
 te = ((e, t, i, r) => {
@@ -959,12 +959,12 @@ let he = class extends te {
 	constructor(e, t, i) {
 		var r;
 		super(e, t, i), this.scale = {
-				x: 1,
-				y: 1
-			}, this.positionLocation = 0, this.texcoordLocation = 0, this.alphaStartLocation = null, this
+			x: 1,
+			y: 1
+		}, this.positionLocation = 0, this.texcoordLocation = 0, this.alphaStartLocation = null, this
 			.scaleLocation = null, this.resolutionLocation = null, this.positionBuffer = null, this
-			.texcoordBuffer = null, this.originalVideoTexture = null, this.renderingTexture = null, this
-			.renderingFbo = null;
+				.texcoordBuffer = null, this.originalVideoTexture = null, this.renderingTexture = null, this
+					.renderingFbo = null;
 		const s = null == (r = this.canvas) ? void 0 : r.getContext("webgl", ((e, t) => {
 			for (var i in t || (t = {})) ae.call(t, i) && oe(e, i, t[i]);
 			if (se)
@@ -974,9 +974,9 @@ let he = class extends te {
 		if (!s) throw new Error("Can't get WebGL context!");
 		this.gl = s, this.videoParam.hasAlpha ? this.program = x(this.gl, P(z), P(
 			"\n      precision mediump float;\n      // our texture\n      uniform sampler2D u_image;\n      \n      // the texCoords passed in from the vertex shader.\n      varying vec2 v_texCoord;\n      uniform vec2 v_alphaStart;\n      \n      void main() {\n         vec4 color = texture2D(u_image, v_texCoord);\n         vec4 alpha = texture2D(u_image, vec2(v_texCoord.x + v_alphaStart.x, v_texCoord.y + v_alphaStart.y));\n         gl_FragColor = vec4(color.rgb * alpha.r, alpha.r);\n      }     \n         "
-			)) : this.program = x(this.gl, P(z), P(
+		)) : this.program = x(this.gl, P(z), P(
 			"\n      precision mediump float;\n      // our texture\n      uniform sampler2D u_image;\n      \n      // the texCoords passed in from the vertex shader.\n      varying vec2 v_texCoord;\n      \n      void main() {\n         gl_FragColor = texture2D(u_image, v_texCoord);\n      }\n         "
-			)), this.loadContext()
+		)), this.loadContext()
 	}
 	loadContext() {
 		if (!this.program) throw new Error("program is not initialized");
@@ -987,22 +987,22 @@ let he = class extends te {
 		if (this.texcoordLocation = this.gl.getAttribLocation(this.program, "a_texCoord"), -1 === this
 			.texcoordLocation) throw new Error("unable to get attribute location for a_texCoord");
 		if (this.videoParam.hasAlpha && (this.alphaStartLocation = this.gl.getUniformLocation(this.program,
-				"v_alphaStart"), !this.alphaStartLocation)) throw new Error(
-			"unable to get attribute location for v_alphaStart");
+			"v_alphaStart"), !this.alphaStartLocation)) throw new Error(
+				"unable to get attribute location for v_alphaStart");
 		if (this.resolutionLocation = this.gl.getUniformLocation(this.program, "u_resolution"), -1 === this
 			.positionLocation) throw new Error("unable to get attribute location for u_resolution");
 		if (this.positionBuffer = this.gl.createBuffer(), this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this
-				.positionBuffer), this.setRectangle(this.gl, 0, 0, this.videoParam.MP4Width, this.videoParam
+			.positionBuffer), this.setRectangle(this.gl, 0, 0, this.videoParam.MP4Width, this.videoParam
 				.MP4Height), this.texcoordBuffer = this.gl.createBuffer(), this.gl.bindBuffer(this.gl
-				.ARRAY_BUFFER, this.texcoordBuffer), this.gl.bufferData(this.gl.ARRAY_BUFFER, new Float32Array([
-				0, 0, 1, 0, 0, 1, 0, 1, 1, 0, 1, 1
-			]), this.gl.STATIC_DRAW), this.renderingTexture = A(this.gl), this.gl.texImage2D(this.gl.TEXTURE_2D,
-				0, this.gl.RGBA, this.videoParam.sequenceWidth, this.videoParam.sequenceHeight, 0, this.gl.RGBA,
-				this.gl.UNSIGNED_BYTE, null), this.renderingFbo = this.gl.createFramebuffer(), !this
-			.renderingFbo) throw new Error("unable to create framebuffer");
+					.ARRAY_BUFFER, this.texcoordBuffer), this.gl.bufferData(this.gl.ARRAY_BUFFER, new Float32Array([
+						0, 0, 1, 0, 0, 1, 0, 1, 1, 0, 1, 1
+					]), this.gl.STATIC_DRAW), this.renderingTexture = A(this.gl), this.gl.texImage2D(this.gl.TEXTURE_2D,
+						0, this.gl.RGBA, this.videoParam.sequenceWidth, this.videoParam.sequenceHeight, 0, this.gl.RGBA,
+						this.gl.UNSIGNED_BYTE, null), this.renderingFbo = this.gl.createFramebuffer(), !this
+							.renderingFbo) throw new Error("unable to create framebuffer");
 		this.gl.bindFramebuffer(this.gl.FRAMEBUFFER, this.renderingFbo), this.gl.framebufferTexture2D(this.gl
-				.FRAMEBUFFER, this.gl.COLOR_ATTACHMENT0, this.gl.TEXTURE_2D, this.renderingTexture, 0), this
-			.originalVideoTexture = A(this.gl)
+			.FRAMEBUFFER, this.gl.COLOR_ATTACHMENT0, this.gl.TEXTURE_2D, this.renderingTexture, 0), this
+				.originalVideoTexture = A(this.gl)
 	}
 	draw() {
 		this.gl.bindTexture(this.gl.TEXTURE_2D, this.originalVideoTexture), this.texImage2D(), this.gl
@@ -1011,20 +1011,20 @@ let he = class extends te {
 				this.positionBuffer);
 		const e = this.gl.FLOAT;
 		this.gl.vertexAttribPointer(this.positionLocation, 2, e, false, 0, 0), this.gl.enableVertexAttribArray(
-				this.texcoordLocation), this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.texcoordBuffer), this.gl
-			.vertexAttribPointer(this.texcoordLocation, 2, e, false, 0, 0), this.videoParam.hasAlpha && this.gl
-			.uniform2f(this.alphaStartLocation, this.videoParam.alphaStartX / this.videoParam.MP4Width / this
-				.scale.x, this.videoParam.alphaStartY / this.videoParam.MP4Height / this.scale.y), this.gl
-			.bindTexture(this.gl.TEXTURE_2D, this.originalVideoTexture), this.gl.bindFramebuffer(this.gl
-				.FRAMEBUFFER, this.renderingFbo), this.gl.uniform2f(this.resolutionLocation, this.videoParam
-				.sequenceWidth, this.videoParam.sequenceHeight), this.gl.uniform2f(this.scaleLocation, this
-				.scale.x, this.scale.y), this.gl.viewport(0, 0, this.videoParam.sequenceWidth, this.videoParam
-				.sequenceHeight);
+			this.texcoordLocation), this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.texcoordBuffer), this.gl
+				.vertexAttribPointer(this.texcoordLocation, 2, e, false, 0, 0), this.videoParam.hasAlpha && this.gl
+					.uniform2f(this.alphaStartLocation, this.videoParam.alphaStartX / this.videoParam.MP4Width / this
+						.scale.x, this.videoParam.alphaStartY / this.videoParam.MP4Height / this.scale.y), this.gl
+							.bindTexture(this.gl.TEXTURE_2D, this.originalVideoTexture), this.gl.bindFramebuffer(this.gl
+								.FRAMEBUFFER, this.renderingFbo), this.gl.uniform2f(this.resolutionLocation, this.videoParam
+									.sequenceWidth, this.videoParam.sequenceHeight), this.gl.uniform2f(this.scaleLocation, this
+										.scale.x, this.scale.y), this.gl.viewport(0, 0, this.videoParam.sequenceWidth, this.videoParam
+											.sequenceHeight);
 		const t = this.gl.TRIANGLES;
 		this.gl.drawArrays(t, 0, 6), this.gl.bindFramebuffer(this.gl.FRAMEBUFFER, null), this.gl.uniform2f(this
-				.resolutionLocation, this.videoParam.sequenceWidth, this.videoParam.sequenceHeight), this.gl
-			.viewport(this.viewportSize.x, this.viewportSize.y, this.viewportSize.width, this.viewportSize
-				.height), this.gl.drawArrays(t, 0, 6)
+			.resolutionLocation, this.videoParam.sequenceWidth, this.videoParam.sequenceHeight), this.gl
+				.viewport(this.viewportSize.x, this.viewportSize.y, this.viewportSize.width, this.viewportSize
+					.height), this.gl.drawArrays(t, 0, 6)
 	}
 	clearRender() {
 		this.gl.clearColor(0, 0, 0, 0), this.gl.clear(this.gl.COLOR_BUFFER_BIT)
@@ -1053,7 +1053,7 @@ he = ((e, t, i, r) => {
 	return r && a && ie(t, i, a), a
 })([a], he);
 var le = (e => (e[e.Unknown = 0] = "Unknown", e[e.Vector = 1] = "Vector", e[e.Bitmap = 2] = "Bitmap", e[e.Video = 3] =
-		"Video", e))(le || {}),
+	"Video", e))(le || {}),
 	de = (e => (e[e.End = 0] = "End", e[e.FontTables = 1] = "FontTables", e[e.VectorCompositionBlock = 2] =
 		"VectorCompositionBlock", e[e.CompositionAttributes = 3] = "CompositionAttributes", e[e.ImageTables = 4] =
 		"ImageTables", e[e.LayerBlock = 5] = "LayerBlock", e[e.LayerAttributes = 6] = "LayerAttributes", e[e
@@ -1063,7 +1063,7 @@ var le = (e => (e[e.Unknown = 0] = "Unknown", e[e.Vector = 1] = "Vector", e[e.Bi
 			.MaskBlock = 14] = "MaskBlock", e[e.ShapeGroup = 15] = "ShapeGroup", e[e.Rectangle = 16] = "Rectangle",
 		e[e.Ellipse = 17] = "Ellipse", e[e.PolyStar = 18] = "PolyStar", e[e.ShapePath = 19] = "ShapePath", e[e
 			.Fill = 20] = "Fill", e[e.Stroke = 21] = "Stroke", e[e.GradientFill = 22] = "GradientFill", e[e
-			.GradientStroke = 23] = "GradientStroke", e[e.MergePaths = 24] = "MergePaths", e[e.TrimPaths = 25] =
+				.GradientStroke = 23] = "GradientStroke", e[e.MergePaths = 24] = "MergePaths", e[e.TrimPaths = 25] =
 		"TrimPaths", e[e.Repeater = 26] = "Repeater", e[e.RoundCorners = 27] = "RoundCorners", e[e.Performance =
 		28] = "Performance", e[e.DropShadowStyle = 29] = "DropShadowStyle", e[e.InnerShadowStyle = 30] =
 		"InnerShadowStyle", e[e.OuterGlowStyle = 31] = "OuterGlowStyle", e[e.InnerGlowStyle = 32] =
@@ -1073,10 +1073,10 @@ var le = (e => (e[e.Unknown = 0] = "Unknown", e[e.Vector = 1] = "Vector", e[e.Bi
 			.FillEffect = 39] = "FillEffect", e[e.StrokeEffect = 40] = "StrokeEffect", e[e.TritoneEffect = 41] =
 		"TritoneEffect", e[e.DropShadowEffect = 42] = "DropShadowEffect", e[e.RadialWipeEffect = 43] =
 		"RadialWipeEffect", e[e.DisplacementMapEffect = 44] = "DisplacementMapEffect", e[e.BitmapCompositionBlock =
-			45] = "BitmapCompositionBlock", e[e.BitmapSequence = 46] = "BitmapSequence", e[e.ImageBytes = 47] =
+		45] = "BitmapCompositionBlock", e[e.BitmapSequence = 46] = "BitmapSequence", e[e.ImageBytes = 47] =
 		"ImageBytes", e[e.ImageBytes2 = 48] = "ImageBytes2", e[e.ImageBytes3 = 49] = "ImageBytes3", e[e
 			.VideoCompositionBlock = 50] = "VideoCompositionBlock", e[e.VideoSequence = 51] = "VideoSequence", e[e
-			.LayerAttributesV2 = 52] = "LayerAttributesV2", e[e.Count = 53] = "Count", e))(de || {});
+				.LayerAttributesV2 = 52] = "LayerAttributesV2", e[e.Count = 53] = "Count", e))(de || {});
 const ce = e => {
 	const t = e.readUint16();
 	let i = (63 & t) >>> 0;
@@ -1095,10 +1095,10 @@ function ue(e, t, i) {
 	}
 }
 const me = {
-		red: 0,
-		green: 0,
-		blue: 0
-	},
+	red: 0,
+	green: 0,
+	blue: 0
+},
 	fe = {
 		red: 255,
 		green: 255,
@@ -1182,16 +1182,16 @@ class Ee {
 }
 const Te = new Ee(0, 0);
 var xe = (e => (e[e.None = 0] = "None", e[e.Alpha = 1] = "Alpha", e[e.AlphaInverted = 2] = "AlphaInverted", e[e.Luma =
-		3] = "Luma", e[e.LumaInverted = 4] = "LumaInverted", e))(xe || {}),
+	3] = "Luma", e[e.LumaInverted = 4] = "LumaInverted", e))(xe || {}),
 	Re = (e => (e[e.Unknown = 0] = "Unknown", e[e[void 0] = 1] = "undefined", e[e.Solid = 2] = "Solid", e[e.Text = 3] =
 		"Text", e[e.Shape = 4] = "Shape", e[e.Image = 5] = "Image", e[e.PreCompose = 6] = "PreCompose", e))(Re || {});
 class Pe {
 	constructor() {
 		this.id = 0, this.parent = void 0, this.containingComposition = void 0, this.stretch = Se, this.startTime =
 			0, this.duration = 0, this.autoOrientation = !1, this.transform = void 0, this.isActive = !0, this
-			.blendMode = o.Normal, this.trackMatteType = 0, this.trackMatteLayer = void 0, this.timeRemap = void 0,
+				.blendMode = o.Normal, this.trackMatteType = 0, this.trackMatteLayer = void 0, this.timeRemap = void 0,
 			this.masks = void 0, this.effects = void 0, this.layerStyles = void 0, this.layerCache = void 0, this
-			.maxScale = void 0
+				.maxScale = void 0
 	}
 	type() {
 		return 0
@@ -1256,10 +1256,10 @@ class Pe {
 	}
 }
 const Ae = e => ({
-		red: e.readUint8(),
-		green: e.readUint8(),
-		blue: e.readUint8()
-	}),
+	red: e.readUint8(),
+	green: e.readUint8(),
+	blue: e.readUint8()
+}),
 	De = e => e.readEncodedUint64(),
 	ke = e => {
 		const t = e.readFloat32(),
@@ -1268,7 +1268,7 @@ const Ae = e => ({
 	},
 	Fe = (e, t) => {
 		t.width = e.readEncodeInt32(), t.height = e.readEncodeInt32(), t.duration = De(e), t.frameRate = e
-		.readFloat32(), t.backgroundColor = Ae(e)
+			.readFloat32(), t.backgroundColor = Ae(e)
 	};
 class Ve {
 	constructor() {
@@ -1511,18 +1511,18 @@ class Ue extends class {
 	}
 }
 const Me = e => {
-		const t = e.readEncodedUint32(),
-			i = e.readBytes(t);
-		if (0 === t) throw new Error("Read start code with length 0!");
-		const r = new ArrayBuffer(t + 4);
-		return new DataView(r).setUint32(0, t), ((e, t, i, r, s) => {
-			if (t >= e.byteLength || r >= i.byteLength || i.byteLength - r > e.byteLength - t || s > i
-				.byteLength) return;
-			const a = new Uint8Array(e),
-				n = new Uint8Array(i, r, s);
-			a.set(n, t)
-		})(r, 4, i.data(), 0, t), new Be(new Le(r), t + 4)
-	},
+	const t = e.readEncodedUint32(),
+		i = e.readBytes(t);
+	if (0 === t) throw new Error("Read start code with length 0!");
+	const r = new ArrayBuffer(t + 4);
+	return new DataView(r).setUint32(0, t), ((e, t, i, r, s) => {
+		if (t >= e.byteLength || r >= i.byteLength || i.byteLength - r > e.byteLength - t || s > i
+			.byteLength) return;
+		const a = new Uint8Array(e),
+			n = new Uint8Array(i, r, s);
+		a.set(n, t)
+	})(r, 4, i.data(), 0, t), new Be(new Le(r), t + 4)
+},
 	Ie = (e, t, i) => {
 		const {
 			composition: r
@@ -1535,7 +1535,7 @@ const Me = e => {
 				const t = ((e, t) => {
 					const i = new Ue;
 					i.width = e.readEncodeInt32(), i.height = e.readEncodeInt32(), i.frameRate = e
-					.readFloat32(), t && (i.alphaStartX = e.readEncodeInt32(), i.alphaStartY = e
+						.readFloat32(), t && (i.alphaStartX = e.readEncodeInt32(), i.alphaStartY = e
 							.readEncodeInt32());
 					const r = Me(e),
 						s = Me(e);
@@ -1641,8 +1641,8 @@ class ze {
 	animatable() {
 		return !1
 	}
-	excludeVaryingRanges(e) {}
-	gotoFrame(e) {}
+	excludeVaryingRanges(e) { }
+	gotoFrame(e) { }
 }
 class We {
 	static createDefaultTransform2D() {
@@ -1655,11 +1655,11 @@ class We {
 	excludeVaryingRanges(e) {
 		this.anchorPoint.excludeVaryingRanges(e), void 0 !== this.position ? this.position.excludeVaryingRanges(e) :
 			(this.xPosition.excludeVaryingRanges(e), this.yPosition.excludeVaryingRanges(e)), this.scale
-			.excludeVaryingRanges(e), this.rotation.excludeVaryingRanges(e), this.opacity.excludeVaryingRanges(e)
+				.excludeVaryingRanges(e), this.rotation.excludeVaryingRanges(e), this.opacity.excludeVaryingRanges(e)
 	}
 	gotoFrame(e) {
 		this.anchorPoint.gotoFrame(e), void 0 !== this.position ? this.position.gotoFrame(e) : (this.xPosition
-				.gotoFrame(e), this.yPosition.gotoFrame(e)), this.scale.gotoFrame(e), this.rotation.gotoFrame(e),
+			.gotoFrame(e), this.yPosition.gotoFrame(e)), this.scale.gotoFrame(e), this.rotation.gotoFrame(e),
 			this.opacity.gotoFrame(e)
 	}
 	verify() {
@@ -1700,8 +1700,8 @@ class Xe extends Pe {
 				const i = t[e];
 				i.start += this.compositionStartTime, i.end += this.compositionStartTime, i.end <= this.startTime ?
 					t.pop() : i.start < this.startTime ? i.start = 0 : i.start >= this.startTime + this.duration -
-					1 ? t.pop() : i.end > this.startTime + this.duration - 1 && (i.end = this.startTime + this
-						.duration - 1)
+						1 ? t.pop() : i.end > this.startTime + this.duration - 1 && (i.end = this.startTime + this
+							.duration - 1)
 			}
 			this.staticTimeRanges = t
 		}
@@ -1756,7 +1756,7 @@ class Ye {
 		this.startTime = 0, this.endTime = 0, this.interpolationType = h.Hold, this.bezierOut = [], this
 			.bezierIn = [], this.spatialOut = Te, this.spatialIn = Te
 	}
-	initialize() {}
+	initialize() { }
 	getValue(e) {
 		return this.startValue
 	}
@@ -1790,13 +1790,13 @@ class $e extends ze {
 		else {
 			if (e < t.startTime)
 				for (; this.lastKeyframeIndex > 0 && (this.lastKeyframeIndex -= 1, !this.keyframes[this
-						.lastKeyframeIndex].containsTime(e)););
+					.lastKeyframeIndex].containsTime(e)););
 			else
 				for (; this.lastKeyframeIndex < this.keyframes.length - 1 && (this.lastKeyframeIndex += 1, !this
-						.keyframes[this.lastKeyframeIndex].containsTime(e)););
+					.keyframes[this.lastKeyframeIndex].containsTime(e)););
 			t = this.keyframes[this.lastKeyframeIndex], void 0 !== t.startValue && e <= t.startTime ? this.value = t
 				.startValue : void 0 !== t.endValue && e >= t.endTime ? this.value = t.endValue : this.value = t
-				.getValue(e)
+					.getValue(e)
 		}
 	}
 }
@@ -1825,9 +1825,9 @@ class Qe {
 	constructor(e, t, i) {
 		this.attributeType = t, this.defaultValue = i, this.key = e
 	}
-	readAttribute(e, t, i, r) {}
-	readValue(e) {}
-	readValueList(e, t, i) {}
+	readAttribute(e, t, i, r) { }
+	readValue(e) { }
+	readValueList(e, t, i) { }
 	dimensionality() {
 		return 1
 	}
@@ -1836,9 +1836,9 @@ class Qe {
 	}
 }
 const et = (e, t, i, r, s) => {
-		6 === s.attributeType ? i[r] = t.exist : 1 === s.attributeType ? i[r] = s.readValue(e) : 0 === s.attributeType ?
-			i[r] = it(e, s, t) : i[r] = tt(e, s, t)
-	},
+	6 === s.attributeType ? i[r] = t.exist : 1 === s.attributeType ? i[r] = s.readValue(e) : 0 === s.attributeType ?
+		i[r] = it(e, s, t) : i[r] = tt(e, s, t)
+},
 	tt = (e, t, i) => {
 		let r;
 		if (i.exist)
@@ -1853,16 +1853,16 @@ const et = (e, t, i, r, s) => {
 	it = (e, t, i) => i.exist ? t.readValue(e) : t.defaultValue,
 	rt = (e, t) => {
 		const i = {
-				exist: !1,
-				animatable: !1,
-				hasSpatial: !1
-			},
+			exist: !1,
+			animatable: !1,
+			hasSpatial: !1
+		},
 			{
 				attributeType: r
 			} = t;
 		return 1 === r ? (i.exist = !0, i) : (i.exist = e.readBitBoolean(), i.exist && 0 !== r && 6 !== r && 7 !== r ? (
 			i.animatable = e.readBitBoolean(), i.animatable && 5 === r ? (i.hasSpatial = e.readBitBoolean(),
-			i) : i) : i)
+				i) : i) : i)
 	},
 	st = (e, t, i) => {
 		const r = [],
@@ -2103,72 +2103,72 @@ class yt extends Qe {
 	}
 }
 const wt = {
-		tagCode: de.LayerAttributes,
-		configs: [new ut("isActive", Ze.BitFlag, !0), new ut("autoOrientation", Ze.BitFlag, !1), new yt("parent", Ze
-			.Value, void 0), new gt("stretch", Ze.Value, Se), new ft("startTime", Ze.Value, 0), new mt(
+	tagCode: de.LayerAttributes,
+	configs: [new ut("isActive", Ze.BitFlag, !0), new ut("autoOrientation", Ze.BitFlag, !1), new yt("parent", Ze
+		.Value, void 0), new gt("stretch", Ze.Value, Se), new ft("startTime", Ze.Value, 0), new mt(
 			"blendMode", Ze.Value, o.Normal), new mt("trackMatteType", Ze.Value, xe.None), new ct("timeRemap",
-			Ze.SimpleProperty, 0), new ft("duration", Ze.FixedValue, 0)]
-	},
+				Ze.SimpleProperty, 0), new ft("duration", Ze.FixedValue, 0)]
+},
 	vt = {
 		tagCode: de.LayerAttributesV2,
 		configs: [new ut("isActive", Ze.BitFlag, !0), new ut("autoOrientation", Ze.BitFlag, !1), new yt("parent", Ze
 			.Value, void 0), new gt("stretch", Ze.Value, Se), new ft("startTime", Ze.Value, 0), new mt(
-			"blendMode", Ze.Value, o.Normal), new mt("trackMatteType", Ze.Value, xe.None), new ct("timeRemap",
-			Ze.SimpleProperty, 0), new ft("duration", Ze.FixedValue, 0), new class extends Qe {
-			constructor(e, t, i) {
-				super(e, t, i)
-			}
-			readAttribute(e, t, i, r) {
-				et(e, t, i, r, this)
-			}
-			readValue(e) {
-				return e.readUTF8String()
-			}
-			readValueList(e, t, i) {
-				for (let r = 0; r < i; r++) t[r] = this.readValue(e)
-			}
-			dimensionality() {
-				return 1
-			}
-			newKeyframe(e) {
-				return new dt
-			}
-		}("name", Ze.Value, "")]
+				"blendMode", Ze.Value, o.Normal), new mt("trackMatteType", Ze.Value, xe.None), new ct("timeRemap",
+					Ze.SimpleProperty, 0), new ft("duration", Ze.FixedValue, 0), new class extends Qe {
+						constructor(e, t, i) {
+							super(e, t, i)
+						}
+						readAttribute(e, t, i, r) {
+							et(e, t, i, r, this)
+						}
+						readValue(e) {
+							return e.readUTF8String()
+						}
+						readValueList(e, t, i) {
+							for (let r = 0; r < i; r++) t[r] = this.readValue(e)
+						}
+						dimensionality() {
+							return 1
+						}
+						newKeyframe(e) {
+							return new dt
+						}
+					}("name", Ze.Value, "")]
 	},
 	bt = {
 		tagCode: de.Transform2D,
 		configs: [new pt("anchorPoint", Ze.SpatialProperty, Te), new pt("position", Ze.SpatialProperty, Te), new ct(
 			"xPosition", Ze.SimpleProperty, 0), new ct("yPosition", Ze.SimpleProperty, 0), new pt("scale", Ze
-			.MultiDimensionProperty, new Ee(1, 1)), new ct("rotation", Ze.SimpleProperty, 0), new mt("opacity",
-			Ze.SimpleProperty, 255)]
+				.MultiDimensionProperty, new Ee(1, 1)), new ct("rotation", Ze.SimpleProperty, 0), new mt("opacity",
+					Ze.SimpleProperty, 255)]
 	};
 de.MaskBlock;
 const St = (e, t, i) => {
-		switch (t) {
-			case de.LayerAttributes:
-				Je(e, i, wt), i.duration <= 0 && (i.duration = 1);
-				break;
-			case de.LayerAttributesV2:
-				Je(e, i, vt), i.duration <= 0 && (i.duration = 1);
-				break;
-			case de.Transform2D:
-				i.transform = new We, Je(e, i.transform, bt), i.transform.position.animatable() || i.transform.position
-					.value !== Te || !i.transform.xPosition.animatable() && 0 === i.transform.xPosition.value && !i
+	switch (t) {
+		case de.LayerAttributes:
+			Je(e, i, wt), i.duration <= 0 && (i.duration = 1);
+			break;
+		case de.LayerAttributesV2:
+			Je(e, i, vt), i.duration <= 0 && (i.duration = 1);
+			break;
+		case de.Transform2D:
+			i.transform = new We, Je(e, i.transform, bt), i.transform.position.animatable() || i.transform.position
+				.value !== Te || !i.transform.xPosition.animatable() && 0 === i.transform.xPosition.value && !i
 					.transform.yPosition.animatable() && 0 === i.transform.yPosition.value ? (i.transform.xPosition =
 						new ze(0), i.transform.yPosition = new ze(0)) : i.transform.position = new ze(Te);
-				break;
-			case de.SolidColor:
-				i.type() === Re.Solid && function(e, t) {
-					t.solidColor = Ae(e), t.width = e.readEncodeInt32(), t.height = e.readEncodeInt32()
-				}(e, i);
-				break;
-			case de.CompositionReference:
-				i.type() === Re.PreCompose && function(e, t) {
-					const i = e.readEncodedUint32();
-					i > 0 && (t.composition = new we, t.composition.id = i), t.compositionStartTime = De(e)
-				}(e, i)
-		}
-	},
+			break;
+		case de.SolidColor:
+			i.type() === Re.Solid && function (e, t) {
+				t.solidColor = Ae(e), t.width = e.readEncodeInt32(), t.height = e.readEncodeInt32()
+			}(e, i);
+			break;
+		case de.CompositionReference:
+			i.type() === Re.PreCompose && function (e, t) {
+				const i = e.readEncodedUint32();
+				i > 0 && (t.composition = new we, t.composition.id = i), t.compositionStartTime = De(e)
+			}(e, i)
+	}
+},
 	Et = (e, t, i) => {
 		switch (t) {
 			case de.CompositionAttributes:
@@ -2221,35 +2221,35 @@ const St = (e, t, i) => {
 		const i = new Map;
 		for (const t of e.masks) t && i.set(t.id, t);
 		if (null == (t = e.effects) || t.forEach((e => {
-				if (e) {
-					if (void 0 !== e.maskReferences && e.maskReferences.length > 0) {
-						const t = new Array;
-						e.maskReferences.forEach((e => {
-							const r = e.id,
-								s = i.get(r);
-							void 0 !== s && t.push(s)
-						})), e.maskReferences = t
-					}
-					switch (e.type()) {
-						case Oe.Fill:
-							if (void 0 !== e.fillMask) {
-								const t = e.fillMask.id,
-									r = i.get(t);
-								void 0 !== r && (e.fillMask = r)
-							}
-							break;
-						case Oe.Stroke: {
-							const t = e;
-							if (void 0 !== t.path) {
-								const e = t.path.id,
-									r = i.get(e);
-								void 0 !== r && (t.path = r)
-							}
-							break
+			if (e) {
+				if (void 0 !== e.maskReferences && e.maskReferences.length > 0) {
+					const t = new Array;
+					e.maskReferences.forEach((e => {
+						const r = e.id,
+							s = i.get(r);
+						void 0 !== s && t.push(s)
+					})), e.maskReferences = t
+				}
+				switch (e.type()) {
+					case Oe.Fill:
+						if (void 0 !== e.fillMask) {
+							const t = e.fillMask.id,
+								r = i.get(t);
+							void 0 !== r && (e.fillMask = r)
 						}
+						break;
+					case Oe.Stroke: {
+						const t = e;
+						if (void 0 !== t.path) {
+							const e = t.path.id,
+								r = i.get(e);
+							void 0 !== r && (t.path = r)
+						}
+						break
 					}
 				}
-			})), e.type() === Re.Text) {
+			}
+		})), e.type() === Re.Text) {
 			const {
 				pathOption: t
 			} = e;
@@ -2289,43 +2289,43 @@ function Pt(e, t, i) {
 	}
 }
 const At = e => {
-		const t = Dt(e),
-			{
-				context: i
-			} = t;
-		ue(t, i, Pt),
-			function(e) {
-				if (!e || 0 === e.length) return;
-				const t = new Map;
-				e.forEach((e => {
-					e && t.set(e.id, e)
-				})), e.forEach((e => {
-					if (e && e.type() === le.Vector) {
-						const i = e;
-						i.layers && i.layers.length > 0 && i.layers.forEach((e => {
-							e.containingComposition = i;
-							const r = e;
-							if (r.type() === Re.PreCompose && r.composition) {
-								const e = t.get(r.composition.id);
-								e && (r.composition = e)
-							}
-						}))
-					}
-				}))
-			}(i.compositions);
-		const r = i.releaseCompositions();
-		return (e => {
-			let t = e.length > 0;
-			for (const i of e)
-				if (!i || !i.verify()) {
-					t = !1;
-					break
-				} if (!t) throw new Error("Verify composition failed!")
-		})(r), {
-			compositions: r,
-			tagLevel: i.tagLevel
-		}
-	},
+	const t = Dt(e),
+		{
+			context: i
+		} = t;
+	ue(t, i, Pt),
+		function (e) {
+			if (!e || 0 === e.length) return;
+			const t = new Map;
+			e.forEach((e => {
+				e && t.set(e.id, e)
+			})), e.forEach((e => {
+				if (e && e.type() === le.Vector) {
+					const i = e;
+					i.layers && i.layers.length > 0 && i.layers.forEach((e => {
+						e.containingComposition = i;
+						const r = e;
+						if (r.type() === Re.PreCompose && r.composition) {
+							const e = t.get(r.composition.id);
+							e && (r.composition = e)
+						}
+					}))
+				}
+			}))
+		}(i.compositions);
+	const r = i.releaseCompositions();
+	return (e => {
+		let t = e.length > 0;
+		for (const i of e)
+			if (!i || !i.verify()) {
+				t = !1;
+				break
+			} if (!t) throw new Error("Verify composition failed!")
+	})(r), {
+		compositions: r,
+		tagLevel: i.tagLevel
+	}
+},
 	Dt = e => {
 		if (e.length < 11) throw new Error("PAG file is invalid!");
 		const t = e.readInt8(),
@@ -2337,9 +2337,9 @@ const At = e => {
 class kt {
 	constructor(e, t) {
 		this.tagLevel = 1, this.compositions = [], this.numLayers = 0, this.scaledTimeRange = {
-				start: 0,
-				end: 0
-			}, this.mainComposition = e[e.length - 1], this.scaledTimeRange.start = 0, this.scaledTimeRange.end =
+			start: 0,
+			end: 0
+		}, this.mainComposition = e[e.length - 1], this.scaledTimeRange.start = 0, this.scaledTimeRange.end =
 			this.mainComposition.duration, this.compositions = e, this.duration = this.mainComposition.duration,
 			this.implDuration = 1e3 * this.mainComposition.duration / this.mainComposition.frameRate;
 		for (const t of e)
@@ -2363,9 +2363,9 @@ class kt {
 	}
 }
 const Ft = e => {
-		if (!e.sequences || 0 === e.sequences.length) throw new Error("PAGFile has no BMP video sequence!");
-		return e.sequences[e.sequences.length - 1]
-	},
+	if (!e.sequences || 0 === e.sequences.length) throw new Error("PAGFile has no BMP video sequence!");
+	return e.sequences[e.sequences.length - 1]
+},
 	Vt = e => {
 		const t = Ct(e);
 		if (t.length > 1) throw new Error("PAGFile has more than one BMP video sequence!");
@@ -2415,12 +2415,12 @@ class Lt extends he {
 	destroy() {
 		this.clearTimer(), this.videoReader.destroy(), this.clearRender(), this.canvas = null, this.destroyed = !0
 	}
-	updateSize() {}
+	updateSize() { }
 	setProgress(e) {
 		if (e < 0 || e > 1) throw new Error("progress must be between 0.0 and 1.0!");
 		const t = Math.round(e * this.videoSequence.frameCount);
 		if (this.currentFrame !== t) return t !== this.currentFrame + 1 && (this.needSeek = !0), this
-			.needGetFrame = !0, void(this.currentFrame = t);
+			.needGetFrame = !0, void (this.currentFrame = t);
 		this.needSeek = !1, this.needGetFrame = !1
 	}
 	async flushInternal() {
@@ -2431,7 +2431,7 @@ class Lt extends he {
 			}), this.updateFPS(), this.eventManager.emit(q.onAnimationUpdate)
 		};
 		if (this.needSeek && (this.needSeek = !1, await this.videoReader.seek(this.currentFrame / this.frameRate() *
-				1e3)), this.needGetFrame) {
+			1e3)), this.needGetFrame) {
 			this.needGetFrame = !1;
 			const i = Date.now();
 			this.videoReader.getFrameData((r => {
@@ -2466,7 +2466,7 @@ class Lt extends he {
 	repeat() {
 		return 0 === this.repeatCount ? (this.clearTimer(), this.seekToStart(), this.playing = !1, this.eventManager
 			.emit("onAnimationEnd"), Promise.resolve(!1)) : (this.repeatCount -= 1, this.seekToStart(), this
-			.eventManager.emit("onAnimationRepeat"), Promise.resolve(!0))
+				.eventManager.emit("onAnimationRepeat"), Promise.resolve(!0))
 	}
 	clearTimer() {
 		this.renderTimer && (clearTimeout(this.renderTimer), this.renderTimer = null), this.videoReader
@@ -2476,7 +2476,7 @@ class Lt extends he {
 		this.videoReader.seek(0), this.currentFrame = -1
 	}
 }
-export const PAGView = Lt; 
+export const PAGView = Lt;
 export const clearCache = () => (e => {
 	try {
 		const t = i.readdirSync(e);

@@ -27,9 +27,7 @@
 <!-- #endif -->
 <script lang="ts" setup>
 import { ref, inject, computed, unref, PropType,getCurrentInstance } from 'vue';
-
 // #ifdef APP-NVUE
-// @ts-ignore
 var dom = weex.requireModule("dom");
 const Binding = uni.requireNativePlugin("bindingx");
 const animation = uni.requireNativePlugin("animation");
