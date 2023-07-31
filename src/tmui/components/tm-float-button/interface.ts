@@ -18,6 +18,7 @@ export enum popDir {
 
 export interface actionsItem {
     icon: string,
+    customicon?: boolean, // 是否是自定义icon
     label?: string,
     iconSize?: number,
     fontSize?: number,
