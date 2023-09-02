@@ -97,7 +97,7 @@
  */
 import { getCurrentInstance, computed, ref, inject, watch, PropType, ComponentInternalInstance } from 'vue'
 import tmSheet from '../tm-sheet/tm-sheet.vue'
-import tmText from '..//tm-text/tm-text.vue'
+import tmText from '../tm-text/tm-text.vue'
 import tmIcon from '../tm-icon/tm-icon.vue'
 import tmTranslate from '../tm-translate/tm-translate.vue'
 import { custom_props } from '../../tool/lib/minxs'
