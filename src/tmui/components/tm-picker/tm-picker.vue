@@ -416,7 +416,7 @@ function getRouterText(list: Array<childrenData> = [], parentIndex = 0): Array<s
 	let p: Array<string | number> = []
 	for (let i = 0; i < list.length; i++) {
 		if (i == _colIndex.value[parentIndex]) {
-			p.push(list[i]['text'])
+			p.push(list[i][props.mapKey])
 			if (typeof _colIndex.value[parentIndex] != 'undefined') {
 				let c = getRouterText(list[i]['children'], parentIndex + 1)
 				p = [...p, ...c]
