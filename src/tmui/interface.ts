@@ -512,7 +512,7 @@ type tmUtil = {
          * @param SecondOBJ 被合并的对象
          * @returns 返回合并后的对象 
          */
-        deepObjectMerge<T>(FirstOBJ: { [key: string]: any }, SecondOBJ: { [key: string]: any }): T,
+        deepObjectMerge(FirstOBJ: Record<string, any>, SecondOBJ: Record<string, any>): Record<string, any>,
         /**
          * 是否是手机号码
          * @param phone 号码
