@@ -3,7 +3,7 @@
 		class="flex"
 		:class="[_disabled ? props.disabledClass : '', tmCheckedBoxDir == 'row' ? 'flex-row' : '', tmCheckedBoxDir == 'customCol' ? 'flex-1' : '']"
 	>
-		<view @click="hanlerClick" class="flex flex-1 flex-row flex-row-center-start">
+		<view @click.stop="hanlerClick" class="flex flex-1 flex-row flex-row-center-start">
 			<tm-sheet
 				parenClass="flex-shrink"
 				class="flex-shrink"
