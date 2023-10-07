@@ -52,6 +52,8 @@ import webview from '../components/mobileWebview.vue'
 | step-click | --- | index | 当点击步骤时触发。 |
 
 ## :seedling: Steps-item 参数
+| 参数名 | 类型 | 默认值 | 描述 |
+| :--: | :--: | :--: | :-- |
 | color| [String ] | '' | 当前的主题，默认使用父组件的值 |
 | activeColor| [String ] | '' | 激活时的主题，默认使用父组件的值 |
 | title| [String ] | '' | 标题 |
