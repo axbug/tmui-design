@@ -248,13 +248,25 @@ watch(
 )
 const valuedate_start_str = computed(() => {
 	if (!valuedate_start.value) return ''
+	
+	let str_date = DayJs(valuedate_start.value).format(props.format);
+	if(str_date=='Invalid Date') {
+		picker_focus_date.value=DayJs(props.start).format(defaultFormat)
+		str_date= DayJs(props.start).format(props.format)
+	}
 	return DayJs(valuedate_start.value).format(props.format)
 })
 
 const valuedate_end_str = computed(() => {
 	if (!valuedate_end.value) return ''
-	return DayJs(valuedate_end.value).format(props.format)
+	let str_date = DayJs(valuedate_end.value).format(props.format);
+	if(str_date=='Invalid Date') {
+		picker_focus_date.value=DayJs(props.end).format(defaultFormat)
+		str_date= DayJs(props.end).format(props.format)
+	}
+	return str_date
 })
+
 function changeFocus(index: number) {
 	focusIndex.value = index
 	let vstd = valuedate_start.value
