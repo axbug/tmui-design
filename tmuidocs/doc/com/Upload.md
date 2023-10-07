@@ -75,7 +75,7 @@ const chooesefileAfter = (files:file[])=>{
 | --- | --- | --- | --- |
 | success | / | item:当前上传成功文件的对象，fileList:累积上传成功文件的对象列表 | 成功后返回两个值，item与fileList 分别表示当前上传成功的文件对象以及累积上传成功的文件对象列表 |
 | fail | / | / |item:当前上传失败的文件对象，fileList:累积上传文件的对象列表 | 失败后返回两个值，item与fileList 分别表示当前上传成功的文件对象以及累积上传失败的文件对象列表 |
-| complate | / | item:当前上传文件的对象，fileList:累积上传文件的对象列表 | 成功后返回两个值，item与fileList 分别表示当前上传成功的文件对象以及累积上传成功的文件对象列表 |
+| complete | / | item:当前上传文件的对象，fileList:累积上传文件的对象列表 | 成功后返回两个值，item与fileList 分别表示当前上传成功的文件对象以及累积上传成功的文件对象列表 |
 | remove | / | item:当前删除文件的对象 | 返回一个值 item 为删除文件的对象 |
 | change | / | item:当前改变文件的对象 | 返回一个值 item 为改变文件的对象 |
 > 注意：complete事件是无论上传成功与失败都会返回，success与fail事件对等，之后是complete事件
