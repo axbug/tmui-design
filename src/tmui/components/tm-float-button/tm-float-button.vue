@@ -1,101 +1,41 @@
 <template>
 	<view class="fixed zIndex-12 flex" :style="_pos?.parent">
 		<!-- 主按钮。 -->
-		<view :style="{ width: props.width + 'rpx', height: props.height + 'rpx' }" class="flex flex-row flex-row-center-center">
+		<view :style="{ width: props.width + 'rpx', height: props.height + 'rpx' }"
+			class="flex flex-row flex-row-center-center">
 			<slot>
-				<tm-button
-					:followTheme="props.followTheme"
-					@click="onclick"
-					_class="flex flex-col flex-col-center-center"
-					:shadow="3"
-					:linear="_btn.linear"
-					:linear-deep="_btn.linearDeep"
-					:color="_btn.color"
-					:margin="[0, 0]"
-					:round="16"
-					:padding="[0, 0]"
-					:width="props.width - 24"
-					:height="props.height - 24"
-					:openType="_btn.openType"
-					@getphonenumber="btnCall($event,_btn)"
-					@error="btnCall($event,_btn)"
-					@opensetting="btnCall($event,_btn)"
-					@launchapp="btnCall($event,_btn)"
-					@contact="btnCall($event,_btn)"
-					@chooseavatar="btnCall($event,_btn)"
-				>
+				<tm-button :followTheme="props.followTheme" @click="onclick" _class="flex flex-col flex-col-center-center"
+					:shadow="3" :linear="_btn.linear" :linear-deep="_btn.linearDeep" :color="_btn.color" :margin="[0, 0]"
+					:round="16" :padding="[0, 0]" :width="props.width - 24" :height="props.height - 24"
+					:openType="_btn.openType" @getphonenumber="btnCall($event, _btn)" @error="btnCall($event, _btn)"
+					@opensetting="btnCall($event, _btn)" @launchapp="btnCall($event, _btn)" @contact="btnCall($event, _btn)"
+					@chooseavatar="btnCall($event, _btn)">
 					<view class="flex flex-col flex-col-center-center">
-						<tm-icon
-							:userInteractionEnabled="false"
-							:follow-dark="false"
-							:color="_btn.fontColor"
-							:name="_btn.icon"
-							:font-size="_btn.iconSize"
-						></tm-icon>
-						<tm-text
-							:userInteractionEnabled="false"
-							:follow-dark="false"
-							:color="_btn.fontColor"
-							v-if="_btn.label"
-							:label="_btn.label"
-							:font-size="_btn.fontSize"
-						></tm-text>
+						<tm-icon :userInteractionEnabled="false" :follow-dark="false" :color="_btn.fontColor" :customicon="_btn.customicon"
+							:name="_btn.icon" :font-size="_btn.iconSize"></tm-icon>
+						<tm-text :userInteractionEnabled="false" :follow-dark="false" :color="_btn.fontColor"
+							v-if="_btn.label" :label="_btn.label" :font-size="_btn.fontSize"></tm-text>
 					</view>
 				</tm-button>
 			</slot>
 		</view>
 		<!-- 子按钮。 -->
-		<view
-			v-if="showActions && _actionsItem.length > 0"
-			class="fixed zIndex-12 flex"
-			:style="_pos?.children"
-			:userInteractionEnabled="showActions"
-		>
-			<view
-				ref="btnChildren"
-				:style="{ width: props.width + 'rpx', height: props.height + 'rpx' }"
+		<view v-if="showActions && _actionsItem.length > 0" class="fixed zIndex-12 flex" :style="_pos?.children"
+			:userInteractionEnabled="showActions">
+			<view ref="btnChildren" :style="{ width: props.width + 'rpx', height: props.height + 'rpx' }"
 				:class="[showActions && _actionsItem.length > 0 ? 'scaleNvue' : '']"
-				class="flex flex-row flex-row-center-center scale"
-				v-for="(item, index) in _actionsItem"
-				:key="index"
-			>
-				<tm-button
-					:followTheme="props.followTheme"
-					@click="change(index, item)"
-					_class="flex flex-col flex-col-center-center"
-					:shadow="3"
-					:linear="item.linear"
-					:linear-deep="item.linearDeep"
-					:color="item.color"
-					:margin="[0, 0]"
-					:round="16"
-					:padding="[0, 0]"
-					:width="props.width - 24"
-					:height="props.height - 24"
-					:openType="item.openType"
-					@getphonenumber="btnCall($event,item)"
-					@error="btnCall($event,item)"
-					@opensetting="btnCall($event,item)"
-					@launchapp="btnCall($event,item)"
-					@contact="btnCall($event,item)"
-					@chooseavatar="btnCall($event,item)"
-				>
+				class="flex flex-row flex-row-center-center scale" v-for="(item, index) in _actionsItem" :key="index">
+				<tm-button :followTheme="props.followTheme" @click="change(index, item)"
+					_class="flex flex-col flex-col-center-center" :shadow="3" :linear="item.linear"
+					:linear-deep="item.linearDeep" :color="item.color" :margin="[0, 0]" :round="16" :padding="[0, 0]"
+					:width="props.width - 24" :height="props.height - 24" :openType="item.openType"
+					@getphonenumber="btnCall($event, item)" @error="btnCall($event, item)" @opensetting="btnCall($event, item)"
+					@launchapp="btnCall($event, item)" @contact="btnCall($event, item)" @chooseavatar="btnCall($event, item)">
 					<view class="flex flex-col flex-col-center-center">
-						<tm-icon
-							:userInteractionEnabled="false"
-							:follow-dark="false"
-							:color="item.fontColor"
-							:name="item.icon"
-							:font-size="item.iconSize"
-						></tm-icon>
-						<tm-text
-							:userInteractionEnabled="false"
-							:follow-dark="false"
-							:color="item.fontColor"
-							v-if="item.label"
-							:label="item.label"
-							:font-size="item.fontSize"
-						></tm-text>
+						<tm-icon :userInteractionEnabled="false" :customicon="item.customicon" :follow-dark="false"
+							:color="item.fontColor" :name="item.icon" :font-size="item.iconSize"></tm-icon>
+						<tm-text :userInteractionEnabled="false" :follow-dark="false" :color="item.fontColor"
+							v-if="item.label" :label="item.label" :font-size="item.fontSize"></tm-text>
 					</view>
 				</tm-button>
 			</view>
@@ -160,7 +100,7 @@ const props = defineProps({
 	// 主按钮对象数据
 	btn: {
 		type: Object as PropType<actionsItem>,
-		default: () => {},
+		default: () => { },
 		required: true
 	},
 	//是否默认显示子菜单
@@ -225,6 +165,7 @@ const btn_size = computed(() => uni.upx2px(props.width))
 const _btn = computed(() => {
 	return {
 		icon: 'tmicon-plus',
+		customicon: false,
 		fontSize: 20,
 		color: 'primary',
 		linear: '',
@@ -239,6 +180,7 @@ const _actionsItem = computed(() => {
 	let asbtn = props.actions.map((el) => {
 		let default_btn: actionsItem = {
 			icon: 'tmicon-plus',
+			customicon: false,
 			fontSize: 20,
 			color: 'primary',
 			linear: '',
@@ -292,7 +234,8 @@ const _pos = computed(() => {
 			},
 			children: {
 				bottom: _offset.value[1] - actionwidth_total + 'px',
-				left: centerPosLeft.value + 'px'
+				left: centerPosLeft.value + 'px',
+				'flex-direction': 'column'
 			}
 		}
 	}
@@ -304,7 +247,8 @@ const _pos = computed(() => {
 			},
 			children: {
 				bottom: _offset.value[1] + actionwidth + 'px',
-				left: centerPosLeft.value + 'px'
+				left: centerPosLeft.value + 'px',
+				'flex-direction': 'column'
 			}
 		}
 	}
@@ -345,7 +289,8 @@ const _pos = computed(() => {
 			},
 			children: {
 				bottom: _offset.value[1] + actionwidth + 'px',
-				left: _offset.value[0] + 'px'
+				left: _offset.value[0] + 'px',
+				'flex-direction': 'column'
 			}
 		}
 	}
@@ -357,7 +302,8 @@ const _pos = computed(() => {
 			},
 			children: {
 				bottom: _offset.value[1] - actionwidth_total + 'px',
-				left: _offset.value[0] + 'px'
+				left: _offset.value[0] + 'px',
+				'flex-direction': 'column'
 			}
 		}
 	}
@@ -398,7 +344,8 @@ const _pos = computed(() => {
 			},
 			children: {
 				bottom: _offset.value[1] + actionwidth + 'px',
-				right: _offset.value[0] + 'px'
+				right: _offset.value[0] + 'px',
+				'flex-direction': 'column'
 			}
 		}
 	}
@@ -410,7 +357,8 @@ const _pos = computed(() => {
 			},
 			children: {
 				bottom: _offset.value[1] - actionwidth_total + 'px',
-				right: _offset.value[0] + 'px'
+				right: _offset.value[0] + 'px',
+				'flex-direction': 'column'
 			}
 		}
 	}
@@ -451,7 +399,8 @@ const _pos = computed(() => {
 			},
 			children: {
 				top: _offset.value[1] + actionwidth + 'px',
-				left: centerPosLeft.value + 'px'
+				left: centerPosLeft.value + 'px',
+				'flex-direction': 'column'
 			}
 		}
 	}
@@ -463,7 +412,8 @@ const _pos = computed(() => {
 			},
 			children: {
 				top: _offset.value[1] - actionwidth_total + 'px',
-				left: centerPosLeft.value + 'px'
+				left: centerPosLeft.value + 'px',
+				'flex-direction': 'column'
 			}
 		}
 	}
@@ -504,7 +454,8 @@ const _pos = computed(() => {
 			},
 			children: {
 				top: _offset.value[1] - actionwidth_total + 'px',
-				left: _offset.value[0] + 'px'
+				left: _offset.value[0] + 'px',
+				'flex-direction': 'column'
 			}
 		}
 	}
@@ -516,7 +467,8 @@ const _pos = computed(() => {
 			},
 			children: {
 				top: _offset.value[1] + actionwidth + 'px',
-				left: _offset.value[0] + 'px'
+				left: _offset.value[0] + 'px',
+				'flex-direction': 'column'
 			}
 		}
 	}
@@ -557,7 +509,8 @@ const _pos = computed(() => {
 			},
 			children: {
 				top: _offset.value[1] - actionwidth_total + 'px',
-				right: _offset.value[0] + 'px'
+				right: _offset.value[0] + 'px',
+				'flex-direction': 'column'
 			}
 		}
 	}
@@ -569,7 +522,8 @@ const _pos = computed(() => {
 			},
 			children: {
 				top: _offset.value[1] + actionwidth + 'px',
-				right: _offset.value[0] + 'px'
+				right: _offset.value[0] + 'px',
+				'flex-direction': 'column'
 			}
 		}
 	}
@@ -613,9 +567,9 @@ function change(index: number, item: actionsItem) {
 	emits('change', index, item)
 }
 
-function btnCall(event:any,item:actionsItem){
-	if(typeof item?.callback === 'function'){
-		item.callback(event,item)
+function btnCall(event: any, item: actionsItem) {
+	if (typeof item?.callback === 'function') {
+		item.callback(event, item)
 	}
 }
 
@@ -641,7 +595,7 @@ function nvueani() {
 				timingFunction: 'ease',
 				delay: 0 //ms
 			},
-			() => {}
+			() => { }
 		)
 	})
 }
@@ -652,11 +606,13 @@ function nvueani() {
 	opacity: 0;
 	transform: scale(0);
 }
+
 /* #endif */
 /* #ifndef APP-NVUE */
 .scale {
 	animation: scale 0.34s ease;
 }
+
 @keyframes scale {
 	0% {
 		transform: scale(0);
@@ -665,9 +621,11 @@ function nvueani() {
 	40% {
 		transform: scale(1.2);
 	}
+
 	100% {
 		transform: scale(1);
 	}
 }
+
 /* #endif */
 </style>

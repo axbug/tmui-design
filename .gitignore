@@ -5,3 +5,9 @@
 /tmuidocs/.vuepress/.cache/
 /node_modules/
 /tmui-cli/node_modules/
+
+
+# Visual Studio Code
+.vscode
+# JetBrains, aka PHPStorm, IntelliJ IDEA
+.idea/*
