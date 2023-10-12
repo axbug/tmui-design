@@ -43,11 +43,15 @@ export class tmTextColor extends Shape {
 		const _x = x;
 		let _x_t = _x
 		let lines = 1;
+		var arrTextWidth = []
 		for (var n = 0; n < arrText.length; n++) {
-			var testLine = line + arrText[n].text;
 			var metrics = context?.measureText(arrText[n].text) ?? 14;
 			var testWidth = metrics.width;
-			_x_t += (n > 0 ? testWidth + 1 : 0)
+			arrTextWidth.push(testWidth)
+		}
+		for (var n = 0; n < arrText.length; n++) {
+			_x_t += (n > 0 ? arrTextWidth[n - 1] + 1 : 0)
+
 			if (context?.setFillStyle) {
 				context.setFillStyle(arrText[n].color)
 				context.setFontSize(arrText[n].fontSize)
