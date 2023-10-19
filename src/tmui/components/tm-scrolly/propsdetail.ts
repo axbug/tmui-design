@@ -48,5 +48,10 @@ export const propsdetail = {
 	bottomValue: {
 		type: [Boolean],
 		default: null
+	},
+	/** 开启下拉刷新  值为 `true` 表示开启下拉刷新，值为 `false` 表示关闭下拉刷新*/
+	refresher: {
+		type: [Boolean],
+		default: true
 	}
 }
