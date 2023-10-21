@@ -206,6 +206,7 @@ function onTouchStart(e: TouchEvent) {
 }
 
 function onTouchMove(e: TouchEvent) {
+	if (!props.refresher) return
 	if (!startPoint.value) return
 	const { touches } = e
 
@@ -237,7 +238,7 @@ function onTouchEnd(e: TouchEvent) {
 	loosing.value = true
 	isBootRefresh.value = false
 	// 松开时高度超过阈值则触发刷新
-	if (barsHeight > props.loadBarHeight) {
+	if (barsHeight > props.loadBarHeight && props.refresher) {
 		_barHeight.value = props.loadBarHeight
 		refreshStatus.value = 2
 

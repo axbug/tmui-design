@@ -1,5 +1,5 @@
 <template>
-	<view @click="onClick">
+	<view @click="onClick"   :class="[`mx-${props.margin[0]}`]">
 		<view
 			:userInteractionEnabled="false"
 			v-if="!_label && props.vertical"
