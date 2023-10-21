@@ -88,6 +88,7 @@ export default {
 	 * @param options tmui3.0配置
 	 */
 	install: (app: App, options: Tmui.tmuiConfig = {}) => {
+		const store = useTmpiniaStore()
 		uni.addInterceptor('navigateTo', {
 			invoke(result) {
 				nextTick(() => {
@@ -166,7 +167,8 @@ export default {
 			setDomDarkOrWhite();
 			// #endif
 			obj.path = obj.path[0] == "/" ? obj.path.substr(1) : obj.path
-			useTmRouterBefore(obj)
+			console.log(options.router?.useTmRouterBefore);
+			options.router?.useTmRouterBefore ? options.router?.useTmRouterBefore(obj) : useTmRouterBefore(obj)
 		}
 
 		options = util.deepObjectMerge($tm.config, options)
