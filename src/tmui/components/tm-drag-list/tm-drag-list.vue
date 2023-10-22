@@ -29,6 +29,7 @@
 					class="flex-1"
 					:margin="[0, 0]"
 					:padding="[0, 0]"
+                    @click="onClick(index)"
 				>
 					<view class="flex flex-row flex-row-center-start pl-12" :style="{ height: h - 1 + 'px' }">
 						<view v-if="item['icon']" class="flex-shrink fulled-height flex-center">
@@ -100,11 +101,12 @@ const props = defineProps({
 		default: 'white'
 	}
 })
-const emits = defineEmits(['change'])
+const emits = defineEmits(['change','click'])
 const w = ref(0)
 const h = ref(0)
 const totalH = ref(0)
 let y = 0
+let index = 0
 const new_index: Ref<number> = ref(NaN) //即将被替换的索引（实质性被替换）
 const nowMove_index: Ref<number> = ref(NaN) //现在正在移动的索引
 const listData = ref<itemList[]>([])
@@ -248,7 +250,10 @@ function m_end(event: Event, index: number) {
 	listData.value = [...elList]
 	moveChange()
 }
-
+function onClick(index:number){
+    index = index
+	emits('click',index)
+}
 function moveChange() {
 	if (props.disabled) return
 	//change后修改的数据 。
