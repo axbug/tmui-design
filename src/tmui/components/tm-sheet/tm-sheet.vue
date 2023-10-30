@@ -33,8 +33,8 @@
 			_width_real ? { width: _width + props.unit } : '',
 			tmcomputed.borderCss,
 			_blur && store.tmStore.os == 'ios' && _isNvue === true ? '' : _bgcolor,
-			!_transprent && props.shadow > 0 ? tmcomputed.shadowColor : '',
-			!_transprent && _blur ? { backdropFilter: 'blur(6px)' } : '',
+			!_transparent && props.shadow > 0 ? tmcomputed.shadowColor : '',
+			!_transparent && _blur ? { backdropFilter: 'blur(6px)' } : '',
 			customCSSStyle
 		]"
 	>
@@ -133,7 +133,7 @@ const emits = defineEmits(['click', 'longpress', 'touchend', 'touchstart', 'touc
 const proxy = getCurrentInstance()?.proxy ?? null
 const parenClass_p = computed(() => props.parenClass)
 const contStyle_p = computed(() => props.contStyle)
-const _transprent = computed(() => props.transprent)
+const _transparent = computed(() => props.transparent || props.transprent)
 
 // 设置响应式全局组件库配置表。
 const tmcfg = computed(() => store.tmStore)
@@ -219,7 +219,7 @@ watch(
 	}
 )
 const _bgcolor = computed(() => {
-	if (_transprent.value === true) return `background-color:rgba(255,255,255,0);`
+	if (_transparent.value === true) return `background-color:rgba(255,255,255,0);`
 	if (props.darkBgColor !== '' && isDark.value === true) {
 		return `background-color:${props.darkBgColor};`
 	}

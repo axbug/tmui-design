@@ -38,7 +38,7 @@ import webview from '../components/mobileWebview.vue'
 | height | [Number] | 0 | 高度，单位rpx |
 | width | [Number] | 0 | 宽度，单位rpx |
 | color | String | white | 背景主题颜色名称 |
-| transprent | [Boolean,String] | false | 是否透明 |
+| transparent | [Boolean,String] | false | 是否透明 |
 | border | [Number,String] | 0 | 边框 |
 | margin | `Array<number>` | [32,24] | 外间距[x,y]x=左右，y=上下 |
 | padding | `Array<number>` | [24,24] | 内间距[x,y]x=左右，y=上下 |
