@@ -54,7 +54,7 @@
 					:fontColor="_activeFontColor"
 					:followTheme="false"
 					@click="cancel"
-					:label="_title"
+					:label="_cancelText"
 					:font-size="28"
 					:margin="[32, 0]"
 					:color="_color"
