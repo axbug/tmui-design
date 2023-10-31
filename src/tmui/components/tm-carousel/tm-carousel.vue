@@ -106,7 +106,7 @@
 					:padding="[0, 0]"
 					:round="10"
 					@click="dotClick(index)"
-					:color="_currentActive == index ? props.color : 'white'"
+					:color="_currentActive == index ? props.color : props.indicatorColor"
 					v-for="(item, index) in _list"
 					:key="index"
 					:width="18"
@@ -160,7 +160,7 @@
 					:padding="[0, 0]"
 					@click="dotClick(index)"
 					:follow-theme="_currentActive == index ? props.followTheme : false"
-					:color="_currentActive == index ? props.color : 'white'"
+					:color="_currentActive == index ? props.color : props.indicatorColor"
 					v-for="(item, index) in _list"
 					:key="index"
 					:width="_dotPosition == 'left' || _dotPosition == 'right' ? 6 : 36"
@@ -244,6 +244,11 @@ const props = defineProps({
 	color: {
 		type: String,
 		default: 'primary'
+	},
+	// 指示点颜色
+	indicatorColor: {
+		type: String,
+		default: 'white'
 	},
 	width: {
 		type: Number,

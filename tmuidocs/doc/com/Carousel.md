@@ -35,7 +35,8 @@ import webview from '../components/mobileWebview.vue'
 | 参数名 | 类型 | 默认值 | 描述 |
 | :--: | :--: | :--: | :-- |
 | followTheme | Boolean | true |  |
-| color | String | primary | 指示点的主题色 |
+| color | String | primary | 当前选中的指示点颜色 |
+| indicatorColor | String | white | 指示点颜色 |
 | width | Number | 750 | 宽度，单位rpx |
 | height | Number | 500 | 高度，单位rpx |
 | round | Number | 0 | 开启圆角,单位n*4rpx(即round-1 为 4rpx) |
