@@ -2,6 +2,8 @@
 	<tm-sheet :margin="[0, 0]" :padding="[0, 0]">
 		<!-- 按日选择的日期，可单选，多选。 -->
 		<range-day
+			:confirmText="_confirmText"
+			:textUnit="_textUnit"
 			:hideButton="props.hideButton"
 			:hideTool="props.hideTool"
 			:followTheme="props.followTheme"
@@ -22,6 +24,8 @@
 			:linearDeep="props.linearDeep"
 		></range-day>
 		<month-day
+			:confirmText="_confirmText"
+			:textUnit="_textUnit"
 			:hideButton="props.hideButton"
 			:hideTool="props.hideTool"
 			:followTheme="props.followTheme"
@@ -45,6 +49,8 @@
 		></month-day>
 		<!-- 按年选择 -->
 		<year-du
+			:confirmText="_confirmText"
+			:textUnit="_textUnit"
 			:hideButton="props.hideButton"
 			:hideTool="props.hideTool"
 			:followTheme="props.followTheme"
@@ -64,6 +70,8 @@
 		></year-du>
 		<!-- 按月选择 -->
 		<month-year
+			:confirmText="_confirmText"
+			:textUnit="_textUnit"
 			:hideButton="props.hideButton"
 			:hideTool="props.hideTool"
 			:followTheme="props.followTheme"
@@ -83,6 +91,8 @@
 		></month-year>
 		<!-- 按季度选择 -->
 		<month-quarter
+			:confirmText="_confirmText"
+			:textUnit="_textUnit"
 			:hideButton="props.hideButton"
 			:hideTool="props.hideTool"
 			:followTheme="props.followTheme"
@@ -102,6 +112,8 @@
 		></month-quarter>
 		<!-- 按周选择时段 -->
 		<week-day
+			:confirmText="_confirmText"
+			:textUnit="_textUnit"
 			:hideButton="props.hideButton"
 			:hideTool="props.hideTool"
 			:followTheme="props.followTheme"
@@ -251,10 +263,21 @@ const props = defineProps({
 	format: {
 		type: String,
 		default: 'YYYY/MM/DD'
+	},
+	confirmText: {
+		type: String,
+		default: '确认'
+	},
+	//周次，本日、本季、本年、本月、本周的文字请按顺序提供文本，方便定义其它语言。
+	textUnit: {
+		type: Array as PropType<string[]>,
+		default: ['周次','一','二','三','四','五','六','日','本日','本周','本月','本季度','本年','月','第${x}季度','年']
 	}
 })
 const _value = ref(props.defaultValue)
 const _modelType = computed(() => props.model)
+const _confirmText = computed(() => props.confirmText)
+const _textUnit = computed(() => props.textUnit)
 watch(
 	() => props.modelValue,
 	() => (_value.value = props.modelValue),

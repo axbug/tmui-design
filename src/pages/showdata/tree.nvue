@@ -3,8 +3,9 @@
 		<tm-sheet>
 			<tm-text :font-size="30" _class="text-weight-b" label="基础示例,更多见文档"></tm-text>
 			<tm-divider></tm-divider>
-			<tm-tree @node-click="test" :data="dlist"></tm-tree>
+			<tm-tree ref="tree" @node-click="test" :data="dlist"></tm-tree>
 		</tm-sheet>
+		
 	</tm-app>
 </template>
 <script lang="ts" setup>
@@ -15,6 +16,7 @@ import tmSheet from '@/tmui/components/tm-sheet/tm-sheet.vue'
 import tmText from '@/tmui/components/tm-text/tm-text.vue'
 import tmTree from '@/tmui/components/tm-tree/tm-tree.vue'
 import tmDivider from '@/tmui/components/tm-divider/tm-divider.vue'
+const tree = ref<InstanceType<typeof tmTree>|null>(null)
 const dlist = ref(loop())
 
 function loop(path = '0', level = 2) {
@@ -39,4 +41,5 @@ function loop(path = '0', level = 2) {
 function test(e: any) {
 	console.log(e)
 }
+
 </script>

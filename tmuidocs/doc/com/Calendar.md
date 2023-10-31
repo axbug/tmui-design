@@ -51,6 +51,8 @@ import webview from '../components/mobileWebview.vue'
 | hideTool<Badge type="danger" text="v3.0.78+" vertical="middle" />  | Boolean | false | 是否隐藏头部工具栏 | 
 | round<Badge type="danger" text="v3.0.78+" vertical="middle" />  | Number | 0-25 | 弹层圆角 | 
 | format<Badge type="danger" text="v3.1.0+" vertical="middle" />  | String | 'YYYY/MM/DD' | 针对modelStr的时间格式化输出 | 
+| confirmText | String | '确认' | 按钮文本 |
+| textUnit | String | ```['周次','一','二','三','四','五','六','日','本日','本周','本月','本季度','本年','月','第${x}季度','年']``` | 提示文本，请按顺序替换，不可少，也不可多。 |
 
 dateItemStyle格式：
 ```ts
@@ -98,6 +100,8 @@ export interface dateItemStyle {
 | hideButton<Badge type="danger" text="v3.0.78+" vertical="middle" />  | Boolean | false | 是否隐藏底部按钮 | 
 | hideTool<Badge type="danger" text="v3.0.78+" vertical="middle" />  | Boolean | false | 是否隐藏头部工具栏 | 
 | format<Badge type="danger" text="v3.1.0+" vertical="middle" />  | String | 'YYYY/MM/DD' | 针对modelStr的时间格式化输出 | 
+| confirmText | String | '确认' | 按钮文本 |
+| textUnit | String | ```['周次','一','二','三','四','五','六','日','本日','本周','本月','本季度','本年','月','第${x}季度','年']``` | 提示文本，请按顺序替换，不可少，也不可多。 |
 
 ## :rose: CalendarView事件
 | 事件名 | 参数 | 返回数据 | 描述 |

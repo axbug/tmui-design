@@ -1,9 +1,14 @@
 <template>
 	<view
 		class="flex"
-		:class="[_disabled ? props.disabledClass : '', tmCheckedBoxDir == 'row' ? 'flex-row' : '', tmCheckedBoxDir == 'customCol' ? 'flex-1' : '']"
+		:class="[_disabled ? props.disabledClass : '', tmCheckedBoxDir == 'row' ? 'flex-row' : '', 
+		tmCheckedBoxDir == 'customCol' ? 'flex-1 flex-col' : ''
+		]"
 	>
-		<view @click.stop="hanlerClick" class="flex flex-1 flex-row flex-row-center-start">
+		<view @click.stop="hanlerClick" class="" :class="[
+			(tmCheckedBoxDir == 'customCol'&&props.custom)||tmCheckedBoxDir == 'row' ? 'flex flex-1 flex-row flex-row-center-start' : ''
+			]">
+			
 			<tm-sheet
 				parenClass="flex-shrink"
 				class="flex-shrink"
@@ -30,20 +35,20 @@
 				:outlined="props.outlined"
 				_style="transition:background-color 0.24s"
 			>
-				<view v-if="!props.closeAni">
+				<template v-if="!props.closeAni">
 					<tm-translate :duration="100" v-if="_checked && !props.indeterminate" name="zoom" style="line-height: 1">
 						<tm-icon :font-size="props.size * 0.6" :name="props.icon"></tm-icon>
 					</tm-translate>
 					<tm-translate v-if="props.indeterminate" :duration="100" name="zoom" style="line-height: 1">
 						<tm-icon :font-size="props.size * 0.6" name="tmicon-minus"></tm-icon>
 					</tm-translate>
-				</view>
-				<view v-if="props.closeAni">
+				</template>
+				<template v-if="props.closeAni">
 					<tm-icon v-if="_checked && !props.indeterminate" :font-size="props.size * 0.6" :name="props.icon"></tm-icon>
 					<tm-icon v-if="props.indeterminate" :font-size="props.size * 0.6" name="tmicon-minus"></tm-icon>
-				</view>
+				</template>
 			</tm-sheet>
-			<slot name="default" :checked="{ checked: _checked }">
+			<slot name="default" :checked="{ checked: _checked }" style="display: flex;flex-direction: column;">
 				<tm-text :userInteractionEnabled="false" class="flex-1 flex-wrap" :font-size="props.fontSize" :label="props.label"></tm-text>
 			</slot>
 		</view>

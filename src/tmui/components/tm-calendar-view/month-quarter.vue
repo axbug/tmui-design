@@ -17,7 +17,7 @@
 				class="absolute t-0 r--6 zIndex-10 round-12 py-4 flex flex-row flex-row-center-center"
 				style="width: 90rpx; height: 88rpx"
 			>
-				<tm-text :userInteractionEnabled="false" color="grey" _class="text-align-center" :font-size="28" label="本季度"></tm-text>
+				<tm-text :userInteractionEnabled="false" color="grey" _class="text-align-center" :font-size="28" :label="props.textUnit[11]"></tm-text>
 			</view>
 		</tm-sheet>
 
@@ -60,7 +60,7 @@
 			:color="props.color"
 			@click="confirm"
 			block
-			label="确认"
+			:label="_confirmText"
 			:margin="[0, 16]"
 		></tm-button>
 	</view>
@@ -138,12 +138,22 @@ const props = defineProps({
 	hideButton: {
 		type: Boolean,
 		default: false
+	},
+	confirmText: {
+		type: String,
+		default: '确认'
+	},
+	//周次，本日、本季、本年、本月、本周的文字请按顺序提供文本，方便定义其它语言。
+	textUnit: {
+		type: Array as PropType<string[]>,
+		default: ['周次','一','二','三','四','五','六','日','本日','本周','本月','本季度','本年','月','第${x}季度','年']
 	}
 })
 const _color = computed(() => {
 	if (props.followTheme && store.tmStore.color) return store.tmStore.color
 	return props.color
 })
+const _confirmText = computed(() => props.confirmText)
 const DayJs = dayjs.default
 DayJs.extend(isoWeek)
 DayJs.extend(isSameOrBefore)
@@ -218,7 +228,8 @@ function setDefault(data: Array<String | Number | Date> = []) {
 function getDataArray() {
 	let nowMonth: dayjs.Dayjs = DayJs('2000-1-1').year(_value.value.year())
 	let ar: Array<monthYearItem> = []
-	let str = ['第1季度', '第2季度', '第3季度', '第4季度']
+	const strreplace = props.textUnit[14];
+	let str = [strreplace.replace('${x}',1), strreplace.replace('${x}',2), strreplace.replace('${x}',3), strreplace.replace('${x}',4)]
 	let str2 = ['1/1~3/31', '4/1~6/30', '7/1~9/30', '10/1~12/31']
 	for (let i = 1; i < 5; i++) {
 		ar.push({

@@ -60,6 +60,8 @@ tabar<Badge type="danger" text="v3.0.75+" vertical="middle" />开始已经删除
 | navbar | Object | ```{background: '#ffffff',fontColor: '#000000'}``` | 标题导航配色(可选)，这里默认是读取你page.json中的配置，如果你没有配置，这里才会起作用。|
 | text | Boolean | true | 是否浅色背景,比如white,如果为true它是浅灰，不是白，只有设置为false才是使用原色白 |
 | transparent | Boolean | false | 是否透明背景 |
+| navbarDarkAuto | Boolean | true | 是否自动修改系统自带的navbar的暗黑主题，设置false，当切换为暗黑时，不对系统自带的导航条进行设置。 |
+| bgStyle | String | '' | 背景层的样式，可以用来写背景图尺寸样式等。 |
 
 
 ## :rose: 事件

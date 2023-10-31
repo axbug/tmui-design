@@ -26,39 +26,38 @@ export class tmTextColor extends Shape {
 			})
 		} else if (typeof text == 'object' && Array.isArray(text)) {
 			text.forEach(el => {
-				const ps = el.text.split("").map(ele => {
-					return {
-						text: ele,
-						color: el?.color ?? this.fillStyle,
-						fontSize: el?.fontSize ?? this.fontSize
-					}
+				arrText.push({
+					text: el.text,
+					color: el?.color ?? this.fillStyle,
+					fontSize: el?.fontSize ?? this.fontSize
 				})
-				arrText.push(...ps)
 			})
 		}
 
 		let fontSizeList = arrText.map(el => el.fontSize)
 		const maxFontsize = Math.max(...fontSizeList)
-		var line = '';
+	
 		const _x = x;
 		let _x_t = _x
 		let lines = 1;
-		var arrTextWidth = []
+		let wsXars = arrText.map(el=>{
+			context!.font = el.fontSize + "px Arial"
+			var metrics = context?.measureText(el.text);
+			var testWidth = metrics?.width??el.fontSize;
+			return testWidth
+		})
+		
+		let pos = 0;
 		for (var n = 0; n < arrText.length; n++) {
-			var metrics = context?.measureText(arrText[n].text) ?? 14;
-			var testWidth = metrics.width;
-			arrTextWidth.push(testWidth)
-		}
-		for (var n = 0; n < arrText.length; n++) {
-			_x_t += (n > 0 ? arrTextWidth[n - 1] + 1 : 0)
-
 			if (context?.setFillStyle) {
 				context.setFillStyle(arrText[n].color)
 				context.setFontSize(arrText[n].fontSize)
 			} else {
-				context.fillStyle = arrText[n].color;
-				context.font = arrText[n].fontSize + "px PingFang"
+				context!.fillStyle = arrText[n].color;
+				context!.font = arrText[n].fontSize + "px Arial"
 			}
+			_x_t +=  n>0?wsXars[pos-1]:0
+			pos+=1;
 			context?.fillText(arrText[n].text, _x_t, y + maxFontsize);
 
 		}

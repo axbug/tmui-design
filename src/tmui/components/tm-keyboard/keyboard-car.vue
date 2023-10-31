@@ -25,7 +25,7 @@
 						:follow-dark="false"
 						:dark="_dark"
 						:round="2"
-						:height="100"
+						:height="90"
 						_class="flex-center"
 						:padding="[0, 0]"
 						:margin="[4, 4]"
@@ -44,7 +44,24 @@
 				<tmSheet
 					hover-class="opacity-5 keywordBoradAni"
 					no-level
-					:height="100"
+					:height="90"
+					@click="keydown('学')"
+					:follow-theme="false"
+					:follow-dark="false"
+					:dark="_dark"
+					:round="2"
+					_class="flex-center"
+					:padding="[0, 0]"
+					:margin="[4, 4]"
+					class="flex flex-col"
+					paren-class="flex-row flex-center"
+				>
+					<tmText :userInteractionEnabled="false" :font-size="32" _class="text-weight-b" label="学"></tmText>
+				</tmSheet>
+				<tmSheet
+					hover-class="opacity-5 keywordBoradAni"
+					no-level
+					:height="90"
 					@click="del"
 					:follow-theme="false"
 					:follow-dark="false"
@@ -54,34 +71,16 @@
 					_class="flex-center"
 					:padding="[0, 0]"
 					:margin="[4, 4]"
-					class="flex-1 flex flex-col"
-					paren-class="flex-1 flex-row flex-center"
+					class="flex flex-col"
+					paren-class="flex-row flex-center"
 				>
 					<tm-icon :userInteractionEnabled="false" name="tmicon-caret-left"></tm-icon>
 				</tmSheet>
+
 				<tmSheet
 					hover-class="opacity-5 keywordBoradAni"
 					no-level
-					:height="100"
-					v-if="!changeChart"
-					@click="changeEnUp"
-					:follow-theme="false"
-					:follow-dark="false"
-					:dark="_dark"
-					:color="shefitUp ? 'primary' : 'grey-1'"
-					:round="2"
-					_class="flex-center"
-					:padding="[0, 0]"
-					:margin="[4, 4]"
-					class="flex-1 flex flex-col"
-					paren-class="flex-1 flex-row flex-center"
-				>
-					<tm-icon :userInteractionEnabled="false" name="tmicon-arrow-alt-from-botto"></tm-icon>
-				</tmSheet>
-				<tmSheet
-					hover-class="opacity-5 keywordBoradAni"
-					no-level
-					:height="100"
+					:height="90"
 					@click="changeEnChart"
 					:follow-theme="false"
 					:follow-dark="false"
@@ -91,17 +90,17 @@
 					_class="flex-center"
 					:padding="[0, 0]"
 					:margin="[4, 4]"
-					class="flex-1 flex flex-col"
-					paren-class="flex-1 flex-row flex-center"
+					class="flex flex-col"
+					paren-class="flex-row flex-center"
 				>
-					<tmText :userInteractionEnabled="false" :font-size="32" _class="text-weight-b" :label="!changeChart ? ',.' : 'En'"></tmText>
+					<tmText :userInteractionEnabled="false" :font-size="32" _class="text-weight-b" :label="!changeChart ? 'En' : '简'"></tmText>
 				</tmSheet>
 
 				<view class="flex-1 flex flex-row">
 					<tmSheet
 						hover-class="opacity-5 keywordBoradAni"
-						no-level
 						@click="confirm"
+						:height="90"
 						:follow-theme="props.followTheme"
 						:follow-dark="false"
 						:dark="_dark"
@@ -133,8 +132,7 @@ const emits = defineEmits(['update:modelValue', 'change', 'confirm', 'success'])
 const _dark = computed(() => props.dark)
 const numberArray = ref([])
 const _value = ref(props.modelValue)
-//是否大写
-const shefitUp = ref(false)
+
 //是否切换为字符
 const changeChart = ref(false)
 getChart()
@@ -145,9 +143,13 @@ function keydown(e: number | string) {
 	if (estr.split('').length > _maxLength.value && _maxLength.value > 0) {
 		return
 	}
+
 	_value.value = estr
 	emits('update:modelValue', _value.value)
 	emits('change', _value.value)
+	if (changeChart.value == false) {
+		changeEnChart()
+	}
 	if (estr.split('').length === _maxLength.value && _maxLength.value > 0) {
 		emits('success', estr)
 	}
@@ -157,6 +159,10 @@ function del() {
 	_value.value = _value.value.substring(0, _value.value.length - 1)
 	emits('update:modelValue', _value.value)
 	emits('change', _value.value)
+	if (_value.value.length == 0) {
+		changeChart.value == true
+		changeEnChart()
+	}
 }
 function confirm() {
 	emits('confirm', _value.value)
@@ -166,57 +172,88 @@ function changeEnChart() {
 	changeChart.value = !changeChart.value
 	getChart()
 }
-function changeEnUp() {
-	shefitUp.value = !shefitUp.value
-	getChart()
-}
+
 function getChart() {
 	const numbersfc = ref([
-		1,
-		2,
-		3,
-		4,
-		5,
-		6,
-		7,
-		8,
-		9,
-		0,
-		'a',
-		'b',
-		'c',
-		'd',
-		'e',
-		'f',
-		'g',
-		'h',
-		'i',
-		'j',
-		'k',
-		'l',
-		'm',
-		'n',
-		'o',
-		'p',
-		'q',
-		'r',
-		's',
-		't',
-		'u',
-		'v',
-		'w',
-		'x',
-		'y',
-		'z'
+		'京',
+		'沪',
+		'津',
+		'渝',
+		'鲁',
+		'冀',
+		'晋',
+		'蒙',
+		'辽',
+		'吉',
+		'黑',
+		'苏',
+		'浙',
+		'皖',
+		'闽',
+		'赣',
+		'豫',
+		'湘',
+		'鄂',
+		'粤',
+		'桂',
+		'琼',
+		'川',
+		'贵',
+		'云',
+		'藏',
+		'陕',
+		'甘',
+		'青',
+		'宁',
+		'新',
+		'港',
+		'澳',
+		'台',
+		'警',
+		'使'
 	])
-	const chartsfc = ref(['"', "'", '.', '/', '\\', '[', ']', '!', '?', '_', '<', '>', '%', ';', '(', ')', '&', '+', '=', '~', '*', '#', '@'])
+	const chartsfc = ref([
+		'1',
+		'2',
+		'3',
+		'4',
+		'5',
+		'6',
+		'7',
+		'8',
+		'9',
+		'0',
+		'A',
+		'B',
+		'C',
+		'D',
+		'E',
+		'F',
+		'G',
+		'H',
+		'I',
+		'J',
+		'K',
+		'L',
+		'M',
+		'N',
+		'O',
+		'P',
+		'Q',
+		'R',
+		'S',
+		'T',
+		'U',
+		'V',
+		'W',
+		'X',
+		'Y',
+		'Z'
+	])
 	//字母
 	if (!changeChart.value) {
 		if (props.random) {
 			numbersfc.value = shuffle(toRaw(numbersfc.value))
-		}
-		if (shefitUp.value) {
-			numbersfc.value = numbersfc.value.map((el) => String(el).toLocaleUpperCase())
 		}
 		numberArray.value = uni.$tm.u.splitData(toRaw(numbersfc.value), 9)
 		//符号

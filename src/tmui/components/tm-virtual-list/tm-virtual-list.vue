@@ -1,6 +1,7 @@
 <template>
 	<view class="flex flex-col">
 		<scroll-view
+			:scroll-into-view="viewNode"
 			:refresher-triggered="Loading"
 			@scrolltolower="pullEnd"
 			:scroll-with-animation="true"
@@ -14,6 +15,8 @@
 				}
 			]"
 		>
+			<!-- 顶部锚点 -->
+			<view id="top"></view>
 			<tm-sheet :height="40" unit="px" v-if="Loading && pullType == 'top'" :margin="[0, 0]" _class="flex flex-col flex-col-center-center">
 				<tm-icon :color="props.color" :font-size="24" v-if="status == 'loading'" spin name="tmicon-shuaxin"></tm-icon>
 				<view @click="reset('pullTop')" v-if="status == 'error'" class="flex flex-row flex-center">
@@ -36,6 +39,8 @@
 					<tm-text :userInteractionEnabled="false" color="red" :font-size="24" _class="pl-16" label="加载失败,点我重试"></tm-text>
 				</view>
 			</tm-sheet>
+			<!-- 底部锚点 -->
+			<view id="bottom"></view>
 		</scroll-view>
 	</view>
 </template>
@@ -58,7 +63,7 @@
     imglist.value.push('https://picsum.photos/200/300?id='+i)
   }
  */
-import { ref, computed, Ref, PropType, onMounted, ComputedRef } from 'vue'
+import { ref, computed, Ref, PropType, onMounted, ComputedRef,watch } from 'vue'
 import { scrollDetailFace, statusType } from './interface'
 import tmSheet from '../tm-sheet/tm-sheet.vue'
 import tmIcon from '../tm-icon/tm-icon.vue'
@@ -100,6 +105,10 @@ const props = defineProps({
 	color: {
 		type: String,
 		default: 'primary'
+	},
+	scrollViewInTo:{
+		type:String as PropType<'top'|'bottom'|''>,
+		default:""
 	}
 })
 const rowHeight = uni.upx2px(props.itemHeight)
@@ -126,6 +135,10 @@ const visibleNodeCount = computed(() => endNode.value - startNode.value + 1)
 const offsetY = computed(() => childPositions.value[startNode.value] + outTopHeight)
 const visibleItems: ComputedRef<Array<any>> = computed(() => {
 	return props.data.slice(startNode.value, startNode.value + visibleNodeCount.value)
+})
+const viewNode = ref("")
+watch(()=>props.scrollViewInTo,()=>{
+	viewNode.value = props.scrollViewInTo
 })
 
 const Loading = ref(false)

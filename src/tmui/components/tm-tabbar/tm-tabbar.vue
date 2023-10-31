@@ -1,5 +1,8 @@
 <template>
-	<view
+	
+	<view>
+		
+		<view
 		class="fixed l-0 b-0 flex tabbar"
 		:style="{
 			width: _width + 'px',
@@ -36,6 +39,10 @@
 		<view class="absolute flex flex-col l-0" :style="{ width: _width + 'px', height: _totalBarHeight + 'px' }">
 			<view class="relative barcont flex flex-row flex-row-top-center flex-around flex-1" :style="{ width: _width + 'px' }"><slot></slot></view>
 		</view>
+	</view>
+		<view v-if="_place" :style="{
+			height: _totalBarHeight + 'px',
+		}"></view>
 	</view>
 </template>
 
@@ -103,11 +110,17 @@ const props = defineProps({
 	zIndex: {
 		type: [Number],
 		default: 200
-	}
+	},
+	/**是否占位，底部填充空白view */
+	place: {
+		type: Boolean,
+		default: false
+	},
 })
 let sys = uni.getSystemInfoSync()
 const _width = computed(() => uni.upx2px(props.width) || sys?.windowWidth || 750)
 const _blur = computed(() => props.blur)
+const _place = computed(() => props.place)
 const _activeUrl = ref('')
 const _activeUid = ref('')
 const tmTabbarId = 'tmTabbarId'

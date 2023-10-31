@@ -17,7 +17,8 @@
 			:class="[!css_is_nvue && !isOpen ? 'fulled-height' : '', isOpen ? '' : isDark ? 'darkBg absolute' : 'lightBg absolute']"
 			:style="[
 				!css_is_nvue ? { width: '100%', 'box-sizing': 'border-box' } : '',
-				css_is_nvue && !isOpen ? { width: css_nvue_size[0] + 'px', height: css_nvue_size[1] + 'px' } : ''
+				css_is_nvue && !isOpen ? { width: css_nvue_size[0] + 'px', height: css_nvue_size[1] + 'px' } : '',
+				{'background-image': isDark?`linear-gradient(to top, ${props.darkMaskColor[0]}, ${props.darkMaskColor[1]})`:`linear-gradient(to top, ${props.lightMaskColor[0]} 30%, ${props.lightMaskColor[1]} 50%)`}
 			]"
 		>
 			<slot name="more">
@@ -35,7 +36,7 @@
  * @description 超过指定高度，默认隐藏更多内容。
  * @slot more 底部展开和收起更多的工具条的插槽。
  */
-import { getCurrentInstance, computed, ref, provide, inject, onMounted, onUnmounted, onUpdated, nextTick, watch } from 'vue'
+import { getCurrentInstance, computed, ref, provide, inject, onMounted, onUnmounted, onUpdated, nextTick, watch, PropType } from 'vue'
 import tmIcon from '../tm-icon/tm-icon.vue'
 import tmText from '../tm-text/tm-text.vue'
 import { custom_props, computedTheme, computedClass, computedStyle, computedDark } from '../../tool/lib/minxs'
@@ -68,6 +69,14 @@ const props = defineProps({
 	beforeOpen: {
 		type: [Function, Boolean],
 		default: () => false
+	},
+	lightMaskColor:{
+		type:Array as PropType<string[]>,
+		default:()=>['rgba(255, 255, 255, 1)','rgba(255, 255, 255, 0.7)']
+	},
+	darkMaskColor:{
+		type:Array as PropType<string[]>,
+		default:()=>['rgba(0, 0, 0, 1)','rgba(0, 0, 0, 0)']
 	}
 })
 // 设置响应式全局组件库配置表。

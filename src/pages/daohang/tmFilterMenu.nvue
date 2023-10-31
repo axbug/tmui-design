@@ -31,14 +31,14 @@
 				</tm-sheet>
 				<tm-filterMenu ref="filter">
 					<tm-filterMenu-item :footerHeight="100" icon="tmicon-filter-fill" un-icon="tmicon-filter" :height="450" title="多选项">
-						<tm-checkbox-group direction="customCol" v-model="checbox" :default-value="checbox">
+						<tm-checkbox-group  direction="customCol" v-model="checbox" :default-value="checbox">
 							<tm-checkbox :value="item.id" v-for="(item, index) in checboxList" :key="index" :custom="false">
-								<template v-slot:default="{ checked }">
+								<template v-slot:default="{ checked }" class="flex-1">
 									<view
 										:userInteractionEnabled="false"
 										hover-class="opactiy-7"
 										class="flex-1 flex-row flex flex-row-center-between"
-										style="height: 76rpx"
+										style="height: 76rpx;width:100%"
 									>
 										<tm-text :color="checked.checked ? 'primary' : ''" :label="item.text"></tm-text>
 										<tm-icon :font-size="24" color="primary" v-if="checked.checked" name="tmicon-check"></tm-icon>

@@ -47,7 +47,7 @@
 			<!-- #ifndef APP-NVUE -->
 			<view
 				v-if="_cId !== ''"
-				class="absloute flex flex-row bgbtnpos tm-segtab"
+				class="absloute flex flex-row bgbtnpos tm-segtab relative"
 				:style="[
 					{
 						transform: 'translateX(' + (leftPos + wh.gutterpx) + 'px)',
@@ -84,9 +84,10 @@
 					@click="itemClick(index, item.id)"
 					:ref="'tab_'"
 					:class="['tab' + index]"
-					class="flex flex-row flex-row-center-center px-16 nowrap flex-1"
+					class="flex flex-row flex-row-center-center px-16 nowrap flex-1 "
+
 					v-for="(item, index) in _list"
-					:style="{ margin: `${props.gutter}rpx 0` }"
+					:style="{ margin: `${props.gutter}rpx 0`}"
 					:key="index"
 				>
 					<tm-text
@@ -338,4 +339,5 @@ function getDomRectBound(idx: number) {
 	box-sizing: border-box;
 	/* #endif */
 }
+
 </style>

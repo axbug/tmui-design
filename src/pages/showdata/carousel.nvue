@@ -7,7 +7,7 @@
 		<tm-sheet>
 			<tm-text :font-size="24" _class="text-weight-b" label="指示点对齐"></tm-text>
 		</tm-sheet>
-		<tm-carousel autoplay :margin="[0, 16]" align="right" :round="3" :width="686" :height="300" :list="listimg"></tm-carousel>
+		<tm-carousel autoplay model="dot" :margin="[0, 16]" align="right" :round="3" :width="686" :height="300" :list="listimg2"></tm-carousel>
 		<tm-sheet>
 			<tm-text :font-size="24" _class="text-weight-b" label="指示位置，包含视频播放"></tm-text>
 		</tm-sheet>
@@ -34,19 +34,21 @@ import tmText from '@/tmui/components/tm-text/tm-text.vue'
 import tmCarousel from '@/tmui/components/tm-carousel/tm-carousel.vue'
 import tmDivider from '@/tmui/components/tm-divider/tm-divider.vue'
 const listimg = [
-	'https://picsum.photos/200/300?id=43335',
-	'https://picsum.photos/200/300?id=433',
-	'https://picsum.photos/200/300?id=439',
-	'https://picsum.photos/200/300?id=459'
+	'https://store.tmui.design/api_v2/public/random_picture?row=1&random=12',
+	'https://store.tmui.design/api_v2/public/random_picture?row=1&random=13',
+	'https://store.tmui.design/api_v2/public/random_picture?row=1&random=14'
 ]
-
+const listimg2 = [
+	{url:'https://store.tmui.design/api_v2/public/random_picture?row=1&random=12',text:"测试提醒语信息"},
+	{url:'https://store.tmui.design/api_v2/public/random_picture?row=1&random=12',text:"南昌红谷滩区."},
+]
 const listvedio: Ref<any[]> = ref([
-	{ test: 'https://picsum.photos/200/300?id=43335' },
+	{ test: 'https://store.tmui.design/api_v2/public/random_picture?row=1&random=11' },
 	{
 		test: 'https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4',
-		img: 'https://picsum.photos/200/300?id=43335',
+		img: 'https://store.tmui.design/api_v2/public/random_picture?row=1&random=18',
 		type: 'video'
 	},
-	'https://picsum.photos/200/300?id=433'
+	'https://store.tmui.design/api_v2/public/random_picture?row=1&random=20'
 ])
 </script>

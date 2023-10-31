@@ -43,7 +43,8 @@
 				left: (isNaN(activeIndex) || isButton ? '-10000' : 0) + 'px',
 				top: 0 + 'px',
 				height: sysinfo.height + 'px',
-				width: sysinfo.width + 'px'
+				width: sysinfo.width + 'px',
+				zIndex:402
 			}"
 		></view>
 		<!-- #ifdef MP-WEIXIN || MP-ALIPAY-->
@@ -60,9 +61,10 @@
 			class="bgContent fixed"
 			:style="{
 				left: (isNaN(activeIndex) || isButton ? '-10000' : (props.fixed?0:el_left)) + 'px',
-				top: _fixed ? sysinfo.top + 'px' : el_top + sysinfo.top + 'px',
+				top: _fixed ?  '0px' : el_top  + 'px',
 				width: props.width + 'rpx',
-				height: sysinfo.height + el_top + 'px'
+				height: sysinfo.height + el_top + 'px',
+				zIndex:402
 			}"
 		></view>
 		<!-- 动态菜单及内容 -->
@@ -72,9 +74,10 @@
 			class="content fixed"
 			:style="{
 				left: (isNaN(activeIndex) || isButton ? '-10000' : (props.fixed?0:el_left)) + 'px',
-				top: _fixed ? sysinfo.top + 'px' : el_top + sysinfo.top + 'px',
+				top: _fixed ? 0 + 'px' : el_top  + 'px',
 				width: props.width + 'rpx',
-				height: sysinfo.height + el_top + 'px'
+				height: sysinfo.height + el_top + 'px',
+				zIndex:402
 			}"
 		>
 			<tm-sheet
@@ -127,6 +130,8 @@ import tmIcon from '@/tmui/components/tm-icon/tm-icon.vue'
 import { inject, computed, getCurrentInstance, nextTick, ref, onMounted, Ref, provide, toRaw, watch } from 'vue'
 import { FilterMenuType } from './interface'
 import { useTmpiniaStore } from '@/tmui/tool/lib/tmpinia'
+import { useWindowInfo } from '../../tool/useFun/useWindowInfo'
+
 // #ifdef APP-PLUS-NVUE
 const dom = uni.requireNativePlugin('dom')
 const animation = uni.requireNativePlugin('animation')
@@ -161,19 +166,7 @@ const props = defineProps({
 		default: false
 	}
 })
-const sysinfo = inject(
-	'tmuiSysInfo',
-	computed(() => {
-		return {
-			bottom: 0,
-			height: 750,
-			width: uni.upx2px(750),
-			top: 0,
-			isCustomHeader: false,
-			sysinfo: null
-		}
-	})
-)
+const sysinfo = useWindowInfo()
 //元件的位置
 const el_left = ref(0)
 const el_top = ref(0)
@@ -300,7 +293,7 @@ provide(
 )
 provide(
 	'FilterMenuMaxHeight',
-	computed(() => sysinfo.value.height + el_top.value)
+	computed(() => sysinfo.height + el_top.value)
 )
 defineExpose({
 	FilterMenu: 'FilterMenu',

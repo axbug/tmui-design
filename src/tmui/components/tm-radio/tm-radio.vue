@@ -1,9 +1,12 @@
 <template>
 	<view
 		class="flex"
-		:class="[_disabled ? props.disabledClass : '', tmCheckedBoxDir == 'row' ? 'flex-row' : '', tmCheckedBoxDir == 'customCol' ? 'flex-1' : '']"
+		:class="[_disabled ? props.disabledClass : '', tmCheckedBoxDir == 'row' ? 'flex-row' : '', 
+		tmCheckedBoxDir == 'customCol' ? 'flex-1 flex-col' : '']"
 	>
-		<view @click="hanlerClick" class="flex flex-1 flex-row flex-row-center-start">
+		<view @click.stop="hanlerClick" class="" :class="[
+			(tmCheckedBoxDir == 'customCol'&&props.custom)||tmCheckedBoxDir == 'row' ? 'flex flex-1 flex-row flex-row-center-start' : ''
+			]">
 			<tm-sheet
 				parenClass="flex-shrink"
 				class="flex-shrink"
@@ -107,14 +110,14 @@ const props = defineProps({
 	},
 	//选项值，选中后返回的值。
 	value: {
-		type: [String, Number, Boolean],
+		type: [String, Number, Boolean,null],
 		default: ''
 	},
 	/**
 	 * v-model双向绑定，如果选中后以数组形式给出value值。
 	 */
 	modelValue: {
-		type: [String, Number, Boolean],
+		type: [String, Number, Boolean,null],
 		default: ''
 	},
 	label: {

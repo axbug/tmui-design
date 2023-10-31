@@ -207,6 +207,26 @@ border的其它辅助特性。``` round-方向-精细 ```
 
 **在flex-col纵向排时，如果内部只有一元素flex-col-full就是宽度100%**
 
+## Grid 网格排版 <Badge type="danger" text="nvue不支持" vertical="middle" />
+顾名思义，即像表格一样排列，一行几列，超过了指定列数断行到下一行。
+| grid |
+| :--- |
+| 开启网格排版 |
+
+| grid-col-[x] |
+| :--- |
+| 一行几列，x=[1,12]之间的值，比如grid-col-3表示一行3列 |
+
+示例：class="grid grid-col-5" 表示它下面的元素按一行5列排，超过的自动断行到下一行。
+
+## Gap 间隙 <Badge type="danger" text="nvue不支持" vertical="middle" />
+与margin,padding不同，它的间隙只会在元素之间产生，如果您这边没有元素了，就不会产生间隙。相比margin,padding增加间隙，使用此类gap更具优势。
+| gap-[x] | gap-row-[x] | gap-col-[x] |
+| :--- | :--- | :--- |
+| 周边间隙 | 行与行之间的间隙 | 列与列间的间隙 |
+
+**x=1,25之间，注意值是x2的，比如gap-1实际是gap:2rpx;**
+
 ## 位置控制
 
 | t | l | r | b |

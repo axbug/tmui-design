@@ -100,7 +100,7 @@ interface showDetail {
 }
 interface quickBtnType {
 	label: string
-	fun?: () => [string | number | Date | Da, string]
+	fun?: () => [string | number | Date | dayjs.Dayjs, string]
 	color?: 'primary'
 	//这个是内部代号，如果提供了，上面的fun可以不用提供，且无效
 	// br:本日，bz:本周,by:本月,jsy:近三个月,bn:本年,d7：近7天，d30:近30天
@@ -248,25 +248,13 @@ watch(
 )
 const valuedate_start_str = computed(() => {
 	if (!valuedate_start.value) return ''
-	
-	let str_date = DayJs(valuedate_start.value).format(props.format);
-	if(str_date=='Invalid Date') {
-		picker_focus_date.value=DayJs(props.start).format(defaultFormat)
-		str_date= DayJs(props.start).format(props.format)
-	}
 	return DayJs(valuedate_start.value).format(props.format)
 })
 
 const valuedate_end_str = computed(() => {
 	if (!valuedate_end.value) return ''
-	let str_date = DayJs(valuedate_end.value).format(props.format);
-	if(str_date=='Invalid Date') {
-		picker_focus_date.value=DayJs(props.end).format(defaultFormat)
-		str_date= DayJs(props.end).format(props.format)
-	}
-	return str_date
+	return DayJs(valuedate_end.value).format(props.format)
 })
-
 function changeFocus(index: number) {
 	focusIndex.value = index
 	let vstd = valuedate_start.value
@@ -388,7 +376,7 @@ function setDate(ar: Array<String | Number | Date>) {
 }
 function confirm() {
 	emits('update:modelValue', [valuedate_start.value, valuedate_end.value])
-	emits('update:modelStr', [DayJs(valuedate_start.value).format(props.format), DayJs(valuedate_end.value).format(props.format)])
+	emits('update:modelStr', [valuedate_start.value&&DayJs(valuedate_start.value).format(props.format), valuedate_end.value&&DayJs(valuedate_end.value).format(props.format)])
 	emits('confirm', [valuedate_start.value, valuedate_end.value])
 }
 function getNowDate(): [string, string] {

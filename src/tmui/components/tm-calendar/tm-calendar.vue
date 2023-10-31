@@ -32,6 +32,8 @@
 					:multiple="props.multiple"
 					:dateStyle="props.dateStyle"
 					:max="props.max"
+					:textUnit="_textUnit"
+					:confirmText="_confirmText"
 					ref="calendarView"
 				>
 				</tm-calendar-view>
@@ -49,6 +51,8 @@ import { custom_props, computedTheme, computedClass, computedStyle, computedDark
 import tmCalendarView from '../tm-calendar-view/tm-calendar-view.vue'
 import tmDrawer from '../tm-drawer/tm-drawer.vue'
 import { monthDayItem, dateItemStyle, monthYearItem, weekItem, yearItem } from '../tm-calendar-view/interface'
+import { useWindowInfo } from '../../tool/useFun/useWindowInfo'
+
 const drawer = ref<InstanceType<typeof tmDrawer> | null>(null)
 const calendarView = ref<InstanceType<typeof tmCalendarView> | null>(null)
 
@@ -161,26 +165,25 @@ const props = defineProps({
 	format: {
 		type: String,
 		default: 'YYYY/MM/DD'
+	},
+	confirmText: {
+		type: String,
+		default: '确认'
+	},
+	//周次，本日、本季、本年、本月、本周的文字请按顺序提供文本，方便定义其它语言。
+	textUnit: {
+		type: Array as PropType<string[]>,
+		default: ['周次','一','二','三','四','五','六','日','本日','本周','本月','本季度','本年','月','第${x}季度','年']
 	}
 })
-const sysinfo = inject(
-	'tmuiSysInfo',
-	computed(() => {
-		return {
-			bottom: 0,
-			height: 750,
-			width: uni.upx2px(750),
-			top: 0,
-			isCustomHeader: false,
-			sysinfo: null
-		}
-	})
-)
+const sysinfo = useWindowInfo()
 const _show = ref(props.show)
 const isConfirm = ref(false) //是否点了确认按钮。
 const _value = ref(props.defaultValue)
 const _strvalue = ref(props.modelStr)
 const _modelType = computed(() => props.model)
+const _textUnit= computed(() => props.textUnit)
+const _confirmText = computed(() => props.confirmText)
 function close() {
 	if (!isConfirm.value) {
 		emits('cancel')
@@ -238,19 +241,14 @@ function confirm(e: Array<string | number>) {
 	drawer.value?.close()
 }
 
-let win_bottom = computed(() => {
-	if (props.hideButton) {
-		return sysinfo.value.bottom - 80
-	}
-	return sysinfo.value.bottom
-})
+
 const dHeight = computed(() => {
-	if (_modelType.value == 'day') return 880 + win_bottom.value
-	if (_modelType.value == 'rang') return 880 + win_bottom.value
-	if (_modelType.value == 'week') return 740 + win_bottom.value
-	if (_modelType.value == 'month') return 720 + win_bottom.value
-	if (_modelType.value == 'quarter') return 480 + win_bottom.value
-	if (_modelType.value == 'year') return 620 + win_bottom.value
-	return 600 + win_bottom.value
+	if (_modelType.value == 'day') return 880 + sysinfo.bottomSafe
+	if (_modelType.value == 'rang') return 880 + sysinfo.bottomSafe
+	if (_modelType.value == 'week') return 740 + sysinfo.bottomSafe
+	if (_modelType.value == 'month') return 720 + sysinfo.bottomSafe
+	if (_modelType.value == 'quarter') return 480 + sysinfo.bottomSafe
+	if (_modelType.value == 'year') return 620 + sysinfo.bottomSafe
+	return 600 +sysinfo.bottomSafe
 })
 </script>

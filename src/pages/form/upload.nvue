@@ -16,6 +16,7 @@
 				:width="636"
 				:rows="4"
 				url="https://mockapi.eolink.com/tNYKNA7ac71aa90bcbe83c5815871a5b419601e96a5524d/upload"
+				@complate="complateFile"
 			>
 			</tm-upload>
 			<tm-divider></tm-divider>
@@ -41,6 +42,7 @@
 				</template>
 			</tm-upload>
 		</tm-sheet>
+		
 	</tm-app>
 </template>
 <script lang="ts" setup>
@@ -53,6 +55,7 @@ import tmUpload from '@/tmui/components/tm-upload/tm-upload.vue'
 import tmDivider from '@/tmui/components/tm-divider/tm-divider.vue'
 import tmButton from '@/tmui/components/tm-button/tm-button.vue'
 import { file } from '@/tmui/components/tm-upload/upload'
+
 const dateStr = ref('')
 const showdate = ref(false)
 const up = ref<InstanceType<typeof tmUpload> | null>(null)
@@ -74,8 +77,13 @@ const test = (item: file) => {
 
 	return isOk
 }
+const complateFile = (file:file)=>{
+	console.log(file)
+}
 const onStart = (item: any) => {
 	console.log(item)
 	return true
 }
+
+
 </script>

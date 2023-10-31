@@ -43,7 +43,8 @@
 						customCSSStyle
 					]"
 					:class="[round_rp, 'flex flex-col overflow ', customClass]"
-				>
+				>	
+					
 					<view
 						v-if="!props.closeable && !props.hideHeader"
 						class="flex flex-row flex-row-center-center flex-between px-24"
@@ -120,8 +121,11 @@ import { getCurrentInstance, computed, ref, provide, inject, onMounted, onUnmoun
 import { cssstyle, tmVuetify, colorThemeType } from '../../tool/lib/interface'
 import { custom_props, computedTheme, computedClass, computedStyle, computedDark } from '../../tool/lib/minxs'
 import { useTmpiniaStore } from '../../tool/lib/tmpinia'
+import { useWindowInfo } from '../../tool/useFun/useWindowInfo'
+
 const drawerANI = ref<InstanceType<typeof tmTranslate> | null>(null)
 const overlayAni = ref<InstanceType<typeof tmOverlay> | null>(null)
+
 const store = useTmpiniaStore()
 const props = defineProps({
 	...custom_props,
@@ -249,19 +253,7 @@ const props = defineProps({
 })
 const emits = defineEmits(['click', 'open', 'close', 'update:show', 'ok', 'cancel'])
 const proxy = getCurrentInstance()?.proxy ?? null
-const sysinfo = inject(
-	'tmuiSysInfo',
-	computed(() => {
-		return {
-			bottom: 0,
-			height: 750,
-			width: uni.upx2px(750),
-			top: 0,
-			isCustomHeader: false,
-			sysinfo: null
-		}
-	})
-)
+const sysinfo = useWindowInfo();
 // 设置响应式全局组件库配置表。
 const tmcfg = computed<tmVuetify>(() => store.tmStore)
 //自定义样式：
@@ -272,8 +264,7 @@ const customClass = computed(() => computedClass(props))
 const isDark = computed(() => computedDark(props, tmcfg.value))
 //计算主题
 const tmcomputed = computed<cssstyle>(() => computedTheme(props, isDark.value, tmcfg.value))
-const syswidth = computed(() => sysinfo.value.width)
-const sysheight = computed(() => sysinfo.value.height)
+
 const reverse = ref(true)
 const timeid = ref(0)
 let timerId: any = NaN
@@ -376,14 +367,14 @@ const anwidth = computed(() => {
 	if (props.placement == 'left' || props.placement == 'right') {
 		return props.width + props.unit
 	}
-	return syswidth.value + 'px'
+	return sysinfo.width + 'px'
 })
 const anheight = computed(() => {
 	let wucha = 0
 	if (props.placement == 'top' || props.placement == 'bottom' || aniname.value == 'zoom') {
 		return props.height + wucha + props.unit
 	}
-	return sysheight.value + 'px'
+	return sysinfo.height + 'px'
 })
 const contentHeight = computed(() => {
 	let base_height = props.hideHeader ? 0 : 44
@@ -395,7 +386,7 @@ const contentHeight = computed(() => {
 		}
 		return h - base_height - _footerHeight + 'px'
 	}
-	return sysheight.value - base_height - _footerHeight + 'px'
+	return sysinfo.height - base_height - _footerHeight + 'px'
 })
 const align_rp = computed(() => {
 	if (aniname.value == 'down') {

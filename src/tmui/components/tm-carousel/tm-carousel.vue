@@ -24,7 +24,7 @@
 				:style="[{ width: `${props.width}rpx`, height: `${props.height}rpx` }]"
 			>
 				<swiper-item
-					:class="`round-${props.round} overflow`"
+					:class="`round-${props.round} overflow `"
 					@click="emits('click', index)"
 					v-for="(item, index) in _list"
 					:key="index"
@@ -57,6 +57,11 @@
 						:autoplay="_currentActive === index"
 						:class="`round-${props.round}`"
 					></video>
+					
+					<!-- 底部文字提示语 -->
+					<view v-if="item?.text"  class="absolute l-0 b-0 px-24" :style="[{ width: `${props.width}rpx`, height: `64rpx`,background:'rgba(0,0,0,0.4)','box-sizing':' border-box' }]">
+						<text class="text-size-m text-white text-overflow-1" style="line-height: 64rpx;">{{item.text}}</text>
+					</view>
 				</swiper-item>
 			</swiper>
 			<!-- dot -->
@@ -74,8 +79,8 @@
 					_dotPosition == 'right' && _align == 'left' ? 'pr-12 mt-24' : '',
 					_dotPosition == 'right' && _align == 'right' ? 'pr-12 pb-24' : '',
 
-					_dotPosition == 'bottom' && _align == 'left' ? 'ml-12 mb-24' : '',
-					_dotPosition == 'bottom' && _align == 'right' ? 'pr-12 mb-24' : '',
+					_dotPosition == 'bottom' && _align == 'left' ? 'ml-12 mb-0' : '',
+					_dotPosition == 'bottom' && _align == 'right' ? 'pr-12 mb-0' : '',
 					_dotPosition == 'top' && _align == 'left' ? 'ml-12 ' : '',
 					_dotPosition == 'top' && _align == 'right' ? 'pr-12 ' : ''
 				]"
@@ -106,7 +111,7 @@
 					:padding="[0, 0]"
 					:round="10"
 					@click="dotClick(index)"
-					:color="_currentActive == index ? props.color : props.indicatorColor"
+					:color="_currentActive == index ? props.color : 'white'"
 					v-for="(item, index) in _list"
 					:key="index"
 					:width="18"
@@ -128,8 +133,8 @@
 					_dotPosition == 'right' && _align == 'left' ? 'pr-12 mt-24' : '',
 					_dotPosition == 'right' && _align == 'right' ? 'pr-12 pb-24' : '',
 
-					_dotPosition == 'bottom' && _align == 'left' ? 'ml-12 mb-24' : '',
-					_dotPosition == 'bottom' && _align == 'right' ? 'pr-12 mb-24' : '',
+					_dotPosition == 'bottom' && _align == 'left' ? 'ml-12 mb-0' : '',
+					_dotPosition == 'bottom' && _align == 'right' ? 'pr-12 mb-0' : '',
 					_dotPosition == 'top' && _align == 'left' ? 'ml-12 ' : '',
 					_dotPosition == 'top' && _align == 'right' ? 'pr-12 ' : ''
 				]"
@@ -183,8 +188,8 @@
 					_dotPosition == 'right' && _align == 'left' ? 'pr-12 mt-24' : '',
 					_dotPosition == 'right' && _align == 'right' ? 'pr-12 pb-24' : '',
 
-					_dotPosition == 'bottom' && _align == 'left' ? 'ml-12 mb-24' : '',
-					_dotPosition == 'bottom' && _align == 'right' ? 'pr-12 mb-24 ' : '',
+					_dotPosition == 'bottom' && _align == 'left' ? 'ml-12 mb-0' : '',
+					_dotPosition == 'bottom' && _align == 'right' ? 'pr-12 mb-0 ' : '',
 					_dotPosition == 'top' && _align == 'left' ? 'ml-12 ' : '',
 					_dotPosition == 'top' && _align == 'right' ? 'pr-12 ' : ''
 				]"
@@ -245,7 +250,6 @@ const props = defineProps({
 		type: String,
 		default: 'primary'
 	},
-	// 指示点颜色
 	indicatorColor: {
 		type: String,
 		default: 'white'
@@ -371,12 +375,14 @@ const _list = computed(() => {
 		if (typeof el == 'string') {
 			l.push({
 				url: el,
-				type: listItemType.img
+				type: listItemType.img,
+				text:"",
 			})
 		} else if (typeof el === 'object') {
 			l.push({
 				url: el[props.rangKey],
 				type: el?.type ?? listItemType.img,
+				text:el?.text??"",
 				img: el?.img ?? '',
 				...el
 			})

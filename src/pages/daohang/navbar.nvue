@@ -1,6 +1,9 @@
 <template>
 	<tm-app>
 		<tm-navbar title="标题导航栏" color="primary" linear="right" linearDeep="accent">
+			<template v-slot:left>
+				标题导航栏
+			</template>
 			<template v-slot:right>
 				<tm-icon _class="px-32" name="tmicon-plus"></tm-icon>
 			</template>

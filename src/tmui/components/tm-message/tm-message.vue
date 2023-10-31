@@ -4,7 +4,7 @@
 		v-if="showValue"
 		class="fixed l-0 t-0 flex flex-row flex-row-center-center on"
 		:class="[showMask ? 'overflowMask' : 'overflowMaskNo']"
-		:style="{ width: _width + 'px', height: _height + 'px', top: sysinfo.top + 'px' }"
+		:style="{ width: sysinfo.width + 'px', height: sysinfo.height + 'px', top: 0 + 'px' }"
 	>
 		<tm-sheet
 			v-if="showValue"
@@ -64,6 +64,7 @@ const tranAni = ref<InstanceType<typeof tmTranslate> | null>(null)
 const Overlay = ref<InstanceType<typeof tmOverlay> | null>(null)
 const emits = defineEmits(['click'])
 const proxy = getCurrentInstance()?.proxy ?? null
+import { useWindowInfo } from '../../tool/useFun/useWindowInfo'
 const props = defineProps({
 	//自定义的样式属性
 	_style: {
@@ -107,21 +108,8 @@ const props = defineProps({
 	}
 })
 
-const sysinfo = inject(
-	'tmuiSysInfo',
-	computed(() => {
-		return {
-			bottom: 0,
-			height: 750,
-			width: uni.upx2px(750),
-			top: 0,
-			isCustomHeader: false,
-			sysinfo: null
-		}
-	})
-)
-const _width = computed(() => sysinfo.value.width)
-const _height = computed(() => sysinfo.value.height)
+const sysinfo = useWindowInfo()
+
 const _lines = computed(() => props.lines)
 let isNvue = ref(false)
 // #ifdef APP-NVUE

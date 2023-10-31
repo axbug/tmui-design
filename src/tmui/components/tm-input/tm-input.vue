@@ -29,6 +29,7 @@
 						:font-size="propsDetail.fontSize"
 						:color="props.prefixColor"
 						:name="propsDetail.prefix"
+						:customicon="props.customicon"
 					></tm-icon>
 				</view>
 				<view v-if="propsDetail.prefixLabel" class="pr-24">
@@ -201,9 +202,11 @@
 				</view>
 				<view @click="clearBtn" class="pl-16" v-if="propsDetail.showClear && _valueLenChar > 0">
 					<tm-icon
+						:customicon="props.customicon"
 						_style="transition:color 0.24s"
 						:userInteractionEnabled="false"
 						:font-size="propsDetail.fontSize"
+						:color="props.clearAndEyeColor"
 						name="tmicon-times-circle-fill"
 					>
 					</tm-icon>
@@ -213,6 +216,7 @@
 				</view>
 				<view class="pl-16" v-if="propsDetail.suffix">
 					<tm-icon
+						:customicon="props.customicon"
 						_style="transition:color 0.24s"
 						:font-size="propsDetail.fontSize"
 						:color="props.suffixColor"
@@ -232,6 +236,7 @@
 				<view @click="changeSeePassword" class="pl-16" v-if="showPasswordIcon">
 					<!-- tmicon-eyeslash-fill -->
 					<tm-icon
+						:color="props.clearAndEyeColor"
 						_style="transition:color 0.24s"
 						:userInteractionEnabled="false"
 						:font-size="propsDetail.fontSize"
@@ -257,10 +262,11 @@
 				<slot name="right">
 					<view v-if="propsDetail.search || propsDetail.searchLabel" class="pl-16">
 						<TmButton
+							:round="props.round"
 							:width="props.searchWidth"
 							:followTheme="props.followTheme"
 							@click="searchClick"
-							:color="props.focusColor"
+							:color="props.searchBgColor"
 							:font-size="24"
 							:height="_height - 11"
 							:padding="[16, 0]"
@@ -299,6 +305,10 @@ const props = defineProps({
 		type: String,
 		default: 'grey-4'
 	},
+	searchBgColor:{
+		type: String,
+		default: 'primary'
+	},
 	searchFontColor: {
 		type: String,
 		default: ''
@@ -319,6 +329,11 @@ const props = defineProps({
 	focusColor: {
 		type: String,
 		default: 'primary'
+	},
+	/** 清除按钮，显示密码按钮的颜色 */
+	clearAndEyeColor:{
+		type: String,
+		default: ''
 	},
 	//默认使用自动配色
 	fontColor: {
@@ -514,7 +529,11 @@ const props = defineProps({
 	layoutAlign: {
 		type: String,
 		default: 'flex-row-top-start'
-	}
+	},
+	customicon: {
+		type: Boolean,
+		default: false
+	},
 })
 
 let parentFormItem: any = proxy?.$parent

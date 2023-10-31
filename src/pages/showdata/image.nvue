@@ -4,20 +4,20 @@
 			<tm-text :font-size="24" _class="text-weight-b" label="基础示例,更多见文档"></tm-text>
 			<tm-divider></tm-divider>
 			<view>
-				<tm-image preview :width="300" :height="200" src="https://picsum.photos/200/300---"></tm-image>
+				<tm-image preview :width="300" :height="200" src="https://store.tmui.design/api_v2/public/random_picture"></tm-image>
 			</view>
 		</tm-sheet>
 		<tm-sheet>
 			<tm-text :font-size="24" _class="text-weight-b" label="关闭按钮"></tm-text>
 			<tm-divider></tm-divider>
 			<view>
-				<tm-image delete preview :width="300" :height="200" src="https://picsum.photos/200/300?id=666"> </tm-image>
+				<tm-image delete preview :width="300" :height="200" src="https://store.tmui.design/api_v2/public/random_picture?random=2"> </tm-image>
 			</view>
 		</tm-sheet>
 		<tm-sheet>
 			<tm-text :font-size="24" _class="text-weight-b" label="展示额外的内容"></tm-text>
 			<tm-divider></tm-divider>
-			<tm-image extra preview :width="300" :height="200" src="https://picsum.photos/200/300?id=022">
+			<tm-image extra preview :width="300" :height="200" src="https://store.tmui.design/api_v2/public/random_picture?random=3">
 				<template v-slot:extra>
 					<tm-sheet :margin="[0, 0]" :padding="[12, 10]" _class="flex-row flex-between " parenClass="opacity-6">
 						<view class="flex flex-row flex-center pl-16">
@@ -41,7 +41,7 @@
 					preview
 					:width="155"
 					:height="156"
-					:src="'https://picsum.photos/312/312?id=' + item"
+					:src="'https://store.tmui.design/api_v2/public/random_picture?random=' + item"
 					v-for="item in 14"
 					:key="item"
 				></tm-image>

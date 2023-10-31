@@ -113,7 +113,7 @@
  * 滑块
  * description 注意，如果想开启单滑块（默认），default-value=0单个值即可，如果想双滑块，值等于数组比如:=[0,5]
  */
-import { computed, ref, Ref, toRaw, getCurrentInstance, watchEffect, watch, inject } from 'vue'
+import { computed, ref, Ref, toRaw, getCurrentInstance, watchEffect, watch, inject,PropType } from 'vue'
 import { inputPushItem, rulesItem } from './../tm-form-item/interface'
 import sliderBar from './slider-bar.vue'
 import sliderButton from './slider-button.vue'
@@ -179,7 +179,7 @@ const props = defineProps({
 	},
 	//默认的值一定要和v-model相同的类型，
 	defaultValue: {
-		type: [Array, Number],
+		type: [Array, Number] as PropType<number[]|number>,
 		default: 0
 	},
 
@@ -265,10 +265,8 @@ const _barLet = computed(() => {
 
 const _value = ref(0)
 //是双滑块，还是单滑块。
-const isDablue = ref(false)
-if (typeof props.defaultValue == 'object' && Array.isArray(props.defaultValue)) {
-	isDablue.value = true
-}
+const isDablue = ref(Array.isArray(props.defaultValue)?true:false)
+
 zhuanghuaValue()
 watchEffect(() => {
 	let val = Math.ceil((Math.abs(btnPos.value[BtnIndex.value].x) / uni.upx2px(props.width)) * _valueMax.value + props.min)
@@ -286,35 +284,32 @@ const _blackValue = getValue()
 watch(
 	() => props.modelValue,
 	() => {
-		if (!isDablue.value) {
-			btnPos.value[0].x = Math.abs((Number(props.modelValue) / _valueMax.value) * uni.upx2px(props.width))
-		} else {
-			btnPos.value[0].x = Math.abs((Number(props.modelValue[0]) / _valueMax.value) * uni.upx2px(props.width))
-			btnPos.value[1].x = Math.abs((Number(props.modelValue[1]) / _valueMax.value) * uni.upx2px(props.width))
-		}
+
+		zhuanghuaValue(props.modelValue)
 	}
 )
-
-function zhuanghuaValue() {
-	if (!isDablue.value) {
-		let vsp = Number(props.defaultValue)
-		vsp = vsp >= _valueMax.value ? _valueMax.value : vsp
-		vsp = vsp <= props.min ? props.min : vsp
-		let vl = Math.abs((vsp / _valueMax.value) * uni.upx2px(props.width))
-		btnPos.value[0].x = vl
+/**转换值 */
+function zhuanghuaValue(defaultValue:number|number[] = props.defaultValue) {
+	let maxWidth  = uni.upx2px(props.width);
+	if (!Array.isArray(defaultValue)) {
+		let vsp = Number(defaultValue)
+		vsp = Math.min(props.max,Math.max(props.min,vsp))
+		btnPos.value[0].x =  mapToPercentage(vsp) * maxWidth
 	} else {
-		let vsp_0 = Number(props.defaultValue[0])
-		vsp_0 = vsp_0 >= _valueMax.value ? _valueMax.value : vsp_0
-		vsp_0 = vsp_0 <= props.min ? props.min : vsp_0
-		let vl_0 = Math.abs((vsp_0 / _valueMax.value) * uni.upx2px(props.width))
-		btnPos.value[0].x = vl_0
-
-		let vsp_1 = Number(props.defaultValue[1])
-		vsp_1 = vsp_1 >= _valueMax.value ? _valueMax.value : vsp_1
-		vsp_1 = vsp_1 <= props.min ? props.min : vsp_1
-		let vl_1 = Math.abs((vsp_1 / _valueMax.value) * uni.upx2px(props.width))
-		btnPos.value[1].x = vl_1
+		let vsp_0 = Number(defaultValue[0])
+		vsp_0 = Math.max(props.min,Math.min(props.max,vsp_0))
+		btnPos.value[0].x = mapToPercentage(vsp_0) * maxWidth
+		let vsp_1 = Number(defaultValue[1])
+		vsp_1 = Math.min(Math.max(vsp_1,props.min),props.max);
+		btnPos.value[1].x = mapToPercentage(vsp_1) * maxWidth
 	}
+}
+
+function mapToPercentage(value:number) {
+  var minValue = props.min;
+  var maxValue = props.max;
+  var percentage = (value - minValue) / (maxValue - minValue);
+  return percentage;
 }
 
 function getValue() {

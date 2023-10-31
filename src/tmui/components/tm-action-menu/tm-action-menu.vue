@@ -23,8 +23,10 @@
 			<view @click.stop="" class="flex flex-col">
 				<view style="height: 24rpx"></view>
 				<tm-sheet :round="5" :margin="[32, 0, 32, 16]">
-					<view class="flex flex-col round-2 overflow mx-32">
-						<tm-text _class="opacity-5 text-align-center" :font-size="24" :label="_title"></tm-text>
+					<view class="flex flex-col round-5 overflow mx-32 mb-16">
+						<view class="flex flex-center">
+							<tm-text _class="opacity-5 text-align-center" :font-size="24" :label="_title"></tm-text>
+						</view>
 						<tm-button
 							@contact="openEvent"
 							@launchapp="openEvent"
@@ -61,7 +63,7 @@
 					block
 					:shadow="0"
 				></tm-button>
-				<view :style="{ height: sysinfo.bottom + 'px' }"></view>
+				<view :style="{ height: (sysinfo.bottomSafe||16) + 'px' }"></view>
 			</view>
 		</tm-drawer>
 	</view>
@@ -78,22 +80,12 @@ import tmText from '../tm-text/tm-text.vue'
 import tmSheet from '../tm-sheet/tm-sheet.vue'
 import { custom_props } from '@/tmui/tool/lib/minxs'
 import { useTmpiniaStore } from '@/tmui/tool/lib/tmpinia'
+import { useWindowInfo } from '../../tool/useFun/useWindowInfo'
+
 const store = useTmpiniaStore()
 
 const drawer = ref<InstanceType<typeof tmDrawer> | null>(null)
-const sysinfo = inject(
-	'tmuiSysInfo',
-	computed(() => {
-		return {
-			bottom: 0,
-			height: 750,
-			width: uni.upx2px(750),
-			top: 0,
-			isCustomHeader: false,
-			sysinfo: null
-		}
-	})
-)
+const sysinfo = useWindowInfo()
 const emits = defineEmits<{
 	/**v-model隐藏和显示菜单 */
 	(event: 'update:modelValue', value: boolean): void
@@ -185,7 +177,7 @@ const _list = computed<Array<Tmui.tmActionMenu>>(() => {
 
 const cHeight = computed(() => {
 	let len = _list.value.length + 1
-	return len * 80 + 140 + sysinfo.value.bottom
+	return len * 80 + 140 + (sysinfo.bottomSafe||16)
 })
 
 const _color = computed(() => props.color)

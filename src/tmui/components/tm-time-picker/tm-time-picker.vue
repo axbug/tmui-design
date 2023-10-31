@@ -16,7 +16,7 @@
 			@close="close"
 			:ok-color="props.color"
 			@open="open"
-			:title="props.title"
+			:title="_title"
 			:closeable="true"
 			@ok="confirm"
 		>
@@ -37,7 +37,7 @@
 				:immediateChange="props.immediateChange"
 			></tm-time-view>
 			<tm-button
-				label="确认选择"
+				:label="_confirmText"
 				block
 				:margin="[32, 12]"
 				:color="props.color"
@@ -47,7 +47,7 @@
 				:round="props.btnRound"
 			>
 			</tm-button>
-			<view :style="{ height: sysinfo.bottom + 'px' }"></view>
+			<view :style="{ height: sysinfo.bottomSafe + 'px' }"></view>
 		</tm-drawer>
 	</view>
 </template>
@@ -63,6 +63,8 @@ import tmDrawer from '../tm-drawer/tm-drawer.vue'
 import TmSheet from '../tm-sheet/tm-sheet.vue'
 import tmText from '../tm-text/tm-text.vue'
 import tmButton from '../tm-button/tm-button.vue'
+import { useWindowInfo } from '../../tool/useFun/useWindowInfo'
+
 const proxy = getCurrentInstance()?.proxy ?? null
 const drawer = ref<InstanceType<typeof tmDrawer> | null>(null)
 const emits = defineEmits(['update:modelValue', 'update:modelStr', 'update:show', 'confirm', 'change', 'cancel', 'close', 'open'])
@@ -174,6 +176,10 @@ const props = defineProps({
 	title: {
 		type: String,
 		default: '请选择时间'
+	},
+	confirmText: {
+		type: String,
+		default: '确认选择'
 	}
 })
 
@@ -181,20 +187,11 @@ const _show = ref(props.show)
 const isConfirm = ref(false) //是否点了确认按钮。
 const _value = ref(props.defaultValue)
 const _strvalue = ref('')
+const _title = computed(()=>props.title)
+const _confirmText = computed(()=>props.confirmText)
 
-const sysinfo = inject(
-	'tmuiSysInfo',
-	computed(() => {
-		return {
-			bottom: 0,
-			height: 750,
-			width: uni.upx2px(750),
-			top: 0,
-			isCustomHeader: false,
-			sysinfo: null
-		}
-	})
-)
+const sysinfo = useWindowInfo()
+
 
 function close() {
 	if (!isConfirm.value) {
@@ -238,6 +235,6 @@ function confirm() {
 }
 
 const dHeight = computed(() => {
-	return props.height + sysinfo.value.bottom + 80
+	return props.height + sysinfo.bottomSafe + 80
 })
 </script>

@@ -3,12 +3,11 @@
 		<tm-sheet>
 			<tm-text label="这是tmui作者自编的一个轻量级渲染库,主要适用于uniapp一些营销的动画渲染.3.1.03首次发布"></tm-text>
 			<tm-text label="目前还未开放文档,请参考示例制作你想的交互营销动画."></tm-text>
-			<tm-button @click="saveimg">快照下方动图</tm-button>
-			<image v-if="tmcv" style="width:500rpx;height:500rpx" :src="haibaoimgurl" ></image>
+			
 		</tm-sheet>
 		
-		<tm-sheet :round="5" color="black" :padding="[0, 0]" :height="686">
-			<tm-render ref="dom" :width="686" :height="686"></tm-render>
+		<tm-sheet :round="5" color="black" :padding="[0, 0]" :height="716">
+			<tm-render ref="dom" :width="686" :height="716"></tm-render>
 		</tm-sheet>
 	</tm-app>
 </template>
@@ -47,13 +46,13 @@ async function draw() {
 	
 	if (!tmcv) return
 	const text = new tmTextColor(tmcv, {
-		x: 110,
+		x: 90,
 		fillStyle: 'red',
 		y: 150,
 		text: [
-			{ text: '这是', color: 'white' },
+			{ text: 'OhMyGa', color: 'white' },
 			{ text: '动画交互', color: 'yellow', fontSize: 24 },
-			{ text: '的库', color: 'white' }
+			{ text: '超6的库', color: 'white' }
 		],
 		textAlign: 'left'
 	})
@@ -106,16 +105,10 @@ async function draw() {
 	tmcv.add([roundRect,Logo, Logo2, text, textlabel, Line, Line2, ])
 	Logo.animate({ width: 110, height: 110 }, { yoyo: true, repeat: Infinity })
 	Line.animate({ x: tmcv.opts.width - 100 }, { yoyo: true, repeat: Infinity, duration: 1200 })
-	textlabel.animate({ fontSize: 18 }, { yoyo: true, repeat: Infinity, duration: 1200 })
+	textlabel.animate({ fontSize: 18,fillStyle:"yellow" }, { yoyo: true, repeat: Infinity, duration: 1200 })
 	tmcv.draw()
 }
 
-function saveimg(){
-	if(!tmcv) return;
-	dom.value?.saveImg(tmcv).then(res=>{
-		haibaoimgurl.value = res;
-	})
-}
 </script>
 
 <style></style>

@@ -63,19 +63,7 @@ interface arrayid {
 	id: string | number
 	type: string | number
 }
-const sysinfo = inject(
-	'tmuiSysInfo',
-	computed(() => {
-		return {
-			bottom: 0,
-			height: 750,
-			width: uni.upx2px(750),
-			top: 0,
-			isCustomHeader: false,
-			sysinfo: null
-		}
-	})
-)
+
 let _cachList: Ref<Array<arrayid>> = ref([])
 const _colWidth = computed(() => {
 	return Math.ceil(props.width / props.col - 1)

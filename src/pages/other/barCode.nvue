@@ -48,5 +48,5 @@ import tmRadioGroup from '@/tmui/components/tm-radio-group/tm-radio-group.vue'
 import tmDivider from '@/tmui/components/tm-divider/tm-divider.vue'
 import tmInput from '@/tmui/components/tm-input/tm-input.vue'
 import tmBarcode from '@/tmui/components/tm-barcode/tm-barcode.vue'
-let opts = ref({ lineColor: '#000000', fontSize: 20, width: 2, text: '123 456 89' })
+let opts = ref({ lineColor: '#000000', fontSize: 20, width: 2, text: '1234567890123456789' })
 </script>

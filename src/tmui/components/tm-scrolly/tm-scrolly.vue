@@ -117,6 +117,7 @@ const startPoint: Ref<{
 } | null> = ref(null)
 const isPulling = ref(false) // 是否下拉中
 const _maxBarHeight = ref(props.maxBarHeight) // 最大下拉高度，单位 rpx
+const _refresher = computed(()=>props.refresher)
 // 触发刷新的下拉高度，单位rpx
 // 松开时下拉高度大于这个值即会触发刷新，触发刷新后松开，会恢复到这个高度并保持，直到刷新结束
 const _barHeight = ref(0)
@@ -192,7 +193,7 @@ function scrollToTop() {
 }
 
 function onTouchStart(e: TouchEvent) {
-	if (isPulling.value || !enableToRefresh.value) return
+	if (isPulling.value || !enableToRefresh.value || !_refresher.value) return
 	const { touches } = e
 	if (touches.length !== 1) return
 	const { pageX, pageY } = touches[0]
@@ -206,8 +207,7 @@ function onTouchStart(e: TouchEvent) {
 }
 
 function onTouchMove(e: TouchEvent) {
-	if (!props.refresher) return
-	if (!startPoint.value) return
+	if (!startPoint.value || !_refresher.value) return
 	const { touches } = e
 
 	if (touches.length !== 1) return
@@ -228,7 +228,7 @@ function onTouchMove(e: TouchEvent) {
 }
 
 function onTouchEnd(e: TouchEvent) {
-	if (!startPoint.value) return
+	if (!startPoint.value || !_refresher.value) return
 	const { changedTouches } = e
 	if (changedTouches.length !== 1) return
 	const { pageY } = changedTouches[0]
@@ -238,7 +238,7 @@ function onTouchEnd(e: TouchEvent) {
 	loosing.value = true
 	isBootRefresh.value = false
 	// 松开时高度超过阈值则触发刷新
-	if (barsHeight > props.loadBarHeight && props.refresher) {
+	if (barsHeight > props.loadBarHeight) {
 		_barHeight.value = props.loadBarHeight
 		refreshStatus.value = 2
 
@@ -260,6 +260,7 @@ function onTouchEnd(e: TouchEvent) {
 }
 
 function setRefreshBarHeight(barsHeight: number) {
+	if(!_refresher.value) return;
 	if (barsHeight >= props.loadBarHeight) {
 		refreshStatus.value = 1
 	} else {

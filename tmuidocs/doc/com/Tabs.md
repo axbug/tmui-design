@@ -70,7 +70,7 @@ import webview from '../components/mobileWebview.vue'
 	icon?: string,//图标
 	dot?:boolean,//是否显示角标点
 	dotColor?:string,//角标点的颜色
-        count?: string | number//角标展示的文本
+    count?: string | number//角标展示的文本
 } as Tmui.tabs
 //or
 {

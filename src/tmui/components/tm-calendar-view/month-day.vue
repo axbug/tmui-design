@@ -23,7 +23,7 @@
 				class="absolute t-0 r--6 zIndex-10 round-12 py-4 flex flex-row flex-row-center-center"
 				style="width: 90rpx; height: 88rpx"
 			>
-				<tm-text :userInteractionEnabled="false" color="grey" _class="text-align-center" :font-size="28" label="本日"></tm-text>
+				<tm-text :userInteractionEnabled="false" color="grey" _class="text-align-center" :font-size="28" :label="props.textUnit[8]"></tm-text>
 			</view>
 		</tm-sheet>
 		<view class="flex flex-row flex-row-center-center py-12" :style="[{ height: '74rpx' }]">
@@ -73,7 +73,7 @@
 			:color="props.color"
 			@click="confirm"
 			block
-			label="确认"
+			:label="_confirmText"
 			:margin="[0, 16]"
 		></tm-button>
 	</view>
@@ -171,19 +171,30 @@ const props = defineProps({
 	hideButton: {
 		type: Boolean,
 		default: false
+	},
+	confirmText: {
+		type: String,
+		default: '确认'
+	},
+	//周次，本日、本季、本年、本月、本周的文字请按顺序提供文本，方便定义其它语言。
+	textUnit: {
+		type: Array as PropType<string[]>,
+		default: ['周次','一','二','三','四','五','六','日','本日','本周','本月','本季度','本年','月','第${x}季度','年']
 	}
 })
 const _color = computed(() => {
 	if (props.followTheme && store.tmStore.color) return store.tmStore.color
 	return props.color
 })
+const _confirmText = computed(() => props.confirmText)
+
 const DayJs = dayjs.default
 DayJs.extend(isoWeek)
 DayJs.extend(isSameOrBefore)
 DayJs.extend(isBetween)
 //当前选中的时间数组。
 const _value = ref(props.defaultValue)
-const weekStr = ['一', '二', '三', '四', '五', '六', '日']
+const weekStr = props.textUnit.slice(1,8)
 
 //当前需要展示的年月。
 const showOpenDate: Ref<dayjs.Dayjs> = ref(setShowopenDate())

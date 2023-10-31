@@ -120,7 +120,7 @@
 					</view>
 				</view>
 			</view>
-			<view :style="{ height: sysinfo.bottom + 'px' }"></view>
+			<view :style="{ height: sysinfo.bottomSafe + 'px' }"></view>
 		</template>
 	</tm-drawer>
 </template>
@@ -137,6 +137,8 @@ import tmStepper from '../tm-stepper/tm-stepper.vue'
 import tmRadioGroup from '../tm-radio-group/tm-radio-group.vue'
 import tmRadio from '../tm-radio/tm-radio.vue'
 import tmBadge from '../tm-badge/tm-badge.vue'
+import { useWindowInfo } from '../../tool/useFun/useWindowInfo'
+
 const emits = defineEmits(['open', 'close', 'update:show', 'add', 'buy'])
 const props = defineProps({
 	round: {
@@ -173,23 +175,11 @@ const props = defineProps({
 		default:""
 	}
 })
-const sysinfo = inject(
-	'tmuiSysInfo',
-	computed(() => {
-		return {
-			bottom: 0,
-			height: 750,
-			width: uni.upx2px(750),
-			top: 0,
-			isCustomHeader: false,
-			sysinfo: null
-		}
-	})
-)
+const sysinfo = useWindowInfo()
 const _show = ref(props.show)
 const footerBarHeight = ref(160)
 const dHeight = computed(() => {
-	return props.height + footerBarHeight.value + uni.$tm.u.torpx(sysinfo.value.bottom)
+	return props.height + footerBarHeight.value + uni.$tm.u.torpx(sysinfo.bottomSafe)
 })
 const nowSelectedItem: any = ref(null)
 const nowSelected = ref<string[]>([])

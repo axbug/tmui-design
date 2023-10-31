@@ -41,7 +41,7 @@ import webview from '../components/mobileWebview.vue'
 | height | Number | 500 | 高度，单位rpx |
 | round | Number | 0 | 开启圆角,单位n*4rpx(即round-1 为 4rpx) |
 | margin | Array | [0,0] | 外间距[x,y]x=左右，y=上下 |
-| list | Array | [] | 图片列表，可以是string数组或者object数组。 |
+| list | Array | [] | 图片列表，可以是string数组或者object数组。类型见下方 |
 | rangKey | String | url | 图片列表object数组时，需要提供图片地址的键值。 |
 | defaultValue | Number | 0 |  |
 | dotPosition | String | bottom | 指示点的位置：top,left,right,bottom |
@@ -59,6 +59,26 @@ import webview from '../components/mobileWebview.vue'
 | touchable | Boolean | false |  |
 | indicatorDots | Boolean | true | 是否显示指示点  |
 | showLoad<Badge type="danger" text="v3.0.77+" vertical="middle" /> | Boolean | true | 是否显示加载动画 |
+
+**list数据格式如下**
+```ts
+//如果提供object时，请遵循下方格式
+export interface listItem {
+	url?: string,
+	type?: listItemType,
+	//视频封面图片。
+	img?: string,
+	//轮播的底部文字，如果提供就显示底部文字，不提供，就不显示。
+	text?:string,
+	[key: string]: any
+}
+export type listItemTypeStr = "url" | "type" | "img"
+export enum listItemType {
+	img = "img",
+	video = "video"
+}
+
+```
 
 ## :rose: 事件
 | 事件名 | 参数 | 返回数据 | 描述 |

@@ -38,10 +38,10 @@ import webview from '../components/mobileWebview.vue'
 | height | [Number] | 0 | 高度，单位rpx |
 | width | [Number] | 0 | 宽度，单位rpx |
 | color | String | white | 背景主题颜色名称 |
-| transparent | [Boolean,String] | false | 是否透明 |
+| transprent | [Boolean,String] | false | 是否透明 |
 | border | [Number,String] | 0 | 边框 |
-| margin | `Array<number>` | [32,24] | 外间距[x,y]x=左右，y=上下 |
-| padding | `Array<number>` | [24,24] | 内间距[x,y]x=左右，y=上下 |
+| margin | [number] | [32,24] | [x]时表示四周的间隙,[x,x]时表示水平，上下的间隙，[x,x,x]时表示左，上，右，下：0的间隙,[x,x,x,x]时表示：左，上，右，下的x间隙|
+| padding | [number] | [24,24] | [x]时表示四周的间隙,[x,x]时表示水平，上下的间隙，[x,x,x]时表示左，上，右，下：0的间隙,[x,x,x,x]时表示：左，上，右，下的x间隙|
 | unit | String | rpx | 单位 |
 | hoverClass | String | none | 鼠标悬停颜色 |
 | darkBgColor | String | '' | 有时自动的背景，可能不是你想要暗黑背景，此时可以使用此参数，强制使用背景色 |

@@ -42,6 +42,7 @@ import webview from '../components/mobileWebview.vue'
 | modelValue   | String,Date,Number | ''      | 选中日期值         |
 | color        | String             | white   | 主题颜色          |
 | activeColor  | String             | primary | 选中颜色          |
+| itemSelectedBgColor  | String     | '' | 选中时背景色（只能是颜色值）|
 
 ## :rose: 事件
 | 事件名               | 参数   | 返回数据       | 描述               |

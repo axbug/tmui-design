@@ -1,7 +1,7 @@
 <template>
 	<view
 		ref="avatar"
-		class="flex-col flex avatar"
+		class="flex-col flex avatar relative"
 		:class="[trigger ? 'trigger' : '', `mx-${props.margin[0]} my-${props.margin[1]}`]"
 		:style="[
 			{ width: width + props.unit, height: height + props.unit },
@@ -41,29 +41,31 @@
 			:unit="props.unit"
 		>
 			<slot>
-				<tm-text
-					:userInteractionEnabled="false"
-					v-if="props.label && !props.icon && !props.img"
-					:label="props.label"
-					:font-size="fontSize"
-					:unit="props.unit"
-				></tm-text>
-				<tm-icon
-					:color="props.iconColor"
-					:userInteractionEnabled="false"
-					v-if="!props.label && props.icon && !props.img"
-					:name="props.icon"
-					:font-size="fontSize"
-					:unit="props.unit"
-				></tm-icon>
+				
 				<image
 					:userInteractionEnabled="false"
-					v-if="!props.label && !props.icon && props.img"
+					v-if="props.img"
 					:src="props.img"
 					mode="scaleToFill"
 					:style="{ width: imgsize, height: imgsize }"
 					:class="['round-' + props.round]"
 				></image>
+				<tm-icon
+					:color="props.iconColor"
+					:userInteractionEnabled="false"
+					v-else-if="props.icon"
+					:name="props.icon"
+					:font-size="fontSize"
+					:unit="props.unit"
+				></tm-icon>
+				<tm-text
+					:userInteractionEnabled="false"
+					v-else="props.label"
+					:label="props.label"
+					:font-size="fontSize"
+					:unit="props.unit"
+				></tm-text>
+				
 			</slot>
 		</tm-sheet>
 		<view

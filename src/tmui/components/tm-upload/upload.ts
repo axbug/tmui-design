@@ -23,6 +23,7 @@ export interface file {
 	name?: string,//文件名称
 	[propName: string]: any
 }
+
 //上传class对象的配置。
 export interface fileConfig {
 	maxSize?: number,//每一个文件上传的最大尺寸，默认为10mb

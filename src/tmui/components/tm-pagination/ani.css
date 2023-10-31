@@ -1,5 +1,5 @@
 .keywordBoradAni {
-	transition-duration: 0.1s;
+	transition-duration: 0.02s;
 	transition-timing-function: linear;
 	transition-delay: 0ms;
 	transition-property: transform;

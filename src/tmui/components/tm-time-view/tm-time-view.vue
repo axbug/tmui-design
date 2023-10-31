@@ -269,7 +269,6 @@ const maskStyle = computed(() => {
   }
   return str_black;
 });
-
 _col.value = rangeTimeArray(
   _nowtimeValue.value,
   _startTime.value,
@@ -278,22 +277,25 @@ _col.value = rangeTimeArray(
 );
 
 function colchange(e: any) {
+  
   let changedate = getNowbyIndex(_col.value, e.detail.value, showCol.value);
-  _col.value = rangeTimeArray(
-    changedate,
-    _startTime.value,
-    _endTime.value,
-    showCol.value
-  );
-  _nowtime.value = DayJs(changedate);
-  nextTick(() => {
-    colIndex.value = e.detail.value;
-    changedate = getNowbyIndex(_col.value, e.detail.value, showCol.value);
-    _nowtime.value = DayJs(changedate);
-    emits("update:modelValue", _nowtime.value.format("YYYY/MM/DD HH:mm:ss"));
-    emits("update:modelStr", _nowtime.value.format(props.format));
-    emits("change", _nowtime.value.format(props.format));
-  });
+  let testDate  = checkNowDateisBetween(changedate, _startTime.value,_endTime.value)
+  let testRang = rangeTimeArray(
+      testDate,
+      _startTime.value,
+      _endTime.value,
+      showCol.value
+    );
+  
+  _nowtime.value = DayJs(testDate);
+  colIndex.value = getIndexNowbydate(testRang, _nowtime.value, showCol.value);
+  emits("update:modelValue", _nowtime.value.format("YYYY/MM/DD HH:mm:ss"));
+  emits("update:modelStr", _nowtime.value.format(props.format));
+  emits("change", _nowtime.value.format(props.format));
+ 
+  _col.value= testRang;
+
+  
 }
 
 watch(

@@ -58,7 +58,7 @@ import webview from '../components/mobileWebview.vue'
 本组件含有公共属性 [公共属性](/spec/组件公共样式.html)
 | 参数名 | 类型 | 默认值 | 描述 |
 | :--: | :--: | :--: | :-- |
-| selectedModel | 可选:index,name,id | index | 赋值方式，id:城市id为返选赋值。name:以城市名称作为返选和赋值。index,默认以索引为返回数据选值 |
+| selectedModel  | 可选:index,name,id | index | 赋值方式，id:城市id为返选赋值。name:以城市名称作为返选和赋值。index,默认以索引为返回数据选值 |
 | city | Array | [] | 城市数据,默认为空,使用自带城市数据,如果提供将使用自定义城市数据 |
 | modelValue| `<Array<string | number>>`| [] | v-model以selectedModel为索引的值结果 |
 | modelStr| string | '' | v-model:model-str,单向输出地区名称以/分割。不管selectedModel是以哪种索引选项，此处始终以地区名称输出显示。 |
@@ -71,10 +71,10 @@ import webview from '../components/mobileWebview.vue'
 
 
 **modelValue格式**
-双向绑定和默认的defaultValue数据格式是根据你的属性selectionModel来定义的.
-比如你设置selectionModel="index",那么就是索引模式modelValue="[0,1,2]"这样的索引.<br>
-比如你设置selectionModel="name",那么就是索引模式modelValue="["江西","南昌","青山湖区"]"这样的索引.<br>
-比如你设置selectionModel="id",那么就是索引模式modelValue="["110","111","123"]"这样的索引地区id模式.<br>
+双向绑定和默认的defaultValue数据格式是根据你的属性selectedModel 来定义的.
+比如你设置selectedModel ="index",那么就是索引模式modelValue="[0,1,2]"这样的索引.<br>
+比如你设置selectedModel ="name",那么就是索引模式modelValue="["江西","南昌","青山湖区"]"这样的索引.<br>
+比如你设置selectedModel ="id",那么就是索引模式modelValue="["110","111","123"]"这样的索引地区id模式.<br>
 至于你想要哪种模式,要看你后台交互使用的是哪种.自行选择.
 
 ## :rose: City-picker 事件

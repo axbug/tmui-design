@@ -1,6 +1,12 @@
 <template>
 	<!-- #ifdef APP-NVUE -->
-	<view class="flex relative">
+	<view class="flex relative"
+	:style="
+	[
+		appConfig.theme ? { background: transparent ? 'rgba(0,0,0,0)' : appConfig.theme } : '',
+		 _bgStyle
+	 ]"
+	>
 		<slot name="default">
 			<text>在这里放置内容</text>
 		</slot>
@@ -9,7 +15,12 @@
 	<!-- #ifndef APP-NVUE -->
 	<view
 		class="flex relative app flex-1"
-		:style="[appConfig.theme ? { background: _tranparent ? '' : appConfig.theme } : '', _bgImg ? { backgroundImage: `url(${_bgImg})` } : '']"
+		:style="
+		[
+			appConfig.theme ? { background: transparent ? '' : appConfig.theme } : '',
+			 _props.bgImg ? { backgroundImage: `url(${_props.bgImg})` } : '',
+			 _bgStyle
+		 ]"
 	>
 		<slot name="default">
 			<text>在这里放置内容</text>
@@ -26,16 +37,13 @@ import { provide, getCurrentInstance, computed, onMounted, ref, watch, onBeforeM
 import { useTmpiniaStore } from '../../tool/lib/tmpinia'
 import { colorThemeType, cssstyle, tmVuetify } from '../../tool/lib/interface'
 import { getWindow } from '../../tool/function/util'
-import { custom_props, computedTheme, computedClass, computedStyle, computedDark } from '../../tool/lib/minxs'
+import { custom_props, computedTheme} from '../../tool/lib/minxs'
 import { onShow, onLoad, onInit } from '@dcloudio/uni-app'
-import tmSheet from '../tm-sheet/tm-sheet.vue'
-// #ifdef APP-PLUS-NVUE
-const animation = uni.requireNativePlugin('animation')
-// #endif
-const emits = defineEmits(['update:showMenu'])
-//请在scr/目录下创建一个router/index.ts路由,见文档：https://tmui.design/doc/JSTool/router.html
+import useTheme from '../../tool/useFun/useTheme'
+import { useWindowInfo } from '../../tool/useFun/useWindowInfo'
 const store = useTmpiniaStore()
-const proxy = getCurrentInstance()?.proxy ?? null
+
+
 //路由守卫---------------------------------
 
 // end-----------------------------------------
@@ -66,6 +74,11 @@ const props = defineProps({
 		type: String,
 		default: ''
 	},
+	/** 背景层div的样式 */
+	bgStyle: {
+		type: String,
+		default: ''
+	},
 	//应用的背景颜色。
 	color: {
 		type: String,
@@ -91,60 +104,37 @@ const props = defineProps({
 			}
 		}
 	},
-	showMenu: {
+	/**是否自动修改系统自带的navbar的主题。 */
+	navbarDarkAuto:{
 		type: Boolean,
-		default: false
+		default: true
 	}
 })
 // 设置响应式全局组件库配置表。
 const tmcfg = computed(() => store.tmStore)
-
 const isSetThemeOk = ref(false)
-//是否暗黑模式。
-const isDark = computed(() => tmcfg.value.dark)
 
+const {dark,isNvue,customCSSStyle,customClass,parentClass,transparent,_props,proxy,blur,
+	round,margin,padding,theme
+} = useTheme(computed(()=>props),tmcfg);
 //计算主题
-const tmcomputed = computed<cssstyle>(() => computedTheme(props, isDark.value, tmcfg.value))
+const tmcomputed = theme()
 
-const _showMenu = ref(props.showMenu)
-const sysinfo = getWindow()
-const sysinfoRef = ref(sysinfo)
-const _bgImg = computed(() => props.bgImg)
-const _tranparent = computed(() => props.transparent || props.transprent)
-
-// #ifdef H5
-window.addEventListener('resize', () => {
-	throttle(() => {
-		sysinfoRef.value = getWindow()
-	})
-})
-// #endif
-
-// 视窗的宽。
-const view_width = ref(sysinfo.width)
-//视窗的高度。
-let view_height = ref(sysinfo.height)
 let timids: any = NaN
 let flag = false
 
 //本页面是否是tabar切换页面。
 let isTabbarPage = false
 let nowPage = getCurrentPages().pop()
-
-/**设定ios下的模糊效果 */
-const _blurEffect = computed(() => {
-	if (props.blur === true && isDark.value) return 'dark'
-	if (props.blur === true && !isDark.value) return 'extralight'
-	return 'none'
-})
-
+const _bgStyle = computed(()=>props.bgStyle)
 /**整体的配置 */
+let winSize = useWindowInfo();
 let appConfig = ref({
-	width: view_width,
-	height: view_height,
+	width: winSize.width,
+	height: winSize.height,
 	theme: tmcomputed.value.backgroundColor,
 	bgImg: props.bgImg,
-	dark: isDark.value
+	dark: dark.value
 })
 
 onLoad((opts: any) => {
@@ -158,9 +148,9 @@ onLoad((opts: any) => {
 })
 onMounted(() => {
 	_onInit()
-	//****
-	sysinfoRef.value = getWindow();
 })
+
+
 
 function _onInit() {
 	/**
@@ -184,14 +174,14 @@ function _onInit() {
 		// #endif
 
 		// #ifndef H5
-		osChangeTheme(sysinfo.sysinfo.osTheme)
+		osChangeTheme(uni.getSystemInfoSync().osTheme)
 		// #endif
 	} else {
 		setAppStyle()
 	}
 }
 
-watch([() => tmcfg.value.color, isDark], () => {
+watch([() => tmcfg.value.color, dark], () => {
 	isSetThemeOk.value = false
 	setAppStyle()
 })
@@ -199,30 +189,9 @@ watch([() => props.color], () => {
 	appConfig.value.theme = tmcomputed.value.backgroundColor
 })
 
-function throttle(func: Function, wait = 100, immediate = false) {
-	if (immediate) {
-		if (!flag) {
-			flag = true
-			// 如果是立即执行，则在wait毫秒内开始时执行
-			typeof func === 'function' && func()
-			timids = setTimeout(() => {
-				flag = false
-			}, wait)
-		}
-	} else {
-		if (!flag) {
-			flag = true
-			// 如果是非立即执行，则在wait毫秒内的结束处执行
-			timids = setTimeout(() => {
-				flag = false
-				typeof func === 'function' && func()
-			}, wait)
-		}
-	}
-}
 
 function setAppStyle() {
-	if (isDark.value) {
+	if (dark.value) {
 		appConfig.value.theme = store.tmuiConfig?.themeConfig?.dark?.bodyColor || props.darkColor
 	} else {
 		appConfig.value.theme = tmcomputed.value.backgroundColor
@@ -253,16 +222,16 @@ function setAppStyle() {
 	localStorage.setItem(
 		'tmuiNavStyle',
 		JSON.stringify({
-			navbarBackground: isDark.value ? appConfig.value.theme : props.navbar.background,
-			navbarFontColor: isDark.value ? '#ffffff' : props.navbar.fontColor
+			navbarBackground: dark.value ? appConfig.value.theme : props.navbar.background,
+			navbarFontColor: dark.value ? '#ffffff' : props.navbar.fontColor
 		})
 	)
 	// #endif
 
-	if (isDark.value) {
+	if (dark.value) {
 		// #ifndef MP-ALIPAY
 		try {
-			if (!uni.$tm.isOpenDarkModel) {
+			if (!uni.$tm.isOpenDarkModel&&props.navbarDarkAuto) {
 				uni.setNavigationBarColor({
 					backgroundColor: '#000000',
 					frontColor: '#ffffff'
@@ -297,10 +266,13 @@ function setAppStyle() {
 				tcolor = tcolor.toLocaleLowerCase()
 				tcolor = tcolor == 'black' ? '#000000' : tcolor
 				tcolor = tcolor == 'white' ? '#ffffff' : tcolor
-				uni.setNavigationBarColor({
-					backgroundColor: nowPageConfigs[0].navigationBarBackgroundColor,
-					frontColor: tcolor
-				}).catch((error) => {})
+				if(props.navbarDarkAuto){
+					uni.setNavigationBarColor({
+						backgroundColor: nowPageConfigs[0].navigationBarBackgroundColor,
+						frontColor: tcolor
+					}).catch((error) => {})
+				}
+				
 				uni.setStorageSync(
 					'tmuiNavStyle',
 					JSON.stringify({
@@ -309,10 +281,13 @@ function setAppStyle() {
 					})
 				)
 			} else if (!uni.$tm.isOpenDarkModel) {
-				uni.setNavigationBarColor({
-					backgroundColor: props.navbar.background,
-					frontColor: props.navbar.fontColor
-				}).catch((error) => {})
+				if(props.navbarDarkAuto){
+					uni.setNavigationBarColor({
+						backgroundColor: props.navbar.background,
+						frontColor: props.navbar.fontColor
+					}).catch((error) => {})
+				}
+				
 				uni.setStorageSync(
 					'tmuiNavStyle',
 					JSON.stringify({
@@ -352,10 +327,10 @@ function setTheme(colorName: string) {
  * 设定暗黑
  * @param dark boolean 空表示自动处理和切换暗黑效果
  */
-function setDark(dark?: boolean) {
-	let maindark = !isDark.value
-	if (typeof dark !== 'undefined' && typeof dark == 'boolean') {
-		maindark = dark
+function setDark(darks?: boolean) {
+	let maindark = !dark.value
+	if (typeof darks !== 'undefined' && typeof darks == 'boolean') {
+		maindark = darks
 	}
 	appConfig.value.dark = maindark
 	store.setTmVuetifyDark(maindark)
@@ -381,11 +356,7 @@ function osChangeTheme(ev: 'light' | 'dark' | string | undefined) {
 	}
 }
 
-// 向所有子组件传递本次获取的系统信息，以减少频繁的请求.
-provide(
-	'tmuiSysInfo',
-	computed(() => sysinfoRef.value)
-)
+
 //向下子组件传递，相关参数，可代替store使用。
 provide(
 	'appTextColor',

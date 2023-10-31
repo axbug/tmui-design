@@ -17,7 +17,7 @@
 				class="absolute t-0 r--6 zIndex-10 round-12 py-4 flex flex-row flex-row-center-center"
 				style="width: 90rpx; height: 88rpx"
 			>
-				<tm-text :userInteractionEnabled="false" color="grey" _class="text-align-center" :font-size="28" label="本月"></tm-text>
+				<tm-text :userInteractionEnabled="false" color="grey" _class="text-align-center" :font-size="28" :label="props.textUnit[10]"></tm-text>
 			</view>
 		</tm-sheet>
 
@@ -42,7 +42,7 @@
 								style="width: 62rpx"
 								class="flex-center flex-col"
 							>
-								<tm-text :font-size="28" :label="item.month + '月'"></tm-text>
+								<tm-text :font-size="28" :label="item.month + props.textUnit[13]"></tm-text>
 							</view>
 						</tm-sheet>
 					</view>
@@ -57,7 +57,7 @@
 			:color="props.color"
 			@click="confirm"
 			block
-			label="确认"
+			:label="_confirmText"
 			:margin="[0, 16]"
 		></tm-button>
 	</view>
@@ -134,12 +134,22 @@ const props = defineProps({
 	hideButton: {
 		type: Boolean,
 		default: false
+	},
+	confirmText: {
+		type: String,
+		default: '确认'
+	},
+	//周次，本日、本季、本年、本月、本周的文字请按顺序提供文本，方便定义其它语言。
+	textUnit: {
+		type: Array as PropType<string[]>,
+		default: ['周次','一','二','三','四','五','六','日','本日','本周','本月','本季度','本年','月','第${x}季度','年']
 	}
 })
 const _color = computed(() => {
 	if (props.followTheme && store.tmStore.color) return store.tmStore.color
 	return props.color
 })
+const _confirmText = computed(() => props.confirmText)
 const DayJs = dayjs.default
 DayJs.extend(isoWeek)
 DayJs.extend(isSameOrBefore)

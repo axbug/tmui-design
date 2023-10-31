@@ -13,9 +13,9 @@
 				_inContent && !isNvue
 					? { width: '100%', height: '100%', top: '0px', position: 'absolute' }
 					: {
-							width: width + 'px',
-							height: height + 'px',
-							top: top + 'px',
+							width: sysinfo.width + 'px',
+							height: sysinfo.height + 'px',
+							top: 0 + 'px',
 							position: 'fixed'
 					  },
 				zIndex ? { zIndex: zIndex } : ''
@@ -31,7 +31,7 @@
 				]"
 				:style="[
 					bgColor_rp && !props.transprent ? { backgroundColor: showMask ? bgColor_rp : '' } : '',
-					_inContent && !isNvue ? { width: '100%', height: '100%' } : { width: width + 'px', height: height + 'px' },
+					_inContent && !isNvue ? { width: '100%', height: '100%' } : { width: sysinfo.width + 'px', height: sysinfo.height + 'px' },
 					{ transitionDuration: props.duration + 'ms' }
 				]"
 			></view>
@@ -47,7 +47,7 @@
 					props.contentAnimation && ani ? 'blurOnOpacity ' : '',
 					props.contentAnimation && !ani ? 'blurOffOpacity overlay' : ''
 				]"
-				:style="[_inContent && !isNvue ? { width: '100%', height: '100%', top: '0px' } : { width: width + 'px', height: height + 'px' }, customCSSStyle]"
+				:style="[_inContent && !isNvue ? { width: '100%', height: '100%', top: '0px' } : { width: sysinfo.width + 'px', height: sysinfo.height + 'px' }, customCSSStyle]"
 			>
 				<slot></slot>
 			</view>
@@ -56,7 +56,7 @@
 			<view
 				@click.stop="closeByclick"
 				:class="[align_rpx, ' absolute flex flex-col  l-0 t-0 ', customClass]"
-				:style="[_inContent && !isNvue ? { width: '100%', height: '100%', top: '0px' } : { width: width + 'px', height: height + 'px' }, customCSSStyle]"
+				:style="[_inContent && !isNvue ? { width: '100%', height: '100%', top: '0px' } : { width: sysinfo.width + 'px', height: sysinfo.height + 'px' }, customCSSStyle]"
 			>
 				<slot></slot>
 			</view>
@@ -91,6 +91,8 @@ import {
 import { cssstyle, tmVuetify } from "../../tool/lib/interface";
 import { custom_props, computedClass, computedStyle } from "../../tool/lib/minxs";
 import { useTmpiniaStore } from "../../tool/lib/tmpinia";
+import { useWindowInfo } from '../../tool/useFun/useWindowInfo'
+
 // #ifdef APP-PLUS-NVUE
 const dom = uni.requireNativePlugin("dom");
 const animation = uni.requireNativePlugin("animation");
@@ -151,22 +153,8 @@ const proxy = getCurrentInstance()?.proxy ?? null;
 const customCSSStyle = computedStyle(props);
 //自定类
 const customClass = computedClass(props);
-const sysinfo = inject(
-  "tmuiSysInfo",
-  computed(() => {
-    return {
-      bottom: 0,
-      height: 750,
-      width: uni.upx2px(750),
-      top: 0,
-      isCustomHeader: false,
-      sysinfo: null,
-    };
-  })
-);
-const width = computed(() => sysinfo.value.width);
-const height = computed(() => sysinfo.value.height);
-const top = computed(() => sysinfo.value.top);
+const sysinfo = useWindowInfo();
+
 const isAniing = ref(false);
 let timids = uni.$tm.u.getUid(1);
 let timerId = NaN;

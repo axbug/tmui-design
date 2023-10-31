@@ -17,9 +17,10 @@
 				<view
 					@click.stop="changeDate(item.date)"
 					:class="[item.date == _value ? '' : 'opacity-7']"
-					class="flex-1 flex flex-col flex-col-center-center"
+					class="flex-1 flex flex-col flex-col-center-center py-24"
 					v-for="(item, index) in nowWeekDayArray"
 					:key="index"
+					:style="{backgroundColor:item.date == _value?props.itemSelectedBgColor:'rgba(255,255,255,0)'}"
 				>
 					<tm-text
 						:followTheme="false"
@@ -66,7 +67,7 @@ const props = defineProps({
 	...custom_props,
 	padding: {
 		type: Array as PropType<Array<number>>,
-		default: [12, 24]
+		default: [12, 0]
 	},
 	margin: {
 		type: Array as PropType<Array<number>>,
@@ -83,6 +84,10 @@ const props = defineProps({
 	round: {
 		type: Number,
 		default: 3
+	},
+	itemSelectedBgColor:{
+		type:String,
+		default:""
 	},
 	shadow: {
 		type: Number,

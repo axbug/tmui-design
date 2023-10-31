@@ -3,6 +3,7 @@ import { ComponentInternalInstance, ComponentPublicInstance } from "vue"
 interface Data {
     [key: string]: any;
 }
+
 /**渐变方向 left:右->左，right:左->右。top:下->上，bottom:上->下。 */
 export type linearType = 'left' | 'right' | 'bottom' | 'top' | ''
 /**渐变色调，light,dark,accent亮系渐变和深色渐变。 */
@@ -52,6 +53,52 @@ declare global {
     }
 
     namespace Tmui {
+		interface fetchNetConfigType {
+			/**
+			 * 请求的数据，query,或者body，都可传递对象。自动转换数据格式。
+			 */
+			data?:any,
+			/**
+			 * 头部数据。
+			 */
+			header?:any;
+			/**
+			 * 请求方式
+			 */
+			method?:fetchConfigMethod,
+			/** 
+			* 定义成功的服务器返回的状态码成功的标志
+			*/
+			statusCode?:number,
+			/** 
+			 * 从返回的结果读取的数据字段，默认全部返回，
+			 * 如果指定了就会读取指定字段
+			 * 比如你的结果返回{code,data,msg},如果你指定：['data'],结果集中只返回data数据
+			 * 如果是['data',code],结果集中只返回{data,code}
+			 */
+			pick?:string[],
+			/**
+			 * 是否监视参数的变化，如果参数发生了变化将会重新发起请求
+			 */
+			watchRefresh?:boolean,
+			/**
+			 * 如果不配置或者配置,默认为all
+			 */
+			toast?:'fail'|'success'|'all',
+			/**
+			 * 是否显示操作后的提示,默认为true
+			 */
+			showToast?:boolean,
+			/**
+			 * 读取提示信息的字段，如果读取不到会显示自动的文字。默认为msg
+			 */
+			toastKey?:string,
+			/**
+			 * 是否显示加载框,默认为true。
+			 */
+			showLoading?:boolean,
+		}
+		
         /**tmui配置表 */
         interface tmuiConfig {
             /** 自动跟随系统暗黑 */
@@ -157,7 +204,7 @@ declare global {
                 img: string
             }[]
         }
-
+		
         interface tmFormSubmitResult {
             data: { [key: string]: any };
             isPass: boolean,

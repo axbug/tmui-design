@@ -9,7 +9,7 @@
 			show-scrollbar
 			:scroll-y="defaultProps.height > 0"
 			:style="[
-				defaultProps.height ? { height: `${defaultProps.height} ${defaultProps.unit}` } : '',
+				defaultProps.height ? { height: `${defaultProps.height}${defaultProps.unit}` } : '',
 				{ width: `${defaultProps.width}${defaultProps.unit}` }
 			]"
 		>

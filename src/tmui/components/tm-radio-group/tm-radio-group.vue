@@ -22,11 +22,11 @@ const props = defineProps({
 		default: false
 	},
 	defaultValue: {
-		type: [String, Number, Boolean],
+		type: [String, Number, Boolean,null],
 		default: ''
 	},
 	modelValue: {
-		type: [String, Number, Boolean],
+		type: [String, Number, Boolean,null],
 		default: ''
 	},
 	direction: {
@@ -49,6 +49,7 @@ const props = defineProps({
 })
 let _cacheBoxList: Array<string | number | boolean> = []
 const _mValue = ref(props.defaultValue || props.modelValue)
+
 const _align = computed(() => {
 	let list = {
 		left: 'flex-row-center-start',

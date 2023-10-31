@@ -5,7 +5,7 @@
 </template>
 
 <script lang="ts" setup>
-import { getCurrentInstance,watchEffect, computed, ref, provide, inject, onMounted, onUnmounted, nextTick, watch, reactive, Ref } from 'vue'
+import { watchEffect, computed, ref, provide,  Ref } from 'vue'
 import tmSheet from '../tm-sheet/tm-sheet.vue'
 const emits = defineEmits(['change', 'update:active-key'])
 const props = defineProps({
@@ -49,6 +49,7 @@ const _activeKey:any = ref([])
 watchEffect(() => {
 	_activeKey.value = [...props.activeKey, ...props.defaultActiveKey]
 })
+
 if (props.accordion) {
 	if (_activeKey.value.length > 0) {
 		_activeKey.value = [_activeKey.value[0]]

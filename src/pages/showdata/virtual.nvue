@@ -8,7 +8,7 @@
 			></tm-text>
 			<tm-divider></tm-divider>
 			<view class="flex flex-col flex-col-top-center">
-				<tm-virtual-list :load="getdata" :width="626" :height="900" :data="imglist" :itemHeight="160">
+				<tm-virtual-list :scrollViewInTo="test" :load="getdata" :width="626" :height="900" :data="imglist" :itemHeight="160">
 					<template v-slot:default="{ data }">
 						<tm-sheet
 							:border="1"
@@ -43,6 +43,7 @@ import tmImage from '@/tmui/components/tm-image/tm-image.vue'
 import tmVirtualList from '@/tmui/components/tm-virtual-list/tm-virtual-list.vue'
 import tmDivider from '@/tmui/components/tm-divider/tm-divider.vue'
 const imglist = ref([])
+const test = ref("")
 const getdata = (e: string) => {
 	return new Promise((res, rej) => {
 		setTimeout(function () {
@@ -61,4 +62,6 @@ const getdata = (e: string) => {
 		}, 2500)
 	})
 }
+
+
 </script>

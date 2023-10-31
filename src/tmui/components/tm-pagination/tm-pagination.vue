@@ -3,7 +3,7 @@
 		<view v-if="!simple" class="flex flex-row relative flex-center" :class="[props.disabled ? 'opacity-5' : '']">
 			<tm-sheet
 				noLevel
-				hover-class="keywordBoradAni opacity-5"
+				hover-class=" opacity-5"
 				@click="btnClick(item)"
 				:width="70"
 				:height="70"
@@ -19,7 +19,7 @@
 				_class="flex-center"
 				:transprent="item.page == '...'"
 				:color="computedCurrent == item.page ? props.color : props.btnColor"
-				:margin="[16, 24]"
+				:margin="[8, 24]"
 				v-for="(item, index) in pageList"
 				:key="index"
 				><tm-text :userInteractionEnabled="false" _style="line-height:70rpx;cursor: pointer;" :label="String(item.page)"></tm-text
@@ -28,7 +28,7 @@
 		<view v-if="simple" class="flex flex-row relative flex-center" :class="[props.disabled ? 'opacity-5' : '']">
 			<tm-sheet
 				noLevel
-				hover-class="keywordBoradAni opacity-5"
+				hover-class=" opacity-5"
 				@click="pnbtn('prev')"
 				:width="140"
 				:height="70"
@@ -55,7 +55,7 @@
 			<tm-text :dark="props.dark" _style="line-height:70rpx;" _class="px-40" :label="`${computedCurrent}/${pages}`"></tm-text>
 			<tm-sheet
 				noLevel
-				hover-class="keywordBoradAni opacity-5"
+				hover-class=" opacity-5"
 				@click="pnbtn('next')"
 				:width="140"
 				:height="70"

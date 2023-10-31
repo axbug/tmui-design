@@ -3,7 +3,14 @@
 		<tm-sheet>
 			<tm-text :font-size="24" _class="text-weight-b" label="基础示例,更多见文档"></tm-text>
 			<tm-divider></tm-divider>
-			<tm-time-view></tm-time-view>
+			<tm-time-view :showDetail="{
+				year: true,
+				month: true,
+				day: false,
+				hour: false,
+				minute: false,
+				second: false
+			}"></tm-time-view>
 		</tm-sheet>
 
 		<tm-time-picker

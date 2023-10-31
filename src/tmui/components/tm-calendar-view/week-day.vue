@@ -23,7 +23,7 @@
 				class="absolute t-0 r--6 zIndex-10 round-12 py-4 flex flex-row flex-row-center-center"
 				style="width: 90rpx; height: 88rpx"
 			>
-				<tm-text :userInteractionEnabled="false" color="grey" _class="text-align-center" :font-size="28" label="本周"></tm-text>
+				<tm-text :userInteractionEnabled="false" color="grey" _class="text-align-center" :font-size="28" :label="props.textUnit[9]"></tm-text>
 			</view>
 		</tm-sheet>
 
@@ -78,7 +78,7 @@
 			:color="props.color"
 			@click="confirm"
 			block
-			label="确认"
+			:label="_confirmText"
 			:margin="[0, 16]"
 		></tm-button>
 	</view>
@@ -156,12 +156,22 @@ const props = defineProps({
 	hideButton: {
 		type: Boolean,
 		default: false
+	},
+	confirmText: {
+		type: String,
+		default: '确认'
+	},
+	//周次，本日、本季、本年、本月、本周的文字请按顺序提供文本，方便定义其它语言。
+	textUnit: {
+		type: Array as PropType<string[]>,
+		default: ['周次','一','二','三','四','五','六','日','本日','本周','本月','本季度','本年','月','第${x}季度','年']
 	}
 })
 const _color = computed(() => {
 	if (props.followTheme && store.tmStore.color) return store.tmStore.color
 	return props.color
 })
+const _confirmText = computed(() => props.confirmText)
 const DayJs = dayjs.default
 
 DayJs.extend(isoWeek)
@@ -173,7 +183,7 @@ DayJs.extend(isBetween)
 const _value = ref(DayJs(props.defaultValue[0]).isValid() ? DayJs(props.defaultValue[0]) : DayJs())
 //当前的周次。
 const _weekNum = ref(getNowWeek(_value.value))
-const weekStr = ['周次', '一', '二', '三', '四', '五', '六', '日']
+const weekStr = props.textUnit.slice(0,8)
 const _data: Ref<Array<Array<weekItem>>> = ref([])
 const _dataWeek: Ref<Array<number>> = ref([]) //本月的周次。
 const _start_date = computed(() => {

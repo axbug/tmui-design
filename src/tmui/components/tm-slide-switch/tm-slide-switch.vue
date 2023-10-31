@@ -1,7 +1,7 @@
 <template>
 	<!-- #ifndef APP-NVUE -->
 
-	<view>
+	<view >
 		<view
 			v-if="!_disabled"
 			@touchstart="startDrag"
@@ -301,9 +301,8 @@ watch(
 	(newVal: boolean, oldVal: boolean) => {
 		if (!newVal) {
 			close()
-			console.log('close--++')
 		} else {
-			open('right')
+			open('right',false)
 		}
 	}
 )
@@ -314,7 +313,9 @@ function funMethod(type: 'style' | 'closeOther' | 'open' | 'close', arg: any) {
 	} else if (type == 'closeOther') {
 	} else if (type == 'open') {
 		emits('update:open-status', true)
-		emits('open', true)
+		if(arg){
+			emits('open', true)
+		}
 	} else if (type == 'close') {
 		emits('update:open-status', false)
 		emits('close', false)
@@ -328,6 +329,7 @@ var initOpen = function () {
 	} else if (opened.value && state.leftWidth > 0) {
 		swipeMove(state.leftWidth)
 	}
+	
 }
 var range = function (num: number, min: number, max: number) {
 	return Math.min(Math.max(num, min), max)
@@ -345,6 +347,7 @@ var swipeMove = function (_offset: number) {
 		transition: transition
 	}
 	funMethod('style', style)
+	
 }
 
 var close = function () {
@@ -362,11 +365,11 @@ var close = function () {
 	funMethod('close', false)
 	// #endif
 }
-var open = function (position: 'left' | 'right') {
+var open = function (position: 'left' | 'right',noEmits = true) {
 	var _offset = position === 'left' ? +state.leftWidth : -state.rightWidth
 	opened.value = true
 	swipeMove(_offset)
-	funMethod('open', true)
+	funMethod('open', noEmits)
 }
 
 var getDirection = function (x, y) {
@@ -388,6 +391,8 @@ var resetTouchStatus = function () {
 }
 
 const startDrag = (event: TouchEvent | MouseEvent) => {
+	event?.preventDefault();
+	event?.stopImmediatePropagation();
 	resetTouchStatus()
 	state.startOffset = state.offset
 	var touchPoint = event.touches[0]
@@ -397,6 +402,9 @@ const startDrag = (event: TouchEvent | MouseEvent) => {
 }
 
 const onDrag = (event: TouchEvent | MouseEvent) => {
+	event?.preventDefault();
+	event?.stopImmediatePropagation();
+	
 	var touchPoint = event.touches[0]
 	state.deltaX = touchPoint.clientX - state.startX
 	state.deltaY = touchPoint.clientY - state.startY
@@ -414,6 +422,7 @@ const endDrag = (event: TouchEvent | MouseEvent) => {
 	state.dragging = false
 	if (+state.rightWidth > 0 && -state.startOffset < +state.rightWidth && -state.offset > +state.rightWidth * THRESHOLD) {
 		open('right')
+		
 	} else if (+state.leftWidth > 0 && state.startOffset < +state.leftWidth && state.offset > +state.leftWidth * THRESHOLD) {
 		open('left')
 	} else {

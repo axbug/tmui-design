@@ -14,9 +14,9 @@
 			<tm-text :font-size="24" _class="text-weight-b" label="步幅3"></tm-text>
 			<tm-divider></tm-divider>
 			<tm-stepper color="red" bgColor="red" :step="3" circular :defaultValue="0"></tm-stepper>
-			<tm-text _class="pt-24 text-weight-b" :font-size="24" label="小数点"></tm-text>
+			<tm-text _class="pt-24 text-weight-b" :font-size="24" label="小数点,步幅step:0.01,小数点fixed:2"></tm-text>
 			<tm-divider></tm-divider>
-			<tm-stepper :round="0" bgColor="green" color="green" :fixed="1" :defaultValue="0.3"></tm-stepper>
+			<tm-stepper :step="0.01" :min="0" :round="0" bgColor="green" color="green" :fixed="2" :defaultValue="0.3"></tm-stepper>
 			<tm-text _class="pt-24 text-weight-b" :font-size="24" label="最大值10，最小值-3"></tm-text>
 			<tm-divider></tm-divider>
 			<tm-stepper :max="10" :min="-3" :defaultValue="1"></tm-stepper>
