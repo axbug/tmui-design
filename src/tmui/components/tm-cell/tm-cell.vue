@@ -23,7 +23,7 @@
 			:padding="props.padding"
 			:_class="props._class"
 			:_style="props._style"
-			hover-class="opacity-6"
+			:hover-class="props.hoverClass"
 		>
 			<view :userInteractionEnabled="true" class="flex flex-row flex-row-center-center" :class="[_computedValue.url ? 'url' : '']">
 				<view
@@ -242,7 +242,11 @@ const props = defineProps({
 	darkBgColor: {
 		type: String,
 		default: ''
-	}
+	},
+	hoverClass: {
+		type: String,
+		default: 'opacity-6'
+	},
 })
 
 const store = useTmpiniaStore()
