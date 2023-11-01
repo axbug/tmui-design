@@ -31,6 +31,7 @@
 					:style="[{ width: `${props.width}rpx`, height: `${props.height}rpx` }]"
 				>
 					<tm-image
+						:model="props.imgModel"
 						:round="props.round"
 						:userInteractionEnabled="false"
 						:showLoad="props.showLoad"
@@ -242,6 +243,10 @@ import { listItem, listItemType, listItemTypeStr } from './interface'
 const proxy = getCurrentInstance()?.proxy ?? null
 const emits = defineEmits(['change', 'click'])
 const props = defineProps({
+	imgModel: {
+		type: String,
+		default: 'scaleToFill'
+	},
 	followTheme: {
 		type: Boolean,
 		default: true
