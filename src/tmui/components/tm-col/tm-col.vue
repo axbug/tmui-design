@@ -21,7 +21,7 @@
 				},
 				!transprent && props.shadow > 0 ? tmcomputed.shadowColor : '',
 				!transprent ? tmcomputed.backgroundColorCss : '',
-				{ alignItems: alignComputed, justifyContent: alignComputed },
+				{ alignItems: alignComputed, justifyContent: justifyComputed },
 				customCSSStyle
 			]"
 			:class="['flex flex-col flex-1 ', `round-${props.round}`, customClass]"
@@ -61,6 +61,10 @@ const props = defineProps({
 		default: false
 	},
 	align: {
+		type: String as PropType<'start' | 'center' | 'end'>,
+		default: 'center' //'start' | 'center' | 'end'
+	},
+	justify: {
 		type: String as PropType<'start' | 'center' | 'end'>,
 		default: 'center' //'start' | 'center' | 'end'
 	},
@@ -141,6 +145,7 @@ let justifyAlign = {
 	center: 'center'
 }
 const alignComputed = computed(() => justifyAlign[props.align])
+const justifyComputed = computed(() => justifyAlign[props.justify])
 // 设置响应式主题文字色。
 let textColor = computed(() => tmcomputed.value.textColor)
 provide('appTextColor', textColor)
