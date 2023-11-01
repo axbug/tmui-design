@@ -7630,6 +7630,21 @@
 	align-items: flex-start;
 	display: flex;
 }
+.flex-row-baseline-start {
+	justify-content: flex-start;
+	align-items: baseline;
+	display: flex;
+}
+.flex-row-baseline-center {
+	justify-content: center;
+	align-items: baseline;
+	display: flex;
+}
+.flex-row-baseline-end {
+	justify-content: flex-end;
+	align-items: baseline;
+	display: flex;
+}
 .flex-row-center-start {
 	justify-content: flex-start;
 	align-items: center;
