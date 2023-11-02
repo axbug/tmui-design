@@ -10,7 +10,6 @@ import { useTmRouterAfter, useTmRouterBefore } from "./tool/router/index"
 import tmuiconfigdefault from "./tool/lib/tmuiconfigDefault"
 import { pagesType, tabBarItemType, tabBarType, beforeRouterOpts, pagesCustomType } from './interface';
 import * as Pinia from 'pinia';
-import { useTmpiniaStore } from './tool/lib/tmpinia';
 let pages: Array<pagesType> = [];
 if (typeof PageJsonInit?.pages == 'undefined') {
 	PageJsonInit.pages = [];
