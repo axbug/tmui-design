@@ -34,9 +34,15 @@ import webview from '../components/mobileWebview.vue'
 | 参数名 | 类型 | 默认值 | 描述 |
 | :--: | :--: | :--: | :-- |
 | time | Number | 10*1000 | 单位毫秒，倒计时的总时长 |
-| format | String | "DD天HH小时MM分SS秒MS毫秒" | 格式。如果只想要秒：SS秒 |
+| format | String | "DD天HH小时MM分SS秒MS毫秒" | 格式。如果只想要秒：SS秒，注意如果当你的formatType设定某值时，里面只能读取到你设定的值。 |
 | autoStart | Boolean | true | 是否自动开始倒计时 |
 | color | String | "" | 文字颜色 |
+| formatType | ```"DD"|"HH"|"MM"|"SS"|"MS"|""``` | "" | 到计时格式的类型 |
+**formatType解释**
+ * 到计时格式的类型，设定下面的值时，倒计时功能不会进位，而是以指定的值进行倒计时。
+ * 比如分，你设置为MM,那么你到计时如果是200分钟，就从200开始倒计时。而不会进位到小时。
+ * "DD"|"HH"|"MM"|"SS"|"MS"|""
+ * 天|时|分|秒|毫秒
 
 ## :rose: 事件
 | 事件名 | 参数 | 返回数据 | 描述 |

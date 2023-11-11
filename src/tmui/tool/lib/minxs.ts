@@ -53,7 +53,7 @@ export const custom_props = {
 	 * 圆角
 	 */
 	round: {
-		type: [Number],
+		type: [Number,Array] as PropType<Number|Number[]>,
 		default: 0
 	},
 	/**

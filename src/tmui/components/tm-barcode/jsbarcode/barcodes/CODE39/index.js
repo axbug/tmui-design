@@ -4,23 +4,23 @@
 import Barcode from "../Barcode.js";
 
 class CODE39 extends Barcode {
-	constructor(data, options){
+	constructor(data, options) {
 		data = data.toUpperCase();
 
 		// Calculate mod43 checksum if enabled
-		if(options.mod43){
+		if (options.mod43) {
 			data += getCharacter(mod43checksum(data));
 		}
 
 		super(data, options);
 	}
 
-	encode(){
+	encode() {
 		// First character is always a *
 		var result = getEncoding("*");
 
 		// Take every character and add the binary representation to the result
-		for(let i = 0; i < this.data.length; i++){
+		for (let i = 0; i < this.data.length; i++) {
 			result += getEncoding(this.data[i]) + "0";
 		}
 
@@ -33,7 +33,7 @@ class CODE39 extends Barcode {
 		};
 	}
 
-	valid(){
+	valid() {
 		return this.data.search(/^[0-9A-Z\-\.\ \$\/\+\%]+$/) !== -1;
 	}
 }
@@ -76,25 +76,25 @@ var encodings = [
 
 // Get the binary representation of a character by converting the encodings
 // from decimal to binary
-function getEncoding(character){
+function getEncoding(character) {
 	return getBinary(characterValue(character));
 }
 
-function getBinary(characterValue){
+function getBinary(characterValue) {
 	return encodings[characterValue].toString(2);
 }
 
-function getCharacter(characterValue){
+function getCharacter(characterValue) {
 	return characters[characterValue];
 }
 
-function characterValue(character){
+function characterValue(character) {
 	return characters.indexOf(character);
 }
 
-function mod43checksum(data){
+function mod43checksum(data) {
 	var checksum = 0;
-	for(let i = 0; i < data.length; i++){
+	for (let i = 0; i < data.length; i++) {
 		checksum += characterValue(data[i]);
 	}
 
@@ -102,4 +102,4 @@ function mod43checksum(data){
 	return checksum;
 }
 
-export {CODE39};
+export { CODE39 };

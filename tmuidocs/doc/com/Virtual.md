@@ -43,6 +43,7 @@ import webview from '../components/mobileWebview.vue'
 | data | `Array<string>` | [] | 虚拟列表数据 |
 | firstLoad<Badge type="danger" text="v3.0.7+" vertical="middle" /> | Boolean` | true | 首次渲染时，是否触发load事件。 |
 | load<Badge type="danger" text="v3.0.7+" vertical="middle" /> | `Function,Boolean` | ()=>true | 数据加载事件 |
+| scrollViewInTo<Badge type="danger" text="v3.0.9+" vertical="middle" /> | top,bottom,'' | - | 指定当前列表滚动到对应位置，顶或者底部。注意如果当前已经同位置，但加载了数据需要再次底或者顶，应该先设置为'',再设置对应值。 |
 
 **load**为数据加载事件,参数加载类型：bottom 触底加载, top 下拉加载 
 

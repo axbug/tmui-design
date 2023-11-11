@@ -87,7 +87,7 @@ class CODE128 extends Barcode {
 		let nextCode, index;
 
 		// Special characters
-		if (bytes[0] >= 200){
+		if (bytes[0] >= 200) {
 			index = bytes.shift() - 105;
 			const nextSet = SWAP[index];
 

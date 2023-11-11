@@ -1,7 +1,6 @@
 ---
 title: tmui 3.0 组件库
 ---
-
 <script setup>
 import webview from '../components/mobileWebview.vue'
 </script>

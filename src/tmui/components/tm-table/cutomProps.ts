@@ -10,13 +10,13 @@ export const cutomProps = {
     /**表格数据 */
     tableData: {
         type: Object as PropType<tableDataType>,
-        default: ():tableDataType => {
+        default: (): tableDataType => {
             return {
-                data:[],
-                fields:{
-                    columns:[]
+                data: [],
+                fields: {
+                    columns: []
                 },
-                header:[]
+                header: []
             }
         },
     },
@@ -56,7 +56,7 @@ export const cutomProps = {
         default: false,
     },
     /**开户间隔条纹 */
-    stripe:{
+    stripe: {
         type: Boolean,
         default: false,
     }

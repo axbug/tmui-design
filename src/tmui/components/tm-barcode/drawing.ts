@@ -23,7 +23,7 @@ export interface Baroptions {
 	marginBottom?: number,
 	marginLeft?: number,
 	marginRight?: number,
-	valid?:Function
+	valid?: Function
 }
 export interface BarcodeObjType {
 	text: string,
@@ -32,28 +32,28 @@ export interface BarcodeObjType {
 }
 let isAndroid = false
 // #ifdef APP-NVUE
-isAndroid =  uni.getSystemInfoSync().osName=='android';
+isAndroid = uni.getSystemInfoSync().osName == 'android';
 // #endif
-var ctx:CanvasRenderingContext2D;
-function drawCanvasBarcode(options: Baroptions = JsBarcodeOptions, encoding: BarcodeObjType,is2d=false,canvasWidth=300) {
+var ctx: CanvasRenderingContext2D;
+function drawCanvasBarcode(options: Baroptions = JsBarcodeOptions, encoding: BarcodeObjType, is2d = false, canvasWidth = 300) {
 	var binary = encoding.data;
 	var yFrom;
-	var height = options.height-60
+	var height = options.height - 60
 	if (options.textPosition == "top") {
 		yFrom = options.marginTop + options.fontSize + options.textMargin;
 	}
 	else {
 		yFrom = options.marginTop;
 	}
-	if(is2d){
+	if (is2d) {
 		ctx.fillStyle = options.lineColor;
-	}else{
+	} else {
 		ctx.setFillStyle(options.lineColor);
 	}
-	let MAR = (canvasWidth-binary.length*options.width)/2
-	
+	let MAR = (canvasWidth - binary.length * options.width) / 2
+
 	for (var b = 0; b < binary.length; b++) {
-		var x = b * options.width+Math.floor(MAR);
+		var x = b * options.width + Math.floor(MAR);
 		if (binary[b] === "1") {
 			ctx.fillRect(x, yFrom, options.width, options.height);
 		}
@@ -61,24 +61,24 @@ function drawCanvasBarcode(options: Baroptions = JsBarcodeOptions, encoding: Bar
 			ctx.fillRect(x, yFrom, options.width, options.height * Number(binary[b]));
 		}
 	}
-	if(!is2d){
+	if (!is2d) {
 		ctx.draw()
 	}
-	
+
 }
 
-function drawCanvasText(options: Baroptions = JsBarcodeOptions, encoding: BarcodeObjType,is2d=false,canvasWidth=300) {
-	ctx.clearRect(0,0,canvasWidth,options.height+40)
+function drawCanvasText(options: Baroptions = JsBarcodeOptions, encoding: BarcodeObjType, is2d = false, canvasWidth = 300) {
+	ctx.clearRect(0, 0, canvasWidth, options.height + 40)
 	var font = ""
 	// #ifdef APP-NVUE
-	if(isAndroid){
-		font =  ((options.fontSize)) + "px " + options.font;
-	}else{
-		font =  ((options.fontSize)*uni.getSystemInfoSync().pixelRatio) + "px " + options.font;
+	if (isAndroid) {
+		font = ((options.fontSize)) + "px " + options.font;
+	} else {
+		font = ((options.fontSize) * uni.getSystemInfoSync().pixelRatio) + "px " + options.font;
 	}
 	// #endif
 	// #ifndef APP-NVUE
-	font =  (options.fontSize) + "px " + options.font;
+	font = (options.fontSize) + "px " + options.font;
 	// #endif
 	if (options.displayValue) {
 		var x, y;
@@ -103,22 +103,22 @@ function drawCanvasText(options: Baroptions = JsBarcodeOptions, encoding: Barcod
 			x = (canvasWidth) / 2;
 			ctx.textAlign = 'center';
 		}
-		
+
 		ctx.fillText(encoding.text, x, y);
-		
+
 	}
 }
 
-function drawBarCode(context:CanvasRenderingContext2D,options: Baroptions = JsBarcodeOptions, encoding: BarcodeObjType,is2d=false,canvasWidth=300){
+function drawBarCode(context: CanvasRenderingContext2D, options: Baroptions = JsBarcodeOptions, encoding: BarcodeObjType, is2d = false, canvasWidth = 300) {
 	ctx = context;
-	drawCanvasText(options, encoding,is2d,canvasWidth)
-	drawCanvasBarcode(options, encoding,is2d,canvasWidth)
+	drawCanvasText(options, encoding, is2d, canvasWidth)
+	drawCanvasBarcode(options, encoding, is2d, canvasWidth)
 	// #ifdef APP-NVUE
-	if(isAndroid){
+	if (isAndroid) {
 		// 最新的sdk3.6.0首次需要绘制两次在安卓上才会显示。
-		setTimeout(function() {
-			drawCanvasText(options, encoding,is2d,canvasWidth)
-			drawCanvasBarcode(options, encoding,is2d,canvasWidth)
+		setTimeout(function () {
+			drawCanvasText(options, encoding, is2d, canvasWidth)
+			drawCanvasBarcode(options, encoding, is2d, canvasWidth)
 		}, 50);
 	}
 	// #endif

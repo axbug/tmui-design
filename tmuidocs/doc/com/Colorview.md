@@ -8,12 +8,12 @@ import webview from '../components/mobileWebview.vue'
 
 #### 组件库文档 tmui.design
 
-# 卡片 Colorview
+# 颜色选择器 Colorview
 颜色选择器
 
 ---
 
-## :hot_pepper: 卡片 Card 示例效果
+## :hot_pepper: 颜色选择器 Colorview 示例效果
 
 <webview url="https://tmui.design/h5/#/pages/other/colorPicker"></webview>
 

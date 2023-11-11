@@ -5,3 +5,10 @@
 /tmuidocs/.vuepress/.cache/
 /node_modules/
 /tmui-cli/node_modules/
+/clidomian/node_modules/
+/buildTmui/node_modules/
+/buildTmui/*.zip
+/src/uni_modules/tm-ui/*.zip
+/tmuidocs/doc/.vitepress/dist/
+/dist
+

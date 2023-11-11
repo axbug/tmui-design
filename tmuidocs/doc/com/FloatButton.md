@@ -78,7 +78,11 @@ export interface actionsItem {
     color?:string,//背景
     fontColor?:string,
     linear?:string,
-    linearDeep?:string
+    linearDeep?:string,
+	/** 按钮开放值，注意，如果你是想要获取电话，头像，昵称等回调事件，统一调取各自的callback */
+	openType?:string,
+	/** 开放平台的回调函数 */
+	callback?:Function<event:any,item:actionsItem>,//返回的参数就是各开放平台的参数。
 }
 
 ```

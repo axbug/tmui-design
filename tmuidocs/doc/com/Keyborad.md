@@ -12,18 +12,18 @@ import webview from '../components/mobileWebview.vue'
 
 键盘组件提供四种模式，可以适应多种输入环境，分别为密码输入，身份证号输入，车牌输入以及常见的数字键盘
 
-因这个组件名字拼错了，现在为了纠正：keyboard和keyborad，两个组件同时存在，可以共用。到了年底错误的组件将删除，请大家做好使用正确组件。
+因这个组件名字拼错了，现在为了纠正：keyboard和keyboard，两个组件同时存在，可以共用。到了年底错误的组件将删除，请大家做好使用正确组件。
 
 
 ---
 
-## :hot_pepper: 键盘 Keyborad 示例
+## :hot_pepper: 键盘 keyboard 示例
 
-<webview url="https://tmui.design/h5/#/pages/form/keyborad"></webview>
+<webview url="https://tmui.design/h5/#/pages/form/keyboard"></webview>
 
 ::: details 示例模板
 
-<<< ../src/pages/form/keyborad.nvue{vue}
+<<< ../src/pages/form/keyboard.nvue{vue}
 
 :::
 
@@ -45,6 +45,7 @@ import webview from '../components/mobileWebview.vue'
 | color | String | primary | 键盘颜色 |
 | random | Boolean | false | 是否为随机键盘 |
 | decimal | Boolean | true | 是否显示小数点（数字键盘有效） |
+| zIndex | number | 401 | 层级,nvue无效 |
 
 ## :rose: 事件
 

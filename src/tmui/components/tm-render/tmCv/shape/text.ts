@@ -38,7 +38,7 @@ export class tmTextLabel extends Shape {
 		this.textHeight = lines * lineHeight
 		context?.fillText(line, _x_t, y);
 	}
-	draw():this {
+	draw(): this {
 		if (!this.canvas.ctx) return this;
 		let ctx = this.canvas.ctx;
 		const x = this.x;

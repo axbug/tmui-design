@@ -403,7 +403,7 @@ export function isEmail(s:string){
  */
 export function toast(word:string,mask:boolean=true,icon:any='none')
 ```
-## :tada: getWindow 安全区高度(全屏)
+## :tada: getWindow 安全区高度(全屏)(3.1.09后，不建议使用，推荐使用useWindowInfo)
 
 <Badge type="danger" text="v3.0.75+" vertical="middle" />
 
@@ -417,6 +417,8 @@ export function toast(word:string,mask:boolean=true,icon:any='none')
 export function getWindow()
 ```
 
+## :tada: routerTo 打开页面路径
+
 ```ts
  /**
  * 打开页面路径
@@ -425,6 +427,8 @@ export function getWindow()
  */
 routerTo(url: string, type: openUrlType): void
 ```
+## :tada: torpx 将px转换为rpx
+
 ```ts
 /**
 * 将px转换为rpx
@@ -434,6 +438,8 @@ routerTo(url: string, type: openUrlType): void
 */
 torpx(v:number,screenWidth?:number):number
 ```
+
+## :tada: topx 将rpx转换为px
 
 ```ts
 /**

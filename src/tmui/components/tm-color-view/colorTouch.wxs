@@ -3,12 +3,12 @@ var MIN_DISTANCE = 10;
 var owner;
 var state;
 
-var getState = function(ownerInstance) {
+var getState = function (ownerInstance) {
 	owner = ownerInstance;
 	state = owner.getState();
 };
 
-var resetTouchStatus = function() {
+var resetTouchStatus = function () {
 	state.direction = '';
 	state.deltaX = 0;
 	state.deltaY = 0;
@@ -17,8 +17,8 @@ var resetTouchStatus = function() {
 };
 
 
-var swipeMove = function(x,y) {
-	var transform = 'translate3d(' +x+ 'px, '+y+'px, 0)';
+var swipeMove = function (x, y) {
+	var transform = 'translate3d(' + x + 'px, ' + y + 'px, 0)';
 	var transition = state.dragging ? 'none' : 'transform .6s cubic-bezier(0.18, 0.89, 0.32, 1)';
 	owner.selectComponent('#wrapper').setStyle({
 		'-webkit-transform': transform,
@@ -26,10 +26,10 @@ var swipeMove = function(x,y) {
 		transform: transform,
 		transition: transition,
 	});
-	
+
 };
-var swipeMove2 = function(x,y) {
-	var transform = 'translate3d(' +x+ 'px, '+y+'px, 0)';
+var swipeMove2 = function (x, y) {
+	var transform = 'translate3d(' + x + 'px, ' + y + 'px, 0)';
 	var transition = state.dragging ? 'none' : 'transform .6s cubic-bezier(0.18, 0.89, 0.32, 1)';
 	owner.selectComponent('#wrapper2').setStyle({
 		'-webkit-transform': transform,
@@ -37,82 +37,82 @@ var swipeMove2 = function(x,y) {
 		transform: transform,
 		transition: transition,
 	});
-	
+
 };
-var startDrag = function(event, ownerInstance) {
+var startDrag = function (event, ownerInstance) {
 	getState(ownerInstance)
 	var touchPoint = event.touches[0];
-	if(!state.startX){
+	if (!state.startX) {
 		state.startX = touchPoint.clientX;
 		state.startY = touchPoint.clientY;
 	}
 };
 
-var onDrag = function(event, ownerInstance) {
+var onDrag = function (event, ownerInstance) {
 	var touchPoint = event.touches[0];
 	state.deltaX = touchPoint.clientX - state.startX;
 	state.deltaY = touchPoint.clientY - state.startY;
-	if(state.deltaX!=0){
+	if (state.deltaX != 0) {
 		state.deltaX = 0;
 	}
-	if(state.deltaY<=-15){
-		state.deltaY =-15;
+	if (state.deltaY <= -15) {
+		state.deltaY = -15;
 	}
-	if(state.deltaY>182){
-		state.deltaY =182;
+	if (state.deltaY > 182) {
+		state.deltaY = 182;
 	}
-	
-	
+
+
 	state.dragging = true;
-	swipeMove(state.deltaX,state.deltaY);
-	owner.callMethod('wxsCallPos',state.deltaX,state.deltaY);
-	
-	if(event.stopPropagation){
+	swipeMove(state.deltaX, state.deltaY);
+	owner.callMethod('wxsCallPos', state.deltaX, state.deltaY);
+
+	if (event.stopPropagation) {
 		event.stopPropagation()
 	}
-	if(event.preventDefault){
+	if (event.preventDefault) {
 		event.preventDefault()
 	}
 };
 
-var endDrag = function(event, ownerInstance) {
+var endDrag = function (event, ownerInstance) {
 	var touchPoint = event.touches[0];
 	state.dragging = false;
 
 };
-var startDrag2 = function(event, ownerInstance) {
+var startDrag2 = function (event, ownerInstance) {
 	getState(ownerInstance)
 	var touchPoint = event.touches[0];
-	if(!state.startX2){
+	if (!state.startX2) {
 		state.startX2 = touchPoint.clientX;
 		state.startY2 = touchPoint.clientY;
 	}
 };
 
-var onDrag2 = function(event, ownerInstance) {
+var onDrag2 = function (event, ownerInstance) {
 	var touchPoint = event.touches[0];
 	state.deltaX2 = touchPoint.clientX - state.startX2;
 	state.deltaY2 = touchPoint.clientY - state.startY2;
 	state.dragging = true;
-	
-	if(state.deltaX2>5){
+
+	if (state.deltaX2 > 5) {
 		state.deltaX2 = 5;
 	}
-	if(state.deltaX2<-182){
+	if (state.deltaX2 < -182) {
 		state.deltaX2 = -182;
 	}
-	if(state.deltaY2<=-2){
-		state.deltaY2 =-2;
+	if (state.deltaY2 <= -2) {
+		state.deltaY2 = -2;
 	}
-	if(state.deltaY2>185){
-		state.deltaY2 =185;
+	if (state.deltaY2 > 185) {
+		state.deltaY2 = 185;
 	}
-	
-	swipeMove2(state.deltaX2,state.deltaY2);
-	owner.callMethod('wxsCallPos',state.deltaX2,state.deltaY2);
+
+	swipeMove2(state.deltaX2, state.deltaY2);
+	owner.callMethod('wxsCallPos', state.deltaX2, state.deltaY2);
 };
 
-var endDrag2 = function(event, ownerInstance) {
+var endDrag2 = function (event, ownerInstance) {
 	var touchPoint = event.touches[0];
 	state.dragging = false;
 

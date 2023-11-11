@@ -52,8 +52,8 @@ import webview from '../components/mobileWebview.vue'
 | itemModel | String | "text" | line底部线条，card背景颜色模式，text文本模式,textLight背景减淡模式，文字会变灰 |
 | unSelectedColor | String | "" | 默认为空即根据主题自定颜色。 |
 | itemFontSize | Number | 28 | 字体大小 |
-| itemLinear | String | "" |  |
-| itemLinearDeep | String | "light" |  |
+| itemLinear | String | "" | 渐变背景方向，可选left:右->左，right:左->右。top:下->上，bottom:上->下。 |
+| itemLinearDeep | String | "light" | 渐变的亮浅，可选light,dark,accent亮系渐变和深色渐变 |
 | itemRound | Number | 0 | 圆角 |
 | align | String | "left" | left:左对齐,right：右对齐,center：居中,around：居中均分 |
 | swiper<Badge type="danger" text="v3.0.75+" vertical="middle" /> | [Boolean] | false | 是否启用左右滑动内容来切换tabs,开启后注意优化页面性能。 |
@@ -69,7 +69,8 @@ import webview from '../components/mobileWebview.vue'
 	title: string,//标题
 	icon?: string,//图标
 	dot?:boolean,//是否显示角标点
-	dotColor?:string//角标点的颜色
+	dotColor?:string,//角标点的颜色
+    count?: string | number//角标展示的文本
 } as Tmui.tabs
 //or
 {

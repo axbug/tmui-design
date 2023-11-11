@@ -1,4 +1,4 @@
-class InvalidInputException extends Error{
+class InvalidInputException extends Error {
 	constructor(symbology, input) {
 		super();
 		this.name = "InvalidInputException";
@@ -10,7 +10,7 @@ class InvalidInputException extends Error{
 	}
 }
 
-class InvalidElementException extends Error{
+class InvalidElementException extends Error {
 	constructor() {
 		super();
 		this.name = "InvalidElementException";
@@ -18,7 +18,7 @@ class InvalidElementException extends Error{
 	}
 }
 
-class NoElementException extends Error{
+class NoElementException extends Error {
 	constructor() {
 		super();
 		this.name = "NoElementException";
@@ -26,4 +26,4 @@ class NoElementException extends Error{
 	}
 }
 
-export {InvalidInputException, InvalidElementException, NoElementException};
+export { InvalidInputException, InvalidElementException, NoElementException };

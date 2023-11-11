@@ -8,14 +8,14 @@ import webview from '../components/mobileWebview.vue'
 
 #### 组件库文档 tmui.design
 
-# 吸附器 FlyView
+# 飞元素 FlyView
 
 3.1.04+新增<br>
 一个抛物线组件，从触发位置，把目标元素以抛物线的效果抛至目标点位，主要场景交互有：购物车添加商品，收藏夹等 一些交互效果的元素
 
 ---
 
-## :hot_pepper: 示例
+## :hot_pepper: 飞元素 FlyView 示例
 
 <webview url="https://tmui.design/h5/#/pages/other/flyView"></webview>
 

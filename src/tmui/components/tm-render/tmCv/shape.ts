@@ -70,20 +70,20 @@ export class Shape {
             let { x, y, width, height, radius, eAngle, sAngle, textMaxWidth, letterSpace, fontSize } = this;
             if (typeof arg.x !== 'undefined') {
                 const baseX = this['back_x'] ?? 0;
-                x = baseX + Number(arg.x-baseX) * progress
+                x = baseX + Number(arg.x - baseX) * progress
 
             }
             if (typeof arg.y !== 'undefined') {
                 const baseY = this['back_y'] ?? 0;
-                y = baseY + Number(arg.y-baseY) * progress
+                y = baseY + Number(arg.y - baseY) * progress
             }
             if (typeof arg.width !== 'undefined') {
                 const baseWidth = this['back_width'] ?? 0;
-                width = baseWidth + Math.abs((arg.width-baseWidth) * (progress))
+                width = baseWidth + Math.abs((arg.width - baseWidth) * (progress))
             }
             if (typeof arg.width !== 'undefined') {
                 const baseHeight = this['back_height'] ?? 0;
-                height = baseHeight + Math.abs((arg.height-baseHeight) * (progress))
+                height = baseHeight + Math.abs((arg.height - baseHeight) * (progress))
             }
             if (typeof arg.radius !== 'undefined' && radius) {
                 this.radius = multiply(arg.radius, progress)

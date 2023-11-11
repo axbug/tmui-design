@@ -37,6 +37,9 @@ import webview from '../components/mobileWebview.vue'
 | openLabel | String | '收起更多' | 展开时显示的文字 |
 | closeLabel | String | '展开更多' | 收起时显示的文字 |
 | beforeOpen | [Function, Boolean] | "" | 在点击打开之前执行。如果返回false，将阻止查看内容。Function可以返回Promise |
+| lightMaskColor | string[] | ```['rgba(255, 255, 255, 1)','rgba(255, 255, 255, 0.7)']``` | 亮系时的遮罩颜色（渐变) |
+| darkMaskColor | string[] | ```['rgba(0, 0, 0, 1)','rgba(0, 0, 0, 0)']``` | 暗系系时的遮罩颜色（渐变) |
+
 
 ## :rose: 事件
 | 事件名 | 参数 | 返回数据 | 描述 |

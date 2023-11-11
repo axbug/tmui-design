@@ -58,6 +58,7 @@ import webview from '../components/mobileWebview.vue'
 | leftIconColor | String | "" | 标题前的图标主题颜色，默认为空即自动配色，当激活时，使用activeColor。如果本属性不为空，将始终使用本属性颜色主题。 |  
 | height<Badge type="danger" text="v3.0.77+" vertical="middle" /> | Number | 80 | 标题的高度 |
 | titleSize | Number | 30 | 标题字号大小 |
+| leftIconSize | Number | 24 | 左边图标大小 |
 
 ## :rose: 事件
 ## Collapse

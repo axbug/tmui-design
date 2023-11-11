@@ -67,6 +67,7 @@ Time 时间选择器时一个用于选择事件的组件，常用于事件预约
 | btnRound | Number | 3 | 按钮圆角值 |
 | round | Number | 12 | 组件圆角值 |
 | title | String | 请选择时间 | 标题提示语 |
+| confirmText | String | 确认选择 | 确认按钮的文本 |
 | disabled | Boolean | false | 当使用插槽占位触发显示时，打开禁用可阻止弹层显示，适合在表单内部使用 |
 
 ## :rose: Time-view 事件

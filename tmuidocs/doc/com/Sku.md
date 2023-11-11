@@ -39,6 +39,8 @@ import webview from '../components/mobileWebview.vue'
 | round | Number | 6 | 圆角 |
 | num | Number | 1 | 购物数量 |
 | list | `Tmui.sku` | 格式见下方 | 数据属性 |
+| value | String | "" | 默认选择的id,注意它不是单个产品的id，而是以扁平化的数据中sku中product中的id。不是skuItem中的id,具体见demo |
+
 
 **list**格式
 ```

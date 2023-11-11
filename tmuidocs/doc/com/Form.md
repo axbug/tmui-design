@@ -118,6 +118,7 @@ export interface rulesItem {
 ```
 ## :corn: FormItem slot插槽
 默认default<br>
+插槽:label,表单标题插件
 插槽:desc,表单底部的说明文字
 插槽:error,表单底部的错误插槽，返回数据 data.message,
 

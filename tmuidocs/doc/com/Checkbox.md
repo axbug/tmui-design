@@ -43,7 +43,7 @@ import webview from '../components/mobileWebview.vue'
 | modelValue | [String,Number,Boolean] | false | v-model双向绑定，如果选中后以数组形式给出value值 |
 | label | [String,Number] | '' | 文右边显示的选项文字 |
 | defaultChecked | [Boolean] | false | 默认是否选中状态。不受上方的modelValue控制，直接选中。 |
-| beforChecked | [Function,String,Boolean] | false| 选中前的勾子。返回false将阻止选中。也可以返回 Promise异步 |
+| beforeChecked | [Function,String,Boolean] | false| 选中前的勾子。返回false将阻止选中。也可以返回 Promise异步,函数内已经传递当前的value值，可以直接赋值取得。 |
 | disabled | Boolean | false | 是否禁用 |
 | fontSize | Number | 28 | 字体大小 |
 | indeterminate | [Boolean,String] | false | 半选中状态 |
@@ -97,7 +97,7 @@ Group组件含有公共属性 [公共属性](/spec/组件公共样式.html)
 | max | Number | 999 | 最大选中数量 |
 | defaultValue | Array | [] | 默认选中数据数组集合 |
 | modelValue | Array | [] | v-model双向绑定，如果选中后以数组形式给出value值 |
-| direction | String | row | row横排，col为竖排 |
+| direction | String | row | row横排，col为竖排，customCol：当你为竖向排列，且文字多行，要自动断行时使用此 |
 | align | String | 'left'  | 对齐方式：left,center,right |
 
 ## :rose: Group组件事件

@@ -1426,7 +1426,7 @@ const readProperty = (byteArray, config, flag) => {
       }
       readTimeAndValue(byteArray, keyframes, config);
       readTimeEase(byteArray, keyframes, config);
-      if (flag.hasSpatial) ;
+      if (flag.hasSpatial);
       property = new AnimatableProperty(keyframes);
     } else {
       property = new Property(readValue(byteArray, config, flag));
@@ -1543,7 +1543,7 @@ class Interpolator {
 class MultiDimensionPointKeyframe extends Keyframe {
   initialize() {
     super.initialize();
-    if (this.interpolationType === KeyframeInterpolationType.Bezier) ; else {
+    if (this.interpolationType === KeyframeInterpolationType.Bezier); else {
       this.xInterpolator = new Interpolator();
       this.yInterpolator = new Interpolator();
     }
@@ -1561,7 +1561,7 @@ class MultiDimensionPointKeyframe extends Keyframe {
 
 class SingleEaseKeyframe extends Keyframe {
   initialize() {
-    if (this.interpolationType === KeyframeInterpolationType.Bezier) ; else {
+    if (this.interpolationType === KeyframeInterpolationType.Bezier); else {
       this.interpolator = new Interpolator();
     }
   }
@@ -1930,7 +1930,7 @@ const installArrayLayerReference = (layers) => {
         if (!effect) {
           continue;
         }
-        if (effect.type() === EffectType.DisplacementMap) ;
+        if (effect.type() === EffectType.DisplacementMap);
       }
     }
     index += 1;
@@ -2188,7 +2188,7 @@ function destroyVerify(constructor) {
   );
   const proxyFn = (target, methodName) => {
     const fn = target[methodName];
-    target[methodName] = function(...args) {
+    target[methodName] = function (...args) {
       if (this["destroyed"]) {
         console.error(`Don't call ${methodName} of the PAGView that is destroyed.`);
         return;

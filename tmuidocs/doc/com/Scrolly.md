@@ -43,6 +43,7 @@ import webview from '../components/mobileWebview.vue'
 | defaultValue | boolean | false | 默认的下拉状态 |
 | loadBarHeight | Number | 120 | 下拉多少高度触发，单位px |
 | bottomValue | boolean | null | 等同v-model:bottom-value,触底加载状态。请手动管理这个状态，如果不管理按照上面的超时自动管理 |
+| refresher | boolean | true | 开启下拉刷新  值为 `true` 表示开启下拉刷新，值为 `false` 表示关闭下拉刷新 |
 
 
 ## :rose: 事件

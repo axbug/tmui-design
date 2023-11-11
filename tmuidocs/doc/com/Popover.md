@@ -49,7 +49,7 @@ import webview from '../components/mobileWebview.vue'
 
 ## :corn: slot插槽
 默认default，触发发弹层。
-label插槽，弹层显示内容的占位。
+label插槽，弹层显示内容的占位(3.1.0版本新增)。
 
 ## :green_salad: ref方法
 无

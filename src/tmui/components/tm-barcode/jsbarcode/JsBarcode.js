@@ -9,21 +9,21 @@ import optionsFromStrings from './help/optionsFromStrings.js';
 
 // Exceptions
 import ErrorHandler from './exceptions/ErrorHandler.js';
-import {InvalidInputException, NoElementException} from './exceptions/exceptions.js';
+import { InvalidInputException, NoElementException } from './exceptions/exceptions.js';
 
 // Default values
 import defaults from './options/defaults.js';
 
 // The protype of the object returned from the JsBarcode() call
-let API = function(){};
+let API = function () { };
 
 // The first call of the library API
 // Will return an object with all barcodes calls and the data that is used
 // by the renderers
-let JsBarcode = function(element, text, options){
+let JsBarcode = function (element, text, options) {
 	var api = new API();
 
-	if(typeof element === "undefined"){
+	if (typeof element === "undefined") {
 		throw Error("No element to render on was provided.");
 	}
 
@@ -34,10 +34,10 @@ let JsBarcode = function(element, text, options){
 	api._errorHandler = new ErrorHandler(api);
 
 	// If text is set, use the simple syntax (render the barcode directly)
-	if(typeof text !== "undefined"){
+	if (typeof text !== "undefined") {
 		options = options || {};
 
-		if(!options.format||options.format=="auto"){
+		if (!options.format || options.format == "auto") {
 			options.format = autoSelectBarcode();
 		}
 		api.options(options)[options.format](text, options).render();
@@ -47,23 +47,23 @@ let JsBarcode = function(element, text, options){
 };
 
 // To make tests work TODO: remove
-JsBarcode.getModule = function(name){
+JsBarcode.getModule = function (name) {
 	return barcodes[name];
 };
 
 // Register all barcodes
-for(var name in barcodes){
-	if(barcodes.hasOwnProperty(name)){ // Security check if the propery is a prototype property
+for (var name in barcodes) {
+	if (barcodes.hasOwnProperty(name)) { // Security check if the propery is a prototype property
 		registerBarcode(barcodes, name);
 	}
 }
-function registerBarcode(barcodes, name){
+function registerBarcode(barcodes, name) {
 	API.prototype[name] =
-	API.prototype[name.toUpperCase()] =
-	API.prototype[name.toLowerCase()] =
-		function(text, options){
+		API.prototype[name.toUpperCase()] =
+		API.prototype[name.toLowerCase()] =
+		function (text, options) {
 			var api = this;
-			return api._errorHandler.wrapBarcodeCall(function(){
+			return api._errorHandler.wrapBarcodeCall(function () {
 				// Ensure text is options.text
 				options.text = typeof options.text === 'undefined' ? undefined : '' + options.text;
 
@@ -79,7 +79,7 @@ function registerBarcode(barcodes, name){
 }
 
 // encode() handles the Encoder call and builds the binary string to be rendered
-function encode(text, Encoder, options){
+function encode(text, Encoder, options) {
 	// Ensure that text is a string
 	text = "" + text;
 
@@ -87,7 +87,7 @@ function encode(text, Encoder, options){
 
 	// If the input is not valid for the encoder, throw error.
 	// If the valid callback option is set, call it instead of throwing error
-	if(!encoder.valid()){
+	if (!encoder.valid()) {
 		throw new InvalidInputException(encoder.constructor.name, text);
 	}
 
@@ -99,16 +99,16 @@ function encode(text, Encoder, options){
 	encoded = linearizeEncodings(encoded);
 
 	// Merge
-	for(let i = 0; i < encoded.length; i++){
+	for (let i = 0; i < encoded.length; i++) {
 		encoded[i].options = merge(options, encoded[i].options);
 	}
 
 	return encoded;
 }
 
-function autoSelectBarcode(){
+function autoSelectBarcode() {
 	// If CODE128 exists. Use it
-	if(barcodes["CODE128"]){
+	if (barcodes["CODE128"]) {
 		return "CODE128";
 	}
 
@@ -118,40 +118,40 @@ function autoSelectBarcode(){
 
 // Sets global encoder options
 // Added to the api by the JsBarcode function
-API.prototype.options = function(options){
+API.prototype.options = function (options) {
 	this._options = merge(this._options, options);
 	return this;
 };
 
 // Will create a blank space (usually in between barcodes)
-API.prototype.blank = function(size){
+API.prototype.blank = function (size) {
 	const zeroes = new Array(size + 1).join("0");
-	this._encodings.push({data: zeroes});
+	this._encodings.push({ data: zeroes });
 	return this;
 };
 
 // Initialize JsBarcode on all HTML elements defined.
-API.prototype.init = function(){
+API.prototype.init = function () {
 	// Should do nothing if no elements where found
-	if(!this._renderProperties){
+	if (!this._renderProperties) {
 		return;
 	}
 
 	// Make sure renderProperies is an array
-	if(!Array.isArray(this._renderProperties)){
+	if (!Array.isArray(this._renderProperties)) {
 		this._renderProperties = [this._renderProperties];
 	}
 
 	var renderProperty;
-	for(let i in this._renderProperties){
+	for (let i in this._renderProperties) {
 		renderProperty = this._renderProperties[i];
 		var options = merge(this._options, renderProperty.options);
 
-		if(options.format == "auto"){
+		if (options.format == "auto") {
 			options.format = autoSelectBarcode();
 		}
 
-		this._errorHandler.wrapBarcodeCall(function(){
+		this._errorHandler.wrapBarcodeCall(function () {
 			var text = options.value;
 			var Encoder = barcodes[options.format.toUpperCase()];
 			var encoded = encode(text, Encoder, options);
@@ -163,17 +163,17 @@ API.prototype.init = function(){
 
 
 // The render API call. Calls the real render function.
-API.prototype.render = function(){
-	if(!this._renderProperties){
+API.prototype.render = function () {
+	if (!this._renderProperties) {
 		throw new NoElementException();
 	}
 
-	if(Array.isArray(this._renderProperties)){
-		for(var i = 0; i < this._renderProperties.length; i++){
+	if (Array.isArray(this._renderProperties)) {
+		for (var i = 0; i < this._renderProperties.length; i++) {
 			render(this._renderProperties[i], this._encodings, this._options);
 		}
 	}
-	else{
+	else {
 		render(this._renderProperties, this._encodings, this._options);
 	}
 
@@ -183,10 +183,10 @@ API.prototype.render = function(){
 API.prototype._defaults = defaults;
 
 // Prepares the encodings and calls the renderer
-function render(renderProperties, encodings, options){
+function render(renderProperties, encodings, options) {
 	encodings = linearizeEncodings(encodings);
 
-	for(let i = 0; i < encodings.length; i++){
+	for (let i = 0; i < encodings.length; i++) {
 		encodings[i].options = merge(options, encodings[i].options);
 		fixOptions(encodings[i].options);
 	}
@@ -197,9 +197,9 @@ function render(renderProperties, encodings, options){
 	var renderer = new Renderer(renderProperties.element, encodings, options);
 	renderer.render();
 
-	if(renderProperties.afterRender){
+	if (renderProperties.afterRender) {
 		renderProperties.afterRender();
 	}
 }
 
-export {JsBarcode} ;
+export { JsBarcode };

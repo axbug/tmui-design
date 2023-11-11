@@ -11,7 +11,7 @@ import webview from '../components/mobileWebview.vue'
 # 输入框 Input
 通过鼠标或键盘输入字符。
 
-::: waring 非常重要
+::: warning 非常重要
 
 使用UNI开发的input组件，一定会在微信小程序中的机型（不敢保证 全部），双向绑定数据输入数据时，会出现字符闪烁或者输入过快时，字符丢失。<br>
 解决方案：<br>
@@ -51,7 +51,7 @@ import webview from '../components/mobileWebview.vue'
 | suffixColor | String | '' | 应用于后缀图标及标题色 |
 | focusColor | String | primary | 激活时的主题配色。 |
 | fontColor | String | '' | 默认使用自动配色 |
-| text | Boolean | true | 文本 |
+| text | Boolean | true | 是否让背景不浅色，flase时color背景不会被浅化 |
 | outlined | Boolean | false |  |
 | border | Number | 0 | 边框 |
 | transprent | Boolean | false | 是否透明 |
@@ -67,7 +67,10 @@ import webview from '../components/mobileWebview.vue'
 | fontSize | Number | 30 | 字体大小 |
 | search | String | '' | tmicon-search |
 | searchLabel | String | '' | 搜索 |
+| searchWidth | Number | 0 | 搜索按钮的宽度,默认为0根据文字label自动增加宽. |
 | searchFontColor | String | '' | 搜索按钮字体颜色，默认为自动 |
+| searchBgColor | String | '' | 搜索按钮背景颜色，默认为主题色 |
+| customicon | Boolean | false | 是否为自定义图标 |
 | showClear | Boolean | false | 是否显示清空 |
 | password | Boolean | false | 是否密码框 |
 | disabled | Boolean | false | 是否禁用 |
@@ -76,7 +79,7 @@ import webview from '../components/mobileWebview.vue'
 | errorLabel | String | 请输入内容 | 错误时，提示的文本。 |
 | align | String | left | 对齐方式。可选值：left,right,center |
 | modelValue | [String,Number] | '' | 绑定值，双向绑定时请使用v-model="xx",或者:value.sync |
-| inputPadding | `Array<number>` | [24,0] | 输入框边距 |
+| inputPadding | `Array<number>` | [24,0] | 输入框边距,注意如果你开启了搜索按钮此属性失效。你可以根据输入框高度来增加高度。 |
 | showCharNumber | Boolean | false | 是否显示字符统计,需要绑定value后才会显示。 |
 | maxlength | Number | -1 | 最大长度 |
 | type | String | text | 表单类型:digit/text/number/password/idcard/textarea |
@@ -90,6 +93,8 @@ import webview from '../components/mobileWebview.vue'
 | readonly | Boolean | false | 是否为只读状态，如果你是支付宝或者钉钉小程序，在使用disabled时，文字变灰，可使用此属性代替。 |
 | autoHeight| Boolean | false | type=textarea时生效 |
 | showTopErrorGap| Boolean | true | 用于隐藏顶部的错误间隙，但保留底部，以减少布局间的空隙 |
+| clearAndEyeColor| String | '' | 清除按钮，显示密码按钮的颜色 |
+
 
 ## :rose: 事件
 | 事件名 | 参数 | 返回数据 | 描述 |

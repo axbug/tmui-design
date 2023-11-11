@@ -30,8 +30,8 @@ export class tmImages extends Shape {
 			t.imgHeight = img.height;
 			t.isLoad = true;
 			t.isErr = false;
-			
-			if(t.canvas.graphs.findIndex(el=>el.id==t.id)>-1){
+
+			if (t.canvas.graphs.findIndex(el => el.id == t.id) > -1) {
 				t.draw()
 				if (t.canvas.ctx.draw) {
 					t.canvas.draw()
@@ -50,13 +50,13 @@ export class tmImages extends Shape {
 			t.isLoad = true;
 			t.isErr = false;
 			t.src = img;
-			if(t.canvas.graphs.findIndex(el=>el.id==t.id)>-1){
+			if (t.canvas.graphs.findIndex(el => el.id == t.id) > -1) {
 				t.draw()
 				if (t.canvas.ctx.draw) {
 					t.canvas.draw()
 				}
 			}
-			
+
 		}
 		img.onerror = err;
 		img.onabort = err;
@@ -79,7 +79,7 @@ export class tmImages extends Shape {
 					t.imgHeight = r.height;
 					t.isLoad = true;
 					t.isErr = false;
-					if(t.canvas.graphs.findIndex(el=>el.id==t.id)>-1){
+					if (t.canvas.graphs.findIndex(el => el.id == t.id) > -1) {
 						t.draw()
 						if (t.canvas.ctx.draw) {
 							t.canvas.draw()
@@ -90,22 +90,22 @@ export class tmImages extends Shape {
 		})
 		// #endif
 	}
-	draw():this {
+	draw(): this {
 		if (!this.canvas.ctx || !this.isLoad) return this;
 
 		let ctx = this.canvas.ctx;
-        const x = this.x;
-        const y = this.y;
-        const width = this.width;
-        const height = this.height;
-        const fillStyle = this.fillStyle;
-        const strokeStyle = this.strokeStyle;
-        const lineWidth = this.lineWidth
-        const radius:[number,number,number,number] = this.radius
-        const topLeftRadius = radius[0];
-        const topRightRadius = radius[1];
-        const bottomLeftRadius = radius[3];
-        const bottomRightRadius = radius[2];
+		const x = this.x;
+		const y = this.y;
+		const width = this.width;
+		const height = this.height;
+		const fillStyle = this.fillStyle;
+		const strokeStyle = this.strokeStyle;
+		const lineWidth = this.lineWidth
+		const radius: [number, number, number, number] = this.radius
+		const topLeftRadius = radius[0];
+		const topRightRadius = radius[1];
+		const bottomLeftRadius = radius[3];
+		const bottomRightRadius = radius[2];
 
 		const maxWidth = this.textMaxWidth || this.canvas.opts.width
 		const text = this.text
@@ -114,31 +114,31 @@ export class tmImages extends Shape {
 		const lineHeight = fontSize * 1.5
 		ctx.save()
 		ctx.beginPath();
-        ctx.moveTo(x + topLeftRadius, y);
-        ctx.lineTo(x + width - topRightRadius, y);
-        ctx.quadraticCurveTo(x + width, y, x + width, y + topRightRadius);
-        ctx.lineTo(x + width, y + height - bottomRightRadius);
-        ctx.quadraticCurveTo(x + width, y + height, x + width - bottomRightRadius, y + height);
-        ctx.lineTo(x + bottomLeftRadius, y + height);
-        ctx.quadraticCurveTo(x, y + height, x, y + height - bottomLeftRadius);
-        ctx.lineTo(x, y + topLeftRadius);
-        ctx.quadraticCurveTo(x, y, x + topLeftRadius, y);
-        ctx.closePath();
+		ctx.moveTo(x + topLeftRadius, y);
+		ctx.lineTo(x + width - topRightRadius, y);
+		ctx.quadraticCurveTo(x + width, y, x + width, y + topRightRadius);
+		ctx.lineTo(x + width, y + height - bottomRightRadius);
+		ctx.quadraticCurveTo(x + width, y + height, x + width - bottomRightRadius, y + height);
+		ctx.lineTo(x + bottomLeftRadius, y + height);
+		ctx.quadraticCurveTo(x, y + height, x, y + height - bottomLeftRadius);
+		ctx.lineTo(x, y + topLeftRadius);
+		ctx.quadraticCurveTo(x, y, x + topLeftRadius, y);
+		ctx.closePath();
 
-        if(ctx.setFillStyle){
-            ctx.setFillStyle(fillStyle)
-            ctx.setLineWidth(lineWidth)
-            ctx.setStrokeStyle(strokeStyle)
-        }else{
-            ctx.fillStyle = fillStyle;
-            ctx.lineWidth = lineWidth;
-            ctx.strokeStyle = strokeStyle;
-        }
-        ctx.clip()
+		if (ctx.setFillStyle) {
+			ctx.setFillStyle(fillStyle)
+			ctx.setLineWidth(lineWidth)
+			ctx.setStrokeStyle(strokeStyle)
+		} else {
+			ctx.fillStyle = fillStyle;
+			ctx.lineWidth = lineWidth;
+			ctx.strokeStyle = strokeStyle;
+		}
+		ctx.clip()
 		if (!this.isErr) {
 			ctx.drawImage(this.src, 0, 0, this.imgWidth, this.imgHeight, x, y, width, height)
 		}
-		
+
 		ctx.fill()
 		ctx.stroke()
 		ctx.restore();

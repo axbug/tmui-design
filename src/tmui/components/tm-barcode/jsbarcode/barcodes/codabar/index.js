@@ -3,8 +3,8 @@
 
 import Barcode from "../Barcode.js";
 
-class codabar extends Barcode{
-	constructor(data, options){
+class codabar extends Barcode {
+	constructor(data, options) {
 		if (data.search(/^[0-9\-\$\:\.\+\/]+$/) === 0) {
 			data = "A" + data + "A";
 		}
@@ -14,14 +14,14 @@ class codabar extends Barcode{
 		this.text = this.options.text || this.text.replace(/[A-D]/g, '');
 	}
 
-	valid(){
+	valid() {
 		return this.data.search(/^[A-D][0-9\-\$\:\.\+\/]+[A-D]$/) !== -1;
 	}
 
-	encode(){
+	encode() {
 		var result = [];
 		var encodings = this.getEncodings();
-		for(var i = 0; i < this.data.length; i++){
+		for (var i = 0; i < this.data.length; i++) {
 			result.push(encodings[this.data.charAt(i)]);
 			// for all characters except the last, append a narrow-space ("0")
 			if (i !== this.data.length - 1) {
@@ -34,7 +34,7 @@ class codabar extends Barcode{
 		};
 	}
 
-	getEncodings(){
+	getEncodings() {
 		return {
 			"0": "101010011",
 			"1": "101011001",
@@ -60,4 +60,4 @@ class codabar extends Barcode{
 	}
 }
 
-export {codabar};
+export { codabar };

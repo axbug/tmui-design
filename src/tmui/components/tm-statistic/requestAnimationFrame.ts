@@ -1,8 +1,8 @@
 let lastTime = 0
 const prefixes = 'webkit moz ms o'.split(' ') // 各浏览器前缀
-let requestAnimationFrame:Function = null
-let cancelAnimationFrame:Function = null
-let prefix:string = ''
+let requestAnimationFrame: Function = null
+let cancelAnimationFrame: Function = null
+let prefix: string = ''
 // #ifdef H5
 requestAnimationFrame = window.requestAnimationFrame
 cancelAnimationFrame = window.cancelAnimationFrame
@@ -22,7 +22,7 @@ for (let i = 0; i < prefixes.length; i++) {
 
 // 如果当前浏览器不支持requestAnimationFrame和cancelAnimationFrame，则会退到setTimeout
 if (!requestAnimationFrame || !cancelAnimationFrame) {
-	requestAnimationFrame = function(callback) {
+	requestAnimationFrame = function (callback) {
 		const currTime = new Date().getTime()
 		// 为了使setTimteout的尽可能的接近每秒60帧的效果
 		const timeToCall = Math.max(0, 16 - (currTime - lastTime))
@@ -33,7 +33,7 @@ if (!requestAnimationFrame || !cancelAnimationFrame) {
 		return id
 	}
 
-	cancelAnimationFrame = function(id) {
+	cancelAnimationFrame = function (id) {
 		clearTimeout(id)
 	}
 }

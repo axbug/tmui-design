@@ -1,17 +1,17 @@
 import optionsFromStrings from "./optionsFromStrings.js";
 import defaults from "../options/defaults.js";
 
-function getOptionsFromElement(element){
+function getOptionsFromElement(element) {
 	var options = {};
-	for(var property in defaults){
-		if(defaults.hasOwnProperty(property)){
+	for (var property in defaults) {
+		if (defaults.hasOwnProperty(property)) {
 			// jsbarcode-*
-			if(element.hasAttribute("jsbarcode-" + property.toLowerCase())){
+			if (element.hasAttribute("jsbarcode-" + property.toLowerCase())) {
 				options[property] = element.getAttribute("jsbarcode-" + property.toLowerCase());
 			}
 
 			// data-*
-			if(element.hasAttribute("data-" + property.toLowerCase())){
+			if (element.hasAttribute("data-" + property.toLowerCase())) {
 				options[property] = element.getAttribute("data-" + property.toLowerCase());
 			}
 		}
@@ -19,7 +19,7 @@ function getOptionsFromElement(element){
 
 	options["value"] = element.getAttribute("jsbarcode-value") || element.getAttribute("data-value");
 
-// Since all atributes are string they need to be converted to integers
+	// Since all atributes are string they need to be converted to integers
 	options = optionsFromStrings(options);
 
 	return options;
