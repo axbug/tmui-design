@@ -12,8 +12,23 @@ class mytmcharts {
 	}
 	setOption(option: EChartsOption, opts: any = {}) {
 		if (!this.web) return;
+
+		// 处理echart配置参数，若有函数则将其toString
+		const optionString = JSON.stringify(option, (key, value) => {
+			if (typeof value === 'function') {
+				return JSON.stringify(
+					{
+						type:'echartCbFn',
+						fnString: value.toString()
+					}
+				)
+			}
+			return value;
+		});
+
 		this.optionNow = option;
-		this.web.evalJs(`mychart.setOption(${JSON.stringify(option)},${JSON.stringify(opts)})`)
+		this.web.evalJs(`echart_setOption(${optionString},${JSON.stringify(opts)})`)
+		// this.web.evalJs(`mychart.setOption(${JSON.stringify(option)},${JSON.stringify(opts)})`)
 	}
 	getWidth() {
 		return this.width;
