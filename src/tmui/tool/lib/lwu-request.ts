@@ -711,7 +711,7 @@ export class Http {
         });
     }
 
-    public static get(url: string, data: object = {}, options: RequestOptions = {}) {
+    public get(url: string, data: object = {}, options: RequestOptions = {}) {
         return this.request(url, data, {
             method: 'GET',
             ...options
