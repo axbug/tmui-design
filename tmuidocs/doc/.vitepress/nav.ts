@@ -8,8 +8,8 @@ export default  [
         "link": "/spec/主题色彩.md",
     },
     {
-        text: '进阶指南',
-        link: '/advanced/tmui全局配置.md',
+        text: 'TMUIX4.0',
+        link: 'https://xui.tmui.design',
     },
 	{
 	    "text": "VueUse",
