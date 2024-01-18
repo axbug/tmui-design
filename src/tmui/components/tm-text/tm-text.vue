@@ -51,6 +51,9 @@ import theme from '../../tool/theme/theme'
 import { custom_props, computedTheme, computedClass, computedStyle, computedDark } from '../../tool/lib/minxs'
 import { tmVuetify, colorThemeType } from '../../tool/lib/interface'
 import { useTmpiniaStore } from '../../tool/lib/tmpinia'
+//#ifdef MP-WEIXIN
+const appBaseInfo = uni.getAppBaseInfo()
+//#endif
 const store = useTmpiniaStore()
 // 混淆props共有参数
 const props = defineProps({
@@ -82,6 +85,10 @@ const props = defineProps({
 	lineHeight: {
 		type: [Number, String],
 		default: 'auto'
+	},
+	aging: {
+		type: Boolean,
+		default: false
 	}
 })
 const emits = defineEmits(['click'])
@@ -97,7 +104,15 @@ const isDark = computed(() => computedDark(props, tmcfg.value))
 //计算主题
 // const tmcomputed = computed(() => computedTheme(props, isDark.value));
 const _label = computed(() => props.label)
-const _fontSize = computed(() => Number(props.fontSize) * (store?.tmuiConfig?.themeConfig?.globalFontSizeRatio ?? 1))
+const _fontSize = computed(() => {
+	let times = 1
+	//#ifdef MP-WEIXIN
+	if(props.aging){
+		times = (Math.floor(Number(appBaseInfo?.fontSizeSetting) / 16 * 10)) / 10
+	}
+	// #endif
+	return Number(props.fontSize) * (store?.tmuiConfig?.themeConfig?.globalFontSizeRatio ?? 1) * times
+})
 //从父应用组件中获取自动文字色。
 const appTextColor = inject(
 	'appTextColor',
