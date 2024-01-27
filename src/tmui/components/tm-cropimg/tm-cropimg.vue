@@ -113,7 +113,11 @@ const props = defineProps({
 	height: {
 		type: Number,
 		default: 250
-	}
+	},
+	moveCropBox: {
+		type: Boolean,
+		default: true
+	},
 })
 //当前需要裁剪图片的地址。注意，如果不提供则需要选择对应的图片。
 const url = ref(props.url)
@@ -166,6 +170,7 @@ onMounted(() => {
 })
 setRectPos()
 function touchStart(res: TouchEvent) {
+	console.log('res',res);
 	if (!url.value) return
 	moveable.value = true
 	let event = res.touches[0]
@@ -346,6 +351,11 @@ function imgError(res) {
 }
 //设置当前移动的类型，应该移动哪个。0移动图片，1矩形。
 function getMoveTypeNumber(x: number, y: number) {
+	
+	if(!props.moveCropBox) {
+		return 0
+	}
+	
 	if (x >= rectPos.value.x - 15 && x <= rectPos.value.x + 15 && y >= rectPos.value.y && y <= rectPos.value.y + rectPos.value.h) {
 		return 1
 	}
