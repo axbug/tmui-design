@@ -1,5 +1,11 @@
 export const chartdata = {
 	lineChart: {
+		tooltip:{
+			trigger: 'axis',
+			formatter: function(val) {
+				return val[0].value + '(个)'
+			}
+		},
 		xAxis: {
 			type: 'category',
 			data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
