@@ -8196,6 +8196,34 @@ tm-app {
   /* #endif */
   display: flex !important; }
 
+.flex-row-baseline-start {
+  justify-content: flex-start !important;
+  align-items: baseline !important;
+  align-content: center;
+  /* #ifndef APP-PLUS-NVUE */
+  align-content: center;
+  /* #endif */
+  display: flex !important;
+}
+.flex-row-baseline-center {
+  justify-content: center !important;
+  align-items: baseline !important;
+  align-content: center;
+  /* #ifndef APP-PLUS-NVUE */
+  align-content: center;
+  /* #endif */
+  display: flex !important;
+}
+.flex-row-baseline-end {
+  justify-content: flex-end !important;
+  align-items: baseline !important;
+  align-content: center;
+  /* #ifndef APP-PLUS-NVUE */
+  align-content: center;
+  /* #endif */
+  display: flex !important;
+}
+
 .flex-row-center-start {
   justify-content: flex-start !important;
   align-items: center !important;

@@ -641,7 +641,7 @@ type tmUtil = {
          * @param url string 打开的页面路径
          * @param type openUrlType "navigate" | "redirect" | "reLaunch" | "switchTab" | "navigateBack"
          */
-        routerTo(url: string, type: openUrlType): void,
+        routerTo(url: string, type?: openUrlType): void,
         /**
          * 将rpx转换为px
          * @param v 待转换的数字
