@@ -40,6 +40,7 @@ import webview from '../components/mobileWebview.vue'
 | unit<Badge type="danger" text="v3.0.73+" vertical="middle" /> | [Number] | rpx | 字号单位 |
 | parentClass | String | false | 组件的最外层class类,组件内嵌view的class选择器，你可能还需要使用!important来加强自定义选择器的权重 |
 | lineHeight | [Number, String] | "auto" | 行高 |
+| aging | [Boolean,] | false | 微信端根据微信字号设置自动适配文字大小。 |
 
 ## :rose: 事件
 | 事件名 | 参数 | 返回数据 | 描述 |

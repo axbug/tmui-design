@@ -17,7 +17,7 @@
 						height: `${props.height}rpx`,
 						textAlign: 'center',
 						fontSize: props.fontSize + 'rpx',
-						width: `${props.width - 120}rpx`,
+						width: `${props.width - (props.height-4)*2}rpx`,
 						color: tmcomputed.textColor,
 						
 					}
@@ -54,6 +54,9 @@
 			type: [Boolean, String],
 			default: true
 		},
+		/**
+		 * 宽是input宽
+		 */
 		width: {
 			type: [Number],
 			default: 210

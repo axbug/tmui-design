@@ -40,6 +40,10 @@
 			<tm-radio-group model="button" v-model="radio"  :defaultValue="radio">
 				<tm-radio :value="true" label="选我呀"></tm-radio>
 				<tm-radio :value="false" label="不要选我呀"></tm-radio>
+				<tm-radio :value="false" label="不要选我呀"></tm-radio>
+				<tm-radio :value="false" label="选我"></tm-radio>
+				<tm-radio :value="false" label="不要选我呀"></tm-radio>
+				<tm-radio :value="false" label="不要选我呀"></tm-radio>
 			</tm-radio-group>
 		</tm-sheet>
 	</tm-app>

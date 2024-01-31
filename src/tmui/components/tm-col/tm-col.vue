@@ -146,6 +146,8 @@ let justifyAlign = {
 }
 const alignComputed = computed(() => justifyAlign[props.align])
 const justifyComputed = computed(() => justifyAlign[props.justify])
+
+
 // 设置响应式主题文字色。
 let textColor = computed(() => tmcomputed.value.textColor)
 provide('appTextColor', textColor)

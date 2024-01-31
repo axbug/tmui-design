@@ -48,6 +48,7 @@ import webview from '../components/mobileWebview.vue'
 | label | String |  | 当填入信息时，文本头像，禁用img模式 |
 | icon | String |  | 图标 |
 | img | String |  | 图片地址 |
+| errorImg | String |  | 当img出错时，使用此错误的占位图片代替img |
 | fontSize | Number | 0 | 自动匹配字体大小 |
 | text | Boolean | Boolean | 是否开启文本模式 |
 | color | String | white | 背景主题颜色名称 |

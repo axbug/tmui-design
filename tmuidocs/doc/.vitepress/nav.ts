@@ -1,15 +1,15 @@
 export default  [
     {
+        "text": "TMUIX4.0",
+        "link": "https://xui.tmui.design",
+    },
+    {
         "text": "开发指南",
         "link": "/start/快速上手.md",
     },
     {
-        "text": "设计指南",
-        "link": "/spec/主题色彩.md",
-    },
-    {
-        text: 'TMUIX4.0',
-        link: 'https://xui.tmui.design',
+        text: '进阶指南',
+        link: '/advanced/tmui全局配置.md',
     },
 	{
 	    "text": "VueUse",

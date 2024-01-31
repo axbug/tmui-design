@@ -10,7 +10,7 @@
 					</tm-popover>
 				</view>
 				<view class="mx-32">
-					<tm-popover color="red">
+					<tm-popover defaultShow color="red">
 						<tm-text label="汽泡上中"></tm-text>
 					</tm-popover>
 				</view>

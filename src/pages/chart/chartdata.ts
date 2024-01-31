@@ -1,8 +1,8 @@
 export const chartdata = {
 	lineChart: {
-		tooltip:{
+		tooltip: {
 			trigger: 'axis',
-			formatter: function(val) {
+			formatter: function (val) {
 				return val[0].value + '(个)'
 			}
 		},

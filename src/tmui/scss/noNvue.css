@@ -17,7 +17,12 @@ page,
 .a-page,
 body,
 tm-app {
+  /* #ifdef H5 */
+  min-height: 100%;
+  /* #endif */
+  /* #ifndef H5 */
   min-height: 100vh;
+  /* #endif */
   flex: 1;
   display: flex;
   flex-direction: column; }
@@ -8196,34 +8201,6 @@ tm-app {
   /* #endif */
   display: flex !important; }
 
-.flex-row-baseline-start {
-  justify-content: flex-start !important;
-  align-items: baseline !important;
-  align-content: center;
-  /* #ifndef APP-PLUS-NVUE */
-  align-content: center;
-  /* #endif */
-  display: flex !important;
-}
-.flex-row-baseline-center {
-  justify-content: center !important;
-  align-items: baseline !important;
-  align-content: center;
-  /* #ifndef APP-PLUS-NVUE */
-  align-content: center;
-  /* #endif */
-  display: flex !important;
-}
-.flex-row-baseline-end {
-  justify-content: flex-end !important;
-  align-items: baseline !important;
-  align-content: center;
-  /* #ifndef APP-PLUS-NVUE */
-  align-content: center;
-  /* #endif */
-  display: flex !important;
-}
-
 .flex-row-center-start {
   justify-content: flex-start !important;
   align-items: center !important;
@@ -8385,6 +8362,33 @@ tm-app {
 
 .flex-around {
   justify-content: space-around; }
+
+.flex-row-baseline-start {
+  justify-content: flex-start !important;
+  align-items: baseline !important;
+  align-content: center;
+  /* #ifndef APP-PLUS-NVUE */
+  align-content: center;
+  /* #endif */
+  display: flex !important; }
+
+.flex-row-baseline-center {
+  justify-content: center !important;
+  align-items: baseline !important;
+  align-content: center;
+  /* #ifndef APP-PLUS-NVUE */
+  align-content: center;
+  /* #endif */
+  display: flex !important; }
+
+.flex-row-baseline-end {
+  justify-content: flex-end !important;
+  align-items: baseline !important;
+  align-content: center;
+  /* #ifndef APP-PLUS-NVUE */
+  align-content: center;
+  /* #endif */
+  display: flex !important; }
 
 .flex-0 {
   /* #ifndef APP-PLUS-NVUE */

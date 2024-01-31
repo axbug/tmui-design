@@ -75,16 +75,20 @@ import webview from '../components/mobileWebview.vue'
 
 ## :green_salad: ref方法
 
+**validate参数的fileds字段说明**
+比如你的对象{a:{b:1},d:1},假设你只要校验b字段你应该填写```"a.b"```给fileds。即```["a.b","d"]```
 
 | 方法名 | 参数 | 返回值 | 描述 |
 | :--: | :--: | :--: | :-- |
 | submit | - | - | 提交表单 |
 | reset | - | - | 重置表单 |
-| validate | - | result  | 手动校验表单，返回验证结果对象，内有isPass属性表示是否验证通过 |
+| validate | ```fileds:string[] = [],type = 'all'``` | result  | type空值时，只校验fileds字段，字段提供时请按照规范填写,手动校验表单，返回验证结果对象，内有isPass属性表示是否验证通过 |
 | clearValidate | - | - | 清除校验状态 |
 | pushKey | item:formItem | - | - |
 | delKey | item:formItem | - | - |
 | tmFormComnameId | - | - | tmFormId |
+
+
 
 ## :seedling: FormItem参数
 本组件含有公共属性 [公共属性](/spec/组件公共样式.html)

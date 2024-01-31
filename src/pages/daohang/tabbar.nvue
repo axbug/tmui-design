@@ -6,7 +6,7 @@
 		<tm-tabbar :autoSelect="false" v-model:active="acc">
 			<tm-tabbar-item
 				@click="acc = 0"
-				activeColor="orange"
+				activeColor="green"
 				count="HOT"
 				open-type="reLaunch"
 				text="首页"

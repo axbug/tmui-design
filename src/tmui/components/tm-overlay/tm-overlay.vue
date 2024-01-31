@@ -7,6 +7,7 @@
 	<!-- #endif -->
 
 		<view
+			@touchmove.prevent=""
 			v-if="showMask"
 			class="l-0 t-0"
 			:style="[

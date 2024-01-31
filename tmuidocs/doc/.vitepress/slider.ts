@@ -500,7 +500,7 @@ export default  [
 				items: [
 					{
 						text: '底部操作栏 ActionMenu',
-						link: '/com/actionMenu.md',
+						link: '/com/ActionMenu.md',
 					},
 					{
 						text: '下拉选项 Dropdown',

@@ -89,8 +89,8 @@ export interface actionsItem {
 ## :rose: 事件
 | 事件名    | 参数  | 返回数据 | 描述  |
 |--------|-----|------|-----|
-| click  |     |      |     |
-| change |     |      |     |
+| click  |     |      |  主按钮点击   |
+| change |     |  index, item |   子按钮点击  |
 
 ## :corn: slot插槽
 默认default

@@ -279,12 +279,11 @@ watchEffect(() => {
 	}
 	_value.value = val
 })
-emits('update:modelValue', getValue())
+
 const _blackValue = getValue()
 watch(
 	() => props.modelValue,
 	() => {
-
 		zhuanghuaValue(props.modelValue)
 	}
 )

@@ -1,6 +1,7 @@
 <template>
 	<view
-		class="flex"
+		class="flex flex-shrink"
+		
 		:class="[_disabled ? props.disabledClass : '', tmCheckedBoxDir == 'row' ? 'flex-row' : '', 
 		tmCheckedBoxDir == 'customCol' ? 'flex-1 flex-col' : '']"
 	>
@@ -20,7 +21,7 @@
 				:shadow="props.shadow"
 				:userInteractionEnabled="false"
 				:width="_is_radio ? props.size : 0"
-				:height="_is_radio ? props.size : 0"
+				:height="props.size"
 				:text="!_checked && !props.outlined"
 				:border="props.border"
 				:border-style="props.borderStyle"
@@ -43,15 +44,14 @@
 				>
 					<tm-icon :font-size="props.size * 0.6" :line-height="-1" :name="props.icon"></tm-icon>
 				</view>
-				<!-- <tm-translate :duration="100" v-if="_checked && _is_radio" name="zoom">
-          
-        </tm-translate> -->
-				<tm-text v-if="!_is_radio" :font-size="props.fontSize" :label="props.label"></tm-text>
+				
+				<tm-text v-if="!_is_radio" :line-height="1" :font-size="props.fontSize" :label="props.label"></tm-text>
 			</tm-sheet>
 			<slot name="default" :checked="{ checked: _checked }">
 				<tm-text
 					:userInteractionEnabled="false"
 					class="flex-1 flex-wrap"
+					
 					v-if="_is_radio"
 					:font-size="props.fontSize"
 					:label="props.label"

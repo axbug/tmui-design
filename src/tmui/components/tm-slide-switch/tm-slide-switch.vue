@@ -391,8 +391,12 @@ var resetTouchStatus = function () {
 }
 
 const startDrag = (event: TouchEvent | MouseEvent) => {
-	event?.preventDefault();
-	event?.stopImmediatePropagation();
+	try {
+		event?.preventDefault();
+		event?.stopImmediatePropagation();
+	} catch (error) {
+		
+	}
 	resetTouchStatus()
 	state.startOffset = state.offset
 	var touchPoint = event.touches[0]
@@ -402,8 +406,12 @@ const startDrag = (event: TouchEvent | MouseEvent) => {
 }
 
 const onDrag = (event: TouchEvent | MouseEvent) => {
-	event?.preventDefault();
-	event?.stopImmediatePropagation();
+	try {
+		event?.preventDefault();
+		event?.stopImmediatePropagation();
+	} catch (error) {
+		
+	}
 	
 	var touchPoint = event.touches[0]
 	state.deltaX = touchPoint.clientX - state.startX

@@ -7,6 +7,31 @@ title: 关于tmUi3.0的更新日志
 # TMUI 3.0
 
 ### :couplekiss: 更新日志
+
+## 3.1.1 (2023-1-31)
+**【插播一条广告】tmui4.0 x版本已发布，现招募种子用户，价格199元终身授权，还可免费使用我开发的原生插件截止2.28号**
+* **[注意]我本人没有测试uniapp 3.99sdk，我还在使用uniapp sdk 3.0.0-3090520231028001,即10月28号发布的版本，请大家使用时自行测试验证新的sdk是否有问题。**
+由于Uni官方后面更新可以使用x版本怕问题太多，不敢使用，请大家谨慎在生产中使用。建议维持我cli的版本即可，切莫尝鲜。
+* tm-form,校验时机改为输入内容即校验，之前是首次不校验。并为ref函数validate校验提供了字段校验参数，允许你只校验部分字段。
+* tmui组件vsocde文档提示插件，请在vscode中搜索插件：tmui-helper进行安装。
+* util工具函数中isPasswordOfOther校验字母数字时可能有误。
+* useTheme，round计算时重复了个2导致写圆角时，第4个失败，使用了第3个的值。
+* tm-slide-switch提高了部分平台报错的兼容问题。
+* index.ts删除了一些不使用而导入的值，可能导致某些功能异常。
+* tm-segtab,修改外部更改值时，不会触发。
+* tm-text,新增aging，适配微信端字号自动适配
+* nvue图表兼容配置函数[见issue](https://gitee.com/LYTB/tmui-design/pulls/213/files).更新此版本需要同步去gitee上下载hybrid覆盖你的项目上同名目录。
+* tm-keyboard,优化安全区域 [见issue](https://gitee.com/LYTB/tmui-design/pulls/212/files)
+* tm-carousel，新增imgModel，图片缩放模式
+* tm-cell,新增hover-class属性
+* tm-col,新增justify属性，可选参数与align相同。
+* css库增加了三人居中的baseLine对齐类,flex-row-baseline-[start,center,end]
+* tm-radio,buttom模式微信和网页的样式有差异。
+* tm-qrcode，微信真机上可能设置Logo报错.
+* tm-overlay,设置为底部内容不可滚动，相对应的是所有弹层组件底部内容都将无法滚动。
+* tm-avatar,增加errorImg，当头像出错时，使用此错误的占位图片代替img
+* tm-popover，增加defaultShow属性，默认是否显示展开。
+* tm-time-view,tm-time-picker等时间组件，如果你设置为时分，或者 时秒，这种类似的非标准需求，首次选中时会被默认的设置为起始位置，导致首次选中出错。
 ## 3.1.09（2023-11-1）
 * **特别提醒：新的sdk3.8.12（含）后如果你不更新为最新的的sdk为3.95,但使用了hbx新版本,nvue平台会白屏，因此请大家注意更新为最新sdk与hbx匹配，否则白屏。**
 * **[特别提醒]keyboard键盘上个版本拼写错了，把正确的删除了。错误的留下了，大意了，这次改正了。你们正式的项目升级注意更新下keyboard这个组件导入**

@@ -59,6 +59,7 @@ import webview from '../components/mobileWebview.vue'
 | bottomBorder | [Boolean] | false | 是否显示下边线 |
 | url | String | "" | 当有链接地址时，将打开链接 |
 | darkBgColor | String | '' | 有时自动的背景，可能不是你想要暗黑背景，此时可以使用此参数，强制使用背景色 |
+| hover-class | String | 'opacity-6' | hover类，按下的样式类 |
 
 ## :rose: 事件
 | 事件名 | 参数 | 返回数据 | 描述 |

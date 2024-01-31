@@ -37,8 +37,8 @@ import webview from '../components/mobileWebview.vue'
 | total | Number | 0 |  总数量|
 | current | Number | 1 | 当前页码（请注意可以使用v-model:current来实现双向绑定的改变） |
 | defaultCurrent | Number | 1 | 默认页码 |
-| pageSize | Number | 10 | 分页数量 |
-| disabled | Boolean | false | 是否禁用 |
+| pageSize | Number | 10, | 分页数量 |
+| disabled | Boolean | false, | 是否禁用 |
 | simple | Boolean | false, | 是否使用简洁模式 |
 | btnSize | Number | 5 | 按钮数量 |
 | btnSizeNum | Number | 1 | 默认左右显示的按钮数量，出现三个"..." |

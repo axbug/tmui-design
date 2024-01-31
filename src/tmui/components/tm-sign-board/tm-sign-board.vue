@@ -235,8 +235,12 @@ function touchstart(event: TouchEvent | MouseEvent) {
 }
 function touchsmove(event: TouchEvent | MouseEvent) {
 	if (!drawhd) return
-	if (event?.preventDefault) event?.preventDefault()
-	if (event?.stopPropagation) event?.stopPropagation()
+	try{
+		if (event?.preventDefault) event?.preventDefault()
+		if (event?.stopPropagation) event?.stopPropagation()
+	}catch(e){
+		//TODO handle the exception
+	}
 	if (event.type.indexOf('mouse') == -1 && event.changedTouches.length == 1) {
 		var touch = event.changedTouches[0]
 		// #ifdef APP-NVUE

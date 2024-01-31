@@ -7,9 +7,7 @@
 		 _bgStyle
 	 ]"
 	>
-		<slot name="default">
-			<text>在这里放置内容</text>
-		</slot>
+		<slot name="default"></slot>
 	</view>
 	<!-- #endif -->
 	<!-- #ifndef APP-NVUE -->
@@ -22,9 +20,7 @@
 			 _bgStyle
 		 ]"
 	>
-		<slot name="default">
-			<text>在这里放置内容</text>
-		</slot>
+		<slot name="default"></slot>
 	</view>
 	<!-- #endif -->
 </template>
@@ -33,12 +29,10 @@
  * 应用容器
  * @description 这是所有创建应用的最外层基础容器。
  */
-import { provide, getCurrentInstance, computed, onMounted, ref, watch, onBeforeMount, PropType } from 'vue'
+import { provide,computed, onMounted, ref, watch, PropType } from 'vue'
 import { useTmpiniaStore } from '../../tool/lib/tmpinia'
-import { colorThemeType, cssstyle, tmVuetify } from '../../tool/lib/interface'
-import { getWindow } from '../../tool/function/util'
-import { custom_props, computedTheme} from '../../tool/lib/minxs'
-import { onShow, onLoad, onInit } from '@dcloudio/uni-app'
+import { custom_props} from '../../tool/lib/minxs'
+import { onLoad} from '@dcloudio/uni-app'
 import useTheme from '../../tool/useFun/useTheme'
 import { useWindowInfo } from '../../tool/useFun/useWindowInfo'
 const store = useTmpiniaStore()
@@ -371,7 +365,7 @@ defineExpose({
 	setDark: setDark
 })
 </script>
-<style></style>
+
 <style scoped>
 .app {
 	/* #ifndef APP-NVUE */
@@ -379,7 +373,7 @@ defineExpose({
 	background-position: 0px 0px;
 	background-repeat: no-repeat;
 	background-size: 100% 100%;
-	min-height: 100%;
+	
 	/* #endif */
 	flex-direction: column;
 }

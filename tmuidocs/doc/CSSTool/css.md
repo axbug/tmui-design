@@ -207,6 +207,14 @@ border的其它辅助特性。``` round-方向-精细 ```
 
 **在flex-col纵向排时，如果内部只有一元素flex-col-full就是宽度100%**
 
+## 基线对齐<Badge type="danger" text="nvue不支持" vertical="middle" />
+
+| flex-row-baseline-start | flex-row-baseline-center | flex-row-baseline-end |
+| :--- | :--- | :--- |
+| baseline项目基线（row时是顶，col时是左） | baseline项目基线（row时是中，col时是中） | baseline项目基线（row时是底，col时是右） |
+
+
+
 ## Grid 网格排版 <Badge type="danger" text="nvue不支持" vertical="middle" />
 顾名思义，即像表格一样排列，一行几列，超过了指定列数断行到下一行。
 | grid |

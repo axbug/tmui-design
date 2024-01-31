@@ -335,6 +335,13 @@ const props = defineProps({
 	label: {
 		type: String,
 		default: '提示内容'
+	},
+	/**
+	 * 默认是否显示。
+	 */
+	defaultShow:{
+		type:Boolean,
+		default:false
 	}
 })
 const sysinfo = inject(
@@ -381,22 +388,25 @@ const tarnslateName = computed(() => {
 	return 'down'
 })
 function nvueDomPos() {
-	// #ifdef APP-PLUS-NVUE
+	
 	try {
 		nextTick(function () {
 			dom.getComponentRect(proxy?.$refs.popver, function (res) {
 				domNvuePosCss.value = { ...res.size }
+				show.value = props.defaultShow;
+				dom.getComponentRect(proxy?.$refs.content, function (res) {
+					if (res?.size) {
+						domNvueContentCss.value = { ...res.size }
+					}
+				})
+				
 			})
-			dom.getComponentRect(proxy?.$refs.content, function (res) {
-				if (res?.size) {
-					domNvueContentCss.value = { ...res.size }
-				}
-			})
+
 		})
 	} catch (e) {
 		//TODO handle the exception
 	}
-	// #endif
+	
 }
 onUpdated(() => {
 	// #ifdef APP-PLUS-NVUE
@@ -405,7 +415,14 @@ onUpdated(() => {
 	}
 	// #endif
 })
-onMounted(() => nvueDomPos())
+onMounted(() => {
+	// #ifdef APP-PLUS-NVUE
+	nvueDomPos()
+	// #endif
+	// #ifndef APP-PLUS-NVUE
+	show.value = props.defaultShow;
+	// #endif
+})
 watch(
 	() => show.value,
 	() => {

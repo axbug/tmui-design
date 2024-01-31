@@ -47,6 +47,7 @@ Row组件含有公共属性 [公共属性](/spec/组件公共样式.html),必须
 | column | Number | 12 | 列 |
 | justify | String | start | 可选值：start/center/end/around/between |
 | align | String | center| 可选值：start/center/end/stretch |
+| justify | String | center| 可选值：start/center/end/stretch |
 | color | String | white | 颜色 |
 
 ## :seedling: Col组件参数

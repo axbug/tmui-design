@@ -49,7 +49,7 @@ declare module 'vue' {
     TmIndexes: typeof import('./components/tm-indexes/tm-indexes.vue')['default']
     TmIndexesItem: typeof import('./components/tm-indexes-item/tm-indexes-item.vue')['default']
     TmInput: typeof import('./components/tm-input/tm-input.vue')['default']
-    TmKeyboard: typeof import('./components/tm-keyborad/tm-keyboard.vue')['default']
+    TmKeyborad: typeof import('./components/tm-keyborad/tm-keyborad.vue')['default']
     TmMessage: typeof import('./components/tm-message/tm-message.vue')['default']
     TmModal: typeof import('./components/tm-modal/tm-modal.vue')['default']
     TmMore: typeof import('./components/tm-more/tm-more.vue')['default']

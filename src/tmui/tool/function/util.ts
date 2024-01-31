@@ -655,10 +655,10 @@ export function isPasswordOfNumber(s: number | string, len = 6, maxLen = 20) {
  * @param model 0数字和英文，1数字，英文必须包含，不允许有特殊字符，2数字和字母必须包含，可以有特殊字符。
  * @returns Boolean
  */
-export function isPasswordOfOther(s: string | number, len = 6, maxLen = 20, model = 0) {
+export function isPasswordOfOther(s : string | number, len = 6, maxLen = 20, model = 0) {
 	s = String(s);
 	//密码至少包含 数字和英文，长度6-20
-	let reg = /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,20}$/
+	let reg = /(?![a−zA−Z]+)[0-9A-Za-z]{6,20}$/
 	//密码包含 数字,英文,字符中的两种以上，长度6-20
 	if (model === 1) {
 		reg = /^(?![0-9]+$)(?![a-z]+$)(?![A-Z]+$)(?!([^(0-9a-zA-Z)])+$).{6,20}$/
@@ -894,7 +894,7 @@ export function valToRoundStrClass(val:number|number[]){
 	if (val.length == 1) return 'round-'+val
 	if (val.length == 2) return `round-tl-${val[0]} round-tr-${val[1]}`
 	if (val.length == 3) return `round-tl-${val[0]} round-tr-${val[1]} round-br-${val[2]} `
-	if (val.length == 4) return `round-tl-${val[0]} round-tr-${val[1]} round-br-${val[2]}  round-bl-${val[2]}`
+	if (val.length == 4) return `round-tl-${val[0]} round-tr-${val[1]} round-br-${val[2]}  round-bl-${val[3]}`
 
 	return dstr
 	

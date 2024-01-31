@@ -101,6 +101,8 @@
 			v-model:show="showWin3"
 			:beforeClose="beforeClose"
 		></tm-modal>
+		
+		<view style="height:1200px"></view>
 	</tm-app>
 </template>
 <script lang="ts" setup>

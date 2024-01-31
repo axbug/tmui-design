@@ -3,7 +3,7 @@
 		<tm-sheet>
 			<tm-text :font-size="24" _class="text-weight-b" label="基础示例,更多见文档"></tm-text>
 			<tm-divider></tm-divider>
-			<tm-slider color="primary" :width="600" :height="6" :defaultValue="20"></tm-slider>
+			<tm-slider :min="50" color="primary" :width="600" :height="6" :defaultValue="80"></tm-slider>
 			<tm-slider color="red" :width="600" :height="6" :defaultValue="20"></tm-slider>
 			<tm-slider color="white" :width="600" :height="6" :defaultValue="50"></tm-slider>
 		</tm-sheet>

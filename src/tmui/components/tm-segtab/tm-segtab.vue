@@ -244,13 +244,22 @@ async function itemClick(index: number, id: number | string) {
 	getDomRectBound(index)
 	emits('change', _cId.value, toRaw(_list.value[index]))
 	emits('update:modelValue', _cId.value)
+	initPos()
 }
 watch(
-	[_cId, () => props.modelValue, () => props.list],
+	[() => props.list],
 	() => {
 		initPos()
 	},
 	{ deep: true }
+)
+watch(
+	[ () => props.modelValue],
+	() => {
+		if(_cId.value == props.modelValue) return;
+		_cId.value = props.modelValue
+		initPos()
+	}
 )
 onMounted(() => {
 	initPos()

@@ -29,6 +29,7 @@
 			<tm-text :fontSize="24" _class="text-weight-b" label="渐变"></tm-text>
 			<tm-divider></tm-divider>
 			<tm-segtab
+				v-model="activeId"
 				:round="24"
 				:width="636"
 				bgColor="green"
@@ -39,6 +40,7 @@
 				:list="list"
 				defaultValue="2"
 			></tm-segtab>
+			<tm-button label="更改到4" @click="activeId='4'"></tm-button>
 		</tm-sheet>
 	</tm-app>
 </template>
@@ -50,6 +52,7 @@ import tmSheet from '@/tmui/components/tm-sheet/tm-sheet.vue'
 import tmText from '@/tmui/components/tm-text/tm-text.vue'
 import tmSegtab from '@/tmui/components/tm-segtab/tm-segtab.vue'
 import tmDivider from '@/tmui/components/tm-divider/tm-divider.vue'
+import tmButton from '@/tmui/components/tm-button/tm-button.vue'
 const list = ref([
 	{ text: '苹果', id: '1' },
 	{ text: '菠萝菠萝密', id: '2' },
@@ -57,4 +60,5 @@ const list = ref([
 	{ text: '火龙果', id: '4' },
 	{ text: 'tmui', id: '5' }
 ])
+const activeId = ref("2")
 </script>

@@ -59,6 +59,7 @@ import webview from '../components/mobileWebview.vue'
 | touchable | Boolean | false |  |
 | indicatorDots | Boolean | true | 是否显示指示点  |
 | showLoad<Badge type="danger" text="v3.0.77+" vertical="middle" /> | Boolean | true | 是否显示加载动画 |
+| imgModel | String | scaleToFill | 图片缩放模式 |
 
 **list数据格式如下**
 ```ts

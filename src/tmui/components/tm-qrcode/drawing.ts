@@ -123,7 +123,7 @@ function fillStyle(ctx, value, linearDir = "left") {
 	//绘制渐变
 	if (typeof value == 'object' && Array.isArray(value)) {
 		let w2w = parseInt(String(ctx.width / 2))
-		console.log(w2w)
+		
 		var gradient = ctx.createLinearGradient(w2w, 0, w2w, ctx.width);
 		if (linearDir == "left") {
 			gradient = ctx.createLinearGradient(ctx.width, w2w, 0, w2w);
@@ -175,8 +175,12 @@ function drawImage(canvas2d, ctx, opts) {
 		title: "..."
 	})
 	let img = canvas2d.createImage()
-	img.width = opts.width;
-	img.height = opts.height;
+	try{
+		img.width = opts.width;
+		img.height = opts.height;
+	}catch(e){
+		//TODO handle the exception
+	}
 	img.src = opts.src;
 	return new Promise(res => {
 		img.onload = function () {

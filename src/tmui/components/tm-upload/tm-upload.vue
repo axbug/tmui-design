@@ -283,7 +283,7 @@ const _disabledAdd = computed(() => {
 	return props.disabled || _flist.value.length >= props.maxFile
 })
 
-emits('update:modelValue', addSuccess(props.defaultValue))
+// emits('update:modelValue', addSuccess(props.defaultValue))
 _flist.value = [..._uploadObj.filelist]
 
 const _blackValue = uni.$tm.u.deepClone(toRaw(_uploadObj.filelist))

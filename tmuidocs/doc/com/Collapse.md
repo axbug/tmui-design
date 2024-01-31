@@ -31,7 +31,7 @@ import webview from '../components/mobileWebview.vue'
 | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
 
 ## :seedling: 参数
-## Collapse
+## Collapse 参数F
 
 | 参数名 | 类型 | 默认值 | 描述 |
 | :--: | :--: | :--: | :-- |
@@ -43,7 +43,7 @@ import webview from '../components/mobileWebview.vue'
 | openIcon<Badge type="danger" text="v3.0.77+" vertical="middle" /> | String | "tmicon-angle-up" | 打开时的图标 |
 | closeIcon<Badge type="danger" text="v3.0.77+" vertical="middle" /> | String | "tmicon-angle-down" | 关闭时的图标 |
 
-## CollapseItem
+## CollapseItem 参数C
 本组件含有公共属性 [公共属性](/spec/组件公共样式.html)
 | 参数名 | 类型 | 默认值 | 描述 |
 | :--: | :--: | :--: | :-- |
@@ -61,17 +61,17 @@ import webview from '../components/mobileWebview.vue'
 | leftIconSize | Number | 24 | 左边图标大小 |
 
 ## :rose: 事件
-## Collapse
+## Collapse 事件F
 | 事件名 | 参数 | 返回数据 | 描述 |
 | --- | --- | --- | --- |
 | change |  |  |  |
 
-## CollapseItem
+## CollapseItem 事件C
 | 事件名 | 参数 | 返回数据 | 描述 |
 | --- | --- | --- | --- |
 | click |  |  |  |
 
-## :corn: slot插槽
+## :corn: slot插槽F
 CollapseItem含有<br>
 插槽：title 标题插槽<br>
 icon 即标题前图标插槽

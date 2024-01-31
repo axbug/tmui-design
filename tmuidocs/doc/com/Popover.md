@@ -42,6 +42,7 @@ import webview from '../components/mobileWebview.vue'
 | width | Number | 0 | 宽度，单位rpx |
 | position | String | "tc",//tl,tc,tr,bc,bl,br,上左，中，右。下左，中，右。 | 汽泡显示位置 |
 | label | String | "提示内容" | 汽泡显示内容 |
+| defaultShow | boolean | false | 默认是否显示 |
 
 
 ## :rose: 事件

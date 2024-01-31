@@ -357,6 +357,9 @@
 			if (result.length > 0) {
 				item.value.message = result[0].message
 				item.value.isRequiredError = !result[0].validator
+			}else if(tmFormValidateResultList.value.length==0){
+				item.value.message=""
+				item.value.isRequiredError = true
 			}
 		},
 		{ deep: true, immediate: true }

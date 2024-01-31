@@ -156,7 +156,7 @@
 		}
 		return store.tmStore.color ? [] : ['#f5f5f5', '#f5f5f5']
 	})
-	const tmuiVer = 'TMUI 3.1.09'
+	const tmuiVer = 'TMUI 3.1.1'
 
 	const category = [
 		{ url: '../changyong/index', color: 'primary', icon: 'tmicon-layergroup-fill', title: 'index.com.tongyong', label: 'index.com.tongyongSub' },

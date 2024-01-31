@@ -4,11 +4,11 @@ import { setDomDarkOrWhite } from './tool/theme/util';
 import preview, * as util from './tool/function/util';
 import { language, languageByGlobal } from "./tool/lib/language"
 import { share } from "./tool/lib/share"
-import { App, nextTick, ref } from "vue"
+import { App, nextTick} from "vue"
 import PageJsonInit from "../pages.json"
-import { useTmRouterAfter, useTmRouterBefore } from "./tool/router/index"
+import { useTmRouterBefore } from "./tool/router/index"
 import tmuiconfigdefault from "./tool/lib/tmuiconfigDefault"
-import { pagesType, tabBarItemType, tabBarType, beforeRouterOpts, pagesCustomType } from './interface';
+import { pagesType, tabBarType, pagesCustomType } from './interface';
 import * as Pinia from 'pinia';
 let pages: Array<pagesType> = [];
 if (typeof PageJsonInit?.pages == 'undefined') {

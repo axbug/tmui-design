@@ -45,10 +45,11 @@
 				<image
 					:userInteractionEnabled="false"
 					v-if="props.img"
-					:src="props.img"
+					:src="imgLoadError?props.errorImg:props.img"
 					mode="scaleToFill"
 					:style="{ width: imgsize, height: imgsize }"
 					:class="['round-' + props.round]"
+					@error="imgOnError"
 				></image>
 				<tm-icon
 					:color="props.iconColor"
@@ -100,7 +101,7 @@
  * 头像
  * @description 也可以搭配头像组形成头像组合。tm-avatar-group
  */
-import { computed, PropType } from 'vue'
+import { computed, PropType,ref } from 'vue'
 import { custom_props, computedClass, computedStyle } from '../../tool/lib/minxs'
 import tmSheet from '../tm-sheet/tm-sheet.vue'
 import tmText from '../tm-text/tm-text.vue'
@@ -165,6 +166,13 @@ const props = defineProps({
 		type: String,
 		default: ''
 	},
+	/**
+	 * 当img出错时的占位图片
+	 */
+	errorImg:{
+		type:String,
+		default:""
+	},
 	//自动匹配字体大小。
 	fontSize: {
 		type: [Number],
@@ -175,6 +183,7 @@ const props = defineProps({
 		default: 'rpx'
 	}
 })
+const imgLoadError = ref(false)
 /** 数组是左，上，右，下顺序。 */
 const _margin = computed(() => {
 	if (props.margin.length == 1) return [props.margin[0], props.margin[0], props.margin[0], props.margin[0]]
@@ -214,6 +223,11 @@ const triggSize = computed(() => {
 		fontSize: wh * 0.5
 	}
 })
+
+const imgOnError = ()=>{
+	imgLoadError.value = true;
+}
+
 </script>
 
 <style scoped>

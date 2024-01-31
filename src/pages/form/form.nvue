@@ -176,22 +176,22 @@ const pickerlist = ref([
 ])
 
 const show = ref({
-	cale: ['2022-1-4'],
-	caleStr: '2022-1-4',
+	cale: [],
+	caleStr: '',
 	time: '',
 	radio: '', //bonaer
-	pickerIndex: [1],
+	pickerIndex: [],
 	pickerStr: '',
 	checkbox: [],
 	rate: 0,
-	slider: [0, 50],
+	slider: [0, 0],
 	segtab: '',
-	switch: 'hehe',
+	switch: '',
 	upload: [],
 	city: [],
 	cityStr: '',
 	nameuser: {
-		a: '测试'
+		a: ''
 	},
 	testff: [],
 	ha: false

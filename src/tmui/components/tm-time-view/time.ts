@@ -94,12 +94,26 @@ export function getIndexNowbydate(tmArray: timeArrayType, nowtime: dayjs.Dayjs, 
 		[timeDetailType.minute, detail.minute],
 		[timeDetailType.second, detail.second]
 	];
-
-	const idx = intermediate.filter(m => m[1]).map(m => {
-		const type = m[0] as timeDetailType;
-		const index = tmArray[type].findIndex(n => n === d.get(type))
-		return index === -1 ? 0 : index;
-	});
+	
+	const order_str = ['year', 'month', 'date', 'hour', 'minute', 'second'];
+	let order = []
+	for (const key of order_str) {
+		if (detail[key]) {
+		  order.push(key);
+		}
+	}
+	let idx = []
+	
+	for(let i=0;i<order.length;i++){
+		let index = tmArray[order[i]].findIndex(n => n === d.get(order[i]))
+		idx.push(index === -1 ? 0 : index)
+	}
+	
+	// const idx = intermediate.filter(m => m[1]).map(m => {
+	// 	const type = m[0] as timeDetailType;
+	// 	let index = tmArray[type].findIndex(n => n === d.get(type))
+	// 	return index === -1 ? 0 : index;
+	// });
 
 	return [
 		...idx,
@@ -112,8 +126,8 @@ export function getIndexNowbydate(tmArray: timeArrayType, nowtime: dayjs.Dayjs, 
  * @param nowtime
  * @param detail
  */
-export function getNowbyIndex(tmArray: timeArrayType, nowIndex: Array<number>, detail: showDetail) {
-	const intermediate = [
+export function getNowbyIndex(tmArray: timeArrayType, nowIndex: Array<number>, detail: showDetail, start:any,end:any) {
+	let intermediate = [
 		[timeDetailType.year, detail.year],
 		[timeDetailType.month, detail.month],
 		[timeDetailType.day, detail.day],
@@ -121,20 +135,45 @@ export function getNowbyIndex(tmArray: timeArrayType, nowIndex: Array<number>, d
 		[timeDetailType.minute, detail.minute],
 		[timeDetailType.second, detail.second]
 	];
-	function getValue(type: timeDetailType) {
-		const index = intermediate.filter(m => m[1]).findIndex(m => m[0] === type);
-		if (index !== -1) {
-			return tmArray[type][nowIndex[index]];
+	const order_str = ['year', 'month', 'date', 'hour', 'minute', 'second'];
+	let order = []
+	
+	for (const key of order_str) {
+		if (detail[key]) {
+		  order.push({
+			  type:key,
+			  index:nowIndex[order_str.indexOf(key)]
+		  });
 		}
-		return tmArray[type][tmArray[type].length - 1];
 	}
-
-	let year = getValue(timeDetailType.year);
-	let month = getValue(timeDetailType.month);
-	let date = getValue(timeDetailType.day);
-	let hour = getValue(timeDetailType.hour);
-	let minute = getValue(timeDetailType.minute);
-	let second = getValue(timeDetailType.second);
+	
+	for(let i=0;i<order.length;i++){
+		order[i].index = nowIndex[i]
+	}
+	
+	
+	function getValue(type: timeDetailType) {
+		const index = order.findIndex(m => m.type === type);
+		if (index > -1) {
+			return tmArray[type][order[index].index];
+		}
+		return tmArray[type][0];
+	}
+	
+	// function getValue(type: timeDetailType) {
+	// 	const index = intermediate.filter(m => m[1]).findIndex(m => m[0] === type);
+	// 	if (index !== -1) {
+	// 		return tmArray[type][nowIndex[index]];
+	// 	}
+	// 	return tmArray[type][tmArray[type].length - 1];
+	// }
+	let s = DayJs(start)
+	let year = detail.year?getValue(timeDetailType.year):s.year();
+	let month =  detail.month?getValue(timeDetailType.month):s.month();
+	let date = detail.day?getValue(timeDetailType.day):s.date();
+	let hour =  detail.hour?getValue(timeDetailType.hour):s.hour();
+	let minute = detail.minute?getValue(timeDetailType.minute):s.minute();
+	let second = detail.second?getValue(timeDetailType.second):s.second();
 
 	let str = year
 		+ "/" +

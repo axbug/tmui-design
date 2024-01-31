@@ -238,7 +238,7 @@ function confirm() {
 }
 
 const dHeight = computed(() => {
-	let windowBottom = uni.getSystemInfoSync()?.windowBottom | 0 
+	let windowBottom = uni.getSystemInfoSync()?.windowBottom ?? 0 
 	return 490 + sysinfo.bottomSafe + (windowBottom * 2)
 })
 </script>
