@@ -98,12 +98,12 @@ export function getIndexNowbydate(tmArray: timeArrayType, nowtime: dayjs.Dayjs, 
 	const order_str = ['year', 'month', 'date', 'hour', 'minute', 'second'];
 	let order = []
 	for (const key of order_str) {
-		if (detail[key]) {
+		let keys = key == 'date'?'day':key
+		if (detail[keys]) {
 		  order.push(key);
 		}
 	}
 	let idx = []
-	
 	for(let i=0;i<order.length;i++){
 		let index = tmArray[order[i]].findIndex(n => n === d.get(order[i]))
 		idx.push(index === -1 ? 0 : index)
@@ -139,7 +139,8 @@ export function getNowbyIndex(tmArray: timeArrayType, nowIndex: Array<number>, d
 	let order = []
 	
 	for (const key of order_str) {
-		if (detail[key]) {
+		let keys = key == 'date'?'day':key
+		if (detail[keys]) {
 		  order.push({
 			  type:key,
 			  index:nowIndex[order_str.indexOf(key)]
@@ -147,12 +148,14 @@ export function getNowbyIndex(tmArray: timeArrayType, nowIndex: Array<number>, d
 		}
 	}
 	
+	
 	for(let i=0;i<order.length;i++){
 		order[i].index = nowIndex[i]
 	}
 	
 	
 	function getValue(type: timeDetailType) {
+		
 		const index = order.findIndex(m => m.type === type);
 		if (index > -1) {
 			return tmArray[type][order[index].index];

@@ -279,19 +279,15 @@ _col.value = rangeTimeArray(
 function colchange(e: any) {
  
   let changedate = getNowbyIndex(_col.value, e.detail.value, showCol.value, _startTime.value,_endTime.value);
+ 
   let testDate  = checkNowDateisBetween(changedate, _startTime.value,_endTime.value)
   
-
-   
   let testRang = rangeTimeArray(
       testDate,
       _startTime.value,
       _endTime.value,
       showCol.value
     );
-  
-  
- 
   
   _nowtime.value = DayJs(testDate);
   colIndex.value = getIndexNowbydate(testRang, _nowtime.value, showCol.value);
