@@ -12,3 +12,5 @@
 /tmuidocs/doc/.vitepress/dist/
 /dist
 
+/tmuidocs/doc/.vitepress/cache/
+/tmuidocs/doc/.vitepress/cache/deps/_metadata.json

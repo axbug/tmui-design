@@ -15,11 +15,17 @@
       "@/*": ["./src/*"]
     }
   },
+  "files": ["./components.d.ts"],
   "include": [
     "./src/*.vue",
     "./src/**/*.vue",
-    "./src/*.nvue",
-    "./src/**/*.nvue",
+    "./src/uni_modules/tm-ui/**/*.vue",
+    "./src/uni_modules/tm-ui/components/*.vue",
+    "./src/uni_modules/tm-ui/components/**/*.vue",
+    "./src/uni_modules/tm-ui/**/*.ts",
+    "./src/uni_modules/tm-ui/*.ts",
+    "./src/uni_modules/tm-ui/*.d.ts",
+    "./src/uni_modules/tm-ui/**/*.d.ts",
     "./src/*.ts",
     "./src/*.d.ts",
     "./src/**/*.ts"

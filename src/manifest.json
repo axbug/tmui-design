@@ -1,15 +1,22 @@
 {
-    "name": "tmui3.0",
-    "appid": "",
+    "name": "tmui3.2",
+    "appid": "__UNI__F097BC1",
     "description": "tmui3.0新一代组件库，拥抱vue3,pinia,tmui3.0 demo展示应用",
-    "versionName": "3.1.1",
-    "versionCode": "100",
+    "versionName": "3.2.0",
+    "versionCode": 320,
     "transformPx": false,
     "app-plus": {
+        "darkmode": true,
+        "themeLocation": "tmui/theme.json",
         "usingComponents": true,
         "ignoreVersion": true,
         "nvueStyleCompiler": "uni-app",
         "compilerVersion": 3,
+        "safearea": {
+            "bottom": {
+                "offset": "none"
+            }
+        },
         "splashscreen": {
             "alwaysShowBeforeRender": true,
             "waiting": true,
@@ -97,8 +104,10 @@
     },
     "quickapp": {},
     "mp-weixin": {
-        "appid": "",
+        "lazyCodeLoading": "requiredComponents",
+        "mergeVirtualHostAttributes":true,
         "darkmode": false,
+        "appid": "wxa97ca08b1ed46b0a",
         "setting": {
             "urlCheck": false,
             "es6": true,
@@ -108,13 +117,14 @@
         "uniStatistics": {
             "enable": false
         }
+        
     },
     "mp-alipay": {
         "usingComponents": true,
         "uniStatistics": {
             "enable": false
         },
-        "appid": ""
+        "appid": "2019042364306232"
     },
     "mp-baidu": {
         "usingComponents": true,
@@ -140,13 +150,15 @@
     },
     "vueVersion": "3",
     "h5": {
+        "darkmode": false,
+        "themeLocation": "tmui/theme.json",
         "uniStatistics": {
             "enable": false
         },
-        "title": "tmui3.0",
+        "title": "tmui3.2.0",
         "router": {
             "mode": "hash",
-            "base": "/h5/"
+            "base": "/h5by32/"
         },
         "optimization": {
             "treeShaking": {
@@ -181,7 +193,7 @@
             "minified": true,
             "urlCheck": false
         },
-        "appid": ""
+        "appid": "1112154209"
     },
     "quickapp-webview-huawei": {
         "uniStatistics": {

@@ -2,11 +2,24 @@ import { defineConfig } from "vite";
 import uni from "@dcloudio/vite-plugin-uni";
 import vueJsx from "@vitejs/plugin-vue-jsx";
 import { resolve } from "path"
+import Components from "unplugin-vue-components/vite"
 // import Components from 'unplugin-vue-components/vite'
 // https://vitejs.dev/config/
 export default defineConfig({
+	define: {
+		__VUE_I18N_FULL_INSTALL__: true,
+		__VUE_I18N_LEGACY_API__: true,
+		__VUE_I18N_PROD_DEVTOOLS__: false,
+	},
 	build: {
 		target: "es6"
+	},
+	css: {
+		preprocessorOptions: {
+			scss: {
+				api: "modern-compiler" // or 'modern'
+			}
+		}
 	},
 	resolve: {
 		alias: [
@@ -29,6 +42,19 @@ export default defineConfig({
 	},
 	plugins: [
 		uni(),
-		vueJsx()
+		vueJsx(),
+		Components({
+			dts: true,
+			resolvers: [
+				// example of importing Vant
+				(componentName) => {
+					if (componentName.startsWith('tm')) {
+						return { name: componentName.slice(2), from: 'tm' }
+					}
+				},
+			],
+			dirs: ['./src/uni_modules/tm-ui/components'],
+			include: [/\.vue$/, /\.uvue$/]
+		})
 	]
 });
