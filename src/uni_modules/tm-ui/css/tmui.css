@@ -312,43 +312,27 @@
 
 .text-size-xxs {
   font-size: 20rpx; }
-  .text-size-xxs span {
-    font-size: 20rpx; }
 
 .text-size-xs {
   font-size: 22rpx; }
-  .text-size-xs span {
-    font-size: 22rpx; }
 
 .text-size-s {
   font-size: 24rpx; }
-  .text-size-s span {
-    font-size: 24rpx; }
 
 .text-size-m {
   font-size: 28rpx; }
-  .text-size-m span {
-    font-size: 28rpx; }
 
 .text-size-n {
   font-size: 30rpx; }
-  .text-size-n span {
-    font-size: 30rpx; }
 
 .text-size-g {
   font-size: 34rpx; }
-  .text-size-g span {
-    font-size: 34rpx; }
 
 .text-size-lg {
   font-size: 36rpx; }
-  .text-size-lg span {
-    font-size: 36rpx; }
 
 .text-size-xl {
   font-size: 40rpx; }
-  .text-size-xl span {
-    font-size: 40rpx; }
 
 .text-weight-s {
   font-weight: 100; }

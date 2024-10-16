@@ -2,6 +2,8 @@
 import { ref, computed, onMounted, watch, PropType } from 'vue';
 import { useTmConfig } from "../../libs/config";
 import { tmDate, type tmDateTypeTime, createDate } from '../../libs/tmDate';
+import pickerItem from './../tm-picker-view/picker-item.vue';
+
 type PICKER_ITEM_INFO = Record<string, any>
 
 /**
@@ -18,7 +20,7 @@ defineOptions({ name: 'TmPickerDate' });
 const { config } = useTmConfig()
 
 type coverValue = {
-	value: string[][],
+	value: string[],
 	str: string
 }
 type ModelType = "year" | "month" | "day" | "hour" | "minute" | "second";
@@ -143,7 +145,8 @@ const emit = defineEmits([
 ]);
 
 const show = ref(false);
-const nowValue = ref<string[][]>([]);
+const nowValue = ref<string[]>([]);
+const _modelValueIndex = ref<number[]>([])
 const nowValueStr = ref('');
 const startDate = ref(new tmDate().subtraction(1, 'y'));
 const endDate = ref(new tmDate());
@@ -163,6 +166,7 @@ const _getDateType = computed((): tmDateTypeTime => {
 });
 
 
+
 const defaultModelvalue = (newvalue: string, showStr: boolean) => {
 	let isType = _getDateType.value;
 	let selfnowValue = new tmDate(newvalue);
@@ -170,6 +174,7 @@ const defaultModelvalue = (newvalue: string, showStr: boolean) => {
 		selfnowValue = _start_date.value;
 	}
 	if (selfnowValue.isBetweenOf(_end_date.value, '>=', isType)) {
+
 		selfnowValue = _end_date.value;
 	}
 
@@ -177,6 +182,7 @@ const defaultModelvalue = (newvalue: string, showStr: boolean) => {
 	nowValue.value = stp.value;
 	nowValueStr.value = stp.str;
 	dateList.value = getTimeTreeByStartAndEnd(_start_date.value, _end_date.value);
+	_modelValueIndex.value = getIndexsByids(stp.value)
 
 	if (showStr) {
 		/**
@@ -185,6 +191,19 @@ const defaultModelvalue = (newvalue: string, showStr: boolean) => {
 		emit('update:modelStr', formatTimeDate());
 	}
 }
+
+
+const getIndexsByids = (ids: string[]) => {
+	let indexs = [] as number[];
+	for (let i = 0; i < dateList.value.length; i++) {
+		let item = dateList.value[i]
+		let index = item.findIndex(el => parseInt(el.id) == parseInt(ids[i]))
+		indexs.push(Math.max(0, index))
+	}
+	return indexs
+}
+
+
 const getTimeTreeByStartAndEnd = (start: tmDate, end: tmDate): PICKER_ITEM_INFO[][] => {
 	let startCopy = start.getClone();
 	let nowDate = new tmDate(nowValueStr.value)
@@ -356,24 +375,23 @@ const indexToHex = (i: number) => {
 }
 const getRangByDateTime = (d: tmDate) => {
 	let nowRange = [
-		[d.getYear().toString()],
-		[(d.getMonth()).toString()],
-		[d.getDate().toString()],
-		[d.getHours().toString()],
-		[d.getMinutes().toString()],
-		[d.getSeconds().toString()],
-	] as string[][];
+		d.getYear().toString(),
+		(d.getMonth()).toString(),
+		d.getDate().toString(),
+		d.getHours().toString(),
+		d.getMinutes().toString(),
+		d.getSeconds().toString(),
+	] as string[];
 	let nowRangeStr = d.getYear().toString() + "-" + (d.getMonth() + 1).toString()
 		+ "-" + d.getDate().toString()
 		+ " " + d.getHours().toString() + ":"
 		+ d.getMinutes().toString() + ":"
 		+ d.getSeconds().toString();
 	return {
-		value: nowRange as string[][],
+		value: nowRange as string[],
 		str: nowRangeStr
 	} as coverValue;
 }
-
 const getNowTypeLenIndex = () => {
 	let index = 6
 	if (props.type == 'year') {
@@ -411,10 +429,7 @@ const onClose = () => {
 	}
 }
 const cancelResetDataCol = () => {
-	let stp = getRangByDateTime(new tmDate(props.modelValue))
-	nowValue.value = stp.value;
-	nowValueStr.value = stp.str;
-	dateList.value = getTimeTreeByStartAndEnd(_start_date.value, _end_date.value)
+	defaultModelvalue(new tmDate(props.modelValue).format('YYYY/MM/DD HH:mm:ss'), false)
 }
 const onOpen = () => {
 	yanchiDuration.value = true;
@@ -426,27 +441,30 @@ const fillNumber = (n: string) => {
 const stringArValuCoverToString = () => {
 	if (nowValue.value.length != 6) return "";
 
-	let newsday = new tmDate(nowValue.value[0][0] + "-" + (parseInt(nowValue.value[1][0]) + 1).toString() + "-1")
-	let days = parseInt(nowValue.value[2][0])
+	let newsday = new tmDate(nowValue.value[0] + "-" + (parseInt(nowValue.value[1]) + 1).toString() + "-1")
+	let days = parseInt(nowValue.value[2])
 	days = days >= newsday.getMonthCountDay() ? newsday.getMonthCountDay() : days
-	nowValue.value.splice(2, 1, [days.toString()])
+	nowValue.value.splice(2, 1, days.toString())
 
-	return fillNumber(nowValue.value[0][0]) + "-" + fillNumber((parseInt(nowValue.value[1][0]) + 1).toString())
-		+ "-" + fillNumber(nowValue.value[2][0])
-		+ " " + fillNumber(nowValue.value[3][0]) + ":"
-		+ fillNumber(nowValue.value[4][0]) + ":"
-		+ fillNumber(nowValue.value[5][0])
+	return fillNumber(nowValue.value[0]) + "-" + fillNumber((parseInt(nowValue.value[1]) + 1).toString())
+		+ "-" + fillNumber(nowValue.value[2])
+		+ " " + fillNumber(nowValue.value[3]) + ":"
+		+ fillNumber(nowValue.value[4]) + ":"
+		+ fillNumber(nowValue.value[5])
 }
-const mchange = (ids: string[], index: number) => {
-	nowValue.value.splice(index, 1, ids);
-	nowValueStr.value = stringArValuCoverToString();
-	/**
-	 * 滑动变换时触发
-	 * @param {string} date 当前选中时间
-	 */
-	emit('change', nowValueStr.value);
+const change = (ixs: number[]) => {
+	let nowvalstrs = [] as string[]
+	for (let i = 0; i < ixs.length; i++) {
+		let item = dateList.value[i]
+		nowvalstrs.push(item[ixs[i]].title)
+	}
 
-	dateList.value = getTimeTreeByStartAndEnd(_start_date.value, _end_date.value);
+	let str = nowvalstrs.join('/');
+	let stp = getRangByDateTime(new tmDate(str));
+
+	defaultModelvalue(stp.str, false)
+
+	// onConfirm()
 }
 
 const onCancel = () => {
@@ -456,12 +474,12 @@ const onCancel = () => {
 const formatTimeDate = () => {
 	if (nowValue.value.length != 6) return "";
 	let sp = props.format;
-	sp = sp.replace(/YYYY/g, fillNumber(nowValue.value[0][0]))
-	sp = sp.replace(/MM/g, fillNumber((parseInt(nowValue.value[1][0]) + 1).toString()))
-	sp = sp.replace(/DD/g, fillNumber(nowValue.value[2][0]))
-	sp = sp.replace(/hh/g, fillNumber(nowValue.value[3][0]))
-	sp = sp.replace(/mm/g, fillNumber(nowValue.value[4][0]))
-	sp = sp.replace(/ss/g, fillNumber(nowValue.value[5][0]))
+	sp = sp.replace(/YYYY/g, fillNumber(nowValue.value[0]))
+	sp = sp.replace(/MM/g, fillNumber((parseInt(nowValue.value[1]) + 1).toString()))
+	sp = sp.replace(/DD/g, fillNumber(nowValue.value[2]))
+	sp = sp.replace(/hh/g, fillNumber(nowValue.value[3]))
+	sp = sp.replace(/mm/g, fillNumber(nowValue.value[4]))
+	sp = sp.replace(/ss/g, fillNumber(nowValue.value[5]))
 	return sp;
 }
 const onConfirm = () => {
@@ -484,7 +502,8 @@ watch(() => props.modelValue, (newvalue: string) => {
 	if (newvalue == '') return;
 	let isType = _getDateType.value;
 	if (new tmDate(newvalue).isBetweenOf(new tmDate(nowValueStr.value), '=', isType)) return;
-	defaultModelvalue(newvalue, true);
+
+	defaultModelvalue(new tmDate(newvalue).format('YYYY/MM/DD HH:mm:ss'), true);
 });
 
 watch(() => props.modelShow, (newValue: boolean) => {
@@ -496,7 +515,7 @@ onMounted(() => {
 	yanchiDuration.value = _lazyContent.value ? false : true;
 	let nowValue = new tmDate(props.modelValue);
 
-	defaultModelvalue(nowValue.format('YYYY-MM-DD'), props.modelValue != '');
+	defaultModelvalue(nowValue.format('YYYY/MM/DD HH:mm:ss'), props.modelValue != '');
 });
 </script>
 <template>
@@ -509,17 +528,16 @@ onMounted(() => {
 	</view>
 	<tm-drawer @open="onOpen" :widthCoverCenter="true" :disabledScroll="true" :title="title" @close="onClose"
 		@confirm="onConfirm" @cancel="onCancel" :showFooter="true" v-model:show="show" :show-close="true" size="850">
-		<view v-if="yanchiDuration" class="tmPickerDateWrap">
-			<tm-picker-view v-if="show":cellUnits="[cellUnits[index]]" @change="mchange($event as string[], index)"
-				:model-value="nowValue[index]" v-for="(item, index) in dateList" :key="index" style="flex: 1;"
-				:list="item"></tm-picker-view>
+		<view v-if="yanchiDuration&&show" class="tmPickerDateWrap">
+			<picker-item @change-deep="change" :selected-index="_modelValueIndex" :list="dateList"
+				:cell-units="cellUnits.slice(0, dateList.length)"></picker-item>
 		</view>
 		<tm-icon v-if="!yanchiDuration" size="42" color="error" spin name="loader-line"></tm-icon>
 	</tm-drawer>
 </template>
 <style scoped>
 .tmPickerDateWrap {
-	display: flex;
-	flex-direction: row;
+	/* display: flex;
+	flex-direction: row; */
 }
 </style>

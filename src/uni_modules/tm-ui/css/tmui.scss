@@ -181,9 +181,6 @@ $key in (xxs: 20rpx, xs: 22rpx, s: 24rpx, m: 28rpx, n: 30rpx, g: 34rpx, lg: 36rp
 
 	.text-size-#{$name} {
 		font-size: $key;
-		span {
-			font-size: $key;
-		}
 	}
 }
 

@@ -20,9 +20,12 @@ const proxy = getCurrentInstance()?.proxy ?? null;
  */
 defineOptions({ name: 'TmPickerView' });
 const { config } = useTmConfig()
+const wrapTotalWidth = ref(0)
 const nowValue = ref<Array<string | number>>([])
 const _modelValueIndex = ref<Array<number>>([])
+const okNodeInfo = ref(false)
 const tid = ref(0)
+const parentIndex = ref(0)
 const emits = defineEmits([
     /**
      * 选项变化时触发
@@ -54,7 +57,7 @@ const props = defineProps({
      * 当前选中项的id值
      */
     modelValue: {
-        type: Array<string|number>,
+        type: Array as PropType<string[]>,
         default: (): string[] => [] as string[]
     },
     /**
@@ -96,7 +99,6 @@ const props = defineProps({
 
 const _cellUnits = computed(() => props.cellUnits)
 const _list = computed(() => props.list)
-const _nowShowList = ref<Record<string,any>[][]>([])
 const _maxDeep = computed(() => {
     if (_list.value.length == 0) return 0;
     function getdiepWidth(list: TM_PICKER_X_ITEM[]): number {
@@ -105,58 +107,86 @@ const _maxDeep = computed(() => {
         if (node?.children?.length > 0) {
             deepIndex += getdiepWidth(node.children);
         }
+
         return deepIndex;
     }
     return getdiepWidth(_list.value.slice(0));
 })
+const _deepWidth = computed(() => {
+    if (_list.value.length == 0) return 0;
+    if (_list.value.length == 0) return wrapTotalWidth.value;
+    function getdiepWidth(list: TM_PICKER_X_ITEM[]): number {
+        let deepIndex = 1;
+        const node = list[0];
+        if (Array.isArray(node?.children) && node.children.length > 0) {
+            deepIndex += getdiepWidth(node.children);
+        }
 
+        return deepIndex;
+    }
+    return wrapTotalWidth.value / Math.max(1, getdiepWidth(_list.value))
+})
+const setChangeStrvmodel = () => {
+    let listitem = getModelStr()
+    let idvalue = [] as string[]
+    let strs = [] as string[]
+    listitem.forEach((el) => {
+        idvalue.push(el[props.rangKey])
+        strs.push(el[props.rangText])
+    })
 
+    emits('update:modelStr', strs.join(","))
+}
 const oninitFun = () => {
     nowValue.value = props.modelValue.slice(0)
-    let currneinexs = getIndexsByids(nowValue.value).indexs;
-    _modelValueIndex.value =  nowValue.value.length==0||currneinexs.length==0?new Array(_maxDeep.value).fill(0):currneinexs;
-    const {data,strs,ids} = getIdsByindexs(_modelValueIndex.value)
-    _nowShowList.value = data.slice(0)
-    if(nowValue.value.length==0){
-        nowValue.value  = ids.slice(0)
-       nextTick(()=>{
-        emits('update:modelStr', strs.join(","))
-        emits('update:modelValue', ids.slice(0))
-      
-       })
-
-    }
-   
-    
+    _modelValueIndex.value = chuliIndex(getIdeByindex());
+    setChangeStrvmodel()
+    getNodeInfo();
 }
-const change = (ixs: number[]) => {
-    
-    const {ids,data,strs} = getIdsByindexs(ixs)
-    _modelValueIndex.value = getIndexsByids(ids).indexs;
-    _nowShowList.value = data.slice(0)
-    nowValue.value = ids;
-    
+const change = (ids: number[]) => {
+
+    _modelValueIndex.value = ids;
+    let listitem = getModelStr()
+
+    let idvalue = [] as string[]
+    let strs = [] as string[]
+    listitem.forEach((el) => {
+        idvalue.push(el[props.rangKey])
+        strs.push(el[props.rangText])
+    })
+
     /**
      * 等同v-model
      */
-    emits('update:modelValue', ids.slice(0))
+    emits('update:modelValue', idvalue)
+
     emits('update:modelStr', strs.join(","))
+    if (idvalue.join('') == props.modelValue.join('')) return;
+    clearTimeout(tid.value);
+    tid.value = setTimeout(function () {
+        /**
+         * 选项变化时触发
+         * @param {string[]} ids 当前选中项的id
+         */
+        emits('change', idvalue)
 
-    if (strs.join('') == props.modelValue.join('')) return;
-    emits('change', ids.slice(0))
+    }, 30);
 }
+const chuliIndex = (indexs: number[]): number[] => {
+    let ids = indexs.slice(0)
+    let val = nowValue.value.slice(0)
+    for (let i = 0; i < _maxDeep.value; i++) {
+        if (i >= val.length) {
+            ids.push(0)
+        }
+    }
 
-
-// 根据id返回索引
-const getIndexsByids = (ids:Array<string|number>):{indexs:Array<number>,data:TM_PICKER_X_ITEM[][],strs:string[]}=> {
+    return ids;
+}
+const getIdeByindex = (): number[] => {
     let index = 0;
-    let val = ids.slice(0)
+    let val = nowValue.value.slice(0)
     let indexs = [] as number[]
-    let data = [] as TM_PICKER_X_ITEM[][]
-    let strs = [] as string[]
-
-    if(_list.value.length==0||ids.length==0) return {indexs:[],data:[],strs:[]}
-
     function getIndex(nodes: TM_PICKER_X_ITEM[]) {
         if (val.length <= index || val.length == 0) return;
         let id = val[index]
@@ -166,8 +196,6 @@ const getIndexsByids = (ids:Array<string|number>):{indexs:Array<number>,data:TM_
             if (item[props.rangKey] == id) {
                 sindex = i;
                 indexs.push(sindex)
-                data.push(nodes)
-                strs.push(item[props.rangText])
                 if (item?.children?.length > 0) {
                     index += 1
                     getIndex(item.children)
@@ -176,50 +204,42 @@ const getIndexsByids = (ids:Array<string|number>):{indexs:Array<number>,data:TM_
         }
     }
     getIndex(_list.value)
-    return {indexs,data,strs}
+    return indexs;
 }
-//根据索引返回ids
-const getIdsByindexs = (indexs:number[]):{ids:Array<string|number>,data:TM_PICKER_X_ITEM[][],strs:string[]} => {
-    let ids = [] as string[]
-    let data = [] as TM_PICKER_X_ITEM[][]
+const getModelStr = (): TM_PICKER_X_ITEM[] => {
+    let ids = _modelValueIndex.value.slice(0)
     let index = 0;
-    let val = indexs.slice(0)
-    let strs = [] as string[]
-    
-    if(_list.value.length==0||indexs.length==0) return {ids:[],data:[],strs:[]}
-    function getIds(nodes: TM_PICKER_X_ITEM[]) {
-        if (val.length <= index || val.length == 0) return;
-        let currentsIndex = val[index]
-        let id = ''
-        let str = ''
-        let children = [];
-        if(nodes.length-1 >= currentsIndex){
-            id = nodes[currentsIndex][props.rangKey]
-            str = nodes[currentsIndex][props.rangText]
-            children = nodes[currentsIndex]?.children??[]
-        }else{
-            id = nodes[0][props.rangKey]
-            str = nodes[0][props.rangText]
-            children = nodes[0]?.children??[]
-        }
-        ids.push(id)
-        data.push(nodes)
-        strs.push(str)
 
-        if(children.length>0){
+    let selectedList = [] as TM_PICKER_X_ITEM[]
+
+
+
+    function getStr(nodes: TM_PICKER_X_ITEM[]) {
+        if (ids.length <= index || ids.length == 0) return;
+        let idx = ids[index]
+        idx = Math.max(0, Math.min(nodes.length - 1, idx));
+        let item = nodes[idx];
+        selectedList.push(item)
+        if (item?.children?.length > 0) {
             index += 1
-            getIds(children)
+            getStr(item.children)
         }
     }
-    getIds(_list.value)
-    return {ids,data,strs};
+    getStr(_list.value)
+    return selectedList
 }
+const conutChangeEnd = (n: number) => {
 
-const getNowCurrent = ()=>{
-    return  getIdsByindexs(_modelValueIndex.value)
 }
-// 获取相关数据。
-
+const getNodeInfo = () => {
+    uni.createSelectorQuery().in(proxy)
+        .select(".tmPickerView")
+        .boundingClientRect().exec((ret) => {
+            let nodeinfo = ret[0] as UniApp.NodeInfo
+            wrapTotalWidth.value = nodeinfo.width!
+            okNodeInfo.value = true;
+        })
+}
 
 
 onMounted(() => {
@@ -233,22 +253,9 @@ onBeforeUnmount(() => {
 watch(() => props.modelValue, (newValue: Array<string | number>) => {
     if (newValue.join('') == nowValue.value.join('')) return;
     nowValue.value = newValue.slice(0);
-    
-    let defauleindexs =  nowValue.value.length==0?new Array(_maxDeep.value).fill(0):getIndexsByids(nowValue.value).indexs;
-    _modelValueIndex.value = defauleindexs;
-
-    const {data,strs} = getIdsByindexs(_modelValueIndex.value)
-    _nowShowList.value = data.slice(0)
-    emits('update:modelStr', strs.join(","))
-
-
+    _modelValueIndex.value = chuliIndex(getIdeByindex());
+    setChangeStrvmodel()
 }, { deep: true })
-
-watch(() => props.list, (newValue) => {
-    oninitFun()
-}, { deep: true })
-
-defineExpose({getIndexsByids,getIdsByindexs,getNowCurrent,onInit:oninitFun})
 
 </script>
 <script lang="ts">
@@ -263,14 +270,14 @@ export default {
 </script>
 <template>
     <view class="tmPickerView">
-        <picker-item :rangKey="props.rangKey" :rangText="props.rangText" 
-            :font-size="props.fontSize" :cellUnits="_cellUnits" @changeDeep="change"
-            :selectedIndex="_modelValueIndex" :list="_nowShowList"
+        <picker-item :rangKey="props.rangKey" :rangText="props.rangText" @countChange="conutChangeEnd"
+            :font-size="props.fontSize" :cellUnits="_cellUnits" v-if="okNodeInfo" @changeDeep="change"
+            :selectedIndex="_modelValueIndex" :parentIndex="parentIndex" :wrapWight="_deepWidth" :list="_list"
             class="tmPickerViewItem"></picker-item>
     </view>
 </template>
 <style scoped>
 .tmPickerView {
-    
+    display: flex;
 }
 </style>

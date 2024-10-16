@@ -65,7 +65,7 @@
 		 * 间隙
 		 */
 		space: {
-			type: String,
+			type: [String,Number],
 			default: "8"
 		},
 		/**
@@ -238,7 +238,7 @@
 	<view class="tmRate" :style="{opacity:_disabled?0.7:1}">
 		<template v-if="!half">
 			<view :ref="'rate-'+index" v-for="index in _count" :key="index">
-				<tm-icon @click=" onClick(index)" :_style="`marginRight:${index==_count?'0rpx' : _space}`" :size="_size"
+				<tm-icon @click=" onClick(index)" :_style="`margin-right:${index==_count?'0rpx' : _space}`" :size="_size"
 					:color="isSelected(index)?_color:_unColor" :dark-color="isSelected(index)?_color:_unColor"
 					:name="isSelected(index)?icon:unicon"></tm-icon>
 			</view>
@@ -247,7 +247,7 @@
 		<!-- 开启半星 -->
 		<template v-if="half">
 			<view :ref="'rate-'+index" v-for="index in _count" :key="index" style='position:relative'>
-				<tm-icon :_style="`marginRight:${index==_count?'0rpx' : _space};marginLeft:${index==0?'0rpx' : _space}`"
+				<tm-icon :_style="`marginRight:${index==_count?'0rpx' : _space};margin-left:${index==0?'0rpx' : _space}`"
 					:size="_size" :color="isSelected(index)?_color:_unColor"
 					:dark-color="isSelected(index)?_color:_unColor" :name="isSelectedHalf(index)"></tm-icon>
 				<view @click="onClickHalf(index,1)" class="tmRateLeft"></view>
