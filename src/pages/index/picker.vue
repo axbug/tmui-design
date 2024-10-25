@@ -8,7 +8,15 @@
         </tm-sheet>
         <tm-sheet>
 
-            <tm-picker @change="change" v-model="selecteds" v-model:model-str="str" :list="list">
+            <tm-picker :list="list">
+                <tm-button :block="true">打开选项</tm-button>
+            </tm-picker>
+
+        </tm-sheet>
+        <tm-sheet>
+            <tm-text font-size="36" class=" text-weight-b mb-8 d-block">城市选择器</tm-text>
+            <tm-picker @change="change" rang-key="code" rang-text="name" v-model="selecteds" v-model:model-str="str"
+                :list="city">
                 <tm-button :block="true">打开选项</tm-button>
             </tm-picker>
 
@@ -24,6 +32,7 @@
 
 <script lang="ts" setup>
 import { ref } from "vue"
+import city from "@/uni_modules/tm-ui/static/pca-code.json"
 const list = [
     {
         title: '江西',
@@ -78,13 +87,13 @@ const list = [
     },
 
 ];
-const selecteds = ref(['9-1', '132', '1-4'])
+const selecteds = ref(['15', '1504', '150404'])
 const str = ref("")
 const change = (ids: string[]) => {
     console.log(ids)
 }
 const fuzhi = () => {
-    selecteds.value = ['10-13', '36', '61-53']
+    selecteds.value = ['14', '1403', '140311']
 }
 </script>
 

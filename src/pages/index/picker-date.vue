@@ -22,8 +22,13 @@
         </tm-sheet>
 
         <tm-sheet>
+        
             <tm-text font-size="36" class=" text-weight-b mb-8">内嵌日期选择器 xDateView</tm-text>
-            <tm-date-view></tm-date-view>
+            <tm-date-view v-model="nowVal2" start="2022-3-1" end="2024-9-5"></tm-date-view>
+            <tm-sheet :margin="['0', '24', '0', '0']" color="#f5f5f5" dark-color="#333">
+                <tm-text color="#999999">选中的值：{{ nowVal2 }}</tm-text>
+            </tm-sheet>
+            
         </tm-sheet>
 
         <tm-sheet>
@@ -40,6 +45,7 @@
 <script lang="ts" setup>
 import { ref } from 'vue';
 const nowVal = ref("")
+const nowVal2 = ref("")
 const modelValue = ref("")
 </script>
 

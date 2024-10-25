@@ -4,6 +4,7 @@
         @mouseup="touchEnd" @mouseleave="touchEnd" :style="[
             {
                 minWidth: _width,
+                width: _attrs.block ? '100%' : 'auto',
                 height: _attrs.btnIcon ? _width : _height,
                 fontSize: _fontSize,
             },
@@ -11,19 +12,29 @@
         ]">
         <tm-icon v-if="_attrs.loading" name="loader-line" spin :color="buttonStyle.color"></tm-icon>
         <!-- 
-    @slot icon图标
+        @slot icon图标
         -->
         <slot name="icon">
             <tm-icon v-if="!_attrs.loading && _attrs.icon" :name="_attrs.icon" :size="_attrs.iconSize || _fontSize"
                 :color="buttonStyle.color"></tm-icon>
         </slot>
         <!--
-    @slot 默认插槽
-    -->
+        @slot 默认插槽
+        -->
         <slot>
             <text v-if="!_attrs.btnIcon"></text>
         </slot>
-        <button @click="onClick" :open-type="_attrs.openType" class="tmButtonBlock"></button>
+        <button @getphonenumber="getphonenumber" @getuserinfo="getuserinfo" @error="error" @opensetting="opensetting"
+            @launchapp="launchapp" @contact="contact" @chooseavatar="chooseavatar"
+            @agreeprivacyauthorization="agreeprivacyauthorization" @addgroupapp="addgroupapp"
+            @chooseaddress="chooseaddress" @chooseinvoicetitle="chooseinvoicetitle" @subscribe="subscribe"
+            @login="login" @im="im" :appParameter="_attrs.appParameter" :lang="_attrs.lang"
+            :sessionFrom="_attrs.sessionFrom" :sendMessageTitle="_attrs.sendMessageTitle"
+            :sendMessagePath="_attrs.sendMessagePath" :sendMessageImg="_attrs.sendMessageImg"
+            :showMessageCard="_attrs.showMessageCard" :groupId="_attrs.groupId" :guildId="_attrs.groupId"
+            :publicId="_attrs.publicId" :dataImId="_attrs.dataImId" :dataImType="_attrs.dataImType"
+            :dataGoodsId="_attrs.dataGoodsId" :dataOrderId="_attrs.dataOrderId" :dataBizLine="_attrs.dataBizLine"
+            @click="onClick" :open-type="_attrs.openType" class="tmButtonBlock"></button>
     </view>
 </template>
 
@@ -53,7 +64,20 @@ const emits = defineEmits([
      * @property {object} evt 事件参数
      */
     'click',
-
+    'getphonenumber',
+    'getuserinfo',
+    'error',
+    'opensetting',
+    'launchapp',
+    'contact',
+    'chooseavatar',
+    'agreeprivacyauthorization',
+    'addgroupapp',
+    'chooseaddress',
+    'chooseinvoicetitle',
+    'subscribe',
+    'login',
+    'im'
 ])
 const attrs = defineProps({
     /** 
@@ -212,9 +236,69 @@ const attrs = defineProps({
     /**
      * 跳转的地址链接，出现时点击click会跳转以/pages开头。navigator模式跳转
      */
-    url:{
-        type:String,
-        default:""
+    url: {
+        type: String,
+        default: ""
+    },
+    appParameter: {
+        type: String,
+        default: ""
+    },
+    lang: {
+        type: String,
+        default: "en"
+    },
+    sessionFrom: {
+        type: String,
+        default: ""
+    },
+    sendMessageTitle: {
+        type: String,
+        default: ""
+    },
+    sendMessagePath: {
+        type: String,
+        default: ""
+    },
+    sendMessageImg: {
+        type: String,
+        default: ""
+    },
+    showMessageCard: {
+        type: Boolean,
+        default: false
+    },
+    groupId: {
+        type: String,
+        default: ""
+    },
+    guildId: {
+        type: String,
+        default: ""
+    },
+    publicId: {
+        type: String,
+        default: ""
+    },
+    dataImId: {
+        type: String,
+        default: ""
+    },
+    dataImType: {
+        type: String,
+        default: ""
+    },
+    dataGoodsId: {
+        type: String,
+        default: ""
+    },
+    dataOrderId: {
+        type: String,
+        default: ""
+    },
+    dataBizLine: {
+        type: String,
+        default: ""
     }
 })
 type PropsKeyType = keyof typeof attrs;
@@ -267,7 +351,7 @@ const covetButtonSize = (ops: PropsKeyType, s: TM.BUTTON_SIZE, size?: string | n
 const _attrs = computed(() => attrs);
 const _width = computed(() => {
     if (attrs.block) {
-        return '100%'
+        return 'auto'
     }
     return attrs.width === '' ? covetButtonSize('width', attrs.size) : covetUniNumber(attrs.width)
 })
@@ -358,28 +442,43 @@ const buttonStyle = computed(() => {
 
 const onClick = (evt: any) => {
     emits('click', evt);
-    if(_attrs.value.url){
+	if(_attrs.value.disabled||_attrs.value.loading) return;
+    if (_attrs.value.url) {
         uni.navigateTo({
             url: _attrs.value.url,
-            fail(error){
+            fail(error) {
                 console.error(error)
             }
         })
         return;
     }
-    if (attrs.formType == 'submit'||attrs.formType == 'reset') {
+    if (attrs.formType == 'submit' || attrs.formType == 'reset') {
         let parent = findParent(proxy)
         if (parent != null) {
             let ele = parent! as InstanceType<typeof TmForm>
-            if(attrs.formType == 'submit'){
+            if (attrs.formType == 'submit') {
                 ele.submit()
-            }else if(attrs.formType == 'reset'){
+            } else if (attrs.formType == 'reset') {
                 ele.reset()
             }
         }
     }
 
 }
+const getphonenumber = (evt: any) => emits('getphonenumber', evt)
+const getuserinfo = (evt: any) => emits('getuserinfo', evt)
+const error = (evt: any) => emits('error', evt)
+const opensetting = (evt: any) => emits('opensetting', evt)
+const launchapp = (evt: any) => emits('launchapp', evt)
+const contact = (evt: any) => emits('contact', evt)
+const chooseavatar = (evt: any) => emits('chooseavatar', evt)
+const agreeprivacyauthorization = (evt: any) => emits('agreeprivacyauthorization', evt)
+const addgroupapp = (evt: any) => emits('addgroupapp', evt)
+const chooseaddress = (evt: any) => emits('chooseaddress', evt)
+const chooseinvoicetitle = (evt: any) => emits('chooseinvoicetitle', evt)
+const subscribe = (evt: any) => emits('subscribe', evt)
+const login = (evt: any) => emits('login', evt)
+const im = (evt: any) => emits('im', evt)
 
 
 function findParent(parent: any): any {

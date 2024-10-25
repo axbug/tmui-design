@@ -3,8 +3,6 @@ import uni from "@dcloudio/vite-plugin-uni";
 import vueJsx from "@vitejs/plugin-vue-jsx";
 import { resolve } from "path"
 import Components from "unplugin-vue-components/vite"
-// import Components from 'unplugin-vue-components/vite'
-// https://vitejs.dev/config/
 export default defineConfig({
 	define: {
 		__VUE_I18N_FULL_INSTALL__: true,
@@ -17,7 +15,8 @@ export default defineConfig({
 	css: {
 		preprocessorOptions: {
 			scss: {
-				api: "modern-compiler" // or 'modern'
+				api: 'modern-compiler',
+				silenceDeprecations: ['legacy-js-api']
 			}
 		}
 	},

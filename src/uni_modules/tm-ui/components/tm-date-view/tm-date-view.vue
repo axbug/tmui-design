@@ -418,7 +418,7 @@ const change = (ixs: number[]) => {
 	let stp = getRangByDateTime(new tmDate(str));
 
 	defaultModelvalue(stp.str, true)
-
+	
 	onConfirm()
 }
 
@@ -445,6 +445,8 @@ const onConfirm = () => {
 	 * 经格式化后的值。等同v-model:model-str
 	 */
 	emit('update:modelStr', formatTimeDate());
+	
+	emit('change',nowValueStr.value)
 }
 
 
