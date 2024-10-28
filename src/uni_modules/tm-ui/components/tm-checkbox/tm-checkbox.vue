@@ -5,7 +5,7 @@ import { getDefaultColor, getDefaultColorObj, getOutlineColorObj, getTextColorOb
 import { useTmConfig } from "../../libs/config";
 import { onPageScroll } from '@dcloudio/uni-app';
 import tmCheckboxGroup from '../tm-checkbox-group/tm-checkbox-group.vue';
-import tmCheckbox from '.tm-checkbox.vue';
+import tmCheckbox from './tm-checkbox.vue';
 const proxy = getCurrentInstance()?.proxy as InstanceType<typeof tmCheckbox> | null;
 
 /**
@@ -203,10 +203,13 @@ onMounted(() => {
     let t = this;
     isDestroy.value = false;
     nextTick(() => {
-        nowValue.value = props.modelValue;
-        if (nowValue.value !== props.unCheckValue) {
-            pushDataToParent(false);
+        let parent = findParent(proxy)
+        if(!parent){
+            nowValue.value = props.modelValue;
         }
+        // if (nowValue.value !== props.unCheckValue) {
+        //     pushDataToParent(false);
+        // }
     });
 });
 

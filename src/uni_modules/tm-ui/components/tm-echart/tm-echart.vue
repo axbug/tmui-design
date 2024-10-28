@@ -24,7 +24,7 @@ canvasId.value = "tm" + new Date().getTime().toString();
    | --- | --- | --- | --- |
    | ☑️| ☑️ | ☑️ | ☑️ | ☑️ | 1.0.0 |
 */
-defineOptions({ name: 'TmEchart' });
+defineOptions({ name: 'TmF2' });
 const { config } = useTmConfig()
 const emits = defineEmits([
   /**
@@ -177,18 +177,16 @@ async function MpWeix_init(fun: Function) {
       context: true
     })
     .exec((res) => {
-	  let  canvasNode:any = null;
-	  let  ctxvb:any = null;
-	  let  canvas:any = null;
+
       // #ifdef MP-WEIXIN
-      canvasNode = res[0].node
-      ctxvb = canvasNode.getContext('2d')
+      const canvasNode = res[0].node
+      const ctxvb = canvasNode.getContext('2d')
       canvasNode.width = res[0].width * pixelRatio
       canvasNode.height = res[0].height * pixelRatio
       ctxvb.scale(pixelRatio, pixelRatio)
       ctx = ctxvb;
       ctxNode = canvasNode
-      canvas = new WxCanvas(ctx, canvasId.value, true, canvasNode)
+      const canvas = new WxCanvas(ctx, canvasId.value, true, canvasNode)
       echarts.setPlatformAPI({
         // Same with the old setCanvasCreator
         createCanvas() {
@@ -211,13 +209,13 @@ async function MpWeix_init(fun: Function) {
       // #endif
       // #ifdef MP-QQ
 
-      canvasNode = {}
-      ctxvb = res[0].context
+      const canvasNode = {}
+      const ctxvb = res[0].context
       canvasNode.width = res[0].width * pixelRatio
       canvasNode.height = res[0].height * pixelRatio
       ctxvb.scale(pixelRatio, pixelRatio)
       ctx = ctxvb;
-      canvas = new WxCanvas(ctx, canvasId.value, true, canvasNode)
+      const canvas = new WxCanvas(ctx, canvasId.value, true, canvasNode)
       echarts.setPlatformAPI({
         // Same with the old setCanvasCreator
         createCanvas() {

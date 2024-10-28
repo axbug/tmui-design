@@ -7,7 +7,7 @@
             borderRadius: _cardRadius,
             minHeight: _minHeight,
             borderBottom: _allAttr.bottom && !_allAttr.card && !bottomBorderInsert ? `1px solid ${_bottomBorderColor}` : 'none',
-            padding:`0px ${_lrPadding}`
+            padding: `0px ${_lrPadding}`
         }">
 
         <view v-if="_icon != ''" class="tmCellAvatar"
@@ -22,6 +22,7 @@
         </view>
 
         <view class="tmCellWrap" :style="{
+            padding: `${_tbPadding} 0px `,
             borderBottom: _allAttr.bottom && !_allAttr.card && bottomBorderInsert ? `1px solid ${_bottomBorderColor}` : 'none'
         }">
             <view class="center">
@@ -55,8 +56,8 @@
                 @slot 右插槽
                 -->
                 <slot name="right"></slot>
-                <tm-icon v-if="_allAttr.url != '' || _allAttr.link" color="#bfbfbf" size="36"
-                    name="arrow-right-s-line"></tm-icon>
+                <tm-icon v-if="_allAttr.url != '' || _allAttr.link" color="#bfbfbf" size="36" :name="attrs.linkIcon"
+                    _style="paddingLeft:12rpx"></tm-icon>
             </view>
 
         </view>
@@ -238,9 +239,9 @@ const attrs = defineProps({
         type: String,
         default: ""
     },
-    openType:{
-        type:String as PropType<"navigate"|"redirect"|"switchTab"|"reLaunch"|"navigateBack"|"exit">,
-        default:"navigate"
+    openType: {
+        type: String as PropType<"navigate" | "redirect" | "switchTab" | "reLaunch" | "navigateBack" | "exit">,
+        default: "navigate"
     },
     /**
      * 是否是卡片模式
@@ -274,7 +275,18 @@ const attrs = defineProps({
     /**
      * 左右的间隙。
      */
-    lrPadding:{
+    lrPadding: {
+        type: [String, Number],
+        default: "32"
+    },
+    linkIcon: {
+        type: String,
+        default: "arrow-right-s-line"
+    },
+    /**
+     * 上下间隙
+     */
+    tbPadding: {
         type: [String, Number],
         default: "32"
     }
@@ -298,6 +310,7 @@ const _titleColor = computed(() => {
 
 const _leftSize = computed(() => covetUniNumber(attrs.leftSize))
 const _lrPadding = computed(() => covetUniNumber(attrs.lrPadding))
+const _tbPadding = computed(() => covetUniNumber(attrs.tbPadding))
 
 const _avatarRound = computed(() => covetUniNumber(attrs.avatarRound))
 
@@ -376,26 +389,26 @@ const onclick = () => {
      */
     emits("click");
     if (attrs.url != "") {
-        if(attrs.openType == 'navigate'){
+        if (attrs.openType == 'navigate') {
             uni.navigateTo({
                 url: attrs.url
             })
-        }else if(attrs.openType == 'navigateBack'){
+        } else if (attrs.openType == 'navigateBack') {
             uni.navigateBack({})
-        }else if(attrs.openType == 'reLaunch'){
+        } else if (attrs.openType == 'reLaunch') {
             uni.reLaunch({
                 url: attrs.url
             })
-        }else if(attrs.openType == 'redirect'){
+        } else if (attrs.openType == 'redirect') {
             uni.redirectTo({
                 url: attrs.url
             })
-        }else if(attrs.openType == 'switchTab'){
+        } else if (attrs.openType == 'switchTab') {
             uni.switchTab({
                 url: attrs.url
             })
         }
-        
+
     }
 }
 
@@ -403,25 +416,27 @@ const onclick = () => {
 </script>
 <script lang="ts">
 export default {
-  options: {
-    styleIsolation: "apply-shared",
-    virtualHost: true,
-    addGlobalClass: true,
-    multipleSlots: true,
-  },
+    options: {
+        styleIsolation: "apply-shared",
+        virtualHost: true,
+        addGlobalClass: true,
+        multipleSlots: true,
+    },
 };
 </script>
 <style scoped lang="scss">
 .cellHover {
     filter: contrast(90%);
 }
+
 .tmCell {
-  
+
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
 }
+
 .cardInset {
     // padding: 0 32rpx;
 }
@@ -440,7 +455,7 @@ export default {
     justify-content: space-between;
     align-items: center;
     height: 100%;
-    padding: 32rpx 0rpx;
+    // padding: 32rpx 0rpx;
 }
 
 

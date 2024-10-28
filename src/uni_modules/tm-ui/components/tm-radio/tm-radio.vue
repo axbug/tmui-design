@@ -198,11 +198,15 @@ onBeforeUnmount(() => {
 onMounted(() => {
     let t = this;
     isDestroy.value = false;
+    
     nextTick(() => {
-        nowValue.value = props.modelValue;
-        if (nowValue.value !== props.unCheckValue) {
-            pushDataToParent(false);
+        let parent = findParent(proxy)
+        if(!parent){
+            nowValue.value = props.modelValue;
         }
+        // if (nowValue.value !== props.unCheckValue) {
+        //     pushDataToParent(false);
+        // }
     });
 });
 
@@ -239,9 +243,9 @@ function boxClick() {
 
 
 function setSelected(val: string | number | boolean) {
-
     if (props.value === val) {
         nowValue.value = props.value;
+        
     } else {
         nowValue.value = props.unCheckValue;
     }
