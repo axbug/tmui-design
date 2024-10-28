@@ -134,6 +134,13 @@ const props = defineProps({
     labelDirection: {
         type:String as PropType<"left"|"right">,
         default:"left"
+    },
+    /**
+     * 如果不要显示label时设置为false可以隐藏label并把label间隙删除，
+     */
+    showLabel:{
+        type:Boolean,
+        default:true
     }
 });
 
@@ -146,7 +153,7 @@ const _color = computed(() => {
     if (props.color == "") return getDefaultColor(config.color);
     return getDefaultColor(props.color);
 });
-
+const _showLabel = computed(()=>props.showLabel)
 const _unCheckColor = computed(() => {
     if (config.mode == 'dark' && props.darkUnCheckColor != '') {
         return getDefaultColor(props.darkUnCheckColor);
@@ -290,7 +297,7 @@ export default {
             </view>
 
         </view>
-        <view v-if="_label" class="checkboxLabelBox" :class="[!hiddenCheckbox ? 'checkboxLabelBoxLeftSpace' : '']">
+        <view v-if="_showLabel" class="checkboxLabelBox" :class="[!hiddenCheckbox ? 'checkboxLabelBoxLeftSpace' : '']">
             <!-- 
 			 默认文本插槽
 			 @binding {boolean} checked - 是否选中

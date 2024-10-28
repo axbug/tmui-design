@@ -188,6 +188,13 @@
 			{
 				"navigationBarTitleText" : "sticky"
 			}
+		},
+		{
+			"path" : "pages/index/echart",
+			"style" : 
+			{
+				"navigationBarTitleText" : "echart"
+			}
 		}
 	],
 	"globalStyle": {

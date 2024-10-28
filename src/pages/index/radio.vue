@@ -33,7 +33,7 @@
 			<tm-sheet :color="radioValue2 === item.id ? 'primary' : 'white'" v-for="(item, index) in listview"
 				:key="index" :margin="[24, 0]" padding="0" class="flex-1">
 				<tm-radio class="pa-20" :color="radioValue2 === item.id ? 'warn' : 'primary'" :value="item.id">
-					<template v-slot:label="checked">
+					<template v-slot:label="{checked}">
 						<tm-text :color="radioValue2 === item.id ? '#fff' : '#333'">{{ item.text }}</tm-text>
 					</template>
 				</tm-radio>

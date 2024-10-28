@@ -25,6 +25,7 @@ declare module 'vue' {
     TmCollapseItem: typeof import('./src/uni_modules/tm-ui/components/tm-collapse-item/tm-collapse-item.vue')['default']
     TmDateView: typeof import('./src/uni_modules/tm-ui/components/tm-date-view/tm-date-view.vue')['default']
     TmDrawer: typeof import('./src/uni_modules/tm-ui/components/tm-drawer/tm-drawer.vue')['default']
+    TmEchart: typeof import('./src/uni_modules/tm-ui/components/tm-echart/tm-echart.vue')['default']
     TmForm: typeof import('./src/uni_modules/tm-ui/components/tm-form/tm-form.vue')['default']
     TmFormItem: typeof import('./src/uni_modules/tm-ui/components/tm-form-item/tm-form-item.vue')['default']
     TmHtml: typeof import('./src/uni_modules/tm-ui/components/tm-html/tm-html.vue')['default']
