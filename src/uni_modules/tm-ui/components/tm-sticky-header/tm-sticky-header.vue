@@ -14,7 +14,7 @@ import { getDefaultColor, getDefaultColorObj, getOutlineColorObj, getTextColorOb
    | --- | --- | --- | --- |
    | ☑️| ☑️ | ☑️ | ☑️ | ☑️ | 1.0.0 |
 */
-defineOptions({ name: 'TmSwitch' });
+defineOptions({ name: 'tmStickyHeader' });
 const { config } = useTmConfig()
 
 const props = defineProps({
