@@ -36,9 +36,9 @@
         <tm-sheet>
             <tm-text font-size="36" class="text-weight-b mb-16 d-block">输入框样式</tm-text>
             <tm-input left-icon="user-shared-fill" class="mb-16" color="transparent"
-                input-style="border:2px solid rgb(233 233 233);" placeholder="请输入用户名"></tm-input>
+                style="border:2px solid rgb(233 233 233);border-radius: 24rpx;" :focus-highlight="false"  placeholder="请输入用户名"></tm-input>
             <tm-input class="mb-24" left-icon="lock-password-fill" color="transparent" password
-                input-style="border:2px solid rgb(233 233 233);" placeholder="请输入密码"></tm-input>
+                style="border:2px solid rgb(233 233 233);border-radius: 24rpx;" :focus-highlight="false" placeholder="请输入密码"></tm-input>
             <tm-button block icon="check-double-line">提交</tm-button>
         </tm-sheet>
         <tm-sheet>

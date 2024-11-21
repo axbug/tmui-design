@@ -27,7 +27,7 @@
   ></image>
 </template>
 <script setup lang="ts">
-import { computed } from "vue";
+import { computed, PropType } from 'vue'
 import { covetUniNumber } from "../../libs/tool";
 import { useTmConfig } from "../../libs/config";
 import { getDefaultColor } from "../../libs/colors";
@@ -54,11 +54,11 @@ const emits = defineEmits([
 ]);
 const attrs = defineProps({
   _style:{
-    type:String,
+    type:[Object,String] as PropType<CSSStyleDeclaration|string>,
     default:""
   },
   _class:{
-    type:String,
+	type: String,
     default:""
   },
   /**

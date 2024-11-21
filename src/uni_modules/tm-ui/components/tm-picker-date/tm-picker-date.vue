@@ -453,18 +453,19 @@ const stringArValuCoverToString = () => {
 		+ fillNumber(nowValue.value[5])
 }
 const change = (ixs: number[]) => {
-	let nowvalstrs = [] as string[]
+	let nowvalstrs = new Array(6).fill('00')
 	for (let i = 0; i < ixs.length; i++) {
 		let item = dateList.value[i]
-		nowvalstrs.push(item[ixs[i]].title)
+		nowvalstrs[i] = item[ixs[i]].title
 	}
 
-	let str = nowvalstrs.join('/');
-	let stp = getRangByDateTime(new tmDate(str));
+	let value_first = nowvalstrs.slice(0, 3).join('/');
+	let value_last = nowvalstrs.slice(3).join(':');
+	let val = value_first+" "+value_last
+	let stp = getRangByDateTime(new tmDate(val));
 
 	defaultModelvalue(stp.str, false)
 
-	// onConfirm()
 }
 
 const onCancel = () => {

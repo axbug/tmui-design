@@ -310,8 +310,7 @@ export function rgbToHsl(rgb: rgb): hsla {
     var max = Math.max(r, g, b);
     var min = Math.min(r, g, b);
     let h = 60 * (4 + (r - g) / (max - min));
-   let sdy = Math.max(2 - max - min,1)
-   let s=(max - min) / sdy;
+    let s=(max - min) / (2 - max - min);
     let l = (max + min) / 2;
 
     if (max === r) {

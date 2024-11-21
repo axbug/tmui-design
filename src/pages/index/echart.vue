@@ -26,7 +26,7 @@ import { ECharts } from 'echarts';
 import { ref } from 'vue';
 const echart = ref<InstanceType<typeof TmEchart> | null>(null)
 const onInit = (chart: ECharts) => {
-    console.log(chart)
+    
     chart.setOption({
         xAxis: {
             type: 'category',

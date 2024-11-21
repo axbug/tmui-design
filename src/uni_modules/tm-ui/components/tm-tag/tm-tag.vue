@@ -252,7 +252,9 @@ const buttonStyle = computed(() => {
         background: ``,
         color: ``,
         borderRadius: ``,
-        boxShadow: `none`
+        boxShadow: `none`,
+        padding: `none`,
+
     }
     let isDark = config.mode == 'dark';
     let color = attrs.color || config.color;
@@ -311,7 +313,14 @@ const buttonStyle = computed(() => {
 
         style.boxShadow = shadow
     }
-
+    // padding: 0px 10rpx;
+    if(attrs.size === 'xs'||attrs.size === 's'){
+        style.padding = '0 6rpx'
+    }else if(attrs.size == 'm'){
+        style.padding = '0 12rpx'
+    }else{
+        style.padding = '0 20rpx'
+    }
     return style;
 });
 
@@ -339,9 +348,9 @@ export default {
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    gap: 8px;
+    gap: 4px;
     box-sizing: border-box;
-    padding: 0px 12rpx;
+
 
     &.tmTagLoading {
         opacity: 0.5;

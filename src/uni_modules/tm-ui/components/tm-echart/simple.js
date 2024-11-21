@@ -7,6 +7,8 @@ import { install as PieChart } from 'echarts/lib/chart/pie/install.js';
 import { install as GridSimpleComponent } from 'echarts/lib/component/grid/installSimple.js';
 import { install as AriaComponent } from 'echarts/lib/component/aria/install.js';
 import { install as DatasetComponent } from 'echarts/lib/component/dataset/install.js';
+import { install as Tooltip } from 'echarts/lib/component/tooltip/install.js';
+
 use([CanvasRenderer]);
 use([LineChart, BarChart, PieChart]);
-use([GridSimpleComponent, AriaComponent, DatasetComponent]);
+use([GridSimpleComponent, AriaComponent, DatasetComponent,Tooltip]);

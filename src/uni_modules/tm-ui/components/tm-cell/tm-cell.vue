@@ -42,7 +42,7 @@
                         _allAttr.desc }}</tm-text>
                 </slot>
             </view>
-            <view class="tmCellRight">
+            <view class="tmCellRight" :style="{maxWidth: _rightWidth}">
                 <!--
                 @slot 右边文字
                 @binding {string} label 标签内容
@@ -289,6 +289,13 @@ const attrs = defineProps({
     tbPadding: {
         type: [String, Number],
         default: "32"
+    },
+    /**
+     * 右侧最大宽
+     */
+    rightWidth:{
+        type: [String, Number],
+        default: "200"
     }
 })
 
@@ -311,6 +318,7 @@ const _titleColor = computed(() => {
 const _leftSize = computed(() => covetUniNumber(attrs.leftSize))
 const _lrPadding = computed(() => covetUniNumber(attrs.lrPadding))
 const _tbPadding = computed(() => covetUniNumber(attrs.tbPadding))
+const _rightWidth = computed(() => covetUniNumber(attrs.rightWidth))
 
 const _avatarRound = computed(() => covetUniNumber(attrs.avatarRound))
 
@@ -465,6 +473,8 @@ export default {
     display: -webkit-box;
     text-overflow: ellipsis;
     flex: 1;
+    text-wrap: nowrap;
+    white-space: nowrap;
 }
 
 .desc {
@@ -500,6 +510,6 @@ export default {
     text-overflow: ellipsis;
     font-size: 24rpx;
     text-align: right;
-    max-width: 200rpx;
+    
 }
 </style>

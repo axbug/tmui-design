@@ -116,7 +116,7 @@ const props = defineProps({
      */
     fadeShow: {
         type: Boolean,
-        default: true
+        default: false
     },
     /**
      * 图片懒加载

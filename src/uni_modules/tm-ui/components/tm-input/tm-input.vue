@@ -54,6 +54,7 @@
                             textAlign: _attrs.align,
                             padding: `0px ${_inputPadding}`,
                             color: _inputFontColor,
+                            fontSize:_fontSize
                         },
                         _attrs.inputStyle
 
@@ -76,12 +77,13 @@
                             textAlign: _attrs.align,
                             padding: `${_inputPadding}`,
                             color: _inputFontColor,
+                            fontSize:_fontSize
+
                         },
                         _attrs.autoHeight ? { minHeight: _attrs.autoHeight } : { height: _minHeight },
                         _attrs.inputStyle
-                        ]">
-
-                    </textarea>
+                        ]"
+					/>
                 <!-- <view class="tmInputPlaceholder" :class="[showPlaceholder&&!isFocus?'tmInputPlaceholderOn':'tmInputPlaceholderOff',_attrs.placeholderClass]" :style="[
                     {
                         textAlign: _attrs.align,

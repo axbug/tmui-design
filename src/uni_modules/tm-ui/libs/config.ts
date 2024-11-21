@@ -34,7 +34,9 @@ export const useTmConfig = defineStore('tmConfig', {
 
                 modalRadius: 32,
                 drawerRadius:32,
-                animation: 'cubic-bezier(.42,.38,.15,.93)'
+                animation: 'cubic-bezier(.42,.38,.15,.93)',
+				
+				backgroundColorContentDark:"#000000"
 
             } as TM.THEME_CONFIG
         }

@@ -62,7 +62,6 @@ onBeforeUnmount(() => {
 onMounted(() => {
     checkvaluelist.value = props.modelValue;
     isDestroy.value = false;
-   
 });
 
 function addItem(item: string | number | boolean, ischange: boolean) {

@@ -234,11 +234,23 @@ const attrs = defineProps({
         default: ""
     },
     /**
-     * 跳转的地址链接，出现时点击click会跳转以/pages开头。navigator模式跳转
+     * 禁止hover效果，点按没有hover效果，有时可能不需要。
+     */
+    disableHover:{
+        type:Boolean,
+        default:false
+    },
+    /**
+     * 跳转的地址链接，出现时点击click会跳转以/pages开头。
      */
     url: {
         type: String,
         default: ""
+    },
+	/** url跳转模式 */
+    navigatorMode: {
+        type: String as PropType<"navigateTo"|"reLaunch"|"redirectTo"|"switchTab"|"navigateBack">,
+        default: "navigateTo"
     },
     appParameter: {
         type: String,
@@ -367,6 +379,9 @@ const touchEnd = () => {
     isHover.value = false;
 }
 const buttonStyle = computed(() => {
+    if(attrs.disableHover){
+        isHover.value = false;
+    }
     let style = {
         borderColor: ``,
         borderWidth: ``,
@@ -444,8 +459,10 @@ const onClick = (evt: any) => {
     emits('click', evt);
 	if(_attrs.value.disabled||_attrs.value.loading) return;
     if (_attrs.value.url) {
-        uni.navigateTo({
+        // @ts-expect-error
+        uni[_attrs.value.navigatorMode]({
             url: _attrs.value.url,
+            // @ts-expect-error
             fail(error) {
                 console.error(error)
             }

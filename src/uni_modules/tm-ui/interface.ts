@@ -72,6 +72,8 @@ declare global {
 
 			/**部分组件统一的动画差值。 */
 			animation: string,
+			
+			backgroundColorContentDark:string,
 		}
 		export type tmDateDayInfoType = {
 			/** 年 */

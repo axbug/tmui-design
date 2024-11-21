@@ -3,7 +3,7 @@ import { ref, computed, onMounted, onBeforeUnmount, watch, PropType, getCurrentI
 import { arrayNumberValid, arrayNumberValidByStyleMP, covetUniNumber, arrayNumberValidByStyleBorderColor, linearValid, getUnit, getUid } from "../../libs/tool";
 import { getDefaultColor, getDefaultColorObj, getOutlineColorObj, getTextColorObj, getThinColorObj } from "../../libs/colors";
 import { useTmConfig } from "../../libs/config";
-import { onPageScroll } from '@dcloudio/uni-app';
+import {onLoad, onPageScroll} from '@dcloudio/uni-app';
 
 /**
  * @displayName 抽屉
@@ -331,28 +331,37 @@ const __height = computed(() => {
 })
 const _titleFontSize = computed(() => (config.fontSizeScale * 16).toString() + 'px')
 const _isDark = computed(() => config.mode == 'dark')
+const setDomHeight = ()=>{
+    let sys = uni.getWindowInfo()
+    // #ifdef WEB
+    _width.value = sys.windowWidth
+    _height.value = sys.windowHeight
 
+    windtop.value = sys.windowTop + (_position.value=='bottom'?0:_offset.value)
+    windtopReal.value = _position.value=='bottom'?(sys.windowTop +_offset.value):sys.windowTop
+    // #endif
+    // #ifdef APP
+    _width.value = sys.windowWidth
+    _height.value = sys.windowHeight
+    windtop.value = _offset.value
+    // #endif
+    safeFooterHeight.value = sys.safeAreaInsets.bottom == 0 ? 16 : sys.safeAreaInsets.bottom
+}
 // Lifecycle hooks
 onMounted(() => {
 	lezyShowModal.value = props.lazy ? false : true
-	let sys = uni.getWindowInfo()
-	// #ifdef WEB
-	_width.value = sys.windowWidth
-	_height.value = sys.windowHeight
-	
-	windtop.value = sys.windowTop + (_position.value=='bottom'?0:_offset.value)
-	windtopReal.value = _position.value=='bottom'?(sys.windowTop +_offset.value):sys.windowTop
-	// #endif
-	// #ifdef APP
-	_width.value = sys.windowWidth
-	_height.value = sys.windowHeight
-	windtop.value = _offset.value
-	// #endif
-	safeFooterHeight.value = sys.safeAreaInsets.bottom == 0 ? 16 : sys.safeAreaInsets.bottom
+    setDomHeight()
 	if (props.show) {
 		showAlert()
 	}
 })
+
+
+onLoad(()=>{
+    setDomHeight()
+})
+
+
 
 onBeforeUnmount(() => {
 	clearTimeout(tid.value)

@@ -2,7 +2,7 @@
 import { ref, computed, onMounted, watch, PropType } from 'vue';
 const data2 = ref(['待配送', '售后中', { id: 'tmui', title: '待收款', dot: 'hot' }])
 const data3 = ref(['待配送', { id: 'tmui', title: '待收款', dot: 22 }, '售后中'])
-const data = ref(['全部', { id: 'tmui', title: '待收款', dot: 'hot' }, '待配送', '售后中', { title: '已退款', dot: 3 }, '待配送', '售后中', '已退款'])
+const data = ref(['全部',{title:'禁用项',disabled:true}, { id: 'tmui', title: '待收款', dot: 'hot' }, '待配送', '售后中', { title: '已退款', dot: 3 }, '待配送', '售后中', '已退款'])
 
 </script>
 <template>

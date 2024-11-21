@@ -2,7 +2,7 @@
     <view class="tmUploadPhoto">
 
         <view class="tmUploadPhotoItem " v-if="_selectedCount&&props.addPos=='before'" @click="choose"
-            :style="{ width: `calc(${_width} - 10rpx)`, height: _height }">
+            :style="{ width: `calc(${_width} - ${_coloumn==1?0:guuterSpace}px)`, height: _height }">
             <!-- 
             @slot 上传按钮插槽
             -->
@@ -13,7 +13,7 @@
             </slot>
         </view>
 
-        <view class="tmUploadPhotoItem" :style="{ width: `calc(${_width} - 10rpx)`, height: _height,borderRadius:_round }"
+        <view class="tmUploadPhotoItem" :style="{ width: `calc(${_width} - ${_coloumn==1?0:guuterSpace}px)`, height: _height,borderRadius:_round }"
             v-for="(item, index) in list" :key="index">
             <image @click="imagePreve(index)" :src="item.path" :mode="props.mode"
                 style="width: 100%;height: 100%;border-radius: 10rpx;"></image>
@@ -26,7 +26,7 @@
             </view>
         </view>
         <view class="tmUploadPhotoItem "  v-if="_selectedCount&&props.addPos=='after'"  @click="choose"
-            :style="{ width: `calc(${_width} - 10rpx)`, height: _height }">
+            :style="{ width: `calc(${_width} - ${_coloumn==1?0:guuterSpace}px)`, height: _height }">
             <!-- 
             @slot 上传按钮插槽
             -->
@@ -80,6 +80,7 @@ const STATUS_COLOR = new Map<TMUPLOAD_PHOTO_STATUS, string>([
     [4, '#F2F2F2'],
     [5, '#ffa61e']
 ])
+const guuterSpace = uni.upx2px(10)
 const emit = defineEmits([
     /**
      * 每次全部上传完时触发

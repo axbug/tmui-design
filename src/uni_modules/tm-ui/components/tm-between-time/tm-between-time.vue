@@ -192,7 +192,7 @@ const _activeBorderColor = computed(() => getDefaultColor(config.color))
 const _placeStyle = computed(() => config.mode === 'dark' ? "color:#c7c7c7;" : "color:#838383;")
 const _fontColor = computed(() => config.mode === 'dark' ? "#efefef" : "#333")
 const _isDark = computed(() => config.mode === 'dark')
-
+let tid = 34
 watch(() => props.modelValue, (newvalue: string[]) => {
     let sortvalue = sorDateVaild(validTimeDate(newvalue))
     let newvaluestr = sortvalue.join('')
@@ -235,24 +235,28 @@ function tongbuModelStr() {
 }
 
 function dateChangeView(datestr: string) {
-    let nowvalu = nowValue.value.slice(0)
-    nowvalu[changeIndex.value] = datestr
-    let strStart = nowvalu[0]
-    let strEnd = nowvalu[1]
-    let types = getTypes()
-    if (strEnd !== '' && strStart !== '') {
-        if (changeIndex.value === 0) {
-            if (new tmDate(strStart).isBetweenOf(new tmDate(strEnd), '>', types)) {
-                strEnd = strStart
-            }
-        } else if (changeIndex.value === 1) {
-            if (new tmDate(strEnd).isBetweenOf(new tmDate(strStart), '<', types)) {
-                strStart = strEnd
-            }
-        }
-    }
-
-    nowValue.value = [strStart, strEnd]
+	clearTimeout(tid)
+	
+    tid = setTimeout(function() {
+    	let nowvalu = nowValue.value.slice(0)
+    	nowvalu[changeIndex.value] = datestr
+    	let strStart = nowvalu[0]
+    	let strEnd = nowvalu[1]
+    	let types = getTypes()
+    	if (strEnd !== '' && strStart !== '') {
+    	    if (changeIndex.value === 0) {
+    	        if (new tmDate(strStart).isBetweenOf(new tmDate(strEnd), '>', types)) {
+    	            strEnd = strStart
+    	        }
+    	    } else if (changeIndex.value === 1) {
+    	        if (new tmDate(strEnd).isBetweenOf(new tmDate(strStart), '<', types)) {
+    	            strStart = strEnd
+    	        }
+    	    }
+    	}
+    	
+    	nowValue.value = [strStart, strEnd]
+    }, 50);
 }
 
 function tagsClick(item: coverValue) {
@@ -295,8 +299,8 @@ function getQuickDateType(): coverValue[] {
             typelist.push({ value: [end, start], str: '最近' + item + '天' } as coverValue)
         } else {
             let date = new tmDate()
-            let startFDate = "YYYY/DD/MM 00:00:00"
-            let endFDate = "YYYY/DD/MM 23:59:59"
+            let startFDate = "YYYY/MM/DD 00:00:00"
+            let endFDate = "YYYY/MM/DD 23:59:59"
             let start = date.format(startFDate)
             let end = date.format(endFDate)
             let desc = "本日"

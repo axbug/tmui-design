@@ -19,6 +19,15 @@ canvasId.value = "tm" + new Date().getTime().toString();
 * @exportName tm-echart
 * @category 展示组件
 * @description 可以通过onInt或者ref函数getChart取得ECharts对象自行处理和设置数据,这个组件使用会超过530kb+大小,请小心你的包大小限制,超过大小哦.
+* 使用时请注意找到图表目录：node_modules/echarts/lib/core/echarts.js,
+  把原来的：
+  defaultRenderer = root.__ECHARTS__DEFAULT__RENDERER__ || defaultRenderer;
+  defaultCoarsePointer = retrieve2(root.__ECHARTS__DEFAULT__COARSE_POINTER, defaultCoarsePointer);
+  var devUseDirtyRect = root.__ECHARTS__DEFAULT__USE_DIRTY_RECT__;
+  改成如下：
+  defaultRenderer = root?.__ECHARTS__DEFAULT__RENDERER__ ?? defaultRenderer;
+  defaultCoarsePointer = retrieve2(root?.__ECHARTS__DEFAULT__COARSE_POINTER, defaultCoarsePointer);
+  var devUseDirtyRect = root?.__ECHARTS__DEFAULT__USE_DIRTY_RECT__??null;
 * @constant 平台兼容
 *	| H5 | uniAPP | 小程序 | version |
    | --- | --- | --- | --- |
@@ -60,29 +69,28 @@ const _height = computed(() => covetUniNumber(props.height, config.unit))
 let ctx: UniApp.CanvasContext;
 let ctxNode: any;
 let chart: echarts.ECharts | null = null
-const pixelRatio = uni.getSystemInfoSync().pixelRatio
+const pixelRatio = uni.getWindowInfo().pixelRatio
 const is2d = ref(false)
 // #ifdef MP-WEIXIN || MP-ALIPAY || MP-QQ
 is2d.value = true
 // #endif
 const isPc = ref(false)
 
-isPc.value = uni.getSystemInfoSync().deviceType == 'pc' ? true : false;
+isPc.value = uni.getWindowInfo().deviceType == 'pc' ? true : false;
 
 onMounted(() => {
   nextTick(() => {
     if (is2d.value) {
       setTimeout(() => MpWeix_init(), 100)
     } else {
-      // #ifndef APP-PLUS-NVUE
-      setTimeout(() => appvueH5Other(), 50)
-      // #endif
+       setTimeout(() => appvueH5Other(), 50)
     }
   })
 
 })
 //appvue,h5,和其它平台。
 async function appvueH5Other(fun: Function) {
+	
   const { width, height } = await getDomSize()
   echarts.registerPreprocessor((option: any) => {
     if (option && option.series) {
@@ -99,16 +107,28 @@ async function appvueH5Other(fun: Function) {
 
   if (!isPc.value) {
     const canvas: any = new WxCanvas(ctx, canvasId.value, false, false)
+	
     echarts.setPlatformAPI({ createCanvas: () => canvas });
-    chart = echarts.init(canvas, "", {
-      width: width,
-      height: height,
-    });
+	
+    try{
+    	chart = echarts.init(canvas, "", {
+    	  width: width,
+    	  height: height,
+    	});
+    }catch(e){
+    	console.log(e)
+    }
+	
+	chart.on('click', (e) => {
+	  emits('click', e)
+	})
+	
     canvas.setChart(chart);
   } else {
     const canvasNode: HTMLCanvasElement | undefined = document.querySelector('#' + canvasId.value)?.getElementsByTagName("canvas")[0];
     document.querySelector('#' + canvasId.value)?.removeChild(document.querySelector('#' + canvasId.value)?.getElementsByTagName("div")[0])
     ctx = canvasNode?.getContext("2d")
+	
     const canvas: any = new WxCanvas(ctx, canvasId.value, false, false)
     chart = echarts.init(canvasNode);
     chart.on('click', (e) => {
@@ -177,16 +197,19 @@ async function MpWeix_init(fun: Function) {
       context: true
     })
     .exec((res) => {
-
+	
+      let canvasNode = {} as any;
+      let ctxvb = {} as any;
+      let canvas = {} as any;
       // #ifdef MP-WEIXIN
-      const canvasNode = res[0].node
-      const ctxvb = canvasNode.getContext('2d')
+		 canvasNode = res[0].node;
+		 ctxvb = canvasNode.getContext('2d')
       canvasNode.width = res[0].width * pixelRatio
       canvasNode.height = res[0].height * pixelRatio
       ctxvb.scale(pixelRatio, pixelRatio)
       ctx = ctxvb;
       ctxNode = canvasNode
-      const canvas = new WxCanvas(ctx, canvasId.value, true, canvasNode)
+      canvas = new WxCanvas(ctx, canvasId.value, true, canvasNode)
       echarts.setPlatformAPI({
         // Same with the old setCanvasCreator
         createCanvas() {
@@ -208,14 +231,12 @@ async function MpWeix_init(fun: Function) {
 
       // #endif
       // #ifdef MP-QQ
-
-      const canvasNode = {}
-      const ctxvb = res[0].context
+      ctxvb = res[0].context
       canvasNode.width = res[0].width * pixelRatio
       canvasNode.height = res[0].height * pixelRatio
       ctxvb.scale(pixelRatio, pixelRatio)
       ctx = ctxvb;
-      const canvas = new WxCanvas(ctx, canvasId.value, true, canvasNode)
+      canvas = new WxCanvas(ctx, canvasId.value, true, canvasNode)
       echarts.setPlatformAPI({
         // Same with the old setCanvasCreator
         createCanvas() {
