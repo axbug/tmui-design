@@ -247,7 +247,7 @@ export default {
                 <slot></slot>
             </view>
         </view>
-        <view :style="{height:_isActive?'20rpx':'0px'}"</view>
+        <view :style="{height:_isActive?'20rpx':'0px'}"></view>
         <view v-if="showBottomLine" :style="{height:'1px',background:_bottomColor}"></view>
     </view>
 </template>
