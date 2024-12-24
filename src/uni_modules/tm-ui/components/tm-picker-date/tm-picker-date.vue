@@ -114,6 +114,10 @@ const props = defineProps({
 	lazyContent: {
 		type: Boolean,
 		default: false
+	},
+	showClose:{
+		type:Boolean,
+		default:false
 	}
 });
 
@@ -528,7 +532,7 @@ onMounted(() => {
 		<slot></slot>
 	</view>
 	<tm-drawer @open="onOpen" :widthCoverCenter="true" :disabledScroll="true" :title="title" @close="onClose"
-		@confirm="onConfirm" @cancel="onCancel" :showFooter="true" v-model:show="show" :show-close="true" size="850">
+		@confirm="onConfirm" @cancel="onCancel" :showFooter="true" v-model:show="show" :show-close="showClose" size="850">
 		<view v-if="yanchiDuration&&show" class="tmPickerDateWrap">
 			<picker-item @change-deep="change" :selected-index="_modelValueIndex" :list="dateList"
 				:cell-units="cellUnits.slice(0, dateList.length)"></picker-item>

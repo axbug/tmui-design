@@ -132,7 +132,7 @@ export default {
 				<tm-text  font-size="24" class="tmPickerViewUnitText">{{ item }}</tm-text>
 			</view>
 		</view>
-		<picker-view :key="refreshKey" :immediate-change="true" :value="nowCurrentIndex" @change="onChange"
+		<picker-view indicator-class="indicatorClass" :key="refreshKey" :immediate-change="true" :value="nowCurrentIndex" @change="onChange"
 			:style="{ height: '250px', width: '100%' }" :mask-style="`${_maskStyle}`"
 			:indicator-style="`height:50px;border:none;border-radius:10px`">
 			<picker-view-column v-for="(item2, index2) in _list" :key="index2">
@@ -153,9 +153,12 @@ export default {
 	</view>
 </template>
 <style>
-.uni-picker-view-indicator:after,
-.uni-picker-view-indicator:before {
-	border: none;
+.indicatorClass:after,
+.indicatorClass:before {
+	content:'';
+	height: 0px;
+	width: 100%;
+	border-color: transparent;
 }
 
 .tmPickerViewUnit {

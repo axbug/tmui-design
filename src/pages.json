@@ -195,6 +195,27 @@
 			{
 				"navigationBarTitleText" : "echart"
 			}
+		},
+		{
+			"path" : "pages/index/picker-selected",
+			"style" : 
+			{
+				"navigationBarTitleText" : "picker-selected"
+			}
+		},
+		{
+			"path" : "pages/index/slider-menu",
+			"style" : 
+			{
+				"navigationBarTitleText" : "slider-menu"
+			}
+		},
+		{
+			"path" : "pages/index/money",
+			"style" : 
+			{
+				"navigationBarTitleText" : "money"
+			}
 		}
 	],
 	"globalStyle": {

@@ -3,7 +3,7 @@ import { ref, computed, onMounted, onBeforeUnmount, watch, PropType, getCurrentI
 import { arrayNumberValid, arrayNumberValidByStyleMP, covetUniNumber, arrayNumberValidByStyleBorderColor, linearValid, getUnit, getUid } from "../../libs/tool";
 import { getDefaultColor, getDefaultColorObj, getOutlineColorObj, getTextColorObj, getThinColorObj } from "../../libs/colors";
 import { useTmConfig } from "../../libs/config";
-import { onPageScroll } from '@dcloudio/uni-app';
+import { onPageScroll,onReady } from '@dcloudio/uni-app';
 /**
  * @displayName 对话框
  * @exportName tm-modal
@@ -252,7 +252,7 @@ watch(() => props.show, (newVal) => {
     }
 })
 
-onMounted(() => {
+onReady(() => {
     let sys = uni.getWindowInfo()
     // #ifndef APP
     _width.value = sys.windowWidth

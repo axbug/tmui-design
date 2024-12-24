@@ -4,9 +4,9 @@ const defaultValidatorByType = (value: any, rule: TM.FORM_RULE_TYPE) => {
     //但也有可能是string
     if (rule.type == 'number') {
         let val = typeof value == 'string' ? parseFloat(value) : value
-        if (isNaN(value)) return false;
-        if (rule.max == -1) return value >= rule.min
-        return value >= rule.min && value <= rule.max
+        if (isNaN(val)) return false;
+        if (rule.max == -1) return val >= rule.min
+        return val >= rule.min && val <= rule.max
     }
     if (typeof value == 'undefined' || typeof value == null) {
         return false

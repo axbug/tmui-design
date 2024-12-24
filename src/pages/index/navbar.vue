@@ -7,9 +7,9 @@
                 <view class="flex flex-row flex-row-center-start relative flex-1" style="height:100%">
                     <tm-input focus-font-color="#ff5416" :focus-highlight="false" placeholder="搜索吧" icon-color="#ff5416"
                         round="76" v-if="ratio > 0" left-icon="search-2-line" dark-bg-color="white"
-                        :style="{ opacity: ratio, width: (ratio * 400) + 'rpx' }" min-height="72">
+                        :style="{ opacity: ratio, width: (ratio * 400) + 'rpx' }" min-height="64">
                         <template v-slot:rightIcon>
-                            <tm-button color="#ff5416" font-size="28" round="76" class="mr-2" height="68"
+                            <tm-button color="#ff5416" font-size="28" round="76" class="mr-2" height="56"
                                 width="100">搜索</tm-button>
                         </template>
                     </tm-input>

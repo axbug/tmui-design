@@ -14,7 +14,7 @@
         </tm-sheet>
         <tm-sheet>
             <tm-upload-photo v-model="modelvalue2" add-pos="before" :column="3" img-height="200">
-                <tm-sheet  round="10" width="100%" height="100%" class="flex flex-row flex-row-center-center" border-color="primary" border-width="1" margin="0" padding="0">
+                <tm-sheet style="box-sizing: border-box;"  round="10" width="100%" height="100%" class="flex flex-row flex-row-center-center" border-color="primary" border-width="1" margin="0" padding="0">
                     <tm-icon size="64" color="primary" name="inbox-unarchive-fill"></tm-icon>
                 </tm-sheet>
             </tm-upload-photo>
@@ -24,7 +24,7 @@
         </tm-sheet>
         <tm-sheet>
             <tm-upload-photo :column="1" img-height="200" :max-count="1">
-                <tm-sheet round="10" width="100%" height="100%" class="flex flex-row flex-row-center-center" color="#e7f2ff" border-style="dashed" border-color="primary" border-width="1" margin="0" padding="0">
+                <tm-sheet style="box-sizing: border-box;" round="10" width="100%" height="100%" class="flex flex-row flex-row-center-center" color="#e7f2ff" border-style="dashed" border-color="primary" border-width="1" margin="0" padding="0">
                     <tm-icon size="74" color="primary" name="sticky-note-add-line"></tm-icon>
                 </tm-sheet>
             </tm-upload-photo>

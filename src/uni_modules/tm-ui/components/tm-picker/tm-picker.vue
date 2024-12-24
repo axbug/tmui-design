@@ -86,7 +86,11 @@ const props = defineProps({
     rangText: {
         type: String,
         default: "title"
-    }
+    },
+	showClose:{
+		type:Boolean,
+		default:false
+	}
 });
 
 const emit = defineEmits([
@@ -329,9 +333,9 @@ export default {
 		 -->
         <slot></slot>
     </view>
-    <tm-drawer @open="onOpen" :widthCoverCenter="true" :disabledScroll="true" max-height="80%" size="850" :title="title"
+    <tm-drawer :show-close="showClose" @open="onOpen" :widthCoverCenter="true" :disabledScroll="true" max-height="80%" size="850" :title="title"
         @close="onClose" @confirm="onConfirm" @cancel="onCancel" :showFooter="true" v-model:show="show"
-        :show-close="true">
+        >
         <tm-picker-view v-if="show" ref="pickerView" :rangKey="rangKey" :rangText="rangText" :cell-units="_cellUnits"
             @update:modelStr="strChange" @change="mchange" v-model="nowValue" :list="_list"></tm-picker-view>
     </tm-drawer>

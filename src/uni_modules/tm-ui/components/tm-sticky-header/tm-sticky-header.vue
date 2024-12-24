@@ -34,7 +34,7 @@ const _top = computed(() => covetUniNumber(props.top, 'px'))
 const _zIndex = computed(() => props.zIndex)
 
 onMounted(() => {
-    windowTop.value = uni.getSystemInfoSync().windowTop + 'px'
+    windowTop.value = uni.getWindowInfo().windowTop+ 'px'
 })
 </script>
 <script lang="ts">

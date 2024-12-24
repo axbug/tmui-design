@@ -36,6 +36,8 @@
 					
 					<tm-cell url="/pages/index/modal" title="modal"></tm-cell>
 					
+					<tm-cell url="/pages/index/money" title="money"></tm-cell>
+					
 					<tm-cell url="/pages/index/navbar" title="navbar"></tm-cell>
 					
 					<tm-cell url="/pages/index/picker" title="picker"></tm-cell>
@@ -54,6 +56,8 @@
 					
 					<tm-cell url="/pages/index/sheet" title="sheet"></tm-cell>
 					
+					<tm-cell url="/pages/index/slider-menu" title="slider-menu"></tm-cell>
+					
 					<tm-cell url="/pages/index/stepper" title="stepper"></tm-cell>
 					
 					<tm-cell url="/pages/index/sticky" title="sticky"></tm-cell>
@@ -69,7 +73,6 @@
 					<tm-cell url="/pages/index/upload-photo" title="upload-photo"></tm-cell>
 					
 					<tm-cell url="/pages/index/upload-video" title="upload-video"></tm-cell>
-					<tm-cell url="/pages/index/slider-menu" title="slider-menu"></tm-cell>
 					
     </view>
     </template>

@@ -296,7 +296,7 @@ export default {
             width: _size,
             height: _size
         }">
-            <view :class="['checkboxBoxIcon', 'checkboxBoxIcon_' + (nowValue ? 'on' : 'off')]">
+            <view :class="['checkboxBoxIcon', 'checkboxBoxIcon_' + (_isCheck ? 'on' : 'off')]">
                 <tm-icon color="white" :name="icon" :size="iconSize"></tm-icon>
             </view>
 

@@ -155,11 +155,12 @@
 		},
 		emits:['imgtap'],
 		data() {
+			
 			return {
 				ctrl: {},
 				imgs:[],
 				// #ifdef MP-WEIXIN
-				isiOS: uni.getSystemInfoSync().system.includes('iOS')
+				isiOS: uni.getDeviceInfo().platform.includes('iOS')
 				// #endif
 			}
 		},

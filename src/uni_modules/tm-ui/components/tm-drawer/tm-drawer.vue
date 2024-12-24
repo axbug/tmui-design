@@ -3,7 +3,7 @@ import { ref, computed, onMounted, onBeforeUnmount, watch, PropType, getCurrentI
 import { arrayNumberValid, arrayNumberValidByStyleMP, covetUniNumber, arrayNumberValidByStyleBorderColor, linearValid, getUnit, getUid } from "../../libs/tool";
 import { getDefaultColor, getDefaultColorObj, getOutlineColorObj, getTextColorObj, getThinColorObj } from "../../libs/colors";
 import { useTmConfig } from "../../libs/config";
-import {onLoad, onPageScroll} from '@dcloudio/uni-app';
+import {onLoad, onPageScroll,onReady} from '@dcloudio/uni-app';
 
 /**
  * @displayName 抽屉
@@ -347,19 +347,15 @@ const setDomHeight = ()=>{
     // #endif
     safeFooterHeight.value = sys.safeAreaInsets.bottom == 0 ? 16 : sys.safeAreaInsets.bottom
 }
-// Lifecycle hooks
-onMounted(() => {
+
+onReady(()=>{
 	lezyShowModal.value = props.lazy ? false : true
-    setDomHeight()
+	setDomHeight()
 	if (props.show) {
 		showAlert()
 	}
 })
 
-
-onLoad(()=>{
-    setDomHeight()
-})
 
 
 

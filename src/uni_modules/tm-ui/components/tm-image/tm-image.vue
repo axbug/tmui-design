@@ -210,6 +210,7 @@ const _img_box_size = computed(() => {
                 _h = `${props.ratio * parseFloat(us_w)}${getUnit(us_w)}`;
             }
         }
+		_w = us_w
         return { width: _w, height: _h };
     }
 

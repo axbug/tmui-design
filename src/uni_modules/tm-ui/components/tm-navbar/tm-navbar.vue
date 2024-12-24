@@ -3,7 +3,7 @@ import { ref, computed, onMounted, onBeforeUnmount, watch, PropType, getCurrentI
 import { arrayNumberValid, arrayNumberValidByStyleMP, covetUniNumber, arrayNumberValidByStyleBorderColor, linearValid, getUnit, getUid } from "../../libs/tool";
 import { getDefaultColor, getDefaultColorObj, getOutlineColorObj, getTextColorObj, getThinColorObj, isBlackAndWhite, setBgColorLightByDark } from "../../libs/colors";
 import { useTmConfig } from "../../libs/config";
-import { onPageScroll } from '@dcloudio/uni-app';
+import { onPageScroll,onReady } from '@dcloudio/uni-app';
 
 /**
  * @displayName 标题导航
@@ -172,7 +172,7 @@ const props = defineProps({
 })
 
 const statusBarHeight = ref(44)
-const navbarHeight = 50
+const navbarHeight = 44
 const isFiexd = ref(false)
 const fiexRatio = ref(1)
 const _stop = computed(()=>props.scrollTop)
@@ -269,7 +269,10 @@ const _styleMap = computed(() => {
 })
 
 onMounted(() => {
-    let sys = uni.getSystemInfoSync();
+   
+})
+onReady(() => {
+    let sys = uni.getWindowInfo();
     statusBarHeight.value = sys.statusBarHeight || 0
     emits('init', statusBarHeight.value + navbarHeight)
     if (props.staticTransparent) {
@@ -339,7 +342,7 @@ export default {
 						 -->
                         <slot name="title">
                             <text class="xNvbarTtitleOverls"
-                                :style="{ fontSize: _titleFontSize, fontWeight: 'bold', color: isFiexd ? _titleActiveColor : _titleColor }">{{
+                                :style="{ fontSize: _titleFontSize,lineHeight:'1', fontWeight: 'bold', color: isFiexd ? _titleActiveColor : _titleColor }">{{
                                     _title }}</text>
                         </slot>
                     </view>

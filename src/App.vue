@@ -38,4 +38,14 @@ page {
 .myicon-video:before {
   content: "\e61f";
 }
+
+
+/*  #ifndef  WEB  */
+::-webkit-scrollbar {
+	display:none;
+	width:0;
+	height:0;
+	color:transparent;
+}
+/* #endif */
 </style>

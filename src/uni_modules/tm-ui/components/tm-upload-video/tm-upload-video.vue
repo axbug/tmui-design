@@ -16,7 +16,7 @@
         <view class="tmUploadPhotoItem" :style="{ width: `calc(${_width} - ${_coloumn==1?0:guuterSpace}px)`, height: _height,borderRadius:_round }"
             v-for="(item, index) in list" :key="index">
             <video :autoplay="false" :controls="false" @click="imagePreve(index)" :src="item.path" :mode="props.mode"
-                style="width: 100%;height: 100%;border-radius: 10rpx;"></video>
+                style="width: 100%;height: 100%;"></video>
             <view class="tmUploadLabel" :style="{ color: STATUS_COLOR.get(item.status) || 'white' }">{{ item.statusText
                 }}
             </view>
@@ -333,7 +333,7 @@ const covertFileTypeByModelvalue = (files: Array<Record<string, any> | string>) 
             status: status,
             progress: 100,
             statusText: STATUS_TEXT.get(status) || "",
-            response: item
+            response: item?.response??item
         }
     })
     let nowfilesrc = list.value.map(item => item.path)
@@ -507,7 +507,7 @@ export default {
     align-items: center;
     box-sizing: border-box;
     padding: 2px 5rpx;
-    border-radius: 0 0 10rpx 10rpx;
+
     background-color: rgba(6, 8, 15, 0.46);
     color: white;
     font-size: 11px;
@@ -535,6 +535,8 @@ export default {
     align-items: center;
     box-sizing: border-box;
     position: relative;
+    overflow: hidden;
+	box-sizing: border-box;
 }
 
 .tmUploadPhotoItemAdd {
@@ -549,5 +551,6 @@ export default {
     height: 100%;
     border-radius: 10rpx;
     overflow: hidden;
+	box-sizing: border-box;
 }
 </style>

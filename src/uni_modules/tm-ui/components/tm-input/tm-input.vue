@@ -33,16 +33,17 @@
             </slot>
             <view class="tmInputWrapBox"
                 :style="[_attrs.type != 'textarea' ? { height: _minHeight } : { minHeight: _minHeight }]">
+				<!-- :alwaysEmbed="_attrs.alwaysEmbed",:cursor="_attrs.cursor" -->
                 <input v-if="_attrs.type != 'textarea'" @keyboardheightchange="onkeyboardheightchange"
                     @confirm="onconfirm" @focus="onfocus" @blur="onblur" @input="oninput" :value="nowValue"
                     @change="onchange"
                     :password="_attrs.password&&showPasswordEye" :disabled="_attrs.disabled" :maxlength="_attrs.maxlength"
                     :cursorSpacing="_attrs.cursorSpacing" :focus="_attrs.focus" :confirmType="_attrs.confirmType"
-                    :confirmHld="_attrs.confirmHold" :cursor="_attrs.cursor" :type="_attrs.type"
+                    :confirmHld="_attrs.confirmHold"  :type="_attrs.type"
                     :cursorColor="_currorColor" :selectionStart="_attrs.selectionStart"
                     :selectionEnd="_attrs.selectionEnd" :adjustPosition="_attrs.adjustPosition"
                     :autoBlur="_attrs.autoBlur" :ignoreCompositionEvent="_attrs.ignoreCompositionEvent"
-                    :alwaysEmbed="_attrs.alwaysEmbed" :holdKeyboard="_attrs.holdKeyboard"
+                     :holdKeyboard="_attrs.holdKeyboard"
                     :safePasswordCertPath="_attrs.safePasswordCertPath" :safePasswordLength="_attrs.safePasswordLength"
                     :safePasswordTimeStamp="_attrs.safePasswordTimeStamp" :safePasswordNonce="_attrs.safePasswordNonce"
                     :safePasswordSalt="_attrs.safePasswordSalt" :safePasswordCustomHash="_attrs.safePasswordCustomHash"
@@ -436,9 +437,12 @@ const attrs = defineProps({
         type: Boolean,
         default: false
     },
+	/**
+	 * 不可用，容易引起bug
+	 */
     cursor: {
         type: Number,
-        default: 0
+        default: NaN
     },
     /**
      * 光标颜色,默认空值取全局配置
@@ -480,7 +484,7 @@ const attrs = defineProps({
         default: true
     },
     /**
-     * 强制 input 处于同层状态
+     * 强制 input 处于同层状态,不可用，容易引起bug
      */
     alwaysEmbed: {
         type: Boolean,
@@ -650,14 +654,10 @@ const oninput = (evt: Event) => {
         }
     }
 
-    nowValue.value = value;
-
-    nextTick(() => {
-        nowValue.value = pvalue;
-        emits("input", pvalue);
-        emits("update:modelValue", pvalue);
-    })
-    return value
+    nowValue.value = pvalue;
+   emits("input", pvalue);
+   emits("update:modelValue", pvalue);
+    return pvalue
 };
 const onclear = () => {
     nowValue.value = '';
@@ -666,9 +666,11 @@ const onclear = () => {
 }
 const onfocus = () => {
     isFocus.value = true;
+	emits("blur",nowValue.value)
 };
 const onblur = () => {
     isFocus.value = false;
+	emits("blur",nowValue.value)
 };
 const onconfirm = (evt: any) => {
     emits("confirm", evt.detail.value);
@@ -689,7 +691,7 @@ const onchange = (evt:any)=>{
     }
 }
 watchEffect(() => {
-    // if(nowValue.value==attrs.modelValue) return;
+    if(nowValue.value===attrs.modelValue) return;
     nowValue.value = attrs.modelValue;
 });
 </script>
@@ -748,6 +750,8 @@ export default {
 
     .tmInputInput {
         height: 100%;
+		width:100%;
+		box-sizing: border-box;
     }
 
     .tmInputPlaceholder {
