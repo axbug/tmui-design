@@ -197,7 +197,14 @@ const props = defineProps({
 	beforeClose: {
 		type: [Function,Boolean] as PropType<() => Promise<boolean>>,
 		default: true
-	}
+	},
+	/**
+	 * 是否禁用弹层
+	 */
+	disabled: {
+	    type: Boolean,
+	    default: false
+	},
 })
 
 const emit = defineEmits([
@@ -251,6 +258,8 @@ const windtopReal = ref(0)
 const tantiaoTrue = ref(false)
 const safeFooterHeight = ref(0)
 const lezyShowModal = ref(props.lazy ? false : true)
+const _disabled = computed(() => props.disabled)
+const teleportElH5 = ref("#app")
 watch(() => props.show, (newVal) => {
 	if (newVal) {
 		showAlert()
@@ -348,20 +357,21 @@ const setDomHeight = ()=>{
     safeFooterHeight.value = sys.safeAreaInsets.bottom == 0 ? 16 : sys.safeAreaInsets.bottom
 }
 
-onReady(()=>{
-	lezyShowModal.value = props.lazy ? false : true
+
+onMounted(()=>{
 	setDomHeight()
+	uni.$on('onReady',setDomHeight)
+	lezyShowModal.value = props.lazy ? false : true
+	teleportElH5.value = "uni-page"
 	if (props.show) {
 		showAlert()
 	}
 })
 
-
-
-
 onBeforeUnmount(() => {
 	clearTimeout(tid.value)
 	clearTimeout(tid2.value)
+	uni.$off('onReady',setDomHeight)
 })
 
 const cancelEvt = () => {
@@ -440,6 +450,7 @@ const showAlert = () => {
 }
 
 function openDrawer() {
+	if(_disabled.value) return;
 	showAlert();
 }
 
@@ -490,7 +501,7 @@ export default {
 			<slot name="trigger" :show="show"></slot>
 		</view>
 		<!-- #ifdef H5 -->
-		<teleport to="uni-app">
+		<teleport :to="teleportElH5">
 			<!-- #endif -->
 			<!-- #ifdef MP-WEIXIN -->
 			<root-portal>
@@ -577,7 +588,7 @@ export default {
 										}}</tm-button>
 								</view>
 							</slot>
-							<view :style="{ height: safeFooterHeight + 'px' }"></view>
+							<view :style="{ height: (safeFooterHeight||20) + 'px' }"></view>
 						</view>
 					</view>
 

@@ -216,7 +216,44 @@
 			{
 				"navigationBarTitleText" : "money"
 			}
+		},
+		{
+			"path": "pages/index/sku",
+			"style": {
+				"navigationBarTitleText": "sku"
+			}
+		},
+		{
+			"path": "pages/index/tabbar",
+			"style": {
+				"navigationBarTitleText": "tabbar"
+			}
+		},
+		{
+			"path": "pages/index/avatar-group",
+			"style": {
+				"navigationBarTitleText": "avatar-group"
+			}
+		},
+		{
+			"path": "pages/index/skeleton",
+			"style": {
+				"navigationBarTitleText": "skeleton"
+			}
+		},
+		{
+			"path": "pages/index/code-input",
+			"style": {
+				"navigationBarTitleText": "code-input"
+			}
+		},
+		{
+			"path": "pages/index/countdown",
+			"style": {
+				"navigationBarTitleText": "countdown"
+			}
 		}
+		
 	],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",

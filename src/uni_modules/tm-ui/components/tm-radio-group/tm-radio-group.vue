@@ -1,13 +1,10 @@
 <script setup lang="ts">
-import { ref, computed, onMounted, onBeforeUnmount, watch, PropType, getCurrentInstance, ComponentInstance, onUpdated, nextTick, provide } from 'vue';
-import { arrayNumberValid, arrayNumberValidByStyleMP, covetUniNumber, arrayNumber, arrayNumberValidByStyleBorderColor, linearValid, getUnit, getUid } from "../../libs/tool";
-import { getDefaultColor, getDefaultColorObj, getOutlineColorObj, getTextColorObj, getThinColorObj } from "../../libs/colors";
-import { useTmConfig } from "../../libs/config";
-import { onPageScroll } from '@dcloudio/uni-app';
-import tmCheckbox from '../tm-checkbox/tm-checkbox.vue';
+import { computed, onBeforeUnmount, onMounted, PropType, provide, ref, watch } from 'vue'
+import { arrayNumber, getUid } from '../../libs/tool'
+import { useTmConfig } from '../../libs/config'
 
 /**
- * @displayName 多选框组
+ * @displayName 单选框组
  * @exportName tm-radio-group
  * @page tm-radio
  * @category 表单组件

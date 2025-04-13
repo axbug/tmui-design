@@ -36,6 +36,16 @@ const props = defineProps({
 		default: ""
 	},
 	/**
+	 * 是否将format格式化的v-model:modelStr同步到v-model:modelValue
+	 * 默认false,注意：如果开启了同步，你要确保format的值是正常的时间值
+	 * 正常兼容以下时间格式：
+	 * YYYY,YYYY-MM,YYYY-MM-DD,YYYY-MM-DD HH,YYYY-MM-DD HH:mm,YYYY-MM-DD HH:mm:ss
+	 */
+	formatSyncValue:{
+		type:Boolean,
+		default:false
+	},
+	/**
 	 * 当前时间经过format格式化后输出的值。
 	 * 此值不会处理输入，只输出显示。
 	 */
@@ -118,7 +128,14 @@ const props = defineProps({
 	showClose:{
 		type:Boolean,
 		default:false
-	}
+	},
+	/**
+	 * 是否禁用弹层
+	 */
+	disabled: {
+	    type: Boolean,
+	    default: false
+	},
 });
 
 const emit = defineEmits([
@@ -168,7 +185,7 @@ const _getDateType = computed((): tmDateTypeTime => {
 	if (props.type == 'minute') isType = 'M';
 	return isType;
 });
-
+const _disabled = computed(() => props.disabled)
 
 
 const defaultModelvalue = (newvalue: string, showStr: boolean) => {
@@ -413,6 +430,7 @@ const getNowTypeLenIndex = () => {
 }
 
 const openShow = () => {
+	if(_disabled.value) return;
 	show.value = true;
 	/**
 	 * 变量控制打开状态
@@ -492,14 +510,14 @@ const onConfirm = () => {
 	/**
 	 * 点击确认时同步。等同v-model
 	 */
-	emit('update:modelValue', nowValueStr.value);
+	emit('update:modelValue', this.formatSyncValue?formatTimeDate():nowValueStr.value);
 
 	/**
 	 * 经格式化后的值。等同v-model:model-str
 	 */
 	emit('update:modelStr', formatTimeDate());
 
-	emit('confirm', nowValueStr.value);
+	emit('confirm', this.formatSyncValue?formatTimeDate():nowValueStr.value);
 }
 
 

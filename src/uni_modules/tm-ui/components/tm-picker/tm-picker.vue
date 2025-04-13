@@ -90,7 +90,14 @@ const props = defineProps({
 	showClose:{
 		type:Boolean,
 		default:false
-	}
+	},
+	/**
+	 * 是否禁用弹层
+	 */
+	disabled: {
+	    type: Boolean,
+	    default: false
+	},
 });
 
 const emit = defineEmits([
@@ -125,7 +132,7 @@ const show = ref(false);
 const nowValue = ref<Array<string | number>>([]);
 const modelStrValue = ref("");
 const yanchiDuration = ref(false);
-
+const _disabled = computed(() => props.disabled)
 const _list = computed(() => props.list.slice(0));
 const _lazyContent = computed(() => props.lazyContent);
 const _cellUnits = computed(() => props.cellUnits);
@@ -178,6 +185,7 @@ function onSetDefaultStr() {
 }
 
 function openShow() {
+	if(_disabled.value) return;
     show.value = true;
     emit('update:modelShow', true);
 }

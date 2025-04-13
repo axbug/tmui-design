@@ -1,9 +1,8 @@
 <script setup lang="ts">
-import { ref, computed, onMounted, watch, PropType, provide, nextTick } from 'vue';
-import { useTmConfig } from "../../libs/config";
-import { tmDate, type tmDateTypeTime, createDate } from '../../libs/tmDate';
-import { covetUniNumber, getUnit } from '../../libs/tool';
-import { getDefaultColor } from '../../libs/colors';
+import { computed, nextTick, PropType, provide, ref, watch } from 'vue'
+import { useTmConfig } from '../../libs/config'
+import { covetUniNumber, getUnit } from '../../libs/tool'
+import { getDefaultColor } from '../../libs/colors'
 
 /**
  * @displayName 标签导航
@@ -236,7 +235,7 @@ const _showLine = computed(() => props.showLine)
 const _lineFull = computed(() => props.lineFull)
 const _customItemStyle = computed(() => props.customItemStyle)
 const _activeItemStyle = computed(() => props.activeItemStyle)
-
+const tabsleft = ref(0)
 const _fontSize = computed(() => {
 	let fontSize = covetUniNumber(props.fontSize, config.unit);
 	if (config.fontSizeScale == 1) return fontSize;
@@ -363,7 +362,7 @@ const changMovename = (name: string | number) => {
 const tabsOnclick = (item: string | Record<string, any>, index: number) => {
 	if(isDisabled(item)) return;
 	let name = _listIds.value[index];
-	if (name == activeName.value) return;
+	if (name === activeName.value) return;
 	toggleActivate(name, true)
 }
 const isDisabled = (item: string | Record<string, any>):boolean=>{
@@ -396,8 +395,14 @@ export default {
         width: _width
     }
         ">
-		<scroll-view :show-scrollbar="false" enable-flex :scroll-into-view="'tabs_' + moveName" class="tmTabsWrapBox"
-					 :scroll-x="true">
+		<scroll-view
+			:scroll-into-view="'tabs_' + moveName"
+			:scroll-left="tabsleft"
+			:scroll-x="true"
+			:show-scrollbar="false"
+			class="tmTabsWrapBox"
+			enable-flex
+		>
 			<view class="tmTabsWrap" :style="{ justifyContent: _mode }">
 				<view @click="tabsOnclick(item, index)"
 					  class="tmTabsItem"

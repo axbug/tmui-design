@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { ref, computed, onMounted, onBeforeUnmount, watch, PropType, getCurrentInstance, ComponentInstance, onUpdated, nextTick, VueElement, inject, watchEffect } from 'vue';
-import { arrayNumberValid, arrayNumberValidByStyleMP, covetUniNumber, arrayNumberValidByStyleBorderColor, linearValid, getUnit, getUid } from "../../libs/tool";
-import { getDefaultColor, getDefaultColorObj, getOutlineColorObj, getTextColorObj, getThinColorObj, isBlackAndWhite, setBgColorLightByDark } from "../../libs/colors";
-import { useTmConfig } from "../../libs/config";
+import { computed, onMounted, ref, watch } from 'vue'
+import { covetUniNumber, getUnit } from '../../libs/tool'
+import { getDefaultColor } from '../../libs/colors'
+import { useTmConfig } from '../../libs/config'
 
 /**
  * @displayName 步进器
@@ -250,6 +250,7 @@ const getDecimalPlaces = (): number => {
  * 加
  */
 const handleIncrement = () => {
+    if(_disabled.value) return
     const newValue = Math.min(_value.value + _step.value, props.max);
     let val = clampValue(parseFloat(newValue.toFixed(props.decimalLen)));
     setValue(val, true)
@@ -257,6 +258,7 @@ const handleIncrement = () => {
 
 /**减 */
 const handleDecrement = () => {
+    if(_disabled.value) return
     const newValue = Math.max(_value.value - _step.value, props.min);
     let val = clampValue(parseFloat(newValue.toFixed(props.decimalLen)));
     setValue(val, true)
@@ -308,20 +310,22 @@ export default {
 </script>
 <template>
     <view class="xStepper" :style="{ width: _width, borderRadius: _round }">
-        <view :hover-start-time="20" :hover-stay-time="150" :hover-class="addDomDisabeld ? '' : 'xStepperHoverbtn'"
+        <view :hover-start-time="20" :hover-stay-time="150"
+			  :hover-class="surDomDisabeld||_disabled ? '' : 'xStepperHoverbtn'"
             @click="handleDecrement" class="xStepperBtn"
-            :style="{ backgroundColor: _btnColor, height: _height, width: _btnWidth, opacity: surDomDisabeld ? 0.6 : 1, borderRadius: _splitBtn ? '50px' : '0rpx' }">
+            :style="{ backgroundColor: _btnColor, height: _height, width: _btnWidth, opacity: surDomDisabeld||_disabled ? 0.6 : 1, borderRadius: _splitBtn ? '50px' : '0rpx' }">
             <tm-icon _style="pointer-events: none" :color="_btnFontColor" :size="_unFontSize"
                 name="subtract-line"></tm-icon>
         </view>
 
-        <input @blur="inputBlur" @input="handleInputChange" :value="_input_value" class="xStepperInput"
+        <input :disabled="_disabled" @blur="inputBlur" @input="handleInputChange" :value="_input_value" class="xStepperInput"
             :style="{ backgroundColor: _splitBtn ? 'transparent' : _btnColor, height: _height, color: _fontColor, fontSize: _fontSize }"
             :type="decimalLen > 0 ? 'digit' : 'number'" />
-        <view :hover-start-time="20" :hover-stay-time="150" :hover-class="addDomDisabeld ? '' : 'xStepperHoverbtn'"
+		<view :hover-class="addDomDisabeld||_disabled ? '' : 'xStepperHoverbtn'" :hover-start-time="20"
+			  :hover-stay-time="150"
             @click="handleIncrement" class="xStepperBtn"
-            :style="{ backgroundColor: _btnColor, height: _height, width: _btnWidth, borderRadius: _splitBtn ? '50px' : '0rpx' }">
-            <tm-icon :_style="` opacity: ${addDomDisabeld} ? 0.6 : 1,'pointerEvents': 'none'`" :color="_btnFontColor"
+			  :style="{ backgroundColor: _btnColor, height: _height, width: _btnWidth,opacity: addDomDisabeld||_disabled ? 0.6 : 1, borderRadius: _splitBtn ? '50px' : '0rpx' }">
+			<tm-icon :color="_btnFontColor" _style="pointer-events: none"
                 :size="_unFontSize" name="add-line"></tm-icon>
         </view>
 

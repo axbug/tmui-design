@@ -4,8 +4,8 @@ import { arrayNumberValid, arrayNumberValidByStyleMP, covetUniNumber, linearVali
 import { useTmConfig } from "../../libs/config";
 import { getDefaultColor, setTextColorLightByDark, getOutlineColorObj, getTextColorObj, getThinColorObj } from "../../libs/colors";
 
-type xPickerSelectedListyType = {
-    id: any,
+interface xPickerSelectedListyType {
+    id: any;
     title: string
 }
 
@@ -116,7 +116,14 @@ const props = defineProps({
     lazyDuration: {
         type: Number,
         default: 100
-    }
+    },
+	/**
+	 * 是否禁用弹层
+	 */
+	disabled: {
+	    type: Boolean,
+	    default: false
+	},
 })
 
 const emit = defineEmits([
@@ -162,7 +169,7 @@ const tid = ref<number>(100)
 const _lazyContent = computed((): boolean => {
     return props.lazyContent
 })
-
+const _disabled = computed(() => props.disabled)
 const _renderListData = computed((): xPickerSelectedListyType[] => {
     if (searchList.value.length > 0 && props.localSearch) return searchList.value
     return _list.value
@@ -253,6 +260,7 @@ const inputConfirm = () => {
 }
 
 const openShow = () => {
+	if(_disabled.value) return;
     show.value = true
     emit('update:modelShow', true)
     emit('open')

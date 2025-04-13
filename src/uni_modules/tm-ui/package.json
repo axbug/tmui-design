@@ -1,7 +1,7 @@
 {
 	"id": "tm-ui",
 	"displayName": "tmui3.2.0 vue3 typeScript nvue全平台ui组件库 ",
-	"version": "3.2.04",
+	"version": "3.2.05",
 	"description": "tmui3.0 高性能、高颜值、多主题、暗黑模式vue3 ui组件库,没有比它更完美！",
 	"keywords": [
         "ui",

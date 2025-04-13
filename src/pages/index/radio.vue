@@ -1,9 +1,9 @@
 <template>
 	<view>
 		<tm-sheet>
-			<tm-text font-size="32" class=" text-weight-b mb-16 d-block">多选框组</tm-text>
+			<tm-text class=" text-weight-b mb-16 d-block" font-size="32">单选框组</tm-text>
 			<tm-text color="#999999">
-				可单单独使用,也可多选组合使用
+				可单单独使用,也可组合使用
 			</tm-text>
 		</tm-sheet>
 		
@@ -44,7 +44,8 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from "vue"
+import { ref } from 'vue'
+
 const radioValue = ref("")
 const radioValue2 = ref("")
 const listview = ref<Array<Record<string, any>>>([

@@ -1,3 +1,16 @@
+## 3.2.05（2025-04-14）
+* 修复了一些问题
+* tmNavbar属性删除了scrollTop属性,改为内部实现。
+* 修复弹层类modal,drawer类可能在不同平台上的显示的问题。
+* 修改了input组件样式
+* 增加了tmAvatarGroup头像组件
+* 增加了tmSkeleton加载动画组件
+* 修复tm-tabs如果值为空与0时可能无法判断
+* 修复uploadphoto,uploadvideo可能外部无法清空,可能外部造成内部多次上传,可能内外数据污染.
+* 给各个弹层添加了禁用disabled属性
+* tm-echart添加了点击事件，兼容了pc操作
+* tmDate,tmPickerData,tm-between-time现支持非正常格式了如：YYYY,YYYY-MM,YYYY-MM-DD,YYYY-MM-DD HH,YYYY-MM-DD HH:mm,YYYY-MM-DD HH:mm:ss
+同时提供了属性：formatSyncValue用于格式化同步到vmodel中，默认是不同步的，默认它是返回一个标准的时间戳字符串，这样就不需要vmodel:modal-str来绑定，可以直接提交为你需要的字段格式值。
 ## 3.2.04（2024-12-24）
 * 更新优化,修复bug和新增部分组件,
 ## 3.2.03（2024-11-21）

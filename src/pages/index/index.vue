@@ -8,6 +8,8 @@
 			</tm-sheet>
 					<tm-cell url="/pages/index/alert" title="alert"></tm-cell>
 					
+					<tm-cell url="/pages/index/avatar-group" title="avatar-group"></tm-cell>
+					
 					<tm-cell url="/pages/index/badge" title="badge"></tm-cell>
 					
 					<tm-cell url="/pages/index/between-time" title="between-time"></tm-cell>
@@ -18,7 +20,11 @@
 					
 					<tm-cell url="/pages/index/checkbox" title="checkbox"></tm-cell>
 					
+					<tm-cell url="/pages/index/code-input" title="code-input"></tm-cell>
+					
 					<tm-cell url="/pages/index/collapse" title="collapse"></tm-cell>
+					
+					<tm-cell url="/pages/index/countdown" title="countdown"></tm-cell>
 					
 					<tm-cell url="/pages/index/drawer" title="drawer"></tm-cell>
 					
@@ -56,6 +62,10 @@
 					
 					<tm-cell url="/pages/index/sheet" title="sheet"></tm-cell>
 					
+					<tm-cell url="/pages/index/skeleton" title="skeleton"></tm-cell>
+					
+					<tm-cell url="/pages/index/sku" title="sku"></tm-cell>
+					
 					<tm-cell url="/pages/index/slider-menu" title="slider-menu"></tm-cell>
 					
 					<tm-cell url="/pages/index/stepper" title="stepper"></tm-cell>
@@ -63,6 +73,8 @@
 					<tm-cell url="/pages/index/sticky" title="sticky"></tm-cell>
 					
 					<tm-cell url="/pages/index/switch" title="switch"></tm-cell>
+					
+					<tm-cell url="/pages/index/tabbar" title="tabbar"></tm-cell>
 					
 					<tm-cell url="/pages/index/tabs" title="tabs"></tm-cell>
 					

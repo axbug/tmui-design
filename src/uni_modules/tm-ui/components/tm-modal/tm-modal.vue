@@ -158,7 +158,11 @@ const props = defineProps({
     contentPadding: {
         type: [String, Number],
         default: "32"
-    }
+    },
+	btnColor:{
+		type:String,
+		default:""
+	}
 })
 
 const emit = defineEmits([
@@ -243,6 +247,11 @@ const _bgColor = computed(() => {
     }
     return getDefaultColor(props.bgColor)
 })
+const _btnColor = computed(()=>{
+	if(props.btnColor=='') return getDefaultColor(config.color)
+	return getDefaultColor(props.btnColor)
+})
+const teleportElH5 = ref("#app")
 
 watch(() => props.show, (newVal) => {
     if (newVal) {
@@ -252,26 +261,32 @@ watch(() => props.show, (newVal) => {
     }
 })
 
-onReady(() => {
-    let sys = uni.getWindowInfo()
-    // #ifndef APP
-    _width.value = sys.windowWidth
-    _height.value = sys.windowHeight - sys.windowTop
-    windtop.value = sys.windowTop
-    // #endif
-    // #ifdef APP
-    _width.value = sys.windowWidth
-    _height.value = sys.windowHeight
-    // #endif
-
-    if (_show.value) {
-        showAlert()
-    }
+const getPageBounds = ()=>{
+	let sys = uni.getWindowInfo()
+	// #ifndef APP
+	_width.value = sys.windowWidth
+	_height.value = sys.windowHeight - sys.windowTop
+	windtop.value = sys.windowTop
+	// #endif
+	// #ifdef APP
+	_width.value = sys.windowWidth
+	_height.value = sys.windowHeight
+	// #endif
+}
+onMounted(()=>{
+	getPageBounds()
+	teleportElH5.value = "uni-page"
+	uni.$on('onReady',getPageBounds)
+	if (_show.value) {
+	    showAlert()
+	}
 })
+
 
 onBeforeUnmount(() => {
     clearTimeout(tid.value)
     clearTimeout(tid2.value)
+	uni.$off('onReady',getPageBounds)
 })
 
 const overflayMoveTouch = (evt: TouchEvent) => {
@@ -401,7 +416,7 @@ export default {
             <slot name="trigger" :show="show"></slot>
         </view>
         <!-- #ifdef H5 -->
-        <teleport to="uni-app">
+        <teleport :to="teleportElH5">
             <!-- #endif -->
             <!-- #ifdef MP-WEIXIN -->
             <root-portal>
@@ -463,9 +478,9 @@ export default {
                                 @slot 底部操作栏
                                 -->
                                 <slot name="footer">
-                                    <tm-button @click="cancelEvt" v-if="_showCancel" skin="thin"
+                                    <tm-button :color="_btnColor" @click="cancelEvt" v-if="_showCancel" skin="thin"
                                         style="margin-right: 16px;flex:1">{{ _cancelText }}</tm-button>
-                                    <tm-button @click="confirmEvt" style="flex:1">{{ _confirmText }}</tm-button>
+                                    <tm-button :color="_btnColor" @click="confirmEvt" style="flex:1">{{ _confirmText }}</tm-button>
                                 </slot>
                             </view>
                         </view>

@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2025. tmzdy by @https://tmui.design
+ */
+
 /**
  * 上传的文件状态
  * 0未上传，1上传中，2上传成功，3上传失败（网络错误），4已取消（终止，上到一半取消了）,5超过大小
@@ -18,6 +22,7 @@ declare global {
 	 * @date 2024-8-1
 	 */
 	namespace TM {
+		export type NAVIGATE_TYPE = 'navigate' | 'redirect' | 'switchTab' | 'reLaunch' | 'navigateBack';
 		/** 按钮尺寸大小 */
 		export type BUTTON_SIZE = "xs" | "s" | "m" | "n" | "g"
 		/** 按钮或者标签的主题样式 */
@@ -144,6 +149,125 @@ declare global {
 			/**校验结果集 */
 			result: FORM_RESULT_TYPE[]
 		}
+
+		export type SKU_DATA_ITEM = {
+			/** 产品id */
+			id: string | number,
+			/** 分类/规格名称 */
+			title: string,
+			/** 库存数量 */
+			inventory_quantity?: number,
+			/** 规格数组 */
+			children?: Array<SKU_DATA_ITEM>,
+			/** 自定义数据 */
+			[p: string]: any
+		}
+		export type SKU_PRODUCT = {
+			/** 唯一id值,必须是规格产品id组合,以 - 连接符连接,比如22-23-24 */
+			id: string | number,
+			/** 产品图片 */
+			img: string,
+			/** 库存数量 */
+			inventory_quantity: number,
+			/** 最大购买量 */
+			max_buy_quantity: number,
+			/** 最小购买量 */
+			min_buy_quantity: number,
+			/** 产品原价 */
+			original_price: number,
+			/** 产品现行售价 */
+			price: number,
+			/** 产品规格名称 */
+			title: string,
+			/** 自定义数据 */
+			[p: string]: any
+		}
+		export type SKU_DATA = {
+			/** 规格分组产品 */
+			data: Array<SKU_DATA_ITEM>,
+			/** 平铺产品列表 */
+			product: SKU_PRODUCT[] | null
+		}
+
+		/**
+		 * 底部导航项目信息tabbar
+		 */
+		export type TABBAR_ITEM_INFO = {
+			/**
+			 * 标题
+			 * @type {string}
+			 */
+			title?: string;
+			/**
+			 * 图标
+			 * @type {string}
+			 */
+			icon?: string;
+			/**
+			 * 被选中时的图标
+			 * @type {string}
+			 */
+			selectedIcon?: string;
+			/**
+			 * 是否禁用
+			 * @type {boolean}
+			 */
+			disabled?: boolean;
+
+			/**
+			 * 默认颜色
+			 * @type {string}
+			 */
+			color?: string;
+			/**
+			 * 选中时的颜色
+			 * @type {string}
+			 */
+			selectedColor?: string;
+
+			/**
+			 * 打开方式
+			 * @type {NAVIGATE_TYPE}
+			 */
+			openType?: NAVIGATE_TYPE;
+			/**
+			 * 链接地址
+			 * @type {string}
+			 */
+			url?: string;
+			/**
+			 * 是否显示角标。如果为dot，dotLabel不为空优先展示文本角标
+			 * dot,
+			 * label
+			 */
+			dotType?: string,
+			/**
+			 * 文本角标。空不展示。
+			 */
+			dotLabel?: string
+		}
+
+		export type TABBAR_ITEM = {
+			title: string,
+			icon: string,
+			selectedIcon: string,
+			disabled: boolean,
+			color: string,
+			selectedColor: string,
+			openType: string,
+			url: string,
+			/**
+			 * 是否显示角标。如果为dot，dotLabel不为空优先展示文本角标
+			 * dot,
+			 * label
+			 */
+			dotType?: string,
+			/**
+			 * 文本角标。空不展示。
+			 */
+			dotLabel?: string
+		}
+
 	}
 }
 export { }

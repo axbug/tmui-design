@@ -39,11 +39,17 @@
 </template>
 
 <script lang="ts" setup>
-import { ComputedRef, PropType, computed, ref, getCurrentInstance } from "vue";
-import { arrayNumberValid, arrayNumberValidByStyleMP, covetUniNumber, linearValid } from "../../libs/tool";
-import { useTmConfig } from "../../libs/config";
-import { getDefaultColor, getDefaultColorObj, getOutlineColorObj, getTextColorObj, getThinColorObj } from "../../libs/colors";
-import TmForm from "../tm-form/tm-form.vue";
+import { computed, getCurrentInstance, PropType, ref } from 'vue'
+import { arrayNumberValid, arrayNumberValidByStyleMP, covetUniNumber, linearValid } from '../../libs/tool'
+import { useTmConfig } from '../../libs/config'
+import {
+	getDefaultColor,
+	getDefaultColorObj,
+	getOutlineColorObj,
+	getTextColorObj,
+	getThinColorObj
+} from '../../libs/colors'
+import TmForm from '../tm-form/tm-form.vue'
 
 /**
  * @displayName 按钮
@@ -456,8 +462,8 @@ const buttonStyle = computed(() => {
 });
 
 const onClick = (evt: any) => {
-    emits('click', evt);
 	if(_attrs.value.disabled||_attrs.value.loading) return;
+	emits('click', evt)
     if (_attrs.value.url) {
         // @ts-expect-error
         uni[_attrs.value.navigatorMode]({

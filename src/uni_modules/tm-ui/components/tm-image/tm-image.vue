@@ -64,7 +64,7 @@ const props = defineProps({
      */
     model: {
         type: String as PropType<"fill" | "top" | "bottom" | "center" | "left" | "right" | "top left" | "top right" | "bottom left" | "bottom right" | "aspectFit" | "aspectFill" | "widthFix" | "heightFix" | "scaleToFill">,
-        default: "fill"
+        default: "scaleToFill"
     },
     /**
      * 点击后是否预览图片
@@ -269,10 +269,35 @@ const prevImage = () => {
 };
 
 
-
-const imgLoad = () => {
+function toPngFile(data : string) : Promise<string> {
+	let bdataBase64 = data.split(',')[1]
+	let fileMg = wx.getFileSystemManager();
+	let filepath = `${wx.env.USER_DATA_PATH}/${Math.random().toString(16).substring(4, 20)}.png`
+	return new Promise((res, rej) => {
+		fileMg.writeFile({
+			filePath: filepath,
+			data: bdataBase64,
+			encoding: "base64",
+			success() {
+				res(filepath)
+			},
+			faile() {
+				rej("")
+			}
+		})
+	})
+}
+const imgLoad = async () => {
+	// 检测是不是base64图片，小程序不支持直接用下面的函数读取。
+	const isBase64 = (_src.value.substring(0,6)).toLocaleLowerCase() == 'data:'
+	let  url = _src.value;
+	// #ifdef MP
+	if(isBase64){
+		url = await toPngFile(_src.value)
+	}
+	// #endif
     uni.getImageInfo({
-        src: _src.value,
+        src: url,
         fail(_) {
             console.log('error');
             isError.value = true;
