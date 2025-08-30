@@ -3,8 +3,8 @@ import { ref, computed, onMounted, onBeforeUnmount, watch, PropType, getCurrentI
 import { arrayNumberValid, arrayNumberValidByStyleMP, covetUniNumber, arrayNumberValidByStyleBorderColor, linearValid, getUnit, getUid } from "../../libs/tool";
 import { getDefaultColor, getDefaultColorObj, getOutlineColorObj, getTextColorObj, getThinColorObj } from "../../libs/colors";
 import { useTmConfig } from "../../libs/config";
-import {onLoad, onPageScroll} from '@dcloudio/uni-app';
-
+import {onLoad, onPageScroll,onReady} from '@dcloudio/uni-app';
+import {$i18n} from "@/uni_modules/tm-ui"
 /**
  * @displayName 抽屉
  * @exportName tm-drawer
@@ -31,7 +31,7 @@ const props = defineProps({
 	 */
 	title: {
 		type: String,
-		default: "标题"
+		default: $i18n.t('tmui32x.tmDrawer.title')
 	},
 	/**
 	 * 显示底部操作栏
@@ -80,14 +80,14 @@ const props = defineProps({
 	 */
 	cancelText: {
 		type: String,
-		default: "取消"
+		default: $i18n.t('tmui32x.cancelText')
 	},
 	/**
 	 * 确认按钮的文本
 	 */
 	confirmText: {
 		type: String,
-		default: "确认"
+		default: $i18n.t('tmui32x.confirmText')
 	},
 	/**
 	 * 动画时间
@@ -197,6 +197,21 @@ const props = defineProps({
 	beforeClose: {
 		type: [Function,Boolean] as PropType<() => Promise<boolean>>,
 		default: true
+	},
+	/**
+	 * 是否禁用弹层
+	 */
+	disabled: {
+	    type: Boolean,
+	    default: false
+	},
+	/**
+	 * 是否禁用teleport（H5平台）
+	 * 在嵌套组件或特殊环境下，可以禁用teleport避免DOM错误
+	 */
+	disableTeleport: {
+		type: Boolean,
+		default: false
 	}
 })
 
@@ -251,6 +266,38 @@ const windtopReal = ref(0)
 const tantiaoTrue = ref(false)
 const safeFooterHeight = ref(0)
 const lezyShowModal = ref(props.lazy ? false : true)
+const _disabled = computed(() => props.disabled)
+const teleportElH5 = ref("#app")
+
+const teleportTarget = ref<string | null>(null)
+// #ifdef H5
+const getTeleportTarget = () => {
+    try {
+        // 优先尝试 uni-page
+        if (document.querySelector('#uni-page')) {
+            return '#uni-page'
+        }
+        // 备用方案：尝试 app
+        if (document.querySelector('#app')) {
+            return '#app'
+        }
+        // 最后备用：body
+        return 'body'
+    } catch (error) {
+        console.warn('Failed to get teleport target:', error)
+        return 'body'
+    }
+}
+
+// 检查teleport目标是否可用
+const isTeleportTargetValid = (target: string) => {
+    try {
+        return !!document.querySelector(target)
+    } catch {
+        return false
+    }
+}
+// #endif
 watch(() => props.show, (newVal) => {
 	if (newVal) {
 		showAlert()
@@ -345,27 +392,37 @@ const setDomHeight = ()=>{
     _height.value = sys.windowHeight
     windtop.value = _offset.value
     // #endif
-    safeFooterHeight.value = sys.safeAreaInsets.bottom == 0 ? 16 : sys.safeAreaInsets.bottom
+    safeFooterHeight.value = (sys.safeAreaInsets?.bottom??0) == 0 ? 16 : sys.safeAreaInsets.bottom
 }
-// Lifecycle hooks
-onMounted(() => {
+
+
+onMounted(()=>{
+	setDomHeight()
+	uni.$on('onReady',setDomHeight)
 	lezyShowModal.value = props.lazy ? false : true
-    setDomHeight()
+	// #ifdef H5
+	nextTick(() => {
+		teleportTarget.value = getTeleportTarget()
+	})
+	// #endif
 	if (props.show) {
 		showAlert()
 	}
 })
 
-
-onLoad(()=>{
-    setDomHeight()
+// 监听页面变化，重新获取teleport目标
+onUpdated(() => {
+    // #ifdef H5
+    if (teleportTarget.value && !isTeleportTargetValid(teleportTarget.value)) {
+        teleportTarget.value = getTeleportTarget()
+    }
+    // #endif
 })
-
-
 
 onBeforeUnmount(() => {
 	clearTimeout(tid.value)
 	clearTimeout(tid2.value)
+	uni.$off('onReady',setDomHeight)
 })
 
 const cancelEvt = () => {
@@ -374,7 +431,6 @@ const cancelEvt = () => {
 }
 
 const confirmEvt = async () => {
-	emit('confirm')
 	let isPass = true;
 	if (typeof props.beforeClose == 'function') {
 		isLoading.value = true;
@@ -385,6 +441,10 @@ const confirmEvt = async () => {
 	if (!isPass) {
 		return;
 	}
+	/**
+     * 确认时触发
+     */
+	emit('confirm')
 	closeAlert()
 }
 
@@ -444,6 +504,7 @@ const showAlert = () => {
 }
 
 function openDrawer() {
+	if(_disabled.value) return;
 	showAlert();
 }
 
@@ -494,11 +555,27 @@ export default {
 			<slot name="trigger" :show="show"></slot>
 		</view>
 		<!-- #ifdef H5 -->
-		<teleport to="uni-app">
+		<teleport v-if="!props.disableTeleport" :to="teleportTarget || teleportElH5" :disabled="!teleportTarget">
 			<!-- #endif -->
 			<!-- #ifdef MP-WEIXIN -->
 			<root-portal>
 				<!-- #endif -->
+				<!-- 备用渲染方案：当teleport失败或被禁用时 -->
+				<view v-if="(props.disableTeleport || !teleportTarget) && showOverflay" class="tmDrawerWrap tmDrawerWrap_fallback"
+					:class="[
+						status == 'open' ? 'tmModalWrap_on' : 'tmModalWrap_off',
+						(_position == 'top' || _position == 'bottom') && _widthCoverCenter ? 'tmDrawerWrapContentMinwidthWrapDir' : '',
+						'tmDrawerWrap_' + _position
+					]" :style="[{
+						width: '100%',
+						top: (windtop + 'px'),
+						height: __height,
+						zIndex: zIndex,
+						'transition-timing-function': _animationFun
+					}, _customStyle]">
+					<!-- 备用内容 -->
+				</view>
+				
 				<view @click="onClickOverflowy" @touchmove="maskerMove" v-if="showOverflay" :id="id" ref="tmDrawerWrap"
 					class="tmDrawerWrap" :class="[
 						status == 'open' ? 'tmModalWrap_on' : 'tmModalWrap_off',
@@ -581,7 +658,7 @@ export default {
 										}}</tm-button>
 								</view>
 							</slot>
-							<view :style="{ height: safeFooterHeight + 'px' }"></view>
+							<view :style="{ height: (safeFooterHeight||20) + 'px' }"></view>
 						</view>
 					</view>
 
@@ -763,5 +840,16 @@ export default {
 
 .tmModalWrapContent_Tantiao {
 	animation: tantiao 0.15s linear;
+}
+
+// 备用渲染方案样式
+.tmDrawerWrap_fallback {
+	position: fixed;
+	left: 0;
+	top: 0;
+	width: 100vw;
+	height: 100vh;
+	background-color: rgba(0, 0, 0, 0.5);
+	z-index: 9999;
 }
 </style>

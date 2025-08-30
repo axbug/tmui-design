@@ -5,29 +5,141 @@ export type tmDateTypeQuarter = {
 	end: string
 }
 
+export type DateFormat = 'RFC2822' | 'ISO8601' | 'CUSTOM';
 /**
- * 将一个时间字符串解析为日期对象
- * @param {string} dateString 时间字符串
- * @returns Date - 日期对象
+ * 用来解析非标准时间以及各种奇怪的时间格式。
  */
-export function createDate(str: string | number | null): Date {
-	if (str == null) {
-		return new Date();
+export function createDate(dateStrs : string) : Date {
+	const dateStr = dateStrs.replace(/\//g,'-')
+	const result = new Date();
+	
+	// YYYY,YYYY-MM,YYYY-MM-DD,YYYY-MM-DD HH,YYYY-MM-DD HH:mm,YYYY-MM-DD HH:mm:ss
+	let regxyy = /^(\d{4})$/
+	let regxyymm = /^(\d{4})[-/](\d{1,2})$/
+	let regxyymmdd = /^(\d{4})[-/](\d{1,2})[-/](\d{1,2})$/
+	let regxyymmddhh = /^(\d{4})[-/](\d{1,2})[-/](\d{1,2}) (\d{1,2})$/
+	let regxyymmddhhmm = /^(\d{4})[-/](\d{1,2})[-/](\d{1,2}) (\d{1,2}):(\d{1,2})$/
+	let regxyymmddhhmmss = /^(\d{4})[-/](\d{1,2})[-/](\d{1,2}) (\d{1,2}):(\d{1,2}):(\d{1,2})$/
+	
+	let year = result.getFullYear();
+	let month = result.getMonth()-1
+	let day = result.getDate()
+	let hour = result.getHours()
+	let minute = result.getMinutes()
+	let second = result.getSeconds()
+	
+	
+	result.setSeconds(59);
+	result.setMinutes(59);
+	result.setHours(59);
+	result.setDate(1);
+	
+	if(regxyymmddhhmmss.test(dateStr)){
+		const match = dateStr.match(regxyymmddhhmmss)!;
+		year = (parseInt(match[1] as string));
+		month = (parseInt(match[2] as string) - 1);
+		day = (parseInt(match[3] as string));
+		hour = (parseInt(match[4] as string));
+		minute = (parseInt(match[5] as string));
+		second = (parseInt(match[6] as string));
+	}else if(regxyymmddhhmm.test(dateStr)){
+		const match = dateStr.match(regxyymmddhhmm)!;
+		year = (parseInt(match[1] as string));
+		month = (parseInt(match[2] as string) - 1);
+		day = (parseInt(match[3] as string));
+		hour = (parseInt(match[4] as string));
+		minute = (parseInt(match[5] as string));
+	
+	}else if(regxyymmddhh.test(dateStr)){
+		const match = dateStr.match(regxyymmddhh)!;
+		year = (parseInt(match[1] as string));
+		month = (parseInt(match[2] as string) - 1);
+		day = (parseInt(match[3] as string));
+		hour = (parseInt(match[4] as string));
+	}else if(regxyymmdd.test(dateStr)){
+		const match = dateStr.match(regxyymmdd)!;
+		year = (parseInt(match[1] as string));
+		month = (parseInt(match[2] as string) - 1);
+		day = (parseInt(match[3] as string));
+		
+		
+	}else if(regxyymm.test(dateStr)){
+		const match = dateStr.match(regxyymm)!;
+		year = (parseInt(match[1] as string));
+		month = (parseInt(match[2] as string) - 1);
+	}else if(regxyy.test(dateStr)){
+		const match = dateStr.match(regxyy)!;
+		year = (parseInt(match[1] as string));
+		
 	}
-	if(!str) return new Date()
-	if(typeof str === 'number') return new Date(str)
-	let nowstr = str.replace(/-/g, '/');
-	let date = new Date(nowstr)
-	if (isNaN(date.getTime())) {
-		date = new Date();
-	}
-	return date;
+	
+	
+	result.setSeconds(second);
+	result.setMinutes(minute);
+	result.setHours(hour);
+	result.setFullYear(year);
+	result.setMonth(month);
+	result.setDate(day);
+	return result;
 }
 
 export class tmDate {
 	date: Date;
-	constructor(dateStr: string | null | number = null) {
-		this.date = createDate(dateStr)
+	constructor(dateStr: string | number | Date | null = null) {
+		if (dateStr == null) {
+			this.date = new Date();
+			return;
+		}
+		if(typeof dateStr == 'number'){
+			this.date = new Date(dateStr! as number);
+		}else if(typeof dateStr == 'string'){
+			if(dateStr == ''){
+				this.date = new Date();
+				return;
+			}
+			const dateformatStr = this.detectDateFormat(dateStr!)
+			
+			if(dateformatStr=='CUSTOM'){
+				let str = dateStr! as string;
+				str = str.replace(/-/g,'/')
+				let isNumberStr = /^\d+$/.test(str)
+			
+				if(!isNumberStr){
+					this.date = createDate(dateStr!)
+						
+				}else{
+					this.date = new Date(parseInt(str!));
+				}
+				
+			}else{
+				this.date = new Date(dateStr! as string);
+			}
+			
+			return;
+		}else if(dateStr instanceof Date){
+			this.date = dateStr! as Date;
+			return;
+		}
+		
+		this.date = new Date();
+	}
+	/**
+	 * 检测字符串的日期格式类型
+	 * @param dateStr - 日期字符串
+	 * @returns 日期格式类型
+	 */
+	detectDateFormat(dateStr : string) : DateFormat {
+		// RFC2822 格式检测
+		if (/^(?:\w{3},\s)?(?:\d{1,2}\s(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\s\d{4}\s\d{2}:\d{2}(?::\d{2})?(?:\sGMT)?)|(?:\w{3}\s(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\s\d{1,2}\s\d{2}:\d{2}(?::\d{2})?\s\d{4})/.test(dateStr)) {
+			return 'RFC2822';
+		}
+	
+		// ISO8601 格式检测
+		if (/^\d{4}(-\d\d(-\d\d(T\d\d:\d\d(:\d\d)?(\.\d+)?(([+-]\d\d:\d\d)|Z)?)?)?)?$/.test(dateStr)) {
+			return 'ISO8601';
+		}
+	
+		return 'CUSTOM';
 	}
 	/**
 	 * 给数字添加前缀0
@@ -310,6 +422,7 @@ export class tmDate {
 	 */
 	getMonthCountDay(): number {
 		let nextDate = createDate(this.format());
+
 		// 先设置为1号，避免后面设置月份时超过月的天数。
 		nextDate.setDate(1)
 		nextDate.setMonth(this.getMonth() + 1)
@@ -663,6 +776,31 @@ export class tmDate {
 			}
 		}
 		return qmap;
+	}
+	/**
+	 * 取开始和结束之间的时间（含开始和结束）
+	 */
+	getBetweenDate(start: tmDate, end: tmDate,minx:'min'|'max'|'auto' = 'min'): tmDate {
+		if(this.isBetween(start, end,'s','[]')){
+			return this;
+		}
+		// this更接近哪边就取那边值
+		let startDiff = start.getTime('s')
+		let endDiff = end.getTime('s')
+		
+		if(minx == 'min'){
+			return start;
+		}
+		if(minx == 'max'){
+			return end;
+		}
+
+		if(startDiff < endDiff){
+			return end;
+		}else{
+			return start;
+		}
+
 	}
 
 }

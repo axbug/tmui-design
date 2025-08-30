@@ -23,7 +23,7 @@
       class="tmSheetLoading"
       :style="{ borderRadius: buttonStyle.borderRadius }"
     >
-      <tm-icon name="loader-line" size="50" spin color="primary"></tm-icon>
+      <tm-icon name="loader-line" :size="_attrs.loadIconSize" spin color="primary"></tm-icon>
     </view>
   </view>
 </template>
@@ -176,6 +176,10 @@ const attrs = defineProps({
             }
             return true;
         }
+    },
+    loadIconSize:{
+        type: [String, Number],
+        default:"50"
     }
 })
 const _attrs = computed(() => attrs);
@@ -279,7 +283,7 @@ export default {
     left: 0px;
     padding: 0px;
     margin: 0px;
-    backdrop-filter: blur(3px);
+    backdrop-filter: blur(1px);
     background-color: rgba(125, 125, 125, 0.2);
     justify-content: center;
     align-items: center;

@@ -1,0 +1,67 @@
+{
+	"tmui32x": {
+		"tmBetweenTime":{
+			"title": "Please select time",
+			"startText": "Start time",
+			"endText": "End time",
+			"betweenText": "to",
+			"clearText": "Clear",
+			"nowText": "Today",
+			"thisWeekText": "This week",
+			"thisMonthText": "This month",
+			"thisYearText": "This year",
+			"thisQuarterText": "This quarter"
+		},
+		"tmSku":{
+			"buyBtnText": "Buy now",
+			"noSelectedText": "No product selected",
+			"noStockText": "Out of stock",
+			"queHuo": "Out of stock",
+			"selectedText": "Selected: ",
+			"numberText": "Quantity: {count}",
+			"addText": "Add to cart",
+			"addSuccessText": "Added successfully",
+			"originalPriceText": "Original price {count}"
+		},
+		"tmNavbar":{
+			"title": "Title"
+		},
+		"tmForm":{
+			"ruleMessage": "Please select/fill correctly"
+		},
+		"cancelText": "Cancel",
+		"confirmText": "Confirm",
+		"tmModal":{
+			"title": "Title"
+		},
+		"tmDrawer":{
+			"title": "Title"
+		},
+		"tmUploadPhoto":{
+			"statusText":{
+				"0": "Pending upload",
+				"1": "Uploading",
+				"2": "Upload successful",
+				"3": "Upload failed",
+				"4": "Cancelled",
+				"5": "Exceeds size limit"
+			}
+		},
+		"tmPicker":{
+			"title": "Please select"
+		},
+		"tmPickerDate":{
+			"title": "Please select time"
+		},
+		"tmDateView":{
+			"cellUnits":{
+				"year": "Year",
+				"month": "Month",
+				"day": "Day",
+				"hour": "Hour",
+				"minute": "Minute",
+				"second": "Second"
+			}
+		}
+	}
+}

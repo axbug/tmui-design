@@ -3,7 +3,7 @@ import { ref, computed, onMounted, watch, PropType } from 'vue';
 import { useTmConfig } from "../../libs/config";
 import { tmDate, type tmDateTypeTime, createDate } from '../../libs/tmDate';
 import { getDefaultColor} from "../../libs/colors";
-
+import {$i18n} from "@/uni_modules/tm-ui"
 type PICKER_ITEM_INFO = Record<string, any>
 
 /**
@@ -55,7 +55,7 @@ const props = defineProps({
      */
     title: {
         type: String,
-        default: "请选择时间"
+        default: $i18n.t('tmui32x.tmBetweenTime.title')
     },
     /**
      * 开始时间，请提供正确的时间格式
@@ -100,11 +100,21 @@ const props = defineProps({
         default: "YYYY-MM-DD"
     },
     /**
+     * 是否将format格式化的v-model:modelStr同步到v-model:modelValue
+     * 默认false,注意：如果开启了同步，你要确保format的值是正常的时间值
+     * 正常兼容以下时间格式：
+     * YYYY,YYYY-MM,YYYY-MM-DD,YYYY-MM-DD HH,YYYY-MM-DD HH:mm,YYYY-MM-DD HH:mm:ss
+     */
+    formatSyncValue:{
+        type:Boolean,
+        default:false
+    },
+    /**
      * 上方的单位名称
      */
     cellUnits: {
         type: Array as PropType<string[]>,
-        default: (): string[] => ['年', '月', '日', '时', '分', '秒'] as string[]
+        default: (): string[] => [$i18n.t('tmui32x.tmDateView.cellUnits.year'), $i18n.t('tmui32x.tmDateView.cellUnits.month'), $i18n.t('tmui32x.tmDateView.cellUnits.day'), $i18n.t('tmui32x.tmDateView.cellUnits.hour'), $i18n.t('tmui32x.tmDateView.cellUnits.minute'), $i18n.t('tmui32x.tmDateView.cellUnits.second')] as string[]
     },
     /**
      * 快速时间区间选择，如果直接填写数字字符，会以你提供的数字最近多少来天来算。
@@ -134,7 +144,14 @@ const props = defineProps({
     drawerSize: {
         type: String,
         default: '1020'
-    }
+    },
+	/**
+	 * 是否禁用弹层
+	 */
+	disabled: {
+	    type: Boolean,
+	    default: false
+	},
 })
 
 const emit = defineEmits([
@@ -183,8 +200,8 @@ const _start_date = computed(() => props.start === "" ? startDate.value : new tm
 const _end_date = computed(() => props.end === "" ? endDate.value : new tmDate(props.end))
 const _start_date_str = computed(() => _start_date.value.format())
 const _end_date_str = computed(() => _end_date.value.format())
-const _start_date_str_format = computed(() => nowValue.value[0] === '' ? '开始时间' : (new tmDate(nowValue.value[0])).format(props.format))
-const _end_date_str_format = computed(() => nowValue.value[1] === '' ? '结束时间' : (new tmDate(nowValue.value[1])).format(props.format))
+const _start_date_str_format = computed(() => nowValue.value[0] === '' ? $i18n.t('tmui32x.tmBetweenTime.startText') : (new tmDate(nowValue.value[0])).format(props.format))
+const _end_date_str_format = computed(() => nowValue.value[1] === '' ? $i18n.t('tmui32x.tmBetweenTime.endText') : (new tmDate(nowValue.value[1])).format(props.format))
 
 const _backgroundColor = computed(() => config.mode === 'dark' ? getDefaultColor(config.inputDarkColor) : getDefaultColor('#f5f5f5'))
 const _borderColor = computed(() => config.mode === 'dark' ? getDefaultColor(config.borderDarkColor) : getDefaultColor('#eaeaea'))
@@ -192,6 +209,9 @@ const _activeBorderColor = computed(() => getDefaultColor(config.color))
 const _placeStyle = computed(() => config.mode === 'dark' ? "color:#c7c7c7;" : "color:#838383;")
 const _fontColor = computed(() => config.mode === 'dark' ? "#efefef" : "#333")
 const _isDark = computed(() => config.mode === 'dark')
+const _disabled = computed(() => props.disabled)
+
+
 let tid = 34
 watch(() => props.modelValue, (newvalue: string[]) => {
     let sortvalue = sorDateVaild(validTimeDate(newvalue))
@@ -272,12 +292,14 @@ function inputClick(index: number) {
 
     if (changeIndex.value === 0) {
         if (strStart === '') {
-            strStart = strEnd !== '' ? strEnd : (endDate.value.format())
+            // strStart = strEnd !== '' ? strEnd : (_end_date.value.format())
+            strStart = new tmDate().getBetweenDate(_start_date.value,_end_date.value,'max').format()
             nowValue.value = [strStart, strEnd]
         }
     } else if (changeIndex.value === 1) {
         if (strEnd === '') {
-            strEnd = strStart !== '' ? strStart : (endDate.value.format())
+            // strEnd = strStart !== '' ? strStart : (_end_date.value.format())
+            strEnd = new tmDate().getBetweenDate(_start_date.value,_end_date.value,'max').format()
             nowValue.value = [strStart, strEnd]
         }
     }
@@ -295,38 +317,41 @@ function getQuickDateType(): coverValue[] {
             let start = date.format()
             date.subtraction(dshi, 'd')
             let end = date.format()
-
             typelist.push({ value: [end, start], str: '最近' + item + '天' } as coverValue)
         } else {
             let date = new tmDate()
             let startFDate = "YYYY/MM/DD 00:00:00"
             let endFDate = "YYYY/MM/DD 23:59:59"
-            let start = date.format(startFDate)
-            let end = date.format(endFDate)
-            let desc = "本日"
+            let start = new tmDate().getBetweenDate(_start_date.value,_end_date.value,'min').format(startFDate)
+            let end = new tmDate().getBetweenDate(_start_date.value,_end_date.value,'max').format(endFDate)
+            let desc = $i18n.t('tmui32x.tmBetweenTime.nowText')
+            date = new tmDate(start)
             if (item === 'w') {
-                start = date.getDateStartOf('w').format(startFDate)
-                end = date.getDateEndOf('w').format(endFDate)
-                desc = "本周"
+                start = date.getDateStartOf('w').getBetweenDate(_start_date.value,_end_date.value,'min').format(startFDate)
+                end = date.getDateEndOf('w').getBetweenDate(_start_date.value,_end_date.value,'max').format(endFDate)
+                desc = $i18n.t('tmui32x.tmBetweenTime.thisWeekText')
             } else if (item === 'm') {
-                start = date.getDateStartOf('m').format(startFDate)
-                end = date.getDateEndOf('m').format(endFDate)
-                desc = "本月"
+                start = date.getDateStartOf('m').getBetweenDate(_start_date.value,_end_date.value,'min').format(startFDate)
+                end = date.getDateEndOf('m').getBetweenDate(_start_date.value,_end_date.value,'max').format(endFDate)
+                desc = $i18n.t('tmui32x.tmBetweenTime.thisMonthText')
             } else if (item === 'y') {
-                start = date.getDateStartOf('y').format(startFDate)
-                end = date.getDateEndOf('y').format(endFDate)
-                desc = "本年"
+                start = date.getDateStartOf('y').getBetweenDate(_start_date.value,_end_date.value,'min').format(startFDate)
+                end = date.getDateEndOf('y').getBetweenDate(_start_date.value,_end_date.value,'max').format(endFDate)
+                desc = $i18n.t('tmui32x.tmBetweenTime.thisYearText')
             } else if (item === 'q') {
                 let nowq = date.getQuarter('')
                 let itemqatar = nowq[0]
-                start = itemqatar.start
-                end = itemqatar.end
-                desc = "本季度"
+                start = new tmDate(itemqatar.start).getBetweenDate(_start_date.value,_end_date.value,'min').format(startFDate)
+                end = new tmDate(itemqatar.end).getBetweenDate(_start_date.value,_end_date.value,'max').format(endFDate)
+                desc = $i18n.t('tmui32x.tmBetweenTime.thisQuarterText')
+                
             }
-
             typelist.push({ value: [start, end], str: desc } as coverValue)
+          
         }
     }
+
+
     return typelist
 }
 
@@ -370,6 +395,7 @@ function sorDateVaild(str: string[]): string[] {
 }
 
 function openShow() {
+	if(_disabled.value) return;
     show.value = true
     /**
      * 变量控制打开状态
@@ -418,17 +444,21 @@ function onConfirm() {
         tmdate = nowValue.value.slice(0)
         nowModelValue.value = tmdate
     }
+    let tmdateByFormat = tmdate.map((item) => {
+        return new tmDate(item).format(props.format)
+    })
+
     /**
      * 点击确认时同步。等同v-model
      */
-    emit('update:modelValue', tmdate)
+    emit('update:modelValue', props.formatSyncValue?tmdateByFormat:tmdate)
 
     /**
      * 经格式化后的值。等同v-model:model-str
      */
     emit('update:modelStr', str === '~' ? '' : str)
 
-    emit('confirm', tmdate)
+    emit('confirm', props.formatSyncValue?tmdateByFormat:tmdate)
 }
 </script>
 <template>
@@ -444,7 +474,7 @@ function onConfirm() {
             <view
                 style="padding: 0 20px;flex:1;display: flex;flex-direction: row;justify-content: space-between;align-items: center;height: 100%;">
                 <tm-text>{{ title }}</tm-text>
-                <tm-text @click="clearDate" style="opacity: 0.5;">清空</tm-text>
+                <tm-text @click="clearDate" style="opacity: 0.5;">{{ $i18n.t('tmui32x.tmBetweenTime.clearText') }}</tm-text>
             </view>
         </template>
         <view v-if="yanchiDuration" class="tmPickerDateWrap">
@@ -461,7 +491,7 @@ function onConfirm() {
                         :style="{ color: changeIndex == 0 ? _activeBorderColor : _fontColor, border: `2px solid ${changeIndex == 0 ? _activeBorderColor : _borderColor}`, backgroundColor: _backgroundColor }"
                         class="tmPickerInput" :disabled="true" :value="_start_date_str_format" />
                 </view>
-                <tm-text style="width: 64px;text-align: center;">至</tm-text>
+                <tm-text style="width: 64px;text-align: center;">{{ $i18n.t('tmui32x.tmBetweenTime.betweenText') }}</tm-text>
                 <view @click="inputClick(1)" style="flex:1;height: 40px;">
                     <input :placeholder-style="_placeStyle"
                         :style="{ color: changeIndex == 1 ? _activeBorderColor : _fontColor, border: `2px solid ${changeIndex == 1 ? _activeBorderColor : _borderColor}`, backgroundColor: _backgroundColor }"

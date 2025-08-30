@@ -262,12 +262,11 @@ export default {
 
 .tmCollapseItemBoxText {
     text-overflow: ellipsis;
-    /* #ifndef APP */
     display: -webkit-box;
     -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
     overflow: hidden;
     word-break: break-all;
-    /* #endif */
 }
 
 .tmCollapseItemContent {

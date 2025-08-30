@@ -1,0 +1,67 @@
+{
+	"tmui32x": {
+		"tmBetweenTime":{
+			"title": "時間を選択してください",
+			"startText": "開始時間",
+			"endText": "終了時間",
+			"betweenText": "から",
+			"clearText": "クリア",
+			"nowText": "今日",
+			"thisWeekText": "今週",
+			"thisMonthText": "今月",
+			"thisYearText": "今年",
+			"thisQuarterText": "今四半期"
+		},
+		"tmSku":{
+			"buyBtnText": "今すぐ購入",
+			"noSelectedText": "商品が選択されていません",
+			"noStockText": "在庫切れ",
+			"queHuo": "在庫切れ",
+			"selectedText": "選択済み：",
+			"numberText": "数量：{count}",
+			"addText": "カートに追加",
+			"addSuccessText": "追加しました",
+			"originalPriceText": "定価{count}"
+		},
+		"tmNavbar":{
+			"title": "タイトル"
+		},
+		"tmForm":{
+			"ruleMessage": "正しく選択/入力してください"
+		},
+		"cancelText": "キャンセル",
+		"confirmText": "確認",
+		"tmModal":{
+			"title": "タイトル"
+		},
+		"tmDrawer":{
+			"title": "タイトル"
+		},
+		"tmUploadPhoto":{
+			"statusText":{
+				"0": "アップロード待ち",
+				"1": "アップロード中",
+				"2": "アップロード成功",
+				"3": "アップロード失敗",
+				"4": "キャンセル",
+				"5": "サイズ制限超過"
+			}
+		},
+		"tmPicker":{
+			"title": "選択してください"
+		},
+		"tmPickerDate":{
+			"title": "時間を選択してください"
+		},
+		"tmDateView":{
+			"cellUnits":{
+				"year": "年",
+				"month": "月",
+				"day": "日",
+				"hour": "時",
+				"minute": "分",
+				"second": "秒"
+			}
+		}
+	}
+}

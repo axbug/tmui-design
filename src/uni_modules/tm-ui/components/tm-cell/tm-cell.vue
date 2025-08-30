@@ -295,7 +295,7 @@ const attrs = defineProps({
      */
     rightWidth:{
         type: [String, Number],
-        default: "200"
+        default: "50%"
     }
 })
 

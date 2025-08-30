@@ -198,7 +198,7 @@ export const toHex = (n: number): string => {
     }
 }
 export function isValidColor(color: string): boolean {
-    // return chroma.valid(color);
+
     const hexRegex = /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3}|[A-Fa-f0-9]{8})$/;
     const rgbRegex = /^rgb\((\d{1,3}), (\d{1,3}), (\d{1,3})\)$/;
     const rgbaRegex = /^rgba\((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\s*,\s*(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\s*,\s*(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\s*,\s*((1(\.0{1,2})?)|(0(\.\d{1,2})?))\)$/;
@@ -269,10 +269,14 @@ export function hexToRgb(sColors: string) {
             b: sColorChange[2],
             a: sColorChange.length == 4 ? sColorChange[3] : 1
         }
-    } else if (/^(rgb|RGB|rgba|RGBA)/.test(sColor)) {
-        let arr: string[] = sColor.replace(/(?:\(|\)|rgba|rgb|RGB|RGBA)*/g, "").split(",")
-        let p: number[] = arr.map((val: string): number => parseInt(val));
-        if (p.length < 3) {
+    } else if (/^(rgb|rgba)/i.test(sColor)) {
+        let arr: string[] = sColor.replace(/(?:\(|\)|rgba|rgb)*/gi, "").split(",")
+        let p: number[] = arr.map((val: string): number => {
+            let trimmed = val.trim();
+            return trimmed.includes('.') ? parseFloat(trimmed) : parseInt(trimmed);
+        });
+        
+        if (p.length < 3 || p.some(val => isNaN(val))) {
             return {
                 r: 0,
                 g: 0,
@@ -280,14 +284,24 @@ export function hexToRgb(sColors: string) {
                 a: 1
             }
         }
+        
+        // 确保RGB值在0-255范围内
+        p[0] = Math.max(0, Math.min(255, p[0]));
+        p[1] = Math.max(0, Math.min(255, p[1]));
+        p[2] = Math.max(0, Math.min(255, p[2]));
+        
         if (p.length == 3) {
             p.push(1)
+        } else if (p.length >= 4) {
+            // 确保透明度在0-1范围内
+            p[3] = Math.max(0, Math.min(1, p[3]));
         }
+        
         return {
             r: p[0],
             g: p[1],
             b: p[2],
-            a: arr.length == 3 ? p[3] : parseFloat(arr[3])
+            a: p[3]
         }
     } else {
         return {

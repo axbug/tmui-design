@@ -22,7 +22,9 @@ const beforeClose = () => {
         <tm-sheet class="flex flex-row flex-row-center-between">
             <tm-drawer style="width:24%" size="80%" position="left">
                 <template #trigger><tm-button :block="true">左弹出</tm-button></template>
-
+                <tm-picker-date>
+                    <tm-button :block="true">左弹出</tm-button>
+                </tm-picker-date>
             </tm-drawer>
             <tm-drawer style="width:24%" position="right">
                 <template #trigger><tm-button :block="true">右弹出</tm-button></template>
@@ -43,6 +45,7 @@ const beforeClose = () => {
             <tm-text font-size="36" class=" text-weight-b mb-24 d-block">嵌套</tm-text>
             <tm-drawer :show-footer="true" size="auto">
                 <template v-slot:trigger><tm-button color="success" :block="true">打开嵌套</tm-button></template>
+				
                 <tm-drawer size="auto">
                     <template v-slot:trigger><tm-button :block="true">打开嵌套1</tm-button></template>
                     <tm-text class="text-size-m text-grey  line-8">当前弹层内容为自动高度</tm-text>

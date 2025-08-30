@@ -21,6 +21,12 @@
             <tm-stepper :splitBtn="true" :model-value="50" width="220"></tm-stepper>
         </tm-sheet>
         <tm-sheet>
+            <tm-text font-size="36" class=" text-weight-b d-block">自动隐藏减号</tm-text>
+        </tm-sheet>
+        <tm-sheet class="flex fletm-row">
+            <tm-stepper :autoHideBtn="true" :splitBtn="true"  width="220"></tm-stepper>
+        </tm-sheet>
+        <tm-sheet>
             <tm-text font-size="36" class=" text-weight-b d-block">更换颜色</tm-text>
         </tm-sheet>
         <tm-sheet class="flex fletm-row">

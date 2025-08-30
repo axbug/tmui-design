@@ -272,7 +272,7 @@ export default {
         backgroundColor: _bgColor,
         borderRadius: _round
     }">
-        <view :class="[_disabled ? 'tmSwitchDisabled' : '', opened ? 'tmSwitchBgOn' : 'tmSwitchOff']" class="tmSwitchBg"
+        <view :class="[_disabled||_loading ? 'tmSwitchDisabled' : '', opened ? 'tmSwitchBgOn' : 'tmSwitchOff']" class="tmSwitchBg"
             :style="{ backgroundColor: _activeBgColor, borderRadius: _round, 'transition-timing-function': _animationFun }">
         </view>
         <view :class="[_disabled ? 'tmSwitchDisabled' : '']" class="tmSwitchWrap" :style="{
@@ -305,6 +305,7 @@ export default {
     opacity: 0.7;
     cursor: no-drop !important;
     overflow: hidden;
+    pointer-events: none;
 }
 
 .tmSwitchTextLeft {

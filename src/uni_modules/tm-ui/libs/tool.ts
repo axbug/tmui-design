@@ -73,15 +73,14 @@ export const arrayNumberValidByStyleMP = (border: string | number | Array<string
     let zhi: string[] = Array.isArray(border) ? border.map((item: string | number): string => covetUniNumber(item)) : [covetUniNumber(border || defaultValue)];
     if (zhi.length == 0) {
         zhi = [covetUniNumber(defaultValue)]
-    } else if (zhi.length == 2) {
-        zhi = [zhi[1], zhi[0]]
+    } else if (zhi.length == 1) {
+        zhi = [zhi[0]]
+    }  else if (zhi.length == 2) {
+        zhi = [zhi[1],zhi[0]]
     } else if (zhi.length == 3) {
-        // 左，上，右
-        // [0,1,2]
-        // 上 右 下 左
-        zhi = [zhi[1], zhi[2], covetUniNumber(defaultValue), zhi[0]]
+        zhi = [zhi[0],zhi[1], zhi[2]]
     } else if (zhi.length == 4) {
-        zhi = [zhi[1], zhi[2], zhi[3], zhi[0]]
+        zhi = [zhi[0],zhi[1], zhi[2], zhi[3]]
     }
     return zhi;
 }

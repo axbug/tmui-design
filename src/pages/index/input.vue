@@ -11,7 +11,8 @@
         </tm-sheet>
         <tm-sheet>
             <tm-text font-size="36" class="text-weight-b mb-16 d-block">文本域</tm-text>
-            <tm-input v-model="val" :maxlength="150" placeholder="请输入" type="textarea" show-char-count></tm-input>
+			<tm-input v-model="val" :maxlength="150" height="150" placeholder="请输入" show-char-count
+					  type="textarea"></tm-input>
         </tm-sheet>
         <tm-sheet>
             <tm-text font-size="36" class="text-weight-b mb-16 d-block">聚焦样式</tm-text>
@@ -45,10 +46,10 @@
             <tm-text font-size="36" class="text-weight-b mb-16 d-block">插槽自定义</tm-text>
             <tm-input round="88" class="mb-16" :maxlength="4" placeholder="请输入价格" left-icon="money-cny-circle-line">
                 <template v-slot:leftIcon>
-                    <tm-text class="pl-24" color="primary">验证码</tm-text>
+                    <tm-text class="ml-n5" color="primary">验证码</tm-text>
                 </template>
                 <template v-slot:rightIcon>
-                    <tm-button class="mr-6" height="76" width="100" round="88" color="primary" size="s">获取</tm-button>
+                    <tm-button height="76" width="100" round="88" color="primary" size="s">获取</tm-button>
                 </template>
             </tm-input>
         </tm-sheet>
@@ -58,7 +59,7 @@
 
 </template>
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref } from 'vue'
 
 const val = ref('');
 </script>

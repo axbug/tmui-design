@@ -104,14 +104,14 @@ const props = defineProps({
      * 是否隐藏选中框。然后利用默认插槽自定义选中所有样式和状态。
      */
     hiddenCheckbox: {
-        type: [Boolean,String],
+        type: [Boolean, String],
         default: false
     },
     /**
      * 半选中
      */
     indeterminate: {
-        type: [Boolean,String],
+        type: [Boolean, String],
         default: false
     },
     /**
@@ -138,9 +138,9 @@ const props = defineProps({
     /**
      * 如果不要显示label时设置为false可以隐藏label并把label间隙删除，
      */
-    showLabel:{
-        type:Boolean,
-        default:true
+    showLabel: {
+        type: Boolean,
+        default: true
     }
 });
 
@@ -153,7 +153,7 @@ const _color = computed(() => {
     if (props.color == "") return getDefaultColor(config.color);
     return getDefaultColor(props.color);
 });
-const _showLabel = computed(()=>props.showLabel)
+const _showLabel = computed(() => props.showLabel)
 
 const _unCheckColor = computed(() => {
     if (config.mode == 'dark' && props.darkUnCheckColor != '') {
@@ -204,7 +204,7 @@ onMounted(() => {
     isDestroy.value = false;
     nextTick(() => {
         let parent = findParent(proxy)
-        if(!parent){
+        if (!parent) {
             nowValue.value = props.modelValue;
         }
         // if (nowValue.value !== props.unCheckValue) {
@@ -299,13 +299,13 @@ export default {
 </script>
 <template>
     <view :class="[_disabled ? 'checkboxDisabled' : '']" class="checkbox" @click="boxClick">
-        <view class="checkboxBox" v-if="!hiddenCheckbox" :style="{
+        <view class="checkboxBox" :class="{'isCheck':_isCheck}" v-if="!hiddenCheckbox" :style="{
             backgroundColor: _isCheck ? _color : 'transparent',
             border: `1px solid ${_isCheck ? _color : _unCheckColor}`,
             width: _size,
             height: _size
         }">
-            <view :class="['checkboxBoxIcon', 'checkboxBoxIcon_' + (nowValue ? 'on' : 'off')]">
+            <view :class="['checkboxBoxIcon', 'checkboxBoxIcon_' + (_isCheck ? 'on' : 'off')]">
                 <tm-icon color="white" :name="_indeterminate ? 'subtract-line' : icon" :size="iconSize"></tm-icon>
             </view>
 
@@ -321,7 +321,18 @@ export default {
         </view>
     </view>
 </template>
-<style scoped>
+<style scoped lang="scss">
+@keyframes scaleAni {
+    0%{
+        transform: scale(0.64);
+    }
+    50%{
+        transform: scale(1.05);
+    }
+    100%{
+        transform: scale(1.0);
+    }
+}
 .checkbox {
     display: flex;
     flex-direction: row;
@@ -330,6 +341,7 @@ export default {
     transition-duration: 350ms;
     transition-timing-function: cubic-bezier(.18, .89, .32, 1);
     transition-property: background-color;
+   
 }
 
 .checkboxLabelBox {
@@ -364,6 +376,9 @@ export default {
     flex-direction: row;
     align-items: center;
     justify-content: center;
+    &.isCheck{
+        animation: scaleAni 350ms cubic-bezier(.18, .89, .32, 1);
+    }
 }
 
 .checkboxLabelBoxLeftSpace {

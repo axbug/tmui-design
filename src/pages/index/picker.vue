@@ -18,6 +18,7 @@
             <tm-picker @change="change" rang-key="code" rang-text="name" v-model="selecteds" v-model:model-str="str"
                 :list="city">
                 <tm-button :block="true">打开选项</tm-button>
+               
             </tm-picker>
 
             <tm-sheet :margin="['0', '24']" color="#f5f5f5" dark-color="#333">

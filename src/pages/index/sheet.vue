@@ -5,7 +5,7 @@
             <tm-text>非常方便快速布局，可全局配置间隙投影，圆角这些。</tm-text>
         </view>
     </tm-sheet>
-    <tm-sheet color="primary" :round="[0, 20]">
+    <tm-sheet color="primary" :round="[0, 20,20,8]">
         <tm-text color="white">更改圆角</tm-text>
     </tm-sheet>
     <tm-sheet borderWidth="4" :borderColor="['#8A88FB', '#D079EE']" :round="[0, 20]">

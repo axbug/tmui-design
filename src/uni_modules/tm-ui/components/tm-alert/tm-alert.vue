@@ -4,15 +4,13 @@
 		 @slot 左边图标插槽
 		 -->
 		<slot name="left">
-			<view class="tmAlertLeft">
+			<view v-if="attrs.showIcon" class="tmAlertLeft">
 				<tm-icon :size="iconSize" :color="(_styleMap.textStyle['color'] as string)"
 					:dark-color="(_styleMap.textStyle['color'] as string)" :name="_iconName"></tm-icon>
 			</view>
 		</slot>
-		<view class="tmAlertContent">
-			<text :style="_styleMap.textStyle">
-				<slot></slot>
-			</text>
+		<view class="tmAlertContent" :style="_styleMap.textStyle">
+			<slot></slot>
 		</view>
 		<view @click="closeAlert" v-if="_showClose" class="tmAlertRight">
 			<tm-icon :size="iconSize" :color="(_styleMap.textStyle['color'] as string)"
@@ -91,6 +89,13 @@
 		 * 显示还是隐藏关闭按钮
 		 */
 		showClose:{
+			type:Boolean,
+			default:true
+		},
+		/**
+		 * 显示左边按钮
+		 */
+		showIcon:{
 			type:Boolean,
 			default:true
 		},
@@ -328,6 +333,7 @@ export default {
 	
 	.tmAlertContent {
 		flex: 1;
+		box-sizing: border-box;
 	}
 	
 	.tmAlertLeft {

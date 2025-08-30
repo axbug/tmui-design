@@ -1,0 +1,67 @@
+{
+	"tmui32x": {
+		"tmBetweenTime":{
+			"title": "请选择时间",
+			"startText": "开始时间",
+			"endText": "结束时间",
+			"betweenText": "至",
+			"clearText": "清空",
+			"nowText": "今天",
+			"thisWeekText": "本周",
+			"thisMonthText": "本月",
+			"thisYearText": "本年",
+			"thisQuarterText": "本季度"
+		},
+		"tmSku":{
+			"buyBtnText": "立即购买",
+			"noSelectedText": "未选择商品",
+			"noStockText": "缺货中",
+			"queHuo": "缺货",
+			"selectedText": "已选择：",
+			"numberText": "数量：{count}",
+			"addText": "加入购物车",
+			"addSuccessText": "加入成功",
+			"originalPriceText": "原价{count}"
+		},
+		"tmNavbar":{
+			"title": "标题"
+		},
+		"tmForm":{
+			"ruleMessage": "请正确认选择/填写"
+		},
+		"cancelText": "取消",
+		"confirmText": "确认",
+		"tmModal":{
+			"title": "标题"
+		},
+		"tmDrawer":{
+			"title": "标题"
+		},
+		"tmUploadPhoto":{
+			"statusText":{
+				"0": "待上传",
+				"1": "上传中",
+				"2": "上传成功",
+				"3": "上传失败",
+				"4": "已取消",
+				"5": "超出大小限制"
+			}
+		},
+		"tmPicker":{
+			"title": "请选择"
+		},
+		"tmPickerDate":{
+			"title": "请选择时间"
+		},
+		"tmDateView":{
+			"cellUnits":{
+				"year": "年",
+				"month": "月",
+				"day": "日",
+				"hour": "时",
+				"minute": "分",
+				"second": "秒"
+			}
+		}
+	}
+}

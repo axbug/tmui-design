@@ -1,13 +1,10 @@
 <script lang="ts" setup>
-import { ref, computed, onMounted, onBeforeUnmount, watch, PropType, getCurrentInstance, ComponentInstance, onUpdated, nextTick, VueElement, inject } from 'vue';
-import { arrayNumberValid, arrayNumberValidByStyleMP, covetUniNumber, arrayNumberValidByStyleBorderColor, linearValid, getUnit, getUid } from "../../libs/tool";
-import { getDefaultColor, getDefaultColorObj, getOutlineColorObj, getTextColorObj, getThinColorObj } from "../../libs/colors";
+import { ref, computed, onMounted, onBeforeUnmount, watch, PropType, getCurrentInstance, nextTick } from 'vue';
+import { covetUniNumber, getUnit, getUid } from "../../libs/tool";
 import { useTmConfig } from "../../libs/config";
-import pickerItem from './picker-item.vue';
 
 const { config } = useTmConfig()
 type TM_PICKER_X_ITEM = Record<string, any>
-
 
 const boxHeight = ref(0)
 const id = ('tmPickerItem-' + getUid())
@@ -22,7 +19,6 @@ const props = defineProps({
 		type: Array as PropType<TM_PICKER_X_ITEM[][]>,
 		default: (): TM_PICKER_X_ITEM[] => [] as TM_PICKER_X_ITEM[]
 	},
-
 
 	selectedIndex: {
 		type: Array as PropType<number[]>,
@@ -62,14 +58,11 @@ const _fontSize = computed((): string => {
 	return (sizeNumber * config.fontSizeScale).toString() + getUnit(props.fontSize)
 })
 
-
-
 const refreshKey = ref(12)
 
 const _cellUnits = computed((): string[] => props.cellUnits as string[])
 
 const _list = computed((): TM_PICKER_X_ITEM[][] => props.list.slice(0))
-
 
 const _isDark = computed((): boolean => config.mode == 'dark')
 
@@ -83,36 +76,76 @@ const _selectedMaskStyle = computed((): string => {
 	return _isDark.value ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.05)'
 })
 
+// 工具：比较两个数组是否一致
+function arraysEqual(a: number[], b: number[]): boolean {
+	if (a.length !== b.length) return false;
+	for (let i = 0; i < a.length; i++) {
+		if (a[i] !== b[i]) return false;
+	}
+	return true;
+}
 
+// 工具：将索引限制在范围内，并保证长度与列数一致
+function sanitizeIndex(indexes: number[], list: TM_PICKER_X_ITEM[][]): number[] {
+	const cols = list.length;
+	const result: number[] = new Array(cols).fill(0);
+	for (let i = 0; i < cols; i++) {
+		const colLen = list[i]?.length ?? 0;
+		const n = indexes[i] ?? 0;
+		result[i] = colLen > 0 ? Math.min(Math.max(0, n), colLen - 1) : 0;
+	}
+	return result;
+}
 
 const onChange = (event: any) => {
-	
 	if (event.detail.value.length == 0 || _list.value.length == 0) return;
-	let indexs = event.detail.value!;
-	if (indexs.join('') == nowCurrentIndex.value.join('')) return;
-	nowCurrentIndex.value = indexs
-	emits("changeDeep", indexs)
+	let indexs: number[] = event.detail.value!;
+	const fixed = sanitizeIndex(indexs, _list.value);
+	if (arraysEqual(fixed, nowCurrentIndex.value)) return;
+	nowCurrentIndex.value = fixed;
+	emits("changeDeep", fixed);
 }
 
 onMounted(() => {
-	nowCurrentIndex.value = props.selectedIndex.slice(0)
+	// 初始索引校正
+	nowCurrentIndex.value = sanitizeIndex(props.selectedIndex.slice(0), _list.value);
+	// 兼容微信小程序：强制刷新一次 value 来确保滚动定位到中间
+	// #ifdef MP-WEIXIN
+	nextTick(() => {
+		refreshKey.value += 1;
+		const snapshot = nowCurrentIndex.value.slice(0);
+		// 通过短暂置空再还原，触发 picker-view 重算
+		nowCurrentIndex.value = snapshot;
+		setTimeout(() => {
+			refreshKey.value += 1;
+			nowCurrentIndex.value = sanitizeIndex(snapshot, _list.value);
+		}, 0);
+	});
+	// #endif
 })
 onBeforeUnmount(() => {
 	clearTimeout(tid)
 	clearTimeout(tid2)
 })
 
-watch(() => props.selectedIndex, (newvalue:number[]) => {
-	if (newvalue.join('') == nowCurrentIndex.value.join('')) return;
-	nowCurrentIndex.value = newvalue.slice(0)
-}, { deep: true })
+// 仅浅监听，提升性能，并在变更时校正索引与强制重绘
+watch(() => props.selectedIndex, (newvalue: number[]) => {
+	const fixed = sanitizeIndex((newvalue || []).slice(0), _list.value);
+	if (arraysEqual(fixed, nowCurrentIndex.value)) return;
+	nowCurrentIndex.value = fixed;
+	// #ifdef MP-WEIXIN
+	nextTick(() => {
+		refreshKey.value += 1;
+	});
+	// #endif
+}, { deep: false })
+
 watch(_list, (newvalue) => {
-    refreshKey.value +=1;
-	
-}, { deep: true })
-
-
-
+	// 当列数据变化时，按照当前索引做一次范围校正
+	const fixed = sanitizeIndex(nowCurrentIndex.value.slice(0), _list.value);
+	nowCurrentIndex.value = fixed;
+	refreshKey.value += 1;
+}, { deep: false })
 
 </script>
 <script lang="ts">
@@ -132,7 +165,7 @@ export default {
 				<tm-text  font-size="24" class="tmPickerViewUnitText">{{ item }}</tm-text>
 			</view>
 		</view>
-		<picker-view :key="refreshKey" :immediate-change="true" :value="nowCurrentIndex" @change="onChange"
+		<picker-view indicator-class="indicatorClass" :key="refreshKey" :immediate-change="true" :value="nowCurrentIndex" @change="onChange"
 			:style="{ height: '250px', width: '100%' }" :mask-style="`${_maskStyle}`"
 			:indicator-style="`height:50px;border:none;border-radius:10px`">
 			<picker-view-column v-for="(item2, index2) in _list" :key="index2">
@@ -153,9 +186,12 @@ export default {
 	</view>
 </template>
 <style>
-.uni-picker-view-indicator:after,
-.uni-picker-view-indicator:before {
-	border: none;
+.indicatorClass:after,
+.indicatorClass:before {
+	content:'';
+	height: 0px;
+	width: 100%;
+	border-color: transparent;
 }
 
 .tmPickerViewUnit {

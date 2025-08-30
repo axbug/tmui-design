@@ -1,5 +1,5 @@
 <template>
-    <view class="tmButton" :class="[_attrs.loading || _attrs.disabled ? 'tmButtonLoading' : '']"
+    <view :disabled="_attrs.disabled||_attrs.loading" class="tmButton" :class="[_attrs.loading || _attrs.disabled ? 'tmButtonLoading' : '']"
         @touchstart="touchStart" @touchcancel="touchEnd" @touchend="touchEnd" @mousedown="touchStart"
         @mouseup="touchEnd" @mouseleave="touchEnd" :style="[
             {
@@ -39,11 +39,17 @@
 </template>
 
 <script lang="ts" setup>
-import { ComputedRef, PropType, computed, ref, getCurrentInstance } from "vue";
-import { arrayNumberValid, arrayNumberValidByStyleMP, covetUniNumber, linearValid } from "../../libs/tool";
-import { useTmConfig } from "../../libs/config";
-import { getDefaultColor, getDefaultColorObj, getOutlineColorObj, getTextColorObj, getThinColorObj } from "../../libs/colors";
-import TmForm from "../tm-form/tm-form.vue";
+import { computed, getCurrentInstance, PropType, ref } from 'vue'
+import { arrayNumberValid, arrayNumberValidByStyleMP, covetUniNumber, linearValid } from '../../libs/tool'
+import { useTmConfig } from '../../libs/config'
+import {
+	getDefaultColor,
+	getDefaultColorObj,
+	getOutlineColorObj,
+	getTextColorObj,
+	getThinColorObj
+} from '../../libs/colors'
+import TmForm from '../tm-form/tm-form.vue'
 
 /**
  * @displayName 按钮
@@ -326,10 +332,10 @@ const covetButtonSize = (ops: PropsKeyType, s: TM.BUTTON_SIZE, size?: string | n
     ])
     const heights = new Map<TM.BUTTON_SIZE, string>([
         ['xs', '44'],
-        ['s', '60'],
-        ['m', '72'],
-        ['n', '90'],
-        ['g', '100']
+        ['s', '56'],
+        ['m', '68'],
+        ['n', '88'],
+        ['g', '98']
 
     ])
     const fontSizes = new Map<TM.BUTTON_SIZE, string>([
@@ -456,8 +462,8 @@ const buttonStyle = computed(() => {
 });
 
 const onClick = (evt: any) => {
-    emits('click', evt);
 	if(_attrs.value.disabled||_attrs.value.loading) return;
+	emits('click', evt)
     if (_attrs.value.url) {
         // @ts-expect-error
         uni[_attrs.value.navigatorMode]({
@@ -526,7 +532,12 @@ export default {
     justify-content: center;
     align-items: center;
     gap: 8px;
-
+    &[disabled = true]{
+        cursor: no-drop;
+    }
+    &[disabled = false]{
+        cursor: pointer;
+    }
     &.tmButtonLoading {
         opacity: 0.5;
 

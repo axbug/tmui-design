@@ -4,7 +4,7 @@ import { useTmConfig } from "../../libs/config";
 import { tmDate, type tmDateTypeTime, createDate } from '../../libs/tmDate';
 import pickerItem from './../tm-picker-view/picker-item.vue';
 type PICKER_ITEM_INFO = Record<string, any>
-
+import {$i18n} from "@/uni_modules/tm-ui"
 /**
  * @displayName 日期选择容器
  * @exportName tm-date-view
@@ -107,7 +107,14 @@ const props = defineProps({
 	 */
 	cellUnits: {
 		type: Array as PropType<string[]>,
-		default: (): string[] => ['年', '月', '日', '时', '分', '秒']
+		default: (): string[] => [
+			$i18n.t('tmui32x.tmDateView.cellUnits.year'), 
+			$i18n.t('tmui32x.tmDateView.cellUnits.month'), 
+			$i18n.t('tmui32x.tmDateView.cellUnits.day'), 
+			$i18n.t('tmui32x.tmDateView.cellUnits.hour'), 
+			$i18n.t('tmui32x.tmDateView.cellUnits.minute'), 
+			$i18n.t('tmui32x.tmDateView.cellUnits.second')
+		]
 	}
 });
 
@@ -414,9 +421,19 @@ const change = (ixs: number[]) => {
 		nowvalstrs[i] = item[ixs[i]].title
 	}
 
+	// 判断下当前月分下的天数和选中的天数区别。
+	let nowMonth = nowvalstrs[0]+"/"+nowvalstrs[1]+'/1'
+	let selectedDay = Number(nowvalstrs[2])
+	let nowDay = new tmDate(nowMonth).getMonthCountDay();
+	if(nowDay<selectedDay){
+		nowvalstrs[2] = nowDay
+	}
+	
+	
 	let value_first = nowvalstrs.slice(0, 3).join('/');
 	let value_last = nowvalstrs.slice(3).join(':');
 	let val = value_first+" "+value_last
+	
 	let stp = getRangByDateTime(new tmDate(val));
 
 	defaultModelvalue(stp.str, true)

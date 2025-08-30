@@ -3,7 +3,7 @@ import { ref, computed, onMounted, watch, PropType } from 'vue';
 import { useTmConfig } from "../../libs/config";
 import { tmDate, type tmDateTypeTime, createDate } from '../../libs/tmDate';
 import pickerItem from './../tm-picker-view/picker-item.vue';
-
+import {$i18n} from "@/uni_modules/tm-ui"
 type PICKER_ITEM_INFO = Record<string, any>
 
 /**
@@ -36,6 +36,16 @@ const props = defineProps({
 		default: ""
 	},
 	/**
+	 * 是否将format格式化的v-model:modelStr同步到v-model:modelValue
+	 * 默认false,注意：如果开启了同步，你要确保format的值是正常的时间值
+	 * 正常兼容以下时间格式：
+	 * YYYY,YYYY-MM,YYYY-MM-DD,YYYY-MM-DD HH,YYYY-MM-DD HH:mm,YYYY-MM-DD HH:mm:ss
+	 */
+	formatSyncValue:{
+		type:Boolean,
+		default:false
+	},
+	/**
 	 * 当前时间经过format格式化后输出的值。
 	 * 此值不会处理输入，只输出显示。
 	 */
@@ -56,7 +66,7 @@ const props = defineProps({
 	 */
 	title: {
 		type: String,
-		default: "请选择时间"
+		default: $i18n.t('tmui32x.tmPickerDate.title')
 	},
 	/**
 	 * 开始时间，请提供正确的时间格式
@@ -104,7 +114,14 @@ const props = defineProps({
 	 */
 	cellUnits: {
 		type: Array as PropType<string[]>,
-		default: (): string[] => ['年', '月', '日', '时', '分', '秒']
+		default: (): string[] => [
+			$i18n.t('tmui32x.tmDateView.cellUnits.year'), 
+			$i18n.t('tmui32x.tmDateView.cellUnits.month'), 
+			$i18n.t('tmui32x.tmDateView.cellUnits.day'), 
+			$i18n.t('tmui32x.tmDateView.cellUnits.hour'), 
+			$i18n.t('tmui32x.tmDateView.cellUnits.minute'), 
+			$i18n.t('tmui32x.tmDateView.cellUnits.second')
+		]
 	},
 	/**
 	 * 是否懒加载内部内容。
@@ -114,7 +131,18 @@ const props = defineProps({
 	lazyContent: {
 		type: Boolean,
 		default: false
-	}
+	},
+	showClose:{
+		type:Boolean,
+		default:false
+	},
+	/**
+	 * 是否禁用弹层
+	 */
+	disabled: {
+	    type: Boolean,
+	    default: false
+	},
 });
 
 const emit = defineEmits([
@@ -164,7 +192,7 @@ const _getDateType = computed((): tmDateTypeTime => {
 	if (props.type == 'minute') isType = 'M';
 	return isType;
 });
-
+const _disabled = computed(() => props.disabled)
 
 
 const defaultModelvalue = (newvalue: string, showStr: boolean) => {
@@ -409,6 +437,7 @@ const getNowTypeLenIndex = () => {
 }
 
 const openShow = () => {
+	if(_disabled.value) return;
 	show.value = true;
 	/**
 	 * 变量控制打开状态
@@ -458,6 +487,14 @@ const change = (ixs: number[]) => {
 		let item = dateList.value[i]
 		nowvalstrs[i] = item[ixs[i]].title
 	}
+	
+	// 判断下当前月分下的天数和选中的天数区别。
+	let nowMonth = nowvalstrs[0]+"/"+nowvalstrs[1]+'/1'
+	let selectedDay = Number(nowvalstrs[2])
+	let nowDay = new tmDate(nowMonth).getMonthCountDay();
+	if(nowDay<selectedDay){
+		nowvalstrs[2] = nowDay
+	}
 
 	let value_first = nowvalstrs.slice(0, 3).join('/');
 	let value_last = nowvalstrs.slice(3).join(':');
@@ -488,14 +525,14 @@ const onConfirm = () => {
 	/**
 	 * 点击确认时同步。等同v-model
 	 */
-	emit('update:modelValue', nowValueStr.value);
+	emit('update:modelValue', props.formatSyncValue?formatTimeDate():nowValueStr.value);
 
 	/**
 	 * 经格式化后的值。等同v-model:model-str
 	 */
 	emit('update:modelStr', formatTimeDate());
 
-	emit('confirm', nowValueStr.value);
+	emit('confirm', props.formatSyncValue?formatTimeDate():nowValueStr.value);
 }
 
 
@@ -528,7 +565,7 @@ onMounted(() => {
 		<slot></slot>
 	</view>
 	<tm-drawer @open="onOpen" :widthCoverCenter="true" :disabledScroll="true" :title="title" @close="onClose"
-		@confirm="onConfirm" @cancel="onCancel" :showFooter="true" v-model:show="show" :show-close="true" size="850">
+		@confirm="onConfirm" @cancel="onCancel" :showFooter="true" v-model:show="show" :show-close="showClose" size="850">
 		<view v-if="yanchiDuration&&show" class="tmPickerDateWrap">
 			<picker-item @change-deep="change" :selected-index="_modelValueIndex" :list="dateList"
 				:cell-units="cellUnits.slice(0, dateList.length)"></picker-item>

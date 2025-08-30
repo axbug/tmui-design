@@ -3,12 +3,13 @@ import { PropType, computed, nextTick, provide, ref } from 'vue';
 import { defaultValidator } from "./validator"
 import { useTmConfig } from "../../libs/config";
 import { deepClone } from '../../libs/tool';
-
+import {$i18n} from "@/uni_modules/tm-ui"
 /**
  * @displayName 表单
  * @exportName tm-form
  * @category 表单组件
  * @description 表单组件的校验规则现在统一放到了form组件上，form-item上不再配置校验，主要是方便统一管理校验模块，并且校验函数作了升级处理。
+ * 嵌套表单时，name值以.连接，比如"a.b.c"
  * @constant 平台兼容
  *	| H5 | uniAPP | 小程序 | version |
     | --- | --- | --- | --- |
@@ -81,10 +82,35 @@ const props = defineProps({
         default: "10"
     }
 })
+/**
+ * 将嵌套对象拍平为点分隔的键值对
+ * @param obj 要拍平的对象
+ * @param prefix 键前缀
+ * @returns 拍平后的对象
+ */
+const flattenObject = (obj: Record<string, any>, prefix: string = ''): Record<string, any> => {
+    const flattened: Record<string, any> = {}
+    for (const key in obj) {
+        if (obj.hasOwnProperty(key)) {
+            const newKey = prefix ? `${prefix}.${key}` : key
+            const value = obj[key]
+            
+            if (value !== null && typeof value === 'object' && !Array.isArray(value)) {
+                // 递归处理嵌套对象
+                Object.assign(flattened, flattenObject(value, newKey))
+            } else {
+                // 直接赋值
+                flattened[newKey] = value
+            }
+        }
+    }
+    return flattened
+}
+
 const ruleCover = (rule: TM.FORM_RULE): TM.FORM_RULE_TYPE => {
     return {
         required: rule?.required ?? false,
-        message: rule?.message ?? "请正确认选择/填写",
+        message: rule?.message ?? $i18n.t('tmui32x.tmForm.ruleMessage'),
         validator: rule?.validator ?? null,
         min: rule?.min ?? 1,
         max: rule?.max ?? -1,
@@ -94,7 +120,10 @@ const ruleCover = (rule: TM.FORM_RULE): TM.FORM_RULE_TYPE => {
 }
 const _rules = computed((): Record<string, Array<TM.FORM_RULE_TYPE>> => {
     let rules: Record<string, Array<TM.FORM_RULE_TYPE>> = {};
-    let keys = Object.keys(props.modelValue)
+    // 将嵌套的modelValue拍平，获取所有可能的键名（包括点分隔的键名）
+    const flattenedModelValue = flattenObject(props.modelValue)
+    let keys = Object.keys(flattenedModelValue)
+    
     for (let key in props.rules) {
         if (keys.includes(key)) {
             let item = props.rules[key];
@@ -105,10 +134,11 @@ const _rules = computed((): Record<string, Array<TM.FORM_RULE_TYPE>> => {
             }
         }
     }
+	
     return rules
 })
 const vaildTypeStr = ref('valid')
-provide("tmFormModelValue", computed(() => props.modelValue))
+provide("tmFormModelValue", computed(() => flattenObject(props.modelValue)))
 provide("tmFormVaildType", computed(() => vaildTypeStr.value))
 provide("tmFormDirection", computed(() => props.direction))
 provide("tmFormLabelwidth", computed(() => props.labelWidth))
@@ -141,11 +171,13 @@ const validate = (): TM.FORM_SUBMIT_RESULT => {
         //校验结果
         result: []
     }
+   
     for (let key of markedKeys) {
         let rules = _rules.value[key]
         if (!rules) continue
         for (let rule of rules) {
-            if (!defaultValidator(props.modelValue[key], rule)) {
+			const flattenedModelValue = flattenObject(props.modelValue)
+            if (!defaultValidator(flattenedModelValue[key], rule)) {
                 result.isPass = false;
                 if (result.firstValid == null) {
                     result.firstValid = { key, isPass: false, message: rule.message, data: props.modelValue[key] }
@@ -170,6 +202,7 @@ const reset = () => {
  */
 const _validate = (name: string, value: any): { validate: boolean, message: string } | boolean => {
     let rules = _rules.value[name]
+	
     if (!rules) return true
     for (let rule of rules) {
         if (!defaultValidator(value, rule)) {
@@ -181,6 +214,7 @@ const _validate = (name: string, value: any): { validate: boolean, message: stri
 
 const _setMarker = (name:string,isvisibl:boolean)=>{
 	let index = markedKeys.findIndex((el)=>el==name);
+    
 	if(isvisibl){
 		if(index==-1){
 			markedKeys.push(name)

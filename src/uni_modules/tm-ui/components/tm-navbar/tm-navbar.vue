@@ -3,8 +3,8 @@ import { ref, computed, onMounted, onBeforeUnmount, watch, PropType, getCurrentI
 import { arrayNumberValid, arrayNumberValidByStyleMP, covetUniNumber, arrayNumberValidByStyleBorderColor, linearValid, getUnit, getUid } from "../../libs/tool";
 import { getDefaultColor, getDefaultColorObj, getOutlineColorObj, getTextColorObj, getThinColorObj, isBlackAndWhite, setBgColorLightByDark } from "../../libs/colors";
 import { useTmConfig } from "../../libs/config";
-import { onPageScroll } from '@dcloudio/uni-app';
-
+import { onPageScroll,onReady } from '@dcloudio/uni-app';
+import {$i18n} from "@/uni_modules/tm-ui"
 /**
  * @displayName 标题导航
  * @exportName tm-navbar
@@ -77,7 +77,7 @@ const props = defineProps({
      */
     title: {
         type: String,
-        default: '标题'
+        default: $i18n.t('tmui32x.tmNavbar.title')
     },
     /**
      * 默认标题颜色，暗黑是取白，如果有其它需求建议插槽。
@@ -164,6 +164,8 @@ const props = defineProps({
     },
     /**
      * 如果需要悬浮滚动请在外部页面中监听onPageScroll事件，并把值传到这里。
+     * 3.2.05开始已经废弃，存在只为兼容之前的版本
+     * 但已经没有作用了，现在改为内部实现，不需要外部提供。
      */
     scrollTop:{
         type:Number,
@@ -172,11 +174,11 @@ const props = defineProps({
 })
 
 const statusBarHeight = ref(44)
-const navbarHeight = 50
+const navbarHeight = 44
 const isFiexd = ref(false)
 const fiexRatio = ref(1)
-const _stop = computed(()=>props.scrollTop)
-
+const _stop = ref(0)
+let nowpage = "";
 const _linearGradient = computed((): string => {
     if (props.linearGradient.length < 3) return '';
     let str = props.linearGradient.join(",");
@@ -234,7 +236,15 @@ const _titleActiveColor = computed((): string => {
 })
 
 const _title = computed((): string => props.title)
-
+function getNowPageRoute(){
+    if(nowpage) return nowpage;
+    const pages = getCurrentPages();
+    let page = undefined
+    if(pages.length>0){
+        page = pages[pages.length - 1]?.route||undefined
+    }
+    nowpage = page
+}
 const _styleMap = computed(() => {
     let maps: Record<string, string | number> = {};
     if (props.staticTransparent) {
@@ -267,16 +277,29 @@ const _styleMap = computed(() => {
 
     return maps
 })
-
-onMounted(() => {
-    let sys = uni.getSystemInfoSync();
-    statusBarHeight.value = sys.statusBarHeight || 0
+const onReadyEvent = ()=>{
+    let sys = uni.getWindowInfo();
+    statusBarHeight.value = sys?.statusBarHeight ?? 0
     emits('init', statusBarHeight.value + navbarHeight)
     if (props.staticTransparent) {
         fiexRatio.value = 0
     }
+}
+const getPageScroll = (details:{scrollTop:number,page:string|undefined})=>{
+    if(nowpage == details.page){
+        _stop.value = details.scrollTop
+    }
+}
+onMounted(() => {
+    getNowPageRoute()
+    onReadyEvent()
+   uni.$on('onReady',onReadyEvent)
+   uni.$on('onPageScroll',getPageScroll)
 })
-
+onBeforeUnmount(() => {
+    uni.$off('onReady',onReadyEvent)
+    uni.$off('onPageScroll',getPageScroll)
+})
 
 
 watchEffect(() => {
@@ -339,7 +362,7 @@ export default {
 						 -->
                         <slot name="title">
                             <text class="xNvbarTtitleOverls"
-                                :style="{ fontSize: _titleFontSize, fontWeight: 'bold', color: isFiexd ? _titleActiveColor : _titleColor }">{{
+                                :style="{ fontSize: _titleFontSize,lineHeight:'1', fontWeight: 'bold', color: isFiexd ? _titleActiveColor : _titleColor }">{{
                                     _title }}</text>
                         </slot>
                     </view>

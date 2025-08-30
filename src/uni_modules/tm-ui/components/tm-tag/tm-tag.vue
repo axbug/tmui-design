@@ -1,5 +1,5 @@
 <template>
-    <view @click="onClick" class="tmTag" :class="[_attrs.disabled ? 'tmTagLoading' : '']" :style="[
+    <view :disabled="_attrs.disabled" @click="onClick" class="tmTag" :class="[_attrs.disabled ? 'tmTagLoading' : '']" :style="[
         {
             minWidth: _width,
             height: _height,
@@ -10,7 +10,7 @@
 
         <!-- 
           @slot icon图标
-           -->
+        -->
         <slot name="icon">
             <tm-icon v-if="_attrs.icon" :name="_attrs.icon" :size="_attrs.iconSize || _fontSize"
                 :color="buttonStyle.color"></tm-icon>
@@ -202,10 +202,10 @@ const covetButtonSize = (ops: PropsKeyType, s: TM.BUTTON_SIZE, size?: string | n
     ])
     const heights = new Map<TM.BUTTON_SIZE, string>([
         ['xs', '36'],
-        ['s', '48'],
-        ['m', '58'],
-        ['n', '68'],
-        ['g', '78']
+        ['s', '42'],
+        ['m', '52'],
+        ['n', '62'],
+        ['g', '72']
 
     ])
     const fontSizes = new Map<TM.BUTTON_SIZE, string>([
@@ -350,7 +350,12 @@ export default {
     align-items: center;
     gap: 4px;
     box-sizing: border-box;
-
+    &[disabled = true]{
+        cursor: no-drop;
+    }
+    &[disabled = false]{
+        cursor: pointer;
+    }
 
     &.tmTagLoading {
         opacity: 0.5;

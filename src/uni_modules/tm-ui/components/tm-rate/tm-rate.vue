@@ -237,7 +237,7 @@
 <template>
 	<view class="tmRate" :style="{opacity:_disabled?0.7:1}">
 		<template v-if="!half">
-			<view :ref="'rate-'+index" v-for="index in _count" :key="index">
+			<view :ref="'rate-'+index" v-for="index in _count" :key="index" :class="{'isCheck':isSelected(index)}">
 				<tm-icon @click=" onClick(index)" :_style="`margin-right:${index==_count?'0rpx' : _space}`" :size="_size"
 					:color="isSelected(index)?_color:_unColor" :dark-color="isSelected(index)?_color:_unColor"
 					:name="isSelected(index)?icon:unicon"></tm-icon>
@@ -246,7 +246,7 @@
 
 		<!-- 开启半星 -->
 		<template v-if="half">
-			<view :ref="'rate-'+index" v-for="index in _count" :key="index" style='position:relative'>
+			<view :ref="'rate-'+index" v-for="index in _count" :key="index" :class="{'isCheck':isSelected(index)}" style='position:relative'>
 				<tm-icon :_style="`marginRight:${index==_count?'0rpx' : _space};margin-left:${index==0?'0rpx' : _space}`"
 					:size="_size" :color="isSelected(index)?_color:_unColor"
 					:dark-color="isSelected(index)?_color:_unColor" :name="isSelectedHalf(index)"></tm-icon>
@@ -266,6 +266,20 @@
 	</view>
 </template>
 <style scoped>
+	@keyframes scaleAni {
+		0%{
+			transform: scale(0.64);
+		}
+		50%{
+			transform: scale(1.05);
+		}
+		100%{
+			transform: scale(1.0);
+		}
+	}
+	.isCheck{
+        animation: scaleAni 350ms cubic-bezier(.18, .89, .32, 1);
+    }
 	.tmRateText {
 		margin-left: 20rpx;
 	}

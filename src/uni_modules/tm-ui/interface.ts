@@ -1,3 +1,11 @@
+import { I18nOptions, Tmui4xI18nTml } from "../tm-ui/local/interface";
+import { AxiosInstance } from "./libs/axios";
+import { Tmui4xI18n } from "./local/i18n";
+
+/*
+ * Copyright (c) 2025. tmzdy by @https://tmui.design
+ */
+export * from "../tm-ui/local/interface"
 /**
  * 上传的文件状态
  * 0未上传，1上传中，2上传成功，3上传失败（网络错误），4已取消（终止，上到一半取消了）,5超过大小
@@ -11,13 +19,43 @@ export enum TMUPLOAD_PHOTO_STATUS {
 	CANCELLED = 4,
 	EXCEEDS_SIZE_LIMIT = 5,
 }
+
 declare global {
+	interface Uni {
+		/**
+		 * api接口的域名
+		 */
+		apiHostUrl:string;
+		/**
+		 * 图片地地址域名
+		 */
+		imgHostUrl:string;
+		/**
+		 * 上传文件的地址链接
+		 */
+		uploadHost:string;
+		
+		/**
+		 * 获取图片的域名连接
+		 * localImgName 图片名称如：a.jpg,也可以是本地的地址如/static/xxx或者https开头，会忽略域名的拼接，直接返回本身。
+		 * hostname可以为空，取全局的uni.imgHostUrl
+		 */
+		getHostImg : (localImgName : string,hostname?:string) => string;
+		// 导航跳转
+		navTo : (url : string, type : 'navigate' | 'redirect' | 'switchTab' | 'reLaunch') => void;
+		// 全局的请求实例
+		axios : AxiosInstance;
+		
+	}
+	
 	/**
 	 * TMUI3.2.x类型命名空间
 	 * @author tmzdy
 	 * @date 2024-8-1
 	 */
 	namespace TM {
+
+		export type NAVIGATE_TYPE = 'navigate' | 'redirect' | 'switchTab' | 'reLaunch' | 'navigateBack';
 		/** 按钮尺寸大小 */
 		export type BUTTON_SIZE = "xs" | "s" | "m" | "n" | "g"
 		/** 按钮或者标签的主题样式 */
@@ -28,6 +66,7 @@ declare global {
 		export type THEME_MODE = "auto" | "dark" | "light"
 
 		export interface THEME_CONFIG {
+			i18n: I18nOptions,
 			/** 主题模式 */
 			mode: THEME_MODE,
 			color: string,
@@ -72,8 +111,8 @@ declare global {
 
 			/**部分组件统一的动画差值。 */
 			animation: string,
-			
-			backgroundColorContentDark:string,
+
+			backgroundColorContentDark: string,
 		}
 		export type tmDateDayInfoType = {
 			/** 年 */
@@ -116,11 +155,11 @@ declare global {
 		}
 		export type FORM_RULE_TYPE = {
 			/** 校验正则,如果同时提供了valid,以valid为准,默认为null */
-			rule: RegExp|null,
+			rule: RegExp | null,
 			/** 校验失败提示,默认提示词:请正在选择/填写 */
 			message: string,
 			/**校验函数,如果不提供,默认以min,max来判断. */
-			validator: null|((val: any) => boolean),
+			validator: null | ((val: any) => boolean),
 			/**
 			 * 如果校验的值类型是数字是起作用,默认为1,至少要大于0
 			 * 如果预期是数组,那长度至少要大于0
@@ -130,7 +169,7 @@ declare global {
 			//默认为-1最长/大值不限制
 			max: number,
 			//预期值的类型,如果不提供自动推断，不提供默认是auto
-			type: "string" | "number" | "array" | "boolean" | "date" | "email" | "phone"|"auto",
+			type: "string" | "number" | "array" | "boolean" | "date" | "email" | "phone" | "auto",
 			//必填项,是否校验本值
 			required: boolean
 		}
@@ -144,6 +183,125 @@ declare global {
 			/**校验结果集 */
 			result: FORM_RESULT_TYPE[]
 		}
+
+		export type SKU_DATA_ITEM = {
+			/** 产品id */
+			id: string | number,
+			/** 分类/规格名称 */
+			title: string,
+			/** 库存数量 */
+			inventory_quantity?: number,
+			/** 规格数组 */
+			children?: Array<SKU_DATA_ITEM>,
+			/** 自定义数据 */
+			[p: string]: any
+		}
+		export type SKU_PRODUCT = {
+			/** 唯一id值,必须是规格产品id组合,以 - 连接符连接,比如22-23-24 */
+			id: string | number,
+			/** 产品图片 */
+			img: string,
+			/** 库存数量 */
+			inventory_quantity: number,
+			/** 最大购买量 */
+			max_buy_quantity: number,
+			/** 最小购买量 */
+			min_buy_quantity: number,
+			/** 产品原价 */
+			original_price: number,
+			/** 产品现行售价 */
+			price: number,
+			/** 产品规格名称 */
+			title: string,
+			/** 自定义数据 */
+			[p: string]: any
+		}
+		export type SKU_DATA = {
+			/** 规格分组产品 */
+			data: Array<SKU_DATA_ITEM>,
+			/** 平铺产品列表 */
+			product: SKU_PRODUCT[] | null
+		}
+
+		/**
+		 * 底部导航项目信息tabbar
+		 */
+		export type TABBAR_ITEM_INFO = {
+			/**
+			 * 标题
+			 * @type {string}
+			 */
+			title?: string;
+			/**
+			 * 图标
+			 * @type {string}
+			 */
+			icon?: string;
+			/**
+			 * 被选中时的图标
+			 * @type {string}
+			 */
+			selectedIcon?: string;
+			/**
+			 * 是否禁用
+			 * @type {boolean}
+			 */
+			disabled?: boolean;
+
+			/**
+			 * 默认颜色
+			 * @type {string}
+			 */
+			color?: string;
+			/**
+			 * 选中时的颜色
+			 * @type {string}
+			 */
+			selectedColor?: string;
+
+			/**
+			 * 打开方式
+			 * @type {NAVIGATE_TYPE}
+			 */
+			openType?: NAVIGATE_TYPE;
+			/**
+			 * 链接地址
+			 * @type {string}
+			 */
+			url?: string;
+			/**
+			 * 是否显示角标。如果为dot，dotLabel不为空优先展示文本角标
+			 * dot,
+			 * label
+			 */
+			dotType?: string,
+			/**
+			 * 文本角标。空不展示。
+			 */
+			dotLabel?: string
+		}
+
+		export type TABBAR_ITEM = {
+			title: string,
+			icon: string,
+			selectedIcon: string,
+			disabled: boolean,
+			color: string,
+			selectedColor: string,
+			openType: string,
+			url: string,
+			/**
+			 * 是否显示角标。如果为dot，dotLabel不为空优先展示文本角标
+			 * dot,
+			 * label
+			 */
+			dotType?: string,
+			/**
+			 * 文本角标。空不展示。
+			 */
+			dotLabel?: string
+		}
+
 	}
 }
 export { }

@@ -1,5 +1,5 @@
 <template>
-	<view @click="OnClick" :style="[_style]" class="xTextLines">
+	<view @click="OnClick" :style="[__style,_customStyle]" class="xTextLines">
 		<!--
 		@slot 默认文本插槽，如果使用插槽，那么相关特性功能将会失效。
 		因此不建议使用插槽，还不如自己用text标签。
@@ -20,7 +20,7 @@
 	</view>
 </template>
 <script setup lang="ts">
-import { computed, ref, useSlots } from "vue";
+import { computed, PropType, ref, useSlots } from "vue";
 import { arrayNumberValid, arrayNumberValidByStyleMP, covetUniNumber, linearValid, getUnit } from "../../libs/tool";
 import { useTmConfig } from "../../libs/config";
 import { getDefaultColor, setTextColorLightByDark, getOutlineColorObj, getTextColorObj, getThinColorObj } from "../../libs/colors";
@@ -59,6 +59,13 @@ const emits = defineEmits([
 ])
 // 使用defineProps定义组件的props
 const attrs = defineProps({
+	/**
+     * 文本自定样式
+     */
+    _style:{
+        type: [String, Object] as PropType<Partial<CSSStyleDeclaration>|string>,
+        default: ''
+    },
 	/**
 	 * 文本内容
 	 * 这个prop用于接收显示在组件中的文本或数字
@@ -147,6 +154,8 @@ const attrs = defineProps({
 	},
 })
 const _attrs = computed(() => attrs)
+const _customStyle = computed((): any => attrs._style)
+
 /**
  * 点击事件处理函数
  * @returns 无返回值
@@ -254,7 +263,7 @@ const _fontSize = computed((): string => {
 	}
 	return (sizeNumber * config.fontSizeScale).toString() + getUnit(fontSize)
 })
-const _style = computed((): { [key: string]: any } => {
+const __style = computed((): { [key: string]: any } => {
 	let obj: { [key: string]: any } = {}
 	obj["-webkit-line-clamp"] = attrs.lines.toString()
 	obj["lineHeight"] = attrs.lineHeight

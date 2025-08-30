@@ -142,7 +142,7 @@ const props = defineProps({
 		default: 'id'
 	},
 	menuSelectedStyle:{
-		type: Object as PropType<CSSStyleDeclaration>,
+		type: Object as PropType<Partial<CSSStyleDeclaration>>,
 		default: ()=>{
 			return {}
 		}
@@ -170,7 +170,7 @@ const isscrollingActions = ref(false)
 const _sliderWidth = computed(() : string => {
 	return covetUniNumber(props.sliderWidth, config.unit)
 })
-const _menuSelectedStyle = computed(():CSSStyleDeclaration=>props.menuSelectedStyle)
+const _menuSelectedStyle = computed(():any=>props.menuSelectedStyle)
 
 const _width = computed(() : string => {
 	return covetUniNumber(props.width, config.unit)

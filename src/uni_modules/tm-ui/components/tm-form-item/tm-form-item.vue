@@ -1,10 +1,9 @@
 <script setup lang="ts">
-import { ref, computed, getCurrentInstance, inject, onBeforeUnmount, watch, PropType,onMounted } from 'vue';
-import { defaultValidator } from "./../tm-form/validator"
-import { useTmConfig } from "../../libs/config";
+import {computed, getCurrentInstance, inject, onBeforeUnmount, onMounted, PropType, ref, watch} from 'vue';
+import {useTmConfig} from "../../libs/config";
 import TmForm from '../tm-form/tm-form.vue';
-import { covetUniNumber } from '../../libs/tool';
-import { getDefaultColor } from '../../libs/colors';
+import {covetUniNumber} from '../../libs/tool';
+import {getDefaultColor} from '../../libs/colors';
 
 /**
  * @displayName 表单子组件
@@ -12,13 +11,14 @@ import { getDefaultColor } from '../../libs/colors';
  * @category 表单组件
  * @page tm-form
  * @description 表单组件的校验规则现在统一放到了form组件上，form-item上不再配置校验，主要是方便统一管理校验模块，并且校验函数作了升级处理。
+ * 嵌套表单时，name值以.连接，比如"a.b.c"
  * @constant 平台兼容
- *	| H5 | uniAPP | 小程序 | version |
-    | --- | --- | --- | --- |
-    | ☑️| ☑️ | ☑️ | ☑️ | ☑️ | 1.0.0 |
+ *    | H5 | uniAPP | 小程序 | version |
+ | --- | --- | --- | --- |
+ | ☑️| ☑️ | ☑️ | ☑️ | ☑️ | 1.0.0 |
  */
-defineOptions({ name: "TmFormItem" });
-const { config } = useTmConfig();
+defineOptions({name: "TmFormItem"});
+const {config} = useTmConfig();
 
 const props = defineProps({
     /**
@@ -79,6 +79,14 @@ const props = defineProps({
         type: [String],
         default: ""
     },
+    /**
+     * 标题颜色，会覆盖父form值
+     */
+    bottomGap: {
+        type: [String, Number],
+        default: ""
+    },
+
 })
 const proxy = getCurrentInstance()?.proxy
 let tid = 0;
@@ -94,7 +102,7 @@ const tmFormLabelwidth = inject("tmFormLabelwidth", computed(() => ''))
 const tmFormGap = inject("tmFormGap", computed(() => '0'))
 const tmFormLabelFontSize = inject("tmFormLabelFontSize", computed(() => '30'))
 const tmFormLabelFontColor = inject("tmFormLabelFontColor", computed(() => '#333333'))
-const _tmFormGap = computed(() => covetUniNumber(tmFormGap.value))
+const _tmFormGap = computed(() => props.bottomGap == '' ? covetUniNumber(tmFormGap.value) : covetUniNumber(props.bottomGap))
 const _tmFormDirection = computed(() => {
     if (props.direction) return props.direction
     if (tmFormDirection.value) return tmFormDirection.value
@@ -121,17 +129,25 @@ const _label = computed(() => props.label)
 const _showLabel = computed(() => props.showLabel)
 const _showBottom = computed(() => props.showBottom)
 const isFirstVaild = ref(true)
-watch(() => tmFormModelValue.value[props.name], (val: any) => {
+watch(() => tmFormModelValue.value?.[props.name], (val: any, oldVal: any) => {
     if (tmFormVaildType.value != 'valid') return
     if (isFirstVaild.value) {
         isFirstVaild.value = false;
         return
     }
+    // 判断是不是本值变动了。
+    let new_val = val
+    let old_val = oldVal
+    if (Array.isArray(new_val) && Array.isArray(old_val)) {
+        if (new_val.length == old_val.length) return
+    } else if (old_val !== undefined && new_val !== undefined && new_val !== null && old_val !== null) {
+        if (new_val === old_val) return
+    }
     clearTimeout(tid)
     tid = setTimeout(() => {
         _validFun(val)
     }, 200);
-}, { deep: true })
+}, {deep: true})
 
 watch(tmFormVaildType, (val: string) => {
     if (val == 'reset' || val == '') {
@@ -155,7 +171,7 @@ const _validFun = (val: any) => {
     let ele = parent! as InstanceType<typeof TmForm>
     let valid = ele._validate(props.name, val)
     if (typeof valid == 'boolean') {
-        if (valid === true) {
+        if (valid) {
             isPass.value = true;
             errorMessage.value = null;
         }
@@ -170,13 +186,15 @@ const _validFun = (val: any) => {
     }
 }
 
-const setVisibled = (isvisible = true)=>{
-	if (!proxy) return;
-	let parent = findParent(proxy)
-	if (!parent) return;
-	let ele = parent! as InstanceType<typeof TmForm>
-	ele._setMarker(props.name,isvisible)
+const setVisibled = (isvisible = true) => {
+    if (!proxy) return;
+    let parent = findParent(proxy)
+    if (!parent) return;
+    let ele = parent! as InstanceType<typeof TmForm>
+
+    ele._setMarker(props.name, isvisible)
 }
+
 function findParent(parent: any): any {
     if (parent == null) return null;
     if (parent.$parent?.$options?.name == "TmForm") return parent.$parent;
@@ -190,26 +208,27 @@ onMounted(() => {
 })
 onBeforeUnmount(() => {
     clearTimeout(tid)
-	setVisibled(false)
+    setVisibled(false)
 })
 
 </script>
 <script lang="ts">
 export default {
-  options: {
-    styleIsolation: "apply-shared",
-    virtualHost: true,
-    addGlobalClass: true,
-    multipleSlots: true,
-  },
+    options: {
+        styleIsolation: "apply-shared",
+        virtualHost: true,
+        addGlobalClass: true,
+        multipleSlots: true,
+    },
 };
 </script>
 <template>
     <view class="tmFormItem" :style="{ marginBottom: _tmFormGap }">
-        <view class="tmFormItemWrap" :class="[_tmFormDirection == 'horizontal' ? 'tmFormItemWrapRow' : 'tmFormItemWrapCol']">
+        <view :class="[_tmFormDirection == 'horizontal' ? 'tmFormItemWrapRow' : 'tmFormItemWrapCol']"
+              class="tmFormItemWrap">
 
             <view v-if="_showLabel" class="tmFormItemLabel"
-                :style="{ width: _tmFormDirection == 'horizontal' ? _labelWidth : 'auto', fontSize: _tmFormLabelFontSize, color: _tmFormLabelFontColor }">
+                  :style="{ width: _tmFormDirection == 'horizontal' ? _labelWidth : 'auto', fontSize: _tmFormLabelFontSize, color: _tmFormLabelFontColor }">
                 <text class="tmFormRequired" v-if="_required">{{ _required }}</text>
                 <slot name="label">
                     {{ _label }}

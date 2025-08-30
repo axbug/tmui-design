@@ -290,13 +290,13 @@ export default {
 </script>
 <template>
     <view :class="[_disabled ? 'checkboxDisabled' : '']" class="checkbox" @click="boxClick">
-        <view class="checkboxBox" v-if="!hiddenCheckbox" :style="{
+        <view class="checkboxBox" :class="{'isCheck':_isCheck}" v-if="!hiddenCheckbox" :style="{
             backgroundColor: _isCheck ? _color : 'transparent',
             border: `1px solid ${_isCheck ? _color : _unCheckColor}`,
             width: _size,
             height: _size
         }">
-            <view :class="['checkboxBoxIcon', 'checkboxBoxIcon_' + (nowValue ? 'on' : 'off')]">
+            <view :class="['checkboxBoxIcon', 'checkboxBoxIcon_' + (_isCheck ? 'on' : 'off')]">
                 <tm-icon color="white" :name="icon" :size="iconSize"></tm-icon>
             </view>
 
@@ -312,7 +312,18 @@ export default {
         </view>
     </view>
 </template>
-<style scoped>
+<style scoped lang="scss">
+@keyframes scaleAni {
+    0%{
+        transform: scale(0.64);
+    }
+    50%{
+        transform: scale(1.05);
+    }
+    100%{
+        transform: scale(1.0);
+    }
+}
 .checkbox {
     display: flex;
     flex-direction: row;
@@ -355,6 +366,9 @@ export default {
     flex-direction: row;
     align-items: center;
     justify-content: center;
+    &.isCheck{
+        animation: scaleAni 350ms cubic-bezier(.18, .89, .32, 1);
+    }
 }
 
 .checkboxLabelBoxLeftSpace {

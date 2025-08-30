@@ -59,9 +59,9 @@
                         </tm-input>
                     </tm-picker>
                 </tm-form-item>
-                <tm-form-item name="score" label="评分">
+                <tm-form-item name="testForm.score" label="评分">
                     <view class="flex flex-row flex-row-center-end py-20">
-                        <tm-rate v-model="form.score"></tm-rate>
+                        <tm-rate v-model="form.testForm.score"></tm-rate>
                     </view>
                 </tm-form-item>
                 <tm-form-item name="textarea" label="备注">
@@ -70,9 +70,13 @@
                 </tm-form-item>
 
                 
-                <view class="flex flex-row flex-row-center-center gap-20 mb-20 mt-n10">
-                    <tm-button form-type="reset" skin="thin">重置</tm-button>
-                    <tm-button form-type="submit">提交</tm-button>
+                <view class="flex flex-row flex-row-center-center mb-20 mt-n10">
+                    <view class="flex-1">
+						<tm-button block form-type="reset" skin="thin">重置</tm-button>
+					</view>
+                    <view class="flex-1 ml-n8">
+						<tm-button block form-type="submit">提交</tm-button>
+					</view>
                 </view>
             </tm-form>
         </tm-sheet>
@@ -106,7 +110,9 @@ const form = ref({
     time: "2024-6-5",
     pingtai: [] as string[],
     store: 0,
-    score:0,
+    testForm:{
+		score:0,
+	},
     textarea:""
 })
 //动态变换表单时,首次不会校验.
@@ -126,7 +132,7 @@ const rules: Record<string, TM.FORM_RULE[]> = {
     time: [{ required: true, type: 'date' }],
     pingtai: [{ required: true }],
     store: [{ required: true, min: 1, max: 100, message: "介于1-100之间" }],
-    score: [{ required: true, min: 5, max: 5, message: "必须打5分哦" }],
+    "testForm.score": [{ required: true, min: 5, max: 5, message: "必须打5分哦" }],
     textarea: [{ required: true,max:100, message: '请输入内容' }]
 }
 const rules2: Record<string, TM.FORM_RULE[]> = {
