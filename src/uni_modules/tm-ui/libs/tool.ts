@@ -70,6 +70,22 @@ export const arrayNumber = (border: string | number | Array<string | number>, de
  * 用于margin,padding，border-width的校验
  */
 export const arrayNumberValidByStyleMP = (border: string | number | Array<string | number>, defaultValue = '0px'): string[] => {
+        let zhi: string[] = Array.isArray(border) ? border.map((item: string | number): string => covetUniNumber(item)) : [covetUniNumber(border || defaultValue)];
+        if (zhi.length == 0) {
+            zhi = [covetUniNumber(defaultValue)]
+        } else if (zhi.length == 2) {
+            zhi = [zhi[1], zhi[0]]
+        } else if (zhi.length == 3) {
+            // 左，上，右
+            // [0,1,2]
+            // 上 右 下 左
+            zhi = [zhi[1], zhi[2], covetUniNumber(defaultValue), zhi[0]]
+        } else if (zhi.length == 4) {
+            zhi = [zhi[1], zhi[2], zhi[3], zhi[0]]
+        }
+        return zhi;
+}
+export const arrayNumberValidByBorderWidth = (border: string | number | Array<string | number>, defaultValue = '0px'): string[] => {
     let zhi: string[] = Array.isArray(border) ? border.map((item: string | number): string => covetUniNumber(item)) : [covetUniNumber(border || defaultValue)];
     if (zhi.length == 0) {
         zhi = [covetUniNumber(defaultValue)]
@@ -84,7 +100,6 @@ export const arrayNumberValidByStyleMP = (border: string | number | Array<string
     }
     return zhi;
 }
-
 export const arrayNumberValidByStyleBorderColor = (border: string | Array<string>, defaultValue = 'transparent'): string[] => {
     let zhi: string[] = Array.isArray(border) ? border.map((item: string): string => getDefaultColor(item)) : [getDefaultColor(border || defaultValue)];
     if (zhi.length == 0) {

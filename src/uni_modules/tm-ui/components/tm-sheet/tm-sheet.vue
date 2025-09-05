@@ -30,7 +30,7 @@
 
 <script lang="ts" setup>
 import { computed, ref } from "vue";
-import { arrayNumberValid, arrayNumberValidByStyleMP, arrayNumberValidByStyleBorderColor, arrayNumberValidByStyleBorderStyle, covetUniNumber, linearValid } from "../../libs/tool";
+import { arrayNumberValid, arrayNumberValidByStyleMP,arrayNumberValidByBorderWidth, arrayNumberValidByStyleBorderColor, arrayNumberValidByStyleBorderStyle, covetUniNumber, linearValid } from "../../libs/tool";
 import { useTmConfig } from "../../libs/config";
 import { getDefaultColor, getDefaultColorObj, getOutlineColorObj, getTextColorObj, getThinColorObj } from "../../libs/colors";
 
@@ -218,7 +218,7 @@ const buttonStyle = computed(() => {
     let borderColor = arrayNumberValidByStyleBorderColor(attrs.borderColor)
     let borderWidth = arrayNumberValidByStyleMP(attrs.borderWidth)
     let borderStyle = arrayNumberValidByStyleBorderStyle(attrs.borderStyle)
-    let borderRadius = arrayNumberValidByStyleMP(attrs.round || config.sheetRadius)
+    let borderRadius = arrayNumberValidByBorderWidth(attrs.round || config.sheetRadius)
     let margin = arrayNumberValidByStyleMP(attrs.margin === '' ? config.sheetMargin : attrs.margin)
     let padding = arrayNumberValidByStyleMP(attrs.padding === '' ? config.sheetPadding : attrs.padding)
     let linear = linearValid(attrs.linear)

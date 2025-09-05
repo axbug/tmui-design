@@ -24,7 +24,7 @@
 
 <script lang="ts" setup>
 import { ComputedRef, PropType, computed, ref } from "vue";
-import { arrayNumberValid, arrayNumberValidByStyleMP, covetUniNumber,arrayNumberValidByStyleBorderColor, arrayNumberValidByStyleBorderStyle, linearValid } from "../../libs/tool";
+import { arrayNumberValid, arrayNumberValidByStyleMP,arrayNumberValidByBorderWidth, covetUniNumber,arrayNumberValidByStyleBorderColor, arrayNumberValidByStyleBorderStyle, linearValid } from "../../libs/tool";
 import { useTmConfig } from "../../libs/config";
 import { getDefaultColor, getDefaultColorObj, getOutlineColorObj, getTextColorObj, getThinColorObj } from "../../libs/colors";
 
@@ -266,7 +266,7 @@ const buttonStyle = computed(() => {
 
     let borderWidth = arrayNumberValidByStyleMP(attrs.borderWidth)
     let borderStyle = arrayNumberValidByStyleBorderStyle(attrs.borderStyle).join(" ")
-    let borderRadius = arrayNumberValidByStyleMP(attrs.round || config.sheetRadius)
+    let borderRadius = arrayNumberValidByBorderWidth(attrs.round || config.sheetRadius)
 
 
     if (isDark) {
