@@ -148,6 +148,7 @@ declare global {
 			size?: number,
 			/** 文件路径 */
 			path: string,
+			url?:string,
 			progress: number,
 			statusText: string,
 			status: TMUPLOAD_PHOTO_STATUS,
@@ -300,6 +301,82 @@ declare global {
 			 * 文本角标。空不展示。
 			 */
 			dotLabel?: string
+		}
+		
+		
+		/**
+		 * 日期的对象属性
+		 */
+		export type xDateDayInfoType = {
+			/** 年 */
+			year : number,
+			/** 月0-11 */
+			month : number,
+			/** 天 */
+			day : number,
+			/** 小时0-23 */
+			hours : number,
+			/** 分钟0-59 */
+			minutes : number,
+			/** 秒0-59 */
+			seconds : number,
+			/** 本年的第几周 */
+			weeks : number,
+			/** 本周星期几 */
+			week : number,
+			/** 本周星期几,中文名称 */
+			weekCn : string,
+			/** 格式化的日期字符串 */
+			date : string,
+			/** 是否渲染显示 */
+			isRender ?: boolean
+		}
+		
+		/**
+		 * 日历单个日期的样式对象
+		 */
+		export type tmCalendarDateStyle_type = {
+			/** 是否显示右角标 */
+			dot ?: boolean,
+			/** 右角标背景颜色 */
+			dotColor ?: string,
+			/** 右角标文字颜色 */
+			dotLabelColor ?: string,
+			/** 注意如果dot为true，此内容为空就会显示小圆点。如果有内容优先显示本文本 */
+			dotLabel ?: string,
+			/** 底部文本 */
+			label ?: string,
+			/** 背景颜色 */
+			color ?: string,
+			/** 日期文字颜色 */
+			fontColor ?: string,
+			/** 设置的日期 */
+			date : string
+		}
+		
+		export type tmCalendarDateStyleStatus = {
+			date:string,
+			color:string
+		}
+		
+		export type tmCalendarDateStyleBetweenStatus = {
+			/** 指定了start和end，那么处于这两个日期（含起始）之间的会显示状态点 */
+			start?:string,
+			/** 指定了start和end，那么处于这两个日期（含起始）之间的会显示状态点 */
+			end?:string,
+			/** start和end间条件达成时的状态颜色 */
+			color?:string,
+			/* 区间内排除的指定日期 */
+			notDate?:string[],
+		}
+		/**
+		 * 状态结构对象
+		 */
+		export type tmCalendarDateStyleStatusType = {
+			/** 启用日期区间设置连续性的状态,它与下面的参数不冲突，如果日期不在区间内，但又在指定的日期内，也会启用状态显示。 */
+			between?:tmCalendarDateStyleBetweenStatus,
+			/** 指定单独的日期状态,高于between优先权 */
+			date?:tmCalendarDateStyleStatus[]
 		}
 
 	}

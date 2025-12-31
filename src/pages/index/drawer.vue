@@ -2,7 +2,7 @@
 import { ref } from "vue"
 const show = ref(false)
 const beforeClose = () => {
-    return new Promise((resolve) => {
+    return new Promise<boolean>((resolve) => {
         setTimeout(() => {
             resolve(true)
         }, 3000)

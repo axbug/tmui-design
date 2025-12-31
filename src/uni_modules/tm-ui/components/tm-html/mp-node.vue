@@ -52,22 +52,22 @@
 				<node name="span" :childs="n.children" :opts="opts" style="display:inherit" />
 			</view>
 			<!-- 视频 -->
-			<!-- #ifdef APP-PLUS -->
+			<!-- #ifdef APP-PLUS || APP-HARMONY -->
 			<view v-else-if="n.html" :id="n.attrs.id" :class="'_video '+n.attrs.class" :style="n.attrs.style"
 				v-html="n.html" @vplay.stop="play" />
 			<!-- #endif -->
-			<!-- #ifndef APP-PLUS -->
+			<!-- #ifndef APP-PLUS || APP-HARMONY -->
 			<video v-else-if="n.name==='video'" :id="n.attrs.id" :class="n.attrs.class" :style="n.attrs.style"
 				:autoplay="n.attrs.autoplay" :controls="n.attrs.controls" :loop="n.attrs.loop" :muted="n.attrs.muted"
 				:object-fit="n.attrs['object-fit']" :poster="n.attrs.poster" :src="n.src[ctrl[i]||0]" :data-i="i"
 				@play="play" @error="mediaError" />
 			<!-- #endif -->
-			<!-- #ifdef H5 || APP-PLUS -->
+			<!-- #ifdef H5 || APP-PLUS || APP-HARMONY -->
 			<iframe v-else-if="n.name==='iframe'" :style="n.attrs.style" :allowfullscreen="n.attrs.allowfullscreen"
 				:frameborder="n.attrs.frameborder" :src="n.attrs.src" />
 			<embed v-else-if="n.name==='embed'" :style="n.attrs.style" :src="n.attrs.src" />
 			<!-- #endif -->
-			<!-- #ifndef MP-TOUTIAO || ((H5 || APP-PLUS) && VUE3) -->
+			<!-- #ifndef MP-TOUTIAO || ((H5 || APP-PLUS || APP-HARMONY) && VUE3) -->
 			<!-- 音频 -->
 			<audio v-else-if="n.name==='audio'" :id="n.attrs.id" :class="n.attrs.class" :style="n.attrs.style"
 				:author="n.attrs.author" :controls="n.attrs.controls" :loop="n.attrs.loop" :name="n.attrs.name"
@@ -95,11 +95,11 @@
 			</view>
 
 			<!-- 富文本 -->
-			<!-- #ifdef H5 || ((MP-WEIXIN || MP-QQ || APP-PLUS || MP-360) && VUE2) -->
+			<!-- #ifdef H5 || ((MP-WEIXIN || MP-QQ || APP-PLUS || MP-360 || APP-HARMONY) && VUE2) -->
 			<rich-text v-else-if="!n.c&&!handler.isInline(n.name, n.attrs.style)" :id="n.attrs.id" :style="n.f"
 				:user-select="opts[4]" :nodes="[n]" />
 			<!-- #endif -->
-			<!-- #ifndef H5 || ((MP-WEIXIN || MP-QQ || APP-PLUS || MP-360) && VUE2) -->
+			<!-- #ifndef H5 || ((MP-WEIXIN || MP-QQ || APP-PLUS || MP-360 || APP-HARMONY) && VUE2) -->
 			<rich-text v-else-if="!n.c" :id="n.attrs.id" :style="'display:inline;'+n.f" :preview="false"
 				:selectable="opts[4]" :user-select="opts[4]" :nodes="[n]" />
 			<!-- #endif -->
@@ -111,6 +111,7 @@
 			</view>
 			<node :imgList="imgs" @imgtap="onimgTop" v-else :style="n.f" :name="n.name" :attrs="n.attrs" :childs="n.children" :opts="opts" />
 		</block>
+	
 	</view>
 </template>
 <script module="handler" lang="wxs">
@@ -143,6 +144,30 @@
 </script>
 <script>
 	import node from './mp-node.vue'
+	// 行内标签列表
+	var inlineTags = {
+		abbr: true,
+		b: true,
+		big: true,
+		code: true,
+		del: true,
+		em: true,
+		i: true,
+		ins: true,
+		label: true,
+		q: true,
+		small: true,
+		span: true,
+		strong: true,
+		sub: true,
+		sup: true
+	}
+	
+	const handler = {
+		isInline: function(tagName, style) {
+			return inlineTags[tagName] || (style || '').indexOf('display:inline') !== -1
+		}
+	}
 	export default {
 		name: 'node',
 		options: {
@@ -200,15 +225,15 @@
 		},
 		components: {
 
-			// #ifndef (H5 || APP-PLUS) && VUE3
+			// #ifndef (H5 || APP-PLUS || APP-HARMONY) && VUE3
 			node
 			// #endif
 		},
 		mounted() {
-
+			
 		},
 		beforeDestroy() {
-			// #ifdef H5 || APP-PLUS
+			// #ifdef H5 || APP-PLUS || APP-HARMONY
 			if (this.observer) {
 				this.observer.disconnect()
 			}
@@ -390,7 +415,7 @@
 									})
 							})
 							// #endif
-							// #ifdef APP-PLUS
+							// #ifdef APP-PLUS || APP-HARMONY
 							plus.runtime.openWeb(href)
 							// #endif
 						}

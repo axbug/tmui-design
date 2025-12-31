@@ -15,7 +15,7 @@ export type useRequestPageListOptsType = {
 	order ?: string | null,
 }
 
-export function useRequestPageList<T>(config ?: useRequestPageListOptsType) {
+export const useRequestPageList = (config ?: useRequestPageListOptsType) => {
 	const isEmpty = ref(config?.isEmpty ?? false)
 	const isLoading = ref(config?.isLoading ?? false)
 	const isError = ref(config?.isError ?? false)
@@ -26,7 +26,7 @@ export function useRequestPageList<T>(config ?: useRequestPageListOptsType) {
 	const sort = ref(config?.sort ?? 'id')
 	const order = ref(config?.order ?? 'desc')
 
-	const list = ref<T[]>([]);
+	const list = ref(<Array<Record<string, any>>>[]);
 
 	const reset = (isclearKeyword ?: boolean) => {
 		isEmpty.value = false
@@ -34,7 +34,7 @@ export function useRequestPageList<T>(config ?: useRequestPageListOptsType) {
 		isLoading.value = false
 		isMore.value = true
 		keyword.value = isclearKeyword == true ? "" : keyword.value
-		pageSize.value = 12
+		pageSize.value = config?.pageSize ?? 12
 		pageNum.value = 1
 		sort.value = "id"
 		order.value = "desc"
@@ -42,21 +42,20 @@ export function useRequestPageList<T>(config ?: useRequestPageListOptsType) {
 	}
 
 	const getListData = async (url : string, customData ?: Record<string, any>) => {
-
 		if (!isMore.value || isLoading.value) {
+			uni.stopPullDownRefresh()
 			return null;
 		}
 
+		const req = ApiRequestSet({ showLoading: true, showSuccess: false, showError: true })
 		try {
-			const req = ApiRequestSet({ showLoading: true, showSuccess: false, showError: true })
 			isLoading.value = true;
 			isError.value = false;
 			isEmpty.value = false;
 			isMore.value = true;
-
 			const result = await req.post(url, {
-				page: pageNum.value || 12,
-				page_size: pageSize.value || 1,
+				page: pageNum.value || 1,
+				page_size: pageSize.value || 12,
 				sort: sort.value || "id",
 				order: order.value || "desc",
 				keyword: keyword.value || "",
@@ -67,8 +66,6 @@ export function useRequestPageList<T>(config ?: useRequestPageListOptsType) {
 			if (dlist.length == 0 || dlist.length < pageSize.value) {
 				isMore.value = false;
 			}
-
-
 			isLoading.value = false;
 			pageNum.value += 1;
 			list.value.push(...dlist)
@@ -77,7 +74,6 @@ export function useRequestPageList<T>(config ?: useRequestPageListOptsType) {
 				isEmpty.value = true;
 			}
 		} catch (e) {
-			console.error('错误：', e)
 			isLoading.value = false;
 			isError.value = true;
 		}
@@ -99,6 +95,7 @@ export function useRequestPageList<T>(config ?: useRequestPageListOptsType) {
 		list
 	}
 }
+
 
 /**
  * API 接口集合

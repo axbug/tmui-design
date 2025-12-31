@@ -778,6 +778,29 @@ export class tmDate {
 		return qmap;
 	}
 	/**
+	 * 按指定天数返回日期数组
+	 * @param {string} d - 返回多少天的日期数组
+	 * @param {string} type - after表示返回当前日期之后的日期，before表示返回当前日期之前的日期
+	 */
+	getDaysOfNum(d : number = 0, type : 'after' | 'before') : TM.tmDateDayInfoType[] {
+		let ar = [] as TM.tmDateDayInfoType[];
+		let nowdate = this.getClone()
+		if (type == 'after') {
+			for (let i = 0; i < d; i++) {
+				nowdate.add(1, 'd')
+				ar.push(nowdate.getDateInfo())
+			}
+		} else if (type == 'before') {
+			for (let i = 0; i < d; i++) {
+				nowdate.subtraction(1, 'd')
+				ar.push(nowdate.getDateInfo())
+			}
+			ar.reverse()
+		}
+	
+		return ar;
+	}
+	/**
 	 * 取开始和结束之间的时间（含开始和结束）
 	 */
 	getBetweenDate(start: tmDate, end: tmDate,minx:'min'|'max'|'auto' = 'min'): tmDate {

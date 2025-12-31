@@ -23,5 +23,7 @@
         </tm-sheet>
     </tm-sheet>
 </template>
-<script setup lang="ts"></script>
+<script lang="ts" setup>
+import {ref} from "vue"
+</script>
 <style lang="scss"></style>

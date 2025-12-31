@@ -1,3 +1,7 @@
+<!--
+  - Copyright (c) 2025. tmzdy by @https://tmui.design
+  -->
+
 <template>
     <view @click="prevImage" class="tmImage" :class="[idBox]" ref="tmImage" :id="idBox"
         :style="{ width: _place_size.width, height: _place_size.height }">
@@ -8,21 +12,21 @@
                 <tm-icon :size="iconSize" v-if="isError" color="error" name="landscape-line"></tm-icon>
                 <tm-icon :size="iconSize" v-if="isLoading" name="loader-line" color="primary" :spin="true"></tm-icon>
             </view>
-
-            <image v-if="!isError" class="tmImageImg" :lazy-load="lazy" :draggable="draggable"
+            <image :draggable="draggable" :lazy-load="lazy" :src="_src"
                 :showMenuByLongpress="showMenuByLongpress"
                 :class="[isLoading ? 'tmImageImgAbs' : '', fadeShow ? 'tmImageFadeShow' : '']" :mode="_model"
-                :style="[_styleMap]" :src="_src" @error="imgError">
+                :style="[_styleMap]" class="tmImageImg" @error="imgError" @load="imgLoad">
             </image>
         </view>
     </view>
 </template>
 <script setup lang="ts">
-import { ref, computed, onMounted, onBeforeUnmount, watch, PropType, getCurrentInstance, onUpdated, nextTick } from 'vue';
-import { arrayNumberValid, arrayNumberValidByStyleMP, covetUniNumber, arrayNumberValidByStyleBorderColor, linearValid, getUnit, getUid } from "../../libs/tool";
-import { getDefaultColor, getDefaultColorObj, getOutlineColorObj, getTextColorObj, getThinColorObj } from "../../libs/colors";
-import { useTmConfig } from "../../libs/config";
-import { onPageScroll } from '@dcloudio/uni-app';
+//@ts-nocheck
+import { computed, getCurrentInstance, onBeforeUnmount, onMounted, PropType, ref, watch } from 'vue'
+import { covetUniNumber, getUid, getUnit } from '../../libs/tool'
+import { getDefaultColor } from '../../libs/colors'
+import { useTmConfig } from '../../libs/config'
+
 /**
  * @displayName 图片
  * @exportName tm-image
@@ -118,6 +122,13 @@ const props = defineProps({
         type: Boolean,
         default: false
     },
+	/**
+	 * 在系统不支持webp的情况下是否单独启用webp。默认false，只支持网络资源。webp支持详见下面说明
+	 */
+	webp: {
+	    type: Boolean,
+	    default: false
+	},
     /**
      * 图片懒加载
      */
@@ -139,7 +150,9 @@ const props = defineProps({
 });
 
 const emit = defineEmits<{
-    (e: 'click'): void
+    (e: 'click'): void,
+    (e: 'error',evt:any): void,
+    (e: 'load',evt:any): void,
 }>();
 
 const id = ref(`tmImage-${getUid()}`);
@@ -287,40 +300,23 @@ function toPngFile(data : string) : Promise<string> {
 		})
 	})
 }
-const imgLoad = async () => {
-	// 检测是不是base64图片，小程序不支持直接用下面的函数读取。
-	const isBase64 = (_src.value.substring(0,6)).toLocaleLowerCase() == 'data:'
-	let  url = _src.value;
-	// #ifdef MP
-	if(isBase64){
-		url = await toPngFile(_src.value)
-	}
-	// #endif
-    uni.getImageInfo({
-        src: url,
-        fail(_) {
-            console.log('error');
-            isError.value = true;
-            isLoading.value = false;
-        },
-        success(result: any) {
-            isLoading.value = false;
-            isError.value = false;
-            isLoaded.value = true;
-            imgrealWidth.value = result.width;
-            imgrealHeight.value = result.height;
-            androidAndWebUrl.value = result.path;
-        }
-    });
+const imgLoad = async (e) => {
+	emit('load',e)
+	let width = e.detail.width;
+	let height = e.detail.height;
+	await getNodes();
+	isLoading.value = false;
+	isError.value = false;
+	isLoaded.value = true;
+	imgrealWidth.value = width;
+	imgrealHeight.value = height;
 };
 
-const imgError = () => {
+const imgError = (e) => {
+	emit('error',e)
     isError.value = true;
     isLoading.value = false;
 };
-
-
-
 
 const getNodes = (): Promise<any> => {
     return new Promise((res) => {
@@ -352,9 +348,6 @@ const resize = (): Promise<any> => {
 
 onMounted(async () => {
     await getNodes();
-    imgLoad();
-
-
 });
 
 onBeforeUnmount(() => {
@@ -363,7 +356,7 @@ onBeforeUnmount(() => {
 });
 
 watch(() => props.src, () => {
-    imgLoad();
+    // imgLoad();
 });
 
 
@@ -420,6 +413,7 @@ export default {
 
 .tmImageImgAbs {
     position: absolute;
-
+	opacity: 0;
+	pointer-events: none;
 }
 </style>

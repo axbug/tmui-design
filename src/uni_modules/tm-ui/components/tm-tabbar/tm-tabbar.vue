@@ -473,6 +473,8 @@
 		align-items: center;
 		justify-content: center;
 		flex: 1;
+		/* #ifdef WEB */
 		cursor: pointer;
+		/* #endif */
 	}
 </style>

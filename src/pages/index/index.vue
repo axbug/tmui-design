@@ -16,9 +16,13 @@
 					
 					<tm-cell url="/pages/index/button" title="button"></tm-cell>
 					
+					<tm-cell url="/pages/index/calendar-multiple" title="calendar-multiple"></tm-cell>
+					
 					<tm-cell url="/pages/index/cell" title="cell"></tm-cell>
 					
 					<tm-cell url="/pages/index/checkbox" title="checkbox"></tm-cell>
+					
+					<tm-cell url="/pages/index/circle-progress" title="circle-progress"></tm-cell>
 					
 					<tm-cell url="/pages/index/code-input" title="code-input"></tm-cell>
 					
@@ -44,6 +48,8 @@
 					
 					<tm-cell url="/pages/index/money" title="money"></tm-cell>
 					
+					<tm-cell url="/pages/index/more" title="more"></tm-cell>
+					
 					<tm-cell url="/pages/index/navbar" title="navbar"></tm-cell>
 					
 					<tm-cell url="/pages/index/picker" title="picker"></tm-cell>
@@ -54,6 +60,10 @@
 					
 					<tm-cell url="/pages/index/picker-view" title="picker-view"></tm-cell>
 					
+					<tm-cell url="/pages/index/popover" title="popover"></tm-cell>
+					
+					<tm-cell url="/pages/index/progress" title="progress"></tm-cell>
+					
 					<tm-cell url="/pages/index/radio" title="radio"></tm-cell>
 					
 					<tm-cell url="/pages/index/rate" title="rate"></tm-cell>
@@ -62,6 +72,8 @@
 					
 					<tm-cell url="/pages/index/sheet" title="sheet"></tm-cell>
 					
+					<tm-cell url="/pages/index/sign-board" title="sign-board"></tm-cell>
+					
 					<tm-cell url="/pages/index/skeleton" title="skeleton"></tm-cell>
 					
 					<tm-cell url="/pages/index/sku" title="sku"></tm-cell>
@@ -69,6 +81,8 @@
 					<tm-cell url="/pages/index/slider-menu" title="slider-menu"></tm-cell>
 					
 					<tm-cell url="/pages/index/stepper" title="stepper"></tm-cell>
+					
+					<tm-cell url="/pages/index/steps" title="steps"></tm-cell>
 					
 					<tm-cell url="/pages/index/sticky" title="sticky"></tm-cell>
 					

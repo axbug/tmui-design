@@ -36,17 +36,8 @@
 	</view>
 </template>
 
-<script>
-	export default {
-		data() {
-			return {
-
-			}
-		},
-		methods: {
-
-		}
-	}
+<script lang="ts" setup>
+import {ref} from "vue"
 </script>
 
 <style>

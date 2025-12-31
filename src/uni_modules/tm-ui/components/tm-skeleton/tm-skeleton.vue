@@ -29,7 +29,14 @@ import { useTmConfig } from "../../libs/config";
  | --- | --- | --- | --- |
  | ☑️| ☑️ | ☑️ | ☑️ | ☑️ | 1.0.0 |
  */
-defineOptions({ name: "tmSkeleton" });
+defineOptions({
+    name: 'tmSkeleton', options: {
+        styleIsolation: "apply-shared",
+        virtualHost: true,
+        addGlobalClass: true,
+        multipleSlots: true,
+    }
+});
 const {config} = useTmConfig();
 const props = defineProps({
 	/**
@@ -128,7 +135,7 @@ const animationEnd = () => {
 	}"></view>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 .xSkeleton {
 	transition-timing-function: linear;
 	/* transition-duration: 900ms; */

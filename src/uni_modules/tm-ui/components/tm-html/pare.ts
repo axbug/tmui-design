@@ -1,3 +1,4 @@
+// @ts-nocheck
 /**
  * @fileoverview html 解析器
  */

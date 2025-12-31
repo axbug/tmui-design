@@ -7,7 +7,7 @@
             </view>
         </tm-sheet>
         <tm-sheet>
-            <tm-input v-model="val" placeholder="请输入值.."></tm-input>
+            <tm-input font-color="red" focus-font-color="green" v-model="val" placeholder="请输入值.."></tm-input>
         </tm-sheet>
         <tm-sheet>
             <tm-text font-size="36" class="text-weight-b mb-16 d-block">文本域</tm-text>

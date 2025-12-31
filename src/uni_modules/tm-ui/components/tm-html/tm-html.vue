@@ -6,6 +6,7 @@
 </template>
 
 <script lang="ts" setup>
+    // @ts-nocheck
 	import { computed, ref, onMounted, PropType, onBeforeUnmount, getCurrentInstance, watch, nextTick } from "vue"
 	import { arrayNumberValid, arrayNumberValidByStyleMP, covetUniNumber, arrayNumberValidByStyleBorderColor, linearValid, getUnit } from "../../libs/tool";
 	import { getDefaultColor, getDefaultColorObj, getOutlineColorObj, getTextColorObj, getThinColorObj } from "../../libs/colors";

@@ -2,7 +2,7 @@
     "name": "tmui3.2",
     "appid": "__UNI__F097BC1",
     "description": "tmui3.0新一代组件库，拥抱vue3,pinia,tmui3.0 demo展示应用",
-    "versionName": "3.2.09",
+    "versionName": "3.2.10",
     "versionCode": 3205,
     "transformPx": false,
     "app-plus": {
@@ -204,6 +204,38 @@
     "quickapp-webview-union": {
         "uniStatistics": {
             "enable": false
+        }
+    },
+    "app-harmony": {
+        "distribute": {
+            "bundleName": "UNI.APP.B73859A",
+            "icons": {
+                "foreground": "unpackage/res/icons/1024x1024.png",
+                "background": "unpackage/res/icons/1024x1024.png"
+            },
+            "splashScreens": {
+                "startWindowIcon": "unpackage/res/icons/1024x1024.png"
+            },
+            "signingConfigs": {
+                "default": {
+                    "certpath": "D:/myapp/tmui4x/logo资源/鸿蒙证书/调试证书/tmuiDev.cer",
+                    "keyAlias": "tmuiDev",
+                    "keyPassword": "0000001CCEF6C202AA4264A259A37414D78EC60E15A3985EA488486889DD65281647781C1E7843AF3EFB3E93",
+                    "profile": "D:/myapp/tmui4x/logo资源/鸿蒙证书/调试证书/tmuiDevDebug.p7b",
+                    "signAlg": "SHA256withECDSA",
+                    "storeFile": "D:/myapp/tmui4x/logo资源/鸿蒙证书/调试证书/tmuiDev.p12",
+                    "storePassword": "0000001C78AAF0F0C4204036D08E6A7440EC11C1AFB49BB1374CA2BE0E2357C9AC042301D4A5EFA44D7122D8"
+                },
+                "release": {
+                    "certpath": "D:/myapp/tmui4x/logo资源/鸿蒙证书/调试证书/tmuiDev.cer",
+                    "keyAlias": "tmui4xDebug",
+                    "keyPassword": "0000001C407505F426690725620F8B5F257FA36D43963607BF4DE48A36962C503A468B14FB553ADA962A5EBB",
+                    "profile": "D:/myapp/tmui4x/logo资源/鸿蒙证书/调试证书/tmuiDevDebug.p7b",
+                    "signAlg": "SHA256withECDSA",
+                    "storeFile": "D:/myapp/tmui4x/logo资源/鸿蒙证书/调试证书/tmuiDev.p12",
+                    "storePassword": "0000001C388F5AEF60B4A6713552A68C80FEFE801042A072E40FEF6B23EB74D31772502E96E5DBE47C63E36D"
+                }
+            }
         }
     }
 }

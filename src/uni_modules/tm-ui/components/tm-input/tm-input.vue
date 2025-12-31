@@ -131,6 +131,7 @@
 	</view>
 </template>
 <script setup lang="ts">
+    //@ts-nocheck
 	import { computed, PropType, ref, watchEffect } from 'vue'
 	import { arrayNumberValid, covetUniNumber } from '../../libs/tool'
 	import { useTmConfig } from '../../libs/config'
@@ -595,9 +596,10 @@
 	const _fontColor = computed(() => {
 		let fontColor = attrs.fontColor;
 		if (config.mode == "dark") {
-			fontColor = attrs.darkFontColor;
-			if (fontColor == "") {
+			if (attrs.darkFontColor == "") {
 				fontColor = setTextColorLightByDark(attrs.fontColor)
+			}else{
+				fontColor = attrs.darkFontColor;
 			}
 		}
 		return getDefaultColor(fontColor)
@@ -655,8 +657,8 @@
 		}
 
 		nowValue.value = pvalue;
-		emits("input", pvalue);
 		emits("update:modelValue", pvalue);
+		emits("input", pvalue);
 		return pvalue
 	};
 	const onclear = () => {

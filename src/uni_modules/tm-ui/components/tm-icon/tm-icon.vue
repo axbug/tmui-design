@@ -27,6 +27,7 @@
   ></image>
 </template>
 <script setup lang="ts">
+//@ts-nocheck
 import { computed, PropType } from 'vue'
 import { covetUniNumber } from "../../libs/tool";
 import { useTmConfig } from "../../libs/config";

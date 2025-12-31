@@ -29,7 +29,7 @@ export default defineConfig({
 		]
 	},
 	server: {
-		port: 1314,
+		port: 2626,
 		// 选项写法
 		proxy: {
 			'/pag': {

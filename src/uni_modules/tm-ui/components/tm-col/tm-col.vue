@@ -5,7 +5,7 @@
     </view>
 </template>
 <script setup lang="ts">
-import { computed, ComputedRef, inject } from 'vue';
+import { computed, ComputedRef, inject,CSSProperties } from 'vue';
 /**
  * @displayName 布局Col
  * @exportName tm-col

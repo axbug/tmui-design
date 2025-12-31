@@ -1,3 +1,7 @@
+<!--
+  - Copyright (c) 2025. tmzdy by @https://tmui.design
+  -->
+
 <template>
     <tm-sheet>
         <tm-text font-size="36" class="text-weight-b mb-16 d-block">图片 tmImage</tm-text>
@@ -7,9 +11,10 @@
         </tm-text>
     </tm-sheet>
     <tm-sheet>
+
         <tm-text font-size="36" class="text-weight-b  d-block mb-16">自动占位宽和高</tm-text>
         <view class="flex flex-row" style="justify-content: space-between;align-items: flex-start;">
-            <tm-image width="18%" src="https://store.tmui.design/api_v2/public/random_picture?random=183"></tm-image>
+            <tm-image src="https://cdn.tmui.design/public/design/weixinQR2.jpg" width="18%"></tm-image>
             <tm-image width="18%" src="https://store.tmui.design/api_v2/public/random_picture?random=0239"></tm-image>
             <tm-image width="18%" src="https://store.tmui.design/api_v2/public/random_picture?random=22233"></tm-image>
             <tm-image width="18%" src="https://store.tmui.design/api_v2/public/random_picture?random=9654"></tm-image>
@@ -26,7 +31,6 @@
     <view class="py-32"></view>
 </template>
 <script setup lang="ts">
-import { ref } from 'vue';
 const testClick = (text: string) => {
     uni.showToast({ title: text, icon: "none" });
 };

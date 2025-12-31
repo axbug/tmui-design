@@ -12,7 +12,7 @@ interface xPickerSelectedListyType {
 /**
  * @displayName 搜索选择
  * @exportName tm-picker-selected
- * @category 常用组件
+ * @category 表单组件
  * @description 弹层式大数据列表筛选，搜索。可异步加载数据。可针对本地搜索及异步搜索加载数据，虚拟列表支持。
  * @constant 平台兼容
  *	| H5 | uniAPP | 小程序 | version |
@@ -45,7 +45,7 @@ const props = defineProps({
      * 等同v-model:model-str
      */
     modelStr: {
-        type: [Array<string[]>],
+        type: [Array<string>],
         default: () => []
     },
     /**

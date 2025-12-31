@@ -1,5 +1,13 @@
 {
 	"tmui32x": {
+		"cancel": "취소",
+		"confirm": "확인",
+		"success": "성공",
+		"fail": "실패",
+		"warn": "경고",
+		"info": "정보",
+		"clear":"지우기",
+		"pickerTitle":"선택하세요",
 		"tmBetweenTime":{
 			"title": "시간을 선택하세요",
 			"startText": "시작 시간",
@@ -11,6 +19,10 @@
 			"thisMonthText": "이번 달",
 			"thisYearText": "올해",
 			"thisQuarterText": "이번 분기"
+		},
+		"tmMore":{
+			"off": "더 펼치기",
+			"on": "더 접기"
 		},
 		"tmSku":{
 			"buyBtnText": "지금 구매",
@@ -62,6 +74,21 @@
 				"minute": "분",
 				"second": "초"
 			}
+		},
+		"tmCalendar":{
+			"year": "년",
+			"month": "월",
+			"day": "일",
+			"hour": "시",
+			"minute": "분",
+			"second": "초",
+			"titleCurrentMonth":"{0}년{1}월",
+			"monthCountSelected":"{count}개월",
+			"selectedStatus":"선택됨{count}일 | 날짜 미선택 | 선택됨 | 종료일 미선택",
+			"rangStatus":"시작 | 종료 | 오늘",
+			"tips":"최대선택{count}일",
+			"currentMonthTitle":"이번 달",
+			"week":"월요일 | 화요일 | 수요일 | 목요일 | 금요일 | 토요일 | 일요일"
 		}
 	}
 }

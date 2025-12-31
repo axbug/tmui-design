@@ -9,7 +9,7 @@ import headertips from '../components/headertips.vue'
 
 <headertips></headertips>
 
-#### 常用组件
+#### 表单组件
 
 # 搜索选择 TmPickerSelected
 
@@ -37,8 +37,8 @@ import headertips from '../components/headertips.vue'
 | :--: | :--: | :--: | :-- |
 | modelValue | Array\<string \| number\> | ()=\>[] | 当前选中的数据，any数组string[],number[]否则报错，无法运行。 | 
 | modelShow | boolean | false | 当前打开的状态。等同v-model:model-show | 
-| modelStr | Array\<string[]\> | ()=\>[] | 回显当前选中的文本，只输出等同v-model:model-str | 
-| title | string | uni.i18n.t('tmui32x.tmPicker.title') | 顶部标题 | 
+| modelStr | Array\<string\> | ()=\>[] | 回显当前选中的文本，只输出等同v-model:model-str | 
+| title | string | $i18n.t('tmui32x.tmPicker.title') | 顶部标题 | 
 | filterKey | string | "text" | 搜索的字段名称 | 
 | labelKey | string | "text" | 显示文本的字段 | 
 | idKey | string | "id" | 列表字段的唯一标识注意它的数据是number类型. | 

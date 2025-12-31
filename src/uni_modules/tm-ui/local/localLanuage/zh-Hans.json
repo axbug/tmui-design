@@ -1,5 +1,12 @@
 {
 	"tmui32x": {
+		"cancel": "取消",
+		"confirm": "确认",
+		"success": "成功",
+		"fail": "失败",
+		"warn": "警告",
+		"info": "提醒",
+		"clear":"清空",
 		"tmBetweenTime":{
 			"title": "请选择时间",
 			"startText": "开始时间",
@@ -11,6 +18,10 @@
 			"thisMonthText": "本月",
 			"thisYearText": "本年",
 			"thisQuarterText": "本季度"
+		},
+		"tmMore":{
+			"off": "展开更多",
+			"on": "收起更多"
 		},
 		"tmSku":{
 			"buyBtnText": "立即购买",
@@ -62,6 +73,21 @@
 				"minute": "分",
 				"second": "秒"
 			}
+		},
+		"tmCalendar":{
+			"year": "年",
+			"month": "月",
+			"day": "日",
+			"hour": "时",
+			"minute": "分",
+			"second": "秒",
+			"titleCurrentMonth":"{0}年{1}月",
+			"monthCountSelected":"{count}月",
+			"selectedStatus":"已选择{count}日 | 未选择日期 | 已选择 | 未选择结束日期",
+			"rangStatus":"开始 | 结束 | 本日",
+			"tips":"最大选择{count}日",
+			"currentMonthTitle":"本月",
+			"week":"周一 | 周二 | 周三 | 周四 | 周五 | 周六 | 周日"
 		}
 	}
 }

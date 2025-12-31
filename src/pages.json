@@ -252,6 +252,48 @@
 			"style": {
 				"navigationBarTitleText": "countdown"
 			}
+		},
+		{
+			"path": "pages/index/calendar-multiple",
+			"style": {
+				"navigationBarTitleText": "calendar-multiple"
+			}
+		},
+		{
+			"path": "pages/index/popover",
+			"style": {
+				"navigationBarTitleText": "popover"
+			}
+		},
+		{
+			"path": "pages/index/steps",
+			"style": {
+				"navigationBarTitleText": "steps"
+			}
+		},
+		{
+			"path": "pages/index/progress",
+			"style": {
+				"navigationBarTitleText": "progress"
+			}
+		},
+		{
+			"path": "pages/index/circle-progress",
+			"style": {
+				"navigationBarTitleText": "circle-progress"
+			}
+		},
+		{
+			"path": "pages/index/sign-board",
+			"style": {
+				"navigationBarTitleText": "sign-board"
+			}
+		},
+		{
+			"path": "pages/index/more",
+			"style": {
+				"navigationBarTitleText": "more"
+			}
 		}
 		
 	],

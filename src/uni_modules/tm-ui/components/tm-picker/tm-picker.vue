@@ -1,9 +1,6 @@
 <script lang="ts" setup>
 import { ref, computed, onMounted, watch, PropType, nextTick } from 'vue';
 import tmPickerView from '../tm-picker-view/tm-picker-view.vue';
-type TM_PICKER_X_ITEM = Record<string, any>
-type TM_PICKER_ITEM_INFO = Record<string, any>
-const pickerView = ref<InstanceType<typeof tmPickerView> | null>(null)
 import {$i18n} from "@/uni_modules/tm-ui"
 /**
  * @displayName 选择器
@@ -22,8 +19,8 @@ const props = defineProps({
      * 数据
      */
     list: {
-        type: Array as PropType<TM_PICKER_ITEM_INFO[]>,
-        default: (): TM_PICKER_ITEM_INFO[] => [] as TM_PICKER_ITEM_INFO[]
+        type: Array as PropType<any[]>,
+        default: (): any[] => [] as any[]
     },
     /**
      * 当前选中项的id值
@@ -128,7 +125,7 @@ const emit = defineEmits([
     'update:modelStr',
     'update:modelValue'
 ]);
-
+const pickerView = ref<InstanceType<typeof tmPickerView> | null>(null)
 const show = ref(false);
 const nowValue = ref<Array<string | number>>([]);
 const modelStrValue = ref("");
@@ -197,6 +194,15 @@ function onClose() {
     if (_lazyContent.value) {
         yanchiDuration.value = false;
     }
+	let ids = nowValue.value.slice(0);
+	let str = [] as string[]
+	if (ids.length == 0) {
+	    str = []
+	} else {
+	    const temp = getIndexsByids(ids)
+	    str = temp.strs
+	}
+	modelStrValue.value = str.join(',');
 }
 
 function strChange(str: string) {
@@ -216,6 +222,15 @@ function mchange(ids: string[]) {
 function onCancel() {
     emit('cancel');
     nowValue.value = props.modelValue.slice(0);
+	let ids = nowValue.value.slice(0);
+	let str = [] as string[]
+	if (ids.length == 0) {
+	    str = []
+	} else {
+	    const temp = getIndexsByids(ids)
+	    str = temp.strs
+	}
+	modelStrValue.value = str.join(',');
 }
 
 function onConfirm() {
@@ -238,16 +253,16 @@ function onConfirm() {
     emit('confirm', ids);
 }
 
-const getIndexsByids = (ids: Array<string | number>): { indexs: Array<number>, data: TM_PICKER_X_ITEM[][], strs: string[] } => {
+const getIndexsByids = (ids: Array<string | number>): { indexs: Array<number>, data: any[][], strs: string[] } => {
     let index = 0;
     let val = ids.slice(0)
     let indexs = [] as number[]
-    let data = [] as TM_PICKER_X_ITEM[][]
+    let data = [] as any[][]
     let strs = [] as string[]
 
     if (_list.value.length == 0 || ids.length == 0) return { indexs: [], data: [], strs: [] }
 
-    function getIndex(nodes: TM_PICKER_X_ITEM[]) {
+    function getIndex(nodes: any[]) {
         if (val.length <= index || val.length == 0) return;
         let id = val[index]
         let sindex = 0
@@ -269,15 +284,15 @@ const getIndexsByids = (ids: Array<string | number>): { indexs: Array<number>, d
     return { indexs, data, strs }
 }
 //根据索引返回ids
-const getIdsByindexs = (indexs: number[]): { ids: Array<string | number>, data: TM_PICKER_X_ITEM[][], strs: string[] } => {
+const getIdsByindexs = (indexs: number[]): { ids: Array<string | number>, data: any[][], strs: string[] } => {
     let ids = [] as string[]
-    let data = [] as TM_PICKER_X_ITEM[][]
+    let data = [] as any[][]
     let index = 0;
     let val = indexs.slice(0)
     let strs = [] as string[]
 
     if (_list.value.length == 0 || indexs.length == 0) return { ids: [], data: [], strs: [] }
-    function getIds(nodes: TM_PICKER_X_ITEM[]) {
+    function getIds(nodes: any[]) {
         if (val.length <= index || val.length == 0) return;
         let currentsIndex = val[index]
         let id = ''
@@ -306,7 +321,7 @@ const getIdsByindexs = (indexs: number[]): { ids: Array<string | number>, data: 
 }
 const _maxDeep = computed(() => {
     if (_list.value.length == 0) return 0;
-    function getdiepWidth(list: TM_PICKER_X_ITEM[]): number {
+    function getdiepWidth(list: any[]): number {
         let deepIndex = 1;
         const node = list[0];
         if (node?.children?.length > 0) {
@@ -340,7 +355,7 @@ export default {
 		 @slot 插槽,默认触发打开选择器。你的默认布局可以放置在这里。
 		 @binding {boolean} show - 控制打开关闭状态
 		 -->
-        <slot></slot>
+        <slot :label="modelStrValue" :show="show"></slot>
     </view>
     <tm-drawer :show-close="showClose" @open="onOpen" :widthCoverCenter="true" :disabledScroll="true" max-height="80%"
         size="850" :title="title" @close="onClose" @confirm="onConfirm" @cancel="onCancel" :showFooter="true"

@@ -8,15 +8,14 @@
 		@binding {string} lineHeight - 行高，在安卓上你要写行高不然被裁剪。
 		-->
 		<slot :inter="money_str.val" :digit="money_str.xs" :cn="money_rmb" :lineHeight="_maxLineheight">
-			<text  v-if="_symbolPosition == 'left' && !_showCn"
-				:style="{ fontSize: _preFontSize, color: _fontColor }">
+			<text v-if="_symbolPosition == 'left' && !_showCn" :style="{ fontSize: _preFontSize, color: _fontColor }">
 				{{ _symbolText }}
 			</text>
 			<text :style="{ fontSize: _fontSize, lineHeight: _maxLineheight, color: _fontColor }">{{ _showCn
 				? money_rmb : money_str.val }}</text>
 			<text v-if="_showCn" :style="{ fontSize: _preFontSize, lineHeight: _maxLineheight }"></text>
-			<text  v-if="!_showCn"
-				:style="{ fontSize: _preFontSize, lineHeight: _maxLineheight, color: _fontColor }">{{ money_str.xs != ''
+			<text v-if="!_showCn" :style="{ fontSize: _preFontSize, lineHeight: _maxLineheight, color: _fontColor }">{{
+				money_str.xs != ''
 					? '.' : '' }}{{ money_str.xs }}</text>
 			<text v-if="_symbolPosition == 'right' && !_showCn"
 				:style="{ fontSize: _preFontSize, lineHeight: _maxLineheight, color: _fontColor }">{{ _symbolText
@@ -38,16 +37,17 @@ type valuType = {
 	xs: string
 }
 
+
 /**
- * @displayName 金额栅格
- * @exportName tm-money
- * @category 展示组件
- * @description 对金额进行栅格化
- * @constant 平台兼容
- *	| H5 | uniAPP | 小程序 | version |
-	| --- | --- | --- | --- |
-	| ☑️| ☑️ | ☑️ | ☑️ | ☑️ | 1.0.0 |
- */
+* @displayName 金额栅格
+* @exportName tm-money
+* @category 展示组件
+* @description 对金额进行栅格化
+* @constant 平台兼容
+*	| H5 | uniAPP | 小程序 | version |
+  | --- | --- | --- | --- |
+  | ☑️| ☑️ | ☑️ | ☑️ | ☑️ | 1.0.0 |
+*/
 defineOptions({ name: 'TmMoney' });
 const { config } = useTmConfig()
 const props = defineProps({
@@ -133,7 +133,7 @@ const props = defineProps({
 })
 
 // 计算属性和方法
-const moneyValue = defineModel({type:Number,default:0})
+const moneyValue = defineModel({ type: Number, default: 0 })
 const _symbolText = computed((): string => props.symbolText)
 const _symbolPosition = computed((): string => props.symbolPosition)
 const _fontSize = computed((): string => covetUniNumber(props.fontSize, config.unit))

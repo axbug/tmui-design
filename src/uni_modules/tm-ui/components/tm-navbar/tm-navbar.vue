@@ -239,10 +239,11 @@ const _title = computed((): string => props.title)
 function getNowPageRoute(){
     if(nowpage) return nowpage;
     const pages = getCurrentPages();
-    let page = undefined
+    let page:string|undefined = undefined
     if(pages.length>0){
         page = pages[pages.length - 1]?.route||undefined
     }
+    if(!page) return ;
     nowpage = page
 }
 const _styleMap = computed(() => {

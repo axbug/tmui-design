@@ -40,7 +40,7 @@ import headertips from '../components/headertips.vue'
 | darkBgColor | string | "#000000" | 暗黑的背景颜色。 | 
 | activeBgColor | string | '' | 背景颜色，这是滑动时超过指定本状态栏高度时自动渐变到此颜色如果为空时，不会有动态背景如果提供的是白或者黑，暗黑时自动取反。 | 
 | backColor | string | '' | 返回按钮的颜色.默认是取titleColor，如果你单独定义了以你定义的为准 | 
-| title | string | uni.i18n.t('tmui32x.tmNavbar.title') | 标题 | 
+| title | string | $i18n.t('tmui32x.tmNavbar.title') | 标题 | 
 | titleColor | string | '#333333' | 默认标题颜色，暗黑是取白，如果有其它需求建议插槽。 | 
 | titleActiveColor | string | '#333333' | 动态悬浮时标题颜色,如果为暗黑时，你提供的颜色为白或者黑会反色如果提供的是彩色自动加深或者提亮 | 
 | titleFontSize | string | '34' | 标题文字大小 | 

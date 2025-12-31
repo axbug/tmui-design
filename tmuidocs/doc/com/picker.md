@@ -35,11 +35,11 @@ import headertips from '../components/headertips.vue'
 ## :seedling: 参数
 | 参数名 | 类型 | 默认值 | 描述 |
 | :--: | :--: | :--: | :-- |
-| list | TM_PICKER_ITEM_INFO[] | ():TM_PICKER_ITEM_INFO[]=\>[]asTM_PICKER_ITEM_INFO[] | 数据 | 
+| list | any[] | ():any[]=\>[]asany[] | 数据 | 
 | modelValue | Array\<string \| number\> | ():string[]=\>[]asstring[] | 当前选中项的id值 | 
 | modelStr | string | "" | 当前选中项的回显文本等同v-model:model-str请不要更改此值，此值只对外输出显示。如果空值，将内部首次递归渲染回显文本。如果你后台返回，就不会计算。因此如果对性能有要求的请务必让后台在首次显示时先回显文本，这样内部在第一次时不会递归计算回显文本，提高性能。 | 
 | modelShow | boolean | false | 当前打开的状态。等同v-model:model-show | 
-| title | string | uni.i18n.t('tmui32x.tmPicker.title') | 顶部标题 | 
+| title | string | $i18n.t('tmui32x.tmPicker.title') | 顶部标题 | 
 | lazyContent | boolean | false | 是否懒加载内部内容。当前你的列表内容非常多，且影响打开的动画性能时，请务必设置此项为true，以获得流畅视觉效果。如果选择数据较少没有必要打开 | 
 | cellUnits | string[] | ():string[]=\>[]asstring[] | 显示在顶部的单位名称 | 
 | rangKey | string | "id" | 自定义标识id | 
@@ -64,7 +64,9 @@ import headertips from '../components/headertips.vue'
 ## :corn: slot插槽
 | 插槽名 | 数据 | 描述 |
 | :--: | :--: |  :-- |
-| default | - | 插槽,默认触发打开选择器。你的默认布局可以放置在这里。 | 
+| default | 名称：binding,label 类型：- 
+名称：binding,show 类型：boolean 
+ | 插槽,默认触发打开选择器。你的默认布局可以放置在这里。 | 
 
 
 ## :green_salad: ref方法

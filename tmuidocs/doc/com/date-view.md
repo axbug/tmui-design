@@ -42,7 +42,7 @@ import headertips from '../components/headertips.vue'
 | end | string | "" | 结束时间，请提供正确的时间格式 | 
 | type | ModelType | "day" | 精确到的级别year:年month:年月day:年月日hour:年月日小时minute:年月日小时分钟second:年月日小时分钟秒 | 
 | format | string | "YYYY-MM-DD" | 输出时间格式，只对v-model:modelStr有效有效格式：YYYY年MM月DD日hh小时mm分钟ss秒 | 
-| cellUnits | string[] | ():string[]=\>[uni.i18n.t('tmui32x.tmDateView.cellUnits.year'),uni.i18n.t('tmui32x.tmDateView.cellUnits.month'),uni.i18n.t('tmui32x.tmDateView.cellUnits.day'),uni.i18n.t('tmui32x.tmDateView.cellUnits.hour'),uni.i18n.t('tmui32x.tmDateView.cellUnits.minute'),uni.i18n.t('tmui32x.tmDateView.cellUnits.second')] | 上方的单位名称 | 
+| cellUnits | string[] | ():string[]=\>[$i18n.t('tmui32x.tmDateView.cellUnits.year'),$i18n.t('tmui32x.tmDateView.cellUnits.month'),$i18n.t('tmui32x.tmDateView.cellUnits.day'),$i18n.t('tmui32x.tmDateView.cellUnits.hour'),$i18n.t('tmui32x.tmDateView.cellUnits.minute'),$i18n.t('tmui32x.tmDateView.cellUnits.second')] | 上方的单位名称 | 
 
 
 ## :rose: 事件

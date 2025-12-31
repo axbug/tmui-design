@@ -1,5 +1,13 @@
 {
 	"tmui32x": {
+		"cancel": "Cancel",
+		"confirm": "Confirm",
+		"success": "Success",
+		"fail": "Failed",
+		"warn": "Warning",
+		"info": "Info",
+		"clear":"Clear",
+		"pickerTitle":"Please select",
 		"tmBetweenTime":{
 			"title": "Please select time",
 			"startText": "Start time",
@@ -11,6 +19,10 @@
 			"thisMonthText": "This month",
 			"thisYearText": "This year",
 			"thisQuarterText": "This quarter"
+		},
+		"tmMore":{
+			"off": "Expand more",
+			"on": "Collapse more"
 		},
 		"tmSku":{
 			"buyBtnText": "Buy now",
@@ -62,6 +74,21 @@
 				"minute": "Minute",
 				"second": "Second"
 			}
+		},
+		"tmCalendar":{
+			"year": "Year",
+			"month": "Month",
+			"day": "Day",
+			"hour": "Hour",
+			"minute": "Minute",
+			"second": "Second",
+			"titleCurrentMonth":"{0} {1}",
+			"monthCountSelected":"{count} months",
+			"selectedStatus":"{count} days selected | No date selected | Selected | End date not selected",
+			"rangStatus":"Start | End | Today",
+			"tips":"Max {count} days",
+			"currentMonthTitle":"This month",
+			"week":"Mon | Tue | Wed | Thu | Fri | Sat | Sun"
 		}
 	}
 }

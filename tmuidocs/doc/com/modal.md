@@ -36,7 +36,7 @@ import headertips from '../components/headertips.vue'
 | 参数名 | 类型 | 默认值 | 描述 |
 | :--: | :--: | :--: | :-- |
 | customStyle | string | "" | 自定义遮罩样式 | 
-| title | string | uni.i18n.t("tmui32x.tmModal.title") | 标题 | 
+| title | string | $i18n.t("tmui32x.tmModal.title") | 标题 | 
 | showFooter | boolean | true | 显示底部操作栏 | 
 | showTitle | boolean | true | 是否显示底部关闭按钮 | 
 | showClose | boolean | false | 是否显示底部关闭按钮 | 
@@ -44,8 +44,8 @@ import headertips from '../components/headertips.vue'
 | overlayClick | boolean | true | 遮罩是否允许点击被关闭 | 
 | show | boolean | false | 显示可v-model:show双向绑定 | 
 | duration | number | 250 | 动画时间 | 
-| cancelText | string | uni.i18n.t("tmui32x.cancelText") | 取消按钮的文本 | 
-| confirmText | string | uni.i18n.t("tmui32x.confirmText") | 确认按钮的文本 | 
+| cancelText | string | $i18n.t("tmui32x.cancelText") | 取消按钮的文本 | 
+| confirmText | string | $i18n.t("tmui32x.confirmText") | 确认按钮的文本 | 
 | round | string\|number | "" | 打开方向为上和下时的圆角空值时，取全局配置的圆角。 | 
 | width | string\|number | "84%" | 宽，百分比，Px,rpx，auto都支持 | 
 | height | string\|number | "350" | 宽，百分比，Px,rpx，auto都支持 | 

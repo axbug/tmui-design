@@ -28,17 +28,12 @@
 </view>
 </template>
 
-<script>
-	export default {
-		data() {
-			return {
-				actions:"",
-				actions2:"",
-			};
-		}
-	}
-</script>
 
+<script lang="ts" setup>
+import {ref} from "vue"
+const actions = ref("")
+const actions2 = ref("")
+</script>
 <style lang="scss">
 
 </style>
