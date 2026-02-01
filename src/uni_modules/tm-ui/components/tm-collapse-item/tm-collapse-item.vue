@@ -17,7 +17,12 @@ const proxy = getCurrentInstance()?.proxy;
     | --- | --- | --- | --- |
     | ☑️| ☑️ | ☑️ | ☑️ | ☑️ | 1.0.0 |
  */
-defineOptions({ name: 'TmCollapse' });
+defineOptions({ name: 'TmCollapse',options: {
+    styleIsolation: "apply-shared",
+    virtualHost: true,
+    addGlobalClass: true,
+    multipleSlots: true,
+  } });
 
 const { config } = useTmConfig()
 const props = defineProps({
@@ -192,16 +197,7 @@ function findParent(parent: any): any {
     return null;
 }
 </script>
-<script lang="ts">
-export default {
-  options: {
-    styleIsolation: "apply-shared",
-    virtualHost: true,
-    addGlobalClass: true,
-    multipleSlots: true,
-  },
-};
-</script>
+
 <template>
     <view class="tmCollapseItemBox" :style="{ background: _color }">
         <view @click="itemClick" class="tmCollapseItem" :style="{ opacity: _disabled ? 0.5 : 1 }">

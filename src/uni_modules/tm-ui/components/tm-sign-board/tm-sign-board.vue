@@ -114,7 +114,7 @@
 					// @ts-ignore
 					canvasDomRect.value.left = styleNode.left
 					contentCancanvs = canvas
-
+					console.log(canvasDomRect.value)
 					resolve(ctx)
 				})
 		})
@@ -237,6 +237,52 @@
 		// currentStroke.value = []
 		
 	}
+	
+	const getMousePosition = (evt : MouseEvent) => {
+		const clientX = evt.clientX
+		const clientY = evt.clientY
+		return {
+			x: clientX - canvasDomRect.value.left,
+			y: clientY - canvasDomRect.value.top + uni.getWindowInfo().windowTop
+		}
+	}
+
+	const mouseDown = async (evt:MouseEvent) => {
+		evt.preventDefault()
+		await getCanvasCtx()
+		const pos = getMousePosition(evt)
+		isDrawing.value = true
+		lastX.value = pos.x
+		lastY.value = pos.y
+		currentStroke.value = [[pos.x, pos.y]]
+		x.value = pos.x
+		y.value = pos.y
+	}
+	const mouseMove = (evt:MouseEvent) => {
+		if (!isDrawing.value) return
+		const pos = getMousePosition(evt)
+		const ctx = contentCtx.value
+		if (!ctx) return
+		if (_backgroundColor.value) {
+			ctx.fillStyle = _backgroundColor.value
+			ctx.fillRect(0, 0, _width.value, _height.value)
+			ctx?.draw?.()
+		}
+		drawLine(lastX.value, lastY.value, pos.x, pos.y)
+		currentStroke.value.push([pos.x, pos.y])
+		lastX.value = pos.x
+		lastY.value = pos.y
+		x.value = pos.x
+		y.value = pos.y
+	}
+	const mouseUp = (evt:MouseEvent) => {
+		if (!isDrawing.value) return
+		isDrawing.value = false
+		if (currentStroke.value.length > 0) {
+			strokes.value.push([...currentStroke.value])
+		}
+	}
+	
 	onMounted(() => {
 		nextTick(async () => {
 			await getCanvasCtx()
@@ -267,10 +313,11 @@
 		/**
 		 * 获取签名图片
 		 */
-		getImage: () => {
+		getImage: ():Promise<{src:string,width:number,height:number}> => {
 			return new Promise((reslove,rej)=>{
 				uni.canvasToTempFilePath({
 					canvasId:uid,
+					// @ts-ignore
 					id:uid,
 					canvas:contentCancanvs,
 					success:function(res){
@@ -281,7 +328,7 @@
 								reslove({src,width:jg.width,height:jg.height})
 							},
 							fail() {
-								reslove({src})
+								reslove({src,width:0,height:0})
 							}
 						})
 					},
@@ -295,8 +342,15 @@
 	})
 </script>
 <template>
-	<canvas @touchstart.stop="touchstart" @touchmove.stop="touchmove" @touchend.stop="touchend"
-		@touchcancel.stop="touchend" :style="{ width: _width + 'px', height: _height + 'px' }" :id="uid"
+	<canvas
+	@mousedown="mouseDown"
+	@mousemove="mouseMove"
+	@mouseup="mouseUp"
+	@touchstart.stop="touchstart" 
+	@touchmove.stop="touchmove" 
+	@touchend.stop="touchend"
+	@touchcancel.stop="touchend" 
+	:style="{ width: _width + 'px', height: _height + 'px' }" :id="uid"
 		:canvas-id="uid" :hidpi="true" type="2d"></canvas>
 </template>
 <style>

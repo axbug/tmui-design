@@ -294,8 +294,32 @@
 			"style": {
 				"navigationBarTitleText": "more"
 			}
+		},
+		{
+			"path": "pages/index/float-drawer",
+			"style": {
+				"navigationBarTitleText": "float-drawer"
+			}
+		},
+		{
+			"path": "pages/index/pull-refresh",
+			"style": {
+				"navigationBarTitleText": "pull-refresh",
+				"disableScroll": true
+			}
+		},
+		{
+			"path": "pages/index/dropdown-menu",
+			"style": {
+				"navigationBarTitleText": "dropdown-menu"
+			}
+		},
+		{
+			"path": "pages/index/slider",
+			"style": {
+				"navigationBarTitleText": "slider"
+			}
 		}
-		
 	],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",

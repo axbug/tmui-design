@@ -32,7 +32,11 @@
 					
 					<tm-cell url="/pages/index/drawer" title="drawer"></tm-cell>
 					
+					<tm-cell url="/pages/index/dropdown-menu" title="dropdown-menu"></tm-cell>
+					
 					<tm-cell url="/pages/index/echart" title="echart"></tm-cell>
+					
+					<tm-cell url="/pages/index/float-drawer" title="float-drawer"></tm-cell>
 					
 					<tm-cell url="/pages/index/form" title="form"></tm-cell>
 					
@@ -64,6 +68,8 @@
 					
 					<tm-cell url="/pages/index/progress" title="progress"></tm-cell>
 					
+					<tm-cell url="/pages/index/pull-refresh" title="pull-refresh"></tm-cell>
+					
 					<tm-cell url="/pages/index/radio" title="radio"></tm-cell>
 					
 					<tm-cell url="/pages/index/rate" title="rate"></tm-cell>
@@ -77,6 +83,8 @@
 					<tm-cell url="/pages/index/skeleton" title="skeleton"></tm-cell>
 					
 					<tm-cell url="/pages/index/sku" title="sku"></tm-cell>
+					
+					<tm-cell url="/pages/index/slider" title="slider"></tm-cell>
 					
 					<tm-cell url="/pages/index/slider-menu" title="slider-menu"></tm-cell>
 					

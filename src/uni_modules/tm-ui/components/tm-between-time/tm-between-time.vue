@@ -185,6 +185,52 @@ let startValue = new tmDate()
 let endValue = new tmDate()
 startValue.subtraction(1, 'y')
 
+/**
+ * 检测时间字符串是否包含时分秒
+ * @param timeStr 时间字符串
+ * @returns true 表示包含时分秒,false 表示只有年月日
+ */
+function hasTimePart(timeStr: string): boolean {
+    // 正则检测是否包含时分秒部分
+    // 匹配格式: YYYY-MM-DD HH:mm:ss 或 YYYY/MM/DD HH:mm:ss 等
+    const timePattern = /\d{1,2}:\d{2}(:\d{2})?(.\d+)?$/;
+    return timePattern.test(timeStr.trim());
+}
+
+/**
+ * 优化开始时间,如果没有时分秒则设置为 00:00:00
+ * @param timeStr 时间字符串
+ * @returns 优化后的时间字符串
+ */
+function optimizeStartTime(timeStr: string): string {
+    if (!timeStr || !hasTimePart(timeStr)) {
+        // 提取日期部分,并添加 00:00:00
+        const datePattern = /^(\d{4}[-/]\d{1,2}[-/]\d{1,2})/;
+        const match = timeStr.match(datePattern);
+        if (match) {
+            return `${match[1]} 00:00:00`;
+        }
+    }
+    return timeStr;
+}
+
+/**
+ * 优化结束时间,如果没有时分秒则设置为 23:59:59
+ * @param timeStr 时间字符串
+ * @returns 优化后的时间字符串
+ */
+function optimizeEndTime(timeStr: string): string {
+    if (!timeStr || !hasTimePart(timeStr)) {
+        // 提取日期部分,并添加 23:59:59
+        const datePattern = /^(\d{4}[-/]\d{1,2}[-/]\d{1,2})/;
+        const match = timeStr.match(datePattern);
+        if (match) {
+            return `${match[1]} 23:59:59`;
+        }
+    }
+    return timeStr;
+}
+
 const show = ref(false)
 const nowValue = ref<string[]>(['', ''])
 const nowModelValue = ref<string[]>(['', ''])
@@ -196,8 +242,14 @@ const quicklist = ref<coverValue[]>([])
 
 const _lazyContent = computed(() => props.lazyContent)
 
-const _start_date = computed(() => props.start === "" ? startDate.value : new tmDate(props.start))
-const _end_date = computed(() => props.end === "" ? endDate.value : new tmDate(props.end))
+const _start_date = computed(() => {
+    const optimizedStart = props.start === "" ? startDate.value : optimizeStartTime(props.start)
+    return new tmDate(optimizedStart)
+})
+const _end_date = computed(() => {
+    const optimizedEnd = props.end === "" ? endDate.value : optimizeEndTime(props.end)
+    return new tmDate(optimizedEnd)
+})
 const _start_date_str = computed(() => _start_date.value.format())
 const _end_date_str = computed(() => _end_date.value.format())
 const _start_date_str_format = computed(() => nowValue.value[0] === '' ? $i18n.t('tmui32x.tmBetweenTime.startText') : (new tmDate(nowValue.value[0])).format(props.format))
@@ -377,10 +429,12 @@ function getTypes(): tmDateTypeTime {
 function validTimeDate(val: string[]): string[] {
     let str = ['', '']
     if (val.length >= 1) {
-        str[0] = val[0]!
+        // 优化开始时间:如果没有时分秒则设置为 00:00:00
+        str[0] = optimizeStartTime(val[0]!)
     }
     if (val.length >= 2) {
-        str[1] = val[1]!
+        // 优化结束时间:如果没有时分秒则设置为 23:59:59
+        str[1] = optimizeEndTime(val[1]!)
     }
 
     return sorDateVaild(str)

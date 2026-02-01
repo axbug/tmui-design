@@ -35,4 +35,5 @@
 import { ref } from 'vue';
 const modelvalue = ref<Array<Record<string, any> | string>>(['https://img-cdn-tx.dcloud.net.cn/stream/plugin_screens/0306ed00-b46d-11ee-800c-6f5e9833f51b_0.jpg?&v=1716952063'])
 const modelvalue2 = ref<Array<Record<string, any> | string>>(['https://img-cdn-tx.dcloud.net.cn/stream/plugin_screens/0306ed00-b46d-11ee-800c-6f5e9833f51b_0.jpg?&v=1716952063'])
+
 </script>

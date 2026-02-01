@@ -31,8 +31,8 @@
 
 <script lang="ts" setup>
 import {ref} from "vue"
-const actions = ref("")
-const actions2 = ref("")
+const actions = ref<"pause" | "play" | "reset" | "">("")
+const actions2 = ref<"pause" | "play" | "reset" | "">("")
 </script>
 <style lang="scss">
 

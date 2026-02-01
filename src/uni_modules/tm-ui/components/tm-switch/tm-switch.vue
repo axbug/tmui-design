@@ -211,7 +211,7 @@ const _disabled = computed((): boolean => {
 });
 
 const _animationFun = computed((): string => {
-    return config.animation
+    return 'cubic-bezier(0.175, 0.885, 0.32, 1.275);'
 });
 
 watch(() => props.modelValue, (newvalue: boolean) => {
@@ -283,8 +283,18 @@ export default {
             borderRadius: _round
         }">
             <view v-if="_label.length == 2" class="tmSwitchText">
-                <text class="tmSwitchTextLeft" :style="{ fontSize: _fontSize }">{{ !opened ? '' : _label[0] }}</text>
-                <text class="tmSwitchTextRight" :style="{ fontSize: _fontSize }">{{ opened ? '' : _label[1] }}</text>
+                <text class="tmSwitchTextLeft" 
+                :style="{ 
+                    fontSize: _fontSize,
+                    transform: `scale(${opened ? 1 : 0})`,
+                    'transition-timing-function': _animationFun
+
+                }">{{ !opened ? '' : _label[0] }}</text>
+                <text class="tmSwitchTextRight" :style="{ 
+                    fontSize: _fontSize,
+                    transform: `scale(${!opened ? 1 : 0})`,
+                    'transition-timing-function': _animationFun
+                 }">{{ opened ? '' : _label[1] }}</text>
             </view>
             <view class="tmSwitchBtn" :style="{
                 width: _contentHeight + 'px',
@@ -310,10 +320,14 @@ export default {
 
 .tmSwitchTextLeft {
     color: white;
+    transition-duration: 350ms;
+    transition-property: transform;
 }
 
 .tmSwitchTextRight {
     color: #acacac;
+    transition-duration: 350ms;
+    transition-property: transform;
 }
 
 .tmSwitch {

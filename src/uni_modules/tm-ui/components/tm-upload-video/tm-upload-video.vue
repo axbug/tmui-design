@@ -290,6 +290,8 @@
 
 	const uploadIndex = ref(0);
 	const uploading = ref(false)
+	// 内部更新标志,避免双向绑定死循环
+	const isInternalUpdate = ref(false)
 	//可选择的图片数据。0表示已经达到最大数量
 	const _selectedCount = computed(() => Math.max(0, Math.min(props.maxCount - list.value.length, 9)))
 	const getUUID = () => Math.random() * 100 + '' + Date.now();
@@ -331,7 +333,7 @@
 			let realStatus = item?.status??status;
 			return {
 				path: item[props.rangUrl] || item['path'] || "",
-				id: getUUID(),
+				id: item?.id??getUUID(),
 				status: realStatus,
 				progress: realStatus == TMUPLOAD_PHOTO_STATUS.UPLOAD_SUCCESS?100:0,
 				statusText: STATUS_TEXT.get(realStatus) || "",
@@ -341,6 +343,21 @@
 		// let nowfilesrc = list.value.map(item => item.path)
 		// let filst2 = flist.filter(item => !nowfilesrc.includes(item.path))
 		return flist;
+	}
+	/**
+	 * 同步文件列表到父组件,避免触发 watch 导致死循环
+	 */
+	const syncToParent = (data?: TM.TMUPLOAD_PHOTO_INFO[]) => {
+		// 标记为内部更新,避免 watch 触发死循环
+		isInternalUpdate.value = true
+		const syncData = data || list.value.slice(0)
+		const oladValue = syncData.map((el) => ({ ...el, url: el?.path ?? el?.url }))
+		emit('update:modelValue', oladValue)
+		// 下一帧重置标志
+		setTimeout(() => {
+			isInternalUpdate.value = false
+		}, 0)
+		return oladValue
 	}
 	/**
 	 * 选择图片
@@ -405,8 +422,8 @@
 		//结束上传。
 		if (uploadIndex.value >= list.value.length) {
 			uploading.value = false;
-			emit('complete', JSON.parse(JSON.stringify(list.value.slice(0))))
-			emit('update:modelValue', JSON.parse(JSON.stringify(list.value.slice(0))))
+			const oladValue = syncToParent()
+			emit('complete', oladValue)
 			return;
 		}
 		let item = list.value[uploadIndex.value];
@@ -466,20 +483,27 @@
 
 		list.value.splice(index, 1);
 		emit('change', JSON.parse(JSON.stringify(list.value.slice(0))))
-		emit('update:modelValue', JSON.parse(JSON.stringify(list.value.slice(0))))
+		syncToParent()
 		emit('delete', JSON.parse(JSON.stringify(item)))
 	}
 	const imagePreve = (index : number) => {
 		emit('preview', index)
 	}
-	watch(() => props.modelValue, (val) => {
-		let temlist = covertFileTypeByModelvalue(props.modelValue).slice(0);
+	watch(() => props.modelValue, (newVal) => {
+		// 如果是内部更新触发的,则跳过
+		if (isInternalUpdate.value) return
+
+		const temlist = covertFileTypeByModelvalue(newVal).slice(0)
 		if (temlist.length == 0) {
 			list.value = []
-			return;
+			return
 		}
-		// list.value = [...JSON.parse(JSON.stringify(list.value.slice(0))), ...temlist]
-		list.value = temlist
+
+		const currentIds = list.value.map(item => item.id).join(',')
+		const newIds = temlist.map(item => item.id).join(',')
+		if (currentIds !== newIds) {
+			list.value = [...temlist]
+		}
 	}, { immediate: true, deep: true })
 
 	defineExpose({ startUpload, choose })

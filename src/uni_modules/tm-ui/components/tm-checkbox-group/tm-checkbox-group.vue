@@ -57,7 +57,7 @@ const _gap = computed(() => arrayNumber(props.gap).join(" "))
 watch(() => props.modelValue, (newValue) => {
     checkvaluelist.value = newValue;
 
-});
+},{deep:true});
 
 onBeforeUnmount(() => {
     isDestroy.value = true;

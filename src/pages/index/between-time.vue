@@ -7,7 +7,7 @@
 
         <tm-sheet>
 
-            <tm-between-time start="2020-1-9" end="2026-5-26" v-model="newdata" v-model:model-str="nowVal">
+            <tm-between-time start="2024-5-1" end="2028-5-2" v-model="newdata" v-model:model-str="nowVal">
                 <tm-button :block="true">打开时间</tm-button>
             </tm-between-time>
 

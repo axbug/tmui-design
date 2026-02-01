@@ -3,9 +3,11 @@
   -->
 <script setup lang="ts">
 import { ref } from 'vue'
-const signBoardRef = ref(null)
+import TmSignBoard from "@/uni_modules/tm-ui/components/tm-sign-board/tm-sign-board.vue"
+const signBoardRef = ref<InstanceType<typeof TmSignBoard>|null>(null)
 const getimage = async ()=>{
 	let org = await signBoardRef.value?.getImage();
+	if(!org) return;
 	uni.previewImage({
 		urls:[org.src],
 		current:org.src

@@ -27,9 +27,10 @@ tmui
 mac ios
 
 ```npm
-sudo npm -g install tmui-cli
-sudo tmui
+npm -g install tmui-cli
+tmui
 ```
+mac如何执行按钮出现什么权限问题需要sudo的权限执行的，不要执行，可以百度或者ai问下，使用nvm安装node，避免使用sudo.
 
 ## 使用
 请在项目文件的根目录下执行命令

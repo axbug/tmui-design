@@ -397,7 +397,7 @@
 			isPass = await props.beforeClose();
 		}
 		isLoading.value = false;
-
+		if(!isPass) return;
 		/**
 		 * 确认时触发
 		 */

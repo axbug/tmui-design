@@ -2,7 +2,7 @@
     "name": "tmui3.2",
     "appid": "__UNI__F097BC1",
     "description": "tmui3.0新一代组件库，拥抱vue3,pinia,tmui3.0 demo展示应用",
-    "versionName": "3.2.10",
+    "versionName": "3.2.12",
     "versionCode": 3205,
     "transformPx": false,
     "app-plus": {
@@ -218,12 +218,12 @@
             },
             "signingConfigs": {
                 "default": {
-                    "certpath": "D:/myapp/tmui4x/logo资源/鸿蒙证书/调试证书/tmuiDev.cer",
+                    "certpath": "/Volumes/app/myProjects/tmui4xPravite/logo资源/鸿蒙证书/调试证书/tmuiDev.cer",
                     "keyAlias": "tmuiDev",
                     "keyPassword": "0000001CCEF6C202AA4264A259A37414D78EC60E15A3985EA488486889DD65281647781C1E7843AF3EFB3E93",
-                    "profile": "D:/myapp/tmui4x/logo资源/鸿蒙证书/调试证书/tmuiDevDebug.p7b",
+                    "profile": "/Volumes/app/myProjects/tmui4xPravite/logo资源/鸿蒙证书/调试证书/tmuiDevDebug.p7b",
                     "signAlg": "SHA256withECDSA",
-                    "storeFile": "D:/myapp/tmui4x/logo资源/鸿蒙证书/调试证书/tmuiDev.p12",
+                    "storeFile": "/Volumes/app/myProjects/tmui4xPravite/logo资源/鸿蒙证书/调试证书/tmuiDev.p12",
                     "storePassword": "0000001C78AAF0F0C4204036D08E6A7440EC11C1AFB49BB1374CA2BE0E2357C9AC042301D4A5EFA44D7122D8"
                 },
                 "release": {

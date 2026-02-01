@@ -1,10 +1,10 @@
 {
     "name": "tmui",
-    "version": "3.2.10",
+    "version": "3.2.12",
     "scripts": {
         "buildIndex": "node vue-sfc-doc/autobuildIndex.js",
         "buildDoc": "node vue-sfc-doc/index.js",
-        "publish": "node buildTmui/build.js 3.2.10",
+        "publish": "node buildTmui/build.js 3.2.12",
         "buildIcon": "node ./vue-sfc-doc/buildRemixIconTextTo.js",
         "dev:custom": "uni -p",
         "dev:h5": "uni",

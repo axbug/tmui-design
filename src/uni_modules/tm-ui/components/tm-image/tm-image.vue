@@ -235,7 +235,7 @@ const _img_size = computed(() => {
     let us_h = covetUniNumber(props.height, config.unit);
 
     if (!isLoaded.value) {
-        return { width: "300px", height: "300px" };
+        return { width: "10px", height: "10px" };
     }
 
     if (boxWidth.value > 0) {
@@ -264,7 +264,7 @@ const _styleMap = computed(() => {
     let styleMap: Record<string, any> = {}
     styleMap["width"] = _img_size.value.width
     styleMap["height"] = _img_size.value.height
-    styleMap["transform"] = isLoading.value ? 'scale(0.1)' : 'scale(1)'
+    // styleMap["transform"] = isLoading.value ? 'scale(0.1)' : 'scale(1)'
     styleMap["visibility"] = isLoading.value ? 'visible' : (!isError.value ? 'visible' : 'hidden')
     styleMap["opacity"] = isLoading.value ? '0' : '1'
     styleMap["border-radius"] = _round.value
@@ -305,6 +305,7 @@ const imgLoad = async (e) => {
 	let width = e.detail.width;
 	let height = e.detail.height;
 	await getNodes();
+
 	isLoading.value = false;
 	isError.value = false;
 	isLoaded.value = true;
@@ -313,6 +314,7 @@ const imgLoad = async (e) => {
 };
 
 const imgError = (e) => {
+	
 	emit('error',e)
     isError.value = true;
     isLoading.value = false;
@@ -415,5 +417,7 @@ export default {
     position: absolute;
 	opacity: 0;
 	pointer-events: none;
+	left: 0;
+	top: 0;
 }
 </style>

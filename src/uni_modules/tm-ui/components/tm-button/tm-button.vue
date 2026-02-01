@@ -531,6 +531,7 @@ export default {
     flex-direction: row;
     justify-content: center;
     align-items: center;
+    box-sizing: border-box;
     gap: 8px;
     &[disabled = true]{
         cursor: no-drop;

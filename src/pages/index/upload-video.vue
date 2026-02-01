@@ -13,7 +13,6 @@
                 </tm-sheet>
             </tm-upload-video>
         </tm-sheet>
-
         <tm-sheet>
             <tm-text font-size="36" class="text-weight-b d-block mb-16">限定一个</tm-text>
 
@@ -26,4 +25,5 @@
 import { ref } from 'vue';
 
 const modelvalue2 = ref<Array<Record<string, any> | string>>(['https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4'])
+
 </script>

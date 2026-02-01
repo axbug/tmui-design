@@ -15,11 +15,11 @@ hero:
       text: 起步学习
       link: /start/快速上手.md
     - theme: brand
+      text: tmui3.2Vue版
+      link: /32vue/介绍.md
+    - theme: brand
       text: 4.0x uniappx版
       link: https://xui.tmui.design
-    - theme: brand
-      text: 3.1.x nvue版
-      link: https://tmui.tmui.design
     - theme: alt
       text: 赞助作者
       link: /zhanzhu/赞助.md

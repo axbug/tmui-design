@@ -139,7 +139,7 @@ watch(() => tmFormModelValue.value?.[props.name], (val: any, oldVal: any) => {
     let new_val = val
     let old_val = oldVal
     if (Array.isArray(new_val) && Array.isArray(old_val)) {
-        if (new_val.length == old_val.length) return
+        // if (new_val.length == old_val.length) return
     } else if (old_val !== undefined && new_val !== undefined && new_val !== null && old_val !== null) {
         if (new_val === old_val) return
     }

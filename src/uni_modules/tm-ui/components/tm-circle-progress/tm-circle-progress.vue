@@ -130,6 +130,7 @@ const getCanvasCtx = (): Promise<UniApp.CanvasContext> => {
 		uni.createSelectorQuery()
 			.in(instance)
 		    .select('#'+uid)  
+            // @ts-ignore
 		      .fields({ node: true, size: true ,context:true})  
 		      .exec((res) => {  
 		        const canvas = res[0].node  

@@ -299,6 +299,8 @@
 	const _round = computed(() => covetUniNumber(props.round))
 	const uploadIndex = ref(0);
 	const uploading = ref(false)
+	// 内部更新标志,避免双向绑定死循环
+	const isInternalUpdate = ref(false)
 	//可选择的图片数据。0表示已经达到最大数量
 	const _selectedCount = computed(() => Math.max(0, Math.min(props.maxCount - list.value.length, 9)))
 	const getUUID = () => Math.random() * 100 + '' + Date.now();
@@ -340,7 +342,7 @@
 			let realStatus = item?.status??status;
 			return {
 				path: item[props.rangUrl] || item['path'] || '',
-				id: getUUID(),
+				id: item?.id??getUUID(),
 				status: realStatus,
 				progress: realStatus == TMUPLOAD_PHOTO_STATUS.UPLOAD_SUCCESS?100:0,
 				statusText: STATUS_TEXT.get(realStatus) || '',
@@ -352,8 +354,20 @@
 		return flist
 	}
 	/**
-	 * 选择图片
+	 * 同步文件列表到父组件,避免触发 watch 导致死循环
 	 */
+	const syncToParent = (data?: TM.TMUPLOAD_PHOTO_INFO[]) => {
+		// 标记为内部更新,避免 watch 触发死循环
+		isInternalUpdate.value = true
+		const syncData = data || list.value.slice(0)
+		const oladValue = syncData.map((el) => ({ ...el, url: el?.path ?? el?.url }))
+		emit('update:modelValue', oladValue)
+		// 下一帧重置标志
+		setTimeout(() => {
+			isInternalUpdate.value = false
+		}, 0)
+		return oladValue
+	}
 	const choose = () => {
 		let resultfiles = [] as CHOOSEFILE_FILES[]
 		let index = 0
@@ -488,10 +502,8 @@
 		//结束上传。
 		if (uploadIndex.value >= list.value.length) {
 			uploading.value = false
-			let oladValue:TM.TMUPLOAD_PHOTO_INFO[] = JSON.parse(JSON.stringify(list.value.slice(0)));
-			oladValue = oladValue.map((el)=>({...el,url:el?.path??el?.url}))
+			const oladValue = syncToParent()
 			emit('complete', oladValue)
-			emit('update:modelValue', oladValue)
 			return
 		}
 		let item = list.value[uploadIndex.value]
@@ -551,7 +563,7 @@
 
 		list.value.splice(index, 1)
 		emit('change', JSON.parse(JSON.stringify(list.value.slice(0))))
-		emit('update:modelValue', JSON.parse(JSON.stringify(list.value.slice(0))))
+		syncToParent()
 		emit('delete', JSON.parse(JSON.stringify(item)))
 	}
 	const imagePreve = (index : number) => {
@@ -560,13 +572,22 @@
 			urls: list.value.map(item => item.path)
 		})
 	}
-	watch(() => props.modelValue, (val) => {
-		let temlist = covertFileTypeByModelvalue(val).slice(0)
+	watch(() => props.modelValue, (newVal) => {
+		// 如果是内部更新触发的,则跳过
+		if (isInternalUpdate.value) return
+
+		const temlist = covertFileTypeByModelvalue(newVal).slice(0)
 		if (temlist.length == 0) {
 			list.value = []
 			return
 		}
-		list.value = [...temlist]
+
+		// 长度相同但内容可能不同,检查 path 是否有变化
+		const currentIds = list.value.map(item => item.id).join(',')
+		const newIds = temlist.map(item => item.id).join(',')
+		if (currentIds !== newIds) {
+			list.value = [...temlist]
+		}
 	}, { immediate: true, deep: true })
 
 	defineExpose({ startUpload, choose })
