@@ -17,8 +17,8 @@ type SLIDER_TREE_ITEM = {
  * @description 左边菜单选择，右边内容区域
  * @constant 平台兼容
  *	| H5 | uniAPP | 小程序 | version |
-		| --- | --- | --- | --- |
-		| ☑️| ☑️ | ☑️ | ☑️ | ☑️ | 1.0.0 |
+	| --- | --- | --- | --- |
+	| ☑️| ☑️ | ☑️ | ☑️ | ☑️ | 1.0.0 |
  */
 defineOptions({ name: 'TmSliderMenu' });
 const { config } = useTmConfig()
@@ -42,7 +42,7 @@ const props = defineProps({
 	 */
 	showScrollbar: {
 		type: Boolean,
-		default: true
+		default: false
 	},
 	/**
 	 * 侧边选中的文字颜色，空值取全局主题
@@ -114,7 +114,7 @@ const props = defineProps({
 	 */
 	sliderWidth: {
 		type: [String, Number],
-		default: "190"
+		default: "160"
 	},
 	list: {
 		type: [Array<Record<string, any>>],
@@ -148,7 +148,10 @@ const props = defineProps({
 		}
 	}
 })
-
+defineSlots<{
+	default(props: { item: SLIDER_TREE_ITEM }): any,
+	menu(props: { item: SLIDER_TREE_ITEM }): any
+}>()
 // 定义emit事件
 const emit = defineEmits<{
 	/**
@@ -252,15 +255,25 @@ const _list = computed(() : SLIDER_TREE_ITEM[] => {
 	return ps
 })
 
+const nowIndex = computed(()=>_list.value.findIndex(item=>item.id == selectedsIds.value))
+
 // 方法
 const sliderItemClick = (item : SLIDER_TREE_ITEM, index : number) => {
 	isscrollingActions.value = false;
 	if (item.disabled) return
+	if(item.id == selectedsIdsByscrollids.value){
+		selectedsIdsByscrollids.value = ''
+		nextTick(()=>{
+			selectedsIdsByscrollids.value = item.id
+		})
+		return;
+	}
 	selectedsIds.value = item.id
 	selectedsIdsByscrollids.value = item.id
 	emit('update:modelValue', item.id)
 	emit('change', item.id, index)
 }
+
 
 // 监听器
 watch(() => props.modelValue, (newValue : string | number) => {
@@ -327,7 +340,7 @@ export default {
 				:scroll-into-view="rightboxId"
 				v-if="_list.length>0"
 				:scroll-y="true" :show-scrollbar="showScrollbar"
-				:style="{width:'100%',height:'100%',backgroundColor:_sliderBgColor}"
+				:style="{width:'100%',height:'100%',backgroundColor:_sliderContentBgColor}"
 			>
 
 				<view
@@ -335,14 +348,20 @@ export default {
 					@click="sliderItemClick(item,index)"
 					:id="'lefttmmenu-'+item.id"
 					v-for="(item,index) in _list" :key="index"
-					class="tmSliderTreeItemLeft" :style="[{
-					backgroundColor:selectedsIds == item.id?_sliderContentBgColor:'transparent',
+					class="tmSliderTreeItemLeft" 
+					:class="[
+						selectedsIds == item.id?'tmSliderTreeItemLeftBorder':'',
+						index-1 == nowIndex?'tmSliderTreeItemLeftBorderBottom':'',
+						index+1 == nowIndex?'tmSliderTreeItemLeftBorderTop':''
+					]"
+					:style="[{
+					backgroundColor:selectedsIds == item.id?_sliderContentBgColor:_sliderBgColor,
 					opacity:item.disabled?'0.5':1,
-					'border-left': `2px solid ${selectedsIds == item.id?_activeTextColor:'transparent'}`,
-					fontSize:_fontSize,color:selectedsIds == item.id? _activeTextColor : _textColor
+					color:selectedsIds == item.id? _activeTextColor : _textColor,
+					fontSize:_fontSize
 					},
-					selectedsIds == item.id?_menuSelectedStyle:undefined]
-				 ">
+					selectedsIds == item.id?_menuSelectedStyle:undefined
+					]">
 					<!--
 					 @slot 动态循环菜单项目插槽
 					 @binding {Record<string,any} item - 当前展开状态
@@ -374,7 +393,7 @@ export default {
 					 @slot 动态循环list插槽
 					 @binding {Record<string,any} item - 当前展开状态
 					 -->
-					<slot  :item="item as SLIDER_TREE_ITEM">
+					<slot :item="item">
 					</slot>
 				</view>
 			</scroll-view>
@@ -405,6 +424,7 @@ export default {
 	position: absolute;
 	left: 0;
 	top: 0;
+	
 }
 
 .tmSliderTreeBoxRrightScroll {
@@ -413,18 +433,45 @@ export default {
 	top: 0;
 	width: 100%;
 	height: 100%;
+	
 }
 
 .tmSliderTreeItemLeft {
 	width: 100%;
 	padding:24rpx 0rpx;
+	min-height: 100rpx;
 	display: flex;
 	flex-direction: row;
 	justify-content: center;
 	align-items: center;
+	box-sizing: border-box;
+	position: relative;
+	
+}
+.tmSliderTreeItemLeftBorderTop{
+	border-bottom-right-radius: 10px;
+
+}
+.tmSliderTreeItemLeftBorderBottom{
+	border-top-right-radius: 10px;
+}
+.tmSliderTreeItemLeftBorder::before{
+	content: '';
+	display: block;
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 3px;
+	height: 36%;
+	transform: translateY(82%);
+	border-radius: 8px;
+	background-color: currentColor;
+
 }
 
 .tmSliderTreeItemLeftText {
 	text-align: center;
+	padding:0rpx 8rpx;
+
 }
 </style>

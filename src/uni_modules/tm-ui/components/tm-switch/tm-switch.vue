@@ -211,7 +211,7 @@ const _disabled = computed((): boolean => {
 });
 
 const _animationFun = computed((): string => {
-    return 'cubic-bezier(0.175, 0.885, 0.32, 1.275);'
+    return 'cubic-bezier(0.175, 0.885, 0.32, 1.275)'
 });
 
 watch(() => props.modelValue, (newvalue: boolean) => {
