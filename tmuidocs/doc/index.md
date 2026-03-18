@@ -3,9 +3,9 @@
 layout: home
 
 hero:
-  name: "TMUI3.2"
-  text: "优质Vue3 TS Pinia Vite跨端组件库"
-  tagline: 它是3.1.x继承者,以tmui4.0x标准的小程序组件库,精致,高效,细节完善.
+  name: "TMUI3.2+Ai"
+  text: "优质Vue3 组合式UniApp跨端组件库"
+  tagline: 精致,高效,细节完善,配合Ai生成式页面输出，规划让你的效率再次翻倍，紧随Ai时代，不落下风。
   description: 它是3.1.x继承者,同时也是tmui4.0x标准规范,以支援uniappx开发时开发更统一风格的页面.同时也是以tmui4.0x标准的小程序组件库,精致,高效,细节完善
   image:
     src: /images/logoGreat.png
@@ -15,8 +15,8 @@ hero:
       text: 起步学习
       link: /start/快速上手.md
     - theme: brand
-      text: tmui3.2Vue版
-      link: /32vue/介绍.md
+      text: Ai+可视化
+      link: https://store.tmui.design/
     - theme: brand
       text: 4.0x uniappx版
       link: https://xui.tmui.design

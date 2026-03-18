@@ -12,7 +12,12 @@ import {$i18n} from "@/uni_modules/tm-ui"
     | --- | --- | --- | --- |
     | ☑️| ☑️ | ☑️ | ☑️ | ☑️ | 1.0.0 |
  */
-defineOptions({ name: 'TmPicker' });
+defineOptions({ name: 'TmPicker',options: {
+        styleIsolation: "apply-shared",
+        virtualHost: true,
+        addGlobalClass: true,
+        multipleSlots: true,
+    } });
 
 const props = defineProps({
     /**
@@ -339,16 +344,7 @@ const getNowCurrent = () => {
 }
 
 </script>
-<script lang="ts">
-export default {
-    options: {
-        styleIsolation: "apply-shared",
-        virtualHost: true,
-        addGlobalClass: true,
-        multipleSlots: true,
-    },
-};
-</script>
+
 <template>
     <view @click="openShow">
         <!-- 
@@ -360,7 +356,7 @@ export default {
     <tm-drawer :show-close="showClose" @open="onOpen" :widthCoverCenter="true" :disabledScroll="true" max-height="80%"
         size="850" :title="title" @close="onClose" @confirm="onConfirm" @cancel="onCancel" :showFooter="true"
         v-model:show="show">
-        <tm-picker-view v-if="show" ref="pickerView" :rangKey="rangKey" :rangText="rangText" :cell-units="_cellUnits"
+        <tm-picker-view v-if="show" ref="pickerView" :rangKey="props.rangKey" :rangText="props.rangText" :cell-units="_cellUnits"
             @update:modelStr="strChange" @change="mchange" v-model="nowValue" :list="_list"></tm-picker-view>
     </tm-drawer>
 </template>

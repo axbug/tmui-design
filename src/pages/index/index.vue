@@ -2,8 +2,8 @@
     <template>
     <view>
         <tm-sheet >
-            <tm-text font-size="36" class=" text-weight-b mb-16 d-block">TMUI3.2 预览版本</tm-text>
-            <tm-text color="#999999">这是tmui3.1.x后的3.2预览版本.它与3.1.x系列完全不同,不可平移兼容,它实际上是全新的版本后续兼容鸿蒙next用的版本,而且不再支持nvue.</tm-text>
+            <tm-text font-size="36" class=" text-weight-b mb-16 d-block">TMUI3.2.x 版本</tm-text>
+            <tm-text color="#999999">这是tmui3.1.x后的3.2.x版本.它与3.1.x系列完全不同,不可平移兼容,它实际上是全新的版本,兼容鸿蒙next用的版本,而且不再支持nvue.</tm-text>
             <tm-text color="red">它是按照tmui4.0x规范标准写的与4.0x属性风格细节一样且精致.</tm-text>
 			</tm-sheet>
 					<tm-cell url="/pages/index/alert" title="alert"></tm-cell>

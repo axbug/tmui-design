@@ -12,11 +12,6 @@
 				height="100%"
 				:list='list'
 				slider-bg-color="#efefef"
-				:menuSelectedStyle="{
-					backgroundColor:'#ffffff',
-					borderLeft:'none',
-					fontWeight:'bold'
-				}"
 			>
 				<template v-slot:default="{item}">
 					<view class="sticky t-0 l-0 fulled px-20 white flex flex-row flex-row-center-start text-weight-b"

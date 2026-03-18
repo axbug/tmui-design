@@ -37,7 +37,7 @@ import headertips from '../components/headertips.vue'
 | :--: | :--: | :--: | :-- |
 | width | string\|number | "auto" | 宽 | 
 | height | string\|number | "100%" | 高是必填，不可为auto。 | 
-| showScrollbar | boolean | true | 是否显示滚动条 | 
+| showScrollbar | boolean | false | 是否显示滚动条 | 
 | activeTextColor | string | "" | 侧边选中的文字颜色，空值取全局主题 | 
 | textColor | string | "#888888" | 侧边未选中时的文字颜色 | 
 | fontSize | string | "30" | 侧边菜单文字大小 | 
@@ -47,7 +47,7 @@ import headertips from '../components/headertips.vue'
 | darkSliderBgColor | string | "" | 左侧边栏暗黑背景颜色如果不提供，自动读取全局的backgroundColorContentDark背景色 | 
 | sliderContentBgColor | string | "white" | 右内容区域背景颜色 | 
 | darkSliderContentBgColor | string | "" | 右内容区域暗黑背景颜色如果不提供读取sheet窗口的暗黑背景 | 
-| sliderWidth | string\|number | "190" | 侧边栏宽 | 
+| sliderWidth | string\|number | "160" | 侧边栏宽 | 
 | list | Array\<Record\<string, any\>\> | ()=\>[]asArray\<Record\<string,any\>\> | - | 
 | modelValue | string\|number | "" | 当前选中项的id | 
 | rangKey | string | 'title' | 文本显示的字段 | 
@@ -65,9 +65,9 @@ import headertips from '../components/headertips.vue'
 ## :corn: slot插槽
 | 插槽名 | 数据 | 描述 |
 | :--: | :--: |  :-- |
-| menu | 名称：binding,item 类型：Record<string,any 
+| menu | 名称：binding,item 类型：- 
  | 动态循环菜单项目插槽 | 
-| default | 名称：binding,item 类型：Record<string,any 
+| default | 名称：binding,item 类型：- 
  | 动态循环list插槽 | 
 
 

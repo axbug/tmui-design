@@ -5,7 +5,7 @@ export const covetUniNumber = (n: number | string, defaultUnit = 'rpx'): string 
         return `${n}${defaultUnit}`
     }
     let unit = getUnit(n, defaultUnit);
-    let zhi = n.match(/\d+(\.\d+)?/g);
+    let zhi = n.match(/[-+]?(?:\d+\.?\d*|\.\d+)/);
     let real = '0'
     if (zhi) {
         real = zhi[0]

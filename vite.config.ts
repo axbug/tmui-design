@@ -55,5 +55,6 @@ export default defineConfig({
 			dirs: ['./src/uni_modules/tm-ui/components'],
 			include: [/\.vue$/, /\.uvue$/]
 		})
-	]
+	],
+	
 });

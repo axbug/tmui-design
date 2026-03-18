@@ -40,7 +40,7 @@
 
 <script lang="ts" setup>
 import { computed, getCurrentInstance, PropType, ref } from 'vue'
-import { arrayNumberValid, arrayNumberValidByStyleMP, covetUniNumber, linearValid } from '../../libs/tool'
+import { arrayNumberValid, arrayNumberValidByStyleMP, covetUniNumber,arrayNumberValidByStyleBorderColor, arrayNumberValidByStyleBorderStyle, linearValid } from '../../libs/tool'
 import { useTmConfig } from '../../libs/config'
 import {
 	getDefaultColor,
@@ -317,7 +317,23 @@ const attrs = defineProps({
     dataBizLine: {
         type: String,
         default: ""
-    }
+    },
+	/**
+	 * 遵循规则：
+	 * string或者[x]：全部边线
+	 * [x,x]左右边线，上下边线
+	 * [x,x,x] 左，上，右
+	 * [x,x,x,x] 左，上，右,下
+	 */
+	borderColor: {
+	    type: [String, Array<string>],
+	    default: ""
+	},
+	darkBorderColor: {
+	    type: [String, Array<string>],
+	    default: "transparent"
+	},
+
 })
 type PropsKeyType = keyof typeof attrs;
 
@@ -368,9 +384,11 @@ const covetButtonSize = (ops: PropsKeyType, s: TM.BUTTON_SIZE, size?: string | n
 }
 const _attrs = computed(() => attrs);
 const _width = computed(() => {
-    if (attrs.block) {
+    if (attrs.block&&!attrs.width) {
         return 'auto'
-    }
+    }else if(attrs.block&&attrs.width){
+		return  covetUniNumber(attrs.width)
+	}
     return attrs.width === '' ? covetButtonSize('width', attrs.size) : covetUniNumber(attrs.width)
 })
 const _height = computed(() => attrs.height === '' ? covetButtonSize('height', attrs.size) : covetUniNumber(attrs.height))
@@ -427,6 +445,7 @@ const buttonStyle = computed(() => {
     }
 
     if (obj) {
+	
         if (isHover.value && !attrs.disabled && !attrs.loading) {
             style.color = linear ? '#ffffff' : fontColor || obj.active.fontColor;
             style.background = background || obj.active.background;
@@ -457,7 +476,13 @@ const buttonStyle = computed(() => {
             style.boxShadow = shadow
         }
     }
-
+	if(attrs.borderColor||(Array.isArray(attrs.borderColor)&&attrs.borderColor.length>0)){
+		style.borderColor = arrayNumberValidByStyleBorderColor(attrs.borderColor).join(' ')
+	}
+	if(attrs.borderWidth||(Array.isArray(attrs.borderWidth)&&attrs.borderWidth.length>0)){
+		style.borderWidth = arrayNumberValidByStyleMP(attrs.borderWidth).join(' ')
+	}
+	
     return style;
 });
 

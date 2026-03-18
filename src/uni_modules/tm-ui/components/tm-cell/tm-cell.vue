@@ -30,8 +30,9 @@
                 @slot 默认标题插槽 
                 -->
                 <slot>
-                    <text class="title" :style="{ color: _titleColor, fontSize: _titleSize }">{{ _allAttr.title
-                        }}</text>
+                    <view class="title" :style="{ color: _titleColor, fontSize: _titleSize }">
+                        <text>{{ _allAttr.title }}</text>
+                    </view>
                 </slot>
                 <!--
                 @slot 简介
@@ -463,18 +464,19 @@ export default {
     justify-content: space-between;
     align-items: center;
     height: 100%;
+    min-width: 0;
+    overflow: hidden;
     // padding: 32rpx 0rpx;
 }
 
 
 
 .title {
-    line-clamp: 2;
-    display: -webkit-box;
+    overflow: hidden;
     text-overflow: ellipsis;
-    flex: 1;
-    text-wrap: nowrap;
     white-space: nowrap;
+    flex: 1;
+    min-width: 0;
 }
 
 .desc {
@@ -494,6 +496,8 @@ export default {
 
 .center {
     flex: 1;
+    min-width: 0;
+    overflow: hidden;
 }
 
 .tmCellRight {
@@ -502,6 +506,7 @@ export default {
     flex-direction: row;
     justify-content: flex-end;
     align-items: center;
+    flex-shrink: 0;
 }
 
 .rightLabel {

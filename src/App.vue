@@ -1,10 +1,25 @@
 <template></template>
 <script lang="ts" setup></script>
 <style>
-/* 图标必须 */
-@import url(@/uni_modules/tm-ui/css/remixicon.min.css);
+/* 图标必须,这是原组件库自带的84kb如果觉得要精简，见文档图标精简 */
+/* @import url(@/uni_modules/tm-ui/css/remixicon.min.css); */
+/* 全量500+kb图标，建议开发时使用 */
+@import url(/scripts/iconPlus/remixicon.css);
+
+/* 
+这个是插件（需要你手动执行编译下扫描）会对uni_modules/tm-ui,及pages/目录所有用到的图标名称进行扫描
+用到的才会重新编译为字体，用不到的不编译。因此下面的版本适合在编译为生产build时引用。这样用到什么图标就编译什么图标
+妈妈再也不怕缺失图标以及图标不够用，选不到想用的图标了
+*/
+/* @import url(/scripts/iconPlus/buildFonts/dist/remixicon.css); */
+
+
 /* 自定预处理类，可选 */
 @import url(@/uni_modules/tm-ui/css/tmui.css);
+
+
+
+
 page {
   background: #f5f5f5;
 }

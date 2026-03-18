@@ -76,6 +76,8 @@ import headertips from '../components/headertips.vue'
 | dataGoodsId | string | "" | - | 
 | dataOrderId | string | "" | - | 
 | dataBizLine | string | "" | - | 
+| borderColor | string\|Array\<string\> | "" | 遵循规则：string或者[x]：全部边线[x,x]左右边线，上下边线[x,x,x]左，上，右[x,x,x,x]左，上，右,下 | 
+| darkBorderColor | string\|Array\<string\> | "transparent" | - | 
 
 
 ## :rose: 事件
