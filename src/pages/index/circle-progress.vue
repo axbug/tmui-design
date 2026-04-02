@@ -18,7 +18,7 @@ const value = ref(10)
         </tm-sheet>
 
 
-        <tm-sheet class="flex gap-10">
+        <tm-sheet class="flex gap-10 flex-row">
             <tm-circle-progress :model-value="50" line-width="20" color="primary"></tm-circle-progress>
             <tm-circle-progress :model-value="50" line-width="16" color="warn"></tm-circle-progress>
             <tm-circle-progress :model-value="50" line-width="8" color="error"></tm-circle-progress>

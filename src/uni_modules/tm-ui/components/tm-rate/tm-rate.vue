@@ -1,8 +1,8 @@
 <script setup lang="ts">
-	import { ref, computed, watch, onMounted, onBeforeUnmount } from 'vue'
-	import { arrayNumberValid, arrayNumberValidByStyleMP, covetUniNumber, arrayNumberValidByStyleBorderColor, arrayNumberValidByStyleBorderStyle, linearValid, getUnit } from "../../libs/tool";
+	import { ref, computed, watch, onMounted } from 'vue'
+	import { covetUniNumber, getUnit } from "../../libs/tool";
 	import { useTmConfig } from "../../libs/config";
-	import { getDefaultColor, getDefaultColorObj, getOutlineColorObj, getTextColorObj, getThinColorObj } from "../../libs/colors";
+	import { getDefaultColor } from "../../libs/colors";
 
 	/**
 	 * @displayName 评分
@@ -166,10 +166,6 @@
 		if (props.half) {
 			setDefaultHalfStatus()
 		}
-	})
-
-	onBeforeUnmount(() => {
-		
 	})
 
 	function setDefaultHalfStatus() {

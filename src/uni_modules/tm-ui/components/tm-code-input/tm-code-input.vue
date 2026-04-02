@@ -1,22 +1,7 @@
 <script lang="ts" setup>
-import { PropType, ref, computed, onMounted, onBeforeUnmount, watch, nextTick } from "vue";
-import {
-    arrayNumberValid,
-    arrayNumberValidByStyleMP,
-    covetUniNumber,
-    arrayNumber,
-    arrayNumberValidByStyleBorderColor,
-    linearValid,
-    getUnit,
-    getUid,
-} from "../../libs/tool";
-import {
-    getDefaultColor,
-    getDefaultColorObj,
-    getOutlineColorObj,
-    getTextColorObj,
-    getThinColorObj,
-} from "../../libs/colors";
+import { PropType, ref, computed, onBeforeUnmount, watch, nextTick } from "vue";
+import { covetUniNumber, getUnit } from "../../libs/tool";
+import { getDefaultColor } from "../../libs/colors";
 import { useTmConfig } from "../../libs/config";
 
 /**
@@ -423,9 +408,7 @@ const onFocus = () => {
 }
 
 .xCodeInputInput {
-    /* pointer-events: none;*/
     opacity: 0;
-    /* transform: translateX(-1000%); */
     position: absolute;
     left: -1000px;
     top: -1000px;

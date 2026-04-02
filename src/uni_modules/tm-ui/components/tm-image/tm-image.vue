@@ -7,7 +7,7 @@
         :style="{ width: _place_size.width, height: _place_size.height }">
         <!-- @vue-skip -->
         <view class="tmImageBox"
-            :style="{ width: _img_box_size.width, height: _img_box_size.height, borderRadius: _round, pointerEvent: 'none' }">
+            :style="{ width: _img_box_size.width, height: _img_box_size.height, borderRadius: _round, pointerEvents: 'none' }">
             <view v-if="isLoading || isError" class="tmImagePlace" :style="{ backgroundColor: _placeBgColor }">
                 <tm-icon :size="iconSize" v-if="isError" color="error" name="landscape-line"></tm-icon>
                 <tm-icon :size="iconSize" v-if="isLoading" name="loader-line" color="primary" :spin="true"></tm-icon>
@@ -21,8 +21,7 @@
     </view>
 </template>
 <script setup lang="ts">
-//@ts-nocheck
-import { computed, getCurrentInstance, onBeforeUnmount, onMounted, PropType, ref, watch } from 'vue'
+import { computed, getCurrentInstance, onMounted, type PropType, ref, watch } from 'vue'
 import { covetUniNumber, getUid, getUnit } from '../../libs/tool'
 import { getDefaultColor } from '../../libs/colors'
 import { useTmConfig } from '../../libs/config'
@@ -38,7 +37,7 @@ import { useTmConfig } from '../../libs/config'
     | --- | --- | --- | --- |
     | ☑️| ☑️ | ☑️ | ☑️ | ☑️ | 1.0.0 |
  */
-defineOptions({ name: 'TmBadge' });
+defineOptions({ name: 'TmImage' });
 const { config } = useTmConfig()
 const props = defineProps({
     /** 
@@ -155,21 +154,15 @@ const emit = defineEmits<{
     (e: 'load',evt:any): void,
 }>();
 
-const id = ref(`tmImage-${getUid()}`);
 const idBox = ref(`tmImage-${getUid()}`);
 const isLoading = ref(true);
 const isError = ref(false);
-const reload = ref(0);
 const imgrealWidth = ref(0);
 const imgrealHeight = ref(0);
 const boxWidth = ref(0);
 const boxHeight = ref(0);
 
 const isLoaded = ref(false);
-const tid = ref(0);
-const androidAndWebUrl = ref("");
-
-const tid2 = ref(0);
 const proxy = getCurrentInstance()?.proxy
 
 const _model = computed(() => props.model);
@@ -185,86 +178,72 @@ const _placeBgColor = computed(() => {
 });
 
 const _round = computed(() => covetUniNumber(props.round, config.unit));
-const _src = computed(() => props.src);
+const _src = computed(() => {
+    if (!props.src) return '';
+    return props.src;
+});
+
+const _isWidthPercent = computed(() => {
+    return (typeof props.width === 'string' && props.width.indexOf('%') > -1) || props.width === 'auto';
+});
+const _isHeightPercent = computed(() => {
+    return (typeof props.height === 'string' && props.height.indexOf('%') > -1) || props.height === 'auto';
+});
+const _unitWidth = computed(() => covetUniNumber(props.width, config.unit));
+const _unitHeight = computed(() => covetUniNumber(props.height, config.unit));
 
 const _place_size = computed(() => ({
-    width: covetUniNumber(props.width, config.unit),
-    height: covetUniNumber(props.height, config.unit),
+    width: _unitWidth.value,
+    height: _unitHeight.value,
 }));
 
+const _img_size = computed(() => {
+    if (!isLoaded.value) {
+        return { width: "10px", height: "10px" };
+    }
 
+    let w = _unitWidth.value;
+    let h = _unitHeight.value;
+
+    if (boxWidth.value > 0 && imgrealWidth.value > 0) {
+        const ratio = boxWidth.value / imgrealWidth.value;
+        if (props.height === 'auto') h = `${ratio * imgrealHeight.value}px`;
+        if (props.width === 'auto') w = `${boxWidth.value}px`;
+        if (_isHeightPercent.value && props.height !== 'auto') h = `${boxHeight.value}px`;
+        if (_isWidthPercent.value && props.width !== 'auto') w = `${boxWidth.value}px`;
+    }
+
+    return { width: w, height: h };
+});
 
 const _img_box_size = computed(() => {
     if (imgrealHeight.value > 0) {
         return _img_size.value;
     }
 
-    let _w = props.width;
-    let _h = props.height;
-    let us_w = covetUniNumber(props.width, config.unit);
-    let us_h = covetUniNumber(props.height, config.unit);
+    let w = _isWidthPercent.value ? '100%' : _unitWidth.value;
+    let h = _unitHeight.value;
 
-    if (typeof props.width == 'string' && props.width.lastIndexOf('%') > -1 || props.width == 'auto') {
-        us_w = '100%';
-        _w = '100%';
-    }
-
-    if (typeof props.height == 'string' && props.height.lastIndexOf('%') > -1 || props.height == 'auto' || isError.value) {
+    if (_isHeightPercent.value || isError.value) {
         if (boxHeight.value >= 5) {
-            _h = `${boxHeight.value}px`;
+            h = `${boxHeight.value}px`;
+        } else if (_isWidthPercent.value) {
+            h = props.height === '100%'
+                ? `${props.ratio * boxHeight.value}px`
+                : `${props.ratio * boxWidth.value}px`;
         } else {
-            if (typeof props.width == 'string' &&props.width.lastIndexOf('%') > -1 || props.width == 'auto') {
-                if (props.height == '100%') {
-                    _h = `${props.ratio * boxHeight.value}px`;
-                } else {
-                    _h = `${props.ratio * boxWidth.value}px`;
-                }
-            } else {
-                _h = `${props.ratio * parseFloat(us_w)}${getUnit(us_w)}`;
-            }
+            h = `${props.ratio * parseFloat(_unitWidth.value)}${getUnit(_unitWidth.value)}`;
         }
-		_w = us_w
-        return { width: _w, height: _h };
+        return { width: w, height: h };
     }
 
-    return { width: us_w, height: us_h };
-});
-
-const _img_size = computed(() => {
-    let us_w = covetUniNumber(props.width, config.unit);
-    let us_h = covetUniNumber(props.height, config.unit);
-
-    if (!isLoaded.value) {
-        return { width: "10px", height: "10px" };
-    }
-
-    if (boxWidth.value > 0) {
-        let ratio = boxWidth.value / imgrealWidth.value;
-
-        if (props.height == 'auto') {
-            us_h = `${ratio * imgrealHeight.value}px`;
-        }
-
-        if (props.width == 'auto') {
-            us_w = `${boxWidth.value}px`;
-        }
-
-        if (typeof props.height == 'string'&&props.height.lastIndexOf('%') > -1) {
-            us_h = `${boxHeight.value}px`;
-        }
-        if (typeof props.width == 'string'&&props.width.lastIndexOf('%') > -1) {
-            us_w = `${boxWidth.value}px`;
-        }
-    }
-
-    return { width: us_w, height: us_h };
+    return { width: w, height: h };
 });
 
 const _styleMap = computed(() => {
     let styleMap: Record<string, any> = {}
     styleMap["width"] = _img_size.value.width
     styleMap["height"] = _img_size.value.height
-    // styleMap["transform"] = isLoading.value ? 'scale(0.1)' : 'scale(1)'
     styleMap["visibility"] = isLoading.value ? 'visible' : (!isError.value ? 'visible' : 'hidden')
     styleMap["opacity"] = isLoading.value ? '0' : '1'
     styleMap["border-radius"] = _round.value
@@ -282,25 +261,7 @@ const prevImage = () => {
 };
 
 
-function toPngFile(data : string) : Promise<string> {
-	let bdataBase64 = data.split(',')[1]
-	let fileMg = wx.getFileSystemManager();
-	let filepath = `${wx.env.USER_DATA_PATH}/${Math.random().toString(16).substring(4, 20)}.png`
-	return new Promise((res, rej) => {
-		fileMg.writeFile({
-			filePath: filepath,
-			data: bdataBase64,
-			encoding: "base64",
-			success() {
-				res(filepath)
-			},
-			faile() {
-				rej("")
-			}
-		})
-	})
-}
-const imgLoad = async (e) => {
+const imgLoad = async (e:any) => {
 	emit('load',e)
 	let width = e.detail.width;
 	let height = e.detail.height;
@@ -313,7 +274,7 @@ const imgLoad = async (e) => {
 	imgrealHeight.value = height;
 };
 
-const imgError = (e) => {
+const imgError = (e:any) => {
 	
 	emit('error',e)
     isError.value = true;
@@ -350,17 +311,25 @@ const resize = (): Promise<any> => {
 
 onMounted(async () => {
     await getNodes();
+    if (!props.src) {
+        isLoading.value = false;
+        isError.value = true;
+    }
 });
 
-onBeforeUnmount(() => {
-    clearTimeout(tid.value);
-    clearTimeout(tid2.value);
+watch(() => props.src, (newSrc) => {
+    if (!newSrc) {
+        isLoading.value = false;
+        isError.value = true;
+        isLoaded.value = false;
+        return;
+    }
+    isLoading.value = true;
+    isError.value = false;
+    isLoaded.value = false;
+    imgrealWidth.value = 0;
+    imgrealHeight.value = 0;
 });
-
-watch(() => props.src, () => {
-    // imgLoad();
-});
-
 
 </script>
 <script lang="ts">

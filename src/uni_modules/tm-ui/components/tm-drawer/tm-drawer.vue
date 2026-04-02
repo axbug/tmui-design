@@ -1,9 +1,8 @@
 <script lang="ts" setup>
-import { ref, computed, onMounted, onBeforeUnmount, watch, PropType, getCurrentInstance, onUpdated, nextTick } from 'vue';
-import { arrayNumberValid, arrayNumberValidByStyleMP, covetUniNumber, arrayNumberValidByStyleBorderColor, linearValid, getUnit, getUid } from "../../libs/tool";
-import { getDefaultColor, getDefaultColorObj, getOutlineColorObj, getTextColorObj, getThinColorObj } from "../../libs/colors";
+import { ref, computed, onMounted, onBeforeUnmount, watch, PropType, onUpdated, nextTick } from 'vue';
+import { covetUniNumber, getUnit, getUid } from "../../libs/tool";
+import { getDefaultColor } from "../../libs/colors";
 import { useTmConfig } from "../../libs/config";
-import {onLoad, onPageScroll,onReady} from '@dcloudio/uni-app';
 import {$i18n} from "@/uni_modules/tm-ui"
 /**
  * @displayName 抽屉
@@ -253,8 +252,8 @@ const emit = defineEmits([
 const isLoading = ref(false)
 const _width = ref(0)
 const _height = ref(0)
-const showOverflay = ref(false)
-const actinon = ref(false)
+const showOverlay = ref(false)
+const action = ref(false)
 const status = ref("")
 const id = ref("tmDrawer" + getUid())
 const wrapId = ref("tmDrawerWrap" + getUid())
@@ -265,7 +264,7 @@ const windtop = ref(0)
 const windtopReal = ref(0)
 const tantiaoTrue = ref(false)
 const safeFooterHeight = ref(0)
-const lezyShowModal = ref(props.lazy ? false : true)
+const lazyShowModal = ref(props.lazy ? false : true)
 const _disabled = computed(() => props.disabled)
 const teleportElH5 = ref("#app")
 
@@ -399,7 +398,7 @@ const setDomHeight = ()=>{
 onMounted(()=>{
 	setDomHeight()
 	uni.$on('onReady',setDomHeight)
-	lezyShowModal.value = props.lazy ? false : true
+	lazyShowModal.value = props.lazy ? false : true
 	// #ifdef H5
 	nextTick(() => {
 		teleportTarget.value = getTeleportTarget()
@@ -469,9 +468,9 @@ const onClickOverflowy = (evt: Event) => {
 }
 
 const closeAlert = () => {
-	if (actinon.value || isLoading.value) return
+	if (action.value || isLoading.value) return
 	if (status.value == 'close') return
-	actinon.value = true
+	action.value = true
 	status.value = 'close'
 	/**
 	 * 关闭前执行
@@ -485,10 +484,10 @@ const closeAlert = () => {
 }
 
 const showAlert = () => {
-	if (actinon.value) return
+	if (action.value) return
 	if (status.value == 'open') return
-	showOverflay.value = true
-	actinon.value = true
+	showOverlay.value = true
+	action.value = true
 
 	/**
 	 * 打开前执行
@@ -509,19 +508,19 @@ function openDrawer() {
 }
 
 function onEnd() {
-	actinon.value = false;
+	action.value = false;
 
 	if (status.value === 'close') {
-		showOverflay.value = false;
+		showOverlay.value = false;
 		emit('close');
 		emit('update:show', false);
 		if (_lazy.value) {
-			lezyShowModal.value = false;
+			lazyShowModal.value = false;
 		}
 	} else {
 		emit('open');
 		if (_lazy.value) {
-			lezyShowModal.value = true;
+			lazyShowModal.value = true;
 		}
 	}
 }
@@ -561,7 +560,7 @@ export default {
 			<root-portal>
 				<!-- #endif -->
 				<!-- 备用渲染方案：当teleport失败或被禁用时 -->
-				<view v-if="(props.disableTeleport || !teleportTarget) && showOverflay" class="tmDrawerWrap tmDrawerWrap_fallback"
+				<view v-if="(props.disableTeleport || !teleportTarget) && showOverlay" class="tmDrawerWrap tmDrawerWrap_fallback"
 					:class="[
 						status == 'open' ? 'tmModalWrap_on' : 'tmModalWrap_off',
 						(_position == 'top' || _position == 'bottom') && _widthCoverCenter ? 'tmDrawerWrapContentMinwidthWrapDir' : '',
@@ -576,7 +575,7 @@ export default {
 					<!-- 备用内容 -->
 				</view>
 				
-				<view @click="onClickOverflowy" @touchmove="maskerMove" v-if="showOverflay" :id="id" ref="tmDrawerWrap"
+				<view @click="onClickOverflowy" @touchmove="maskerMove" v-if="showOverlay" :id="id" ref="tmDrawerWrap"
 					class="tmDrawerWrap" :class="[
 						status == 'open' ? 'tmModalWrap_on' : 'tmModalWrap_off',
 						(_position == 'top' || _position == 'bottom') && _widthCoverCenter ? 'tmDrawerWrapContentMinwidthWrapDir' : '',
@@ -641,7 +640,7 @@ export default {
 						</view>
 
 
-						<view v-if="showFooter && lezyShowModal" class="tmDrawerFooter"
+						<view v-if="showFooter && lazyShowModal" class="tmDrawerFooter"
 							:style="{ backgroundColor: _bgColor }">
 							<view :style="{ height: _contentMargin }"></view>
 

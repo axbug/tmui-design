@@ -105,49 +105,58 @@ const nowValue = ref<string | number>("");
 const lazyDuration = ref(false)
 const buy = ref(1)
 const nowSelectedIds = ref<Array<string | number>>([])
-const _data = computed(() => props.data);
-const _showAddStore = computed(() => props.showAddStore)
+
+const _selectedIdSet = computed((): Set<string | number> => {
+	return new Set(nowSelectedIds.value)
+})
+
+const _productMap = computed((): Map<string, TM.SKU_PRODUCT> => {
+	const map = new Map<string, TM.SKU_PRODUCT>()
+	const products = props.data?.product
+	if (products) {
+		for (const p of products) {
+			map.set(String(p.id), p)
+		}
+	}
+	return map
+})
 
 const _nowSelectedItem = computed<TM.SKU_PRODUCT | null>(() => {
-	if (nowSelectedIds.value.length == 0 || _data.value.product == null || !_data.value.product) return null
-	let dataItems = _data.value.data
-	let ids = ''
+	const idSet = _selectedIdSet.value
+	if (idSet.size == 0 || !props.data.product) return null
+	const dataItems = props.data.data
+	const parts: string[] = []
 	for (let i = 0; i < dataItems.length; i++) {
-		let item = dataItems[i]
-		let children = item?.children ?? []
-		if (children.length > 0) {
-			let cis = children.map((el) => el.id)
-			for (let j = 0; j < cis.length; j++) {
-				if (nowSelectedIds.value.includes(cis[j])) {
-					ids += cis[j] + '-'
-				}
+		const children = dataItems[i]?.children ?? []
+		for (let j = 0; j < children.length; j++) {
+			if (idSet.has(children[j].id)) {
+				parts.push(String(children[j].id))
+				break
 			}
 		}
 	}
-	if (ids == '') return null
-	ids = ids.substring(0, ids.length - 1)
-	let index = _data.value.product.findIndex((el) => el.id == ids)
-	if (index == -1) return null
-	return _data.value.product[index]
+	if (parts.length == 0) return null
+	return _productMap.value.get(parts.join('-')) ?? null
 });
-const _lazyContent = computed(() => props.lazyContent);
+
 const _nowImgDefault = computed(() => {
-	if (!_data.value || !_data.value.product || _data.value.product?.length == 0) return ''
-	return _data.value.product[0].img ?? ''
+	const products = props.data?.product
+	if (!products || products.length == 0) return ''
+	return products[0].img ?? ''
 })
-watch(() => props.modelValue, (_: string | number) => {
+watch(() => props.modelValue, () => {
 	onSetDefaultStr()
 });
 
 watch(() => props.modelShow, (newValue: boolean) => {
 	if (newValue == show.value) return
 	show.value = newValue
-},);
+});
 
 
 onMounted(() => {
 	nowValue.value = props.modelValue
-	lazyDuration.value = !_lazyContent.value
+	lazyDuration.value = !props.lazyContent
 	onSetDefaultStr()
 	if (props.modelShow) {
 		nextTick(() => {
@@ -163,7 +172,7 @@ function openShow() {
 
 function onClose() {
 	emit('update:modelShow', false)
-	if (_lazyContent.value) {
+	if (props.lazyContent) {
 		lazyDuration.value = false
 	}
 
@@ -178,18 +187,22 @@ function onCancel() {
 	onClose()
 }
 
+function cloneProduct(item: TM.SKU_PRODUCT): TM.SKU_PRODUCT {
+	return { ...item }
+}
+
 function onConfirm() {
 	if (!_nowSelectedItem.value || disabledBuy.value) return
 	let ids = _nowSelectedItem.value.id
 	emit('update:modelValue', ids)
-	emit('confirm', JSON.parse(JSON.stringify(_nowSelectedItem.value)), buy.value)
+	emit('confirm', cloneProduct(_nowSelectedItem.value), buy.value)
 	onClose()
 }
 
 function onAdd() {
 	if (!_nowSelectedItem.value) return
 	if(disabledBuy.value) return
-	emit('add', JSON.parse(JSON.stringify(_nowSelectedItem.value)), buy.value)
+	emit('add', cloneProduct(_nowSelectedItem.value), buy.value)
 	uni.showToast({
 		title:$i18n.t('tmui32x.tmSku.addSuccessText'),
 		icon:"success",
@@ -208,7 +221,7 @@ function onSetDefaultStr() {
 		nowValue.value = val
 
 	} else if (props.autoSelectDefault) {
-		let product = _data.value?.product ?? []
+		let product = props.data?.product ?? []
 		if (product.length > 0) {
 			let defaulter = product[0]
 			nowSelectedIds.value = String(defaulter.id).split('-')
@@ -221,16 +234,14 @@ function onSetDefaultStr() {
 }
 
 function selectedItem(parent: TM.SKU_DATA_ITEM, parentIndex: number, item: TM.SKU_DATA_ITEM) {
-	let listids = new Array(_data.value.data.length).fill('')
-	for (let i = 0; i < nowSelectedIds.value.length; i++) {
-		listids[i] = nowSelectedIds.value[i]
+	const dataLen = props.data.data.length
+	const listids = new Array(dataLen).fill('')
+	const current = nowSelectedIds.value
+	for (let i = 0; i < current.length && i < dataLen; i++) {
+		listids[i] = current[i]
 	}
-	if (nowSelectedIds.value.includes(item.id)) {
-		listids[parentIndex] = ''
-	} else {
-		listids[parentIndex] = item.id
-	}
-	nowSelectedIds.value = listids.slice(0)
+	listids[parentIndex] = _selectedIdSet.value.has(item.id) ? '' : item.id
+	nowSelectedIds.value = listids
 	nextTick(() => {
 		if (_nowSelectedItem.value) {
 			buy.value = Math.min(Math.max(_nowSelectedItem.value.min_buy_quantity, Math.min(_nowSelectedItem.value.max_buy_quantity, buy.value)), _nowSelectedItem.value.inventory_quantity)
@@ -245,8 +256,9 @@ const disabledBuy = computed(() => {
 	return buy.value > maxBuyNumber.value || buy.value < minBuyNumber.value
 })
 const isSelectedTags = computed(() => {
+	const idSet = _selectedIdSet.value
 	return (id: string | number): boolean => {
-		return nowSelectedIds.value.includes(id)
+		return idSet.has(id)
 	}
 })
 const maxBuyNumber = computed(() => {
@@ -321,7 +333,7 @@ export default {
 			</view>
 		</view>
 		<view class="skuWrap">
-			<view v-for="(item,index) in _data.data" :key="index" style="margin-top: 24rpx">
+			<view v-for="(item,index) in data.data" :key="index" style="margin-top: 24rpx">
 				<view>
 					<text :style="{fontSize:'32rpx'}">{{ item.title }}</text>
 				</view>
@@ -346,7 +358,7 @@ export default {
 
 		<template v-slot:footer>
 			<view style="display: flex;flex-direction: row;justify-content: space-between">
-				<view v-if="_showAddStore" style="flex: 1;margin-right: 20rpx" @click="onAdd">
+				<view v-if="showAddStore" style="flex: 1;margin-right: 20rpx" @click="onAdd">
 					<!--
 					 @slot 添加购物车按钮
 					 -->

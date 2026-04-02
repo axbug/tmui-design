@@ -7,7 +7,7 @@ export function getTreeSelectedNum(item: TM_PICKER_X_ITEM[], target: Set<string>
 	function jshz(tree: TM_PICKER_X_ITEM[]) {
 		for (let i = 0; i < tree.length; i++) {
 			let item = tree[i]
-			if (item.children.length > 0) {
+			if (item?.children?.length > 0) {
 				jshz(item.children)
 			} else if (target.has(item.id)) {
 				inx += 1
@@ -28,7 +28,7 @@ export function filterParentNode(item: TM_PICKER_X_ITEM[], target: Set<string>):
 		let arr = [] as string[]
 		for (let i = 0; i < tree.length; i++) {
 			let item = tree[i]
-			if (item.children.length > 0) {
+			if (item?.children?.length > 0) {
 				arr = arr.concat(jshz(item.children))
 			} else if (target.has(item.id)) {
 				arr.push(item.id)
@@ -53,8 +53,8 @@ export function setDefaultByValueAr(list: TM_PICKER_X_ITEM[], value: string[], m
 	function setvalue(item: TM_PICKER_X_ITEM[]) {
 		if (item.length > 0) {
 			defaultAr.push(item[0].id);
-			if (item[0].children.length > 0) {
-				setvalue(item[0].children)
+		if (item[0]?.children?.length > 0) {
+			setvalue(item[0].children)
 			}
 		}
 	}
@@ -82,7 +82,7 @@ export function findNodeById(TreeNode: TM_PICKER_X_ITEM[], id: string): TM_PICKE
 			newnode = node;
 			break;
 		}
-		if (node.children.length > 0) {
+		if (node?.children?.length > 0) {
 			const foundNode = findNodeById(node.children, id);
 			if (foundNode != null) {
 				newnode = foundNode;
@@ -99,7 +99,7 @@ export function findNodeById(TreeNode: TM_PICKER_X_ITEM[], id: string): TM_PICKE
 // 查找节点的上级节点
 export function findParentNode(nodes: TM_PICKER_X_ITEM[], targetNodeId: string): TM_PICKER_X_ITEM | null {
 	function search(node: TM_PICKER_X_ITEM): TM_PICKER_X_ITEM | null {
-		if (node.children.length > 0) {
+		if (node?.children?.length > 0) {
 			for (let i = 0; i < node.children.length; i++) {
 				const child = node.children[i];
 				if (child.id === targetNodeId) {

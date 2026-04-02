@@ -1,22 +1,7 @@
 <script lang="ts" setup>
 import { ref, computed, onMounted, onBeforeUnmount, onActivated } from 'vue'
-import {
-	arrayNumberValid,
-	arrayNumberValidByStyleMP,
-	covetUniNumber,
-	arrayNumber,
-	arrayNumberValidByStyleBorderColor,
-	linearValid,
-	getUnit,
-	getUid,
-} from "../../libs/tool";
-import {
-	getDefaultColor,
-	getDefaultColorObj,
-	getOutlineColorObj,
-	getTextColorObj,
-	getThinColorObj,
-} from "../../libs/colors";
+import { covetUniNumber } from "../../libs/tool";
+import { getDefaultColor } from "../../libs/colors";
 import { useTmConfig } from "../../libs/config";
 
 /**
@@ -131,14 +116,13 @@ const animationEnd = () => {
 		height: _height,
 		borderRadius: _round,
 		opacity: myopacity,
-		transitionDuration: duration
+		transitionDuration: props.duration
 	}"></view>
 </template>
 
 <style lang="scss" scoped>
 .xSkeleton {
 	transition-timing-function: linear;
-	/* transition-duration: 900ms; */
 	transition-property: opacity;
 }
 </style>

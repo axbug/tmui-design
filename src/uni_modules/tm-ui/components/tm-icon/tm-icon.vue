@@ -1,4 +1,5 @@
 <template>
+  <!-- @vue-ignore -->
   <text
     @tap="onclick"
     v-if="!isImg"
@@ -14,6 +15,7 @@
       _style
     ]"
   ></text>
+  <!-- @vue-ignore -->
   <image
     v-if="isImg"
     @tap="onclick"
@@ -27,7 +29,6 @@
   ></image>
 </template>
 <script setup lang="ts">
-//@ts-nocheck
 import { computed, PropType } from 'vue'
 import { covetUniNumber } from "../../libs/tool";
 import { useTmConfig } from "../../libs/config";

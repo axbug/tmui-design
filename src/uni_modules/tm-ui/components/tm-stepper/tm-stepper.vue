@@ -14,7 +14,7 @@ import { useTmConfig } from "../../libs/config";
     | --- | --- | --- | --- |
     | ☑️| ☑️ | ☑️ | ☑️ | ☑️ | 1.0.0 |
  */
-defineOptions({ name: "TmNavbar" });
+defineOptions({ name: "TmStepper" });
 const { config } = useTmConfig();
 const props = defineProps({
   /**
@@ -178,8 +178,8 @@ const emit = defineEmits([
 
 const _value = ref(0);
 const _input_value = ref("");
-const addDomDisabeld = ref(false);
-const surDomDisabeld = ref(false);
+const addDomDisabled = ref(false);
+const surDomDisabled = ref(false);
 
 const _round = computed((): string => {
   return covetUniNumber(props.round, config.unit);
@@ -265,10 +265,6 @@ const clampValue = (value: number): number => {
   return Math.min(Math.max(value, _min.value), _max.value);
 };
 
-const getDecimalPlaces = (): number => {
-  return props.decimalLen;
-};
-
 /**
  * 加
  */
@@ -305,8 +301,8 @@ const setValue = (value: number, isEmit: boolean) => {
   const clampedValue = clampValue(value);
   _value.value = clampedValue;
   _input_value.value = _value.value.toString();
-  addDomDisabeld.value = _value.value >= props.max;
-  surDomDisabeld.value = _value.value <= props.min;
+  addDomDisabled.value = _value.value >= props.max;
+  surDomDisabled.value = _value.value <= props.min;
 
   if (isEmit) {
     /**
@@ -334,18 +330,18 @@ export default {
 <template>
   <view class="xStepper" :style="{ width: _width, borderRadius: _round }">
     <view
-      v-if="(!surDomDisabeld && _autoHideBtn) || !_autoHideBtn"
+      v-if="(!surDomDisabled && _autoHideBtn) || !_autoHideBtn"
       :hover-start-time="20"
       :hover-stay-time="150"
-      :disabled="surDomDisabeld || _disabled"
-      :hover-class="surDomDisabeld || _disabled ? '' : 'xStepperHoverbtn'"
+      :disabled="surDomDisabled || _disabled"
+      :hover-class="surDomDisabled || _disabled ? '' : 'xStepperHoverbtn'"
       @click="handleDecrement"
       class="xStepperBtn"
       :style="{
         backgroundColor: _btnColor,
         height: _height,
         width: _btnWidth,
-        opacity: surDomDisabeld || _disabled ? 0.6 : 1,
+        opacity: surDomDisabled || _disabled ? 0.6 : 1,
         borderRadius: _splitBtn ? '50px' : '0rpx',
       }"
     >
@@ -358,7 +354,7 @@ export default {
     </view>
 
     <input
-      v-if="(!surDomDisabeld && _autoHideBtn) || !_autoHideBtn"
+      v-if="(!surDomDisabled && _autoHideBtn) || !_autoHideBtn"
       :disabled="_disabled"
       @blur="inputBlur"
       @input="handleInputChange"
@@ -376,8 +372,8 @@ export default {
       :type="decimalLen > 0 ? 'digit' : 'number'"
     />
     <view
-      :disabled="addDomDisabeld || _disabled"
-      :hover-class="addDomDisabeld || _disabled ? '' : 'xStepperHoverbtn'"
+      :disabled="addDomDisabled || _disabled"
+      :hover-class="addDomDisabled || _disabled ? '' : 'xStepperHoverbtn'"
       :hover-start-time="20"
       :hover-stay-time="150"
       @click="handleIncrement"
@@ -386,7 +382,7 @@ export default {
         backgroundColor: _btnColor,
         height: _height,
         width: _btnWidth,
-        opacity: addDomDisabeld || _disabled ? 0.6 : 1,
+        opacity: addDomDisabled || _disabled ? 0.6 : 1,
         borderRadius: _splitBtn ? '50px' : '0rpx',
       }"
     >

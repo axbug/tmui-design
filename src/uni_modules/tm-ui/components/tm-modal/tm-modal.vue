@@ -11,24 +11,9 @@
 		onUpdated,
 		nextTick,
 	} from "vue";
-	import {
-		arrayNumberValid,
-		arrayNumberValidByStyleMP,
-		covetUniNumber,
-		arrayNumberValidByStyleBorderColor,
-		linearValid,
-		getUnit,
-		getUid,
-	} from "../../libs/tool";
-	import {
-		getDefaultColor,
-		getDefaultColorObj,
-		getOutlineColorObj,
-		getTextColorObj,
-		getThinColorObj,
-	} from "../../libs/colors";
+	import { covetUniNumber, getUid } from "../../libs/tool";
+	import { getDefaultColor } from "../../libs/colors";
 	import { useTmConfig } from "../../libs/config";
-	import { onPageScroll, onReady } from "@dcloudio/uni-app";
 	/**
 	 * @displayName 对话框
 	 * @exportName tm-modal
@@ -243,8 +228,8 @@
 
 	const _width = ref(0);
 	const _height = ref(0);
-	const showOverflay = ref(false);
-	const actinon = ref(false);
+	const showOverlay = ref(false);
+	const action = ref(false);
 	const status = ref("");
 	const id = ref("tmModal" + getUid());
 	const wrapId = ref("tmModal" + getUid());
@@ -425,9 +410,9 @@
 	};
 
 	const closeAlert = () => {
-		if (actinon.value || isLoading.value) return;
+		if (action.value || isLoading.value) return;
 		if (status.value == "close") return;
-		actinon.value = true;
+		action.value = true;
 		status.value = "close";
 		/**
 		 * 关闭前执行
@@ -441,10 +426,10 @@
 	};
 
 	const showAlert = () => {
-		if (actinon.value) return;
+		if (action.value) return;
 		if (status.value == "open") return;
-		showOverflay.value = true;
-		actinon.value = true;
+		showOverlay.value = true;
+		action.value = true;
 
 		/**
 		 * 打开前执行
@@ -464,10 +449,10 @@
 	};
 
 	const onEnd = () => {
-		actinon.value = false;
+		action.value = false;
 
 		if (status.value == "close") {
-			showOverflay.value = false;
+			showOverlay.value = false;
 			/**
 			 * 关闭时执行
 			 */
@@ -515,7 +500,7 @@
 			<root-portal>
 			<!-- #endif -->
 				<!-- 备用渲染方案：当teleport失败或被禁用时 -->
-				<view v-if="(props.disableTeleport || !teleportTarget) && showOverflay"
+				<view v-if="(props.disableTeleport || !teleportTarget) && showOverlay"
 					class="tmModalWrap tmModalWrap_center tmModalWrap_fallback"
 					:class="[status == 'open' ? 'tmModalWrap_on' : 'tmModalWrap_off']" :style="[
             {
@@ -530,7 +515,7 @@
 					<!-- 备用内容 -->
 				</view>
 
-				<view @click="onClickOverflowy" @touchmove="maskerMove" ref="tmModalWrap" v-if="showOverflay" :id="id"
+				<view @click="onClickOverflowy" @touchmove="maskerMove" ref="tmModalWrap" v-if="showOverlay" :id="id"
 					class="tmModalWrap tmModalWrap_center"
 					:class="[status == 'open' ? 'tmModalWrap_on' : 'tmModalWrap_off']" :style="[
             {
@@ -624,7 +609,6 @@
 	.tmModalWrapBox {
 		display: flex;
 		flex-direction: column;
-		/* background-color: white; */
 		height: 100%;
 		width: 100%;
 	}
@@ -632,7 +616,6 @@
 	.tmModalFooter {
 		display: flex;
 		width: 100%;
-		/* background-color: white; */
 		padding: 24rpx;
 		flex-direction: row;
 		justify-content: space-between;

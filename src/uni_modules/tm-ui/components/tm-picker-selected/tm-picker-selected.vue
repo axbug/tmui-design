@@ -1,8 +1,7 @@
 <script setup lang="ts">
-import { computed, ref, useSlots, onMounted, watch, onBeforeUnmount } from "vue";
-import { arrayNumberValid, arrayNumberValidByStyleMP, covetUniNumber, linearValid, getUnit } from "../../libs/tool";
+import { computed, ref, onMounted, watch, onBeforeUnmount } from "vue";
 import { useTmConfig } from "../../libs/config";
-import { getDefaultColor, setTextColorLightByDark, getOutlineColorObj, getTextColorObj, getThinColorObj } from "../../libs/colors";
+import { getDefaultColor } from "../../libs/colors";
 import {$i18n} from "@/uni_modules/tm-ui"
 interface xPickerSelectedListyType {
     id: any;
@@ -166,10 +165,6 @@ const duration = ref(60)
 const yanchiDuration = ref(false)
 const tid = ref<number>(100)
 
-const _lazyContent = computed((): boolean => {
-    return props.lazyContent
-})
-const _disabled = computed(() => props.disabled)
 const _renderListData = computed((): xPickerSelectedListyType[] => {
     if (searchList.value.length > 0 && props.localSearch) return searchList.value
     return _list.value
@@ -182,6 +177,18 @@ const _list = computed((): xPickerSelectedListyType[] => {
             title: el[props.labelKey]
         } as xPickerSelectedListyType
     })
+})
+
+const _listMap = computed((): Map<any, xPickerSelectedListyType> => {
+    const map = new Map<any, xPickerSelectedListyType>()
+    for (const item of _list.value) {
+        map.set(item.id, item)
+    }
+    return map
+})
+
+const _selectedIdSet = computed((): Set<any> => {
+    return new Set(nowValue.value.map(el => el.id))
 })
 
 const _color = computed((): string => {
@@ -213,13 +220,12 @@ const updateModelStr = () => {
 }
 
 const onclik = (item: xPickerSelectedListyType) => {
+    const selected = _selectedIdSet.value.has(item.id)
     if (!props.multiple) {
-        let index = nowValue.value.findIndex((el): boolean => el.id == item.id)
-        nowValue.value = index > -1 ? [] : [item]
+        nowValue.value = selected ? [] : [item]
     } else {
-        let index = nowValue.value.findIndex((el): boolean => el.id == item.id)
-        if (index > -1) {
-            nowValue.value.splice(index, 1)
+        if (selected) {
+            nowValue.value = nowValue.value.filter(el => el.id !== item.id)
         } else {
             nowValue.value.push(item)
         }
@@ -227,8 +233,7 @@ const onclik = (item: xPickerSelectedListyType) => {
 }
 
 const isSelected = (item: xPickerSelectedListyType): boolean => {
-    let index = nowValue.value.findIndex((el): boolean => el.id == item.id)
-    return index > -1
+    return _selectedIdSet.value.has(item.id)
 }
 
 const inpuEvent = (evt: InputEvent) => {
@@ -246,11 +251,14 @@ const clearSearchKey = () => {
 
 const inputConfirm = () => {
     if (props.localSearch) {
-        searchList.value = []
-        let templist = _list.value.filter((el): boolean => {
-            return el.title.indexOf(searchKey.value.trim()) > -1
+        const keyword = searchKey.value.trim()
+        if (keyword === '') {
+            searchList.value = []
+            return
+        }
+        searchList.value = _list.value.filter((el): boolean => {
+            return el.title.indexOf(keyword) > -1
         })
-        searchList.value = templist.slice(0)
         if (searchList.value.length == 0) {
             uni.showToast({ title: '没有结果', icon: 'none' })
         }
@@ -260,7 +268,7 @@ const inputConfirm = () => {
 }
 
 const openShow = () => {
-	if(_disabled.value) return;
+	if(props.disabled) return;
     show.value = true
     emit('update:modelShow', true)
     emit('open')
@@ -268,7 +276,7 @@ const openShow = () => {
 
 const onClose = () => {
     emit('update:modelShow', false)
-    if (_lazyContent.value) {
+    if (props.lazyContent) {
         yanchiDuration.value = false
     }
 }
@@ -288,24 +296,19 @@ const onCancel = () => {
 }
 
 const idsToxPickerSelectedListyTypeAr = (ids: any[]): xPickerSelectedListyType[] => {
-    let fts = props.list!.filter((el): boolean => {
-        return ids.includes(el[props.idKey])
-    })
-    let templist = fts!.map((el): xPickerSelectedListyType => {
-        return {
-            id: el[props.idKey],
-            title: el[props.labelKey]
-        } as xPickerSelectedListyType
-    })
-    return templist.slice(0)
+    const idSet = new Set(ids)
+    const result: xPickerSelectedListyType[] = []
+    const map = _listMap.value
+    for (const id of idSet) {
+        const item = map.get(id)
+        if (item) result.push(item)
+    }
+    return result
 }
 
 const onConfirm = () => {
-    let ids = nowValue.value.map((el): any => el.id)
-    let fts = nowValue.value!.filter((el: xPickerSelectedListyType): boolean => {
-        return ids.includes(el.id)
-    })
-    let strs = fts.map((el: xPickerSelectedListyType): string => el.title)
+    const ids = nowValue.value.map((el): any => el.id)
+    const strs = nowValue.value.map((el): string => el.title)
     emit('confirm', ids, strs)
     emit('update:modelValue', ids)
     updateModelStr()
@@ -328,12 +331,13 @@ const selectedAll = () => {
 
 
 watch(() => props.modelValue, (newvalue: any[]) => {
-    if (newvalue.join("") == nowValue.value.join("")) return
+    const currentIds = nowValue.value.map(el => el.id)
+    if (newvalue.length === currentIds.length && newvalue.every((v, i) => v === currentIds[i])) return
     nowValue.value = idsToxPickerSelectedListyTypeAr(props.modelValue)
     updateModelStr()
 })
 
-watch(() => _list.value, () => {
+watch(_list, () => {
     nowValue.value = idsToxPickerSelectedListyTypeAr(props.modelValue)
     updateModelStr()
 })
@@ -347,7 +351,7 @@ watch(() => props.modelShow, (newValue: boolean) => {
 onMounted(() => {
     nowValue.value = idsToxPickerSelectedListyTypeAr(props.modelValue)
     updateModelStr()
-    yanchiDuration.value = _lazyContent.value ? false : true
+    yanchiDuration.value = !props.lazyContent
 })
 
 onBeforeUnmount(() => {
@@ -392,18 +396,18 @@ export default {
                 <tm-icon v-if="!yanchiDuration" size="48" spin name="loader-line" color="primary"></tm-icon>
                 <scroll-view v-if="_list.length > 0 && yanchiDuration" scroll-y
                     style="position:absolute;left:0px;top:0px;height:100%; ">
-                    <view @click="onclik(item)" v-for="(item, index) in _renderListData" :key="index"
-                        class="tmPickerSlectedItem" :class="[isSelected(item) ? 'tmPickerSlectedWrapOn' : '']">
+                    <view @click="onclik(item)" v-for="item in _renderListData" :key="item.id"
+                        class="tmPickerSlectedItem" :class="[_selectedIdSet.has(item.id) ? 'tmPickerSlectedWrapOn' : '']">
                         <view class="tmPickerSlectedItemWrap"
                             :style="{ 'border-bottom': `1px solid ${_borderColor}`, margin: '0 16px' }">
                             <view class="tmPickerSlectedItemText">
-                                <tm-text :color="isSelected(item) ? _color : (_isDark ? 'white' : '#888')"
+                                <tm-text :color="_selectedIdSet.has(item.id) ? _color : (_isDark ? 'white' : '#888')"
                                     font-size="32" line-height="1" :lines="2">
                                     {{ item.title }}
                                 </tm-text>
                             </view>
-                            <tm-icon :color="isSelected(item) ? _color : '#e6e6e6'" size="56"
-                                :name="isSelected(item) ? 'checkbox-circle-fill' : 'checkbox-blank-circle-line'"></tm-icon>
+                            <tm-icon :color="_selectedIdSet.has(item.id) ? _color : '#e6e6e6'" size="56"
+                                :name="_selectedIdSet.has(item.id) ? 'checkbox-circle-fill' : 'checkbox-blank-circle-line'"></tm-icon>
                         </view>
                     </view>
                 </scroll-view>

@@ -62,6 +62,8 @@
 					
 					<tm-cell url="/pages/index/picker-selected" title="picker-selected"></tm-cell>
 					
+					<tm-cell url="/pages/index/picker-time" title="picker-time"></tm-cell>
+					
 					<tm-cell url="/pages/index/picker-view" title="picker-view"></tm-cell>
 					
 					<tm-cell url="/pages/index/popover" title="popover"></tm-cell>
@@ -95,6 +97,8 @@
 					<tm-cell url="/pages/index/sticky" title="sticky"></tm-cell>
 					
 					<tm-cell url="/pages/index/switch" title="switch"></tm-cell>
+					
+					<tm-cell url="/pages/index/switch-slider" title="switch-slider"></tm-cell>
 					
 					<tm-cell url="/pages/index/tabbar" title="tabbar"></tm-cell>
 					

@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { ref, computed, onMounted, watch, PropType } from 'vue'
-import { arrayNumberValid, arrayNumberValidByStyleMP, covetUniNumber, arrayNumberValidByStyleBorderColor, linearValid, getUnit } from "../../libs/tool";
-import { getDefaultColor, getDefaultColorObj, getOutlineColorObj, getTextColorObj, getThinColorObj } from "../../libs/colors";
+import { computed, PropType } from 'vue'
+import { covetUniNumber } from "../../libs/tool";
+import { getDefaultColor } from "../../libs/colors";
 import { useTmConfig } from "../../libs/config";
 /**
  * @displayName 角标
@@ -170,7 +170,7 @@ export default {
     </view>
 </template>
 
-<style>
+<style scoped>
 .tmBadge {
     overflow: visible;
     display: inline-flex;

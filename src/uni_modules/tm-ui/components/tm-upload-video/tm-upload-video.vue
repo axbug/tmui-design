@@ -1,11 +1,8 @@
 <template>
-	<view class="tmUploadPhoto">
+	<view class="tmUploadPhoto" @touchmove="_onDragMove" @touchend="_onDragEnd" @touchcancel="_onDragEnd" @mouseup="_onDragEnd">
 
 		<view class="tmUploadPhotoItem " v-if="_selectedCount && props.addPos == 'before'" @click="choose"
 			:style="{ width: `calc(${_width} - ${_coloumn==1?0:guuterSpace}px)`, height: _height }">
-			<!-- 
-            @slot 上传按钮插槽
-            -->
 			<slot>
 				<view class="tmUploadPhotoItemAdd" :style="{borderRadius:_round}">
 					<tm-icon :color="config.color" size="52" name="add-line"></tm-icon>
@@ -14,23 +11,24 @@
 		</view>
 
 		<view class="tmUploadPhotoItem"
-			:style="{ width: `calc(${_width} - ${_coloumn==1?0:guuterSpace}px)`, height: _height,borderRadius:_round }"
-			v-for="(item, index) in list" :key="index">
+			:style="{ width: `calc(${_width} - ${_coloumn==1?0:guuterSpace}px)`, height: _height, borderRadius: _round }"
+			:class="{ tmUploadDragging: _dragActive && _dragIndex === index }"
+			v-for="(item, index) in list" :key="item.id"
+			@touchstart="_onItemPointerDown($event, index)"
+			@mousedown.prevent="_onItemPointerDown($event, index)">
 			<video :autoplay="false" :controls="false" @click="imagePreve(index)" :src="item.path" :mode="props.mode"
 				style="width: 100%;height: 100%;"></video>
 			<view class="tmUploadLabel" :style="{ color: STATUS_COLOR.get(item.status) || 'white' }">{{ item.statusText
                 }}
 			</view>
-			<view @click="remove(index, item)" class="tmUploadDel"
+			<view @click.stop="remove(index, item)" class="tmUploadDel"
 				v-if="(item.status == TMUPLOAD_PHOTO_STATUS.UPLOAD_SUCCESS && _okFileIsDelete) || (item.status != TMUPLOAD_PHOTO_STATUS.UPLOAD_SUCCESS && item.status != TMUPLOAD_PHOTO_STATUS.UPLOADING)">
 				<tm-icon color="error" size="36" name="close-circle-fill"></tm-icon>
 			</view>
 		</view>
+
 		<view class="tmUploadPhotoItem " v-if="_selectedCount && props.addPos == 'after'" @click="choose"
 			:style="{ width: `calc(${_width} - ${_coloumn==1?0:guuterSpace}px)`, height: _height }">
-			<!-- 
-            @slot 上传按钮插槽
-            -->
 			<slot>
 				<view class="tmUploadPhotoItemAdd" :style="{borderRadius:_round}">
 					<tm-icon :color="config.color" size="52" name="add-line"></tm-icon>
@@ -38,11 +36,20 @@
 			</slot>
 		</view>
 
+		<view v-if="_dragActive && _dragIndex >= 0 && _dragIndex < list.length" class="tmUploadGhost"
+			:style="{
+				width: _itemW + 'px', height: _itemH + 'px', borderRadius: _round,
+				transform: `translate(${_ghostX}px, ${_ghostY}px) scale(1.05)`
+			}">
+			<view style="width:100%;height:100%;background:rgba(0,0,0,0.6);display:flex;align-items:center;justify-content:center;">
+				<tm-icon color="white" name="video-line" size="42"></tm-icon>
+			</view>
+		</view>
 	</view>
 </template>
 
 <script setup lang="ts">
-	import { PropType, computed, onMounted, ref, shallowRef, watch } from 'vue'
+	import { PropType, computed, getCurrentInstance, onBeforeUnmount, ref, watch } from 'vue'
 	import { covetUniNumber } from '../../libs/tool';
 	import { TMUPLOAD_PHOTO_STATUS } from '../../interface';
 	import { useTmConfig } from "../../libs/config";
@@ -60,8 +67,6 @@
 	defineOptions({ name: 'TmUploadVideo' });
 
 	const { config } = useTmConfig()
-	type BEFOREDELTYPE = (index : number, item : TM.TMUPLOAD_PHOTO_INFO) => Promise<boolean>
-	type BEFORECOMPLETE = (res : any) => Promise<boolean>
 	type CHOOSEFILE_FILES = {
 		path : string,
 		size : number
@@ -279,6 +284,13 @@
 		mode: {
 			type: String,
 			default: "scaleToFill"
+		},
+		/**
+		 * 是否允许长按拖拽排序
+		 */
+		sortable: {
+			type: Boolean,
+			default: true
 		}
 	})
 	const list = ref<TM.TMUPLOAD_PHOTO_INFO[]>([])
@@ -340,8 +352,6 @@
 				response: TMUPLOAD_PHOTO_STATUS.UPLOAD_SUCCESS?(item?.response ?? item):''
 			}
 		})
-		// let nowfilesrc = list.value.map(item => item.path)
-		// let filst2 = flist.filter(item => !nowfilesrc.includes(item.path))
 		return flist;
 	}
 	/**
@@ -364,8 +374,6 @@
 	 */
 	const choose = () => {
 		let resultfiles = [] as CHOOSEFILE_FILES[];
-		let index = 0;
-		// uni.showLoading({ title: '...' })
 		uni.chooseVideo({
 			count: _selectedCount.value,
 			sourceType: props.sourceType,
@@ -373,11 +381,9 @@
 			maxDuration: props.maxDuration,
 			camera: props.camera,
 			fail(e) {
-				// uni.hideLoading()
 
 			},
 			success(res) {
-				console.log(res)
 				let flist = [] as CHOOSEFILE_FILES[];
 				flist.push({
 					path: res.tempFilePath,
@@ -385,7 +391,6 @@
 				})
 				resultfiles = flist
 				if (resultfiles.length == 0) {
-					// uni.hideLoading()
 					return;
 				}
 				compressImage()
@@ -489,8 +494,131 @@
 	const imagePreve = (index : number) => {
 		emit('preview', index)
 	}
+	// ─── 拖拽排序 ────────────────────────────────────────────
+	const _dragProxy = getCurrentInstance()?.proxy
+	const _dragActive = ref(false)
+	const _dragIndex = ref(-1)
+	const _dragOriginIndex = ref(-1)
+	const _ghostX = ref(0)
+	const _ghostY = ref(0)
+	const _itemW = ref(0)
+	const _itemH = ref(0)
+	const _containerRect = ref({ left: 0, top: 0, width: 0 })
+	let _longPressTimer: any = null
+	let _dragStartX = 0
+	let _dragStartY = 0
+	let _touchOffsetX = 0
+	let _touchOffsetY = 0
+
+	const _addOffset = computed(() => (props.addPos === 'before' && _selectedCount.value > 0) ? 1 : 0)
+
+	const _getDragTarget = (clientX: number, clientY: number): number => {
+		const rect = _containerRect.value
+		const gap = uni.upx2px(5)
+		const colW = rect.width / props.column
+		const rowH = _itemH.value + gap
+		let col = Math.max(0, Math.min(Math.floor((clientX - rect.left) / colW), props.column - 1))
+		let row = Math.max(0, Math.floor((clientY - rect.top) / rowH))
+		let idx = row * props.column + col - _addOffset.value
+		return Math.max(0, Math.min(idx, list.value.length - 1))
+	}
+
+	const _startDrag = (index: number, clientX: number, clientY: number) => {
+		uni.createSelectorQuery().in(_dragProxy)
+			.select('.tmUploadPhoto')
+			.boundingClientRect((rect: any) => {
+				if (!rect) return
+				_containerRect.value = { left: rect.left, top: rect.top, width: rect.width }
+				const gap = uni.upx2px(5)
+				_itemW.value = (rect.width - gap * (props.column - 1)) / props.column
+				_itemH.value = uni.upx2px(parseInt(props.imgHeight))
+				const colW = rect.width / props.column
+				const rowH = _itemH.value + gap
+				const vIdx = index + _addOffset.value
+				const itemLeft = rect.left + (vIdx % props.column) * colW
+				const itemTop = rect.top + Math.floor(vIdx / props.column) * rowH
+				_touchOffsetX = clientX - itemLeft
+				_touchOffsetY = clientY - itemTop
+				_ghostX.value = itemLeft
+				_ghostY.value = itemTop
+				_dragActive.value = true
+				_dragIndex.value = index
+				_dragOriginIndex.value = index
+				// #ifdef APP-PLUS || MP-WEIXIN
+				try { uni.vibrateShort({} as any) } catch (_e) {}
+				// #endif
+				// #ifdef H5
+				if (typeof document !== 'undefined') {
+					document.addEventListener('mousemove', _onDragMove)
+					document.addEventListener('mouseup', _onDragEnd)
+				}
+				// #endif
+			}).exec()
+	}
+
+	const _onItemPointerDown = (e: any, index: number) => {
+		if (!props.sortable || uploading.value) return
+		if (list.value[index].status === TMUPLOAD_PHOTO_STATUS.UPLOADING) return
+		const touch = e.touches?.[0] || e
+		_dragStartX = touch.clientX
+		_dragStartY = touch.clientY
+		_longPressTimer = setTimeout(() => {
+			_longPressTimer = null
+			_startDrag(index, _dragStartX, _dragStartY)
+		}, 350)
+	}
+
+	const _onDragMove = (e: any) => {
+		const touch = e.touches?.[0] || e
+		if (_longPressTimer && !_dragActive.value) {
+			if (Math.abs(touch.clientX - _dragStartX) > 5 || Math.abs(touch.clientY - _dragStartY) > 5) {
+				clearTimeout(_longPressTimer)
+				_longPressTimer = null
+			}
+			return
+		}
+		if (!_dragActive.value) return
+		if (e.preventDefault) e.preventDefault()
+		if (e.stopPropagation) e.stopPropagation()
+		_ghostX.value = touch.clientX - _touchOffsetX
+		_ghostY.value = touch.clientY - _touchOffsetY
+		const targetIndex = _getDragTarget(touch.clientX, touch.clientY)
+		if (targetIndex !== _dragIndex.value && targetIndex >= 0 && targetIndex < list.value.length) {
+			const item = list.value.splice(_dragIndex.value, 1)[0]
+			list.value.splice(targetIndex, 0, item)
+			_dragIndex.value = targetIndex
+		}
+	}
+
+	const _onDragEnd = () => {
+		if (_longPressTimer) { clearTimeout(_longPressTimer); _longPressTimer = null }
+		// #ifdef H5
+		if (typeof document !== 'undefined') {
+			document.removeEventListener('mousemove', _onDragMove)
+			document.removeEventListener('mouseup', _onDragEnd)
+		}
+		// #endif
+		if (!_dragActive.value) return
+		_dragActive.value = false
+		if (_dragIndex.value !== _dragOriginIndex.value) {
+			emit('change', JSON.parse(JSON.stringify(list.value.slice(0))))
+			syncToParent()
+		}
+		_dragIndex.value = -1
+		_dragOriginIndex.value = -1
+	}
+
+	onBeforeUnmount(() => {
+		if (_longPressTimer) clearTimeout(_longPressTimer)
+		// #ifdef H5
+		if (typeof document !== 'undefined') {
+			document.removeEventListener('mousemove', _onDragMove)
+			document.removeEventListener('mouseup', _onDragEnd)
+		}
+		// #endif
+	})
+
 	watch(() => props.modelValue, (newVal) => {
-		// 如果是内部更新触发的,则跳过
 		if (isInternalUpdate.value) return
 
 		const temlist = covertFileTypeByModelvalue(newVal).slice(0)
@@ -569,6 +697,26 @@
 		position: relative;
 		overflow: hidden;
 		box-sizing: border-box;
+	}
+
+	.tmUploadPhotoItem {
+		transition: transform 200ms ease, opacity 200ms ease;
+	}
+
+	.tmUploadDragging {
+		opacity: 0.3;
+		transform: scale(0.95);
+	}
+
+	.tmUploadGhost {
+		position: fixed;
+		left: 0;
+		top: 0;
+		overflow: hidden;
+		pointer-events: none;
+		box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+		z-index: 9999;
+		will-change: transform;
 	}
 
 	.tmUploadPhotoItemAdd {

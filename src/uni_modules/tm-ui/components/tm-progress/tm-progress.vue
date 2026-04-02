@@ -3,11 +3,10 @@
   -->
 
 <script setup lang="ts">
-import { computed, getCurrentInstance, onBeforeUnmount, onMounted, ref, watch } from 'vue'
+import { computed, ref, watch } from 'vue'
 import { useTmConfig } from '../../libs/config'
 import { getDefaultColor } from '../../libs/colors'
 import { PropsType } from './propsType'
-import { debounce, throttle } from '../../useFun/toolUse'
 import { covetUniNumber } from '../../libs/tool'
 
 /**
@@ -53,7 +52,6 @@ const emit = defineEmits<{
      */
 	(e: 'update:modelValue', val: number): void
 }>()
-const _props = computed(() => props);
 const _bgColor = computed(() => {
     let color = props.bgColor;
     if (config.mode == 'dark') {
@@ -85,7 +83,9 @@ const _labelFontSize = computed(() => {
     return covetUniNumber(props.labelFontSize, config.unit)
 })
 const getPercent = (val: number) => {
-    let percent = (val - props.min) / (props.max - props.min)
+    const range = props.max - props.min;
+    if (range === 0) return 0;
+    let percent = (val - props.min) / range
     return percent
 }
 const getPercentVal = (percent: number) => {
@@ -126,15 +126,15 @@ watch(()=>props.modelValue,(val:number)=>{
             :style="{
                 width: percent + '%', 
                 backgroundColor: _color,
-                backgroundImage: _props.linearColor||'none',
+                backgroundImage: linearColor||'none',
                 borderRadius: _round,
-                transitionDuration:`${_props.duration}ms`
+                transitionDuration:`${duration}ms`
             }"
             >
-                <text v-if="_props.labelInside&&_props.showLabel" class="tmProgressBarWrapLable" style="color: #fff;">{{percent.toFixed(0)}}%</text>
+                <text v-if="labelInside&&showLabel" class="tmProgressBarWrapLable" style="color: #fff;">{{percent.toFixed(0)}}%</text>
             </view>
         </view>
-        <view v-if="!_props.labelInside&&_props.showLabel" class="tmProgressLabel" :style="{color:_labelColor,fontSize:_labelFontSize}">
+        <view v-if="!labelInside&&showLabel" class="tmProgressLabel" :style="{color:_labelColor,fontSize:_labelFontSize}">
             <!-- 
             @slot 标签插槽
             @binding {value} number 值

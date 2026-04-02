@@ -57,6 +57,7 @@ const emit = defineEmits<{
 const _props = computed(() => props);
 const uid = 'TmCircleProgress' + Math.random().toString(36).substring(4)
 const instance = getCurrentInstance()
+const proxy = instance?.proxy
 const timeid = ref<null | number>(null)
 const contentCtx = ref<UniApp.CanvasContext|null>(null)
 const _bgColor = computed(() => {
@@ -127,24 +128,34 @@ const percent = computed(() => {
 const getCanvasCtx = (): Promise<UniApp.CanvasContext> => {
 	if(contentCtx.value!=null) return Promise.resolve(contentCtx.value)
     return new Promise((resolve)=>{
+		// #ifdef APP-PLUS
+		// #ifndef APP-NVUE
+		// App-Vue 必须使用旧版 canvas：uni.createCanvasContext(uid, proxy)
+		const ctx = uni.createCanvasContext(uid, proxy)
+		contentCtx.value = ctx as unknown as UniApp.CanvasContext
+		resolve(contentCtx.value)
+		return
+		// #endif
+		// #endif
+
 		uni.createSelectorQuery()
-			.in(instance)
-		    .select('#'+uid)  
+			.in(proxy)
+		    .select('#'+uid)
             // @ts-ignore
-		      .fields({ node: true, size: true ,context:true})  
-		      .exec((res) => {  
-		        const canvas = res[0].node  
-		        const ctx = canvas.getContext('2d')  
+		      .fields({ node: true, size: true ,context:true})
+		      .exec((res) => {
+		        if (!res || !res[0]) return;
+		        const canvas = res[0].node
+		        const ctx = canvas.getContext('2d')
 		        const dpr = uni.getWindowInfo().pixelRatio;
 		        // #ifndef WEB
 				canvas.width = res[0].width * dpr
-				canvas.height = res[0].height * dpr  
-				ctx.scale(dpr, dpr)  
+				canvas.height = res[0].height * dpr
+				ctx.scale(dpr, dpr)
 				// #endif
 				contentCtx.value = ctx;
-				
 				resolve(ctx)
-		})  
+		})
 	})
 }
 
@@ -188,6 +199,23 @@ const drawProgress = async () => {
     let lineWidth = _lineWidth.value;
     let linearBgColor = _bgColor.value;
     let linearActiveBgColor = _color.value;
+
+    // App-Vue old-canvas / Web canvas API 不一致：用 setX 兼容旧版
+    const setStrokeStyle = (val: any) => {
+        // @ts-ignore
+        if (typeof (ctx as any).setStrokeStyle === 'function') (ctx as any).setStrokeStyle(val)
+        else ctx.strokeStyle = val
+    }
+    const setLineWidth = (val: number) => {
+        // @ts-ignore
+        if (typeof (ctx as any).setLineWidth === 'function') (ctx as any).setLineWidth(val)
+        else ctx.lineWidth = val
+    }
+    const setLineCap = (val: string) => {
+        // @ts-ignore
+        if (typeof (ctx as any).setLineCap === 'function') (ctx as any).setLineCap(val)
+        else ctx.lineCap = val
+    }
     ctx.clearRect(0, 0, size, size);
 
     // 计算圆环参数
@@ -198,9 +226,9 @@ const drawProgress = async () => {
     // 背景圆环
     ctx.beginPath();
     ctx.arc(centerX, centerY, radius, 0, 2 * Math.PI);
-    ctx.lineWidth = lineWidth
-    ctx.strokeStyle = linearBgColor
-    ctx.lineCap = 'round'
+    setLineWidth(lineWidth)
+    setStrokeStyle(linearBgColor)
+    setLineCap('round')
     ctx.stroke();
 
     // 进度圆环
@@ -216,23 +244,28 @@ const drawProgress = async () => {
         if (gradientData && gradientData.hasGradient) {
             
             // 创建渐变
-            const gradient = ctx.createLinearGradient(0, 0, size, size)
-            gradientData.colors.forEach((color, index) => {
-                gradient.addColorStop(index / (gradientData.colors.length - 1), color)
-            })
-            // @ts-ignore
-            ctx.strokeStyle = gradient
+            const canCreateGradient = typeof (ctx as any).createLinearGradient === 'function'
+            if (canCreateGradient) {
+                const gradient = (ctx as any).createLinearGradient(0, 0, size, size)
+                gradientData.colors.forEach((color, index) => {
+                    gradient.addColorStop(index / (gradientData.colors.length - 1), color)
+                })
+                setStrokeStyle(gradient)
+            } else {
+                // App old-canvas 可能不支持渐变，降级为纯色
+                setStrokeStyle(linearActiveBgColor)
+            }
         } else {
-            ctx.strokeStyle = linearActiveBgColor
+            setStrokeStyle(linearActiveBgColor)
         }
         
-        ctx.lineWidth = lineWidth
+        setLineWidth(lineWidth)
         ctx.arc(centerX, centerY, radius, startAngle, endAngle);
-        ctx.lineCap = 'round'
+        setLineCap('round')
         ctx.stroke();
     }
 	if(typeof ctx?.draw == 'function'){
-		ctx.draw()
+		;(ctx as any).draw(true)
 	}
 }
 
@@ -302,7 +335,28 @@ onBeforeUnmount(() => {
 </script>
 <template>
     <view class="tmCircleProgress" :style="{ width: _size + 'px', height: _size + 'px' }">
-        <canvas :style="{ width: _size + 'px', height: _size + 'px' }" :id="uid" :canvas-id="uid" :hidpi="true" type="2d"></canvas>
+        <!-- App-Vue：旧版 canvas（不可写 type="2d"） -->
+        <!-- #ifdef APP-PLUS -->
+        <!-- #ifndef APP-NVUE -->
+        <canvas
+            :style="{ width: _size + 'px', height: _size + 'px' }"
+            :id="uid"
+            :canvas-id="uid"
+            :hidpi="true"
+        ></canvas>
+        <!-- #endif -->
+        <!-- #endif -->
+
+        <!-- Web / 小程序 / H5：type="2d" 节点画布 -->
+        <!-- #ifdef MP-WEIXIN || MP-ALIPAY || MP-QQ || H5 -->
+        <canvas
+            :style="{ width: _size + 'px', height: _size + 'px' }"
+            :id="uid"
+            :canvas-id="uid"
+            :hidpi="true"
+            type="2d"
+        ></canvas>
+        <!-- #endif -->
         <view v-if="_props.showLabel" class="tmCircleProgressLabel" :style="{ color: _labelColor, fontSize: _labelFontSize }">
             <!-- 
             @slot 标签插槽

@@ -319,6 +319,18 @@
 			"style": {
 				"navigationBarTitleText": "slider"
 			}
+		},
+		{
+			"path": "pages/index/picker-time",
+			"style": {
+				"navigationBarTitleText": "picker-time"
+			}
+		},
+		{
+			"path": "pages/index/switch-slider",
+			"style": {
+				"navigationBarTitleText": "switch-slider"
+			}
 		}
 	],
 	"globalStyle": {

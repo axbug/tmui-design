@@ -10,10 +10,8 @@ export class xCalendar {
 	isInCurrentMonth(current:Date,target:Date):boolean{
 		let y1 = current.getFullYear()
 		let m1 = current.getMonth()
-		// let d1 = current.getDate()
 		let y2 = target.getFullYear()
 		let m2 = target.getMonth()
-		// let d2 = target.getDate()
 		return y1 == y2 && m1 == m2
 	}
 	isInRangeDate(current:Date,targets:Date[],mode:xCalendarMode):boolean{
@@ -157,35 +155,16 @@ export class xCalendar {
 		disabledDays:string[] = [],
 		isPadding:boolean = true):xDateArrayItemType[]{
 
-		const nowCutime = Date.now()
 		let nowdate = (currentDate == null?this.date:new tmDate(currentDate)) as tmDate;
 		const dateAr = nowdate.getDaysOf('m')
 	
 		let dates = [] as TM.tmDateDayInfoType[]
 		if(isPadding){
-			// 使用 seekDay 参数控制月份第一天的周偏移量
-			// seekDay: 0=周一, 1=周二, 2=周三, 3=周四, 4=周五, 5=周六, 6=周日
-			// 注意：week 值实际是 0=周日, 1=周一, 2=周二, 3=周三, 4=周四, 5=周五, 6=周六
-			// 需要转换为 0=周一, 1=周二, 2=周三, 3=周四, 4=周五, 5=周六, 6=周日的映射
 			let firstDayOfMonth = dateAr[0]
 			let firstDayWeek = firstDayOfMonth.week
+			let mappedWeek = (firstDayWeek + 6) % 7
+			let beforeNum = seekDay === 0 ? mappedWeek : (mappedWeek - seekDay + 7) % 7
 			
-			// 将 week 值转换为 0=周一, 1=周二, ..., 6=周日的映射
-			// 原始：0=周日, 1=周一, 2=周二, 3=周三, 4=周四, 5=周五, 6=周六
-			// 目标：0=周一, 1=周二, 2=周三, 3=周四, 4=周五, 5=周六, 6=周日
-			let mappedWeek = (firstDayWeek + 6) % 7 // 将周日(0)映射为6，周一(1)映射为0
-			
-			// 计算需要向前填充的天数
-			let beforeNum = 0
-			if (seekDay === 0) {
-				// 周一开始：mappedWeek 为 0 时不需要填充
-				beforeNum = mappedWeek
-			} else {
-				// 其他日期开始：计算到目标起始日的偏移量
-				beforeNum = (mappedWeek - seekDay + 7) % 7
-			}
-			
-			// 如果 beforeNum 为 0，说明第一天正好是目标起始日，不需要填充
 			if (beforeNum > 0) {
 				const beforeDates = new tmDate(firstDayOfMonth.date).getDaysOfNum(beforeNum,'before')
 				dates = [...beforeDates,...dateAr]
@@ -194,7 +173,6 @@ export class xCalendar {
 			}
 			
 			if(dates.length<42){
-				//补齐最后一周的内容
 				const lastDate = new tmDate(dates[dates.length-1].date);
 				let lastWeek = lastDate.getDaysOfNum(42-dates.length,'after')
 				dates = [...dates,...lastWeek]
@@ -203,26 +181,86 @@ export class xCalendar {
 			dates = dateAr
 		}
 		
-		let selectedTargets = selectedDate.map((d:string):Date =>{
-			
-			return new Date(d.replace(/-/g,'/'))
-		})
-		let disabledDaysAs = disabledDays.map((d:string):Date =>{
-			return new Date(d.replace(/-/g,'/'))
-		})
-		
-		const current = nowdate.date
+		// 预计算：选中日期 → Map<dateKey, index> O(1)查找
+		const selectedTargets: Date[] = [];
+		const selectedKeyMap = new Map<string, number>();
+		for(let i=0;i<selectedDate.length;i++){
+			const d = new Date(selectedDate[i].replace(/-/g,'/'));
+			selectedTargets.push(d);
+			selectedKeyMap.set(`${d.getFullYear()}-${d.getMonth()}-${d.getDate()}`, i);
+		}
+
+		// 预计算：禁用日期 → Set<dateKey> O(1)查找
+		const disabledKeySet = new Set<string>();
+		for(const d of disabledDays){
+			const dt = new Date(d.replace(/-/g,'/'));
+			disabledKeySet.add(`${dt.getFullYear()}-${dt.getMonth()}-${dt.getDate()}`);
+		}
+
+		// 预计算：dateStyle → Map<timestamp, item> O(1)查找
+		const dateStyleMap = new Map<number, TM.tmCalendarDateStyle_type>();
+		for(const ds of dateStyle){
+			dateStyleMap.set(new Date(ds.date.replace(/-/g,'/')).getTime(), ds);
+		}
+
+		// 预计算：start/end/range边界时间戳
+		const startTime = start ? start.getTime() : null;
+		const endTime = end ? end.getTime() : null;
+		const hasValidRange = startTime !== null && endTime !== null && startTime <= endTime;
+		const firstSelectedTime = selectedTargets.length > 0 ? selectedTargets[0].getTime() : 0;
+		const lastSelectedTime = selectedTargets.length >= 2 ? selectedTargets[selectedTargets.length-1].getTime() : 0;
+
+		const currentYear = nowdate.date.getFullYear();
+		const currentMonth = nowdate.date.getMonth();
 		const list = [] as xDateArrayItemType[]
 		
 		for(let i=0;i<dates.length;i++){
-			let item = dates[i]
-			let checkDate = new Date(item.date);
-			const inmonth = this.isInCurrentMonth(checkDate,current);
-			const inRange = this.isInRangeDate(checkDate,selectedTargets,mode);
-			const disabled = this.isDisabled(checkDate,start,end,disabledDaysAs)
-			const isInstart = this.isInStart(checkDate,selectedTargets)
-			const isInEnd = this.isInEnd(checkDate,selectedTargets)
-			const astyle = this.getDateStyle(checkDate,defaultStyle,disabled,inmonth,inRange,isInstart,isInEnd,dateStyle,mode)
+			const item = dates[i]
+			const checkDate = new Date(item.date);
+			const checkTime = checkDate.getTime();
+			const cy = checkDate.getFullYear();
+			const cm = checkDate.getMonth();
+			const cd = checkDate.getDate();
+			const dateKey = `${cy}-${cm}-${cd}`;
+
+			// 内联 isInCurrentMonth
+			const inmonth = cy === currentYear && cm === currentMonth;
+
+			// 内联 isDisabled：Set查找 + 范围检查
+			let disabled = disabledKeySet.has(dateKey);
+			if(hasValidRange){
+				disabled = disabled || checkTime < startTime! || checkTime > endTime!;
+			} else {
+				if(startTime !== null) disabled = disabled || checkTime < startTime;
+				if(endTime !== null) disabled = disabled || checkTime > endTime;
+			}
+
+			// 内联 inRange / isInStart / isInEnd
+			let inRange = false;
+			let isInstart = false;
+			let isInEnd = false;
+
+			if(mode === 'day'){
+				inRange = selectedKeyMap.has(dateKey);
+				isInstart = selectedTargets.length > 0 && checkTime === firstSelectedTime;
+				isInEnd = selectedTargets.length >= 2 && checkTime === lastSelectedTime;
+			} else if(mode === 'range'){
+				if(selectedTargets.length >= 2){
+					inRange = checkTime > firstSelectedTime && checkTime < lastSelectedTime;
+					isInstart = checkTime === firstSelectedTime;
+					isInEnd = checkTime === lastSelectedTime;
+				} else if(selectedTargets.length === 1){
+					isInstart = checkTime === firstSelectedTime;
+				}
+			}
+
+			// 内联 getDateStyle：Map查找替代findIndex
+			const styleItem = dateStyleMap.get(checkTime) || null;
+			const label = (styleItem?.label ?? '') as string;
+			const isActive = isInstart || isInEnd || (mode !== 'range' && inRange);
+			let fontColor = isActive ? defaultStyle.activeFontColor : (inRange ? defaultStyle.rangFontColor : (styleItem?.fontColor ?? defaultStyle.fontColor) as string);
+			let bgColor = isActive ? defaultStyle.color : (inRange ? defaultStyle.rangColor : (styleItem?.color ?? 'transparent') as string);
+
 			list.push({
 				date : item,
 				disabled : disabled,
@@ -230,13 +268,22 @@ export class xCalendar {
 				inRange : inRange,
 				isInstart : isInstart,
 				isInEnd : isInEnd,
-				style : astyle
+				style : {
+					dot: {
+						dot: styleItem?.dot ?? false,
+						dotColor: styleItem?.dotColor ?? defaultStyle.color,
+						dotLabelColor: styleItem?.dotLabelColor ?? '#ffffff',
+						dotLabel: styleItem?.dotLabel ?? '',
+					},
+					dstyle: {
+						label: label,
+						fontColor: fontColor,
+						backgroundColor: bgColor,
+						opacity: disabled || !inmonth ? 0.5 : 1
+					}
+				} as dateStyleType
 			})
-			
 		}
-		
-		
-		// console.log(`执行组时间：${Date.now()-nowCutime}毫秒，循环数组：${dates.length}`)
 		
 		return list
 	}

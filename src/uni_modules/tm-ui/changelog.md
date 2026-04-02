@@ -1,3 +1,14 @@
+## 3.2.16（2026-04-02）
+* 大量优化底层函数（使用了Opus4.6 max Fast全方位的极致性能提升）
+* x-pullrefresh适配了pc 鼠标下拉刷新操作。
+* 添加了路由拦截器Router
+* upload-photo,upload-video增加了长按排序功能。
+* 新增了picker-time ，时分秒选择组件
+* 新增了switch-slider左滑菜单组件
+* 修复tm-circle-progress，tm-sign-board在app端失败。
+## 3.2.15（2026-03-23）
+* 修复部分问题。
+* 使用了地表最强Opus4.6 max进行优化性能，类型检查。
 ## 3.2.14（2026-03-18）
 * 优化相关组件，以适配可视化设计器，从设计器中导出模板导出可以以直接编译，与设计器基本还原一致。
 * [AI+可视化+协作+模板](https://store.tmui.design/)，努力拥抱ai让产出规划，设计为一体。

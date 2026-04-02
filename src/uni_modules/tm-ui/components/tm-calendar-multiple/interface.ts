@@ -77,7 +77,7 @@ export type xCalendarArgs = {
 	color:string,
 	fontColor:string,
 	activeFontColor:string,
-	rangColor:string
+	rangColor:string,
 	rangFontColor:string,
 }
 

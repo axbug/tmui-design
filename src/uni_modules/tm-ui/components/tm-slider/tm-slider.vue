@@ -213,9 +213,9 @@ function updateValue(clientX: number) {
 }
 
 function onTrackClick(e: any) {
-    // if (_disabled.value) return;
-    // const clientX = e.detail?.x || e.touches?.[0]?.clientX || e.clientX;
-    // updateValue(clientX);
+    if (_disabled.value) return;
+    const clientX = e.detail?.x || e.touches?.[0]?.clientX || e.clientX;
+    if (clientX != null) updateValue(clientX);
 }
 
 function onTrackTouchStart(e: any) {
@@ -266,7 +266,7 @@ watch(() => props.modelValue, (val) => {
     } else if (val > props.max) {
         realVal = props.max;
     }
-    _percent.value = realVal;
+    nowValue.value = realVal;
 });
 </script>
 
@@ -295,7 +295,6 @@ watch(() => props.modelValue, (val) => {
 .tm-slider {
     width: 100%;
     position: relative;
-    // padding: 40rpx 0;
     box-sizing: border-box;
 }
 
@@ -312,7 +311,6 @@ watch(() => props.modelValue, (val) => {
     position: absolute;
     left: 0;
     top: 0;
-    // transition: width 0s;
     pointer-events: none;
 }
 
@@ -324,7 +322,6 @@ watch(() => props.modelValue, (val) => {
     box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.1);
     transition: transform 0.2s;
     transform: scale(1);
-    // border: 8px solid #fff;
     box-sizing: border-box;
 }
 
@@ -337,7 +334,6 @@ watch(() => props.modelValue, (val) => {
     transform: translateY(calc(-100% - 10px)) translateX(-50%);
     left: 50%;
     white-space: nowrap;
-    // font-weight: lighter;
     pointer-events: none;
     width: 42rpx;
     height: 42rpx;

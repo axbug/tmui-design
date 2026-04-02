@@ -14,12 +14,8 @@
 		computed,
 		getCurrentInstance,
 		nextTick,
-		onBeforeMount,
-		onBeforeUnmount,
 		onMounted,
-		PropType,
 		ref,
-		watch,
 		watchEffect
 	} from 'vue'
 
@@ -343,10 +339,7 @@
 	onMounted(() => {
 		let sys = uni.getWindowInfo()
 		safeHeight.value = sys.safeAreaInsets.bottom||16
-	})
-	onMounted(() => {
 		getList()
-
 	})
 
 </script>
@@ -364,7 +357,7 @@
 			 -->
 			<slot :active="_outIndex==nowIndex" :size="tuqiHeight" name="out">
 				<view :style="{height:tuqiHeight+'px',width:tuqiHeight+'px',backgroundColor:_outBgColor}"
-					class="xTabbarTuqiItem" @click="itemClick(outIndex)">
+					class="xTabbarTuqiItem" @click="itemClick(_outIndex)">
 					<tm-icon :color="_outIconColor"
 						:name="nowIndex==_outIndex?_nowOutItem.selectedIcon:_nowOutItem.icon"
 						:size="iconSize"></tm-icon>
@@ -419,7 +412,6 @@
 		left: 0;
 		bottom: 0;
 		width: 100%;
-		/* z-index: 20; */
 	}
 
 	.xTabbarTuqi {
@@ -430,7 +422,6 @@
 		justify-content: center;
 		align-items: center;
 		flex-direction: column;
-		/* z-index: 21; */
 		cursor: pointer;
 	}
 
@@ -452,8 +443,6 @@
 	}
 
 	.xTabbar {
-		/* position: fixed; */
-		/* z-index: 20; */
 		bottom: 0;
 		left: 0;
 		width: 100%;

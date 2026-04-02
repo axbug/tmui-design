@@ -66,9 +66,9 @@
     </view>
 </template>
 <script lang="ts" setup>
-import { computed, ref, onMounted, PropType } from "vue"
-import { arrayNumberValid, arrayNumberValidByStyleMP, covetUniNumber, arrayNumberValidByStyleBorderColor, linearValid, getUnit } from "../../libs/tool";
-import { getDefaultColor, getDefaultColorObj, getOutlineColorObj, getTextColorObj, getThinColorObj } from "../../libs/colors";
+import { computed, ref, PropType } from "vue"
+import { arrayNumberValidByStyleMP, covetUniNumber, getUnit } from "../../libs/tool";
+import { getDefaultColor } from "../../libs/colors";
 import { useTmConfig } from "../../libs/config";
 /**
  * @displayName 列表

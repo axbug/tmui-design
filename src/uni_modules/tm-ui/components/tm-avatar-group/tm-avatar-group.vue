@@ -362,7 +362,7 @@
 	})
 </script>
 
-<style>
+<style scoped>
 	.tmAvatarGroup {
 		display: flex;
 		flex-direction: row;

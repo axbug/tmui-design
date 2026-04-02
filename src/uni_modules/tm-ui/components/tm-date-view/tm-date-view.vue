@@ -135,8 +135,8 @@ const emit = defineEmits([
 const nowValue = ref<string[]>([]);
 const _modelValueIndex = ref<number[]>([])
 const nowValueStr = ref('');
-const startDate = ref(new tmDate().subtraction(1, 'y'));
-const endDate = ref(new tmDate());
+const startDate = ref(new tmDate(new tmDate().subtraction(1, 'y').format('YYYY/MM/DD 00:00:00')));
+const endDate = ref(new tmDate(new tmDate().format('YYYY/MM/DD 23:59:59')));
 const dateList = ref<PICKER_ITEM_INFO[][]>([]);
 const _start_date = computed(() => props.start ? new tmDate(props.start) : startDate.value);
 const _end_date = computed(() => props.end ? new tmDate(props.end) : endDate.value);
@@ -345,7 +345,7 @@ const getTimeTreeByStartAndEnd = (start: tmDate, end: tmDate): PICKER_ITEM_INFO[
 		getD('M', sdate[0]!, sdate[1]!)
 	}
 	if (maxlen > 5) {
-		let sdate = getDnumber('m', 's')
+		let sdate = getDnumber('M', 's')
 		getD('s', sdate[0]!, sdate[1]!)
 	}
 

@@ -11,7 +11,7 @@ import headertips from '../components/headertips.vue'
 
 #### 展示组件
 
-# 折叠面板子组件 TmCollapse
+# 折叠面板子组件 TmCollapseItem
 
 可单，可多开,可放置在tm-collapse内
 

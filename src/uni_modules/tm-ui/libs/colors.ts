@@ -197,41 +197,31 @@ export const toHex = (n: number): string => {
         return hex;
     }
 }
+const _hexRegex = /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3}|[A-Fa-f0-9]{8})$/;
+const _rgbRegex = /^rgb\(\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d{1,3})\s*\)$/;
+const _rgbaRegex = /^rgba\(\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*([\d.]+)\s*\)$/;
+const _hslRegex = /^hsl\(\s*(\d{1,3})\s*,\s*(\d{1,3})%\s*,\s*(\d{1,3})%\s*\)$/;
+const _hslaRegex = /^hsla\(\s*([\d.]+)\s*,\s*([\d.]+)%\s*,\s*([\d.]+)%\s*,\s*([\d.]+)\s*\)$/i;
+
 export function isValidColor(color: string): boolean {
-
-    const hexRegex = /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3}|[A-Fa-f0-9]{8})$/;
-    const rgbRegex = /^rgb\((\d{1,3}), (\d{1,3}), (\d{1,3})\)$/;
-    const rgbaRegex = /^rgba\((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\s*,\s*(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\s*,\s*(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\s*,\s*((1(\.0{1,2})?)|(0(\.\d{1,2})?))\)$/;
-    const hslRegex = /^hsl\((\d{1,3}), (\d{1,3})%, (\d{1,3})%\)$/;
-    const hslaRegex = /^hsla\(\s*((\d{1,2}|[1-2]\d{2}|3[0-5]\d)(\.\d+)?|\d+(\.\d+)?)\s*,\s*((\d{1,2}|\d{0,1}\d{1}\d{1}|[1-2]\d{2}|3[0-5]\d)(\.\d+)?|\d+(\.\d+)?)%\s*,\s*((\d{1,2}|\d{0,1}\d{1}\d{1}|[1-2]\d{2}|3[0-5]\d)(\.\d+)?|\d+(\.\d+)?)%\s*,\s*((1|0(\.\d{1,2})?|(\.\d{1,2})))\)$/i;
-
-
-    if (color == '') {
-        return false; // 颜色值为空
-    } else if (color === 'inherit' || color === 'transparent') {
-        return false; // 特殊颜色值
-    } else if (color === 'currentColor') {
-        return false; // currentColor 不是有效的颜色值
-    } else if (hexRegex.test(color) || rgbRegex.test(color) || rgbaRegex.test(color) || hslRegex.test(color) || hslaRegex.test(color)) {
-        return true; // 符合颜色值的格式
+    if (color === '' || color === 'inherit' || color === 'transparent' || color === 'currentColor') {
+        return false;
     }
-    return false;
+    return _hexRegex.test(color) || _rgbRegex.test(color) || _rgbaRegex.test(color) || _hslRegex.test(color) || _hslaRegex.test(color);
 }
 /**
  * 获取默认的颜色值
  * @param [string]  颜色名称或者16进制颜色值
  */
 export function getDefaultColor(sColor: string): string {
-    if (sColor == "") return ""
-    let sc = sColor.toLocaleLowerCase().trim().replace(" ", "");
+    if (sColor === "") return ""
+    let sc = sColor.toLowerCase().trim().replace(/ /g, "");
 
     if (isValidColor(sc)) {
-        // 如果符合所有颜色值，进行转换为16进制。css方便统一解析。
         return sc;
     }
-    // 检测是否是颜色名称。
     let sco = colors.get(sc);
-    if (typeof sco == 'string') return sco as string;
+    if (typeof sco === 'string') return sco;
     return colors.get("primary")!;
 }
 
@@ -242,10 +232,9 @@ export function hexToRgb(sColors: string) {
     if (sColors == "") {
         return { r: 0, g: 0, b: 0, a: 0 }
     }
-    let reg = /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3}|[A-Fa-f0-9]{8})$/;
     let sColor: string = sColors.toLowerCase();
 
-    if (sColor != '' && reg.test(sColor)) {
+    if (sColor !== '' && _hexRegex.test(sColor)) {
 
         if (sColor.length == 4) {
             let sColorNew = "#";
@@ -321,30 +310,31 @@ export function rgbToHsl(rgb: rgb): hsla {
     let b = rgb.b / 255
     let a = rgb.a
 
-    var max = Math.max(r, g, b);
-    var min = Math.min(r, g, b);
-    let h = 60 * (4 + (r - g) / (max - min));
-    let s=(max - min) / (2 - max - min);
-    let l = (max + min) / 2;
+    const max = Math.max(r, g, b);
+    const min = Math.min(r, g, b);
+    const l = (max + min) / 2;
+    const d = max - min;
 
+    if (d === 0) {
+        return { h: 0, s: 0, l: l * 100, a };
+    }
+
+    let h: number;
     if (max === r) {
-        h = (60 * (g - b)) / (max - min);
+        h = 60 * (((g - b) / d) % 6);
     } else if (max === g) {
-        h = 60 * (2 + (b - r) / (max - min));
+        h = 60 * (2 + (b - r) / d);
+    } else {
+        h = 60 * (4 + (r - g) / d);
     }
 
     if (h < 0) {
         h += 360;
     }
 
+    const s = l < 0.5 ? d / (max + min) : d / (2 - max - min);
 
-    if (max === min) {
-        s = 0;
-    } else if (l < 0.5) {
-        s = (max - min) / (max + min);
-    }
-
-    return { h: h, s: s * 100, l: l * 100, a: a };
+    return { h, s: s * 100, l: l * 100, a };
 }
 
 /**
@@ -402,7 +392,7 @@ export function rgbToHex(rgb: rgb): string {
     let g = rgb.g
     let b = rgb.b
     let a = rgb.a
-    return "#" + toHex(r) + toHex(g) + toHex(b) + toHex(a * 255)
+    return "#" + toHex(r) + toHex(g) + toHex(b) + toHex(Math.round(a * 255))
 }
 export function hslaToCss(hsl: hsla): string {
 
@@ -543,14 +533,11 @@ export function getTextColorObj(color: string, hoverColor: string, isCoverDark?:
     dark = isCoverDark == undefined ? false : dark
     // #endif
     let hsla = rgbToHsl(hexToRgb(getDefaultColor(color)));
-    let hsla2 = rgbToHsl(hexToRgb(getDefaultColor(color)));
     let hoverHsla = rgbToHsl(hexToRgb(getDefaultColor(hoverColor)));
     let bgcolor = hslaToRgbCss({ h: hoverHsla.h, s: hoverHsla.s, a: hoverHsla.a, l: dark == true ? 20 : 95 })
     if (dark) {
-        let p = hsla2;
-        p.l = 20
-        p.s = (p.s) != 0 ? 0 : 20
-        bgcolor = hslaToRgbCss(p)
+        let darkS = hsla.s !== 0 ? 0 : 20;
+        bgcolor = hslaToRgbCss({ h: hsla.h, s: darkS, l: 20, a: hsla.a })
     }
     let o = {
         default: {
@@ -589,14 +576,10 @@ export function getThinColorObj(color: string, hoverColor: string, isCoverDark?:
     let bgcolor = hslaToRgbCss({ h: hoverHsla.h, s: hoverHsla.s, a: hoverHsla.a, l: dark == true ? 20 : 95 })
 
     if (dark) {
-        let p = hsla;
-        p.l = 98
-        fontcolor = hslaToRgbCss(p)
-        p.l = 20
-        p.s = (p.s) != 0 ? 5 : 20
-        bgcolor = hslaToRgbCss(p)
-        p.l = 22
-        bordercolor = hslaToRgbCss(p)
+        fontcolor = hslaToRgbCss({ h: hsla.h, s: hsla.s, l: 98, a: hsla.a })
+        let darkS = hsla.s !== 0 ? 5 : 20;
+        bgcolor = hslaToRgbCss({ h: hsla.h, s: darkS, l: 20, a: hsla.a })
+        bordercolor = hslaToRgbCss({ h: hsla.h, s: darkS, l: 22, a: hsla.a })
     }
     let o = {
         default: {

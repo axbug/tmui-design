@@ -254,26 +254,24 @@ const getNowCurrent = () => {
     return getIdsByindexs(_modelValueIndex.value);
 }
 
+let resizeTimer: ReturnType<typeof setTimeout> | undefined;
+const debouncedResize = () => {
+    if (resizeTimer !== undefined) clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(oninitFun, 100);
+};
+
 onMounted(() => {
     // 计算并缓存最大深度
     _maxDeep.value = calculateMaxDeep(props.list);
     oninitFun();
-    
-    // 使用防抖优化 resize 事件
-    let resizeTimer: number;
-    const debouncedResize = () => {
-        clearTimeout(resizeTimer);
-        resizeTimer = setTimeout(oninitFun, 100);
-    };
-    
+
     uni.$on('onResize', debouncedResize);
-    
-    // 清理函数
-    onBeforeUnmount(() => {
-        clearTimeout(resizeTimer);
-        uni.$off('onResize', debouncedResize);
-        clearCache();
-    });
+});
+
+onBeforeUnmount(() => {
+    if (resizeTimer !== undefined) clearTimeout(resizeTimer);
+    uni.$off('onResize', debouncedResize);
+    clearCache();
 });
 
 // 优化 watch，减少深度监听

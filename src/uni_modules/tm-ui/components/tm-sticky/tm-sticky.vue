@@ -1,8 +1,4 @@
 <script setup lang="ts">
-import { computed, ref, onMounted, watch, PropType } from "vue";
-import { arrayNumberValid, getUid, arrayNumberValidByStyleMP, arrayNumberValidByStyleBorderColor, arrayNumberValidByStyleBorderStyle, covetUniNumber, linearValid, getUnit } from "../../libs/tool";
-import { useTmConfig } from "../../libs/config";
-import { getDefaultColor, getDefaultColorObj, getOutlineColorObj, getTextColorObj, getThinColorObj } from "../../libs/colors";
 /**
 * @displayName 粘性布局
 * @exportName tm-sticky
@@ -13,8 +9,7 @@ import { getDefaultColor, getDefaultColorObj, getOutlineColorObj, getTextColorOb
    | --- | --- | --- | --- |
    | ☑️| ☑️ | ☑️ | ☑️ | ☑️ | 1.0.0 |
 */
-defineOptions({ name: 'TmStikcy' });
-const { config } = useTmConfig()
+defineOptions({ name: 'TmSticky' });
 
 </script>
 <script lang="ts">

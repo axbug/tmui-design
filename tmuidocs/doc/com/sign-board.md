@@ -36,7 +36,7 @@ import headertips from '../components/headertips.vue'
 | 参数名 | 类型 | 默认值 | 描述 |
 | :--: | :--: | :--: | :-- |
 | strokeColor | string | '' | 线颜色 | 
-| backgroundColor | string | '' | 线颜色 | 
+| backgroundColor | string | '' | 画板背景颜色 | 
 | strokeWidth | union | 8 | 线宽 | 
 | width | union | 300 | 画布宽和高，不允许%，只能是数字或者带单位的数字如:4,'4',20px,750rpx | 
 | height | union | 300 | 画布宽和高，不允许%，只能是数字或者带单位的数字如:4,'4',20px,750rpx | 

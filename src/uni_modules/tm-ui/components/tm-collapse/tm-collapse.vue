@@ -1,8 +1,5 @@
 <script setup lang="ts">
-import { ref, watch, provide, onBeforeMount, PropType, computed } from 'vue'
-import { arrayNumberValid, arrayNumberValidByStyleMP, covetUniNumber, linearValid, getUnit, getUid } from "../../libs/tool";
-import { useTmConfig } from "../../libs/config";
-import { getDefaultColor, setTextColorLightByDark, getOutlineColorObj, getTextColorObj, getThinColorObj } from "../../libs/colors";
+import { ref, watch, provide, onBeforeMount, computed } from 'vue'
 
 /**
  * @displayName 折叠面板
@@ -15,9 +12,6 @@ import { getDefaultColor, setTextColorLightByDark, getOutlineColorObj, getTextCo
     | ☑️| ☑️ | ☑️ | ☑️ | ☑️ | 1.0.0 |
  */
 defineOptions({ name: 'TmCollapse' });
-
-const { config } = useTmConfig()
-
 
 const props = defineProps({
     /**
@@ -55,10 +49,8 @@ onBeforeMount(() => {
 provide('tmCollapseDefaultName', computed((): Array<string | number> => activeName.value))
 
 watch(() => props.modelValue, (newValue: Array<string | number> | string | number) => {
-    if(newValue == activeName.value.join('')) return;
-    if(Array.isArray(newValue)){
-        if(newValue.join('') == activeName.value.join('')) return;
-    }
+    if(Array.isArray(newValue) && newValue.join('') === activeName.value.join('')) return;
+    if(!Array.isArray(newValue) && String(newValue) === activeName.value.join('')) return;
     toggleActivate(newValue)
 })
 /**

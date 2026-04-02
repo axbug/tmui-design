@@ -1,9 +1,8 @@
 <script setup lang="ts">
-import { ref, computed, onMounted, onBeforeUnmount, watch, PropType, getCurrentInstance, ComponentInstance, onUpdated, nextTick, VueElement, inject, watchEffect } from 'vue';
-import { arrayNumberValid, arrayNumberValidByStyleMP, covetUniNumber, arrayNumberValidByStyleBorderColor, linearValid, getUnit, getUid } from "../../libs/tool";
-import { getDefaultColor, getDefaultColorObj, getOutlineColorObj, getTextColorObj, getThinColorObj, isBlackAndWhite, setBgColorLightByDark } from "../../libs/colors";
+import { ref, computed, onMounted, onBeforeUnmount, PropType, watchEffect } from 'vue';
+import { covetUniNumber } from "../../libs/tool";
+import { getDefaultColor, isBlackAndWhite, setBgColorLightByDark } from "../../libs/colors";
 import { useTmConfig } from "../../libs/config";
-import { onPageScroll,onReady } from '@dcloudio/uni-app';
 import {$i18n} from "@/uni_modules/tm-ui"
 /**
  * @displayName 标题导航

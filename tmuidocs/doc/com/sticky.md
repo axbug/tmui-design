@@ -11,7 +11,7 @@ import headertips from '../components/headertips.vue'
 
 #### 导航组件
 
-# 粘性布局 TmStikcy
+# 粘性布局 TmSticky
 
 对于需要多个头定位的页面，可以使用粘性布局，将页面分为多个区域，每个区域可以单独设置粘性。
 

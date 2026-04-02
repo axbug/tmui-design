@@ -180,11 +180,11 @@ const validate = (): TM.FORM_SUBMIT_RESULT => {
             if (!defaultValidator(flattenedModelValue[key], rule)) {
                 result.isPass = false;
                 if (result.firstValid == null) {
-                    result.firstValid = { key, isPass: false, message: rule.message, data: props.modelValue[key] }
+                    result.firstValid = { key, isPass: false, message: rule.message, data: flattenedModelValue[key] }
                 }
-                result.result.push({ key, isPass: false, message: rule.message, data: props.modelValue[key] })
+                result.result.push({ key, isPass: false, message: rule.message, data: flattenedModelValue[key] })
             } else {
-                result.result.push({ key, isPass: true, message: '校验通过', data: props.modelValue[key] })
+                result.result.push({ key, isPass: true, message: '校验通过', data: flattenedModelValue[key] })
             }
         }
     }

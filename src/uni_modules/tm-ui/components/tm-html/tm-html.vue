@@ -7,7 +7,7 @@
 
 <script lang="ts" setup>
     // @ts-nocheck
-	import { computed, ref, onMounted, PropType, onBeforeUnmount, getCurrentInstance, watch, nextTick } from "vue"
+	import { computed, ref, onMounted, getCurrentInstance, watch, nextTick } from "vue"
 	import { arrayNumberValid, arrayNumberValidByStyleMP, covetUniNumber, arrayNumberValidByStyleBorderColor, linearValid, getUnit } from "../../libs/tool";
 	import { getDefaultColor, getDefaultColorObj, getOutlineColorObj, getTextColorObj, getThinColorObj } from "../../libs/colors";
 	import { useTmConfig } from "../../libs/config";
@@ -81,7 +81,7 @@
 		
 		previewImg: {
 			type:  [Boolean, Number],
-			default: ''
+			default: true
 		},
 	})
 
@@ -270,10 +270,6 @@
 			setContent(props.value)
 		}
 	})
-	onBeforeUnmount(() => {
-		
-	})
-	
 
 </script>
 <script lang="ts">

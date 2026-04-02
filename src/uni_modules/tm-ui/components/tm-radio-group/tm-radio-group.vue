@@ -1,7 +1,6 @@
 <script setup lang="ts">
-import { computed, onBeforeUnmount, onMounted, PropType, provide, ref, watch } from 'vue'
-import { arrayNumber, getUid } from '../../libs/tool'
-import { useTmConfig } from '../../libs/config'
+import { computed, onMounted, PropType, provide, ref, watch } from 'vue'
+import { arrayNumber } from '../../libs/tool'
 
 /**
  * @displayName 单选框组
@@ -15,7 +14,6 @@ import { useTmConfig } from '../../libs/config'
     | ☑️| ☑️ | ☑️ | ☑️ | ☑️ | 1.0.0 |
  */
 defineOptions({ name: 'TmRadioGroup' });
-const { config } = useTmConfig()
 
 const props = defineProps({
     modelValue: {
@@ -42,23 +40,14 @@ const props = defineProps({
 const emits = defineEmits(['change', 'update:modelValue']);
 
 const checkvaluelist = ref<string | number | boolean>("");
-const isDestroy = ref(false);
-const id = "tmRadioGroup-" + getUid();
 
-const _max = 1
 const _gap = computed(() => arrayNumber(props.gap).join(" "))
 watch(() => props.modelValue, (newValue) => {
     checkvaluelist.value = newValue;
-
-});
-
-onBeforeUnmount(() => {
-    isDestroy.value = true;
 });
 
 onMounted(() => {
     checkvaluelist.value = props.modelValue;
-    isDestroy.value = false;
 });
 
 function addItem(item: string | number | boolean, ischange: boolean) {
@@ -70,8 +59,8 @@ function addItem(item: string | number | boolean, ischange: boolean) {
 }
 
 function removeItem(item: string | number | boolean) {
-    if (checkvaluelist.value !== item) {
-        checkvaluelist.value = item;
+    if (checkvaluelist.value === item) {
+        checkvaluelist.value = "";
         emits("update:modelValue", checkvaluelist.value);
         emits("change", checkvaluelist.value);
     }

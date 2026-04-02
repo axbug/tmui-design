@@ -55,8 +55,8 @@ export default class WxCanvas {
   
     _initStyle(ctx) {
       // @ts-ignore
-      ctx.createRadialGradient = () => {
-        return ctx.createCircularGradient(arguments);
+      ctx.createRadialGradient = (...args: any[]) => {
+        return ctx.createCircularGradient(...args);
       };
     }
   

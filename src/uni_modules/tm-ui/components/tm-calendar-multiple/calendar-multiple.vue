@@ -1,21 +1,12 @@
 <script lang="ts" setup>
-	import { ref, computed, onMounted, watch, type PropType, nextTick,getCurrentInstance } from 'vue';
-	import { arrayNumberValid, arrayNumberValidByStyleMP, covetUniNumber, linearValid } from '../../libs/tool'
+	import { computed, type PropType } from 'vue';
+	import { covetUniNumber } from '../../libs/tool'
 	import { useTmConfig } from '../../libs/config'
-	import {
-		getDefaultColor,
-		getDefaultColorObj,
-		getOutlineColorObj,
-		getTextColorObj,
-		getThinColorObj,
-		hexToRgb
-	} from '../../libs/colors'
-	import { tmDate,dateCovertTmDate,tmDateTypeTime } from "../../libs/tmDate"
+	import { getDefaultColor, hexToRgb } from '../../libs/colors'
+	import { tmDate } from "../../libs/tmDate"
 	import { xDateArrayItem, xDateArrayItemType, xCalendarArgs, xCalendarMode } from "./interface"
 	import { xCalendar } from "./tmCalendar"
 	import {$i18n} from "@/uni_modules/tm-ui"
-
-	const proxy = getCurrentInstance()?.proxy;
 
 	const { config } = useTmConfig()
 	type tmCalendarMultiplePropsType = {
@@ -134,7 +125,7 @@
 		}
 		return result
 	}
-	const _fontSize = computed(():string=> covetUniNumber('16',''))
+	const _fontSize = covetUniNumber('16','')
 	const dateArrayList = computed(():xDateArrayItemType[][]=>{
 		const primaryColor = getDefaultColor(props.color==''?config.color:props.color);
 		const dates = calendar.getCalendar(
@@ -165,54 +156,58 @@
 		emit('click',item)
 	}
 	
-	function checkDataIsInDateStatus(date:string|null):string{
-		if(date ==''||date == null) return '';
-		for(let k =0 ;k <_dateStatus.value.length;k++){
-			let itemStatus = _dateStatus.value[k]
-			let dates = itemStatus?.date??[];
-			let start = itemStatus?.between?.start??''
-			let end = itemStatus?.between?.end??''
-			let betweenColor = itemStatus?.between?.color??''
-			let notDates = itemStatus?.between?.notDate??[]
-			let nowDate = new tmDate(date);
-			let isInBetweenDate = false;
-			if(start!=''&&end!=''){
-				let isBetween = nowDate.isBetween(new tmDate(start),new tmDate(end),'d','[]');
-				let isNotDate = false
-				for(let i=0;i<notDates.length;i++){
-					let item = notDates[i];
-					if(nowDate.isBetweenOf(new tmDate(item),'=','d')){
-						isNotDate = true;
-						break;
+	const _statusColorMap = computed((): Map<string, string> => {
+		const map = new Map<string, string>();
+		if (_dateStatus.value.length === 0) return map;
+
+		const ranges: Array<{ start: number, end: number, color: string, notDates: Set<string> }> = [];
+
+		for (const itemStatus of _dateStatus.value) {
+			const dates = itemStatus?.date ?? [];
+			for (const d of dates) {
+				const key = new Date(d.date.replace(/-/g, '/')).getTime().toString();
+				map.set(key, getDefaultColor(d.color === '' ? 'primary' : d.color));
+			}
+
+			const start = itemStatus?.between?.start ?? '';
+			const end = itemStatus?.between?.end ?? '';
+			if (start !== '' && end !== '') {
+				const betweenColor = itemStatus?.between?.color ?? '';
+				ranges.push({
+					start: new Date(start.replace(/-/g, '/')).getTime(),
+					end: new Date(end.replace(/-/g, '/')).getTime(),
+					color: getDefaultColor(betweenColor === '' ? 'primary' : betweenColor),
+					notDates: new Set((itemStatus?.between?.notDate ?? []).map((d: string) =>
+						new Date(d.replace(/-/g, '/')).getTime().toString()
+					))
+				});
+			}
+		}
+
+		if (ranges.length > 0) {
+			for (const row of dateArrayList.value) {
+				for (const item of row) {
+					const t = new Date(item.date.date.replace(/-/g, '/')).getTime();
+					const key = t.toString();
+					if (map.has(key)) continue;
+					for (const range of ranges) {
+						if (t >= range.start && t <= range.end && !range.notDates.has(key)) {
+							map.set(key, range.color);
+							break;
+						}
 					}
 				}
-				isInBetweenDate = isBetween && !isNotDate
 			}
-			if(isInBetweenDate) return getDefaultColor(betweenColor==''?'primary':betweenColor)
-			
-			let selfColor = ''
-			for(let i=0;i<dates.length;i++){
-				let item = dates[i];
-				if(nowDate.isBetweenOf(new tmDate(item.date),'=','d')){
-					selfColor = item.color==''?'primary':item.color
-					break;
-				}
-				
-			}
-			if(selfColor!=''){
-				return getDefaultColor(selfColor)
-			}
-			
 		}
-		
-		return ""
-	}
-	
-	
 
-	onMounted(()=>{
-	
+		return map;
 	})
+
+	const _getStatusColor = (dateStr: string): string => {
+		if (_statusColorMap.value.size === 0) return '';
+		const key = new Date(dateStr.replace(/-/g, '/')).getTime().toString();
+		return _statusColorMap.value.get(key) || '';
+	}
 </script>
 <template>
 	<view class="xCalendarViewItem" 
@@ -251,7 +246,7 @@
 						color:item.style.dstyle.fontColor
 					}"
 					>{{showLabel(item)||item.style.dstyle.label}}</text>
-					<view class="xCalendarViewStatus" :style="{backgroundColor:checkDataIsInDateStatus(item.date.date)}" v-if="checkDataIsInDateStatus(item.date.date)!=''"></view>
+					<view class="xCalendarViewStatus" :style="{backgroundColor:_getStatusColor(item.date.date)}" v-if="_statusColorMap.size > 0 && _getStatusColor(item.date.date)!=''"></view>
 				</view>
 			</view>
 		</view>

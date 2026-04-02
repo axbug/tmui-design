@@ -12,7 +12,7 @@ const defaultValidatorByType = (value: any, rule: TM.FORM_RULE_TYPE) => {
         return false
     }
     if (rule.type == 'string') {
-        let val = value.trim()
+        let val = String(value).trim()
         if (val === '') return false;
         let len = value.split('').length
         if (rule.max == -1) return len >= rule.min
@@ -36,7 +36,7 @@ const defaultValidatorByType = (value: any, rule: TM.FORM_RULE_TYPE) => {
     if (rule.type == 'phone') {
         let val = typeof value == 'string' ? value : value.toString()
         let reg = /^(13[0-9]|14[01456879]|15[0-35-9]|16[2567]|17[0-8]|18[0-9]|19[0-35-9])\d{8}$/
-        return val.match(reg);
+        return !!val.match(reg);
     }
     if (rule.type == 'email' && typeof value == 'string') {
         let reg = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;

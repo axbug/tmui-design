@@ -1,11 +1,15 @@
 import { getDefaultColor } from "./colors";
 import { type ComponentPublicInstance } from "vue"
+
+const _reNumber = /[-+]?(?:\d+\.?\d*|\.\d+)/;
+const _reUnit = /[a-zA-Z%]+/g;
+
 export const covetUniNumber = (n: number | string, defaultUnit = 'rpx'): string => {
     if (typeof n === 'number') {
         return `${n}${defaultUnit}`
     }
     let unit = getUnit(n, defaultUnit);
-    let zhi = n.match(/[-+]?(?:\d+\.?\d*|\.\d+)/);
+    let zhi = n.match(_reNumber);
     let real = '0'
     if (zhi) {
         real = zhi[0]
@@ -20,8 +24,9 @@ export const getUnit = (n: string | number, defaultUnit = 'rpx'): string => {
     if (typeof n === 'number') {
         return defaultUnit;
     }
-    const unit = n.match(/[a-zA-Z|%|auto]+/g);
-    if (!unit || !Array.isArray(unit) || unit?.length === 0) return defaultUnit;
+    _reUnit.lastIndex = 0;
+    const unit = n.match(_reUnit);
+    if (!unit || unit.length === 0) return defaultUnit;
     return unit[0];
 }
 
@@ -174,7 +179,5 @@ export function findParent<T = ComponentPublicInstance>(parent: ComponentPublicI
     if (parent == null) return null;
     if (parent.$parent?.$options?.name == name) return parent.$parent as T;
     if (parent.$parent == null) return null;
-    let parents = findParent(parent.$parent,name);
-    if (parents?.$options?.name == name) return parents as T;
-    return null;
+    return findParent<T>(parent.$parent, name);
 }

@@ -110,6 +110,15 @@
 	const refreshId = ref(56)
 	const refreshIdWait = ref(56)
 	const bottomRefreshId = ref(56)
+
+	// PC鼠标拖拽状态
+	const _mouseDown = ref(false);
+	const _isPulling = ref(false);
+	const _dragStartY = ref(0);
+	const _pcPullDy = ref(0);
+	const _pcRefreshing = ref(false);
+	const _lastTouchTime = ref(0);
+
 	// 计算属性
 	const colorValue = computed(() => {
 		if (props.color) return getDefaultColor(props.color);
@@ -156,6 +165,12 @@
 		};
 	});
 
+	const _pcTopOffset = computed(() => {
+		if (_pcPullDy.value > 0) return _pcPullDy.value;
+		if (_pcRefreshing.value) return props.pullHeight;
+		return 0;
+	});
+
 	// 方法
 	const setScrollTop = (top : number) => {
 		scrollTop.value = top;
@@ -181,6 +196,7 @@
 	};
 
 	const handleRefresherPulling = (e : any) => {
+		if (_pcRefreshing.value || _isPulling.value) return;
 		pullDy.value = e.detail.dy
 		pullStatus.value = 'pulling';
 	};
@@ -189,35 +205,37 @@
 		if (props.disabledPull || pulling.value) return;
 		pulling.value = true;
 		pullStatus.value = 'refreshing';
-		// 调用刷新回调
 		clearTimeout(refreshId.value);
 		refreshId.value = setTimeout(() => {
 			pullStatus.value = 'error'
-
-			console.log('下拉刷新失败---');
 		}, 10 * 1000);
 		const pullSuccess = await props.pullRefresh();
+		clearTimeout(refreshId.value);
 		if (pullSuccess) {
 			pullStatus.value = 'success';
 			clearTimeout(refreshIdWait.value);
 			refreshIdWait.value = setTimeout(() => {
 				pulling.value = false;
 				pullStatus.value = 'normal';
-				pullDy.value = 0
+				pullDy.value = 0;
+				_pcRefreshing.value = false;
+				_pcPullDy.value = 0;
 			}, 1200);
 		} else {
 			pullStatus.value = 'error';
 			setTimeout(() => {
 				pulling.value = false;
+				_pcRefreshing.value = false;
 			}, 1200);
 		}
 	};
 
 	const handleRefresherRestore = () => {
+		if (_pcRefreshing.value || _isPulling.value) return;
 		clearTimeout(refreshIdWait.value);
 		clearTimeout(refreshId.value);
 		pullStatus.value = 'normal';
-		pullDy.value = 0
+		pullDy.value = 0;
 		pulling.value = false;
 	};
 
@@ -253,6 +271,63 @@
 		// #endif
 		return top
 	})
+	// PC鼠标下拉刷新（仅H5桌面端生效）
+	const _onTouchStart = () => {
+		_lastTouchTime.value = Date.now();
+	};
+
+	const _onMouseDown = (e: MouseEvent) => {
+		if (e.button !== 0) return;
+		if (Date.now() - _lastTouchTime.value < 800) return;
+		if (props.disabledPull || pulling.value || _pcRefreshing.value) return;
+		if (pullStatus.value === 'refreshing' || pullStatus.value === 'success') return;
+		if (scrollTop.value > 5) return;
+		_mouseDown.value = true;
+		_dragStartY.value = e.clientY;
+		if (typeof document !== 'undefined') {
+			document.addEventListener('mousemove', _onMouseMove, { passive: false });
+			document.addEventListener('mouseup', _onMouseUp);
+		}
+	};
+
+	const _onMouseMove = (e: MouseEvent) => {
+		if (!_mouseDown.value) return;
+		const dy = e.clientY - _dragStartY.value;
+		if (!_isPulling.value) {
+			if (dy < 8) return;
+			_isPulling.value = true;
+		}
+		if (dy <= 0) {
+			_pcPullDy.value = 0;
+			if (pullStatus.value === 'pulling') pullStatus.value = 'normal';
+			return;
+		}
+		e.preventDefault();
+		_pcPullDy.value = Math.min(dy * 0.4, props.pullHeight * 2.5);
+		pullDy.value = _pcPullDy.value;
+		pullStatus.value = 'pulling';
+	};
+
+	const _onMouseUp = () => {
+		if (typeof document !== 'undefined') {
+			document.removeEventListener('mousemove', _onMouseMove);
+			document.removeEventListener('mouseup', _onMouseUp);
+		}
+		if (!_mouseDown.value) return;
+		_mouseDown.value = false;
+		if (!_isPulling.value) return;
+		_isPulling.value = false;
+		if (_pcPullDy.value >= props.pullHeight) {
+			_pcRefreshing.value = true;
+			_pcPullDy.value = 0;
+			handleRefresherRefresh();
+		} else {
+			_pcPullDy.value = 0;
+			pullDy.value = 0;
+			pullStatus.value = 'normal';
+		}
+	};
+
 	const retryRefresh = () => {
 		if (pullStatus.value === 'error') {
 			pulling.value = false;
@@ -276,41 +351,85 @@
 	});
 
 	onMounted(() => {
-		// 初始化时如果modelValue为true，触发刷新
 		if (props.fristLoad) {
 			pullStatus.value = 'refreshing';
 		}
+		// #ifdef H5
+		const el = proxy?.$el;
+		if (el) {
+			el.addEventListener('mousedown', _onMouseDown, { capture: true, passive: false });
+			el.addEventListener('touchstart', _onTouchStart, { capture: true, passive: true });
+		}
+		// #endif
 	});
 
 	onBeforeUnmount(() => {
 		clearTimeout(bottomRefreshId.value);
 		clearTimeout(refreshId.value);
+		// #ifdef H5
+		if (typeof document !== 'undefined') {
+			document.removeEventListener('mousemove', _onMouseMove);
+			document.removeEventListener('mouseup', _onMouseUp);
+		}
+		const el = proxy?.$el;
+		if (el) {
+			el.removeEventListener('mousedown', _onMouseDown, { capture: true } as EventListenerOptions);
+			el.removeEventListener('touchstart', _onTouchStart, { capture: true } as EventListenerOptions);
+		}
+		// #endif
 	});
 </script>
 
 <template>
-	<view class="tm-pull-refresh" :style="contentStyle">
+	<view class="tm-pull-refresh" :style="[contentStyle, _isPulling || _pcRefreshing ? { overflow: 'hidden', userSelect: 'none', cursor: 'grabbing' } : {}]">
+
+		<!-- PC下拉刷新指示器（鼠标拖拽时显示在scroll-view上方） -->
+		<view v-if="_pcTopOffset > 0" class="tm-pull-refresh__pc-pull" @click="retryRefresh"
+			:style="{
+				height: pullHeight + 'px',
+				transform: `translateY(${_pcTopOffset - pullHeight}px)`,
+				transition: _isPulling ? 'none' : 'transform 0.3s ease'
+			}">
+			<slot name="pull" :status="pullStatus">
+				<view class="tm-pull-refresh__pull-content">
+					<view class="tm-pull-refresh__pull-icon" :class="{ 'refreshing': pullStatus === 'refreshing' }">
+						<tm-icon v-if="pullDy < props.pullHeight && pullStatus == 'pulling'" name="arrow-down-line"
+							size="36" :color="colorValue"></tm-icon>
+						<tm-icon v-if="pullDy >= props.pullHeight && pullStatus == 'pulling'" size="36"
+							name="arrow-up-line" :color="colorValue"></tm-icon>
+						<tm-icon v-if="pullStatus === 'refreshing'" size="36" name="loader-line" spin
+							:color="colorValue"></tm-icon>
+						<tm-icon v-if="pullStatus === 'success'" size="36" name="checkbox-circle-line"
+							:color="colorValue"></tm-icon>
+						<tm-icon v-if="pullStatus == 'error'" size="36" name="information-line"
+							color="error"></tm-icon>
+					</view>
+					<view class="tm-pull-refresh__pull-text"
+						:style="{ color: pullStatus == 'error' ? 'red' : textColorValue }">
+						{{ pullText }}
+					</view>
+				</view>
+			</slot>
+		</view>
+
 		<!-- 内容区域 -->
-		<scroll-view class="tm-pull-refresh__content" :scroll-into-view="bottomStatusViewId" 
-			:style="{ pointerEvents:pullStatus!='refreshing'?'auto':'none' }"  :show-scrollbar="showScrollbar" @scroll="handleScroll"
+		<scroll-view class="tm-pull-refresh__content" :scroll-into-view="bottomStatusViewId"
+			:style="[
+				{ pointerEvents: (pullStatus != 'refreshing' && !_isPulling) ? 'auto' : 'none' },
+				(_pcTopOffset > 0 || _pcRefreshing) ? { transform: `translateY(${_pcTopOffset}px)`, transition: _isPulling ? 'none' : 'transform 0.3s ease' } : {}
+			]"
+			:show-scrollbar="showScrollbar" @scroll="handleScroll"
 			@scrolltolower="handleScrollToLower"
-			:refresher-triggered="pullStatus === 'success' || pullStatus === 'refreshing' || pullStatus === 'error'"
+			:refresher-triggered="!_pcRefreshing && !_isPulling && (pullStatus === 'success' || pullStatus === 'refreshing' || pullStatus === 'error')"
 			@refresherrefresh="handleRefresherRefresh" @refresherpulling="handleRefresherPulling"
 			@refresherrestore="handleRefresherRestore" @refresherabort="handleRefresherRestore"
 			:refresher-enabled="!disabledPull" :refresher-threshold="pullHeight" :refresher-default-style="'none'"
 			:refresher-background="'transparent'" scroll-y enable-back-to-top>
-			<!-- 顶部下拉刷新区域 -->
-			<view style="position: relative;">
-				<!-- v-if="pullStatus !== 'normal'" -->
-				<view  class="tm-pull-refresh__pull" @click="retryRefresh"
-				:style="{
-				    height: pullHeight+ 'px',
-					top:'0'
-				}">
-					<!-- 
-				    顶部下拉刷新插槽
-				    @binding {pullStatus} status - 状态：normal、pulling、refreshing、error、success
-				    -->
+
+			<!-- 移动端原生refresher下拉区域 -->
+			<view v-if="_pcTopOffset <= 0" style="position: relative;">
+				<view class="tm-pull-refresh__pull" @click="retryRefresh"
+					:style="{ height: pullHeight + 'px', top: '0' }">
 					<slot name="pull" :status="pullStatus">
 						<view class="tm-pull-refresh__pull-content">
 							<view class="tm-pull-refresh__pull-icon" :class="{ 'refreshing': pullStatus === 'refreshing' }">
@@ -339,10 +458,6 @@
 			<!-- 底部触底刷新区域 -->
 			<view @click="retryBottomRefresh" id="bottom-refresh" v-if="bottomStatus !== 'normal'"
 				class="tm-pull-refresh__bottom">
-				<!-- 
-                底部触底刷新插槽
-                @binding {bottomStatus} status - 状态：normal、loading、error、success
-                -->
 				<slot name="bottom" :status="bottomStatus">
 					<view class="tm-pull-refresh__bottom-content">
 						<view class="tm-pull-refresh__bottom-icon"
@@ -353,7 +468,6 @@
 								color="error"></tm-icon>
 							<tm-icon v-if="bottomStatus == 'success'" size="36" name="checkbox-circle-line"
 								:color="colorValue"></tm-icon>
-
 						</view>
 						<view class="tm-pull-refresh__bottom-text"
 							:style="{ color: bottomStatus == 'error' ? 'red' : textColorValue }">
@@ -370,6 +484,19 @@
 	.tm-pull-refresh {
 		width: 100%;
 		position: relative;
+
+		&__pc-pull {
+			position: absolute;
+			top: 0;
+			left: 0;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			width: 100%;
+			z-index: 10;
+			cursor: default;
+		}
+
 		&__pull {
 			position: absolute;
 			display: flex;

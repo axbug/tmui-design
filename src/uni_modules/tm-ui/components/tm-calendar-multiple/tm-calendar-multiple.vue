@@ -243,10 +243,8 @@ const _currentDateLabel = computed((): string => {
 	return $i18n.t('tmui32x.tmCalendar.titleCurrentMonth', [ars[0], ars[1]])
 })
 const _currentYear = ref(new tmDate(props.currentDate).getYear())
-let _modelValueDate = computed((): Date[] => {
-	return _modelValue.value.map((d: string): Date => {
-		return new Date(d.replace(/-/g, '/'))
-	})
+const _modelValueDate = computed((): Date[] => {
+	return _modelValue.value.map((d: string): Date => new Date(d.replace(/-/g, '/')))
 })
 const _tipsText = computed((): string => {
 

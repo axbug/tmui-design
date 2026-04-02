@@ -1,8 +1,6 @@
 <script setup lang="ts">
-import { computed, ref, onMounted, watch, PropType } from "vue";
-import { arrayNumberValid, getUid, arrayNumberValidByStyleMP, arrayNumberValidByStyleBorderColor, arrayNumberValidByStyleBorderStyle, covetUniNumber, linearValid, getUnit } from "../../libs/tool";
-import { useTmConfig } from "../../libs/config";
-import { getDefaultColor, getDefaultColorObj, getOutlineColorObj, getTextColorObj, getThinColorObj } from "../../libs/colors";
+import { computed, ref, onMounted } from "vue";
+import { covetUniNumber } from "../../libs/tool";
 /**
 * @displayName 粘性布局头
 * @exportName tm-sticky-header
@@ -15,7 +13,6 @@ import { getDefaultColor, getDefaultColorObj, getOutlineColorObj, getTextColorOb
    | ☑️| ☑️ | ☑️ | ☑️ | ☑️ | 1.0.0 |
 */
 defineOptions({ name: 'tmStickyHeader' });
-const { config } = useTmConfig()
 
 const props = defineProps({
     /** 顶部偏移距离,必须是px单位. */

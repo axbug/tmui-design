@@ -11,7 +11,7 @@ import headertips from '../components/headertips.vue'
 
 #### 展示组件
 
-# 图片 TmBadge
+# 图片 TmImage
 
 宽高可以设置，支持百分比，px,rpx，如果你用了auto,%这种就要注意：如果你把组件放到了容器中，容器设置为v-show,display:none,visible这种，
 那你一定要跟随vif组件，不然尺寸是不对的。因为小程序无法监测这种变化的情况，导致无法设置尺寸。如果你设定了固定尺寸则不用担心这个问题。

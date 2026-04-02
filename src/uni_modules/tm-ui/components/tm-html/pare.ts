@@ -892,7 +892,7 @@ Parser.prototype.popNode = function () {
 						for (const col of (nodes[i].children || [])) {
 							if (col.name === 'col') {
 								const style = col.attrs.style || ''
-								const start = style.indexOf('width') ? style.indexOf(';width') : 0
+								const start = style.indexOf('width') !== 0 ? style.indexOf(';width') : 0
 								// 提取出宽度
 								if (start !== -1) {
 									let end = style.indexOf(';', start + 6)
@@ -920,7 +920,7 @@ Parser.prototype.popNode = function () {
 							col++
 						}
 						let style = td.attrs.style || ''
-						let start = style.indexOf('width') ? style.indexOf(';width') : 0
+						let start = style.indexOf('width') !== 0 ? style.indexOf(';width') : 0
 						// 提取出 td 的宽度
 						if (start !== -1) {
 							let end = style.indexOf(';', start + 6)

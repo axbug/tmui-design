@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { ref, watch, provide, getCurrentInstance, PropType, computed, inject, onMounted } from 'vue'
-import { arrayNumberValid, arrayNumberValidByStyleMP, covetUniNumber, linearValid, getUnit, getUid } from "../../libs/tool";
+import { getCurrentInstance, computed, inject } from 'vue'
+import { covetUniNumber, getUnit } from "../../libs/tool";
 import { useTmConfig } from "../../libs/config";
-import { getDefaultColor, setTextColorLightByDark, getOutlineColorObj, getTextColorObj, getThinColorObj } from "../../libs/colors";
+import { getDefaultColor } from "../../libs/colors";
 import tmCollapse from '../tm-collapse/tm-collapse.vue';
 const proxy = getCurrentInstance()?.proxy;
 
@@ -17,7 +17,7 @@ const proxy = getCurrentInstance()?.proxy;
     | --- | --- | --- | --- |
     | ☑️| ☑️ | ☑️ | ☑️ | ☑️ | 1.0.0 |
  */
-defineOptions({ name: 'TmCollapse',options: {
+defineOptions({ name: 'TmCollapseItem',options: {
     styleIsolation: "apply-shared",
     virtualHost: true,
     addGlobalClass: true,
@@ -166,8 +166,6 @@ const _bottomColor = computed(()=>{
     }
     return getDefaultColor('#f5f5f5')
 })
-const _leftIcon = computed(() => props.leftIcon)
-const _title = computed(() => props.title)
 const _isActive = computed(() => tmCollapseDefaultName.value.includes(props.name))
 const _textMap = computed(() => {
     let styleMap = {} as Record<string, string>
@@ -202,7 +200,7 @@ function findParent(parent: any): any {
     <view class="tmCollapseItemBox" :style="{ background: _color }">
         <view @click="itemClick" class="tmCollapseItem" :style="{ opacity: _disabled ? 0.5 : 1 }">
             <view class="tmCollapseItemBoxLeft">
-                <tm-icon :size="_titleFontSize" v-if="_leftIcon" :name="_leftIcon"
+                <tm-icon :size="_titleFontSize" v-if="leftIcon" :name="leftIcon"
                     :color="_isActive ? _activeColor : _titleColor" _style="margin-right: 20rpx;"></tm-icon>
                 <!--
 				 @slot 左边插槽
@@ -218,7 +216,7 @@ function findParent(parent: any): any {
 						 -->
                         <slot name="title" :status="_isActive">
                             <text class="tmCollapseItemBoxText" :style="_textMap">
-                                {{ _title }}
+                                {{ title }}
                             </text>
                         </slot>
                     </view>
@@ -266,7 +264,6 @@ function findParent(parent: any): any {
 }
 
 .tmCollapseItemContent {
-    /* padding: 12px 0rpx; */
     box-sizing: border-box;
     min-height: 0px;
     overflow: hidden;
@@ -288,7 +285,6 @@ function findParent(parent: any): any {
 }
 
 .tmCollapseItemBox {
-    /* background-color: white; */
     padding: 0px 12px;
 }
 
@@ -301,8 +297,6 @@ function findParent(parent: any): any {
 }
 
 .tmCollapseItemWrap {
-    /* display: flex;
-    flex-direction: column; */
     transition-property: all;
     transition-duration: 350ms;
     transition-timing-function: cubic-bezier(.18, .89, .32, 1);

@@ -214,7 +214,7 @@ onBeforeUnmount(()=>{
 	position: relative;
 	&.vertical{
 		flex-direction: row;
-		align-items: self-start;
+		align-items: flex-start;
 
 	}
 }
@@ -223,7 +223,7 @@ onBeforeUnmount(()=>{
 }
 .tmStepsItemLine{
 	position: absolute;
-	background-color: red;
+	background-color: currentColor;
 	transform: translateY(50%);
 	&.vertical{
 		transform: translateY(0%) translateX(-50%);

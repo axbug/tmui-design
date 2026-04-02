@@ -3,14 +3,14 @@
         <tm-sheet>
             <tm-text font-size="36" class="text-weight-b mt-16">图片上传 TmUploadPhoto</tm-text>
             <view class="mb-16">
-                <tm-text>样式丰富塑造性好。</tm-text>
+                <tm-text>样式丰富塑造性好。长按可排序。</tm-text>
             </view>
         </tm-sheet>
         <tm-sheet>
             <tm-upload-photo v-model="modelvalue"></tm-upload-photo>
         </tm-sheet>
         <tm-sheet>
-            <tm-text font-size="36" class="text-weight-b">自定样式,列,上传位置</tm-text>
+            <tm-text font-size="36" class="text-weight-b">自定样式,列,上传位置,长按可排序。</tm-text>
         </tm-sheet>
         <tm-sheet>
             <tm-upload-photo v-model="modelvalue2" add-pos="before" :column="3" img-height="200">

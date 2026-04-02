@@ -5,7 +5,7 @@
             <tm-text>可以自定义图标,也可以使用内置图标库.</tm-text>
         </view>
     </tm-sheet>
-    <tm-sheet class="gap-16 flex">
+    <tm-sheet class="gap-16 flex flex-row">
         <tm-icon name="home-4-fill"></tm-icon>
         <tm-icon name="ancient-gate-fill"></tm-icon>
         <tm-icon name="archive-2-fill"></tm-icon>

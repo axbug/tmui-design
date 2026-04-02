@@ -1,8 +1,8 @@
 <script lang="ts" setup>
-import { ref, watch, provide, getCurrentInstance, onBeforeUnmount, computed, inject, onMounted } from 'vue'
-import { arrayNumberValid, arrayNumberValidByStyleMP, covetUniNumber, linearValid, getUnit, getUid } from "../../libs/tool";
+import { ref, watch, onBeforeUnmount, computed, onMounted } from 'vue'
+import { covetUniNumber } from "../../libs/tool";
 import { useTmConfig } from "../../libs/config";
-import { getDefaultColor, setTextColorLightByDark, getOutlineColorObj, getTextColorObj, getThinColorObj } from "../../libs/colors";
+import { getDefaultColor } from "../../libs/colors";
 type TIME_OBJ = {
     ms: string,
     ss: string,
@@ -196,7 +196,7 @@ onMounted(() => {
 
 onBeforeUnmount(() => {
     clearInterval(interval.value);
-    if(props.captcha&&status.value=='running'||status.value=='paused'){
+    if(props.captcha&&(status.value=='running'||status.value=='paused')){
         uni.setStorageSync(timeidLasttime,totalTime.value)
     }
 

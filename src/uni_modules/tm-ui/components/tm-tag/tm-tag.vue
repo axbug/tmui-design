@@ -1,5 +1,5 @@
 <template>
-    <view :disabled="_attrs.disabled" @click="onClick" class="tmTag" :class="[_attrs.disabled ? 'tmTagLoading' : '']" :style="[
+    <view :disabled="attrs.disabled" @click="onClick" class="tmTag" :class="[attrs.disabled ? 'tmTagLoading' : '']" :style="[
         {
             minWidth: _width,
             height: _height,
@@ -12,7 +12,7 @@
           @slot icon图标
         -->
         <slot name="icon">
-            <tm-icon v-if="_attrs.icon" :name="_attrs.icon" :size="_attrs.iconSize || _fontSize"
+            <tm-icon v-if="attrs.icon" :name="attrs.icon" :size="attrs.iconSize || _fontSize"
                 :color="buttonStyle.color"></tm-icon>
         </slot>
         <!--
@@ -23,10 +23,10 @@
 </template>
 
 <script lang="ts" setup>
-import { ComputedRef, PropType, computed, ref } from "vue";
-import { arrayNumberValid, arrayNumberValidByStyleMP,arrayNumberValidByBorderWidth, covetUniNumber,arrayNumberValidByStyleBorderColor, arrayNumberValidByStyleBorderStyle, linearValid } from "../../libs/tool";
+import { PropType, computed } from "vue";
+import { arrayNumberValidByStyleMP, arrayNumberValidByBorderWidth, covetUniNumber, arrayNumberValidByStyleBorderColor, arrayNumberValidByStyleBorderStyle, linearValid } from "../../libs/tool";
 import { useTmConfig } from "../../libs/config";
-import { getDefaultColor, getDefaultColorObj, getOutlineColorObj, getTextColorObj, getThinColorObj } from "../../libs/colors";
+import { getDefaultColor, getOutlineColorObj, getTextColorObj, getThinColorObj,getDefaultColorObj } from "../../libs/colors";
 
 /**
  * @displayName 标签
@@ -191,52 +191,15 @@ const attrs = defineProps({
 })
 type PropsKeyType = keyof typeof attrs;
 
-const covetButtonSize = (ops: PropsKeyType, s: TM.BUTTON_SIZE, size?: string | number) => {
-    const widths = new Map<TM.BUTTON_SIZE, string>([
-        ['xs', '48'],
-        ['s', '76'],
-        ['m', '88'],
-        ['n', '100'],
-        ['g', '140']
+const _tagWidths: Record<string, string> = { xs: '48', s: '76', m: '88', n: '100', g: '140' };
+const _tagHeights: Record<string, string> = { xs: '36', s: '42', m: '52', n: '62', g: '72' };
+const _tagFontSizes: Record<string, string> = { xs: '20', s: '22', m: '24', n: '28', g: '32' };
 
-    ])
-    const heights = new Map<TM.BUTTON_SIZE, string>([
-        ['xs', '36'],
-        ['s', '42'],
-        ['m', '52'],
-        ['n', '62'],
-        ['g', '72']
-
-    ])
-    const fontSizes = new Map<TM.BUTTON_SIZE, string>([
-        ['xs', '20'],
-        ['s', '22'],
-        ['m', '24'],
-        ['n', '28'],
-        ['g', '32']
-    ])
-    const rounds = new Map<TM.BUTTON_SIZE, string>([
-        ['xs', '8'],
-        ['s', '10'],
-        ['m', '10'],
-        ['n', '10'],
-        ['g', '12']
-    ])
-    if (ops === 'width') {
-        return covetUniNumber(widths.get(s)!)
-    }
-    if (ops === 'height') {
-        return covetUniNumber(heights.get(s)!)
-    }
-    if (ops === 'round') {
-        if (size && s == 'n') {
-            return covetUniNumber(size!)
-        }
-        return covetUniNumber(rounds.get(s)!)
-    }
-    return covetUniNumber(fontSizes.get(s)!);
+const covetButtonSize = (ops: PropsKeyType, s: TM.BUTTON_SIZE) => {
+    if (ops === 'width') return covetUniNumber(_tagWidths[s]);
+    if (ops === 'height') return covetUniNumber(_tagHeights[s]);
+    return covetUniNumber(_tagFontSizes[s]);
 }
-const _attrs = computed(() => attrs);
 const _width = computed(() => {
     return attrs.width === '' ? covetButtonSize('width', attrs.size) : covetUniNumber(attrs.width)
 })
@@ -258,7 +221,6 @@ const buttonStyle = computed(() => {
     }
     let isDark = config.mode == 'dark';
     let color = attrs.color || config.color;
-    let round = attrs.round === '' ? covetButtonSize('round', attrs.size, attrs.round) : attrs.round;
     let linear = linearValid(attrs.linear)
     let background = linear || (attrs.bgColor ? getDefaultColor(attrs.bgColor) : '')
 
@@ -325,7 +287,7 @@ const buttonStyle = computed(() => {
 });
 
 const onClick = ()=>{
-    if(_attrs.value.disabled) return;
+    if(attrs.disabled) return;
     emits('click');
 }
 </script>

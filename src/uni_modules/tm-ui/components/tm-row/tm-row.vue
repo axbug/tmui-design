@@ -2,9 +2,9 @@
     <!-- @vue-ignore -->
     <view @click="onClick" class="tmRow" :style="[
         {
-            'flex-wrap': _attrs.wrap ? 'wrap' : 'nowrap',
-            'justify-content': _attrs.justify,
-            'align-items': _attrs.align,
+            'flex-wrap': attrs.wrap ? 'wrap' : 'nowrap',
+            'justify-content': attrs.justify,
+            'align-items': attrs.align,
             'gap': _gap
         }
     ]">
@@ -27,14 +27,7 @@ import {
     | --- | --- | --- | --- |
     | ☑️| ☑️ | ☑️ | ☑️ | ☑️ | 1.0.0 |
  */
-defineOptions({
-    name: "TmRow", options: {
-        styleIsolation: "apply-shared",
-        virtualHost: true,
-        addGlobalClass: true,
-        multipleSlots: true,
-    }
-});
+defineOptions({ name: "TmRow" });
 const emits = defineEmits([
     /**
      * 点击事件
@@ -55,7 +48,7 @@ const attrs = defineProps({
      */
     justify: {
         type: String as PropType<"flex-start" | "flex-end" | "center" | "space-between" | "space-around">,
-        default: "start"
+        default: "flex-start"
     },
     /**
      * 子元素上下对齐排列
@@ -82,12 +75,10 @@ const attrs = defineProps({
         default: '0'
     }
 })
-const _attrs = computed(() => attrs);
 const tmRowColWidth = computed((): number => {
-    let col = typeof attrs.column == 'string' ? parseInt(attrs.column) : attrs.column
-    return col
+    return typeof attrs.column === 'string' ? parseInt(attrs.column) : attrs.column
 })
-const _gutter = computed(() => arrayNumber(_attrs.value.gutter))
+const _gutter = computed(() => arrayNumber(attrs.gutter))
 const _gap = computed(() => {
 
     return _gutter.value.join(' ')

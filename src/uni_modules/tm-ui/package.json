@@ -1,7 +1,7 @@
 {
     "id": "tm-ui",
     "displayName": "tmui3.2.0 vue3 ts Ui组件库 ",
-    "version": "3.2.14",
+    "version": "3.2.16",
     "description": "继承了tmui4.0x的设计,全新的脚手架已为您准备好",
     "keywords": [
         "ui",

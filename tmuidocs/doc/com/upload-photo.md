@@ -59,6 +59,7 @@ import headertips from '../components/headertips.vue'
 | quality | number | 80 | 压缩质量 | 
 | addPos | string | 'after' | 添加图片的位置'before'出现在前面'after'出现在后面 | 
 | mode | string | 'scaleToFill' | 图片展示的缩放模式同官方. | 
+| sortable | boolean | true | 是否允许长按拖拽排序 | 
 
 
 ## :rose: 事件
@@ -73,7 +74,7 @@ import headertips from '../components/headertips.vue'
 ## :corn: slot插槽
 | 插槽名 | 数据 | 描述 |
 | :--: | :--: |  :-- |
-| default | - | 上传按钮插槽 | 
+| default | - | - | 
 
 
 ## :green_salad: ref方法

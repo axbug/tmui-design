@@ -1,5 +1,5 @@
 /**
- * @description 进度条组件属性类型定义
+ * @description 签名画板组件属性类型定义
  */
 export interface PropsType {
     /**
@@ -7,7 +7,7 @@ export interface PropsType {
      */
     strokeColor?: string;
 	/**
-	 * 线颜色
+	 * 画板背景颜色
 	 */
 	backgroundColor?: string;
  

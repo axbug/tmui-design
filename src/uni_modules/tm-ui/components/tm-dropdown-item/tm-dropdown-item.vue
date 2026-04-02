@@ -80,7 +80,7 @@ watch(() => tmDropdownMenu?.value?.activeName, (newVal, oldVal) => {
 })
 watch(():any => props,()=>{
 	pubshChildren()
-})
+},{deep:true})
 onBeforeMount(() => {
 	pubshChildren()
 })

@@ -37,7 +37,7 @@ import headertips from '../components/headertips.vue'
 | :--: | :--: | :--: | :-- |
 | modelValue | Array\<string \| number \| boolean\> | ()=\>[]asstring[] | - | 
 | direction | string | "row" | - | 
-| align | string | "left" | - | 
+| align | string | "flex-start" | - | 
 | max | number | -1 | - | 
 | gap | number\|string\|Array\<string \| number\> | 20 | 排列时之间的间隙，如果是数组第一项是列间隙，第二项是行间隙 | 
 

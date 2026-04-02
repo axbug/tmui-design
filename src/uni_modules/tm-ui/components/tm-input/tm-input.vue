@@ -39,7 +39,7 @@
 					@confirm="onconfirm" @focus="onfocus" @blur="onblur" @input="oninput" :value="nowValue"
 					@change="onchange" :password="_attrs.password&&showPasswordEye" :disabled="_attrs.disabled"
 					:maxlength="_attrs.maxlength" :cursorSpacing="_attrs.cursorSpacing" :focus="_attrs.focus"
-					:confirmType="_attrs.confirmType" :confirmHld="_attrs.confirmHold" :type="_attrs.type"
+					:confirmType="_attrs.confirmType" :confirm-hold="_attrs.confirmHold" :type="_attrs.type"
 					:cursorColor="_currorColor" :selectionStart="_attrs.selectionStart"
 					:selectionEnd="_attrs.selectionEnd" :adjustPosition="_attrs.adjustPosition"
 					:autoBlur="_attrs.autoBlur" :ignoreCompositionEvent="_attrs.ignoreCompositionEvent"
@@ -66,7 +66,7 @@
 					@blur="onblur" @input="oninput" @linechange="onlinechange" :autoHeight="_attrs.autoHeight"
 					:fixed="_attrs.fixed" :showConfirmBar="_attrs.showConfirmBar" :value="nowValue"
 					:disabled="_attrs.disabled" :maxlength="_attrs.maxlength" :cursorSpacing="_attrs.cursorSpacing"
-					:focus="_attrs.focus" :confirmHld="_attrs.confirmHold" :cursor="_attrs.cursor"
+					:focus="_attrs.focus" :confirm-hold="_attrs.confirmHold" :cursor="_attrs.cursor"
 					:cursorColor="_currorColor" :selectionStart="_attrs.selectionStart"
 					:selectionEnd="_attrs.selectionEnd" :adjustPosition="_attrs.adjustPosition"
 					:autoBlur="_attrs.autoBlur" :ignoreCompositionEvent="_attrs.ignoreCompositionEvent"
@@ -131,7 +131,6 @@
 	</view>
 </template>
 <script setup lang="ts">
-    //@ts-nocheck
 	import { computed, PropType, ref, watchEffect } from 'vue'
 	import { arrayNumberValid, covetUniNumber } from '../../libs/tool'
 	import { useTmConfig } from '../../libs/config'

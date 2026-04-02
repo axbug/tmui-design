@@ -98,12 +98,13 @@ class InterceptorManager<V> implements AxiosInterceptorManager<V> {
         }
     }
 
-    forEach(fn: (h: Interceptor<V>) => void|Promise<any>): void {
-        this.handlers.forEach(async h => {
+    forEach(fn: (h: Interceptor<V>) => void): void {
+        for (let i = 0; i < this.handlers.length; i++) {
+            const h = this.handlers[i];
             if (h !== null) {
-                await fn(h);
+                fn(h);
             }
-        });
+        }
     }
     clear(): void {
         this.handlers = [];
@@ -148,13 +149,14 @@ function mergeConfig(config1: AxiosRequestConfig, config2: AxiosRequestConfig = 
         }
     }
 
-    ['url', 'method', 'params', 'data', 'useCache', 'cacheTime', 'successCode'].forEach((prop) => {
+    ['url', 'method', 'params', 'data', 'useCache', 'cacheTime', 'successCode', 'responseType', 'dataType'].forEach((prop) => {
         config[prop] = getMergedValue(config1[prop], config2[prop]);
     });
 
     config.headers = getMergedValue(config1.headers, config2.headers);
     config.baseURL = config2.baseURL || config1.baseURL;
-    config.timeout = config2.timeout || config1.timeout;
+    config.timeout = config2.timeout ?? config1.timeout;
+    config.validateStatus = config2.validateStatus ?? config1.validateStatus;
 
     return config;
 }
@@ -248,32 +250,6 @@ class CacheManager {
         uni.removeStorageSync('AxiosCaches');
     }
 
-    private normalizeObject(obj: any): any {
-        // 如果不是对象或为null，直接返回
-        if (obj === null || typeof obj !== 'object') {
-            return obj;
-        }
-
-        // 如果是数组，对每个元素进行规范化
-        if (Array.isArray(obj)) {
-            return obj.map(item => this.normalizeObject(item));
-        }
-
-        // 如果是普通对象，对属性进行排序
-        const sortedKeys = Object.keys(obj).sort();
-        const result: Record<string, any> = {};
-
-        // 按照排序后的键重新构建对象
-        for (const key of sortedKeys) {
-            // 过滤掉undefined和null值，减少不必要的差异
-            if (obj[key] !== undefined && obj[key] !== null) {
-                result[key] = this.normalizeObject(obj[key]);
-            }
-        }
-
-        return result;
-    }
-
     // 清理部分缓存
     private pruneCache(): void {
         const keys = Object.keys(this.cache);
@@ -356,7 +332,6 @@ class Axios {
                         .join('&');
                     config.url += (config.url.includes('?') ? '&' : '?') + queryString;
                 }
-                const cachedResponse = this.cacheManager
                 uni.request({
                     url: config.url,
                     method: config.method as any,
@@ -388,7 +363,7 @@ class Axios {
                                     let serverDataCode = (response.data as any)?.code ?? null;
                                     if (typeof serverDataCode == 'number') {
                                         if (codes.some(el => el == serverDataCode)) {
-                                            cachedResponse.set(config, response);
+                                            this.cacheManager.set(config, response);
                                         }
                                     }
                                 }
@@ -420,12 +395,9 @@ class Axios {
         });
 
         // 执行请求链
-        while  (chain.length) {
+        while (chain.length) {
             promise = promise.then(chain.shift(), chain.shift());
         }
-        // 每次请求完后清除拦截器,以避免重复执行.
-        this.interceptors.request.clear();
-        this.interceptors.response.clear();
         return promise as Promise<AxiosResponse<T>>;
     }
 

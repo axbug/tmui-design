@@ -181,7 +181,6 @@ const positionStyle = computed(()=>{
 	let position = props.position;
 	let windowInfo = uni.getWindowInfo();
 	const st = calculatePopoverPosition(triggerRectInfo,contentRectInfo,{width:windowInfo.windowWidth,height:windowInfo.windowHeight},position)
-	isQueryNodes.value = true
 
 	return {
 		left:`${st.left}px`,
@@ -204,6 +203,7 @@ const changeShow = (sh:boolean)=>{
 					let contentNode = res[1] as UniNamespace.NodeInfo;
 					triggerRect.value = parentNode
 					contentRect.value = contentNode
+					isQueryNodes.value = true
 				})
 				.exec()
 		},50)

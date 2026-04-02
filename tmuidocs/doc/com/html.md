@@ -43,7 +43,7 @@ html渲染组件,这是精简后的不是所有插件都带上容易让组件变
 | loadingImg | boolean\|string | true | 需要渲染的markdow或者html内容。 | 
 | errorImg | string | '' | - | 
 | showImgMenu | boolean\|string | true | - | 
-| previewImg | boolean\|number | '' | - | 
+| previewImg | boolean\|number | true | - | 
 
 
 ## :rose: 事件

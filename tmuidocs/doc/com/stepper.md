@@ -11,7 +11,7 @@ import headertips from '../components/headertips.vue'
 
 #### 表单组件
 
-# 步进器 TmNavbar
+# 步进器 TmStepper
 
 可整数，小数
 

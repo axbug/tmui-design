@@ -1,9 +1,8 @@
 <script lang="ts" setup>
-import { ref, computed, onMounted, onBeforeUnmount, watch, PropType, getCurrentInstance, ComponentInstance, onUpdated, nextTick, VueElement, inject } from 'vue';
-import { arrayNumberValid, arrayNumberValidByStyleMP, covetUniNumber, arrayNumberValidByStyleBorderColor, linearValid, getUnit, getUid } from "../../libs/tool";
-import { getDefaultColor, getDefaultColorObj, getOutlineColorObj, getTextColorObj, getThinColorObj } from "../../libs/colors";
+import { ref, computed, onMounted, onBeforeUnmount, watch, PropType, getCurrentInstance, nextTick, inject } from 'vue';
+import { covetUniNumber, getUnit } from "../../libs/tool";
+import { getDefaultColor } from "../../libs/colors";
 import { useTmConfig } from "../../libs/config";
-import { onPageScroll } from '@dcloudio/uni-app';
 import tmRadioGroup from '../tm-radio-group/tm-radio-group.vue';
 import tmRadio from './tm-radio.vue';
 const proxy = getCurrentInstance()?.proxy as InstanceType<typeof tmRadio> | null;
@@ -145,8 +144,6 @@ const props = defineProps({
 });
 
 const nowValue = ref<string | number | boolean>('');
-const boxId = ref("tmCheckbox-" + getUid());
-const tid = ref(0);
 const isDestroy = ref(false);
 const parentVal = inject("tmRadioGroupValue", computed((): string | number | boolean => ""))
 const _color = computed(() => {
@@ -196,7 +193,6 @@ onBeforeUnmount(() => {
 });
 
 onMounted(() => {
-    let t = this;
     isDestroy.value = false;
     
     nextTick(() => {
@@ -204,9 +200,6 @@ onMounted(() => {
         if(!parent){
             nowValue.value = props.modelValue;
         }
-        // if (nowValue.value !== props.unCheckValue) {
-        //     pushDataToParent(false);
-        // }
     });
 });
 
@@ -260,7 +253,7 @@ function pushDataToParent(isChange: boolean) {
 }
 function removeValue() {
     let pelement = findParent(proxy!);
-    if (pelement != null) return;
+    if (pelement == null) return;
     let parent: InstanceType<typeof tmRadioGroup> = pelement!;
     if (typeof parent?.removeItem != 'function') return;
     parent.removeItem(props.value);
@@ -290,7 +283,7 @@ export default {
 </script>
 <template>
     <view :class="[_disabled ? 'checkboxDisabled' : '']" class="checkbox" @click="boxClick">
-        <view class="checkboxBox" :class="{'isCheck':_isCheck}" v-if="!hiddenCheckbox" :style="{
+        <view class="checkboxBox" v-if="!hiddenCheckbox" :style="{
             backgroundColor: _isCheck ? _color : 'transparent',
             border: `1px solid ${_isCheck ? _color : _unCheckColor}`,
             width: _size,
@@ -313,25 +306,11 @@ export default {
     </view>
 </template>
 <style scoped lang="scss">
-@keyframes scaleAni {
-    0%{
-        transform: scale(0.64);
-    }
-    50%{
-        transform: scale(1.05);
-    }
-    100%{
-        transform: scale(1.0);
-    }
-}
 .checkbox {
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: flex-start;
-    transition-duration: 350ms;
-    transition-timing-function: cubic-bezier(.18, .89, .32, 1);
-    transition-property: background-color;
 }
 
 .checkboxLabelBox {
@@ -343,8 +322,6 @@ export default {
 }
 
 .checkboxBoxIcon {
-    transition-duration: 350ms;
-    transition-timing-function: cubic-bezier(.18, .89, .32, 1);
     transition-property: opacity, transform;
     opacity: 0;
     transform: scale(0);
@@ -353,11 +330,15 @@ export default {
 .checkboxBoxIcon_on {
     opacity: 1;
     transform: scale(0.9);
+    transition-duration: 300ms;
+    transition-timing-function: cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 .checkboxBoxIcon_off {
     opacity: 0;
     transform: scale(0);
+    transition-duration: 200ms;
+    transition-timing-function: ease-out;
 }
 
 .checkboxBox {
@@ -366,9 +347,7 @@ export default {
     flex-direction: row;
     align-items: center;
     justify-content: center;
-    &.isCheck{
-        animation: scaleAni 350ms cubic-bezier(.18, .89, .32, 1);
-    }
+    transition: border-color 250ms ease, background-color 250ms ease;
 }
 
 .checkboxLabelBoxLeftSpace {
@@ -377,6 +356,5 @@ export default {
 
 .checkboxLabel {
     font-size: 28rpx;
-
 }
 </style>

@@ -16,7 +16,7 @@
 			<!-- 表格中的图片，使用 rich-text 防止大小不正确 -->
 			<rich-text v-if="n.name==='img'&&n.t" :style="'display:'+n.t"
 				:nodes="[{attrs:{style:n.attrs.style||'',src:n.attrs.src},name:'img'}]" :data-i="i"
-				@tap.stop="imgTap(n.attrs.sr)" />
+				@tap.stop="imgTap(n.attrs.src)" />
 			<!-- #endif -->
 			<!-- #ifndef H5 || APP-PLUS || MP-KUAISHOU -->
 			<image v-else-if="n.name==='img'" :id="n.attrs.id" :class="'_img '+n.attrs.class"

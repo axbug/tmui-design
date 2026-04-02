@@ -5,7 +5,7 @@
     </view>
 </template>
 <script setup lang="ts">
-import { computed, ComputedRef, inject,CSSProperties } from 'vue';
+import { computed, ComputedRef, inject } from 'vue';
 /**
  * @displayName 布局Col
  * @exportName tm-col
@@ -17,14 +17,7 @@ import { computed, ComputedRef, inject,CSSProperties } from 'vue';
     | --- | --- | --- | --- |
     | ☑️| ☑️ | ☑️ | ☑️ | ☑️ | 1.0.0 |
  */
-defineOptions({
-    name: "TmCol", options: {
-        styleIsolation: "apply-shared",
-        virtualHost: true,
-        addGlobalClass: true,
-        multipleSlots: true,
-    }
-});
+defineOptions({ name: "TmCol" });
 const emits = defineEmits([
     /**
      * 点击事件
@@ -52,7 +45,7 @@ const _span = computed(() => {
     if (col == tmRowColWidth.value) {
         return `100%`
     }
-    return `calc(${col / tmRowColWidth.value * 100}% - ${gutter} + ${gutter} / ${tmRowColWidth.value})`;
+    return `calc(${col / tmRowColWidth.value * 100}% - ${gutter} + ${col} * ${gutter} / ${tmRowColWidth.value})`;
 })
 const onClick = ()=>{
     emits('click');

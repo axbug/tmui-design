@@ -1,0 +1,167 @@
+var _x = 0
+var _realx = 0
+var _y = 0
+var isMoving = false
+var leftPos = 0
+var menuwidth = 0
+var opts = {
+	disabled: false,
+	slideX:0,
+	duration:0,
+	animationFun:"cubic-bezier(.42,.38,.15,.93)",
+	threshold:10,
+	opened:false
+}
+var dirs = "right"
+var newDirs = "right"
+var dateTime = 0
+var isSwiper = 'none';
+var _diff_x = 0
+
+function mStart(evt, ins) {
+	ins.callMethod('callEmits', {name:"start"})
+	dateTime = Date.now()
+	_realx = evt.changedTouches[0].clientX;
+	_diff_x =  evt.changedTouches[0].clientX;
+	var ele = ins.selectComponent('.xSwitchSilderWrap')
+	var itemMenuele = ins.selectComponent('.xSwitchSilderItems')
+	menuwidth = itemMenuele.getBoundingClientRect().width
+	opts = ele.getDataset().opts;
+	if (opts.disabled) return false;
+	leftPos = parseFloat(ele.getComputedStyle(['left']).left)
+	dirs = opts.opened ? "left" : "right"
+	newDirs = dirs
+	ele.setStyle({
+		'left': leftPos + 'px',
+		'transition-duration':'0ms',
+		'transition-timing-function':opts.animationFun
+	})
+	
+	_x = evt.changedTouches[0].clientX - leftPos;
+	_y = evt.changedTouches[0].clientY;
+	isMoving = true
+	isSwiper = 'none';
+	ins.callMethod('setOpts', {
+		isMove: isMoving,
+		isSwiper:isSwiper
+	})
+	
+z}
+
+function mMove(evt, ins) {
+	ins.callMethod('callEmits', {name:"move"})
+	var ele = ins.selectComponent('.xSwitchSilderWrap')
+	if (opts.disabled) return true;
+	var x = evt.changedTouches[0].clientX - _x
+	var dreal_iff_x = evt.changedTouches[0].clientX - _diff_x
+	var diffx = Math.abs(evt.changedTouches[0].clientX - _realx)
+	var diffy = Math.abs(evt.changedTouches[0].clientY - _y)
+	// 判断是否有明显的方向
+	var hasDirection = Math.max(diffx, diffy) > 10
+	// 判断是否为水平方向
+	var isHorizontal = diffx > diffy
+	if(hasDirection && isSwiper == 'none'){
+		if (isHorizontal) {
+			// 水平滑动，启用左滑并阻止页面滚动
+			isSwiper = 'swiper'
+			// evt.preventDefault()
+			// evt.stopPropagation()
+		} else {
+			// 垂直滑动，禁用左滑
+			isSwiper = 'off'
+		}
+		
+	}
+	
+	ins.callMethod('setOpts', {
+		isSwiper:isSwiper
+	})
+	
+	if(isSwiper == 'swiper'){
+		x = Math.min(0, x)
+		x = Math.max(-menuwidth, x)
+		
+		ele.setStyle({
+			'left': x + 'px'
+		})
+		
+		if (Math.abs(x) > opts.threshold) {
+			
+			if (dreal_iff_x > 0) {
+				newDirs = "right"
+			} else {
+				newDirs = "left"
+			}
+		}
+		
+		_diff_x = evt.changedTouches[0].clientX 
+		
+		return true;
+	}
+	
+}
+
+function mEnd(evt, ins) {
+	ins.callMethod('callEmits', {name:"end"})
+	
+	var diffdate = Date.now() - dateTime
+	var diffx = evt.changedTouches[0].clientX - _realx
+	var diffy = evt.changedTouches[0].clientY - _y
+	if(Math.abs(diffx) == Math.abs(diffy) && diffx==0 && diffdate>50&&diffdate<=250){
+		ins.callMethod('callEmits', {name:"click"})
+	}
+	if (opts.disabled || isSwiper=='off') return false;
+	var ele = ins.selectComponent('.xSwitchSilderWrap')
+	var event = evt.changedTouches[0];
+	
+	var diffX = evt.changedTouches[0].clientX - _realx
+
+	var x = 0;
+	if(newDirs == 'left'){
+		x = -menuwidth
+	}
+	
+	ele.setStyle({
+		'left': x + 'px',
+		'transition-duration':opts.duration+'ms',
+		'transition-timing-function':opts.animationFun
+	})
+	if(diffX==0||dirs == newDirs){
+		return;
+	}
+	dirs = newDirs
+	var opened = x>=0?false:true
+	ins.callMethod('setOpts', {
+		isMove: isMoving,
+		isSwiper:isSwiper,
+		opened:opened
+	})
+	if(opts.opened!=opened){
+		ins.callMethod('callEmits', {name:opened?'open':"close"})
+	}
+	
+	opts.opened = opened
+}
+function setTatus(status,instance){
+	var ele = instance.selectComponent('.xSwitchSilderWrap')
+	var itemMenuele = instance.selectComponent('.xSwitchSilderItems')
+	menuwidth = itemMenuele.getBoundingClientRect().width
+	var x = opts.opened?-menuwidth:0
+	ele.setStyle({
+		'left': x + 'px',
+		'transition-duration':opts.duration+'ms',
+		'transition-timing-function':opts.animationFun
+	})
+}
+module.exports = {
+	mStart: mStart,
+	mMove: mMove,
+	mEnd: mEnd,
+	propObserver: function(newValue, oldValue, ownerInstance, instance) {
+		var ele = ownerInstance.selectComponent('.xSwitchSilderWrap')
+		opts = ele.getDataset().opts;
+		if(newValue!=undefined&&oldValue!=undefined&&newValue!=oldValue){
+			setTatus(newValue,ownerInstance)
+		}
+	}
+}

@@ -1,7 +1,7 @@
 <script lang="ts" setup>
-import { ref, computed, onMounted, onBeforeUnmount, watch, PropType, getCurrentInstance, ComponentInstance, onUpdated, nextTick, VueElement, inject, watchEffect, StyleHTMLAttributes, useSlots } from 'vue';
-import { arrayNumberValid, arrayNumberValidByStyleMP, covetUniNumber, arrayNumberValidByStyleBorderColor, linearValid, getUnit, getUid } from "../../libs/tool";
-import { getDefaultColor, getDefaultColorObj, getOutlineColorObj, getTextColorObj, getThinColorObj, isBlackAndWhite, setBgColorLightByDark } from "../../libs/colors";
+import { ref, computed, onMounted, onBeforeUnmount, watch, PropType, getCurrentInstance, nextTick } from 'vue';
+import { covetUniNumber, getUnit } from "../../libs/tool";
+import { getDefaultColor } from "../../libs/colors";
 import { useTmConfig } from "../../libs/config";
 type SLIDER_TREE_ITEM = {
 	id : string | number,
@@ -163,18 +163,16 @@ const emit = defineEmits<{
 	(e : 'update:modelValue', value : string | number) : void
 }>()
 
-const slots = useSlots()
 const proxy = getCurrentInstance()?.proxy
 const selectedsIds = ref<string | number>("")
 const selectedsIdsByscrollids = ref<string | number>("")
 const rightboxId = ref("")
 const isscrollingActions = ref(false)
+let scrollThrottleTimer: ReturnType<typeof setTimeout> | null = null
 
 const _sliderWidth = computed(() : string => {
 	return covetUniNumber(props.sliderWidth, config.unit)
 })
-const _menuSelectedStyle = computed(():any=>props.menuSelectedStyle)
-
 const _width = computed(() : string => {
 	return covetUniNumber(props.width, config.unit)
 })
@@ -233,29 +231,22 @@ const _sliderContentBgColor = computed(() : string => {
 
 
 const _list = computed(() : SLIDER_TREE_ITEM[] => {
-	let list = props.list
-	let ps = [] as SLIDER_TREE_ITEM[]
-
-	function addOptionalFieldsToTree(tree : Record<string, any>[]) : void {
-		for (let i = 0; i < tree.length; i++) {
-			const node = tree[i]
-			node.disabled = node.disabled == null ? false : node.disabled! as boolean
-			node.selected = node.selected == null ? [] : node.selected! as string[]
-			ps.push({
-				id: node[props.rangId],
-				title: node[props.rangKey],
-				disabled: node?.disabled ?? false,
-				selected: [],
-				...node
-			} as SLIDER_TREE_ITEM)
-		}
-	}
-
-	addOptionalFieldsToTree(list)
-	return ps
+	return props.list.map((node): SLIDER_TREE_ITEM => ({
+		id: node[props.rangId],
+		title: node[props.rangKey],
+		disabled: node.disabled ?? false,
+		selected: node.selected ?? [],
+		...node
+	} as SLIDER_TREE_ITEM))
 })
 
-const nowIndex = computed(()=>_list.value.findIndex(item=>item.id == selectedsIds.value))
+const _listIdIndexMap = computed((): Map<string | number, number> => {
+	const map = new Map<string | number, number>()
+	_list.value.forEach((item, i) => map.set(item.id, i))
+	return map
+})
+
+const nowIndex = computed(() => _listIdIndexMap.value.get(selectedsIds.value) ?? -1)
 
 // 方法
 const sliderItemClick = (item : SLIDER_TREE_ITEM, index : number) => {
@@ -281,26 +272,26 @@ watch(() => props.modelValue, (newValue : string | number) => {
 	selectedsIds.value = newValue
 })
 const getAllIds = (scrollTop:number)=>{
-
 	uni.createSelectorQuery()
 		.in(proxy)
 		.selectAll('.tmSliderTreeBoxRrightScroll,.tmSliderMenuIds')
 		.boundingClientRect()
 		.exec(res=>{
-			if(res.length==0) return;
-			let nodes =  res[0]
+			if(!res || res.length==0 || !res[0]) return;
+			let nodes = res[0]
+			if(nodes.length < 2) return;
 			let parentNode = nodes[0]
 			let eleNodes = nodes.slice(1)
-			let top = eleNodes[1].top - parentNode.top
 			let allheight = 0
 			for(let i=0;i<eleNodes.length;i++){
 				let node = eleNodes[i]
-				let top = node.top - parentNode.top
-				allheight +=node.height
-				if(allheight>=scrollTop){
-					selectedsIds.value =node.id.split('-')[1];
-					rightboxId.value = 'left'+node.id;
-
+				allheight += node.height
+				if(allheight >= scrollTop){
+					const idParts = node.id?.split('-')
+					if(idParts && idParts.length > 1){
+						selectedsIds.value = idParts[1];
+						rightboxId.value = 'left'+node.id;
+					}
 					break;
 				}
 			}
@@ -308,15 +299,25 @@ const getAllIds = (scrollTop:number)=>{
 }
 const onRightbodyScrolling = (evt : any) => {
 	if (!isscrollingActions.value) return;
-	getAllIds(evt.detail.scrollTop)
+	if (scrollThrottleTimer) return;
+	scrollThrottleTimer = setTimeout(() => {
+		scrollThrottleTimer = null;
+		getAllIds(evt.detail.scrollTop)
+	}, 80)
 }
 
-// 生命周期钩子
 onMounted(() => {
 	selectedsIds.value = props.modelValue
 	setTimeout(function () {
 		selectedsIdsByscrollids.value = selectedsIds.value
 	}, 300);
+})
+
+onBeforeUnmount(() => {
+	if (scrollThrottleTimer) {
+		clearTimeout(scrollThrottleTimer)
+		scrollThrottleTimer = null
+	}
 })
 
 
@@ -343,11 +344,12 @@ export default {
 				:style="{width:'100%',height:'100%',backgroundColor:_sliderContentBgColor}"
 			>
 
+				<!-- @vue-ignore -->
 				<view
 					@touchstart="isscrollingActions = false"
 					@click="sliderItemClick(item,index)"
 					:id="'lefttmmenu-'+item.id"
-					v-for="(item,index) in _list" :key="index"
+					v-for="(item,index) in _list" :key="item.id"
 					class="tmSliderTreeItemLeft" 
 					:class="[
 						selectedsIds == item.id?'tmSliderTreeItemLeftBorder':'',
@@ -360,7 +362,7 @@ export default {
 					color:selectedsIds == item.id? _activeTextColor : _textColor,
 					fontSize:_fontSize
 					},
-					selectedsIds == item.id?_menuSelectedStyle:undefined
+					selectedsIds == item.id?menuSelectedStyle:undefined
 					]">
 					<!--
 					 @slot 动态循环菜单项目插槽

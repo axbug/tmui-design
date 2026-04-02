@@ -1,46 +1,46 @@
 <template>
-    <view :disabled="_attrs.disabled||_attrs.loading" class="tmButton" :class="[_attrs.loading || _attrs.disabled ? 'tmButtonLoading' : '']"
+    <view :disabled="attrs.disabled||attrs.loading" class="tmButton" :class="[attrs.loading || attrs.disabled ? 'tmButtonLoading' : '']"
         @touchstart="touchStart" @touchcancel="touchEnd" @touchend="touchEnd" @mousedown="touchStart"
         @mouseup="touchEnd" @mouseleave="touchEnd" :style="[
             {
                 minWidth: _width,
-                width: _attrs.block ? '100%' : 'auto',
-                height: _attrs.btnIcon ? _width : _height,
+                width: attrs.block ? '100%' : 'auto',
+                height: attrs.btnIcon ? _width : _height,
                 fontSize: _fontSize,
             },
             buttonStyle,
         ]">
-        <tm-icon v-if="_attrs.loading" name="loader-line" spin :color="buttonStyle.color"></tm-icon>
+        <tm-icon v-if="attrs.loading" name="loader-line" spin :color="buttonStyle.color"></tm-icon>
         <!-- 
         @slot icon图标
         -->
         <slot name="icon">
-            <tm-icon v-if="!_attrs.loading && _attrs.icon" :name="_attrs.icon" :size="_attrs.iconSize || _fontSize"
+            <tm-icon v-if="!attrs.loading && attrs.icon" :name="attrs.icon" :size="attrs.iconSize || _fontSize"
                 :color="buttonStyle.color"></tm-icon>
         </slot>
         <!--
         @slot 默认插槽
         -->
         <slot>
-            <text v-if="!_attrs.btnIcon"></text>
+            <text v-if="!attrs.btnIcon"></text>
         </slot>
         <button @getphonenumber="getphonenumber" @getuserinfo="getuserinfo" @error="error" @opensetting="opensetting"
             @launchapp="launchapp" @contact="contact" @chooseavatar="chooseavatar"
             @agreeprivacyauthorization="agreeprivacyauthorization" @addgroupapp="addgroupapp"
             @chooseaddress="chooseaddress" @chooseinvoicetitle="chooseinvoicetitle" @subscribe="subscribe"
-            @login="login" @im="im" :appParameter="_attrs.appParameter" :lang="_attrs.lang"
-            :sessionFrom="_attrs.sessionFrom" :sendMessageTitle="_attrs.sendMessageTitle"
-            :sendMessagePath="_attrs.sendMessagePath" :sendMessageImg="_attrs.sendMessageImg"
-            :showMessageCard="_attrs.showMessageCard" :groupId="_attrs.groupId" :guildId="_attrs.groupId"
-            :publicId="_attrs.publicId" :dataImId="_attrs.dataImId" :dataImType="_attrs.dataImType"
-            :dataGoodsId="_attrs.dataGoodsId" :dataOrderId="_attrs.dataOrderId" :dataBizLine="_attrs.dataBizLine"
-            @click="onClick" :open-type="_attrs.openType" class="tmButtonBlock"></button>
+            @login="login" @im="im" :appParameter="attrs.appParameter" :lang="attrs.lang"
+            :sessionFrom="attrs.sessionFrom" :sendMessageTitle="attrs.sendMessageTitle"
+            :sendMessagePath="attrs.sendMessagePath" :sendMessageImg="attrs.sendMessageImg"
+            :showMessageCard="attrs.showMessageCard" :groupId="attrs.groupId" :guildId="attrs.groupId"
+            :publicId="attrs.publicId" :dataImId="attrs.dataImId" :dataImType="attrs.dataImType"
+            :dataGoodsId="attrs.dataGoodsId" :dataOrderId="attrs.dataOrderId" :dataBizLine="attrs.dataBizLine"
+            @click="onClick" :open-type="attrs.openType" class="tmButtonBlock"></button>
     </view>
 </template>
 
 <script lang="ts" setup>
-import { computed, getCurrentInstance, PropType, ref } from 'vue'
-import { arrayNumberValid, arrayNumberValidByStyleMP, covetUniNumber,arrayNumberValidByStyleBorderColor, arrayNumberValidByStyleBorderStyle, linearValid } from '../../libs/tool'
+import { computed, getCurrentInstance, PropType, ref, watch } from 'vue'
+import { arrayNumberValid, arrayNumberValidByStyleMP, covetUniNumber, arrayNumberValidByStyleBorderColor, linearValid, findParent } from '../../libs/tool'
 import { useTmConfig } from '../../libs/config'
 import {
 	getDefaultColor,
@@ -337,52 +337,20 @@ const attrs = defineProps({
 })
 type PropsKeyType = keyof typeof attrs;
 
+const _btnWidths: Record<string, string> = { xs: '88', s: '96', m: '120', n: '220', g: '300' };
+const _btnHeights: Record<string, string> = { xs: '44', s: '56', m: '68', n: '88', g: '98' };
+const _btnFontSizes: Record<string, string> = { xs: '22', s: '24', m: '28', n: '32', g: '34' };
+const _btnRounds: Record<string, string> = { xs: '8', s: '10', m: '12', n: '16', g: '20' };
+
 const covetButtonSize = (ops: PropsKeyType, s: TM.BUTTON_SIZE, size?: string | number) => {
-    const widths = new Map<TM.BUTTON_SIZE, string>([
-        ['xs', '88'],
-        ['s', '96'],
-        ['m', '120'],
-        ['n', '220'],
-        ['g', '300']
-
-    ])
-    const heights = new Map<TM.BUTTON_SIZE, string>([
-        ['xs', '44'],
-        ['s', '56'],
-        ['m', '68'],
-        ['n', '88'],
-        ['g', '98']
-
-    ])
-    const fontSizes = new Map<TM.BUTTON_SIZE, string>([
-        ['xs', '22'],
-        ['s', '24'],
-        ['m', '28'],
-        ['n', '32'],
-        ['g', '34']
-    ])
-    const rounds = new Map<TM.BUTTON_SIZE, string>([
-        ['xs', '8'],
-        ['s', '10'],
-        ['m', '12'],
-        ['n', '16'],
-        ['g', '20']
-    ])
-    if (ops === 'width') {
-        return covetUniNumber(widths.get(s)!)
-    }
-    if (ops === 'height') {
-        return covetUniNumber(heights.get(s)!)
-    }
+    if (ops === 'width') return covetUniNumber(_btnWidths[s]);
+    if (ops === 'height') return covetUniNumber(_btnHeights[s]);
     if (ops === 'round') {
-        if (size && s == 'n') {
-            return covetUniNumber(size!)
-        }
-        return covetUniNumber(rounds.get(s)!)
+        if (size && s == 'n') return covetUniNumber(size!);
+        return covetUniNumber(_btnRounds[s]);
     }
-    return covetUniNumber(fontSizes.get(s)!);
+    return covetUniNumber(_btnFontSizes[s]);
 }
-const _attrs = computed(() => attrs);
 const _width = computed(() => {
     if (attrs.block&&!attrs.width) {
         return 'auto'
@@ -396,17 +364,28 @@ const _fontSize = computed(() => attrs.fontSize === '' ? covetButtonSize('fontSi
 
 const isHover = ref(false);
 
+watch(() => attrs.disableHover, (val) => {
+    if (val) isHover.value = false;
+}, { immediate: true });
+
 const touchStart = () => {
+    if (attrs.disableHover || attrs.disabled || attrs.loading) return;
     isHover.value = true;
 }
 const touchEnd = () => {
     isHover.value = false;
 }
+const _colorObj = computed(() => {
+    const isDark = config.mode == 'dark';
+    const color = attrs.color || config.color;
+    if (attrs.skin == 'text') return getTextColorObj(color, color, isDark);
+    if (attrs.skin == 'thin') return getThinColorObj(color, color, isDark);
+    if (attrs.skin == 'outlined' || attrs.skin == 'dashed') return getOutlineColorObj(color, color);
+    return getDefaultColorObj(color, color);
+});
+
 const buttonStyle = computed(() => {
-    if(attrs.disableHover){
-        isHover.value = false;
-    }
-    let style = {
+    const style = {
         borderColor: ``,
         borderWidth: ``,
         borderStyle: ``,
@@ -415,84 +394,58 @@ const buttonStyle = computed(() => {
         borderRadius: ``,
         boxShadow: `none`
     }
-    let isDark = config.mode == 'dark';
-    let color = attrs.color || config.color;
-    let round = attrs.round === '' ? covetButtonSize('round', attrs.size, config.buttonRadius) : attrs.round;
-    let linear = linearValid(attrs.linear)
-    let background = linear || (attrs.bgColor ? getDefaultColor(attrs.bgColor) : '')
-
-    let fontColor = attrs.fontColor ? getDefaultColor(attrs.fontColor) : ''
-    let borderStyle = attrs.skin == 'dashed' ? 'dashed' : 'solid';
+    const isDark = config.mode == 'dark';
+    const round = attrs.round === '' ? covetButtonSize('round', attrs.size, config.buttonRadius) : attrs.round;
+    const linear = linearValid(attrs.linear);
+    let background = linear || (attrs.bgColor ? getDefaultColor(attrs.bgColor) : '');
+    let fontColor = attrs.fontColor ? getDefaultColor(attrs.fontColor) : '';
+    const borderStyle = attrs.skin == 'dashed' ? 'dashed' : 'solid';
 
     if (isDark) {
-        if (attrs.darkBgColor) {
-            background = getDefaultColor(attrs.darkBgColor)
-        }
-        if (attrs.darkFontColorColor) {
-            fontColor = getDefaultColor(attrs.darkFontColorColor)
-        }
+        if (attrs.darkBgColor) background = getDefaultColor(attrs.darkBgColor);
+        if (attrs.darkFontColorColor) fontColor = getDefaultColor(attrs.darkFontColorColor);
     }
 
-    let obj = getDefaultColorObj(color, color)
-    if (attrs.skin == 'text') {
-        obj = getTextColorObj(color, color, isDark)
+    const obj = _colorObj.value;
+    const state = (isHover.value && !attrs.disabled && !attrs.loading) ? obj.active : obj.default;
 
-    } else if (attrs.skin == 'thin') {
-        obj = getThinColorObj(color, color, isDark)
+    style.color = linear ? '#ffffff' : fontColor || state.fontColor;
+    style.background = background || state.background;
+    style.borderStyle = borderStyle;
+    style.borderColor = background || state.borderColor;
+    style.borderWidth = linear ? '0px' : arrayNumberValidByStyleMP(attrs.borderWidth, '0px').join(" ");
+    style.borderRadius = attrs.rounded ? '50%' : arrayNumberValid(round, '0px').join(" ");
 
-    } else if (attrs.skin == 'outlined' || attrs.skin == 'dashed') {
-        obj = getOutlineColorObj(color, color)
-    }
-
-    if (obj) {
-	
-        if (isHover.value && !attrs.disabled && !attrs.loading) {
-            style.color = linear ? '#ffffff' : fontColor || obj.active.fontColor;
-            style.background = background || obj.active.background;
-            style.borderStyle = borderStyle;
-            style.borderColor = background || obj.active.borderColor;
-            style.borderWidth = linear ? '0px' : arrayNumberValidByStyleMP(attrs.borderWidth, '0px').join(" ")
-            style.borderRadius = attrs.rounded ? '50%' : arrayNumberValid(round, '0px').join(" ")
-        } else {
-            style.color = linear ? '#ffffff' : fontColor || obj.default.fontColor;
-            style.background = background || obj.default.background;
-            style.borderStyle = borderStyle;
-            style.borderColor = background || obj.default.borderColor;
-            style.borderWidth = linear ? '0px' : arrayNumberValidByStyleMP(attrs.borderWidth, '0px').join(" ")
-            style.borderRadius = attrs.rounded ? '50%' : arrayNumberValid(round, '0px').join(" ")
-            let shadow = 'none'
-            if (Array.isArray(attrs.shadow)) {
-                shadow = attrs.shadow.join(' ')
-            } else if (attrs.shadow !== '' && attrs.shadow != 'none') {
-                shadow = `0 2px ${covetUniNumber(attrs.shadow)} ${obj.default.shadow}`
-            } else if (attrs.shadow === '') {
-                if (Array.isArray(config.buttonShadow)) {
-                    shadow = config.buttonShadow.join(' ')
-                } else if (config.buttonShadow && config.buttonShadow != 'none') {
-                    shadow = `0 2px ${covetUniNumber(config.buttonShadow)} ${obj.default.shadow}`
-                }
+    if (!isHover.value || attrs.disabled || attrs.loading) {
+        let shadow = 'none';
+        if (Array.isArray(attrs.shadow)) {
+            shadow = attrs.shadow.join(' ');
+        } else if (attrs.shadow !== '' && attrs.shadow != 'none') {
+            shadow = `0 2px ${covetUniNumber(attrs.shadow)} ${obj.default.shadow}`;
+        } else if (attrs.shadow === '') {
+            if (Array.isArray(config.buttonShadow)) {
+                shadow = config.buttonShadow.join(' ');
+            } else if (config.buttonShadow && config.buttonShadow != 'none') {
+                shadow = `0 2px ${covetUniNumber(config.buttonShadow)} ${obj.default.shadow}`;
             }
-
-            style.boxShadow = shadow
         }
+        style.boxShadow = shadow;
     }
-	if(attrs.borderColor||(Array.isArray(attrs.borderColor)&&attrs.borderColor.length>0)){
-		style.borderColor = arrayNumberValidByStyleBorderColor(attrs.borderColor).join(' ')
-	}
-	if(attrs.borderWidth||(Array.isArray(attrs.borderWidth)&&attrs.borderWidth.length>0)){
-		style.borderWidth = arrayNumberValidByStyleMP(attrs.borderWidth).join(' ')
-	}
-	
+
+    if (attrs.borderColor) {
+        style.borderColor = arrayNumberValidByStyleBorderColor(attrs.borderColor).join(' ');
+    }
+
     return style;
 });
 
 const onClick = (evt: any) => {
-	if(_attrs.value.disabled||_attrs.value.loading) return;
+	if(attrs.disabled||attrs.loading) return;
 	emits('click', evt)
-    if (_attrs.value.url) {
+    if (attrs.url) {
         // @ts-expect-error
-        uni[_attrs.value.navigatorMode]({
-            url: _attrs.value.url,
+        uni[attrs.navigatorMode]({
+            url: attrs.url,
             // @ts-expect-error
             fail(error) {
                 console.error(error)
@@ -501,13 +454,12 @@ const onClick = (evt: any) => {
         return;
     }
     if (attrs.formType == 'submit' || attrs.formType == 'reset') {
-        let parent = findParent(proxy)
+        let parent = findParent<InstanceType<typeof TmForm>>(proxy!, "TmForm")
         if (parent != null) {
-            let ele = parent! as InstanceType<typeof TmForm>
             if (attrs.formType == 'submit') {
-                ele.submit()
+                parent.submit()
             } else if (attrs.formType == 'reset') {
-                ele.reset()
+                parent.reset()
             }
         }
     }
@@ -527,15 +479,6 @@ const chooseinvoicetitle = (evt: any) => emits('chooseinvoicetitle', evt)
 const subscribe = (evt: any) => emits('subscribe', evt)
 const login = (evt: any) => emits('login', evt)
 const im = (evt: any) => emits('im', evt)
-
-
-function findParent(parent: any): any {
-    if (parent == null) return null;
-    if (parent.$parent?.$options?.name == "TmForm") return parent.$parent;
-    let parents = findParent(parent.$parent);
-    if (parents?.$options?.name == "TmForm") return parents;
-    return null;
-}
 </script>
 <script lang="ts">
 export default {

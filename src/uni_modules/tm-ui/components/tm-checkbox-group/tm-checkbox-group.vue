@@ -1,10 +1,6 @@
 <script setup lang="ts">
-import { ref, computed, onMounted, onBeforeUnmount, watch, PropType, getCurrentInstance, ComponentInstance, onUpdated, nextTick, provide } from 'vue';
-import { arrayNumberValid, arrayNumberValidByStyleMP, covetUniNumber, arrayNumber, arrayNumberValidByStyleBorderColor, linearValid, getUnit, getUid } from "../../libs/tool";
-import { getDefaultColor, getDefaultColorObj, getOutlineColorObj, getTextColorObj, getThinColorObj } from "../../libs/colors";
-import { useTmConfig } from "../../libs/config";
-import { onPageScroll } from '@dcloudio/uni-app';
-import tmCheckbox from '../tm-checkbox/tm-checkbox.vue';
+import { ref, computed, onMounted, onBeforeUnmount, watch, PropType, provide } from 'vue';
+import { arrayNumber } from "../../libs/tool";
 
 /**
  * @displayName 多选框组
@@ -18,7 +14,6 @@ import tmCheckbox from '../tm-checkbox/tm-checkbox.vue';
     | ☑️| ☑️ | ☑️ | ☑️ | ☑️ | 1.0.0 |
  */
 defineOptions({ name: 'TmCheckboxGroup' });
-const { config } = useTmConfig()
 
 const props = defineProps({
     modelValue: {
@@ -31,7 +26,7 @@ const props = defineProps({
     },
     align: {
         type: String as PropType<"flex-start" | "center" | "flex-end">,
-        default: "left"
+        default: "flex-start"
     },
     max: {
         type: Number,
@@ -50,13 +45,12 @@ const emits = defineEmits(['change', 'update:modelValue']);
 
 const checkvaluelist = ref<Array<string | number | boolean>>([]);
 const isDestroy = ref(false);
-const id = "tmCheckboxGroup-" + getUid();
 
-const _max = computed(() => props.max);
+const _checkSet = computed((): Set<string | number | boolean> => new Set(checkvaluelist.value))
 const _gap = computed(() => arrayNumber(props.gap).join(" "))
+
 watch(() => props.modelValue, (newValue) => {
     checkvaluelist.value = newValue;
-
 },{deep:true});
 
 onBeforeUnmount(() => {
@@ -69,34 +63,34 @@ onMounted(() => {
 });
 
 function addItem(item: string | number | boolean, ischange: boolean) {
-    let index = checkvaluelist.value.findIndex((el) => el === item);
-    if (index == -1) {
-        if (checkvaluelist.value.length >= _max.value && _max.value > -1 && ischange && checkvaluelist.value.length > 0) {
-            // uni.showToast({ title: "已是最大选择数量", icon: 'none', mask: true });
+    if (!_checkSet.value.has(item)) {
+        if (checkvaluelist.value.length >= props.max && props.max > -1 && ischange && checkvaluelist.value.length > 0) {
             checkvaluelist.value.splice(checkvaluelist.value.length - 1, 1);
         }
         checkvaluelist.value.push(item)
     } else {
-        checkvaluelist.value.splice(index, 1);
+        const index = checkvaluelist.value.indexOf(item);
+        if (index > -1) checkvaluelist.value.splice(index, 1);
     }
 
     if (ischange) {
-        emits("update:modelValue", checkvaluelist.value.slice(0));
-        emits("change", checkvaluelist.value.slice(0));
+        const snapshot = [...checkvaluelist.value]
+        emits("update:modelValue", snapshot);
+        emits("change", snapshot);
     }
 }
 
 function removeItem(item: string | number | boolean) {
-    let index = checkvaluelist.value.findIndex((el) => el === item);
-    if (index > -1) {
-        checkvaluelist.value.splice(index, 1);
-        emits("update:modelValue", checkvaluelist.value.slice(0));
-        emits("change", checkvaluelist.value.slice(0));
+    if (_checkSet.value.has(item)) {
+        const index = checkvaluelist.value.indexOf(item);
+        if (index > -1) checkvaluelist.value.splice(index, 1);
+        const snapshot = [...checkvaluelist.value]
+        emits("update:modelValue", snapshot);
+        emits("change", snapshot);
     }
-
 }
 
-provide("tmCheckboxGroupValue", computed(() => checkvaluelist.value.slice(0)))
+provide("tmCheckboxGroupValue", computed(() => [...checkvaluelist.value]))
 
 defineExpose({ addItem, removeItem })
 </script>

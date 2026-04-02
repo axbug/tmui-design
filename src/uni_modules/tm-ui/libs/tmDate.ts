@@ -6,6 +6,15 @@ export type tmDateTypeQuarter = {
 }
 
 export type DateFormat = 'RFC2822' | 'ISO8601' | 'CUSTOM';
+const _regYYYY = /^(\d{4})$/;
+const _regYYMM = /^(\d{4})[-/](\d{1,2})$/;
+const _regYYMMDD = /^(\d{4})[-/](\d{1,2})[-/](\d{1,2})$/;
+const _regYYMMDDHH = /^(\d{4})[-/](\d{1,2})[-/](\d{1,2}) (\d{1,2})$/;
+const _regYYMMDDHHMM = /^(\d{4})[-/](\d{1,2})[-/](\d{1,2}) (\d{1,2}):(\d{1,2})$/;
+const _regYYMMDDHHMMSS = /^(\d{4})[-/](\d{1,2})[-/](\d{1,2}) (\d{1,2}):(\d{1,2}):(\d{1,2})$/;
+const _regNumberStr = /^\d+$/;
+const _formatTokens = /YYYY|MM|DD|HH|hh|mm|ss/g;
+
 /**
  * 用来解析非标准时间以及各种奇怪的时间格式。
  */
@@ -13,64 +22,49 @@ export function createDate(dateStrs : string) : Date {
 	const dateStr = dateStrs.replace(/\//g,'-')
 	const result = new Date();
 	
-	// YYYY,YYYY-MM,YYYY-MM-DD,YYYY-MM-DD HH,YYYY-MM-DD HH:mm,YYYY-MM-DD HH:mm:ss
-	let regxyy = /^(\d{4})$/
-	let regxyymm = /^(\d{4})[-/](\d{1,2})$/
-	let regxyymmdd = /^(\d{4})[-/](\d{1,2})[-/](\d{1,2})$/
-	let regxyymmddhh = /^(\d{4})[-/](\d{1,2})[-/](\d{1,2}) (\d{1,2})$/
-	let regxyymmddhhmm = /^(\d{4})[-/](\d{1,2})[-/](\d{1,2}) (\d{1,2}):(\d{1,2})$/
-	let regxyymmddhhmmss = /^(\d{4})[-/](\d{1,2})[-/](\d{1,2}) (\d{1,2}):(\d{1,2}):(\d{1,2})$/
-	
 	let year = result.getFullYear();
-	let month = result.getMonth()-1
+	let month = result.getMonth()
 	let day = result.getDate()
-	let hour = result.getHours()
-	let minute = result.getMinutes()
-	let second = result.getSeconds()
+	let hour = 0
+	let minute = 0
+	let second = 0
 	
-	
-	result.setSeconds(59);
-	result.setMinutes(59);
-	result.setHours(59);
+	result.setHours(0, 0, 0, 0);
 	result.setDate(1);
 	
-	if(regxyymmddhhmmss.test(dateStr)){
-		const match = dateStr.match(regxyymmddhhmmss)!;
-		year = (parseInt(match[1] as string));
-		month = (parseInt(match[2] as string) - 1);
-		day = (parseInt(match[3] as string));
-		hour = (parseInt(match[4] as string));
-		minute = (parseInt(match[5] as string));
-		second = (parseInt(match[6] as string));
-	}else if(regxyymmddhhmm.test(dateStr)){
-		const match = dateStr.match(regxyymmddhhmm)!;
-		year = (parseInt(match[1] as string));
-		month = (parseInt(match[2] as string) - 1);
-		day = (parseInt(match[3] as string));
-		hour = (parseInt(match[4] as string));
-		minute = (parseInt(match[5] as string));
-	
-	}else if(regxyymmddhh.test(dateStr)){
-		const match = dateStr.match(regxyymmddhh)!;
-		year = (parseInt(match[1] as string));
-		month = (parseInt(match[2] as string) - 1);
-		day = (parseInt(match[3] as string));
-		hour = (parseInt(match[4] as string));
-	}else if(regxyymmdd.test(dateStr)){
-		const match = dateStr.match(regxyymmdd)!;
-		year = (parseInt(match[1] as string));
-		month = (parseInt(match[2] as string) - 1);
-		day = (parseInt(match[3] as string));
-		
-		
-	}else if(regxyymm.test(dateStr)){
-		const match = dateStr.match(regxyymm)!;
-		year = (parseInt(match[1] as string));
-		month = (parseInt(match[2] as string) - 1);
-	}else if(regxyy.test(dateStr)){
-		const match = dateStr.match(regxyy)!;
-		year = (parseInt(match[1] as string));
-		
+	if(_regYYMMDDHHMMSS.test(dateStr)){
+		const match = dateStr.match(_regYYMMDDHHMMSS)!;
+		year = parseInt(match[1]);
+		month = parseInt(match[2]) - 1;
+		day = parseInt(match[3]);
+		hour = parseInt(match[4]);
+		minute = parseInt(match[5]);
+		second = parseInt(match[6]);
+	}else if(_regYYMMDDHHMM.test(dateStr)){
+		const match = dateStr.match(_regYYMMDDHHMM)!;
+		year = parseInt(match[1]);
+		month = parseInt(match[2]) - 1;
+		day = parseInt(match[3]);
+		hour = parseInt(match[4]);
+		minute = parseInt(match[5]);
+	}else if(_regYYMMDDHH.test(dateStr)){
+		const match = dateStr.match(_regYYMMDDHH)!;
+		year = parseInt(match[1]);
+		month = parseInt(match[2]) - 1;
+		day = parseInt(match[3]);
+		hour = parseInt(match[4]);
+	}else if(_regYYMMDD.test(dateStr)){
+		const match = dateStr.match(_regYYMMDD)!;
+		year = parseInt(match[1]);
+		month = parseInt(match[2]) - 1;
+		day = parseInt(match[3]);
+	}else if(_regYYMM.test(dateStr)){
+		const match = dateStr.match(_regYYMM)!;
+		year = parseInt(match[1]);
+		month = parseInt(match[2]) - 1;
+	}else if(_regYYYY.test(dateStr)){
+		const match = dateStr.match(_regYYYY)!;
+		year = parseInt(match[1]);
 	}
 	
 	
@@ -99,10 +93,10 @@ export class tmDate {
 			}
 			const dateformatStr = this.detectDateFormat(dateStr!)
 			
-			if(dateformatStr=='CUSTOM'){
-				let str = dateStr! as string;
-				str = str.replace(/-/g,'/')
-				let isNumberStr = /^\d+$/.test(str)
+		if(dateformatStr=='CUSTOM'){
+			let str = dateStr! as string;
+			str = str.replace(/-/g,'/')
+			let isNumberStr = _regNumberStr.test(str)
 			
 				if(!isNumberStr){
 					this.date = createDate(dateStr!)
@@ -158,18 +152,20 @@ export class tmDate {
 	 * @returns {string} 格式化后的日期字符串
 	 */
 	format(s: string | null = null): string {
-		let str = "YYYY/MM/DD hh:mm:ss"
-		if (s != null) {
-			str = s;
-		}
-		str = str.replace(/YYYY/g, this.translateFullDate(this.date.getFullYear(), 2))
-		str = str.replace(/MM/g, this.translateFullDate(this.date.getMonth() + 1, 2))
-		str = str.replace(/DD/g, this.translateFullDate(this.date.getDate(), 2))
-		str = str.replace(/hh/g, this.translateFullDate(this.date.getHours(), 2))
-		str = str.replace(/HH/g, this.translateFullDate(this.date.getHours(), 2))
-		str = str.replace(/mm/g, this.translateFullDate(this.date.getMinutes(), 2))
-		str = str.replace(/ss/g, this.translateFullDate(this.date.getSeconds(), 2))
-		return str;
+		const str = s ?? "YYYY/MM/DD hh:mm:ss";
+		const d = this.date;
+		return str.replace(_formatTokens, (token: string): string => {
+			switch (token) {
+				case 'YYYY': return this.translateFullDate(d.getFullYear(), 4);
+				case 'MM': return this.translateFullDate(d.getMonth() + 1, 2);
+				case 'DD': return this.translateFullDate(d.getDate(), 2);
+				case 'HH':
+				case 'hh': return this.translateFullDate(d.getHours(), 2);
+				case 'mm': return this.translateFullDate(d.getMinutes(), 2);
+				case 'ss': return this.translateFullDate(d.getSeconds(), 2);
+				default: return token;
+			}
+		});
 	}
 	/**
 	 * 获取当前年
@@ -326,18 +322,17 @@ export class tmDate {
 	 * 当前时间的副本
 	 */
 	getClone(): tmDate {
-		let p = this.format("YYYY/MM/DD HH:mm:ss");
-		return new tmDate(p);
+		return new tmDate(new Date(this.date.getTime()));
 	}
 	/**
 	 * 本年的第几周
 	 * @return 周次
 	 */
 	getWeek(): number {
-		var target = createDate(this.format());
-		target.setDate(target.getDate() - (target.getDay() == 0 ? 7 : target.getDay()));
+		var target = new Date(this.date.getTime());
+		target.setDate(target.getDate() - (target.getDay() === 0 ? 7 : target.getDay()));
 		var firstDayOfYear = new Date(target.getFullYear(), 0, 1);
-		firstDayOfYear.setDate(firstDayOfYear.getDate() - (firstDayOfYear.getDay() == 0 ? 7 : firstDayOfYear.getDay()));
+		firstDayOfYear.setDate(firstDayOfYear.getDate() - (firstDayOfYear.getDay() === 0 ? 7 : firstDayOfYear.getDay()));
 		return Math.ceil((((target.getTime() - firstDayOfYear.getTime()) / 86400000) + 1) / 7);
 	}
 	/**
@@ -346,8 +341,7 @@ export class tmDate {
 	 * @returns {tmDate} - 返回xDate对象
 	 */
 	getDateStartOf(d: 'm' | 'w' | 'y' = 'm'): tmDate {
-		// 获取当前日期对象
-		var now = createDate(this.format());
+		var now = new Date(this.date.getTime());
 		if (d == 'w') {
 			// 将日期设置为所在周的周一（遵循ISO 8601标准，周一开始于周一）
 			var dayOfWeek = now.getDay();
@@ -374,8 +368,7 @@ export class tmDate {
 	 * @returns {tmDate} - 返回xDate对象
 	 */
 	getDateEndOf(d: 'm' | 'w' | 'y' = 'm') {
-		// 获取当前日期对象
-		var now = createDate(this.format());
+		var now = new Date(this.date.getTime());
 		if (d == 'w') {
 			// 将日期设置为所在周的周一（遵循ISO 8601标准，周一开始于周一）
 			var dayOfWeek = now.getDay();
@@ -421,14 +414,7 @@ export class tmDate {
 	 * @returns - 当前月份的最大天数
 	 */
 	getMonthCountDay(): number {
-		let nextDate = createDate(this.format());
-
-		// 先设置为1号，避免后面设置月份时超过月的天数。
-		nextDate.setDate(1)
-		nextDate.setMonth(this.getMonth() + 1)
-		// 设置为上月的最后一天。
-		nextDate.setDate(0)
-		return nextDate.getDate()
+		return new Date(this.date.getFullYear(), this.date.getMonth() + 1, 0).getDate();
 	}
 
 	/**
@@ -714,7 +700,7 @@ export class tmDate {
 		let diff = Math.abs(nowTime - startTime);
 		let d = 0
 		if (type == 's') {
-			d = diff
+			d = diff / 1000
 		} else if (type == 'M') {
 			d = diff / 60 / 1000
 		} else if (type == 'h') {
@@ -832,7 +818,5 @@ export class tmDate {
  * 将一个日期转换为tmDate对象
  */
 export const dateCovertTmDate = function (date: Date){
-	let str = date.getFullYear().toString() + "/" + (date.getMonth() + 1).toString() + "/"
-		+ date.getDate().toString() + " " + date.getHours().toString() + ":" + date.getMinutes().toString() + ":" + date.getSeconds().toString()
-	return new tmDate(str)
+	return new tmDate(new Date(date.getTime()));
 }

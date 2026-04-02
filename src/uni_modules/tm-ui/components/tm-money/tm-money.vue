@@ -27,7 +27,6 @@
 <script lang="ts" setup>
 import { PropType, computed, onMounted, ref, shallowRef, watch } from 'vue'
 import { covetUniNumber, getUnit } from '../../libs/tool';
-import { TMUPLOAD_PHOTO_STATUS } from '../../interface';
 import { useTmConfig } from "../../libs/config";
 import { getDefaultColor } from '../../libs/colors';
 
@@ -144,13 +143,6 @@ const _maxLineheight = computed((): string => {
 	let maxfsz = parseInt(_fontSize.value)
 	let diff = Math.max(minfsz, maxfsz) * 1.5 + 2
 
-	return diff + getUnit(_fontSize.value)
-})
-
-const _maxLineheightCover = computed((): string => {
-	let minfsz = parseInt(_preFontSize.value)
-	let maxfsz = parseInt(_fontSize.value)
-	let diff = Math.max(minfsz, maxfsz)
 	return diff + getUnit(_fontSize.value)
 })
 

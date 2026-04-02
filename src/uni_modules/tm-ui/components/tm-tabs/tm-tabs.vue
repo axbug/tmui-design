@@ -251,7 +251,6 @@ const _itemWidth = computed(() => covetUniNumber(props.itemWidth, config.unit))
 const _round = computed(() => covetUniNumber(props.round, config.unit))
 
 const _activeFontSize = computed(() => {
-	// covetUniNumber(props.activeFontSize, config.unit)
 	let fontSize = covetUniNumber(props.activeFontSize, config.unit);
 	if (config.fontSizeScale == 1) return fontSize;
 	let sizeNumber = parseInt(fontSize)
@@ -444,7 +443,6 @@ export default {
 </template>
 <style lang="scss" scoped>
 .tmTabsItem {
-  /* padding: 0 20rpx; */
   height: 100%;
   position: relative;
   display: flex;
@@ -466,7 +464,6 @@ export default {
 }
 
 .tmTabsItemLiner {
-  /* height: 2px; */
   position: absolute;
   z-index: 1;
   bottom: 0px;
@@ -493,9 +490,7 @@ export default {
   flex-direction: row;
   flex-wrap: nowrap;
   min-width: 100%;
-  /* justify-content: flex-start; */
   align-items: center;
-  /* width: auto; */
   height: 100%;
   box-sizing: border-box;
 }

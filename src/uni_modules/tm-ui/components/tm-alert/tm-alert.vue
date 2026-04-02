@@ -21,8 +21,8 @@
 
 <script lang="ts" setup>
 
-	import { computed, ref, onMounted } from "vue"
-	import { arrayNumberValid, arrayNumberValidByStyleMP, covetUniNumber,arrayNumberValidByStyleBorderColor, linearValid ,getUnit } from "../../libs/tool";
+	import { computed, ref } from "vue"
+	import { arrayNumberValidByStyleMP, covetUniNumber,arrayNumberValidByStyleBorderColor } from "../../libs/tool";
 	import { getDefaultColor, getDefaultColorObj, getOutlineColorObj, getTextColorObj, getThinColorObj } from "../../libs/colors";
 	import { useTmConfig } from "../../libs/config";
 	
@@ -334,10 +334,6 @@ export default {
 	.tmAlertContent {
 		flex: 1;
 		box-sizing: border-box;
-	}
-	
-	.tmAlertLeft {
-		margin-right: 8rpx;
 	}
 	
 	.tmAlertLeft {
