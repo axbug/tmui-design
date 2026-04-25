@@ -1,11 +1,11 @@
 <template>
-	<view @click="OnClick" :style="[__style,_customStyle]" class="xTextLines">
+	<view @click="OnClick" :style="[__style, attrs._style]" class="xTextLines">
 		<!--
 		@slot 默认文本插槽，如果使用插槽，那么相关特性功能将会失效。
 		因此不建议使用插槽，还不如自己用text标签。
 		-->
 		<slot>
-			<text v-if="_label.length == 0" :user-select="selectable" :selectable="selectable">{{ _attrs.label }}</text>
+			<text v-if="_label.length == 0" :user-select="selectable" :selectable="selectable">{{ attrs.label }}</text>
 		</slot>
 		<text @click="itemClick(item.text)" :selectable="selectable" :style="[
 			{
@@ -153,9 +153,6 @@ const attrs = defineProps({
 		default: ""
 	},
 })
-const _attrs = computed(() => attrs)
-const _customStyle = computed((): any => attrs._style)
-
 /**
  * 点击事件处理函数
  * @returns 无返回值
@@ -264,11 +261,14 @@ const _fontSize = computed((): string => {
 	return (sizeNumber * config.fontSizeScale).toString() + getUnit(fontSize)
 })
 const __style = computed((): { [key: string]: any } => {
-	let obj: { [key: string]: any } = {}
-	obj["-webkit-line-clamp"] = attrs.lines.toString()
-	obj["lineHeight"] = attrs.lineHeight
-	obj["fontSize"] = _fontSize.value
-	obj["color"] = _color.value
+	const obj: { [key: string]: any } = {
+		lineHeight: attrs.lineHeight,
+		fontSize: _fontSize.value,
+		color: _color.value
+	}
+	if (Number(attrs.lines) > 0) {
+		obj["-webkit-line-clamp"] = attrs.lines.toString()
+	}
 	return obj
 })
 </script>

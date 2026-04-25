@@ -216,11 +216,11 @@ export class xCalendar {
 		
 		for(let i=0;i<dates.length;i++){
 			const item = dates[i]
-			const checkDate = new Date(item.date);
-			const checkTime = checkDate.getTime();
-			const cy = checkDate.getFullYear();
-			const cm = checkDate.getMonth();
-			const cd = checkDate.getDate();
+			const dateParts = item.date.split('/');
+			const cy = parseInt(dateParts[0]);
+			const cm = parseInt(dateParts[1]) - 1;
+			const cd = parseInt(dateParts[2]);
+			const checkTime = new Date(cy, cm, cd).getTime();
 			const dateKey = `${cy}-${cm}-${cd}`;
 
 			// 内联 isInCurrentMonth

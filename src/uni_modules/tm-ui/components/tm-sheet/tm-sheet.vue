@@ -1,6 +1,5 @@
 <template>
-	<view @click="OnClick" class="tmSheet" @touchstart="touchStart" @touchcancel="touchEnd" @touchend="touchEnd"
-		@mousedown="touchStart" @mouseup="touchEnd" @mouseleave="touchEnd" :style="[
+	<view @click="OnClick" class="tmSheet" :style="[
       {
         width: _width,
         height: _height,
@@ -9,14 +8,14 @@
     ]">
 		<!-- @slot 默认插槽 -->
 		<slot></slot>
-		<view v-if="_attrs.loading" class="tmSheetLoading" :style="{ borderRadius: buttonStyle.borderRadius }">
-			<tm-icon name="loader-line" :size="_attrs.loadIconSize" spin color="primary"></tm-icon>
+		<view v-if="attrs.loading" class="tmSheetLoading" :style="{ borderRadius: buttonStyle.borderRadius }">
+			<tm-icon name="loader-line" :size="attrs.loadIconSize" spin color="primary"></tm-icon>
 		</view>
 	</view>
 </template>
 
 <script lang="ts" setup>
-	import { computed, ref } from "vue";
+	import { computed } from "vue";
 	import { arrayNumberValid, arrayNumberValidByStyleMP, arrayNumberValidByBorderWidth, arrayNumberValidByStyleBorderColor, arrayNumberValidByStyleBorderStyle, covetUniNumber, linearValid } from "../../libs/tool";
 	import { useTmConfig } from "../../libs/config";
 	import { getDefaultColor, getDefaultColorObj, getOutlineColorObj, getTextColorObj, getThinColorObj } from "../../libs/colors";
@@ -169,9 +168,8 @@
 			default: "50"
 		}
 	})
-	const _attrs = computed(() => attrs);
 	const OnClick = (evt : MouseEvent) => {
-		if (_attrs.value.loading) return;
+		if (attrs.loading) return;
 		emits('click', evt)
 	}
 	const _width = computed(() => {
@@ -179,13 +177,7 @@
 	})
 	const _height = computed(() => covetUniNumber(attrs.height || 'auto'))
 
-	const isHover = ref(false);
-	const touchStart = () => {
-		isHover.value = true;
-	}
-	const touchEnd = () => {
-		isHover.value = false;
-	}
+	const _shadowColorObj = computed(() => getDefaultColorObj(attrs.color, attrs.color));
 
 	const buttonStyle = computed(() => {
 		let style = {
@@ -221,17 +213,14 @@
 		if (Array.isArray(attrs.shadow)) {
 			shadow = attrs.shadow.join(' ')
 		} else if (attrs.shadow !== '' && attrs.shadow != 'none') {
-			let obj = getDefaultColorObj(attrs.color, attrs.color)
-			shadow = `0px 0px ${covetUniNumber(attrs.shadow)} ${obj.default.shadow}`
+			shadow = `0px 0px ${covetUniNumber(attrs.shadow)} ${_shadowColorObj.value.default.shadow}`
 		} else if (attrs.shadow === '') {
 			if (Array.isArray(config.sheetShadow)) {
 				shadow = config.sheetShadow.join(' ')
 			} else if (config.sheetShadow && config.sheetShadow != 'none') {
-				let obj = getDefaultColorObj(attrs.color, attrs.color)
-				shadow = `0 4px ${covetUniNumber(config.sheetShadow)} ${obj.default.shadow}`
+				shadow = `0 4px ${covetUniNumber(config.sheetShadow)} ${_shadowColorObj.value.default.shadow}`
 			}
 		}
-
 
 		style.background = linear || getDefaultColor(background)
 		style.borderColor = borderColor.join(' ')

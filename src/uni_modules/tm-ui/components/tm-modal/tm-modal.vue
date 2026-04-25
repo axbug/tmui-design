@@ -145,6 +145,13 @@
 			default: false,
 		},
 		/**
+		 * 禁用弹层
+		 */
+		disabled: {
+			type: Boolean,
+			default: false,
+		},
+		/**
 		 * 容器背景色
 		 */
 		bgColor: {
@@ -445,6 +452,7 @@
 	};
 
 	const openDrawer = () => {
+		if(props.disabled) return;
 		showAlert();
 	};
 

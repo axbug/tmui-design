@@ -21,7 +21,7 @@
 
 <script lang="ts" setup>
 
-	import { computed, ref } from "vue"
+	import { computed, PropType, ref } from "vue"
 	import { arrayNumberValidByStyleMP, covetUniNumber,arrayNumberValidByStyleBorderColor } from "../../libs/tool";
 	import { getDefaultColor, getDefaultColorObj, getOutlineColorObj, getTextColorObj, getThinColorObj } from "../../libs/colors";
 	import { useTmConfig } from "../../libs/config";
@@ -63,7 +63,7 @@
 		 * primary:正常主题
 		 */
 		status: {
-			type: String,
+			type: String as PropType<"warn"|"success"|"error"|"info"|"primary">,
 			default: "primary"
 		},
 		/**

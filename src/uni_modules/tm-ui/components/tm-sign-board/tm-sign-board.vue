@@ -60,13 +60,13 @@
 	})
 
 	const configureCtx = (ctx: UniApp.CanvasContext) => {
-		// #ifdef MP-WEIXIN || MP-ALIPAY || MP-QQ
+		// #ifdef MP-WEIXIN || MP-ALIPAY || MP-QQ || H5
 		ctx.strokeStyle =  _lineColor.value
 		ctx.lineWidth = _lineWidth.value
 		ctx.lineCap = 'round'
 		ctx.lineJoin = 'round'
 		// #endif
-		// #ifndef MP-WEIXIN || MP-ALIPAY || MP-QQ
+		// #ifndef MP-WEIXIN || MP-ALIPAY || MP-QQ || H5
 		ctx.setStrokeStyle(_lineColor.value)
 		ctx.setLineWidth(_lineWidth.value)
 		ctx.setLineCap('round')
@@ -270,9 +270,9 @@
 		strokes.value = []
 	}
 	const touchstart = async (evt : TouchEvent) => {
-		evt?.preventDefault()
-		evt?.stopImmediatePropagation()
-		evt?.stopPropagation()
+		evt?.preventDefault?.()
+		evt?.stopImmediatePropagation?.()
+		evt?.stopPropagation?.()
 		await getCanvasCtx()
 		const pos = getTouchPosition(evt)
 		isDrawing.value = true
@@ -282,9 +282,9 @@
 	}
 
 	const touchmove = (evt : TouchEvent) => {
-		evt?.preventDefault()
-		evt?.stopImmediatePropagation()
-		evt?.stopPropagation()
+		evt?.preventDefault?.()
+		evt?.stopImmediatePropagation?.()
+		evt?.stopPropagation?.()
 		if (!isDrawing.value) return
 		const pos = getTouchPosition(evt)
 		const ctx = contentCtx.value

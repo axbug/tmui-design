@@ -101,6 +101,8 @@ let _dateTime = 0
 let _diffX = 0
 let _lastTouchTime = 0
 let _webLongPressTimer: any = null
+let _mousedownEl: HTMLElement | null = null
+const _isPC = uni.getSystemInfoSync().model === 'PC'
 
 const _height = computed(() => covetUniNumber(props.height, config.unit))
 const _showBottomBorder = computed(() => props.showBottomBorder)
@@ -159,6 +161,7 @@ function _transformMove(x: number, y: number) {
 // ─── 触摸事件（APP / H5 Mobile）──────────────────────────
 
 function mStart(evt: any) {
+	if (_isPC) return
 	emit('start')
 	_lastTouchTime = Date.now()
 	_dateTime = Date.now()
@@ -173,6 +176,7 @@ function mStart(evt: any) {
 }
 
 function mMove(evt: any) {
+	if (_isPC) return
 	emit('move')
 	const touch = evt.changedTouches[0]
 	if (props.disabled) return
@@ -194,6 +198,7 @@ function mMove(evt: any) {
 }
 
 function mEnd(evt: any) {
+	if (_isPC) return
 	emit('end')
 	const touch = evt.changedTouches[0]
 	const diffdate = Date.now() - _dateTime
@@ -220,11 +225,12 @@ function mEnd(evt: any) {
 }
 
 
-// ─── 鼠标事件（H5 PC）────────────────────────────────────
-// #ifdef H5
+// ─── 鼠标事件（PC）─────────────────────────────────────
+
 function _mmStart(evt: MouseEvent) {
 	// 过滤触摸后补发的兼容鼠标事件，避免 click 重复触发
 	if (Date.now() - _lastTouchTime < 500) return
+	evt.preventDefault()
 	emit('start')
 	_dateTime = Date.now()
 	_tempPopX = evt.clientX
@@ -253,7 +259,6 @@ function _mmMove(evt: MouseEvent) {
 	const dy = Math.abs(evt.clientY - _tempPopY)
 	const dx = Math.abs(evt.clientX - _tempPopX)
 	const hasDir = Math.max(dx, dy) > 10
-
 	if (hasDir && _isSwiper.value === 'none') {
 		_isSwiper.value = dx > dy ? 'swiper' : 'off'
 	}
@@ -297,7 +302,6 @@ function _mmEnd(evt: MouseEvent) {
 		if (wasOpened) emit('close')
 	}
 }
-// #endif
 
 function _onAniEnd() {
 	// #ifndef MP-WEIXIN
@@ -367,6 +371,10 @@ watch(() => props.status, (newval) => {
 onMounted(async () => {
 	await nextTick()
 	_menuWidth.value = await _queryMenuWidth()
+	if (_isPC && typeof document !== 'undefined') {
+		_mousedownEl = document.getElementById(id.value)
+		if (_mousedownEl) _mousedownEl.addEventListener('mousedown', _mmStart)
+	}
 	if (props.status) {
 		_opened.value = false
 		_dirs.value = 'left'
@@ -377,12 +385,14 @@ onMounted(async () => {
 
 onBeforeUnmount(() => {
 	if (_webLongPressTimer) clearTimeout(_webLongPressTimer)
-	// #ifdef H5
-	if (typeof document !== 'undefined') {
+	if (_isPC && typeof document !== 'undefined') {
 		document.removeEventListener('mousemove', _mmMove)
 		document.removeEventListener('mouseup', _mmEnd)
+		if (_mousedownEl) {
+			_mousedownEl.removeEventListener('mousedown', _mmStart)
+			_mousedownEl = null
+		}
 	}
-	// #endif
 })
 
 
@@ -401,10 +411,6 @@ defineExpose({ open, close,setOpts,callEmits })
 				@touchmove="mMove"
 				@touchend="mEnd"
 				@touchcancel="mEnd"
-				<!-- #endif -->
-
-				<!-- #ifdef H5 -->
-				@mousedown="_mmStart"
 				<!-- #endif -->
 
 				<!-- #ifdef MP-WEIXIN -->
@@ -467,6 +473,8 @@ defineExpose({ open, close,setOpts,callEmits })
 	flex-direction: column;
 	/* #ifdef H5 */
 	cursor: grab;
+	user-select: none;
+	-webkit-user-select: none;
 	/* #endif */
 }
 

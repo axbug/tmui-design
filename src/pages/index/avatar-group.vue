@@ -53,16 +53,16 @@
 
 <script setup lang="ts">
 	const list = [
-		"https://store.tmui.design/api_v2/public/random_picture?random=183",
-		"https://store.tmui.design/api_v2/public/random_picture?random=13",
-		"https://store.tmui.design/api_v2/public/random_picture?random=8",
-		"https://store.tmui.design/api_v2/public/random_picture?random=83",
-		"https://store.tmui.design/api_v2/public/random_picture?random=18",
-		"https://store.tmui.design/api_v2/public/random_picture?random=3",
-		"https://store.tmui.design/api_v2/public/random_picture?random=8",
-		"https://store.tmui.design/api_v2/public/random_picture?random=83",
-		"https://store.tmui.design/api_v2/public/random_picture?random=18",
-		"https://store.tmui.design/api_v2/public/random_picture?random=3",
+		"https://picsum.photos/100/100?random=10",
+		"https://picsum.photos/100/100?random=11",
+		"https://picsum.photos/100/100?random=12",
+		"https://picsum.photos/100/100?random=13",
+		"https://picsum.photos/100/100?random=14",
+		"https://picsum.photos/100/100?random=15",
+		"https://picsum.photos/100/100?random=16",
+		"https://picsum.photos/100/100?random=17",
+		"https://picsum.photos/100/100?random=18",
+		"https://picsum.photos/100/100?random=19",
 	] as string[]
 	const list2 = [
 		"同名自定义",
@@ -79,15 +79,15 @@
 	] as string[]
 	const list3 = [
 		"同名自定义",
-		"https://store.tmui.design/api_v2/public/random_picture?random=8",
+		"https://picsum.photos/100/100?random=20",
 		"",
 		"sk",
-		"https://store.tmui.design/api_v2/public/random_picture?random=3",
+		"https://picsum.photos/100/100?random=21",
 		"",
 		"漂亮",
-		"https://store.tmui.design/api_v2/public/random_picture?random=3",
+		"https://picsum.photos/100/100?random=22",
 		"北京",
-		"https://store.tmui.design/api_v2/public/random_picture?random=83",
+		"https://picsum.photos/100/100?random=23",
 		"呃",
 	] as string[]
 </script>

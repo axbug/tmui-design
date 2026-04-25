@@ -1,29 +1,29 @@
 <template>
     <!-- @vue-ignore -->
-    <view @click="onclick" :hover-start-time="_isLinksHover ? 50 : 0" :hover-stay-time="_isLinksHover ? 100 : 0"
-        :hover-class="_isLinksHover ? 'cellHover' : ''" class="tmCell "
-        :class="[_allAttr.card == true ? 'cellCard' : 'cardInset']" :style="{
+    <view @click="onclick" :hover-start-time="attrs.link ? 50 : 0" :hover-stay-time="attrs.link ? 100 : 0"
+        :hover-class="attrs.link ? 'cellHover' : ''" class="tmCell "
+        :class="[attrs.card ? 'cellCard' : 'cardInset']" :style="{
             backgroundColor: _color,
             borderRadius: _cardRadius,
             minHeight: _minHeight,
-            borderBottom: _allAttr.bottom && !_allAttr.card && !bottomBorderInsert ? `1px solid ${_bottomBorderColor}` : 'none',
+            borderBottom: attrs.showBottomBorder && !attrs.card && !bottomBorderInsert ? `1px solid ${_bottomBorderColor}` : 'none',
             padding: `0px ${_lrPadding}`
         }">
 
-        <view v-if="_icon != ''" class="tmCellAvatar"
+        <view v-if="attrs.icon != ''" class="tmCellAvatar"
             :style="{ width: _leftSize, height: _leftSize, borderRadius: _avatarRound }">
             <!-- 
             @slot 头像图标
             @binding {string} icon 图标名称
             -->
-            <slot name="avatar" :icon="_icon">
-                <tm-icon :color="_allAttr.iconColor" :size="_iconSize" :name="_icon"></tm-icon>
+            <slot name="avatar" :icon="attrs.icon">
+                <tm-icon :color="_iconColor" :size="_iconSize" :name="attrs.icon"></tm-icon>
             </slot>
         </view>
 
         <view class="tmCellWrap" :style="{
             padding: `${_tbPadding} 0px `,
-            borderBottom: _allAttr.bottom && !_allAttr.card && bottomBorderInsert ? `1px solid ${_bottomBorderColor}` : 'none'
+            borderBottom: attrs.showBottomBorder && !attrs.card && bottomBorderInsert ? `1px solid ${_bottomBorderColor}` : 'none'
         }">
             <view class="center">
                 <!-- 
@@ -31,16 +31,16 @@
                 -->
                 <slot>
                     <view class="title" :style="{ color: _titleColor, fontSize: _titleSize }">
-                        <text>{{ _allAttr.title }}</text>
+                        <text>{{ attrs.title }}</text>
                     </view>
                 </slot>
                 <!--
                 @slot 简介
                 @binding {string} desc 简介
                 -->
-                <slot name="desc" :desc="_allAttr.desc">
-                    <tm-text v-if="_allAttr.desc != ''" size="28" color='#bfbfbf' dark-color='#bfbfbf' class="desc">{{
-                        _allAttr.desc }}</tm-text>
+                <slot name="desc" :desc="attrs.desc">
+                    <tm-text v-if="attrs.desc != ''" size="28" color='#bfbfbf' dark-color='#bfbfbf' class="desc">{{
+                        attrs.desc }}</tm-text>
                 </slot>
             </view>
             <view class="tmCellRight" :style="{maxWidth: _rightWidth}">
@@ -48,16 +48,16 @@
                 @slot 右边文字
                 @binding {string} label 标签内容
                 -->
-                <slot name="label" :label="_allAttr.label">
-                    <text v-if="_allAttr.label != ''" :style="{ color: _allAttr.labelColor, fontSize: _rightLableSize }"
-                        class="rightLabel">{{ _allAttr.label }}</text>
+                <slot name="label" :label="attrs.label">
+                    <text v-if="attrs.label != ''" :style="{ color: _labelColor, fontSize: _rightLableSize }"
+                        class="rightLabel">{{ attrs.label }}</text>
 
                 </slot>
                 <!--
                 @slot 右插槽
                 -->
                 <slot name="right"></slot>
-                <tm-icon v-if="_allAttr.url != '' || _allAttr.link" color="#bfbfbf" size="36" :name="attrs.linkIcon"
+                <tm-icon v-if="attrs.url != '' || attrs.link" color="#bfbfbf" size="36" :name="attrs.linkIcon"
                     _style="paddingLeft:12rpx"></tm-icon>
             </view>
 
@@ -66,7 +66,7 @@
     </view>
 </template>
 <script lang="ts" setup>
-import { computed, ref, PropType } from "vue"
+import { computed, PropType } from "vue"
 import { arrayNumberValidByStyleMP, covetUniNumber, getUnit } from "../../libs/tool";
 import { getDefaultColor } from "../../libs/colors";
 import { useTmConfig } from "../../libs/config";
@@ -82,18 +82,6 @@ import { useTmConfig } from "../../libs/config";
  */
 defineOptions({ name: 'TmCell' });
 const { config } = useTmConfig()
-type tmCellItemType = {
-    icon: string,
-    title: string,
-    desc: string,
-    label: string,
-    bottom: boolean,
-    link: boolean,
-    url: string,
-    iconColor: string,
-    labelColor: string,
-    card: boolean
-}
 const emits = defineEmits(
     [
         /**
@@ -331,27 +319,8 @@ const _bottomBorderColor = computed(() => {
     return "#f5f5f5"
 })
 
-const icon = ref('')
-
-const _allAttr = computed(() => {
-    let iconColor = attrs.iconColor;
-    if (iconColor === '') {
-        iconColor = config.color;
-    }
-    let p = {
-        icon: icon.value,
-        title: attrs.title,
-        desc: attrs.desc,
-        label: attrs.label,
-        bottom: attrs.showBottomBorder,
-        link: attrs.link,
-        url: attrs.url,
-        iconColor: getDefaultColor(iconColor),
-        labelColor: getDefaultColor(attrs.labelColor),
-        card: attrs.card
-    } as tmCellItemType
-    return p
-})
+const _iconColor = computed(() => getDefaultColor(attrs.iconColor || config.color))
+const _labelColor = computed(() => getDefaultColor(attrs.labelColor))
 
 const _cardRadius = computed(() => {
     if (attrs.round === '') return arrayNumberValidByStyleMP(config.cellRadius)
@@ -388,9 +357,6 @@ const _rightLableSize = computed(() => {
     }
     return (sizeNumber * config.fontSizeScale).toString() + getUnit(fontSize)
 })
-
-const _isLinksHover = computed(() => attrs.link)
-const _icon = computed(() => attrs.icon)
 
 const onclick = () => {
     /**

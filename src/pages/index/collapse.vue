@@ -13,7 +13,7 @@
                     </tm-text>
                     <view class="fletm-1">
                         <tm-image width="100%"
-                            src="https://store.tmui.design/api_v2/public/random_picture?random=993"></tm-image>
+                            src="https://picsum.photos/800/400?random=9"></tm-image>
                     </view>
                 </tm-collapse-item>
                 <tm-collapse-item :showBottomLine="false" left-icon="question-line" name="2"
@@ -46,7 +46,7 @@
                     </tm-text>
                     <view class="">
                         <tm-image width="100%"
-                            src="https://store.tmui.design/api_v2/public/random_picture?random=993"></tm-image>
+                            src="https://picsum.photos/800/400?random=9"></tm-image>
                     </view>
                 </tm-collapse-item>
                 <tm-collapse-item :disabled="true" left-icon="cloud-fill" name="6" title="如何使用本UI组件库,会很难吗？">

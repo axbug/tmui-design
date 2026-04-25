@@ -35,13 +35,13 @@ import headertips from '../components/headertips.vue'
 ## :seedling: 参数
 | 参数名 | 类型 | 默认值 | 描述 |
 | :--: | :--: | :--: | :-- |
-| fontSize | string\|number | "20" | - | 
-| bgColor | string | "error" | - | 
-| fontColor | string | "white" | - | 
+| fontSize | string\|number | "20" | 字体大小 | 
+| bgColor | string | "error" | 背景颜色 | 
+| fontColor | string | "white" | 字体颜色 | 
 | maxCount | string\|number | 99 | - | 
 | label | string\|number\|boolean | "" | 如果是boolean就显示角标小红点如果是string显示文本标签如果是数字显示数字并启用maxCount | 
-| position | string | "right" | - | 
-| offset | number[] | ():number[]=\>[0,0]asnumber[] | - | 
+| position | string | "right" | 角标出现的位置 | 
+| offset | number[] | ():number[]=\>[0,0]asnumber[] | 角标偏移量 | 
 
 
 ## :rose: 事件

@@ -3,7 +3,8 @@
 		{
 			"path": "pages/index/index",
 			"style": {
-				"navigationBarTitleText": "TMUI3.2"
+				"navigationBarTitleText": "TMUI3.2",
+				"navigationStyle": "custom"
 			}
 		},
 		{
@@ -330,6 +331,27 @@
 			"path": "pages/index/switch-slider",
 			"style": {
 				"navigationBarTitleText": "switch-slider"
+			}
+		},
+		{
+			"path": "pages/demo/login",
+			"style": {
+				"navigationBarTitleText": "登录",
+				"navigationStyle": "custom",
+				"backgroundColor": "#f0f4f8"
+			}
+		},
+		{
+			"path": "pages/demo/news",
+			"style": {
+				"backgroundColor": "#ffffff"
+			}
+		},
+		{
+			"path": "pages/demo/news-detail",
+			"style": {
+				"navigationBarTitleText": "新闻详情",
+				"backgroundColor": "#ffffff"
 			}
 		}
 	],

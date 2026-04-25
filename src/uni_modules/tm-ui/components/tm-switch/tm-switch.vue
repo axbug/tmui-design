@@ -332,7 +332,7 @@ export default {
 
 .tmSwitch {
     height: 64rpx;
-    cursor: pointer;
+ 
     display: inline-flex;
     position: relative;
     box-sizing: border-box;

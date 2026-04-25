@@ -14,19 +14,19 @@
 
         <tm-text font-size="36" class="text-weight-b  d-block mb-16">自动占位宽和高</tm-text>
         <view class="flex flex-row" style="justify-content: space-between;align-items: flex-start;">
-            <tm-image src="https://cdn.tmui.design/public/design/weixinQR2.jpg" width="18%"></tm-image>
-            <tm-image width="18%" src="https://store.tmui.design/api_v2/public/random_picture?random=0239"></tm-image>
-            <tm-image width="18%" src="https://store.tmui.design/api_v2/public/random_picture?random=22233"></tm-image>
-            <tm-image width="18%" src="https://store.tmui.design/api_v2/public/random_picture?random=9654"></tm-image>
-            <tm-image width="18%" src="https://store.tmui.design/api_v2/public/random_picture?random=212"></tm-image>
+            <tm-image src="https://picsum.photos/200/200?random=1" width="18%"></tm-image>
+            <tm-image width="18%" src="https://picsum.photos/200/200?random=2"></tm-image>
+            <tm-image width="18%" src="https://picsum.photos/200/200?random=3"></tm-image>
+            <tm-image width="18%" src="https://picsum.photos/200/200?random=4"></tm-image>
+            <tm-image width="18%" src="https://picsum.photos/200/200?random=5"></tm-image>
         </view>
     </tm-sheet>
     <tm-sheet>
         <tm-text font-size="36" class="text-weight-b  d-block mb-16">指定高宽</tm-text>
-        <tm-image height="150" src="https://store.tmui.design/api_v2/public/random_picture?random=183"></tm-image>
-        <tm-image width="100%" src="https://store.tmui.design/api_v2/public/random_picture?random=183"></tm-image>
+        <tm-image height="150" src="https://picsum.photos/400/150?random=6"></tm-image>
+        <tm-image width="100%" src="https://picsum.photos/800/400?random=7"></tm-image>
         <tm-image width="120" height="120"
-            src="https://store.tmui.design/api_v2/public/random_picture?random=183"></tm-image>
+            src="https://picsum.photos/120/120?random=8"></tm-image>
     </tm-sheet>
     <view class="py-32"></view>
 </template>

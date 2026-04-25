@@ -17,14 +17,25 @@ defineOptions({ name: 'TmBadge' });
 const { config } = useTmConfig()
 
 const attrs = defineProps({
+    /**
+     * 字体大小
+     */
     fontSize: {
         type: [String, Number],
         default: "20"
     },
+    /**
+     * 背景颜色
+     * @default error
+     */
     bgColor: {
         type: String,
         default: "error"
     },
+    /**
+     * 字体颜色
+     * @default white
+     */
     fontColor: {
         type: String,
         default: "white"
@@ -42,10 +53,17 @@ const attrs = defineProps({
         type: [String, Number,Boolean],
         default: ""
     },
+    /**
+     * 角标出现的位置
+     */
     position: {
         type: String as PropType<"right" | "left" | "bottomLeft" | "bottomRight" | 'top' | 'bottom'>,
         default: "right"
     },
+    /**
+     * 角标偏移量
+     * @default [0, 0]
+     */
     offset: {
         type: Array as PropType<number[]>,
         default: (): number[] => [0, 0] as number[],

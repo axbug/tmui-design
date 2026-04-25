@@ -233,7 +233,7 @@ function onSetDefaultStr() {
 	})
 }
 
-function selectedItem(parent: TM.SKU_DATA_ITEM, parentIndex: number, item: TM.SKU_DATA_ITEM) {
+function selectedItem(parentIndex: number, item: TM.SKU_DATA_ITEM) {
 	const dataLen = props.data.data.length
 	const listids = new Array(dataLen).fill('')
 	const current = nowSelectedIds.value
@@ -244,7 +244,7 @@ function selectedItem(parent: TM.SKU_DATA_ITEM, parentIndex: number, item: TM.SK
 	nowSelectedIds.value = listids
 	nextTick(() => {
 		if (_nowSelectedItem.value) {
-			buy.value = Math.min(Math.max(_nowSelectedItem.value.min_buy_quantity, Math.min(_nowSelectedItem.value.max_buy_quantity, buy.value)), _nowSelectedItem.value.inventory_quantity)
+			buy.value = Math.min(maxBuyNumber.value, Math.max(minBuyNumber.value, buy.value))
 		}
 	})
 }
@@ -261,6 +261,7 @@ const isSelectedTags = computed(() => {
 		return idSet.has(id)
 	}
 })
+const isOutOfStock = (item: TM.SKU_DATA_ITEM) => (item?.inventory_quantity ?? 1) === 0
 const maxBuyNumber = computed(() => {
 	if (_nowSelectedItem.value == null) return 0
 	return Math.min(_nowSelectedItem.value.inventory_quantity, _nowSelectedItem.value.max_buy_quantity)
@@ -315,9 +316,9 @@ export default {
 							{{ $i18n.t('tmui32x.tmSku.originalPriceText',{count:_nowSelectedItem.original_price}) }}
 					</text>
 				</view>
-				<view v-if="!_nowSelectedItem">
-					<text :style="{color:'red',fontSize:'36rpx'}">{{ $i18n.t('tmui32x.tmSku.noSelectedText') }}</text>
-				</view>
+			<view v-else>
+				<text :style="{color:'red',fontSize:'36rpx'}">{{ $i18n.t('tmui32x.tmSku.noSelectedText') }}</text>
+			</view>
 				<view class="skuSelectedText" style="margin-top: 10rpx">
 					<text v-if="_nowSelectedItem">
 					{{ _nowSelectedItem.title }}，{{ $i18n.t('tmui32x.tmSku.numberText',{count:buy}) }}
@@ -339,15 +340,15 @@ export default {
 				</view>
 				<view style="margin-top: 24rpx">
 					<tm-badge
-						v-for="(item2) in (item.children??[])"
-						:key="item2.id"
-						:label="(item2?.inventory_quantity??1)==0?$i18n.t('tmui32x.tmSku.queHuo'):''"
-						:offset="[22,0]"
-					>
-						<tm-tag
-							:color="isSelectedTags(item2.id)?props.color:'info'"
-							:style="{margin:`0 12rpx 12rpx 0`,opacity:(item2?.inventory_quantity??1)==0?0.5:1}"
-							@click="selectedItem(item,index,item2)">
+					v-for="(item2) in (item.children??[])"
+					:key="item2.id"
+					:label="isOutOfStock(item2)?$i18n.t('tmui32x.tmSku.queHuo'):''"
+					:offset="[22,0]"
+				>
+					<tm-tag
+						:color="isSelectedTags(item2.id)?props.color:'info'"
+						:style="{margin:`0 12rpx 12rpx 0`,opacity:isOutOfStock(item2)?0.5:1}"
+						@click="selectedItem(index,item2)">
 							{{ item2.title }}
 						</tm-tag>
 					</tm-badge>

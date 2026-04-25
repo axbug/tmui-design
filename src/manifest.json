@@ -1,37 +1,37 @@
 {
-    "name" : "tmui3.2",
-    "appid" : "__UNI__F097BC1",
-    "description" : "tmui3.0新一代组件库，拥抱vue3,pinia,tmui3.0 demo展示应用",
-    "versionName" : "3.2.16",
-    "versionCode" : 3205,
-    "transformPx" : false,
-    "app-plus" : {
-        "darkmode" : true,
-        "themeLocation" : "tmui/theme.json",
-        "usingComponents" : true,
-        "ignoreVersion" : true,
-        "nvueStyleCompiler" : "uni-app",
-        "compilerVersion" : 3,
-        "safearea" : {
-            "bottom" : {
-                "offset" : "none"
+    "name": "tmui3.2.0",
+    "appid": "",
+    "description": "3.2.17",
+    "versionName": "1.0.0",
+    "versionCode": 100,
+    "transformPx": false,
+    "app-plus": {
+        "darkmode": true,
+        "themeLocation": "tmui/theme.json",
+        "usingComponents": true,
+        "ignoreVersion": true,
+        "nvueStyleCompiler": "uni-app",
+        "compilerVersion": 3,
+        "safearea": {
+            "bottom": {
+                "offset": "none"
             }
         },
-        "splashscreen" : {
-            "alwaysShowBeforeRender" : true,
-            "waiting" : true,
-            "autoclose" : true,
-            "delay" : 0
+        "splashscreen": {
+            "alwaysShowBeforeRender": true,
+            "waiting": true,
+            "autoclose": true,
+            "delay": 0
         },
-        "modules" : {
-            "Canvas" : "nvue canvas",
-            "VideoPlayer" : {},
-            "Camera" : {},
-            "Barcode" : {}
+        "modules": {
+            "Canvas": "nvue canvas",
+            "VideoPlayer": {},
+            "Camera": {},
+            "Barcode": {}
         },
-        "distribute" : {
-            "android" : {
-                "permissions" : [
+        "distribute": {
+            "android": {
+                "permissions": [
                     "<uses-permission android:name=\"android.permission.CHANGE_NETWORK_STATE\"/>",
                     "<uses-permission android:name=\"android.permission.MOUNT_UNMOUNT_FILESYSTEMS\"/>",
                     "<uses-permission android:name=\"android.permission.VIBRATE\"/>",
@@ -48,191 +48,162 @@
                     "<uses-feature android:name=\"android.hardware.camera\"/>",
                     "<uses-permission android:name=\"android.permission.WRITE_SETTINGS\"/>"
                 ],
-                "minSdkVersion" : 21,
-                "abiFilters" : [ "armeabi-v7a", "arm64-v8a" ]
+                "minSdkVersion": 21,
+                "abiFilters": [
+                    "armeabi-v7a",
+                    "arm64-v8a"
+                ]
             },
-            "ios" : {
-                "idfa" : false,
-                "dSYMs" : false
+            "ios": {
+                "idfa": false,
+                "dSYMs": false
             },
-            "sdkConfigs" : {
-                "ad" : {}
+            "sdkConfigs": {
+                "ad": {}
             },
-            "icons" : {
-                "android" : {
-                    "hdpi" : "unpackage/res/icons/72x72.png",
-                    "xhdpi" : "unpackage/res/icons/96x96.png",
-                    "xxhdpi" : "unpackage/res/icons/144x144.png",
-                    "xxxhdpi" : "unpackage/res/icons/192x192.png"
+            "icons": {
+                "android": {
+                    "hdpi": "unpackage/res/icons/72x72.png",
+                    "xhdpi": "unpackage/res/icons/96x96.png",
+                    "xxhdpi": "unpackage/res/icons/144x144.png",
+                    "xxxhdpi": "unpackage/res/icons/192x192.png"
                 },
-                "ios" : {
-                    "appstore" : "unpackage/res/icons/1024x1024.png",
-                    "ipad" : {
-                        "app" : "unpackage/res/icons/76x76.png",
-                        "app@2x" : "unpackage/res/icons/152x152.png",
-                        "notification" : "unpackage/res/icons/20x20.png",
-                        "notification@2x" : "unpackage/res/icons/40x40.png",
-                        "proapp@2x" : "unpackage/res/icons/167x167.png",
-                        "settings" : "unpackage/res/icons/29x29.png",
-                        "settings@2x" : "unpackage/res/icons/58x58.png",
-                        "spotlight" : "unpackage/res/icons/40x40.png",
-                        "spotlight@2x" : "unpackage/res/icons/80x80.png"
+                "ios": {
+                    "appstore": "unpackage/res/icons/1024x1024.png",
+                    "ipad": {
+                        "app": "unpackage/res/icons/76x76.png",
+                        "app@2x": "unpackage/res/icons/152x152.png",
+                        "notification": "unpackage/res/icons/20x20.png",
+                        "notification@2x": "unpackage/res/icons/40x40.png",
+                        "proapp@2x": "unpackage/res/icons/167x167.png",
+                        "settings": "unpackage/res/icons/29x29.png",
+                        "settings@2x": "unpackage/res/icons/58x58.png",
+                        "spotlight": "unpackage/res/icons/40x40.png",
+                        "spotlight@2x": "unpackage/res/icons/80x80.png"
                     },
-                    "iphone" : {
-                        "app@2x" : "unpackage/res/icons/120x120.png",
-                        "app@3x" : "unpackage/res/icons/180x180.png",
-                        "notification@2x" : "unpackage/res/icons/40x40.png",
-                        "notification@3x" : "unpackage/res/icons/60x60.png",
-                        "settings@2x" : "unpackage/res/icons/58x58.png",
-                        "settings@3x" : "unpackage/res/icons/87x87.png",
-                        "spotlight@2x" : "unpackage/res/icons/80x80.png",
-                        "spotlight@3x" : "unpackage/res/icons/120x120.png"
+                    "iphone": {
+                        "app@2x": "unpackage/res/icons/120x120.png",
+                        "app@3x": "unpackage/res/icons/180x180.png",
+                        "notification@2x": "unpackage/res/icons/40x40.png",
+                        "notification@3x": "unpackage/res/icons/60x60.png",
+                        "settings@2x": "unpackage/res/icons/58x58.png",
+                        "settings@3x": "unpackage/res/icons/87x87.png",
+                        "spotlight@2x": "unpackage/res/icons/80x80.png",
+                        "spotlight@3x": "unpackage/res/icons/120x120.png"
                     }
                 }
             },
-            "splashscreen" : {
-                "useOriginalMsgbox" : true
+            "splashscreen": {
+                "useOriginalMsgbox": true
             }
         },
-        "uniStatistics" : {
-            "enable" : false
+        "uniStatistics": {
+            "enable": false
         }
     },
-    "quickapp" : {},
-    "mp-weixin" : {
-        "lazyCodeLoading" : "requiredComponents",
-        "mergeVirtualHostAttributes" : true,
-        "darkmode" : false,
-        "appid" : "wxa97ca08b1ed46b0a",
-        "setting" : {
-            "urlCheck" : false,
-            "es6" : true,
-            "minified" : true,
-            "swc" : true,
-            "disableSWC" : false
+    "quickapp": {},
+    "mp-weixin": {
+        "lazyCodeLoading": "requiredComponents",
+        "mergeVirtualHostAttributes": true,
+        "darkmode": false,
+        "appid": "",
+        "setting": {
+            "urlCheck": false,
+            "es6": true,
+            "minified": true,
+            "swc": true,
+            "disableSWC": false
         },
-        "usingComponents" : true,
-        "uniStatistics" : {
-            "enable" : false
+        "usingComponents": true,
+        "uniStatistics": {
+            "enable": false
         },
-        "permission" : {}
+        "permission": {}
     },
-    "mp-alipay" : {
-        "usingComponents" : true,
-        "uniStatistics" : {
-            "enable" : false
+    "mp-alipay": {
+        "usingComponents": true,
+        "uniStatistics": {
+            "enable": false
         },
-        "appid" : "2019042364306232"
+        "appid": ""
     },
-    "mp-baidu" : {
-        "usingComponents" : true,
-        "uniStatistics" : {
-            "enable" : false
+    "mp-baidu": {
+        "usingComponents": true,
+        "uniStatistics": {
+            "enable": false
         }
     },
-    "mp-toutiao" : {
-        "usingProvide" : true,
-        "usingComponents" : true,
-        "uniStatistics" : {
-            "enable" : false
+    "mp-toutiao": {
+        "usingProvide": true,
+        "usingComponents": true,
+        "uniStatistics": {
+            "enable": false
         },
-        "setting" : {
-            "es6" : true,
-            "minified" : true,
-            "urlCheck" : false
+        "setting": {
+            "es6": true,
+            "minified": true,
+            "urlCheck": false
         }
     },
-    "uniStatistics" : {
-        "enable" : false,
-        "version" : "2"
+    "uniStatistics": {
+        "enable": false,
+        "version": "2"
     },
-    "vueVersion" : "3",
-    "h5" : {
-        "darkmode" : false,
-        "themeLocation" : "tmui/theme.json",
-        "uniStatistics" : {
-            "enable" : false
+    "vueVersion": "3",
+    "h5": {
+        "darkmode": false,
+        "themeLocation": "tmui/theme.json",
+        "uniStatistics": {
+            "enable": false
         },
-        "title" : "tmui3.2.0",
-        "router" : {
-            "mode" : "hash",
-            "base" : "/h5by32/"
+        "title": "tmui3.2.0",
+        "router": {
+            "mode": "hash",
+            "base": "/"
         },
-        "optimization" : {
-            "treeShaking" : {
-                "enable" : true
+        "optimization": {
+            "treeShaking": {
+                "enable": true
             }
         },
-        "devServer" : {
-            "https" : false
+        "devServer": {
+            "https": false
         }
     },
-    "mp-jd" : {
-        "uniStatistics" : {
-            "enable" : false
+    "mp-jd": {
+        "uniStatistics": {
+            "enable": false
         }
     },
-    "mp-kuaishou" : {
-        "uniStatistics" : {
-            "enable" : false
+    "mp-kuaishou": {
+        "uniStatistics": {
+            "enable": false
         }
     },
-    "mp-lark" : {
-        "uniStatistics" : {
-            "enable" : false
+    "mp-lark": {
+        "uniStatistics": {
+            "enable": false
         }
     },
-    "mp-qq" : {
-        "uniStatistics" : {
-            "enable" : false
+    "mp-qq": {
+        "uniStatistics": {
+            "enable": false
         },
-        "setting" : {
-            "es6" : true,
-            "minified" : true,
-            "urlCheck" : false
+        "setting": {
+            "es6": true,
+            "minified": true,
+            "urlCheck": false
         },
-        "appid" : "1112154209"
+        "appid": ""
     },
-    "quickapp-webview-huawei" : {
-        "uniStatistics" : {
-            "enable" : false
+    "quickapp-webview-huawei": {
+        "uniStatistics": {
+            "enable": false
         }
     },
-    "quickapp-webview-union" : {
-        "uniStatistics" : {
-            "enable" : false
-        }
-    },
-    "app-harmony" : {
-        "distribute" : {
-            "bundleName" : "UNI.APP.B73859A",
-            "icons" : {
-                "foreground" : "unpackage/res/icons/1024x1024.png",
-                "background" : "unpackage/res/icons/1024x1024.png"
-            },
-            "splashScreens" : {
-                "startWindowIcon" : "unpackage/res/icons/1024x1024.png"
-            },
-            "signingConfigs" : {
-                "default" : {
-                    "certpath" : "/Volumes/app/myProjects/tmui4xPravite/logo资源/鸿蒙证书/调试证书/tmuiDev.cer",
-                    "keyAlias" : "tmuiDev",
-                    "keyPassword" : "0000001CCEF6C202AA4264A259A37414D78EC60E15A3985EA488486889DD65281647781C1E7843AF3EFB3E93",
-                    "profile" : "/Volumes/app/myProjects/tmui4xPravite/logo资源/鸿蒙证书/调试证书/tmuiDevDebug.p7b",
-                    "signAlg" : "SHA256withECDSA",
-                    "storeFile" : "/Volumes/app/myProjects/tmui4xPravite/logo资源/鸿蒙证书/调试证书/tmuiDev.p12",
-                    "storePassword" : "0000001C78AAF0F0C4204036D08E6A7440EC11C1AFB49BB1374CA2BE0E2357C9AC042301D4A5EFA44D7122D8"
-                },
-                "release" : {
-                    "certpath" : "D:/myapp/tmui4x/logo资源/鸿蒙证书/调试证书/tmuiDev.cer",
-                    "keyAlias" : "tmui4xDebug",
-                    "keyPassword" : "0000001C407505F426690725620F8B5F257FA36D43963607BF4DE48A36962C503A468B14FB553ADA962A5EBB",
-                    "profile" : "D:/myapp/tmui4x/logo资源/鸿蒙证书/调试证书/tmuiDevDebug.p7b",
-                    "signAlg" : "SHA256withECDSA",
-                    "storeFile" : "D:/myapp/tmui4x/logo资源/鸿蒙证书/调试证书/tmuiDev.p12",
-                    "storePassword" : "0000001C388F5AEF60B4A6713552A68C80FEFE801042A072E40FEF6B23EB74D31772502E96E5DBE47C63E36D"
-                }
-            }
+    "quickapp-webview-union": {
+        "uniStatistics": {
+            "enable": false
         }
     }
 }

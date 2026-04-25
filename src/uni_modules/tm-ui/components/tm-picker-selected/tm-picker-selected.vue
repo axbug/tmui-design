@@ -488,7 +488,9 @@ export default {
 }
 
 .tmPickerSlectedFooterBtnText {
+    /* #ifdef H5 */
     cursor: pointer;
+    /* #endif */
 }
 
 .tmPickerSlectedItemWrap {
@@ -501,7 +503,9 @@ export default {
 
 .tmPickerSlectedItemText {
     flex: 1;
+    /* #ifdef H5 */
     cursor: pointer;
+    /* #endif */
 }
 
 .tmPickerSlectedWrap {

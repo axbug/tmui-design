@@ -51,6 +51,7 @@ import headertips from '../components/headertips.vue'
 | height | string\|number | "350" | 宽，百分比，Px,rpx，auto都支持 | 
 | maxHeight | string\|number | "80%" | 可以是百分比,px,rpx单位数字。如果你不带单位，默认转换为rpx单位。 | 
 | disabledScroll | boolean | false | 是否禁用内部的scroll标签禁用后内容不会滚动，如果设定了指定高，内容超出指定高，会被裁切但如果没有指定高，内容自动的话，高是自动的。有这个属性是因为截止4.03scroll-view里面放input不会上推键盘，及内部的viewtouchMove会失效。 | 
+| disabled | boolean | false | 禁用弹层 | 
 | bgColor | string | "white" | 容器背景色 | 
 | darkBgColor | string | "" | 暗黑时的容器背景色，不填写的话取sheetDarkColor | 
 | zIndex | string\|number | "1105" | - | 

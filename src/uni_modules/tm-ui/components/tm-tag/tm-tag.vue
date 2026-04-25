@@ -207,6 +207,15 @@ const _height = computed(() => attrs.height === '' ? covetButtonSize('height', a
 const _fontSize = computed(() => attrs.fontSize === '' ? covetButtonSize('fontSize', attrs.size) : covetUniNumber(attrs.fontSize))
 
 
+const _colorObj = computed(() => {
+    const isDark = config.mode == 'dark';
+    const color = attrs.color || config.color;
+    if (attrs.skin == 'text') return getTextColorObj(color, color, isDark);
+    if (attrs.skin == 'thin') return getThinColorObj(color, color, isDark);
+    if (attrs.skin == 'outlined' || attrs.skin == 'dashed') return getOutlineColorObj(color, color);
+    return getDefaultColorObj(color, color);
+});
+
 const buttonStyle = computed(() => {
     let style = {
         borderColor: ``,
@@ -217,19 +226,14 @@ const buttonStyle = computed(() => {
         borderRadius: ``,
         boxShadow: `none`,
         padding: `none`,
-
     }
     let isDark = config.mode == 'dark';
-    let color = attrs.color || config.color;
     let linear = linearValid(attrs.linear)
     let background = linear || (attrs.bgColor ? getDefaultColor(attrs.bgColor) : '')
-
     let fontColor = attrs.fontColor ? getDefaultColor(attrs.fontColor) : ''
-
     let borderWidth = arrayNumberValidByStyleMP(attrs.borderWidth)
     let borderStyle = arrayNumberValidByStyleBorderStyle(attrs.borderStyle).join(" ")
     let borderRadius = arrayNumberValidByBorderWidth(attrs.round || config.sheetRadius)
-
 
     if (isDark) {
         if (attrs.darkBgColor) {
@@ -240,16 +244,7 @@ const buttonStyle = computed(() => {
         }
     }
 
-    let obj = getDefaultColorObj(color, color)
-    if (attrs.skin == 'text') {
-        obj = getTextColorObj(color, color, isDark)
-
-    } else if (attrs.skin == 'thin') {
-        obj = getThinColorObj(color, color, isDark)
-
-    } else if (attrs.skin == 'outlined' || attrs.skin == 'dashed') {
-        obj = getOutlineColorObj(color, color)
-    }
+    const obj = _colorObj.value;
     if (attrs.skin == 'dashed') {
         borderStyle = 'dashed'
     }
@@ -316,7 +311,9 @@ export default {
         cursor: no-drop;
     }
     &[disabled = false]{
+        /* #ifdef H5 */
         cursor: pointer;
+        /* #endif */
     }
 
     &.tmTagLoading {

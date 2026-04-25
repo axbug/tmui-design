@@ -156,6 +156,11 @@
 		emit('click',item)
 	}
 	
+	function _normalizeDateKey(s: string): string {
+		const p = s.replace(/\//g, '-').split('-')
+		return `${p[0]}-${p[1].padStart(2, '0')}-${p[2].padStart(2, '0')}`
+	}
+
 	const _statusColorMap = computed((): Map<string, string> => {
 		const map = new Map<string, string>();
 		if (_dateStatus.value.length === 0) return map;
@@ -163,10 +168,8 @@
 		const ranges: Array<{ start: number, end: number, color: string, notDates: Set<string> }> = [];
 
 		for (const itemStatus of _dateStatus.value) {
-			const dates = itemStatus?.date ?? [];
-			for (const d of dates) {
-				const key = new Date(d.date.replace(/-/g, '/')).getTime().toString();
-				map.set(key, getDefaultColor(d.color === '' ? 'primary' : d.color));
+			for (const d of (itemStatus?.date ?? [])) {
+				map.set(_normalizeDateKey(d.date), getDefaultColor(d.color === '' ? 'primary' : d.color));
 			}
 
 			const start = itemStatus?.between?.start ?? '';
@@ -177,9 +180,7 @@
 					start: new Date(start.replace(/-/g, '/')).getTime(),
 					end: new Date(end.replace(/-/g, '/')).getTime(),
 					color: getDefaultColor(betweenColor === '' ? 'primary' : betweenColor),
-					notDates: new Set((itemStatus?.between?.notDate ?? []).map((d: string) =>
-						new Date(d.replace(/-/g, '/')).getTime().toString()
-					))
+					notDates: new Set((itemStatus?.between?.notDate ?? []).map(_normalizeDateKey))
 				});
 			}
 		}
@@ -187,9 +188,9 @@
 		if (ranges.length > 0) {
 			for (const row of dateArrayList.value) {
 				for (const item of row) {
-					const t = new Date(item.date.date.replace(/-/g, '/')).getTime();
-					const key = t.toString();
+					const key = _normalizeDateKey(item.date.date);
 					if (map.has(key)) continue;
+					const t = new Date(item.date.date.replace(/-/g, '/')).getTime();
 					for (const range of ranges) {
 						if (t >= range.start && t <= range.end && !range.notDates.has(key)) {
 							map.set(key, range.color);
@@ -205,8 +206,7 @@
 
 	const _getStatusColor = (dateStr: string): string => {
 		if (_statusColorMap.value.size === 0) return '';
-		const key = new Date(dateStr.replace(/-/g, '/')).getTime().toString();
-		return _statusColorMap.value.get(key) || '';
+		return _statusColorMap.value.get(_normalizeDateKey(dateStr)) || '';
 	}
 </script>
 <template>
@@ -246,7 +246,7 @@
 						color:item.style.dstyle.fontColor
 					}"
 					>{{showLabel(item)||item.style.dstyle.label}}</text>
-					<view class="xCalendarViewStatus" :style="{backgroundColor:_getStatusColor(item.date.date)}" v-if="_statusColorMap.size > 0 && _getStatusColor(item.date.date)!=''"></view>
+					<view class="xCalendarViewStatus" :style="{backgroundColor:_getStatusColor(item.date.date)}" v-if="_getStatusColor(item.date.date)"></view>
 				</view>
 			</view>
 		</view>

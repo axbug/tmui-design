@@ -1,0 +1,25 @@
+{
+    "name": "tmui.design",
+    "version": "3.2.17",
+    "description": "tmui",
+    "main": "index.js",
+    "type": "module",
+    "scripts": {
+        "dev": "vitepress dev doc",
+        "build": "vitepress build doc",
+        "docs:dev": "vitepress dev doc",
+        "docs:build": "vitepress build doc",
+        "docs:preview": "vitepress preview doc"
+    },
+    "keywords": [
+        "tmui",
+        "design"
+    ],
+    "author": "tmzdy",
+    "license": "ISC",
+    "dependencies": {
+        "vitepress": "^2.0.0-alpha.12",
+        "vitepress-plugin-pagefind": "^0.2.4"
+    },
+    "devDependencies": {}
+}

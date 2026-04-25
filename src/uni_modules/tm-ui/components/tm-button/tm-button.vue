@@ -366,7 +366,7 @@ const isHover = ref(false);
 
 watch(() => attrs.disableHover, (val) => {
     if (val) isHover.value = false;
-}, { immediate: true });
+});
 
 const touchStart = () => {
     if (attrs.disableHover || attrs.disabled || attrs.loading) return;
@@ -505,7 +505,9 @@ export default {
         cursor: no-drop;
     }
     &[disabled = false]{
+        // #ifdef H5
         cursor: pointer;
+        // #endif
     }
     &.tmButtonLoading {
         opacity: 0.5;

@@ -20,17 +20,14 @@ const _formatTokens = /YYYY|MM|DD|HH|hh|mm|ss/g;
  */
 export function createDate(dateStrs : string) : Date {
 	const dateStr = dateStrs.replace(/\//g,'-')
-	const result = new Date();
 	
-	let year = result.getFullYear();
-	let month = result.getMonth()
-	let day = result.getDate()
+	const now = new Date();
+	let year = now.getFullYear();
+	let month = now.getMonth()
+	let day = now.getDate()
 	let hour = 0
 	let minute = 0
 	let second = 0
-	
-	result.setHours(0, 0, 0, 0);
-	result.setDate(1);
 	
 	if(_regYYMMDDHHMMSS.test(dateStr)){
 		const match = dateStr.match(_regYYMMDDHHMMSS)!;
@@ -62,19 +59,15 @@ export function createDate(dateStrs : string) : Date {
 		const match = dateStr.match(_regYYMM)!;
 		year = parseInt(match[1]);
 		month = parseInt(match[2]) - 1;
+		day = 1;
 	}else if(_regYYYY.test(dateStr)){
 		const match = dateStr.match(_regYYYY)!;
 		year = parseInt(match[1]);
+		month = 0;
+		day = 1;
 	}
 	
-	
-	result.setSeconds(second);
-	result.setMinutes(minute);
-	result.setHours(hour);
-	result.setFullYear(year);
-	result.setMonth(month);
-	result.setDate(day);
-	return result;
+	return new Date(year, month, day, hour, minute, second);
 }
 
 export class tmDate {
