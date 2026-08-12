@@ -1,4 +1,4 @@
-import { i18n } from "./local/i18nStore";
+import { createI18nFun } from "./local/i18nStore";
 import Axios from "./libs/axios";
 import type {
     AxiosRequestConfig,
@@ -7,10 +7,13 @@ import type {
     AxiosStatic,
     AxiosInterceptorManager
 } from "./libs/axios";
+import { reactive } from "vue";
+import { setConfig } from "./libs/config";
 
-let $i18n = i18n()
+let $i18nv1 = createI18nFun()
+let $i18n: TM.I18nGlobal = $i18nv1.global as TM.I18nGlobal
 
-export { $i18n,Axios }
+
 // 导出类型定义
 export type {
     AxiosRequestConfig,
@@ -26,9 +29,17 @@ export default {
      * @param options tmui3.0配置
      */
     // @ts-ignore
-    install: (app: App, options: TM.THEME_CONFIG | null = null) => {
-		$i18n = i18n(options?.i18n)
+    install: (app: App, options?: Partial<TM.THEME_CONFIG>) => {
+		$i18nv1 = createI18nFun(options?.i18n)
+		$i18n = $i18nv1.global as TM.I18nGlobal
+        app.use($i18nv1);
+        const temcfg = {...options}
+        if(temcfg?.i18n){
+            delete temcfg.i18n
+        }
+        setConfig(temcfg)
 		console.log('[tm-ui] 欢迎使用极具精致的UniApp组件包');
+
         app.mixin({
             onReady() {
 
@@ -47,3 +58,9 @@ export default {
         })
     }
 };
+
+export { 
+    $i18n,
+    Axios,
+    setConfig
+}

@@ -2,7 +2,7 @@
 	<view>
 		<tm-sheet>
 			<tm-text font-size="36" class="text-weight-b mb-8">左滑菜单 SwitchSlider</tm-text>
-			<tm-text color="#999999"> 通过插槽可完全自定义布局，自由度非常高。如果子菜单无法定宽或者被挤夺请写style:flex-shrink: 0;避免。 </tm-text>
+			<tm-text class="" color="#999999"> 通过插槽可完全自定义布局，自由度非常高。如果子菜单无法定宽或者被挤夺请写style:flex-shrink: 0;避免。 </tm-text>
 		</tm-sheet>
 		<tm-sheet :padding="['0px']" class="overflow">
 			<tm-switch-slider

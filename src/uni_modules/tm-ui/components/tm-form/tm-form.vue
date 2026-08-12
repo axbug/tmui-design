@@ -226,12 +226,16 @@ const _setMarker = (name:string,isvisibl:boolean)=>{
 	}
 }
 
+provide('tmFormSetMarker', _setMarker)
+provide('tmFormValidate', _validate)
+provide('tmFormSubmit', submit)
+provide('tmFormReset', reset)
+
+
 defineExpose({
     submit,
     validate,
-    reset,
-    _validate,
-	_setMarker
+    reset
 })
 
 </script>

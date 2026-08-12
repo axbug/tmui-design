@@ -13,7 +13,7 @@ const beforeClose = ():Promise<boolean> => {
   <view>
     <tm-sheet>
       <tm-text font-size="36" class="text-weight-b mb-16 d-block">对话框 tmModal</tm-text>
-      <tm-text color="#999999">可全局统一更改风格。</tm-text>
+      <tm-text class="" color="#999999">可全局统一更改风格。</tm-text>
     </tm-sheet>
     <tm-sheet class="flex flex-row flex-row-center-center">
       <tm-modal style="flex: 1; margin-right: 24rpx" height="auto">
@@ -37,7 +37,7 @@ const beforeClose = ():Promise<boolean> => {
     </tm-sheet>
 
     <tm-sheet>
-      <tm-text font-size="36" class="text-weight-b mb-24 d-block">嵌套</tm-text>
+      <tm-text font-size="36" class="text-weight-b mb-n8 d-block">嵌套</tm-text>
       <tm-modal height="auto">
         <template v-slot:trigger
           ><tm-button color="success" :block="true">打开嵌套</tm-button></template
@@ -58,10 +58,10 @@ const beforeClose = ():Promise<boolean> => {
     </tm-sheet>
 
     <tm-sheet>
-      <tm-text font-size="36" class="text-weight-b mb-10 d-block"
+      <tm-text font-size="36" class="text-weight-b d-block"
         >默认高度，禁用遮罩关闭</tm-text
       >
-      <tm-text color="#999999" class="mb-24 d-block">
+      <tm-text color="#999999" class="mb-n8 d-block">
         点击遮罩禁用关闭,同时内容出现弹跳提示
       </tm-text>
 
@@ -89,7 +89,7 @@ const beforeClose = ():Promise<boolean> => {
     </tm-sheet>
 
     <tm-sheet>
-      <tm-text font-size="36" class="text-weight-b mb-24 d-block"
+      <tm-text font-size="36" class="text-weight-b mb-n8 d-block"
         >底部插槽及变量控制显示</tm-text
       >
       <tm-button @click="show = true" :block="true">打开</tm-button>

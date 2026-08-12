@@ -146,6 +146,10 @@ const props = defineProps({
 const nowValue = ref<string | number | boolean>('');
 const isDestroy = ref(false);
 const parentVal = inject("tmRadioGroupValue", computed((): string | number | boolean => ""))
+const addItem:((item: string | number | boolean, ischange: boolean)=>void)|null = inject("tmRadioAddItem", null)
+const removeItem:((item: string | number | boolean)=>void)|null = inject("tmRadioRemoveItem", null)
+
+
 const _color = computed(() => {
     if (props.color == "") return getDefaultColor(config.color);
     return getDefaultColor(props.color);
@@ -194,23 +198,18 @@ onBeforeUnmount(() => {
 
 onMounted(() => {
     isDestroy.value = false;
-    
-    nextTick(() => {
-        let parent = findParent(proxy)
-        if(!parent){
-            nowValue.value = props.modelValue;
-        }
-    });
+    if(addItem == null || removeItem == null) return;
+   nowValue.value = props.modelValue;
 });
 
 function boxClick() {
-    let pelement = findParent(proxy!);
+    let pelement = addItem != null && removeItem != null;
     /**
      * 点击事件
      */
     emit('click');
     if (_disabled.value) return;
-    if (parentVal.value === props.value && pelement != null) return;
+    if (parentVal.value === props.value && pelement) return;
     if (_isCheck.value) {
         nowValue.value = props.unCheckValue;
     } else {
@@ -245,26 +244,14 @@ function setSelected(val: string | number | boolean) {
 }
 
 function pushDataToParent(isChange: boolean) {
-    let pelement = findParent(proxy!);
-    if (pelement == null) return;
-    let parent: InstanceType<typeof tmRadioGroup> = pelement!;
-    if (typeof parent?.addItem != 'function') return;
-    parent.addItem(nowValue.value, isChange);
+    if(addItem == null || removeItem == null) return;
+    addItem(nowValue.value, isChange);
 }
 function removeValue() {
-    let pelement = findParent(proxy!);
-    if (pelement == null) return;
-    let parent: InstanceType<typeof tmRadioGroup> = pelement!;
-    if (typeof parent?.removeItem != 'function') return;
-    parent.removeItem(props.value);
+    if(addItem == null || removeItem == null) return;
+    removeItem(props.value);
 }
-function findParent(parent: any): any {
-    if (parent == null) return null;
-    if (parent.$parent?.$options?.name == "TmRadioGroup") return parent.$parent;
-    let parents = findParent(parent.$parent);
-    if (parents?.$options?.name == "TmRadioGroup") return parents;
-    return null;
-}
+
 
 watch(parentVal, (newvalue: string | number | boolean) => {
     setSelected(newvalue)

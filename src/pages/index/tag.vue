@@ -2,13 +2,13 @@
     <view>
         <tm-sheet>
             <tm-text font-size="36" class="text-weight-b mt-16">标签 TmTag</tm-text>
-            <view class="mb-16">
+            <view class="">
                 <tm-text>样式丰富塑造性好。</tm-text>
             </view>
         </tm-sheet>
 
         <tm-sheet>
-            <tm-text font-size="36" class="text-weight-b">大小</tm-text>
+            <tm-text font-size="36" class="text-weight-b mb-n8">大小</tm-text>
             <view class="flex flex-row flex-row-top-start flex-wrap gap-15 mt-16">
                 <tm-tag size="xs">极小</tm-tag>
                 <tm-tag size="s">小</tm-tag>
@@ -19,7 +19,7 @@
         </tm-sheet>
 
         <tm-sheet>
-            <tm-text font-size="36" class="text-weight-b flex d-block mb-16">状态及样式</tm-text>
+            <tm-text font-size="36" class="text-weight-b flex d-block mb-n8">状态及样式</tm-text>
             <view class="flex flex-row flex-row-top-start flex-wrap gap-15">
                 <tm-tag :disabled="true">禁用</tm-tag>
                 <tm-tag skin="outlined">outlined</tm-tag>
@@ -32,7 +32,7 @@
         </tm-sheet>
 
         <tm-sheet>
-            <tm-text font-size="36" class="text-weight-b mb-16 d-block">图标</tm-text>
+            <tm-text font-size="36" class="text-weight-b mb-n8 d-block">图标</tm-text>
             <view class="flex flex-row flex-row-top-start flex-wrap gap-15">
                 <tm-tag icon="thumb-up-fill" round="42" style="padding: 0 24rpx;">图标</tm-tag>
                 <tm-tag icon="reply-line" color="error" size="n">回复</tm-tag>
@@ -46,7 +46,7 @@
         </tm-sheet>
 
         <tm-sheet>
-            <tm-text font-size="36" class="text-weight-b mb-16 d-block">其它自定样式</tm-text>
+            <tm-text font-size="36" class="text-weight-b mb-n8 d-block">其它自定样式</tm-text>
             <view class="flex flex-wrap gap-15">
                 <tm-tag skin="outlined" :round="[20, 0, 20, 0]">加载中</tm-tag>
                 <tm-tag skin="dashed" :round="[20, 0, 20, 0]">圆角半径</tm-tag>

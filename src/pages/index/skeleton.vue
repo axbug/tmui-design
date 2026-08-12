@@ -2,7 +2,7 @@
 	<view>
 		<tm-sheet>
 			<tm-text font-size="36" class="text-weight-b mb-8">骨架屏 tmSkeleton</tm-text>
-			<tm-text color="#999999">骨架屏就是一个单view，允许你自由组合骨架效果，建议单独使用本组件自己封装一个想要的骨架效果。</tm-text>
+			<tm-text class="mb-n8" color="#999999">骨架屏就是一个单view，允许你自由组合骨架效果，建议单独使用本组件自己封装一个想要的骨架效果。</tm-text>
 			<tm-text color="#999999">由于每个人的app占位样式不一样，我认为这种非常自由式的组合非常符合扩展。</tm-text>
 		</tm-sheet>
 		<tm-sheet>

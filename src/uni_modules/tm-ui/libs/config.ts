@@ -10,9 +10,8 @@ export const useTmConfig = defineStore('tmConfig', {
                 fontSizeBase: '28',
                 fontSizeScale: 1,
                 buttonRadius: 24,
-                buttonShadow: 'none',
                 color: "primary",
-
+                theme:new Map<string,string>(),
                 sheetRadius: 24,
                 sheetMargin: [20, 0, 20, 20],
                 sheetPadding: [24],
@@ -36,9 +35,13 @@ export const useTmConfig = defineStore('tmConfig', {
                 drawerRadius:32,
                 animation: 'cubic-bezier(.42,.38,.15,.93)',
 				
-				backgroundColorContentDark:"#000000"
+				backgroundColorContentDark:"#000000",
+                previewImage:false,
+                modalActionsHalfRound:false,
+                buttonShadow:[0,3,5] as Array<number|string>,
+                tagShadow:[0,2,5] as Array<number|string>
 
-            } as TM.THEME_CONFIG
+            } as Omit<TM.THEME_CONFIG,'i18n'>
         }
     },
 
@@ -46,4 +49,26 @@ export const useTmConfig = defineStore('tmConfig', {
 
     },
 });
+export const setConfig = (options?: Partial<Omit<TM.THEME_CONFIG, 'i18n'>>) =>{
+    const configUse = useTmConfig();
+    const config = configUse.config;
+    type configKeyType = keyof typeof  config
+    const realKeys = Object.keys(config)
+    if(!options) return;
+    for(const key in options){
+        const tkey = key as configKeyType;
+        const val = options[tkey];
+        if(val !=undefined && val != null && val && realKeys.includes(key)){
 
+           if(tkey == 'theme'){
+            const realval = val as Map<string,string>;
+            realval.keys().forEach((temkeyls)=>{
+                config.theme.set(temkeyls,realval.get(temkeyls)!)
+            })
+           }else{
+            // @ts-ignore
+            config[tkey] = val
+           }
+        }
+    }
+}

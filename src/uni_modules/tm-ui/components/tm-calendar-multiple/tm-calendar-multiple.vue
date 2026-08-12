@@ -548,9 +548,8 @@ defineExpose({
 				<swiper-item v-for="(item,index) in _currentDateSwipers" :key="index" style="width:100%;height:100%;">
 					<view style="width:100%;height:100%;position: relative;">
 						<view class="xCalendarViewContentBox">
-							<calendar-multiple-vue v-if="index == _currentDateSwipersIndex||!props.renderOnly"
-												   @click="dateClick" :currentDate="item" :dateStatus="_dateStatus"
-												   :seekDay="props.seekDay" :modelValue="props.modelValue"
+							<calendar-multiple-vue @click="dateClick" :currentDate="item" :dateStatus="_dateStatus"
+											   :seekDay="props.seekDay" :modelValue="props.modelValue"
 												   :model="props.model"
 												   :multipleMax="props.multipleMax" :disabledDays="props.disabledDays"
 												   :startDate="_startDate" :endDate="_endDate"

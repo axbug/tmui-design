@@ -7,6 +7,7 @@
 		"warn": "警告",
 		"info": "提醒",
 		"clear":"清空",
+		"pickerTitle":"请选择",
 		"tmBetweenTime":{
 			"title": "请选择时间",
 			"startText": "开始时间",

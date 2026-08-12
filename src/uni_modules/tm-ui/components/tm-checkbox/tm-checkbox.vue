@@ -1,11 +1,11 @@
 <script lang="ts" setup>
-import { ref, computed, onMounted, onBeforeUnmount, watch, getCurrentInstance, nextTick, inject } from 'vue';
-import { covetUniNumber, getUnit } from "../../libs/tool";
-import { getDefaultColor } from "../../libs/colors";
-import { useTmConfig } from "../../libs/config";
-import tmCheckboxGroup from '../tm-checkbox-group/tm-checkbox-group.vue';
-import tmCheckbox from './tm-checkbox.vue';
-const proxy = getCurrentInstance()?.proxy as InstanceType<typeof tmCheckbox> | null;
+import { ref, computed, onMounted, onBeforeUnmount, watch, getCurrentInstance, nextTick, inject } from 'vue'
+import { covetUniNumber, getUnit } from '../../libs/tool'
+import { getDefaultColor } from '../../libs/colors'
+import { useTmConfig } from '../../libs/config'
+import tmCheckboxGroup from '../tm-checkbox-group/tm-checkbox-group.vue'
+import tmCheckbox from './tm-checkbox.vue'
+const proxy = getCurrentInstance()?.proxy as InstanceType<typeof tmCheckbox> | null
 
 /**
  * @displayName 多选框
@@ -17,352 +17,351 @@ const proxy = getCurrentInstance()?.proxy as InstanceType<typeof tmCheckbox> | n
     | --- | --- | --- | --- |
     | ☑️| ☑️ | ☑️ | ☑️ | ☑️ | 1.0.0 |
  */
-defineOptions({ name: 'TmCheckbox' });
+defineOptions({ name: 'TmCheckbox',options: {
+		styleIsolation: 'apply-shared',
+		virtualHost: true,
+		addGlobalClass: true,
+		multipleSlots: true
+	} })
 const { config } = useTmConfig()
 
 const emit = defineEmits([
-    /**
-     * 用户交互切换，选中变换时触发。
-     * @param {Boolean} check - 当前是否选中
-     * @param {Number} value - 当前选中的值
-     */
-    'change',
-    /**
-     * 点击事件
-     */
-    'click',
-    'update:modelValue'
-]);
+	/**
+	 * 用户交互切换，选中变换时触发。
+	 * @param {Boolean} check - 当前是否选中
+	 * @param {Number} value - 当前选中的值
+	 */
+	'change',
+	/**
+	 * 点击事件
+	 */
+	'click',
+	'update:modelValue'
+])
 
 const props = defineProps({
-    /**
-     * 当前主题色，空值时取全局
-     */
-    color: {
-        type: String,
-        default: ""
-    },
+	/**
+	 * 当前主题色，空值时取全局
+	 */
+	color: {
+		type: String,
+		default: ''
+	},
 
-    /**
-     * 当前未选中时主题色，空值时取全局
-     */
-    unCheckColor: {
-        type: String,
-        default: ""
-    },
-    /**
-     * 当前未选中时的暗黑主题色
-     */
-    darkUnCheckColor: {
-        type: String,
-        default: ""
-    },
-    /**
-     * 当前双向绑定值
-     */
-    modelValue: {
-        type: [String, Number, Boolean],
-        default: ''
-    },
-    /**
-     * 选中的值，
-     */
-    value: {
-        type: [String, Number, Boolean],
-        default: true
-    },
-    /**
-     * 未选中的值
-     */
-    unCheckValue: {
-        type: [String, Number, Boolean],
-        default: ''
-    },
-    /**
-     * 是否禁用
-     */
-    disabled: {
-        type: Boolean,
-        default: false
-    },
-    /**
-     * 选中的图标名称。
-     */
-    icon: {
-        type: String,
-        default: "check-line"
-    },
-    /**
-     * 右侧文字。
-     */
-    label: {
-        type: String,
-        default: ""
-    },
-    /**
-     * 是否隐藏选中框。然后利用默认插槽自定义选中所有样式和状态。
-     */
-    hiddenCheckbox: {
-        type: [Boolean, String],
-        default: false
-    },
-    /**
-     * 半选中
-     */
-    indeterminate: {
-        type: [Boolean, String],
-        default: false
-    },
-    /**
-     * 尺寸
-     */
-    size: {
-        type: [String, Number],
-        default: "42"
-    },
-    /**
-     * 中间小图标大小
-     */
-    iconSize: {
-        type: [String, Number],
-        default: "40"
-    },
-    /**
-     * 文字大小
-     */
-    labelFontSize: {
-        type: [String, Number],
-        default: "30"
-    },
-    /**
-     * 如果不要显示label时设置为false可以隐藏label并把label间隙删除，
-     */
-    showLabel: {
-        type: Boolean,
-        default: true
-    }
-});
+	/**
+	 * 当前未选中时主题色，空值时取全局
+	 */
+	unCheckColor: {
+		type: String,
+		default: ''
+	},
+	/**
+	 * 当前未选中时的暗黑主题色
+	 */
+	darkUnCheckColor: {
+		type: String,
+		default: ''
+	},
+	/**
+	 * 当前双向绑定值
+	 */
+	modelValue: {
+		type: [String, Number, Boolean],
+		default: ''
+	},
+	/**
+	 * 选中的值，
+	 */
+	value: {
+		type: [String, Number, Boolean],
+		default: true
+	},
+	/**
+	 * 未选中的值
+	 */
+	unCheckValue: {
+		type: [String, Number, Boolean],
+		default: ''
+	},
+	/**
+	 * 是否禁用
+	 */
+	disabled: {
+		type: Boolean,
+		default: false
+	},
+	/**
+	 * 选中的图标名称。
+	 */
+	icon: {
+		type: String,
+		default: 'check-line'
+	},
+	/**
+	 * 右侧文字。
+	 */
+	label: {
+		type: String,
+		default: ''
+	},
+	/**
+	 * 是否隐藏选中框。然后利用默认插槽自定义选中所有样式和状态。
+	 */
+	hiddenCheckbox: {
+		type: [Boolean, String],
+		default: false
+	},
+	/**
+	 * 半选中
+	 */
+	indeterminate: {
+		type: [Boolean, String],
+		default: false
+	},
+	/**
+	 * 尺寸
+	 */
+	size: {
+		type: [String, Number],
+		default: '42'
+	},
+	/**
+	 * 中间小图标大小
+	 */
+	iconSize: {
+		type: [String, Number],
+		default: '40'
+	},
+	/**
+	 * 文字大小
+	 */
+	labelFontSize: {
+		type: [String, Number],
+		default: '30'
+	},
+	/**
+	 * 如果不要显示label时设置为false可以隐藏label并把label间隙删除，
+	 */
+	showLabel: {
+		type: Boolean,
+		default: true
+	}
+})
 
-const nowValue = ref<string | number | boolean>('');
-const isDestroy = ref(false);
-const parentVal = inject("tmCheckboxGroupValue", computed((): Array<string | number | boolean> => []))
+const nowValue = ref<string | number | boolean>('')
+const isDestroy = ref(false)
+const parentVal = inject(
+	'tmCheckboxGroupValue',
+	computed((): Array<string | number | boolean> => [])
+)
+const addItem: ((item: string | number | boolean, ischange: boolean) => void) | null = inject('tmCheckboxAddItem', null)
+const removeItem: ((item: string | number | boolean) => void) | null = inject('tmCheckboxRemoveItem', null)
+const isInParent = computed(()=>addItem!=null && removeItem!=null)
 const _color = computed(() => {
-    if (props.color == "") return getDefaultColor(config.color);
-    return getDefaultColor(props.color);
-});
+	if (props.color == '') return getDefaultColor(config.color)
+	return getDefaultColor(props.color)
+})
 const _showLabel = computed(() => props.showLabel)
 
 const _unCheckColor = computed(() => {
-    if (config.mode == 'dark' && props.darkUnCheckColor != '') {
-        return getDefaultColor(props.darkUnCheckColor);
-    }
-    if (props.unCheckColor == "") return getDefaultColor(config.unRadioAndCheckBoxColor);
-    return getDefaultColor(props.unCheckColor);
-});
+	if (config.mode == 'dark' && props.darkUnCheckColor != '') {
+		return getDefaultColor(props.darkUnCheckColor)
+	}
+	if (props.unCheckColor == '') return getDefaultColor(config.unRadioAndCheckBoxColor)
+	return getDefaultColor(props.unCheckColor)
+})
 
 const _isCheck = computed(() => {
-    return nowValue.value === props.value;
-});
+	return nowValue.value === props.value
+})
 
 const _disabled = computed(() => {
-    return props.disabled;
-});
+	return props.disabled
+})
 
 const _label = computed(() => {
-    return props.label;
-});
+	return props.label
+})
 
 const _indeterminate = computed(() => {
-    return props.indeterminate;
-});
+	return props.indeterminate
+})
 
 const _size = computed(() => {
-    let size = covetUniNumber(props.size, config.unit);
-    if (config.fontSizeScale == 1) return size;
-    let sizeNumber = parseInt(size);
-    if (isNaN(sizeNumber)) {
-        sizeNumber = 24;
-    }
-    return (sizeNumber * config.fontSizeScale).toString() + getUnit(size);
-});
+	let size = covetUniNumber(props.size, config.unit)
+	if (config.fontSizeScale == 1) return size
+	let sizeNumber = parseInt(size)
+	if (isNaN(sizeNumber)) {
+		sizeNumber = 24
+	}
+	return (sizeNumber * config.fontSizeScale).toString() + getUnit(size)
+})
 
-watch(() => props.modelValue, (newValue) => {
-    if (newValue === nowValue.value) return;
-    nowValue.value = newValue;
-});
+watch(
+	() => props.modelValue,
+	(newValue) => {
+		if (newValue === nowValue.value) return
+		nowValue.value = newValue
+	}
+)
 
 onBeforeUnmount(() => {
-    isDestroy.value = true;
-});
+	isDestroy.value = true
+})
 
 onMounted(() => {
-    isDestroy.value = false;
-    nextTick(() => {
-        let parent = findParent(proxy)
-        if (!parent) {
-            nowValue.value = props.modelValue;
-        }
-    });
-});
+	isDestroy.value = false
+	nextTick(() => {
+		if (!isInParent.value) {
+			nowValue.value = props.modelValue
+		}
+	})
+})
 
 function boxClick() {
-    /**
-     * 点击事件
-     */
-    emit('click');
-    if (_disabled.value) return;
-    /**
-     * 要点提示：当本组件属性半选中状态时，应该继续保持选中状态，
-     * 并触发change。
-     */
-    if (_isCheck.value && !_indeterminate.value) {
-        nowValue.value = props.unCheckValue;
-    } else {
-        nowValue.value = props.value;
-    }
-    /**
-     * 当前选中的值，等同v-model
-     */
-    emit('update:modelValue', nowValue.value);
-    /**
-     * 用户交互切换，选中变换时触发。
-     * @param check {boolean} 当前是否选中
-     * @param value {number} 当前选中的值
-     */
-    emit('change', _isCheck.value, nowValue.value);
+	/**
+	 * 点击事件
+	 */
+	emit('click')
+	if (_disabled.value) return
+	/**
+	 * 要点提示：当本组件属性半选中状态时，应该继续保持选中状态，
+	 * 并触发change。
+	 */
+	if (_isCheck.value && !_indeterminate.value) {
+		nowValue.value = props.unCheckValue
+	} else {
+		nowValue.value = props.value
+	}
+	/**
+	 * 当前选中的值，等同v-model
+	 */
+	emit('update:modelValue', nowValue.value)
+	/**
+	 * 用户交互切换，选中变换时触发。
+	 * @param check {boolean} 当前是否选中
+	 * @param value {number} 当前选中的值
+	 */
+	emit('change', _isCheck.value, nowValue.value)
 
-    if (_isCheck.value) {
-        pushDataToParent(true);
-
-    } else {
-        removeValue();
-    }
+	if (_isCheck.value) {
+		pushDataToParent(true)
+	} else {
+		removeValue()
+	}
 }
 
-
 function setSelected(val: Array<string | number | boolean>) {
-    if (!Array.isArray(val)) {
-        throw new Error("val must be an array");
-    }
-    const isChecked = val.includes(props.value);
-    if (isChecked) {
-        nowValue.value = props.value;
-    } else {
-        nowValue.value = props.unCheckValue;
-    }
+	if (!Array.isArray(val)) {
+		throw new Error('val must be an array')
+	}
+	const isChecked = val.includes(props.value)
+	if (isChecked) {
+		nowValue.value = props.value
+	} else {
+		nowValue.value = props.unCheckValue
+	}
 }
 
 function pushDataToParent(isChange: boolean) {
-    let pelement = findParent(proxy!);
-    if (pelement == null) return;
-    let parent: InstanceType<typeof tmCheckboxGroup> = pelement!;
-    if (typeof parent?.addItem != 'function') return;
-    parent.addItem(nowValue.value, isChange);
+	if (!isInParent.value) return
+	addItem!(nowValue.value, isChange)
 }
 function removeValue() {
-    let pelement = findParent(proxy!);
-    if (pelement == null) return;
-    let parent: InstanceType<typeof tmCheckboxGroup> = pelement!;
-    if (typeof parent?.removeItem != 'function') return;
-    parent.removeItem(props.value);
-}
-function findParent(parent: any): any {
-    if (parent == null) return null;
-    if (parent.$parent?.$options?.name == "TmCheckboxGroup") return parent.$parent;
-    let parents = findParent(parent.$parent);
-    if (parents?.$options?.name == "TmCheckboxGroup") return parents;
-    return null;
+	if (!isInParent.value) return
+	removeItem!(props.value)
 }
 
-watch(parentVal, (newvalue: Array<string | number | boolean>) => {
-    setSelected(newvalue)
-}, { deep: true })
 
+watch(
+	parentVal,
+	(newvalue: Array<string | number | boolean>) => {
+		setSelected(newvalue)
+	},
+	{ deep: true }
+)
 </script>
-<script lang="ts">
-export default {
-    options: {
-        styleIsolation: "apply-shared",
-        virtualHost: true,
-        addGlobalClass: true,
-        multipleSlots: true,
-    },
-};
-</script>
+
 <template>
-    <view :class="[_disabled ? 'checkboxDisabled' : '']" class="checkbox" @click="boxClick">
-        <view class="checkboxBox" v-if="!hiddenCheckbox" :style="{
-            backgroundColor: _isCheck ? _color : 'transparent',
-            border: `1px solid ${_isCheck ? _color : _unCheckColor}`,
-            width: _size,
-            height: _size
-        }">
-            <view :class="['checkboxBoxIcon', 'checkboxBoxIcon_' + (_isCheck ? 'on' : 'off')]">
-                <tm-icon color="white" :name="_indeterminate ? 'subtract-line' : icon" :size="iconSize"></tm-icon>
-            </view>
-
-        </view>
-        <view v-if="_showLabel" class="checkboxLabelBox" :class="[!hiddenCheckbox ? 'checkboxLabelBoxLeftSpace' : '']">
-            <!-- 
+	<view :class="[_disabled ? 'checkboxDisabled' : '']" class="checkbox" @click="boxClick">
+		<view
+			class="checkboxBox"
+			v-if="!hiddenCheckbox"
+			:style="{
+				backgroundColor: _isCheck ? _color : 'transparent',
+				border: `1px solid ${_isCheck ? _color : _unCheckColor}`,
+				width: _size,
+				height: _size
+			}"
+		>
+			<view :class="['checkboxBoxIcon', 'checkboxBoxIcon_' + (_isCheck ? 'on' : 'off')]">
+				<tm-icon color="white" :name="_indeterminate ? 'subtract-line' : icon" :size="iconSize"></tm-icon>
+			</view>
+		</view>
+		<view v-if="_showLabel" class="checkboxLabelBox" :class="[!hiddenCheckbox ? 'checkboxLabelBoxLeftSpace' : '']">
+			<!-- 
 			 默认文本插槽
 			 @binding {boolean} checked - 是否选中
 			 -->
-            <slot name="label" :checked="_isCheck">
-                <tm-text :font-size="labelFontSize" class="checkboxLabel">{{ _label }}</tm-text>
-            </slot>
-        </view>
-    </view>
+			<slot name="label" :checked="_isCheck">
+				<tm-text :font-size="labelFontSize" class="checkboxLabel">{{ _label }}</tm-text>
+			</slot>
+		</view>
+	</view>
 </template>
 <style scoped lang="scss">
 .checkbox {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: flex-start;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: flex-start;
 }
 
 .checkboxLabelBox {
-    flex: 1;
+	flex: 1;
 }
 
 .checkboxDisabled {
-    opacity: 0.7;
+	opacity: 0.7;
 }
 
 .checkboxBoxIcon {
-    transition-property: opacity, transform;
-    opacity: 0;
-    transform: scale(0);
+	transition-property: opacity, transform;
+	opacity: 0;
+	transform: scale(0);
+    line-height: 1;
 }
 
 .checkboxBoxIcon_on {
-    opacity: 1;
-    transform: scale(0.9);
-    transition-duration: 300ms;
-    transition-timing-function: cubic-bezier(0.34, 1.56, 0.64, 1);
+	opacity: 1;
+	transform: scale(0.9);
+	transition-duration: 300ms;
+	transition-timing-function: cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 .checkboxBoxIcon_off {
-    opacity: 0;
-    transform: scale(0);
-    transition-duration: 200ms;
-    transition-timing-function: ease-out;
+	opacity: 0;
+	transform: scale(0);
+	transition-duration: 200ms;
+	transition-timing-function: ease-out;
 }
 
 .checkboxBox {
-    border-radius: 8rpx;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    transition: border-color 250ms ease, background-color 250ms ease;
+	border-radius: 8rpx;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: center;
+	transition:
+		border-color 250ms ease,
+		background-color 250ms ease;
 }
 
 .checkboxLabelBoxLeftSpace {
-    padding-left: 20rpx;
+	padding-left: 20rpx;
 }
 
 .checkboxLabel {
-    font-size: 28rpx;
+	font-size: 28rpx;
 }
 </style>

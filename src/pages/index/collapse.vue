@@ -2,7 +2,7 @@
     <view>
         <tm-sheet>
             <tm-text font-size="36" class=" text-weight-b mb-8">折叠面板 Collapse</tm-text>
-            <tm-text color="#999999">允许单开，和多开。同步的值不管你提供的是什么类型,最终会被同步成数组.</tm-text>
+            <tm-text class="" color="#999999">允许单开，和多开。同步的值不管你提供的是什么类型,最终会被同步成数组.</tm-text>
         </tm-sheet>
         <tm-sheet :padding="0" class=" overflow">
             <tm-collapse>
@@ -27,7 +27,7 @@
         </tm-sheet>
 
         <tm-sheet>
-            <tm-text font-size="36" class=" text-weight-b ">只能展开一个</tm-text>
+            <tm-text font-size="36" class="text-weight-b ">只能展开一个</tm-text>
         </tm-sheet>
 
         <tm-sheet :padding="0" class=" overflow">

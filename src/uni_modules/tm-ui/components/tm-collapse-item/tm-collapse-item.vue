@@ -128,7 +128,7 @@ const props = defineProps({
 })
 
 const emit = defineEmits(['click'])
-
+const toggleActivate:((name: Array<string | number> | string | number, isEmits?: boolean) => void) | null = inject('tmCollapseToggleActivate', null)
 const tmCollapseDefaultName = inject('tmCollapseDefaultName', computed((): Array<string | number> => []))
 const _disabled = computed(() => props.disabled)
 const _titleFontSize = computed(() => {
@@ -182,18 +182,11 @@ function itemClick() {
      */
     emit('click', props.name)
     if(_disabled.value) return;
-    let parent: InstanceType<typeof tmCollapse> | null = findParent(proxy)
-    if (parent == null) return
-    parent.toggleActivate(props.name, true)
+    toggleActivate?.(props.name, true)
+
 }
 
-function findParent(parent: any): any {
-    if (parent == null) return null;
-    if (parent.$parent?.$options?.name == "TmCollapse") return parent.$parent;
-    let parents = findParent(parent.$parent);
-    if (parents?.$options?.name == "TmCollapse") return parents;
-    return null;
-}
+
 </script>
 
 <template>

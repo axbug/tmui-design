@@ -70,11 +70,11 @@ const props = defineProps({
         default: "scaleToFill"
     },
     /**
-     * 点击后是否预览图片
+     * 点击后是否预览图片,默认为空值，采用全局的配置。
      */
     preview: {
-        type: Boolean,
-        default: true
+        type: [Boolean],
+        default: undefined
     },
     /**
      * 预览占位比例
@@ -252,7 +252,7 @@ const _styleMap = computed(() => {
 
 const prevImage = () => {
     emit('click');
-    if (props.preview) {
+    if (((props.preview===undefined||props.preview===null)&&config.previewImage)||props.preview===true) {
         uni.previewImage({
             current: props.src,
             urls: [props.src]

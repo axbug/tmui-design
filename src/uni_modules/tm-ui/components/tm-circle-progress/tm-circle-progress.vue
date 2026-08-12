@@ -128,16 +128,13 @@ const percent = computed(() => {
 const getCanvasCtx = (): Promise<UniApp.CanvasContext> => {
 	if(contentCtx.value!=null) return Promise.resolve(contentCtx.value)
     return new Promise((resolve)=>{
-		// #ifdef APP-PLUS
-		// #ifndef APP-NVUE
-		// App-Vue 必须使用旧版 canvas：uni.createCanvasContext(uid, proxy)
+		// #ifdef APP
 		const ctx = uni.createCanvasContext(uid, proxy)
 		contentCtx.value = ctx as unknown as UniApp.CanvasContext
 		resolve(contentCtx.value)
-		return
 		// #endif
-		// #endif
-
+		
+		// #ifndef APP
 		uni.createSelectorQuery()
 			.in(proxy)
 		    .select('#'+uid)
@@ -156,6 +153,7 @@ const getCanvasCtx = (): Promise<UniApp.CanvasContext> => {
 				contentCtx.value = ctx;
 				resolve(ctx)
 		})
+		// #endif
 	})
 }
 
@@ -211,8 +209,8 @@ const drawProgress = async () => {
         if (typeof (ctx as any).setLineWidth === 'function') (ctx as any).setLineWidth(val)
         else ctx.lineWidth = val
     }
-    const setLineCap = (val: string) => {
-        // @ts-ignore
+    const setLineCap = (val: CanvasLineCap) => {
+        // @ts-ignore 跨平台旧版 canvas API
         if (typeof (ctx as any).setLineCap === 'function') (ctx as any).setLineCap(val)
         else ctx.lineCap = val
     }

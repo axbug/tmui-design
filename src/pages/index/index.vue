@@ -6,6 +6,8 @@
             <tm-text color="#999999">这是tmui3.1.x后的3.2.x版本.它与3.1.x系列完全不同,不可平移兼容,它实际上是全新的版本,兼容鸿蒙next用的版本,而且不再支持nvue.</tm-text>
             <tm-text color="red">它是按照tmui4.0x规范标准写的与4.0x属性风格细节一样且精致.</tm-text>
 			</tm-sheet>
+			<tm-cell url="/pages/index/languages" title="languages"></tm-cell>
+					<tm-cell url="/pages/index/config" title="config"></tm-cell>
 					<tm-cell url="/pages/index/alert" title="alert"></tm-cell>
 					
 					<tm-cell url="/pages/index/avatar-group" title="avatar-group"></tm-cell>

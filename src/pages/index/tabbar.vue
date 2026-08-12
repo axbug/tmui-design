@@ -10,7 +10,7 @@ const list: TM.TABBAR_ITEM_INFO[] = [
 	{ title: '首页', icon: 'home-smile-2-line', selectedIcon: 'home-smile-2-fill', dotType: 'dot' },
 	{ title: '分类', icon: 'cloud-line', selectedIcon: 'cloud-fill' },
 	{ title: '购物车', icon: 'shopping-basket-line', selectedIcon: 'shopping-basket-fill' },
-	{ title: '统计', icon: 'bar-chart-2-line', selectedIcon: 'bar-chart-2-fill', dotLabel: '99+' },
+	{ title: '统计数据', icon: 'bar-chart-2-line', selectedIcon: 'bar-chart-2-fill', dotLabel: '99+' },
 	{ title: '我的', icon: 'group-line', selectedIcon: 'group-fill' }
 ]
 </script>
@@ -18,8 +18,8 @@ const list: TM.TABBAR_ITEM_INFO[] = [
 <template>
 	
 	<tm-sheet >
-		<tm-text font-size="36" class="text-weight-b mb-16 d-block">底部导航 TmTabbar</tm-text>
-		<view class="mb-n6">
+		<tm-text font-size="36" class="text-weight-b d-block">底部导航 TmTabbar</tm-text>
+		<view class="mb-n8">
 		    <tm-text>可以设置凸起，也可以关闭，用于底部导航使用，多页面导航等。</tm-text>
 		</view>
 		<tm-button block @click="outIndex = 3">切换outIndex</tm-button>

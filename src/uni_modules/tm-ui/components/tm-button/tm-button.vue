@@ -39,7 +39,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, getCurrentInstance, PropType, ref, watch } from 'vue'
+import { computed, getCurrentInstance, inject, PropType, ref, watch } from 'vue'
 import { arrayNumberValid, arrayNumberValidByStyleMP, covetUniNumber, arrayNumberValidByStyleBorderColor, linearValid, findParent } from '../../libs/tool'
 import { useTmConfig } from '../../libs/config'
 import {
@@ -47,7 +47,8 @@ import {
 	getDefaultColorObj,
 	getOutlineColorObj,
 	getTextColorObj,
-	getThinColorObj
+	getThinColorObj,
+    hexToRgb
 } from '../../libs/colors'
 import TmForm from '../tm-form/tm-form.vue'
 
@@ -61,7 +62,12 @@ import TmForm from '../tm-form/tm-form.vue'
     | --- | --- | --- | --- |
     | ☑️| ☑️ | ☑️ | ☑️ | ☑️ | 1.0.0 |
  */
-defineOptions({ name: 'TmButton' });
+defineOptions({ name: 'TmButton',options: {
+        styleIsolation: "apply-shared",
+        virtualHost: true,
+        addGlobalClass: true,
+        multipleSlots: true,
+    } });
 const { config } = useTmConfig()
 const proxy = getCurrentInstance()?.proxy;
 const emits = defineEmits([
@@ -204,18 +210,13 @@ const attrs = defineProps({
         type: String,
         default: ""
     },
-    /** 渐变，前面的color,bgColor,darkBgColor失效 */
+    /** 
+     * 渐变，前面的color,bgColor,darkBgColor失效
+     * [方向，颜色1，颜色2]
+     */
     linear: {
         type: Array as PropType<string[]>,
-        default: () => [],
-        validator: (val: string[]) => {
-            if (val.length == 0) return true;
-            let pass = val.length == 3;
-            if (!pass) {
-                console.error("tmui提醒:linear 参数格式错误，请检查,必须长度为3");
-            }
-            return pass
-        }
+        default: () => []
     },
     /**
      * 数字或者字符串时自动计算投影,它会投影大小
@@ -224,16 +225,7 @@ const attrs = defineProps({
      */
     shadow: {
         type: [String, Number, Array<string>],
-        default: '',
-        validator: (val: string | number | string[]) => {
-            if (Array.isArray(val)) {
-                if (val.length != 4) {
-                    console.error("tmui提醒:shadow 第一个x,第二为y,第三个为大小 ,第四个为投影颜色");
-                    return false;
-                }
-            }
-            return true;
-        }
+        default: []
     },
     formType: {
         type: String as PropType<"submit" | "reset" | "form">,
@@ -361,7 +353,8 @@ const _width = computed(() => {
 })
 const _height = computed(() => attrs.height === '' ? covetButtonSize('height', attrs.size) : covetUniNumber(attrs.height))
 const _fontSize = computed(() => attrs.fontSize === '' ? covetButtonSize('fontSize', attrs.size) : covetUniNumber(attrs.fontSize))
-
+const submit = inject<(()=>void)|null>('tmFormSubmit',null)
+const reset = inject<(()=>void)|null>('tmFormReset',null)
 const isHover = ref(false);
 
 watch(() => attrs.disableHover, (val) => {
@@ -377,7 +370,8 @@ const touchEnd = () => {
 }
 const _colorObj = computed(() => {
     const isDark = config.mode == 'dark';
-    const color = attrs.color || config.color;
+    const color = attrs.color || (isDark ? (attrs.darkBgColor || attrs.bgColor) : (attrs.bgColor || attrs.darkBgColor)) || config.color;
+   
     if (attrs.skin == 'text') return getTextColorObj(color, color, isDark);
     if (attrs.skin == 'thin') return getThinColorObj(color, color, isDark);
     if (attrs.skin == 'outlined' || attrs.skin == 'dashed') return getOutlineColorObj(color, color);
@@ -412,27 +406,38 @@ const buttonStyle = computed(() => {
     style.color = linear ? '#ffffff' : fontColor || state.fontColor;
     style.background = background || state.background;
     style.borderStyle = borderStyle;
-    style.borderColor = background || state.borderColor;
+    style.borderColor = state.borderColor;
     style.borderWidth = linear ? '0px' : arrayNumberValidByStyleMP(attrs.borderWidth, '0px').join(" ");
     style.borderRadius = attrs.rounded ? '50%' : arrayNumberValid(round, '0px').join(" ");
 
-    if (!isHover.value || attrs.disabled || attrs.loading) {
+    if ((!isHover.value)&&attrs.skin=='normal') {
         let shadow = 'none';
-        if (Array.isArray(attrs.shadow)) {
-            shadow = attrs.shadow.join(' ');
-        } else if (attrs.shadow !== '' && attrs.shadow != 'none') {
-            shadow = `0 2px ${covetUniNumber(attrs.shadow)} ${obj.default.shadow}`;
-        } else if (attrs.shadow === '') {
-            if (Array.isArray(config.buttonShadow)) {
-                shadow = config.buttonShadow.join(' ');
-            } else if (config.buttonShadow && config.buttonShadow != 'none') {
-                shadow = `0 2px ${covetUniNumber(config.buttonShadow)} ${obj.default.shadow}`;
+        let shadowColor = obj.default.background;
+        let linearColors = attrs.linear.length>=3?attrs.linear[1]:''
+        if (Array.isArray(attrs.shadow)&&attrs.shadow.length>=3) {
+            if(attrs.shadow.length>=4){
+                shadowColor = attrs.shadow[3]
+            }else{
+                shadowColor = linearColors||shadowColor
             }
+            const rgb = hexToRgb(shadowColor)
+            shadow = `${attrs.shadow.join(' ')} rgba(${rgb.r},${rgb.g},${rgb.b},0.3)`;
+        } else if (attrs.shadow !== '' && attrs.shadow!=0 && attrs.shadow != 'none'&&(typeof attrs.shadow == 'number'||typeof attrs.shadow == 'string')) {
+            shadowColor = linearColors||shadowColor;
+            const rgb = hexToRgb(shadowColor)
+            shadow = `0 2px ${covetUniNumber(attrs.shadow,'px')} rgba(${rgb.r},${rgb.g},${rgb.b},0.3)`;
+        } else if (Array.isArray(config.buttonShadow)&&config.buttonShadow.length>=3) {
+            let shadowFix = config.buttonShadow.map(el=>covetUniNumber(el,'px'))
+            shadowColor = linearColors||shadowColor
+            const rgb = hexToRgb(shadowColor)
+            shadow = `${shadowFix.join(' ')} rgba(${rgb.r},${rgb.g},${rgb.b},0.3)`;
         }
         style.boxShadow = shadow;
     }
 
-    if (attrs.borderColor) {
+    if (isDark && attrs.darkBorderColor && attrs.darkBorderColor !== 'transparent') {
+        style.borderColor = arrayNumberValidByStyleBorderColor(attrs.darkBorderColor).join(' ');
+    } else if (attrs.borderColor) {
         style.borderColor = arrayNumberValidByStyleBorderColor(attrs.borderColor).join(' ');
     }
 
@@ -454,12 +459,11 @@ const onClick = (evt: any) => {
         return;
     }
     if (attrs.formType == 'submit' || attrs.formType == 'reset') {
-        let parent = findParent<InstanceType<typeof TmForm>>(proxy!, "TmForm")
-        if (parent != null) {
+        if (submit != null && reset !=null) {
             if (attrs.formType == 'submit') {
-                parent.submit()
+                submit()
             } else if (attrs.formType == 'reset') {
-                parent.reset()
+                reset()
             }
         }
     }
@@ -480,16 +484,7 @@ const subscribe = (evt: any) => emits('subscribe', evt)
 const login = (evt: any) => emits('login', evt)
 const im = (evt: any) => emits('im', evt)
 </script>
-<script lang="ts">
-export default {
-    options: {
-        styleIsolation: "apply-shared",
-        virtualHost: true,
-        addGlobalClass: true,
-        multipleSlots: true,
-    },
-};
-</script>
+
 
 <style lang="scss" scoped>
 .tmButton {
@@ -501,6 +496,8 @@ export default {
     align-items: center;
     box-sizing: border-box;
     gap: 8px;
+    box-sizing: border-box;
+    padding: 0 6px;
     &[disabled = true]{
         cursor: no-drop;
     }

@@ -3,9 +3,19 @@ import { ref, computed, onMounted, onBeforeUnmount, watch, PropType, getCurrentI
 import { covetUniNumber, getUnit, getUid } from "../../libs/tool";
 import { useTmConfig } from "../../libs/config";
 
-const { config } = useTmConfig()
 type TM_PICKER_X_ITEM = Record<string, any>
 
+defineOptions({
+	name:"pickerItem",
+	options: {
+		styleIsolation: "apply-shared",
+		virtualHost: true,
+		addGlobalClass: true,
+		multipleSlots: true,
+	}
+})
+
+const { config } = useTmConfig()
 const boxHeight = ref(0)
 const id = ('tmPickerItem-' + getUid())
 const nowCurrentIndex = ref([0])
@@ -68,12 +78,12 @@ const _isDark = computed((): boolean => config.mode == 'dark')
 
 const _maskStyle = computed((): string => {
 	if (_isDark.value) {
-		return 'background-image:linear-gradient(180deg,rgba(0, 0, 0, 0),rgba(0, 0, 0, 0)),linear-gradient(0deg, rgba(0, 0, 0, 0),rgba(0, 0, 0, 0))'
+		return 'background-image:linear-gradient(180deg,rgba(0, 0, 0, 0.5),rgba(0, 0, 0, 0)),linear-gradient(0deg, rgba(0, 0, 0, 0.5),rgba(0, 0, 0, 0))'
 	}
-	return 'background-image:linear-gradient(180deg,rgba(255,255,255,0),rgba(255,255,255,0)),linear-gradient(0deg, rgba(255,255,255,0),rgba(255,255,255,0))'
+	return 'background-image:linear-gradient(180deg,rgba(255,255,255,0.5),rgba(255,255,255,0)),linear-gradient(0deg, rgba(255,255,255,0.5),rgba(255,255,255,0))'
 })
 const _selectedMaskStyle = computed((): string => {
-	return _isDark.value ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.05)'
+	return _isDark.value ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.1)'
 })
 
 // 工具：比较两个数组是否一致
@@ -148,16 +158,7 @@ watch(_list, (newvalue) => {
 }, { deep: false })
 
 </script>
-<script lang="ts">
-export default {
-	options: {
-		styleIsolation: "apply-shared",
-		virtualHost: true,
-		addGlobalClass: true,
-		multipleSlots: true,
-	},
-};
-</script>
+
 <template>
 	<view>
 		<view class="tmPickerViewUnit" v-if="_cellUnits.length>0">
@@ -165,27 +166,45 @@ export default {
 				<tm-text  font-size="24" class="tmPickerViewUnitText">{{ item }}</tm-text>
 			</view>
 		</view>
-		<picker-view indicator-class="indicatorClass" :key="refreshKey" :immediate-change="true" :value="nowCurrentIndex" @change="onChange"
-			:style="{ height: '250px', width: '100%' }" :mask-style="`${_maskStyle}`"
-			:indicator-style="`height:50px;border:none;border-radius:10px`">
-			<picker-view-column v-for="(item2, index2) in _list" :key="index2">
-				<view :style="{ background: nowCurrentIndex[index2] == index ? _selectedMaskStyle : 'none',margin:'0 4px' }"
-					v-for="(item, index) in item2" :key="index" class="tmPickerViewWrapCoumn">
-					<text class="tmPickerViewWrapCoumnText" :style="{
-						fontSize: _fontSize,
-						lineHeight: 1,
-						fontWeight: nowCurrentIndex[index2] == index ? 'bold' : 'inherit',
-						opacity: item.disabled ? 0.4 : (nowCurrentIndex[index2] == index ? 1 : 0.6),
-						color: _isDark ? 'rgba(255,255,255,0.8)' : '#000000'
-					}">
-						{{ item[rangText]||"" }}
-					</text>
-				</view>
-			</picker-view-column>
-		</picker-view>
+		<view class="" style="position: relative;">
+			<picker-view 
+			indicator-class="indicatorClass" 
+			:key="refreshKey" 
+			:immediate-change="true" 
+			:value="nowCurrentIndex" 
+			@change="onChange"
+			:style="{ height: '250px', width: '100%' }" 
+			:mask-style="`${_maskStyle}`"
+			:indicator-style="`height:50px;border:none;`"
+			>
+				<picker-view-column v-for="(item2, index2) in _list" :key="index2">
+					<view 
+						v-for="(item, index) in item2" :key="index" class="tmPickerViewWrapCoumn">
+						<text class="tmPickerViewWrapCoumnText" :style="{
+							fontSize: _fontSize,
+							lineHeight: 1,
+							fontWeight: nowCurrentIndex[index2] == index ? 'bold' : 'inherit',
+							opacity: item.disabled ? 0.4 : (nowCurrentIndex[index2] == index ? 1 : 0.45),
+							color: _isDark ? 'rgba(255,255,255,0.8)' : '#000000'
+						}">
+							{{ item[rangText]||"" }}
+						</text>
+					</view>
+				</picker-view-column>
+			</picker-view>
+			<view class="indicatorCenter" :style="{background:_selectedMaskStyle}"></view>
+		</view>
 	</view>
 </template>
-<style>
+<style scoped>
+.indicatorCenter{
+	position: absolute;
+	height: 50px;
+	width: 100%;
+	top: 50%;
+	transform: translateY(-50%);
+	border-radius: 10px;
+}
 .indicatorClass:after,
 .indicatorClass:before {
 	content:'';
@@ -253,7 +272,6 @@ export default {
 
 .xPickErBar {
 	background-color: #f5f5f5;
-	border-radius: 10px;
 	margin: 0 3px;
 	flex: 1;
 
@@ -271,7 +289,6 @@ export default {
 	justify-content: center;
 	align-items: center;
 	height: 50px;
-	border-radius: 10px;
 	/* background-color: #f5f5f5; */
 }
 </style>

@@ -3,10 +3,10 @@
 layout: home
 
 hero:
-  name: "TMUI3.2+Ai"
-  text: "优质Vue3 组合式UniApp跨端组件库"
-  tagline: 精致,高效,细节完善,配合Ai生成式页面输出，规划让你的效率再次翻倍，紧随Ai时代，不落下风。
-  description: 它是3.1.x继承者,同时也是tmui4.0x标准规范,以支援uniappx开发时开发更统一风格的页面.同时也是以tmui4.0x标准的小程序组件库,精致,高效,细节完善
+  name: "TMUI UNIAPP"
+  text: "Vue3 跨端组件库"
+  tagline: 精致、高效、细节完善。配合 AI 生成式页面输出，让跨端开发效率再翻一倍。
+  description: 它是 3.1.x 继承者，同时也是 tmui4.0x 标准规范，以支援 uniappx 开发时更统一风格的页面。同时也是以 tmui4.0x 标准的小程序组件库。
   image:
     src: /images/logoGreat.png
     alt: tmui3.0
@@ -14,40 +14,33 @@ hero:
     - theme: brand
       text: 起步学习
       link: /start/快速上手.md
-    - theme: brand
-      text: Ai+可视化
+    - theme: alt
+      text: Ai + 可视化
       link: https://store.tmui.design/
-    - theme: brand
-      text: 4.0x uniappx版
+    - theme: alt
+      text: 4.0x uniappx
       link: https://xui.tmui.design
     - theme: alt
       text: 赞助作者
       link: /zhanzhu/赞助.md
-    
+
 features:
-  - icon: 🧚
+  - icon: ◆
     title: 全端组件库
-    details: APP(安卓,IOS),微信小程序,H5,各家小程序，全部覆盖，一库在手，遍地走!
-  - icon: 🏇
-    title: Vue3 TS Pinia 驱动
-    details: 享受vue3的极速体验，享受TypeScript的强类型提示，性能强劲快速,vite编译速度极快。
-  - icon: 🐶
-    title: 自由定制UI组件
-    details: 全新的tmui组件库，支持，线，渐变，暗黑，背景，圆角，投影等全方位的自定，每个组件都享有个性化的权力，不再千篇一律！
-  - icon: 🐏
-    title: CSS布局库
-    details: 一如既往的支持，而是让你不写css就能布局原生页面。
-  - icon: 🦅
+    details: APP（安卓 / iOS）、微信小程序、H5 与各家小程序全覆盖，一库在手，遍地可用。
+  - icon: ◈
+    title: Vue3 · TS · Pinia
+    details: 享受 Vue3 极速体验与 TypeScript 强类型提示，Vite 编译速度极快。
+  - icon: ○
+    title: 自由定制 UI
+    details: 支持线、渐变、暗黑、背景、圆角、投影等全方位自定，每个组件都可个性化。
+  - icon: ▣
+    title: CSS 布局库
+    details: 一如既往支持，让你少写 CSS 也能布局原生页面。
+  - icon: ▷
     title: 高性能
-    details: 所有组件采用最新特性，性能翻倍。让uniapp在原生，小程序应用中流畅的运行，极致丝滑的体验。
-  - icon: 🌹
+    details: 采用最新特性，性能翻倍，让 uniapp 在原生与小程序中流畅运行。
+  - icon: ◇
     title: 高颜值
-    details: 继承TMUI4.0x的传统，继续保持强劲的美观组件库。让主题，暗黑随性切换。
-footerHtml: true
-
-
-
-
+    details: 继承 TMUI 4.0x 传统，主题与暗黑随性切换，保持强劲美观。
 ---
-
-<footerLinks></footerLinks>

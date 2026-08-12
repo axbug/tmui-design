@@ -145,10 +145,16 @@
 		
 		return splitArray<xDateArrayItemType>(dates,7)
 	})
+	const rangeStatusLabels = computed((): string[] => {
+		const message = $i18n.tm?.('tmui32x.tmCalendar.rangStatus')
+		if (typeof message !== 'string') return []
+		return message.split('|').map((label: string): string => label.trim())
+	})
 	const showLabel = (item:xDateArrayItemType):string => {
-		if(item.isInstart&&item.isInEnd&&_model.value=='range') return $i18n.t('tmui32x.tmCalendar.rangStatus',2)
-		if(item.isInstart&&!item.isInEnd&&_model.value=='range') return $i18n.t('tmui32x.tmCalendar.rangStatus',0)
-		if(!item.isInstart&&item.isInEnd&&_model.value=='range') return $i18n.t('tmui32x.tmCalendar.rangStatus',1)
+		if (_model.value != 'range') return ""
+		if (item.isInstart && item.isInEnd) return rangeStatusLabels.value[2] ?? ""
+		if (item.isInstart) return rangeStatusLabels.value[0] ?? ""
+		if (item.isInEnd) return rangeStatusLabels.value[1] ?? ""
 		return ""
 	}
 	const dateClick = (item:xDateArrayItemType) =>{

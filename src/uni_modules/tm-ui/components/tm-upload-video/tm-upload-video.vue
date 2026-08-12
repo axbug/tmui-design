@@ -81,11 +81,11 @@
 	])
 	const STATUS_COLOR = new Map<TMUPLOAD_PHOTO_STATUS, string>([
 		[0, '#fff'],
-		[1, '#F2F2F2'],
-		[2, '#07d73d'],
+		[1, '#fff'],
+		[2, '#fff'],
 		[3, '#f10226'],
-		[4, '#F2F2F2'],
-		[5, '#ffa61e']
+		[4, '#fff'],
+		[5, '#f10226']
 	])
 	const guuterSpace = uni.upx2px(10)
 	const emit = defineEmits([
@@ -668,7 +668,7 @@
 		box-sizing: border-box;
 		padding: 2px 5rpx;
 
-		background-color: rgba(6, 8, 15, 0.46);
+		background-color: rgba(6, 8, 15, 0.26);
 		color: white;
 		font-size: 11px;
 		position: absolute;

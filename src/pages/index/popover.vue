@@ -13,7 +13,7 @@ const dates = ref([])
 	<view>
 		<tm-sheet>
 			<tm-text font-size="32" class=" text-weight-b mb-16 d-block">汽泡菜单 tmPopover</tm-text>
-			<tm-text color="#999999">
+			<tm-text class="" color="#999999">
 				多达8个位置可选，当显示位置不足时可以自动反转位置。
 			</tm-text>
 		</tm-sheet>

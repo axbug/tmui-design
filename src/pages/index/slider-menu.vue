@@ -1,7 +1,7 @@
 <template>
 	<view class="flex-1 flex flex-col" style="height: 100%;">
 		<tm-sheet>
-			<tm-text font-size="36" class="text-weight-b mb-16 d-block">侧边菜单 TmSliderMenu</tm-text>
+			<tm-text font-size="36" class="text-weight-b d-block">侧边菜单 TmSliderMenu</tm-text>
 			<view>
 				<tm-text>方便侧边菜单右边内容管理，示例写了个双向定位展示的样板，方便大家复制直接使用。样式非常灵活，可以任意定制你想要的格式，也兼容PC端</tm-text>
 			</view>

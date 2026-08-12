@@ -2,7 +2,7 @@
     <view>
         <tm-sheet>
             <tm-text font-size="36" class=" text-weight-b mb-8 d-block">选择器 tmPicker</tm-text>
-            <tm-text color="#999999" class="text-size-b">
+            <tm-text color="#999999" class="text-size-b ">
                 这是tmPickerView封装的弹出式，详细可见tmPickerView文档
             </tm-text>
         </tm-sheet>
@@ -14,7 +14,7 @@
 
         </tm-sheet>
         <tm-sheet>
-            <tm-text font-size="36" class=" text-weight-b mb-8 d-block">城市选择器</tm-text>
+            <tm-text font-size="36" class=" text-weight-b mb-n8 d-block">城市选择器</tm-text>
             <tm-picker @change="change" rang-key="code" rang-text="name" v-model="selecteds" v-model:model-str="str"
                 :list="city">
                 <tm-button :block="true">打开选项</tm-button>

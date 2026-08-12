@@ -102,6 +102,10 @@ const tmFormLabelwidth = inject("tmFormLabelwidth", computed(() => ''))
 const tmFormGap = inject("tmFormGap", computed(() => '0'))
 const tmFormLabelFontSize = inject("tmFormLabelFontSize", computed(() => '30'))
 const tmFormLabelFontColor = inject("tmFormLabelFontColor", computed(() => '#333333'))
+
+const tmFormValidate = inject<((name: string, value: any)=>{ validate: boolean, message: string } | boolean)|null>("tmFormValidate", null)
+const tmFormSetMarker = inject<((name:string,isvisibl:boolean)=>boolean)|null>("tmFormSetMarker", null)
+
 const _tmFormGap = computed(() => props.bottomGap == '' ? covetUniNumber(tmFormGap.value) : covetUniNumber(props.bottomGap))
 const _tmFormDirection = computed(() => {
     if (props.direction) return props.direction
@@ -165,11 +169,8 @@ watch(tmFormVaildType, (val: string) => {
 })
 
 const _validFun = (val: any) => {
-    if (!proxy) return;
-    let parent = findParent(proxy)
-    if (!parent) return;
-    let ele = parent! as InstanceType<typeof TmForm>
-    let valid = ele._validate(props.name, val)
+    if (!tmFormValidate) return;
+    let valid =tmFormValidate(props.name, val)
     if (typeof valid == 'boolean') {
         if (valid) {
             isPass.value = true;
@@ -187,21 +188,12 @@ const _validFun = (val: any) => {
 }
 
 const setVisibled = (isvisible = true) => {
-    if (!proxy) return;
-    let parent = findParent(proxy)
-    if (!parent) return;
-    let ele = parent! as InstanceType<typeof TmForm>
-
-    ele._setMarker(props.name, isvisible)
+    if (!tmFormSetMarker) return;
+ 
+    tmFormSetMarker!(props.name, isvisible)
 }
 
-function findParent(parent: any): any {
-    if (parent == null) return null;
-    if (parent.$parent?.$options?.name == "TmForm") return parent.$parent;
-    let parents = findParent(parent.$parent);
-    if (parents?.$options?.name == "TmForm") return parents;
-    return null;
-}
+
 
 onMounted(() => {
     setVisibled(true)

@@ -12,7 +12,7 @@ const value = ref(10)
     <view>
         <tm-sheet>
             <tm-text font-size="32" class=" text-weight-b mb-16 d-block">圆环进度条 TmCircleProgress</tm-text>
-            <tm-text color="#999999">
+            <tm-text class="" color="#999999">
                 配置灵活，自由度高。
             </tm-text>
         </tm-sheet>

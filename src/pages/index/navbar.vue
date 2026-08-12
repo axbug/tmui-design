@@ -26,11 +26,11 @@
 
         <tm-sheet :margin="['16']">
             <tm-text font-size="36" class=" text-weight-b">标题导航 tmNavbar</tm-text>
-            <tm-text class=" text-grey  line-8">可静态悬浮在顶部，也可动态悬浮顶部下拉动态改变背景</tm-text>
+            <tm-text class="text-grey line-8 ">可静态悬浮在顶部，也可动态悬浮顶部下拉动态改变背景</tm-text>
         </tm-sheet>
         <tm-sheet height="2000">
             <tm-text font-size="36" class=" text-weight-b ">滚动本页面，查看导航效果</tm-text>
-            <tm-text class=" text-grey  my-20">可静态和悬浮时出现不同的渐变背景</tm-text>
+            <tm-text class="text-grey my-20 mb-n8">可静态和悬浮时出现不同的渐变背景</tm-text>
             <tm-button :block="true" @click="setbgcolor">切换渐变导航</tm-button>
             <tm-text class=" text-grey  my-20">可静态和悬浮时出现不同的纯色背景</tm-text>
             <tm-button :block="true" @click="clearBgcolor">纯色背景</tm-button>

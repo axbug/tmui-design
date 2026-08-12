@@ -1,6 +1,6 @@
 <template>
     <tm-sheet>
-        <tm-text font-size="36" class="text-weight-b mb-16 d-block">文本 TmText</tm-text>
+        <tm-text font-size="36" class="text-weight-b mb-n8 d-block">文本 TmText</tm-text>
         <view>
             <tm-text>事实上，如果你没有特殊要求可以不用此组件，用自带的text配合我的css库一样比较方便轻巧</tm-text>
             <tm-text @item-click="testClick" class="line-10" :heightLight="['高亮显示', '正则', '邮箱']"
@@ -8,7 +8,7 @@
         </view>
     </tm-sheet>
     <tm-sheet>
-        <tm-text font-size="36" class="text-weight-b mb-16 d-block">高亮文本,可自定样式</tm-text>
+        <tm-text font-size="36" class="text-weight-b mb-n8 d-block">高亮文本,可自定样式</tm-text>
         <view>
             <tm-text>正则电话，邮箱高亮</tm-text>
             <tm-text @item-click="testClick" height-light-color="red" :height-light-reg="[
@@ -21,7 +21,7 @@
     </tm-sheet>
 
     <tm-sheet>
-        <tm-text font-size="36" class="text-weight-b mb-16 d-block">使用插槽功能丢失</tm-text>
+        <tm-text font-size="36" class="text-weight-b mb-n8 d-block">使用插槽功能丢失</tm-text>
         <view>
             <tm-text :lines="2">
                 使用插槽，当作普通text标签使用，高亮功能和后续的拓展将会失效。

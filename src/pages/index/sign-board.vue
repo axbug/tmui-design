@@ -22,7 +22,7 @@ const clear = async ()=>{
 <template>
     <view>
         <tm-sheet>
-            <tm-text font-size="32" class=" text-weight-b  d-block">签名版 TmSignBoard</tm-text>
+            <tm-text font-size="32" class="text-weight-b d-block ">签名版 TmSignBoard</tm-text>
         </tm-sheet>
 
         <tm-sheet >

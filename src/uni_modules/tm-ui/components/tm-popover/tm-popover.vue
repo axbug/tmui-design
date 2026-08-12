@@ -274,7 +274,8 @@ onBeforeUnmount(()=>{
 				:id="popverKeyContent"
 				:class="[
 				popverKeyContent,
-				`${animeing?'show':'hide'}`,
+				isQueryNodes?`${animeing?'show':'hide'}`:'measure',
+				`tmPopoverOrigin-${positionVal}`,
 				_showTriangle?positionVal:''
 			]"
 				:style="[positionStyle,{visibility:isQueryNodes?'visible':'hidden',color:_triangleColor}]"
@@ -305,12 +306,12 @@ $naiDur:200ms;
 }
 
 @keyframes showAni {
-	0% { opacity:0;}
-	100% { opacity:1; }
+	0% { opacity:0; transform: scale(0.86);}
+	100% { opacity:1; transform: scale(1); }
 }
 @keyframes hideAni {
-	0% { opacity:1;}
-	100% { opacity:0; }
+	0% { opacity:1; transform: scale(1);}
+	100% { opacity:0; transform: scale(0.86); }
 }
 .tmPopoverWrap{
 	position: fixed;
@@ -335,11 +336,44 @@ $naiDur:200ms;
 }
 .tmPopoverContent{
 	position: absolute;
+	transform-origin: center center;
+	will-change: opacity, transform;
+	&.measure {
+		animation: none;
+		opacity: 0;
+		transform: none;
+		pointer-events: none;
+	}
 	&.show {
-		animation: showAni $naiDur ease-in forwards;
+		animation: showAni $naiDur $ani forwards;
 	}
 	&.hide {
 		animation: hideAni $naiDur ease-in forwards;
+		pointer-events: none;
+	}
+	&.tmPopoverOrigin-bc{
+		transform-origin: top center;
+	}
+	&.tmPopoverOrigin-bl{
+		transform-origin: 24px top;
+	}
+	&.tmPopoverOrigin-br{
+		transform-origin: calc(100% - 24px) top;
+	}
+	&.tmPopoverOrigin-tc{
+		transform-origin: bottom center;
+	}
+	&.tmPopoverOrigin-tl{
+		transform-origin: 24px bottom;
+	}
+	&.tmPopoverOrigin-tr{
+		transform-origin: calc(100% - 24px) bottom;
+	}
+	&.tmPopoverOrigin-left{
+		transform-origin: right center;
+	}
+	&.tmPopoverOrigin-right{
+		transform-origin: left center;
 	}
 	&.tc,&.tl,&.tr{
 		margin-top: -12px;
@@ -458,7 +492,7 @@ $naiDur:200ms;
 		transform: translateX(-50%);
 	}
 	&.left{
-		transform: translateX(-12px);
+		margin-left: -12px;
 	}
 	&.left:after{
 		pointer-events: none;
@@ -479,7 +513,7 @@ $naiDur:200ms;
 		transform: translateY(-50%);
 	}
 	&.right{
-		transform: translateX(12px);
+		margin-left: 12px;
 	}
 	&.right:after{
 		pointer-events: none;

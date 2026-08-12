@@ -2,7 +2,7 @@
 	<view>
 		<tm-sheet>
 			<tm-text font-size="36" class=" text-weight-b mb-8">倒计时 tmCountdown</tm-text>
-			<tm-text  color="#999999" >倒计时，可以精确到秒，毫秒，尽量通过插槽来布局样式。</tm-text>
+			<tm-text class=""  color="#999999" >倒计时，可以精确到秒，毫秒，尽量通过插槽来布局样式。</tm-text>
 		</tm-sheet>
 		<tm-sheet >
 			<view class="flex flex-row flex-row-center-center" >

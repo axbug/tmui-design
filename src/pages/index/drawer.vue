@@ -13,12 +13,11 @@ const beforeClose = () => {
     <view>
         <tm-sheet>
             <tm-text font-size="36" class=" text-weight-b mb-16 d-block">抽屉 Drawer</tm-text>
-            <tm-text color="#999999">
+            <tm-text class="mb-n8" color="#999999">
                 提供四个方向的弹出，如果要居中显示，请使用overlay组件。可以设置高为auto,百分比,最大值
                 可以是插槽触发或者变量控制触发
             </tm-text>
         </tm-sheet>
-
         <tm-sheet class="flex flex-row flex-row-center-between">
             <tm-drawer style="width:24%" size="80%" position="left">
                 <template #trigger><tm-button :block="true">左弹出</tm-button></template>
@@ -42,7 +41,7 @@ const beforeClose = () => {
 
 
         <tm-sheet>
-            <tm-text font-size="36" class=" text-weight-b mb-24 d-block">嵌套</tm-text>
+            <tm-text font-size="36" class=" text-weight-b mb-n8 d-block">嵌套</tm-text>
             <tm-drawer :show-footer="true" size="auto">
                 <template v-slot:trigger><tm-button color="success" :block="true">打开嵌套</tm-button></template>
 				
@@ -58,7 +57,7 @@ const beforeClose = () => {
 
         </tm-sheet>
         <tm-sheet>
-            <tm-text font-size="36" class=" text-weight-b mb-24 d-block">确认前异步执行beforeClose</tm-text>
+            <tm-text font-size="36" class=" text-weight-b mb-n8 d-block">确认前异步执行beforeClose</tm-text>
             <tm-drawer :beforeClose="beforeClose" :show-footer="true">
                 <template v-slot:trigger><tm-button color="warn" :block="true">打开</tm-button></template>
                 <tm-text>点确认 按钮，会等待3秒再关闭。</tm-text>
@@ -67,7 +66,7 @@ const beforeClose = () => {
 
         <tm-sheet>
             <tm-text font-size="36" class=" text-weight-b mb-10 d-block">默认高度，禁用遮罩关闭</tm-text>
-            <tm-text color="#999999" class="mb-24 d-block">
+            <tm-text color="#999999" class="mb-n8 d-block">
                 点击遮罩禁用关闭,同时内容出现弹跳提示
             </tm-text>
 
@@ -94,7 +93,7 @@ const beforeClose = () => {
         </tm-sheet>
 
         <tm-sheet>
-            <tm-text font-size="36" class=" text-weight-b mb-24 d-block">底部插槽及变量控制显示</tm-text>
+            <tm-text font-size="36" class=" text-weight-b mb-n8 d-block">底部插槽及变量控制显示</tm-text>
             <tm-button @click="show = true" :block="true">打开</tm-button>
             <tm-drawer v-model:show="show" title="内容可滚动" size="30%" position="bottom" :show-footer="true">
                 <tm-text color="#999999">

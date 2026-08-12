@@ -79,7 +79,7 @@
 		 */
 		iconSize: {
 			type: String,
-			default: "28"
+			default: "32"
 		},
 		closeIcon:{
 			type: String,

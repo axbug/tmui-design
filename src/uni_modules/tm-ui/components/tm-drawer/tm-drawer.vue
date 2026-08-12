@@ -650,11 +650,18 @@ export default {
 							<slot name="footer">
 								<view
 									style="flex-direction: row;align-items: center;justify-content: center;display:flex;">
-									<tm-button :loading="isLoading" width="0px" @click="cancelEvt" v-if="_showCancel"
+									<tm-button
+									  	:round="config.modalActionsHalfRound?'50rpx':''"
+									 	:loading="isLoading" width="0px" @click="cancelEvt" v-if="_showCancel"
 										skin="thin" style="margin-right: 16px;flex:1">{{ _cancelText }}</tm-button>
-									<tm-button :loading="isLoading" width="0px" @click="confirmEvt" style="flex:1">{{
-										_confirmText
-										}}</tm-button>
+									<tm-button 
+									  	:round="config.modalActionsHalfRound?'50rpx':''"
+										:loading="isLoading" 
+										width="0px" 
+										@click="confirmEvt" style="flex:1">
+
+										{{_confirmText}}
+									</tm-button>
 								</view>
 							</slot>
 							<view :style="{ height: (safeFooterHeight||20) + 'px' }"></view>

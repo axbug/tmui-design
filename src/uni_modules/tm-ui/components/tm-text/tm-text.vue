@@ -63,7 +63,7 @@ const attrs = defineProps({
      * 文本自定样式
      */
     _style:{
-        type: [String, Object] as PropType<Partial<CSSStyleDeclaration>|string>,
+        type: [String, Object] as PropType<Record<string, any>|string>,
         default: ''
     },
 	/**

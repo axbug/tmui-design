@@ -13,7 +13,12 @@ import { arrayNumber } from "../../libs/tool";
     | --- | --- | --- | --- |
     | ☑️| ☑️ | ☑️ | ☑️ | ☑️ | 1.0.0 |
  */
-defineOptions({ name: 'TmCheckboxGroup' });
+defineOptions({ name: 'TmCheckboxGroup',options: {
+        styleIsolation: "apply-shared",
+        virtualHost: true,
+        addGlobalClass: true,
+        multipleSlots: true,
+    } });
 
 const props = defineProps({
     modelValue: {
@@ -91,19 +96,11 @@ function removeItem(item: string | number | boolean) {
 }
 
 provide("tmCheckboxGroupValue", computed(() => [...checkvaluelist.value]))
+provide("tmCheckboxAddItem", addItem)
+provide("tmCheckboxRemoveItem",removeItem)
 
-defineExpose({ addItem, removeItem })
 </script>
-<script lang="ts">
-export default {
-    options: {
-        styleIsolation: "apply-shared",
-        virtualHost: true,
-        addGlobalClass: true,
-        multipleSlots: true,
-    },
-};
-</script>
+
 <template>
     <view class="tmCheckboxGroup"
         :style="{ 'flex-direction': direction, 'align-items': direction == 'row' ? 'flex-start' : undefined, 'justify-content': align, gap: _gap }">

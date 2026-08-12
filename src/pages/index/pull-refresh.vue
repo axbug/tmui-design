@@ -4,13 +4,13 @@
         :pull-refresh="handleRefresh" 
         :bottom-refresh="bootmHandleRefresh" >
             <tm-sheet>
-                <tm-text font-size="36" class="text-weight-b mb-16 d-block">下拉刷新</tm-text>
+                <tm-text font-size="36" class="text-weight-b mb-n8 d-block">下拉刷新</tm-text>
                 <view>
                     <tm-text>请拖拉下拉刷新</tm-text>
                 </view>
             </tm-sheet>
             <tm-sheet height="800px">
-                <tm-text font-size="36" class="text-weight-b mb-16 d-block">触底刷新</tm-text>
+                <tm-text font-size="36" class="text-weight-b mb-n8 d-block">触底刷新</tm-text>
                 <view>
                     <tm-text>上拖触底刷新</tm-text>
                 </view>

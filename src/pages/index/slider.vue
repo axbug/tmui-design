@@ -1,6 +1,6 @@
 <template>
     <tm-sheet>
-        <tm-text font-size="36" class="text-weight-b mb-16 d-block">单向滑块 TmSlider</tm-text>
+        <tm-text font-size="36" class="text-weight-b d-block">单向滑块 TmSlider</tm-text>
         <view>
             <tm-text>分单向和双向滑动条</tm-text>
         </view>
@@ -21,19 +21,19 @@
         </view>
     </tm-sheet>
     <tm-sheet>
-        <tm-text font-size="36" class="text-weight-b mb-16 d-block">显示标签及渐变背景</tm-text>
+        <tm-text font-size="36" class="text-weight-b mb-n8 d-block">显示标签及渐变背景</tm-text>
         <view class="mt-n16">
             <tm-slider showLabel color="#4DEF8E" btn-size="50" linear-color="linear-gradient(to right, #FFEB3A 0%, #4DEF8E 100%)"></tm-slider>
         </view>
     </tm-sheet>
     <tm-sheet>
-        <tm-text font-size="36" class="text-weight-b mb-16 d-block">步进值20</tm-text>
+        <tm-text font-size="36" class="text-weight-b mb-n8 d-block">步进值20</tm-text>
         <view class="mt-n16">
             <tm-slider showLabel  color="error" :step="20" ></tm-slider>
         </view>
     </tm-sheet>
     <tm-sheet>
-        <tm-text font-size="36"  class="text-weight-b d-block">双向向滑块 TmSlider</tm-text>
+        <tm-text font-size="36"  class="text-weight-b d-block ">双向向滑块 TmSlider</tm-text>
     </tm-sheet>
 
      <tm-sheet>

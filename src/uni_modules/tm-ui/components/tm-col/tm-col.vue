@@ -17,7 +17,12 @@ import { computed, ComputedRef, inject } from 'vue';
     | --- | --- | --- | --- |
     | ☑️| ☑️ | ☑️ | ☑️ | ☑️ | 1.0.0 |
  */
-defineOptions({ name: "TmCol" });
+defineOptions({ name: "TmCol",options: {
+    styleIsolation: "apply-shared",
+    virtualHost: true,
+    addGlobalClass: true,
+    multipleSlots: true,
+  } });
 const emits = defineEmits([
     /**
      * 点击事件
@@ -51,16 +56,7 @@ const onClick = ()=>{
     emits('click');
 }
 </script>
-<script lang="ts">
-export default {
-  options: {
-    styleIsolation: "apply-shared",
-    virtualHost: true,
-    addGlobalClass: true,
-    multipleSlots: true,
-  },
-};
-</script>
+
 <style lang="scss" scoped>
 .tmCol {
     flex-shrink: 0;
