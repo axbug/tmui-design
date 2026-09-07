@@ -40,7 +40,7 @@ import headertips from '../components/headertips.vue'
 | height | string\|number | "auto" | 高度,auto,%,rpx,px,stringnumber18rpx,18px,15%支持这三种单位，如果只写"18"就表示18rpx | 
 | src | string | "" | 图片源 | 
 | model | string | "scaleToFill" | 模式 | 
-| preview | boolean | true | 点击后是否预览图片 | 
+| preview | boolean | undefined | 点击后是否预览图片,默认为空值，采用全局的配置。 | 
 | ratio | number | 1.25 | 预览占位比例宽/高，当数据没加载前，如果你设置了一项值比如宽，高会自动根据这个比例计算当图片加载成功后，使用正确的原图片比例设置。默认是5/4=1.25 | 
 | round | string\|number | '0' | 圆角 | 
 | iconSize | string\|number | "36" | 加载和失败时的图标大小。 | 
@@ -69,5 +69,6 @@ import headertips from '../components/headertips.vue'
 ## :green_salad: ref方法
 | 方法名 | 参数 | 返回值 | 描述 |
 | :--: | :--: | :--: | :-- |
+| resize | - | - | - | 
 
 

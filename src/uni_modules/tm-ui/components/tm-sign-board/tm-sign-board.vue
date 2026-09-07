@@ -183,7 +183,9 @@
 	const getTouchPosition = (evt : TouchEvent) => {
 		const touch = evt.touches[0] || evt.changedTouches[0]
 		
+		// @ts-ignore 跨平台 Touch 扩展属性（小程序/APP 可能提供 x/y）
 		const clientX = touch?.clientX??touch?.x??0
+		// @ts-ignore 跨平台 Touch 扩展属性（小程序/APP 可能提供 x/y）
 		const clientY = touch?.clientY??touch?.y??0
 		let top = canvasDomRect.value.top;
 		// #ifdef APP

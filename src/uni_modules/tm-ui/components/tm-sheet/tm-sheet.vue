@@ -18,7 +18,7 @@
 	import { computed } from "vue";
 	import { arrayNumberValid, arrayNumberValidByStyleMP, arrayNumberValidByBorderWidth, arrayNumberValidByStyleBorderColor, arrayNumberValidByStyleBorderStyle, covetUniNumber, linearValid } from "../../libs/tool";
 	import { useTmConfig } from "../../libs/config";
-	import { getDefaultColor, getDefaultColorObj, getOutlineColorObj, getTextColorObj, getThinColorObj } from "../../libs/colors";
+	import { getDefaultColor, getDefaultColorObj, getOutlineColorObj, getTextColorObj, getThinColorObj, hexToRgb } from "../../libs/colors";
 
 	/**
 	 * @displayName 容器
@@ -30,7 +30,13 @@
 		| --- | --- | --- | --- |
 		| ☑️| ☑️ | ☑️ | ☑️ | ☑️ | 1.0.0 |
 	 */
-	defineOptions({ name: 'TmSheet' });
+	defineOptions({ name: 'TmSheet',options: {
+			styleIsolation: "apply-shared",
+			virtualHost: true,
+			addGlobalClass: true,
+			multipleSlots: true,
+		},
+	});
 
 	const { config } = useTmConfig()
 	const emits = defineEmits([
@@ -135,15 +141,7 @@
 		/** 渐变，前面的color,bgColor,darkBgColor失效 */
 		linear: {
 			type: [Array<string>],
-			default: () => [],
-			validator: (val : string[]) => {
-				if (val.length == 0) return true;
-				let pass = val.length == 3;
-				if (!pass) {
-					console.error("tmui提醒:linear 参数格式错误，请检查,必须长度为3");
-				}
-				return pass
-			}
+			default: () => []
 		},
 		/**
 		 * 数字或者字符串时自动计算投影,它会投影大小
@@ -152,16 +150,7 @@
 		 */
 		shadow: {
 			type: [String, Number, Array<string>],
-			default: '',
-			validator: (val : string | number | string[]) => {
-				if (Array.isArray(val)) {
-					if (val.length != 4) {
-						console.error("tmui提醒:shadow 第一个x,第二为y,第三个为大小 ,第四个为投影颜色");
-						return false;
-					}
-				}
-				return true;
-			}
+			default: ''
 		},
 		loadIconSize: {
 			type: [String, Number],
@@ -209,18 +198,21 @@
 			background = attrs.darkBgColor || config.sheetDarkColor
 		}
 
-		let shadow = 'none'
-		if (Array.isArray(attrs.shadow)) {
-			shadow = attrs.shadow.join(' ')
-		} else if (attrs.shadow !== '' && attrs.shadow != 'none') {
-			shadow = `0px 0px ${covetUniNumber(attrs.shadow)} ${_shadowColorObj.value.default.shadow}`
-		} else if (attrs.shadow === '') {
-			if (Array.isArray(config.sheetShadow)) {
-				shadow = config.sheetShadow.join(' ')
-			} else if (config.sheetShadow && config.sheetShadow != 'none') {
-				shadow = `0 4px ${covetUniNumber(config.sheetShadow)} ${_shadowColorObj.value.default.shadow}`
-			}
-		}
+
+
+
+
+		// if (Array.isArray(attrs.shadow)) {
+		// 	shadow = attrs.shadow.join(' ')
+		// } else if (attrs.shadow !== '' && attrs.shadow != 'none') {
+		// 	shadow = `0px 0px ${covetUniNumber(attrs.shadow)} ${_shadowColorObj.value.default.shadow}`
+		// } else if (attrs.shadow === '') {
+		// 	if (Array.isArray(config.sheetShadow)) {
+		// 		shadow = config.sheetShadow.join(' ')
+		// 	} else if (config.sheetShadow && config.sheetShadow != 'none') {
+		// 		shadow = `0 4px ${covetUniNumber(config.sheetShadow)} ${_shadowColorObj.value.default.shadow}`
+		// 	}
+		// }
 
 		style.background = linear || getDefaultColor(background)
 		style.borderColor = borderColor.join(' ')
@@ -229,21 +221,36 @@
 		style.borderRadius = borderRadius.join(' ')
 		style.margin = margin.join(' ')
 		style.padding = padding.join(' ')
+		let shadow = 'none'
+		let shadowColor = background;
+        let linearColors = attrs.linear.length>=3?attrs.linear[1]:''
+		if (attrs.shadow && attrs.shadow != 'none') {
+           
+            if (Array.isArray(attrs.shadow)&&attrs.shadow.length>=3) {
+                if(attrs.shadow.length>=4){
+                    shadowColor = attrs.shadow[3]
+                }else{
+                    shadowColor = linearColors||shadowColor
+                }
+                const rgb = hexToRgb(shadowColor)
+                shadow = `${attrs.shadow.join(' ')} rgba(${rgb.r},${rgb.g},${rgb.b},0.3)`;
+            } else if ((typeof attrs.shadow == 'number'||typeof attrs.shadow == 'string')) {
+                shadowColor = linearColors||shadowColor;
+                const rgb = hexToRgb(shadowColor)
+                shadow = `0 2px ${covetUniNumber(attrs.shadow,'px')} rgba(${rgb.r},${rgb.g},${rgb.b},0.3)`;
+            }
+            style.boxShadow = shadow;
+        }
+
+
+
+
 		style.boxShadow = shadow
 		return style;
 	});
 </script>
 
-<script lang="ts">
-	export default {
-		options: {
-			styleIsolation: "apply-shared",
-			virtualHost: true,
-			addGlobalClass: true,
-			multipleSlots: true,
-		},
-	};
-</script>
+
 
 <style lang="scss" scoped>
 	.tmSheet {

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, PropType } from 'vue'
-import { covetUniNumber } from "../../libs/tool";
+import { covetUniNumber, getUnit } from "../../libs/tool";
 import { getDefaultColor } from "../../libs/colors";
 import { useTmConfig } from "../../libs/config";
 /**
@@ -13,7 +13,7 @@ import { useTmConfig } from "../../libs/config";
     | --- | --- | --- | --- |
     | ☑️| ☑️ | ☑️ | ☑️ | ☑️ | 1.0.0 |
  */
-defineOptions({ name: 'TmBadge' });
+defineOptions({ name: 'TmBadge', options: { styleIsolation: 'apply-shared', virtualHost: true, addGlobalClass: true, multipleSlots: true } });
 const { config } = useTmConfig()
 
 const attrs = defineProps({
@@ -55,13 +55,14 @@ const attrs = defineProps({
     },
     /**
      * 角标出现的位置
+     * right:右上角 left:左上角 bottomLeft:左下角 bottomRight:右下角 top:顶部居中 bottom:底部居中
      */
     position: {
         type: String as PropType<"right" | "left" | "bottomLeft" | "bottomRight" | 'top' | 'bottom'>,
         default: "right"
     },
     /**
-     * 角标偏移量
+     * 角标偏移量[x,y]，单位px，可为负值，所有位置均生效
      * @default [0, 0]
      */
     offset: {
@@ -76,83 +77,83 @@ const attrs = defineProps({
 })
 
 
-const _offset = computed(() => attrs.offset)
+const _offset = computed((): number[] => {
+    // 归一化：空数组、长度不足或非数字时兜底为0，避免渲染崩溃
+    const x = Number(attrs.offset?.[0])
+    const y = Number(attrs.offset?.[1])
+    return [isNaN(x) ? 0 : x, isNaN(y) ? 0 : y]
+})
 const _isDot = computed(() => {
     if(typeof attrs.label === 'boolean') return attrs.label
     return false;
 })
 
 const _cStyles = computed(() => {
+    // 各位置的默认锚点与中心平移（保持原版定位语义不变）
     let trs = ''
-    if (attrs.position == 'right') {
-        trs = 'translate(50%, -50%)'
-    } else if (attrs.position == 'left') {
-        trs = 'translate(-50%, -50%)'
-    } else if (attrs.position == 'bottomLeft') {
-        trs = 'translate(-50%, 50%)'
-    } else if (attrs.position == 'bottomRight') {
-        trs = 'translate(50%, 50%)'
-    } else if (attrs.position == 'top') {
-        trs = 'translate(0%, -50%)'
-    } else if (attrs.position == 'bottom') {
-        trs = 'translate(0%, 50%)'
-    }
-
     let top = ''
     let bottom = ''
     let left = ''
     let right = ''
+    let ox = _offset.value[0].toString() + 'px'
+    let oy = _offset.value[1].toString() + 'px'
 
-    if (attrs.position == 'top') {
-        top = '0px'
-        left = 'auto'
-        right = 'auto'
-    } else if (attrs.position == 'bottom') {
-        bottom = '0px'
-        left = 'auto'
-        right = 'auto'
-    } else if (attrs.position == 'right') {
-        top = _offset.value[1].toString() + 'px'
-        right = _offset.value[0].toString() + 'px'
+    if (attrs.position == 'right') {
+        trs = 'translate(50%, -50%)'
+        top = oy
+        right = ox
     } else if (attrs.position == 'left') {
-        top = '0px'
-        left = '0px'
+        trs = 'translate(-50%, -50%)'
+        top = oy
+        left = ox
     } else if (attrs.position == 'bottomLeft') {
-        bottom = '0px'
-        left = '0px'
+        trs = 'translate(-50%, 50%)'
+        bottom = oy
+        left = ox
     } else if (attrs.position == 'bottomRight') {
-        bottom = '0px'
-        right = '0px'
+        trs = 'translate(50%, 50%)'
+        bottom = oy
+        right = ox
+    } else if (attrs.position == 'top') {
+        trs = `translate(${ox}, -50%)`
+        top = oy
+    } else if (attrs.position == 'bottom') {
+        trs = `translate(${ox}, 50%)`
+        bottom = oy
     }
 
-    let dotMapCs:{[key:string]:any} = {}
-    dotMapCs['background'] = getDefaultColor(attrs.bgColor)
-    dotMapCs['left'] = left
-    dotMapCs['right'] = right
-    dotMapCs['top'] = top
-    dotMapCs['bottom'] = bottom
-    dotMapCs['transform'] = trs
+    let baseCs:{[key:string]:any} = {}
+    baseCs['background'] = getDefaultColor(attrs.bgColor)
+    baseCs['left'] = left
+    baseCs['right'] = right
+    baseCs['top'] = top
+    baseCs['bottom'] = bottom
+    baseCs['transform'] = trs
 
-    let labelMapCs:{[key:string]:any} = {}
-    labelMapCs['background'] = getDefaultColor(attrs.bgColor)
-    labelMapCs['left'] = left
-    labelMapCs['right'] = right
-    labelMapCs['top'] = top
-    labelMapCs['bottom'] = bottom
-    labelMapCs['transform'] = trs
+    let labelMapCs:{[key:string]:any} = {...baseCs}
+    // min-width = 1.5 × fontSize（与行高等值），保证0-9单数字时宽=高呈圆形
+    labelMapCs['minWidth'] = getMinWidth()
     labelMapCs['visibility'] = _label.value == "" ? "hidden" : "visible"
 
-    return [dotMapCs, labelMapCs]
+    return [baseCs, labelMapCs]
 
 })
 
 const _fontColor = computed(() => getDefaultColor(attrs.fontColor))
 const _fontSize = computed(() => covetUniNumber(attrs.fontSize, config.unit))
+const getMinWidth = (): string => {
+    // fontSize × 1.5（与文本行高等值），保留原单位(rpx/px)，em在小程序端不可靠
+    let fontSize = _fontSize.value
+    let num = parseFloat(fontSize)
+    if (isNaN(num)) num = 10
+    return (num * 1.5).toString() + getUnit(fontSize)
+}
 const _label = computed((): string => {
     if(typeof attrs.label === 'boolean') return ''
     if(typeof attrs.label === 'string') return attrs.label
     let count = attrs.label
     let maxCount = typeof attrs.maxCount == "number" ? attrs.maxCount : parseInt(attrs.maxCount)
+    if (isNaN(count) || isNaN(maxCount)) return ""
     if (count > 0 && count <= maxCount) return count.toString();
     if (count <= 0) return ""
     return maxCount.toString() + "+"
@@ -162,16 +163,7 @@ const _label = computed((): string => {
 
 
 </script>
-<script lang="ts">
-export default {
-  options: {
-    styleIsolation: "apply-shared",
-    virtualHost: true,
-    addGlobalClass: true,
-    multipleSlots: true,
-  },
-};
-</script>
+
 <template>
     <view class="tmBadge">
         <view class="tmBadgeWrap">
@@ -200,7 +192,7 @@ export default {
     position: absolute;
     z-index: 3;
     border-radius: 100px;
-    min-width: 0px;
+    box-sizing: border-box;
     padding: 0rpx 5px;
     display: flex;
     flex-direction: row;

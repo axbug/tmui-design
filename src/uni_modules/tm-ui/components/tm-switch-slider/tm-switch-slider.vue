@@ -1,6 +1,5 @@
 
 <!-- #ifdef MP-WEIXIN -->
-<!-- @ts-ignore -->
 <script module="xfs" lang="wxs" src="./xfs.wxs"></script>
 <!-- #endif -->
 

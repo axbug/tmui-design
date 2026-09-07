@@ -47,7 +47,7 @@ type valuType = {
   | --- | --- | --- | --- |
   | ☑️| ☑️ | ☑️ | ☑️ | ☑️ | 1.0.0 |
 */
-defineOptions({ name: 'TmMoney' });
+defineOptions({ name: 'TmMoney', options: { styleIsolation: 'apply-shared', virtualHost: true, addGlobalClass: true, multipleSlots: true } });
 const { config } = useTmConfig()
 const props = defineProps({
 	/**
@@ -266,16 +266,7 @@ const money_rmb = computed((): string => {
 })
 </script>
 
-<script lang="ts">
-export default {
-	options: {
-		styleIsolation: "apply-shared",
-		virtualHost: true,
-		addGlobalClass: true,
-		multipleSlots: true,
-	},
-};
-</script>
+
 <style>
 .tmMoney {
 	display: inline-block;

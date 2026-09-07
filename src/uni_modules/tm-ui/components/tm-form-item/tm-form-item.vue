@@ -17,7 +17,7 @@ import {getDefaultColor} from '../../libs/colors';
  | --- | --- | --- | --- |
  | ☑️| ☑️ | ☑️ | ☑️ | ☑️ | 1.0.0 |
  */
-defineOptions({name: "TmFormItem"});
+defineOptions({ name: "TmFormItem", options: { styleIsolation: 'apply-shared', virtualHost: true, addGlobalClass: true, multipleSlots: true } });
 const {config} = useTmConfig();
 
 const props = defineProps({
@@ -102,6 +102,10 @@ const tmFormLabelwidth = inject("tmFormLabelwidth", computed(() => ''))
 const tmFormGap = inject("tmFormGap", computed(() => '0'))
 const tmFormLabelFontSize = inject("tmFormLabelFontSize", computed(() => '30'))
 const tmFormLabelFontColor = inject("tmFormLabelFontColor", computed(() => '#333333'))
+
+const tmFormValidate = inject<((name: string, value: any)=>{ validate: boolean, message: string } | boolean)|null>("tmFormValidate", null)
+const tmFormSetMarker = inject<((name:string,isvisibl:boolean)=>boolean)|null>("tmFormSetMarker", null)
+
 const _tmFormGap = computed(() => props.bottomGap == '' ? covetUniNumber(tmFormGap.value) : covetUniNumber(props.bottomGap))
 const _tmFormDirection = computed(() => {
     if (props.direction) return props.direction
@@ -124,7 +128,14 @@ const _tmFormLabelFontColor = computed(() => {
     return "#333333"
 })
 
-const _required = computed(() => props.required)
+const _required = computed(() => {
+  if (typeof props.required == 'string' && props.required && props.required!='false') {
+    if (props.required == 'true') return "*";
+    return props.required
+  }
+  if (props.required) return '*'
+  return false;
+})
 const _label = computed(() => props.label)
 const _showLabel = computed(() => props.showLabel)
 const _showBottom = computed(() => props.showBottom)
@@ -165,11 +176,8 @@ watch(tmFormVaildType, (val: string) => {
 })
 
 const _validFun = (val: any) => {
-    if (!proxy) return;
-    let parent = findParent(proxy)
-    if (!parent) return;
-    let ele = parent! as InstanceType<typeof TmForm>
-    let valid = ele._validate(props.name, val)
+    if (!tmFormValidate) return;
+    let valid =tmFormValidate(props.name, val)
     if (typeof valid == 'boolean') {
         if (valid) {
             isPass.value = true;
@@ -187,21 +195,12 @@ const _validFun = (val: any) => {
 }
 
 const setVisibled = (isvisible = true) => {
-    if (!proxy) return;
-    let parent = findParent(proxy)
-    if (!parent) return;
-    let ele = parent! as InstanceType<typeof TmForm>
+    if (!tmFormSetMarker) return;
 
-    ele._setMarker(props.name, isvisible)
+    tmFormSetMarker!(props.name, isvisible)
 }
 
-function findParent(parent: any): any {
-    if (parent == null) return null;
-    if (parent.$parent?.$options?.name == "TmForm") return parent.$parent;
-    let parents = findParent(parent.$parent);
-    if (parents?.$options?.name == "TmForm") return parents;
-    return null;
-}
+
 
 onMounted(() => {
     setVisibled(true)
@@ -212,16 +211,7 @@ onBeforeUnmount(() => {
 })
 
 </script>
-<script lang="ts">
-export default {
-    options: {
-        styleIsolation: "apply-shared",
-        virtualHost: true,
-        addGlobalClass: true,
-        multipleSlots: true,
-    },
-};
-</script>
+
 <template>
     <view class="tmFormItem" :style="{ marginBottom: _tmFormGap }">
         <view :class="[_tmFormDirection == 'horizontal' ? 'tmFormItemWrapRow' : 'tmFormItemWrapCol']"
@@ -235,7 +225,7 @@ export default {
                 </slot>
             </view>
             <view class="tmFormItemWrapContent">
-                <!-- 
+                <!--
                 @slot 表单默认插槽,可以不是直接form-item直接子节点,可以根据自己需要随意布局,只要form-item在里面即可.
                 -->
                 <slot></slot>

@@ -35,7 +35,7 @@ import headertips from '../components/headertips.vue'
 ## :seedling: 参数
 | 参数名 | 类型 | 默认值 | 描述 |
 | :--: | :--: | :--: | :-- |
-| _style | Partial\<CSSStyleDeclaration\>\|string | '' | 文本自定样式 | 
+| _style | Record\<string, any\>\|string | '' | 文本自定样式 | 
 | label | string\|number | '' | 文本内容这个prop用于接收显示在组件中的文本或数字 | 
 | heightLight | Array\<string\> | ():string[]=\>[]asstring[] | 需要特别高亮的词 | 
 | heightLightReg | Array\<string\> | ()=\>[] | 高亮正则用于定义文本中哪些部分应该被高亮显示的正则表达式数组 | 

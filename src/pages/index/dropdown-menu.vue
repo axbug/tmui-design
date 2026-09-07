@@ -1,7 +1,7 @@
 <template>
 	<view>
 		<tm-sheet>
-			<tm-text font-size="36" class="text-weight-b mb-16 d-block">下拉菜单 tmDropdownMenu</tm-text>
+			<tm-text font-size="36" class="text-weight-b d-block">下拉菜单 tmDropdownMenu</tm-text>
 			<view>
 				<tm-text>支持静态与悬浮，支持嵌套在其它组件中使用时可定位内容宽。</tm-text>
 			</view>
@@ -24,7 +24,7 @@
 		</view>
 
 		<tm-sheet>
-			<tm-text font-size="36" class="text-weight-b d-block">显示背景,自动悬浮顶部</tm-text>
+			<tm-text font-size="36" class="text-weight-b d-block ">显示背景,自动悬浮顶部</tm-text>
 		</tm-sheet>
 		<view style="margin: 20rpx 0;">
 			<tm-dropdown-menu v-model="active" position="fixed">

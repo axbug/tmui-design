@@ -1,6 +1,6 @@
 <template>
 	<tm-sheet>
-		<tm-text class="text-weight-b mb-16 d-block" font-size="36">规格选择器 TmSku</tm-text>
+		<tm-text class="text-weight-b d-block" font-size="36">规格选择器 TmSku</tm-text>
 		<view>
 			<tm-text>支持多规格单规格模式,快速的商品规格选择.</tm-text>
 		</view>

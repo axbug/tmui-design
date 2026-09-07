@@ -16,8 +16,9 @@
 /tmuidocs/doc/.vitepress/cache/deps/_metadata.json
 /xui-cli/node_modules/
 /.idea/
-.DS_*
-package-lock.json
 .DS_Store
-.DS_*
-
+package-lock.json
+node_modules/
+/unpackage/
+.vte/
+/xui-cli/data/

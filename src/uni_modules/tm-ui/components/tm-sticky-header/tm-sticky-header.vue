@@ -12,7 +12,7 @@ import { covetUniNumber } from "../../libs/tool";
    | --- | --- | --- | --- |
    | ☑️| ☑️ | ☑️ | ☑️ | ☑️ | 1.0.0 |
 */
-defineOptions({ name: 'tmStickyHeader' });
+defineOptions({ name: 'tmStickyHeader', options: { styleIsolation: 'apply-shared', virtualHost: true, addGlobalClass: true, multipleSlots: true } });
 
 const props = defineProps({
     /** 顶部偏移距离,必须是px单位. */
@@ -34,16 +34,7 @@ onMounted(() => {
     windowTop.value = uni.getWindowInfo().windowTop+ 'px'
 })
 </script>
-<script lang="ts">
-export default {
-    options: {
-        styleIsolation: "apply-shared",
-        virtualHost: true,
-        addGlobalClass: true,
-        multipleSlots: true,
-    },
-};
-</script>
+
 <style lang="css" scoped>
 .tmStickyHeader {
     position: sticky;

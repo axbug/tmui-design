@@ -1,5 +1,5 @@
 <template>
-    <view @click="onClick" class="tmCol" :style="{ width: _span }">
+    <view @click.stop="onClick" class="tmCol" :style="_style">
         <!-- @slot 默认插槽 -->
         <slot></slot>
     </view>
@@ -17,10 +17,16 @@ import { computed, ComputedRef, inject } from 'vue';
     | --- | --- | --- | --- |
     | ☑️| ☑️ | ☑️ | ☑️ | ☑️ | 1.0.0 |
  */
-defineOptions({ name: "TmCol" });
+defineOptions({ name: "TmCol",options: {
+    styleIsolation: "apply-shared",
+    virtualHost: true,
+    addGlobalClass: true,
+    multipleSlots: true,
+  } });
 const emits = defineEmits([
     /**
      * 点击事件
+     * @property {object} evt 事件参数
      */
     'click',
 
@@ -34,36 +40,43 @@ const attrs = defineProps({
         default: 1
     },
 })
-const tmRowColWidth = inject<ComputedRef<number>>('tmRowColWidth', computed((): number => 5));
-const tmRowColGutter = inject<ComputedRef<string[]>>('tmRowColGutter', computed((): string[] => ['0px', '0px']));
-const _span = computed(() => {
-    let col = typeof attrs.span == 'string' ? parseInt(attrs.span) : attrs.span
-    let gutter = tmRowColGutter.value[1];
-    if (gutter == '0rpx') {
-        gutter = '0px'
+const tmRowColWidth = inject<ComputedRef<number>>('tmRowColWidth', () => computed((): number => 5), true);
+const tmRowColGutter = inject<ComputedRef<string[]>>('tmRowColGutter', () => computed((): string[] => ['0px', '0px']), true);
+const _style = computed(() => {
+    const columns = tmRowColWidth.value
+    let span = typeof attrs.span == 'string' ? parseInt(attrs.span, 10) : Number(attrs.span)
+    if (!Number.isFinite(span) || span < 0) span = 0
+    if (Number.isFinite(columns) && columns > 0 && span > columns) span = columns
+
+    const style: Record<string, string> = {}
+    if (!Number.isFinite(columns) || columns <= 0) {
+        style.width = span === 0 ? '0%' : '100%'
+    } else {
+        style.width = `${span / columns * 100}%`
     }
-    if (col == tmRowColWidth.value) {
-        return `100%`
+
+    if (span !== 0) {
+        const [padY, padX] = tmRowColGutter.value
+        if (padY !== '0px') {
+            style['padding-top'] = padY
+            style['padding-bottom'] = padY
+        }
+        if (padX !== '0px') {
+            style['padding-left'] = padX
+            style['padding-right'] = padX
+        }
     }
-    return `calc(${col / tmRowColWidth.value * 100}% - ${gutter} + ${col} * ${gutter} / ${tmRowColWidth.value})`;
+    return style
 })
-const onClick = ()=>{
-    emits('click');
+const onClick = (evt: MouseEvent) => {
+    emits('click', evt);
 }
 </script>
-<script lang="ts">
-export default {
-  options: {
-    styleIsolation: "apply-shared",
-    virtualHost: true,
-    addGlobalClass: true,
-    multipleSlots: true,
-  },
-};
-</script>
+
 <style lang="scss" scoped>
 .tmCol {
     flex-shrink: 0;
     box-sizing: border-box;
+    min-width: 0;
 }
 </style>

@@ -172,10 +172,9 @@
 			closeMenu()
 		}
 	})
-	defineExpose({
-		addChildren,
-		removeChildren
-	})
+
+	provide('tmDropdownMenuAddChildren', addChildren)
+	provide('tmDropdownMenuRemoveChildren', removeChildren)
 </script>
 <template>
 	<view>

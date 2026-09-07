@@ -18,7 +18,12 @@ const proxy = getCurrentInstance()?.proxy ?? null;
     | --- | --- | --- | --- |
     | ☑️| ☑️ | ☑️ | ☑️ | ☑️ | 1.0.0 |
  */
-defineOptions({ name: 'TmPickerView' });
+defineOptions({ name: 'TmPickerView',options: {
+        styleIsolation: "apply-shared",
+        virtualHost: true,
+        addGlobalClass: true,
+        multipleSlots: true,
+    } });
 
 const { config } = useTmConfig()
 
@@ -303,16 +308,7 @@ watch(() => props.list, (newValue) => {
 
 defineExpose({ getIndexsByids, getIdsByindexs, getNowCurrent, onInit: oninitFun, clearCache });
 </script>
-<script lang="ts">
-export default {
-    options: {
-        styleIsolation: "apply-shared",
-        virtualHost: true,
-        addGlobalClass: true,
-        multipleSlots: true,
-    },
-};
-</script>
+
 <template>
     <view class="tmPickerView">
         <picker-item :rangKey="props.rangKey" :rangText="props.rangText" 

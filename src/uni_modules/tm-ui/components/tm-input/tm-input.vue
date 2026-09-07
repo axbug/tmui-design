@@ -146,7 +146,7 @@
 		| --- | --- | --- | --- |
 		| ☑️| ☑️ | ☑️ | ☑️ | ☑️ | 1.0.0 |
 	 */
-	defineOptions({ name: "TmInput" });
+	defineOptions({ name: "TmInput", options: { styleIsolation: 'apply-shared', virtualHost: true, addGlobalClass: true, multipleSlots: true } });
 	const { config } = useTmConfig();
 	const emits = defineEmits([
 		/**
@@ -696,16 +696,7 @@
 		nowValue.value = attrs.modelValue;
 	});
 </script>
-<script lang="ts">
-	export default {
-		options: {
-			styleIsolation: "apply-shared",
-			virtualHost: true,
-			addGlobalClass: true,
-			multipleSlots: true,
-		},
-	};
-</script>
+
 
 <style lang="scss" scoped>
 	uni-input {

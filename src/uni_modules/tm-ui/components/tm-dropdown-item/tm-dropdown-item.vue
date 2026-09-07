@@ -42,12 +42,14 @@ const props = withDefaults(defineProps<TmDropdownItemProps>(), {
 	darkColor: '',
 	render: false
 });
+const addChildren = inject<((child: tmDropDownMenuItemType) => void) | null>('tmDropdownMenuAddChildren', null)
+const removeChildren_parent = inject<((keyName: string | number) => void) | null>('tmDropdownMenuRemoveChildren', null)
+
 const _keyName = computed(() => {
 	return props.keyName || Math.random().toString(36).substring(2)
 })
 const pubshChildren = () => {
-	const parent = findParent<TmDropdownMenuType>(proxy || null, 'TmDropdownMenu')
-	if (parent == null) return;
+	if (addChildren == null) return;
 	
 	const data: tmDropDownMenuItemType = {
 		title: props.title || '标题',
@@ -60,12 +62,12 @@ const pubshChildren = () => {
 		activeFontColor: getDefaultColor(props.activeFontColor || config.color),
 		isBtn: props.isBtn,
 	}
-	parent.addChildren(data)
+	addChildren(data)
 }
 const removeChildren = () => {
-	const parent = findParent<TmDropdownMenuType>(proxy || null, 'TmDropdownMenu')
-	if (parent == null) return;
-	parent.removeChildren(_keyName.value)
+	if (removeChildren_parent == null) return;
+	
+	removeChildren_parent(_keyName.value)
 }
 const sys = uni.getWindowInfo()
 const tmDropdownMenu = inject<ComputedRef<tmDropdownMenuTypeProide> | null>('tmDropdownMenu', null);

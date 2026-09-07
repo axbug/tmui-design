@@ -1,7 +1,7 @@
 {
     "id": "tm-ui",
     "displayName": "tmui3.2.0 vue3 ts Ui组件库 ",
-    "version": "3.2.17",
+    "version": "3.2.21",
     "description": "继承了tmui4.0x的设计,全新的脚手架已为您准备好",
     "keywords": [
         "ui",
@@ -12,7 +12,7 @@
     "repository": "https://gitee.com/LYTB/tmui-design",
     "engines": {
         "HBuilderX": "^3.6.18",
-        "uni-app": "^4.07",
+        "uni-app": "^5.07",
         "uni-app-x": ""
     },
     "dcloudext": {
@@ -73,7 +73,8 @@
                         "jd": "-",
                         "harmony": "-",
                         "qq": "-",
-                        "lark": "-"
+                        "lark": "-",
+                        "xhs": "-"
                     },
                     "quickapp": {
                         "huawei": "-",

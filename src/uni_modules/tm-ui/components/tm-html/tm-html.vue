@@ -24,7 +24,7 @@
 		| --- | --- | --- | --- |
 		| ☑️| ☑️ | ☑️ | ☑️ | ☑️ | 1.0.0 |
 	 */
-	defineOptions({ name: 'TmHtml' });
+	defineOptions({ name: 'TmHtml', options: { styleIsolation: 'apply-shared', virtualHost: true, addGlobalClass: true, multipleSlots: true } });
 	const { config } = useTmConfig()
 	const emits = defineEmits(['load', 'ready', 'imgtap', 'linktap', 'play', 'error'])
 	const props = defineProps({
@@ -272,16 +272,7 @@
 	})
 
 </script>
-<script lang="ts">
-export default {
-  options: {
-    styleIsolation: "apply-shared",
-    virtualHost: true,
-    addGlobalClass: true,
-    multipleSlots: true,
-  },
-};
-</script>
+
 <style scoped>
 	._root {
 		padding: 1px 0;

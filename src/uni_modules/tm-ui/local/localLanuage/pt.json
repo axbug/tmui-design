@@ -1,0 +1,95 @@
+{
+	"tmui32x": {
+		"cancel": "Cancelar",
+		"confirm": "Confirmar",
+		"success": "Sucesso",
+		"fail": "Falha",
+		"warn": "Aviso",
+		"info": "Info",
+		"clear":"Limpar",
+		"pickerTitle":"Selecionar",
+		"tmBetweenTime":{
+			"title": "Selecionar hora",
+			"startText": "Início",
+			"endText": "Fim",
+			"betweenText": "a",
+			"clearText": "Limpar",
+			"nowText": "Hoje",
+			"thisWeekText": "Esta semana",
+			"thisMonthText": "Este mês",
+			"thisYearText": "Este ano",
+			"thisQuarterText": "Este trimestre",
+			"lastDaysText": "Últimos {count} dias"
+		},
+		"tmMore":{
+			"off": "Ver mais",
+			"on": "Recolher"
+		},
+		"tmSku":{
+			"buyBtnText": "Comprar agora",
+			"noSelectedText": "Nenhum produto selecionado",
+			"noStockText": "Sem estoque",
+			"queHuo": "Esgotado",
+			"selectedText": "Selecionado:",
+			"numberText": "Qtd.: {count}",
+			"addText": "Adicionar ao carrinho",
+			"addSuccessText": "Adicionado",
+			"originalPriceText": "Preço original {count}"
+		},
+		"tmNavbar":{
+			"title": "Título"
+		},
+		"tmForm":{
+			"ruleMessage": "Selecione/preencha corretamente"
+		},
+		"cancelText": "Cancelar",
+		"confirmText": "Confirmar",
+		"tmModal":{
+			"title": "Título"
+		},
+		"tmDrawer":{
+			"title": "Título"
+		},
+		"tmUploadPhoto":{
+			"statusText":{
+				"0": "Pendente",
+				"1": "Enviando",
+				"2": "Enviado",
+				"3": "Falha no envio",
+				"4": "Cancelado",
+				"5": "Limite excedido"
+			}
+		},
+		"tmPicker":{
+			"title": "Selecionar"
+		},
+		"tmPickerDate":{
+			"title": "Selecionar hora"
+		},
+		"tmDateView":{
+			"cellUnits":{
+				"year": "Ano",
+				"month": "Mês",
+				"day": "Dia",
+				"hour": "Hora",
+				"minute": "Min",
+				"second": "Seg"
+			}
+		},
+		"tmCalendar":{
+			"year": "Ano",
+			"month": "Mês",
+			"day": "Dia",
+			"hour": "Hora",
+			"minute": "Min",
+			"second": "Seg",
+			"titleCurrentMonth":"{0}/{1}",
+			"monthCountSelected":"{count} meses",
+			"selectedStatus":"{count} dias selecionados | Sem data | Selecionado | Data final não selecionada",
+			"rangStatus":"Início | Fim | Hoje",
+			"tips":"Máx. {count} dias",
+			"currentMonthTitle":"Este mês",
+			"week":"Seg | Ter | Qua | Qui | Sex | Sáb | Dom"
+		}
+	}
+}

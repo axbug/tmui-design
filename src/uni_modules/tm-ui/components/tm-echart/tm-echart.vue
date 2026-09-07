@@ -33,7 +33,7 @@
 	   | --- | --- | --- | --- |
 	   | ☑️| ☑️ | ☑️ | ☑️ | ☑️ | 1.0.0 |
 	*/
-	defineOptions({ name: 'TmEchart' });
+	defineOptions({ name: 'TmEchart', options: { styleIsolation: 'apply-shared', virtualHost: true, addGlobalClass: true, multipleSlots: true } });
 	const { config } = useTmConfig()
 	const emits = defineEmits([
 		/**
@@ -409,16 +409,7 @@
 		return event;
 	}
 </script>
-<script lang="ts">
-	export default {
-		options: {
-			styleIsolation: "apply-shared",
-			virtualHost: true,
-			addGlobalClass: true,
-			multipleSlots: true,
-		},
-	};
-</script>
+
 <style lang="css" scoped></style>
 <template>
 

@@ -35,17 +35,17 @@ import headertips from '../components/headertips.vue'
 ## :seedling: 参数
 | 参数名 | 类型 | 默认值 | 描述 |
 | :--: | :--: | :--: | :-- |
-| column | number\|string | 5 | 默认列数,请不要动态修改此值。 | 
+| column | number\|string | 5 | 默认列数 | 
 | justify | string | "flex-start" | 子元素左右对齐排列 | 
 | align | string | "flex-start" | 子元素上下对齐排列是align-items：值 | 
 | wrap | boolean | true | 是否自动断行. | 
-| gutter | string\|number\|Array\<string \| number\> | '0' | 上下左右间隙.[row,col]:x表示纵向间隙,y表示横向间隙col,[col]:表示横向和纵向之间的间隙. | 
+| gutter | string\|number\|Array\<string \| number\> | '0' | 列间距。[纵向,横向]，单项表示两个方向相同。 | 
 
 
 ## :rose: 事件
 | 事件名 | 参数 | 返回数据 | 描述 |
 | --- | --- | --- | --- |
-| click | - | - | 点击事件 | 
+| click | 名称：evt,事件参数, | - | 点击事件 | 
 
 
 ## :corn: slot插槽

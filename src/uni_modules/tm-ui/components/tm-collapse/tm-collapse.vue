@@ -91,7 +91,7 @@ const toggleActivate = (name: Array<string | number> | string | number, isEmits 
     }
 }
 
-defineExpose({ toggleActivate })
+provide('tmCollapseToggleActivate', toggleActivate)
 
 </script>
 <template>

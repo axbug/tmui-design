@@ -2,7 +2,7 @@
 
 	<tm-sheet>
 		<tm-text font-size="32" class=" text-weight-b mb-16 d-block">角标 Badge</tm-text>
-		<tm-text color="#999999">
+		<tm-text class="" color="#999999">
 			内联模式布局，方便角标布局和排版。
 		</tm-text>
 	</tm-sheet>
@@ -34,7 +34,7 @@
 	</tm-sheet>
 
 	<tm-sheet>
-		<tm-text font-size="32" class=" text-weight-b ">左上，右上，左下，右下，上中，下中</tm-text>
+		<tm-text font-size="32" class="text-weight-b">左上，右上，左下，右下，上中，下中</tm-text>
 	</tm-sheet>
 
 	<tm-sheet class="flex flex-row flex-row-center-center flex-wrap  gap-16">
@@ -60,7 +60,7 @@
 	</tm-sheet>
 
 	<tm-sheet>
-		<tm-text font-size="32" class=" text-weight-b d-block">应用在其它组件上</tm-text>
+		<tm-text font-size="32" class="text-weight-b d-block">应用在其它组件上</tm-text>
 	</tm-sheet>
 	<tm-sheet class="flex flex-row flex-row-center-center gap-19">
 

@@ -2,7 +2,7 @@
     <view>
         <tm-sheet>
             <tm-text font-size="36" class=" text-weight-b mb-16 d-block">百度图表 TmEchart</tm-text>
-            <tm-text color="#999999">
+            <tm-text class="" color="#999999">
                 可以通过onInit或者getChart获取Chart对象来设置更新数据图表。点击数据可以响应事件。
             </tm-text>
         </tm-sheet>
@@ -12,7 +12,7 @@
         </tm-sheet>
 
         <tm-sheet>
-            <tm-text font-size="36" class=" text-weight-b mb-16 d-block">可以通过ref来初始数据</tm-text>
+            <tm-text font-size="36" class=" text-weight-b mb-n8 d-block">可以通过ref来初始数据</tm-text>
 
             <tm-button block @click="setOption">手动赋值</tm-button>
             <tm-echart ref="echart"></tm-echart>

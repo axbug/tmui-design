@@ -13,7 +13,7 @@ import {$i18n} from "@/uni_modules/tm-ui"
  | --- | --- | --- | --- |
  | ☑️| ☑️ | ☑️ | ☑️ | ☑️ | 1.0.0 |
  */
-defineOptions({ name: 'TmSku' });
+defineOptions({ name: 'TmSku', options: { styleIsolation: 'apply-shared', virtualHost: true, addGlobalClass: true, multipleSlots: true } });
 
 const props = defineProps({
 	/**
@@ -278,16 +278,7 @@ const buyBtnText = computed(() => {
 })
 
 </script>
-<script lang="ts">
-export default {
-	options: {
-		styleIsolation: 'apply-shared',
-		virtualHost: true,
-		addGlobalClass: true,
-		multipleSlots: true
-	}
-};
-</script>
+
 <template>
 
 	<tm-drawer
@@ -364,7 +355,7 @@ export default {
 					 @slot 添加购物车按钮
 					 -->
 					<slot name="add">
-						<tm-button :disabled="disabledBuy" :color="props.color" :skin="'thin'" block round="64">{{ $i18n.t('tmui32x.tmSku.addText') }}</tm-button>
+						<tm-button :disabled="disabledBuy" :color="props.color" :skin="'thin'" block >{{ $i18n.t('tmui32x.tmSku.addText') }}</tm-button>
 					</slot>
 				</view>
 				<view style="flex: 1;" @click="onConfirm">
@@ -372,7 +363,7 @@ export default {
 					 @slot 支持按钮
 					 -->
 					<slot name="buy">
-						<tm-button :color="props.color" :disabled="disabledBuy" block round="64">
+						<tm-button :color="props.color" :disabled="disabledBuy" block >
 							{{ buyBtnText }}
 						</tm-button>
 					</slot>

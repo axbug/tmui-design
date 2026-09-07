@@ -1,7 +1,7 @@
 <template>
     <view>
         <tm-sheet>
-            <tm-text font-size="36" class="text-weight-b mb-16 d-block">金额栅格 TmMoney</tm-text>
+            <tm-text font-size="36" class="text-weight-b mb-n8 d-block">金额栅格 TmMoney</tm-text>
             <view>
                 <tm-text>考虑到这个比较常用，输入金额为数字即可，可以放心的使用保证精度，不采用toFiexd，保证金额精度无舍入</tm-text>
             </view>

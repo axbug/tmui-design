@@ -2,13 +2,13 @@
 	<view>
 		<tm-sheet>
 			<tm-text class=" text-weight-b mb-16 d-block" font-size="32">单选框组</tm-text>
-			<tm-text color="#999999">
+			<tm-text class="mb-n8" color="#999999">
 				可单单独使用,也可组合使用
 			</tm-text>
 		</tm-sheet>
 		
 		<tm-sheet :margin="['24']">
-			<tm-text font-size="32" class=" text-weight-b d-block mb-24">单独使用</tm-text>
+			<tm-text font-size="32" class=" text-weight-b d-block mb-n8">单独使用</tm-text>
 			<view class="flex flex-row flex-row-center-start gap-10">
 				<tm-radio label="苹果"></tm-radio>
 				<tm-radio color="success" label="梨子"></tm-radio>
@@ -17,7 +17,7 @@
 			</view>
 		</tm-sheet>
 		<tm-sheet :margin="['24']">
-			<tm-text font-size="32" class=" text-weight-b d-block mb-24">联合Group使用</tm-text>
+			<tm-text font-size="32" class=" text-weight-b d-block mb-n8">联合Group使用</tm-text>
 			<tm-radio-group @change="onchange" v-model="radioValue">
 				<tm-radio v-for="(item, index) in ['苹果', '梨子', '香蕉', '地瓜', '花生']" :key="index" :value="item"
 					:label="item"></tm-radio>
@@ -27,7 +27,7 @@
 		</tm-sheet>
 
 		<tm-sheet :margin="['24']">
-			<tm-text font-size="32" class=" text-weight-b d-block">竖向排列(并自定义样式)</tm-text>
+			<tm-text font-size="32" class="text-weight-b d-block">竖向排列(并自定义样式)</tm-text>
 		</tm-sheet>
 		<tm-radio-group v-model="radioValue2" direction="column">
 			<tm-sheet :color="radioValue2 === item.id ? 'primary' : 'white'" v-for="(item, index) in listview"

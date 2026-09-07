@@ -61,7 +61,7 @@ import headertips from '../components/headertips.vue'
 | minHeight | string\|number | "88" | 最小高度，主要是用来统一风格高度不至于让点击范围过小如果你需要紧凑型可以设置为auto | 
 | lrPadding | string\|number | "32" | 左右的间隙。 | 
 | linkIcon | string | "arrow-right-s-line" | - | 
-| tbPadding | string\|number | "32" | 上下间隙 | 
+| tbPadding | string\|number | "28" | 上下间隙 | 
 | rightWidth | string\|number | "50%" | 右侧最大宽 | 
 
 

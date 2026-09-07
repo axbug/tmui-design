@@ -41,7 +41,7 @@ import headertips from '../components/headertips.vue'
 ## :rose: 事件
 | 事件名 | 参数 | 返回数据 | 描述 |
 | --- | --- | --- | --- |
-| click | - | - | 点击事件 | 
+| click | 名称：evt,事件参数, | - | 点击事件 | 
 
 
 ## :corn: slot插槽

@@ -14,7 +14,7 @@ import { useTmConfig } from "../../libs/config";
     | --- | --- | --- | --- |
     | ☑️| ☑️ | ☑️ | ☑️ | ☑️ | 1.0.0 |
  */
-defineOptions({ name: "TmStepper" });
+defineOptions({ name: "TmStepper", options: { styleIsolation: 'apply-shared', virtualHost: true, addGlobalClass: true, multipleSlots: true } });
 const { config } = useTmConfig();
 const props = defineProps({
   /**
@@ -317,16 +317,7 @@ const setValue = (value: number, isEmit: boolean) => {
   }
 };
 </script>
-<script lang="ts">
-export default {
-  options: {
-    styleIsolation: "apply-shared",
-    virtualHost: true,
-    addGlobalClass: true,
-    multipleSlots: true,
-  },
-};
-</script>
+
 <template>
   <view class="xStepper" :style="{ width: _width, borderRadius: _round }">
     <view

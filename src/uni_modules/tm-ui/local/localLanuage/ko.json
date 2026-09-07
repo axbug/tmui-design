@@ -18,7 +18,8 @@
 			"thisWeekText": "이번 주",
 			"thisMonthText": "이번 달",
 			"thisYearText": "올해",
-			"thisQuarterText": "이번 분기"
+			"thisQuarterText": "이번 분기",
+			"lastDaysText": "최근 {count}일"
 		},
 		"tmMore":{
 			"off": "더 펼치기",

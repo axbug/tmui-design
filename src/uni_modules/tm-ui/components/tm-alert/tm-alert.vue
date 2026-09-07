@@ -36,7 +36,7 @@
 	    | --- | --- | --- | --- |
 	    | ☑️| ☑️ | ☑️ | ☑️ | ☑️ | 1.0.0 |
 	 */
-	defineOptions({ name: 'TmAlert' });
+	defineOptions({ name: 'TmAlert', options: { styleIsolation: 'apply-shared', virtualHost: true, addGlobalClass: true, multipleSlots: true } });
 	const { config } = useTmConfig()
 	
 	type styleMapType = {
@@ -79,7 +79,7 @@
 		 */
 		iconSize: {
 			type: String,
-			default: "28"
+			default: "32"
 		},
 		closeIcon:{
 			type: String,
@@ -312,16 +312,7 @@
 		emits('click')
 	}
 </script>
-<script lang="ts">
-export default {
-  options: {
-    styleIsolation: "apply-shared",
-    virtualHost: true,
-    addGlobalClass: true,
-    multipleSlots: true,
-  },
-};
-</script>
+
 <style lang="scss" scoped>
 	.tmAlert {
 		display: flex;

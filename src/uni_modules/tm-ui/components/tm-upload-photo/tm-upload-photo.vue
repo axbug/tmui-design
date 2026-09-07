@@ -4,58 +4,63 @@
 
 <!--suppress HtmlUnknownAttribute -->
 <template>
-	<view class="tmUploadPhoto" @touchmove="_onDragMove" @touchend="_onDragEnd" @touchcancel="_onDragEnd" @mouseup="_onDragEnd">
+	<view class="tmUploadPhotoRoot" @touchmove="_onDragMove" @touchend="_onDragEnd" @touchcancel="_onDragEnd" @mouseup="_onDragEnd">
+		<view class="tmUploadPhoto">
 
-		<view v-if="_selectedCount&&props.addPos=='before'"
-			:style="{ width: `calc(${_width} - ${_coloumn==1?0:guuterSpace}px)`, height: _height }"
-			class="tmUploadPhotoItem " @click="choose">
-			<slot>
-				<view :style="{borderRadius:_round}" class="tmUploadPhotoItemAdd">
-					<tm-icon :color="config.color" name="add-line" size="52"></tm-icon>
-				</view>
-			</slot>
-		</view>
-
-		<view v-for="(item, index) in list" :key="item.id"
-			:style="{ width: `calc(${_width} - ${_coloumn==1?0:guuterSpace}px)`, height: _height, borderRadius: _round }"
-			class="tmUploadPhotoItem"
-			:class="{ tmUploadDragging: _dragActive && _dragIndex === index }"
-			@touchstart="_onItemPointerDown($event, index)"
-			@mousedown.prevent="_onItemPointerDown($event, index)">
-			<image :mode="props.mode" :src="item.path" :style="{width: '100%',height: '100%'}"
-				@click="imagePreve(index)"></image>
-			<view :style="{ color: STATUS_COLOR.get(item.status) || 'white' }" class="tmUploadLabel">{{ item.statusText
-				}}
+			<view v-if="_selectedCount&&props.addPos=='before'"
+				:style="{ width: `calc(${_width} - ${_coloumn==1?0:guuterSpace}px)`, height: _height }"
+				class="tmUploadPhotoItem " @click="choose">
+				<slot>
+					<view :style="{borderRadius:_round}" class="tmUploadPhotoItemAdd">
+						<tm-icon :color="config.color" name="add-line" size="52"></tm-icon>
+					</view>
+				</slot>
 			</view>
-			<view
-				v-if="(item.status == TMUPLOAD_PHOTO_STATUS.UPLOAD_SUCCESS && _okFileIsDelete) || (item.status != TMUPLOAD_PHOTO_STATUS.UPLOAD_SUCCESS && item.status != TMUPLOAD_PHOTO_STATUS.UPLOADING)"
-				class="tmUploadDel" @click.stop="remove(index, item)">
-				<tm-icon color="error" name="close-circle-fill" size="36"></tm-icon>
-			</view>
-		</view>
 
-		<view v-if="_selectedCount&&props.addPos=='after'"
-			:style="{ width: `calc(${_width} - ${_coloumn==1?0:guuterSpace}px)`, height: _height }"
-			class="tmUploadPhotoItem " @click="choose">
-			<slot>
-				<view :style="{borderRadius:_round}" class="tmUploadPhotoItemAdd">
-					<tm-icon :color="config.color" name="add-line" size="52"></tm-icon>
+			<view v-for="(item, index) in list" :key="item.id"
+				:id="_dragUid + '_' + index"
+				:style="[
+					{ width: `calc(${_width} - ${_coloumn==1?0:guuterSpace}px)`, height: _height, borderRadius: _round },
+					_flipStyle[item.id] || {}
+				]"
+				class="tmUploadPhotoItem tmUploadPhotoThumb"
+				:class="{ tmUploadDragging: _dragActive && _dragIndex === index }"
+				@touchstart="_onTouchStart($event, index)"
+				@mousedown.prevent="_onMouseDown($event, index)">
+				<image :mode="props.mode" :src="item.path" :style="{width: '100%',height: '100%'}"
+					@click="imagePreve(index)"></image>
+				<view :style="{ color: STATUS_COLOR.get(item.status) || 'white' }" class="tmUploadLabel">{{ item.statusText}}
 				</view>
-			</slot>
-		</view>
+				<view
+					v-if="(item.status == TMUPLOAD_PHOTO_STATUS.UPLOAD_SUCCESS && _okFileIsDelete) || (item.status != TMUPLOAD_PHOTO_STATUS.UPLOAD_SUCCESS && item.status != TMUPLOAD_PHOTO_STATUS.UPLOADING)"
+					class="tmUploadDel" @click.stop="remove(index, item)">
+					<tm-icon color="error" name="close-circle-fill" size="36"></tm-icon>
+				</view>
+			</view>
 
-		<view v-if="_dragActive && _dragIndex >= 0 && _dragIndex < list.length" class="tmUploadGhost"
-			:style="{
-				width: _itemW + 'px', height: _itemH + 'px', borderRadius: _round,
-				transform: `translate(${_ghostX}px, ${_ghostY}px) scale(1.05)`
-			}">
-			<image :src="list[_dragIndex].path" :mode="props.mode" style="width:100%;height:100%;pointer-events:none;" />
+			<view v-if="_selectedCount&&props.addPos=='after'"
+				:style="{ width: `calc(${_width} - ${_coloumn==1?0:guuterSpace}px)`, height: _height }"
+				class="tmUploadPhotoItem " @click="choose">
+				<slot>
+					<view :style="{borderRadius:_round}" class="tmUploadPhotoItemAdd">
+						<tm-icon :color="config.color" name="add-line" size="52"></tm-icon>
+					</view>
+				</slot>
+			</view>
+
+			<view v-if="_dragActive && _dragIndex >= 0 && _dragIndex < list.length" class="tmUploadGhost"
+				:style="{
+					width: _itemW + 'px', height: _itemH + 'px', borderRadius: _round,
+					left: _ghostX + 'px', top: _ghostY + 'px'
+				}">
+				<image :src="list[_dragIndex].path" :mode="props.mode" style="width:100%;height:100%;pointer-events:none;" />
+			</view>
 		</view>
 	</view>
 </template>
 
 <script setup lang="ts">
-	import { computed, getCurrentInstance, onBeforeUnmount, PropType, ref, watch } from 'vue'
+	import { computed, getCurrentInstance, nextTick, onBeforeUnmount, PropType, ref, watch } from 'vue'
 	import { covetUniNumber } from '../../libs/tool'
 	import { TMUPLOAD_PHOTO_STATUS } from '../../interface'
 	import { useTmConfig } from '../../libs/config'
@@ -70,7 +75,7 @@
 		| --- | --- | --- | --- |
 		| ☑️| ☑️ | ☑️ | ☑️ | ☑️ | 1.0.0 |
 	 */
-	defineOptions({ name: 'TmUploadPhoto' });
+	defineOptions({ name: 'TmUploadPhoto', options: { styleIsolation: 'apply-shared', virtualHost: true, addGlobalClass: true, multipleSlots: true } });
 
 	const { config } = useTmConfig()
 	type CHOOSEFILE_FILES = {
@@ -87,11 +92,11 @@
 	])
 	const STATUS_COLOR = new Map<TMUPLOAD_PHOTO_STATUS, string>([
 		[0, '#fff'],
-		[1, '#F2F2F2'],
-		[2, '#07d73d'],
+		[1, '#fff'],
+		[2, '#fff'],
 		[3, '#f10226'],
-		[4, '#F2F2F2'],
-		[5, '#ffa61e']
+		[4, '#fff'],
+		[5, '#f10226']
 	])
 	const guuterSpace = uni.upx2px(10)
 	const emit = defineEmits([
@@ -574,6 +579,7 @@
 	}
 	// ─── 拖拽排序 ────────────────────────────────────────────
 	const _dragProxy = getCurrentInstance()?.proxy
+	const _dragUid = `up${Math.random().toString(36).slice(2, 8)}`
 	const _dragActive = ref(false)
 	const _dragIndex = ref(-1)
 	const _dragOriginIndex = ref(-1)
@@ -581,65 +587,237 @@
 	const _ghostY = ref(0)
 	const _itemW = ref(0)
 	const _itemH = ref(0)
+	const _flipStyle = ref<Record<string, Record<string, string>>>({})
 	const _containerRect = ref({ left: 0, top: 0, width: 0 })
 	let _longPressTimer: any = null
 	let _dragStartX = 0
 	let _dragStartY = 0
-	let _touchOffsetX = 0
-	let _touchOffsetY = 0
+	let _ghostStartX = 0
+	let _ghostStartY = 0
+	let _cellH = 0
+	let _flipTimer: any = null
+	let _startPointOk = false
+	let _isMouseDrag = false
+	let _docMouseBound = false
+	let _photoEl: HTMLElement | null = null
 
 	const _addOffset = computed(() => (props.addPos === 'before' && _selectedCount.value > 0) ? 1 : 0)
 
-	const _getDragTarget = (clientX: number, clientY: number): number => {
+	const _getPoint = (e: any) => {
+		if (!e) return { x: 0, y: 0, ok: false }
+		const t = e.touches?.[0] || e.changedTouches?.[0] || e.detail?.touches?.[0] || e.mp?.touches?.[0]
+		const src = t || e
+		let x = src.clientX
+		let y = src.clientY
+		if (typeof x !== 'number' && typeof e.clientX === 'number') {
+			x = e.clientX
+			y = e.clientY
+		}
+		if (typeof x !== 'number') {
+			const orig = e.originalEvent || e.nativeEvent || e.sourceEvent
+			if (orig && typeof orig.clientX === 'number') {
+				x = orig.clientX
+				y = orig.clientY
+			}
+		}
+		if (typeof x !== 'number' || typeof y !== 'number') return { x: 0, y: 0, ok: false }
+		return { x, y, ok: true }
+	}
+
+	const _bindPhotoEl = () => {
+		const root = (_dragProxy as any)?.$el as HTMLElement | undefined
+		if (!root) return
+		if (root.classList?.contains?.('tmUploadPhoto')) {
+			_photoEl = root
+			return
+		}
+		_photoEl = (root.querySelector?.('.tmUploadPhoto') as HTMLElement) || null
+	}
+
+	const _syncPhotoRectFromDom = () => {
+		if (!_photoEl || typeof _photoEl.getBoundingClientRect !== 'function') {
+			_bindPhotoEl()
+		}
+		if (!_photoEl || typeof _photoEl.getBoundingClientRect !== 'function') return false
+		const r = _photoEl.getBoundingClientRect()
+		_containerRect.value = { left: r.left, top: r.top, width: r.width }
+		return true
+	}
+
+	const _placeGhostAtPointer = (x: number, y: number) => {
+		const rect = _containerRect.value
+		_ghostX.value = x - rect.left - _itemW.value / 2
+		_ghostY.value = y - rect.top - _itemH.value / 2
+	}
+
+	const _onDocMouseMove = (e: MouseEvent) => {
+		if (!_startPointOk) {
+			_dragStartX = e.clientX
+			_dragStartY = e.clientY
+			_startPointOk = true
+			if (!_dragActive.value) return
+		}
+		if (_longPressTimer && !_dragActive.value) {
+			if (Math.abs(e.clientX - _dragStartX) > 5 || Math.abs(e.clientY - _dragStartY) > 5) {
+				clearTimeout(_longPressTimer)
+				_longPressTimer = null
+				_unbindDocMouse()
+			}
+			return
+		}
+		if (!_dragActive.value) return
+		e.preventDefault()
+		_syncPhotoRectFromDom()
+		_placeGhostAtPointer(e.clientX, e.clientY)
+		const targetIndex = _getDragTarget(e.clientX, e.clientY)
+		if (targetIndex !== _dragIndex.value && targetIndex >= 0 && targetIndex < list.value.length) {
+			_swapTo(targetIndex)
+		}
+	}
+
+	const _bindDocMouse = () => {
+		if (typeof document === 'undefined' || _docMouseBound) return
+		document.addEventListener('mousemove', _onDocMouseMove)
+		document.addEventListener('mouseup', _onDragEnd)
+		_docMouseBound = true
+	}
+
+	const _unbindDocMouse = () => {
+		if (typeof document === 'undefined' || !_docMouseBound) return
+		document.removeEventListener('mousemove', _onDocMouseMove)
+		document.removeEventListener('mouseup', _onDragEnd)
+		_docMouseBound = false
+	}
+
+	const _slotPos = (listIndex: number) => {
 		const rect = _containerRect.value
 		const gap = uni.upx2px(5)
 		const colW = rect.width / props.column
-		const rowH = _itemH.value + gap
+		const rowH = _cellH + gap
+		const vIdx = listIndex + _addOffset.value
+		return {
+			x: (vIdx % props.column) * colW,
+			y: Math.floor(vIdx / props.column) * rowH
+		}
+	}
+
+	const _getDragTarget = (clientX: number, clientY: number): number => {
+		const rect = _containerRect.value
+		if (!rect.width) return _dragIndex.value
+		const gap = uni.upx2px(5)
+		const colW = rect.width / props.column
+		const rowH = _cellH + gap
+		if (colW <= 0 || rowH <= 0) return _dragIndex.value
 		let col = Math.max(0, Math.min(Math.floor((clientX - rect.left) / colW), props.column - 1))
 		let row = Math.max(0, Math.floor((clientY - rect.top) / rowH))
 		let idx = row * props.column + col - _addOffset.value
 		return Math.max(0, Math.min(idx, list.value.length - 1))
 	}
 
-	const _startDrag = (index: number, clientX: number, clientY: number) => {
-		uni.createSelectorQuery().in(_dragProxy)
-			.select('.tmUploadPhoto')
-			.boundingClientRect((rect: any) => {
-				if (!rect) return
-				_containerRect.value = { left: rect.left, top: rect.top, width: rect.width }
-				const gap = uni.upx2px(5)
-				_itemW.value = (rect.width - gap * (props.column - 1)) / props.column
-				_itemH.value = uni.upx2px(parseInt(props.imgHeight))
-				const colW = rect.width / props.column
-				const rowH = _itemH.value + gap
-				const vIdx = index + _addOffset.value
-				const itemLeft = rect.left + (vIdx % props.column) * colW
-				const itemTop = rect.top + Math.floor(vIdx / props.column) * rowH
-				_touchOffsetX = clientX - itemLeft
-				_touchOffsetY = clientY - itemTop
-				_ghostX.value = itemLeft
-				_ghostY.value = itemTop
-				_dragActive.value = true
-				_dragIndex.value = index
-				_dragOriginIndex.value = index
-				// #ifdef APP-PLUS || MP-WEIXIN
-				try { uni.vibrateShort({} as any) } catch (_e) {}
-				// #endif
-				// #ifdef H5
-				if (typeof document !== 'undefined') {
-					document.addEventListener('mousemove', _onDragMove)
-					document.addEventListener('mouseup', _onDragEnd)
-				}
-				// #endif
-			}).exec()
+	const _playFlip = (from: number, to: number, draggedId: string, beforeIds: string[]) => {
+		const afterIds = list.value.map(i => i.id)
+		const invert: Record<string, Record<string, string>> = {}
+		beforeIds.forEach((id, oldI) => {
+			if (id === draggedId) return
+			const newI = afterIds.indexOf(id)
+			if (newI < 0 || newI === oldI) return
+			const oldP = _slotPos(oldI)
+			const newP = _slotPos(newI)
+			const dx = oldP.x - newP.x
+			const dy = oldP.y - newP.y
+			if (Math.abs(dx) < 0.5 && Math.abs(dy) < 0.5) return
+			invert[id] = { transform: `translate(${dx}px, ${dy}px)`, transition: 'none' }
+		})
+		_flipStyle.value = invert
+		nextTick(() => {
+			const run = () => {
+				const play: Record<string, Record<string, string>> = {}
+				Object.keys(invert).forEach(id => {
+					play[id] = { transform: 'translate(0px, 0px)', transition: 'transform 200ms ease' }
+				})
+				_flipStyle.value = play
+			}
+			if (typeof requestAnimationFrame === 'function') {
+				requestAnimationFrame(() => requestAnimationFrame(run))
+			} else {
+				setTimeout(run, 16)
+			}
+		})
+		if (_flipTimer) clearTimeout(_flipTimer)
+		_flipTimer = setTimeout(() => {
+			_flipStyle.value = {}
+			_flipTimer = null
+		}, 240)
 	}
 
-	const _onItemPointerDown = (e: any, index: number) => {
+	const _swapTo = (targetIndex: number) => {
+		if (targetIndex === _dragIndex.value) return
+		const from = _dragIndex.value
+		const draggedId = list.value[from].id
+		const beforeIds = list.value.map(i => i.id)
+		const item = list.value.splice(from, 1)[0]
+		list.value.splice(targetIndex, 0, item)
+		_dragIndex.value = targetIndex
+		_playFlip(from, targetIndex, draggedId, beforeIds)
+	}
+
+	const _startDrag = (index: number, clientX: number, clientY: number) => {
+		const query = uni.createSelectorQuery().in(_dragProxy)
+		query.select('.tmUploadPhoto').boundingClientRect()
+		query.select(`#${_dragUid}_${index}`).boundingClientRect()
+		query.exec((ret: UniApp.NodeInfo[]) => {
+			const photo = ret?.[0]
+			const item = ret?.[1]
+			if (!photo) return
+			const gap = uni.upx2px(5)
+			_cellH = uni.upx2px(parseInt(String(props.imgHeight)))
+			_containerRect.value = { left: photo.left || 0, top: photo.top || 0, width: photo.width || 0 }
+			_itemW.value = item?.width || ((photo.width || 0) - gap * (props.column - 1)) / props.column
+			_itemH.value = item?.height || _cellH
+			const vIdx = index + _addOffset.value
+			const colW = (photo.width || 0) / props.column
+			const rowH = _cellH + gap
+			_ghostStartX = item ? ((item.left || 0) - (photo.left || 0)) : (vIdx % props.column) * colW
+			_ghostStartY = item ? ((item.top || 0) - (photo.top || 0)) : Math.floor(vIdx / props.column) * rowH
+			_dragStartX = clientX
+			_dragStartY = clientY
+			_ghostX.value = _ghostStartX
+			_ghostY.value = _ghostStartY
+			_dragActive.value = true
+			_dragIndex.value = index
+			_dragOriginIndex.value = index
+			_flipStyle.value = {}
+			_bindPhotoEl()
+			_syncPhotoRectFromDom()
+			// #ifdef APP-PLUS || MP-WEIXIN
+			try { uni.vibrateShort({} as any) } catch (_e) {}
+			// #endif
+		})
+	}
+
+	const _onTouchStart = (e: any, index: number) => {
 		if (!props.sortable || uploading.value) return
 		if (list.value[index].status === TMUPLOAD_PHOTO_STATUS.UPLOADING) return
-		const touch = e.touches?.[0] || e
-		_dragStartX = touch.clientX
-		_dragStartY = touch.clientY
+		_isMouseDrag = false
+		const point = _getPoint(e)
+		_dragStartX = point.x
+		_dragStartY = point.y
+		_startPointOk = point.ok
+		_longPressTimer = setTimeout(() => {
+			_longPressTimer = null
+			_startDrag(index, _dragStartX, _dragStartY)
+		}, 350)
+	}
+
+	const _onMouseDown = (e: any, index: number) => {
+		if (!props.sortable || uploading.value) return
+		if (list.value[index].status === TMUPLOAD_PHOTO_STATUS.UPLOADING) return
+		_isMouseDrag = true
+		const point = _getPoint(e)
+		_dragStartX = point.x
+		_dragStartY = point.y
+		_startPointOk = point.ok
+		_bindDocMouse()
 		_longPressTimer = setTimeout(() => {
 			_longPressTimer = null
 			_startDrag(index, _dragStartX, _dragStartY)
@@ -647,9 +825,17 @@
 	}
 
 	const _onDragMove = (e: any) => {
-		const touch = e.touches?.[0] || e
+		if (_isMouseDrag) return
+		const point = _getPoint(e)
+		if (!point.ok) return
 		if (_longPressTimer && !_dragActive.value) {
-			if (Math.abs(touch.clientX - _dragStartX) > 5 || Math.abs(touch.clientY - _dragStartY) > 5) {
+			if (!_startPointOk) {
+				_dragStartX = point.x
+				_dragStartY = point.y
+				_startPointOk = true
+				return
+			}
+			if (Math.abs(point.x - _dragStartX) > 5 || Math.abs(point.y - _dragStartY) > 5) {
 				clearTimeout(_longPressTimer)
 				_longPressTimer = null
 			}
@@ -658,26 +844,24 @@
 		if (!_dragActive.value) return
 		if (e.preventDefault) e.preventDefault()
 		if (e.stopPropagation) e.stopPropagation()
-		_ghostX.value = touch.clientX - _touchOffsetX
-		_ghostY.value = touch.clientY - _touchOffsetY
-		const targetIndex = _getDragTarget(touch.clientX, touch.clientY)
+		_placeGhostAtPointer(point.x, point.y)
+		const targetIndex = _getDragTarget(point.x, point.y)
 		if (targetIndex !== _dragIndex.value && targetIndex >= 0 && targetIndex < list.value.length) {
-			const item = list.value.splice(_dragIndex.value, 1)[0]
-			list.value.splice(targetIndex, 0, item)
-			_dragIndex.value = targetIndex
+			_swapTo(targetIndex)
 		}
 	}
 
 	const _onDragEnd = () => {
 		if (_longPressTimer) { clearTimeout(_longPressTimer); _longPressTimer = null }
-		// #ifdef H5
-		if (typeof document !== 'undefined') {
-			document.removeEventListener('mousemove', _onDragMove)
-			document.removeEventListener('mouseup', _onDragEnd)
+		_unbindDocMouse()
+		if (!_dragActive.value) {
+			_isMouseDrag = false
+			return
 		}
-		// #endif
-		if (!_dragActive.value) return
 		_dragActive.value = false
+		_isMouseDrag = false
+		_flipStyle.value = {}
+		if (_flipTimer) { clearTimeout(_flipTimer); _flipTimer = null }
 		if (_dragIndex.value !== _dragOriginIndex.value) {
 			emit('change', JSON.parse(JSON.stringify(list.value.slice(0))))
 			syncToParent()
@@ -688,12 +872,8 @@
 
 	onBeforeUnmount(() => {
 		if (_longPressTimer) clearTimeout(_longPressTimer)
-		// #ifdef H5
-		if (typeof document !== 'undefined') {
-			document.removeEventListener('mousemove', _onDragMove)
-			document.removeEventListener('mouseup', _onDragEnd)
-		}
-		// #endif
+		if (_flipTimer) clearTimeout(_flipTimer)
+		_unbindDocMouse()
 	})
 
 	watch(() => props.modelValue, (newVal) => {
@@ -716,16 +896,7 @@
 
 	defineExpose({ startUpload, choose })
 </script>
-<script lang="ts">
-	export default {
-		options: {
-			styleIsolation: 'apply-shared',
-			virtualHost: true,
-			addGlobalClass: true,
-			multipleSlots: true
-		}
-	}
-</script>
+
 <style scoped>
 	.tmUploadDel {
 		display: flex;
@@ -748,7 +919,7 @@
 		box-sizing: border-box;
 		padding: 2px 5rpx;
 
-		background-color: rgba(6, 8, 15, 0.46);
+		background-color: rgba(6, 8, 15, 0.26);
 		color: white;
 		font-size: 11px;
 		position: absolute;
@@ -759,13 +930,21 @@
 		pointer-events: none;
 	}
 
+	.tmUploadPhotoRoot {
+		position: relative;
+		width: 100%;
+		overflow: visible;
+	}
+
 	.tmUploadPhoto {
+		position: relative;
 		display: flex;
 		flex-wrap: wrap;
 		justify-content: flex-start;
 		align-items: flex-start;
 		box-sizing: border-box;
 		gap: 5rpx;
+		overflow: visible;
 	}
 
 	.tmUploadPhotoItem {
@@ -789,14 +968,13 @@
 	}
 
 	.tmUploadGhost {
-		position: fixed;
-		left: 0;
-		top: 0;
+		position: absolute;
 		overflow: hidden;
 		pointer-events: none;
 		box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
 		z-index: 9999;
-		will-change: transform;
+		margin: 0;
+		flex: none;
 	}
 
 	.tmUploadPhotoItemAdd {

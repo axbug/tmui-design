@@ -6,6 +6,30 @@ import routerMixins from "./libs/router";
 import tmRouter, { router } from "./uni_modules/tm-ui/router";
 import { axiosCreateInstance } from "./libs/request";
 
+// 自定义语言包，顶层 key 为 MyLanguages，通过 tmui i18n 配置注入
+// @ts-ignore
+import myEn from "./languages/en.json"
+// @ts-ignore
+import myZhHans from "./languages/zh-Hans.json"
+// @ts-ignore
+import myZhHant from "./languages/zh-Hant.json"
+// @ts-ignore
+import myKo from "./languages/ko.json"
+// @ts-ignore
+import myJa from "./languages/ja.json"
+// @ts-ignore
+import myFr from "./languages/fr.json"
+// @ts-ignore
+import myDe from "./languages/de.json"
+// @ts-ignore
+import myEs from "./languages/es.json"
+// @ts-ignore
+import myPt from "./languages/pt.json"
+// @ts-ignore
+import myRu from "./languages/ru.json"
+// @ts-ignore
+import myAr from "./languages/ar.json"
+
 // @ts-ignore
 if (process.env.NODE_ENV === 'development') {
 	uni.apiHostUrl = "https://a.com/api"
@@ -27,7 +51,25 @@ export function createApp() {
 	// 全局store存储
 	app.use(Pinia.createPinia());
 	// tmui组件
-	app.use(tmUi);
+	app.use(tmUi, {
+		i18n: {
+			locale: "zh-Hans",
+			fallbackLocale: "en",
+			messages: {
+				en: myEn,
+				"zh-Hans": myZhHans,
+				"zh-Hant": myZhHant,
+				ko: myKo,
+				ja: myJa,
+				fr: myFr,
+				de: myDe,
+				es: myEs,
+				pt: myPt,
+				ru: myRu,
+				ar: myAr
+			}
+		}
+	});
 	/**
 	 * 路由鉴权守卫
 	 * mode: 'whitelist' — 默认所有页面需要鉴权，list 中的页面免鉴权

@@ -2,7 +2,7 @@
     <view>
         <tm-sheet>
             <tm-text font-size="36" class="text-weight-b mt-16">视频上传 TmUploadVideo</tm-text>
-            <view class="mb-16">
+            <view class="">
                 <tm-text>样式丰富塑造性好。</tm-text>
             </view>
         </tm-sheet>
@@ -14,7 +14,7 @@
             </tm-upload-video>
         </tm-sheet>
         <tm-sheet>
-            <tm-text font-size="36" class="text-weight-b d-block mb-16">限定一个</tm-text>
+            <tm-text font-size="36" class="text-weight-b d-block mb-n8">限定一个</tm-text>
 
             <tm-upload-video :column="1" img-height="200" :max-count="1">
             </tm-upload-video>

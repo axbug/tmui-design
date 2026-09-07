@@ -1,11 +1,11 @@
-import { I18nOptions, Tmui4xI18nTml } from "../tm-ui/local/interface";
+
 import { AxiosInstance } from "./libs/axios";
-import { Tmui4xI18n } from "./local/i18n";
+
 
 /*
  * Copyright (c) 2025. tmzdy by @https://tmui.design
  */
-export * from "../tm-ui/local/interface"
+
 /**
  * 上传的文件状态
  * 0未上传，1上传中，2上传成功，3上传失败（网络错误），4已取消（终止，上到一半取消了）,5超过大小
@@ -25,29 +25,29 @@ declare global {
 		/**
 		 * api接口的域名
 		 */
-		apiHostUrl:string;
+		apiHostUrl: string;
 		/**
 		 * 图片地地址域名
 		 */
-		imgHostUrl:string;
+		imgHostUrl: string;
 		/**
 		 * 上传文件的地址链接
 		 */
-		uploadHost:string;
-		
+		uploadHost: string;
+
 		/**
 		 * 获取图片的域名连接
 		 * localImgName 图片名称如：a.jpg,也可以是本地的地址如/static/xxx或者https开头，会忽略域名的拼接，直接返回本身。
 		 * hostname可以为空，取全局的uni.imgHostUrl
 		 */
-		getHostImg : (localImgName : string,hostname?:string) => string;
+		getHostImg: (localImgName: string, hostname?: string) => string;
 		// 导航跳转
-		navTo : (url : string, type : 'navigate' | 'redirect' | 'switchTab' | 'reLaunch') => void;
+		navTo: (url: string, type: 'navigate' | 'redirect' | 'switchTab' | 'reLaunch') => void;
 		// 全局的请求实例
-		axios : AxiosInstance;
-		
+		axios: AxiosInstance;
+
 	}
-	
+
 	/**
 	 * TMUI3.2.x类型命名空间
 	 * @author tmzdy
@@ -65,10 +65,110 @@ declare global {
 		/** 主题样式 */
 		export type THEME_MODE = "auto" | "dark" | "light"
 
+		export type I18nOptions = {
+			/** 当前语言代码，如 'en-US'、'zh-CN' */
+			locale?: string;
+			/** 回退语言代码，当当前语言缺少翻译时使用 */
+			fallbackLocale?: string;
+			/** 翻译消息对象，按语言代码组织 */
+			messages?: Record<string, any>;
+			/** 日期时间格式化配置 */
+			datetimeFormats?: any;
+			/** 数字格式化配置 */
+			numberFormats?: any;
+			/** 字符串修饰器映射 */
+			modifiers?: Map<string, any>;
+			/** 复数规则映射，按语言代码组织 */
+			pluralRules?: Map<string, any>;
+			/** 缺失翻译处理函数 */
+			missing?: ((locale: string, key: string, instance?: any, type?: string) => any) | null;
+			/** 是否显示缺失翻译警告 */
+			missingWarn?: boolean;
+			/** 是否显示回退语言警告 */
+			fallbackWarn?: boolean;
+			/** 是否回退到根实例 */
+			fallbackRoot?: boolean;
+			/** 是否启用回退格式化 */
+			fallbackFormat?: boolean;
+			/** 是否允许未解析的翻译键 */
+			unresolving?: boolean;
+			/** 翻译后处理函数 */
+			postTranslation?: ((str: string, key: string) => string) | null;
+			/** 是否警告HTML消息 */
+			warnHtmlMessage?: boolean;
+			/** 是否转义参数 */
+			escapeParameter?: boolean;
+			/** 是否继承父级语言设置 */
+			inheritLocale?: boolean;
+			/** 警告处理器 */
+			warnHandler?: any;
+			/** 默认复数规则 */
+			pluralRule?: any;
+			/** 是否全局注入 */
+			globalInjection?: boolean;
+			/** 是否允许组合式API */
+			allowComposition?: boolean;
+			/** 是否使用遗留模式 */
+			legacy?: boolean;
+		};
+
+		export type I18nGlobal = {
+			/** 翻译文本。`t(key)` / `t(key, named)` / `t(key, list)` / `t(key, plural)` 多重载 */
+			t: (key: string, ...args: any[]) => string;
+			/** 解析已编译消息（rt: resolve translation），通常配合 tm() 使用 */
+			rt?: (message: any, ...args: any[]) => string;
+			/** 日期/时间格式化。`d(value)` / `d(value, key)` / `d(value, key, locale)` / `d(value, options)` */
+			d?: (value: any, ...args: any[]) => string;
+			/** 数字格式化。`n(value)` / `n(value, key)` / `n(value, key, locale)` / `n(value, options)` */
+			n?: (value: any, ...args: any[]) => string;
+			/** 判断 key 是否存在 */
+			te?: (key: string, locale?: string) => boolean;
+			/** 取整段消息子树（返回对象/数组结构） */
+			tm?: (key: string) => any;
+
+			/** 当前语言（Ref<string>，可读写） */
+			locale?: any;
+			/** 回退语言（Ref<string | string[] | ...>） */
+			fallbackLocale?: any;
+			/** 当前已注册的所有语言代码（只读） */
+			availableLocales?: string[];
+			/** 全部 messages（只读，结构与 createI18n 的 messages 一致） */
+			messages?: any;
+			/** 全部日期时间格式配置（只读） */
+			datetimeFormats?: any;
+			/** 全部数字格式配置（只读） */
+			numberFormats?: any;
+
+			/** 取指定语言的 messages */
+			getLocaleMessage?: (locale: string) => any;
+			/** 整包覆盖指定语言的 messages */
+			setLocaleMessage?: (locale: string, message: any) => void;
+			/** 深度合并指定语言的 messages（不会清空原有 key） */
+			mergeLocaleMessage?: (locale: string, message: any) => void;
+
+			/** 取指定语言的日期时间格式 */
+			getDateTimeFormat?: (locale: string) => any;
+			/** 整包覆盖指定语言的日期时间格式 */
+			setDateTimeFormat?: (locale: string, format: any) => void;
+			/** 深度合并指定语言的日期时间格式 */
+			mergeDateTimeFormat?: (locale: string, format: any) => void;
+
+			/** 取指定语言的数字格式 */
+			getNumberFormat?: (locale: string) => any;
+			/** 整包覆盖指定语言的数字格式 */
+			setNumberFormat?: (locale: string, format: any) => void;
+			/** 深度合并指定语言的数字格式 */
+			mergeNumberFormat?: (locale: string, format: any) => void;
+		};
+
+
+
 		export interface THEME_CONFIG {
 			i18n: I18nOptions,
 			/** 主题模式 */
 			mode: THEME_MODE,
+			/**主题列表，可以覆盖内置同名主题 */
+			theme:Map<string,string>,
 			color: string,
 			unit: 'rpx' | 'px',
 			// 默认相对字号
@@ -76,8 +176,6 @@ declare global {
 			// 默认相对字号fontSizeBase倍数
 			fontSizeScale: 1,
 			buttonRadius: number | string,
-			/** button默认的投影大小,none全局投影取消,但不影响局部值 */
-			buttonShadow: number | string | Array<string>,
 
 			sheetRadius: number | string | Array<string | number>,
 			sheetShadow: number | string | Array<string>,
@@ -86,7 +184,6 @@ declare global {
 
 			//列表默认的圆角。
 			cellRadius: number | string | Array<string | number>,
-
 
 			/** 一般容器sheet的暗黑背景 */
 			sheetDarkColor: string,
@@ -113,6 +210,15 @@ declare global {
 			animation: string,
 
 			backgroundColorContentDark: string,
+
+			/** 默认图片预览是否开启 */
+			previewImage: boolean,
+			/** drawer,modal弹层默认的按钮是否是半圆，如果关闭就是1.x的风格 */
+			modalActionsHalfRound: boolean,
+			/** 统一的按钮投影[x,y,blur]，建议值：[0,3,10],另外由于布局因此，投影它需要padding来空出投影值否则被裁剪 */
+			buttonShadow: Array<number|string>,
+			/** 统一的按钮投影[x,y,blur]，建议值：[0,3,10],另外由于布局因此，投影它需要padding来空出投影值否则被裁剪 */
+			tagShadow: Array<number|string>
 		}
 		export type tmDateDayInfoType = {
 			/** 年 */
@@ -148,7 +254,7 @@ declare global {
 			size?: number,
 			/** 文件路径 */
 			path: string,
-			url?:string,
+			url?: string,
 			progress: number,
 			statusText: string,
 			status: TMUPLOAD_PHOTO_STATUS,
@@ -302,81 +408,81 @@ declare global {
 			 */
 			dotLabel?: string
 		}
-		
-		
+
+
 		/**
 		 * 日期的对象属性
 		 */
 		export type xDateDayInfoType = {
 			/** 年 */
-			year : number,
+			year: number,
 			/** 月0-11 */
-			month : number,
+			month: number,
 			/** 天 */
-			day : number,
+			day: number,
 			/** 小时0-23 */
-			hours : number,
+			hours: number,
 			/** 分钟0-59 */
-			minutes : number,
+			minutes: number,
 			/** 秒0-59 */
-			seconds : number,
+			seconds: number,
 			/** 本年的第几周 */
-			weeks : number,
+			weeks: number,
 			/** 本周星期几 */
-			week : number,
+			week: number,
 			/** 本周星期几,中文名称 */
-			weekCn : string,
+			weekCn: string,
 			/** 格式化的日期字符串 */
-			date : string,
+			date: string,
 			/** 是否渲染显示 */
-			isRender ?: boolean
+			isRender?: boolean
 		}
-		
+
 		/**
 		 * 日历单个日期的样式对象
 		 */
 		export type tmCalendarDateStyle_type = {
 			/** 是否显示右角标 */
-			dot ?: boolean,
+			dot?: boolean,
 			/** 右角标背景颜色 */
-			dotColor ?: string,
+			dotColor?: string,
 			/** 右角标文字颜色 */
-			dotLabelColor ?: string,
+			dotLabelColor?: string,
 			/** 注意如果dot为true，此内容为空就会显示小圆点。如果有内容优先显示本文本 */
-			dotLabel ?: string,
+			dotLabel?: string,
 			/** 底部文本 */
-			label ?: string,
+			label?: string,
 			/** 背景颜色 */
-			color ?: string,
+			color?: string,
 			/** 日期文字颜色 */
-			fontColor ?: string,
+			fontColor?: string,
 			/** 设置的日期 */
-			date : string
+			date: string
 		}
-		
+
 		export type tmCalendarDateStyleStatus = {
-			date:string,
-			color:string
+			date: string,
+			color: string
 		}
-		
+
 		export type tmCalendarDateStyleBetweenStatus = {
 			/** 指定了start和end，那么处于这两个日期（含起始）之间的会显示状态点 */
-			start?:string,
+			start?: string,
 			/** 指定了start和end，那么处于这两个日期（含起始）之间的会显示状态点 */
-			end?:string,
+			end?: string,
 			/** start和end间条件达成时的状态颜色 */
-			color?:string,
+			color?: string,
 			/* 区间内排除的指定日期 */
-			notDate?:string[],
+			notDate?: string[],
 		}
 		/**
 		 * 状态结构对象
 		 */
 		export type tmCalendarDateStyleStatusType = {
 			/** 启用日期区间设置连续性的状态,它与下面的参数不冲突，如果日期不在区间内，但又在指定的日期内，也会启用状态显示。 */
-			between?:tmCalendarDateStyleBetweenStatus,
+			between?: tmCalendarDateStyleBetweenStatus,
 			/** 指定单独的日期状态,高于between优先权 */
-			date?:tmCalendarDateStyleStatus[]
+			date?: tmCalendarDateStyleStatus[]
 		}
 
 	}

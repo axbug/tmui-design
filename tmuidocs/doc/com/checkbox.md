@@ -35,20 +35,20 @@ import headertips from '../components/headertips.vue'
 ## :seedling: 参数
 | 参数名 | 类型 | 默认值 | 描述 |
 | :--: | :--: | :--: | :-- |
-| color | string | "" | 当前主题色，空值时取全局 | 
-| unCheckColor | string | "" | 当前未选中时主题色，空值时取全局 | 
-| darkUnCheckColor | string | "" | 当前未选中时的暗黑主题色 | 
+| color | string | '' | 当前主题色，空值时取全局 | 
+| unCheckColor | string | '' | 当前未选中时主题色，空值时取全局 | 
+| darkUnCheckColor | string | '' | 当前未选中时的暗黑主题色 | 
 | modelValue | string\|number\|boolean | '' | 当前双向绑定值 | 
 | value | string\|number\|boolean | true | 选中的值， | 
 | unCheckValue | string\|number\|boolean | '' | 未选中的值 | 
 | disabled | boolean | false | 是否禁用 | 
-| icon | string | "check-line" | 选中的图标名称。 | 
-| label | string | "" | 右侧文字。 | 
+| icon | string | 'check-line' | 选中的图标名称。 | 
+| label | string | '' | 右侧文字。 | 
 | hiddenCheckbox | boolean\|string | false | 是否隐藏选中框。然后利用默认插槽自定义选中所有样式和状态。 | 
 | indeterminate | boolean\|string | false | 半选中 | 
-| size | string\|number | "42" | 尺寸 | 
-| iconSize | string\|number | "40" | 中间小图标大小 | 
-| labelFontSize | string\|number | "30" | 文字大小 | 
+| size | string\|number | '42' | 尺寸 | 
+| iconSize | string\|number | '40' | 中间小图标大小 | 
+| labelFontSize | string\|number | '30' | 文字大小 | 
 | showLabel | boolean | true | 如果不要显示label时设置为false可以隐藏label并把label间隙删除， | 
 
 

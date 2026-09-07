@@ -13,7 +13,7 @@ import { getDefaultColor, getDefaultColorObj, getOutlineColorObj, getTextColorOb
    | --- | --- | --- | --- |
    | ☑️| ☑️ | ☑️ | ☑️ | ☑️ | 1.0.0 |
 */
-defineOptions({ name: 'TmSwitch' });
+defineOptions({ name: 'TmSwitch', options: { styleIsolation: 'apply-shared', virtualHost: true, addGlobalClass: true, multipleSlots: true } });
 const { config } = useTmConfig()
 
 const props = defineProps({
@@ -255,16 +255,7 @@ function getNodes() {
 
 }
 </script>
-<script lang="ts">
-export default {
-    options: {
-        styleIsolation: "apply-shared",
-        virtualHost: true,
-        addGlobalClass: true,
-        multipleSlots: true,
-    },
-};
-</script>
+
 <template>
     <view @click="onClick" :id="id" class="tmSwitch" ref="tmSwitch" :style="{
         height: boxheight+'px',

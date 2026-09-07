@@ -80,29 +80,29 @@ export default {
 
 .detailwebview {
 	width: 100%;
-	padding: 12px 0px;
+	padding: 11px 0;
 	display: flex;
 	justify-content: space-between;
+	align-items: center;
 	cursor: pointer;
-	border-color: var(--vp-custom-block-danger-border);
-    color: var(--vp-custom-block-danger-text);
-    background-color: var(--vp-custom-block-danger-bg);
-	border-radius: 10px;
+	border: 1px solid var(--vp-c-border);
+	color: var(--vp-c-text-2);
+	background-color: var(--vp-c-bg-alt);
+	border-radius: 8px;
+	font-size: 13px;
+	letter-spacing: -0.01em;
+	font-weight: 500;
 }
 
 .webview {
-	width: 100%;
 	width: 375px;
 	height: 686px;
-	background: transparent;
-	border: none;
-	margin: auto;
+	background: var(--vp-c-bg-alt);
+	margin: 16px auto 8px;
 	padding: 0;
-	margin-top: 12px;
-	border-radius: 32px;
-	border: 6px solid rgba(22, 115, 255, 0.2);
-    box-shadow: 2px 2px 24px rgba(22, 115, 255, 0.2);
-
+	border-radius: 28px;
+	border: 8px solid var(--vp-c-text-1);
+	box-shadow: none;
 }
 </style>
 

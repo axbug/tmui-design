@@ -13,7 +13,12 @@ import { arrayNumber } from '../../libs/tool'
     | --- | --- | --- | --- |
     | ☑️| ☑️ | ☑️ | ☑️ | ☑️ | 1.0.0 |
  */
-defineOptions({ name: 'TmRadioGroup' });
+defineOptions({ name: 'TmRadioGroup',options: {
+        styleIsolation: "apply-shared",
+        virtualHost: true,
+        addGlobalClass: true,
+        multipleSlots: true,
+    } });
 
 const props = defineProps({
     modelValue: {
@@ -68,19 +73,11 @@ function removeItem(item: string | number | boolean) {
 }
 
 provide("tmRadioGroupValue", computed(() => checkvaluelist.value))
+provide("tmRadioAddItem",addItem)
+provide("tmRadioRemoveItem",removeItem)
 
-defineExpose({ addItem, removeItem })
 </script>
-<script lang="ts">
-export default {
-    options: {
-        styleIsolation: "apply-shared",
-        virtualHost: true,
-        addGlobalClass: true,
-        multipleSlots: true,
-    },
-};
-</script>
+
 <template>
     <view class="tmCheckboxGroup"
         :style="{ 'flex-direction': direction, 'align-items': direction == 'row' ? 'flex-start' : undefined, 'justify-content': align, gap: _gap }">

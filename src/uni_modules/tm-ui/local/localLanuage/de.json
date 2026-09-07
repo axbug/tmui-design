@@ -1,0 +1,95 @@
+{
+	"tmui32x": {
+		"cancel": "Abbrechen",
+		"confirm": "Bestätigen",
+		"success": "Erfolg",
+		"fail": "Fehlgeschlagen",
+		"warn": "Warnung",
+		"info": "Info",
+		"clear":"Leeren",
+		"pickerTitle":"Auswählen",
+		"tmBetweenTime":{
+			"title": "Zeit auswählen",
+			"startText": "Startzeit",
+			"endText": "Endzeit",
+			"betweenText": "bis",
+			"clearText": "Leeren",
+			"nowText": "Heute",
+			"thisWeekText": "Diese Woche",
+			"thisMonthText": "Dieser Monat",
+			"thisYearText": "Dieses Jahr",
+			"thisQuarterText": "Dieses Quartal",
+			"lastDaysText": "Letzte {count} Tage"
+		},
+		"tmMore":{
+			"off": "Mehr anzeigen",
+			"on": "Reduzieren"
+		},
+		"tmSku":{
+			"buyBtnText": "Jetzt kaufen",
+			"noSelectedText": "Kein Produkt ausgewählt",
+			"noStockText": "Nicht vorrätig",
+			"queHuo": "Ausverkauft",
+			"selectedText": "Ausgewählt:",
+			"numberText": "Menge: {count}",
+			"addText": "In den Warenkorb",
+			"addSuccessText": "Hinzugefügt",
+			"originalPriceText": "Originalpreis {count}"
+		},
+		"tmNavbar":{
+			"title": "Titel"
+		},
+		"tmForm":{
+			"ruleMessage": "Bitte korrekt auswählen/ausfüllen"
+		},
+		"cancelText": "Abbrechen",
+		"confirmText": "Bestätigen",
+		"tmModal":{
+			"title": "Titel"
+		},
+		"tmDrawer":{
+			"title": "Titel"
+		},
+		"tmUploadPhoto":{
+			"statusText":{
+				"0": "Ausstehend",
+				"1": "Wird hochgeladen",
+				"2": "Hochgeladen",
+				"3": "Upload fehlgeschlagen",
+				"4": "Abgebrochen",
+				"5": "Größenlimit überschritten"
+			}
+		},
+		"tmPicker":{
+			"title": "Auswählen"
+		},
+		"tmPickerDate":{
+			"title": "Zeit auswählen"
+		},
+		"tmDateView":{
+			"cellUnits":{
+				"year": "Jahr",
+				"month": "Monat",
+				"day": "Tag",
+				"hour": "Std",
+				"minute": "Min",
+				"second": "Sek"
+			}
+		},
+		"tmCalendar":{
+			"year": "Jahr",
+			"month": "Monat",
+			"day": "Tag",
+			"hour": "Std",
+			"minute": "Min",
+			"second": "Sek",
+			"titleCurrentMonth":"{0}/{1}",
+			"monthCountSelected":"{count} Monate",
+			"selectedStatus":"{count} Tage ausgewählt | Kein Datum | Ausgewählt | Enddatum nicht ausgewählt",
+			"rangStatus":"Start | Ende | Heute",
+			"tips":"Max. {count} Tage",
+			"currentMonthTitle":"Dieser Monat",
+			"week":"Mo | Di | Mi | Do | Fr | Sa | So"
+		}
+	}
+}

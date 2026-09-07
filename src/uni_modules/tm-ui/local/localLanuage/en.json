@@ -18,7 +18,8 @@
 			"thisWeekText": "This week",
 			"thisMonthText": "This month",
 			"thisYearText": "This year",
-			"thisQuarterText": "This quarter"
+			"thisQuarterText": "This quarter",
+			"lastDaysText": "Last {count} days"
 		},
 		"tmMore":{
 			"off": "Expand more",

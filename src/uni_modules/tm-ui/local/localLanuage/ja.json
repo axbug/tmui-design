@@ -18,7 +18,8 @@
 			"thisWeekText": "今週",
 			"thisMonthText": "今月",
 			"thisYearText": "今年",
-			"thisQuarterText": "今四半期"
+			"thisQuarterText": "今四半期",
+			"lastDaysText": "過去{count}日間"
 		},
 		"tmMore":{
 			"off": "もっと展開",

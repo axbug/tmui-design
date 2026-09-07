@@ -1,0 +1,95 @@
+{
+	"tmui32x": {
+		"cancel": "إلغاء",
+		"confirm": "تأكيد",
+		"success": "تم",
+		"fail": "فشل",
+		"warn": "تحذير",
+		"info": "معلومة",
+		"clear":"مسح",
+		"pickerTitle":"اختر",
+		"tmBetweenTime":{
+			"title": "اختر الوقت",
+			"startText": "البداية",
+			"endText": "النهاية",
+			"betweenText": "إلى",
+			"clearText": "مسح",
+			"nowText": "اليوم",
+			"thisWeekText": "هذا الأسبوع",
+			"thisMonthText": "هذا الشهر",
+			"thisYearText": "هذا العام",
+			"thisQuarterText": "هذا الربع",
+			"lastDaysText": "آخر {count} يوم"
+		},
+		"tmMore":{
+			"off": "عرض المزيد",
+			"on": "طي"
+		},
+		"tmSku":{
+			"buyBtnText": "اشتر الآن",
+			"noSelectedText": "لم يتم اختيار منتج",
+			"noStockText": "غير متوفر",
+			"queHuo": "نفد المخزون",
+			"selectedText": "المحدد:",
+			"numberText": "الكمية: {count}",
+			"addText": "أضف للسلة",
+			"addSuccessText": "تمت الإضافة",
+			"originalPriceText": "السعر الأصلي {count}"
+		},
+		"tmNavbar":{
+			"title": "العنوان"
+		},
+		"tmForm":{
+			"ruleMessage": "يرجى الاختيار/الإدخال بشكل صحيح"
+		},
+		"cancelText": "إلغاء",
+		"confirmText": "تأكيد",
+		"tmModal":{
+			"title": "العنوان"
+		},
+		"tmDrawer":{
+			"title": "العنوان"
+		},
+		"tmUploadPhoto":{
+			"statusText":{
+				"0": "بانتظار الرفع",
+				"1": "جار الرفع",
+				"2": "تم الرفع",
+				"3": "فشل الرفع",
+				"4": "تم الإلغاء",
+				"5": "تجاوز الحد"
+			}
+		},
+		"tmPicker":{
+			"title": "اختر"
+		},
+		"tmPickerDate":{
+			"title": "اختر الوقت"
+		},
+		"tmDateView":{
+			"cellUnits":{
+				"year": "سنة",
+				"month": "شهر",
+				"day": "يوم",
+				"hour": "ساعة",
+				"minute": "دقيقة",
+				"second": "ثانية"
+			}
+		},
+		"tmCalendar":{
+			"year": "سنة",
+			"month": "شهر",
+			"day": "يوم",
+			"hour": "ساعة",
+			"minute": "دقيقة",
+			"second": "ثانية",
+			"titleCurrentMonth":"{0}/{1}",
+			"monthCountSelected":"{count} شهر",
+			"selectedStatus":"تم اختيار {count} يوم | لم يتم اختيار تاريخ | تم الاختيار | لم يتم اختيار تاريخ النهاية",
+			"rangStatus":"البداية | النهاية | اليوم",
+			"tips":"الحد الأقصى {count} يوم",
+			"currentMonthTitle":"هذا الشهر",
+			"week":"الاثنين | الثلاثاء | الأربعاء | الخميس | الجمعة | السبت | الأحد"
+		}
+	}
+}

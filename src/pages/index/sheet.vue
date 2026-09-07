@@ -1,6 +1,6 @@
 <template>
     <tm-sheet>
-        <tm-text font-size="36" class="text-weight-b mb-16 d-block">容器 TmSheet</tm-text>
+        <tm-text font-size="36" class="text-weight-b d-block">容器 TmSheet</tm-text>
         <view>
             <tm-text>非常方便快速布局，可全局配置间隙投影，圆角这些。</tm-text>
         </view>
@@ -14,8 +14,15 @@
     <tm-sheet :linear="['220.55deg', '#8A88FB', '#D079EE']" :round="[0, 20]">
         <tm-text color="white">渐变</tm-text>
     </tm-sheet>
+    <tm-sheet shadow="15" :linear="['220.55deg', '#8A88FB', '#D079EE']" round="20">
+        <tm-text color="white">渐变+投影</tm-text>
+    </tm-sheet>
+    
+    <tm-sheet shadow="15" color="#ff0074" round="20">
+        <tm-text color="white">纯色+投影</tm-text>
+    </tm-sheet>
     <tm-sheet>
-        <tm-text font-size="36" class="text-weight-b">允许让内容加载中...</tm-text>
+        <tm-text font-size="36" class="text-weight-b ">允许让内容加载中...</tm-text>
     </tm-sheet>
     <tm-sheet :loading="true">
         <tm-sheet color="warn" :round="[0, 20]">

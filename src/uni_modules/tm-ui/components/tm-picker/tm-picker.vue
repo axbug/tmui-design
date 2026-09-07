@@ -347,14 +347,14 @@ const getNowCurrent = () => {
 
 <template>
     <view @click="openShow">
-        <!-- 
+        <!--
 		 @slot 插槽,默认触发打开选择器。你的默认布局可以放置在这里。
 		 @binding {boolean} show - 控制打开关闭状态
 		 -->
         <slot :label="modelStrValue" :show="show"></slot>
     </view>
     <tm-drawer :show-close="showClose" @open="onOpen" :widthCoverCenter="true" :disabledScroll="true" max-height="80%"
-        size="850" :title="title" @close="onClose" @confirm="onConfirm" @cancel="onCancel" :showFooter="true"
+        size="700" :title="title" @close="onClose" @confirm="onConfirm" @cancel="onCancel" :showFooter="true"
         v-model:show="show">
         <tm-picker-view v-if="show" ref="pickerView" :rangKey="props.rangKey" :rangText="props.rangText" :cell-units="_cellUnits"
             @update:modelStr="strChange" @change="mchange" v-model="nowValue" :list="_list"></tm-picker-view>

@@ -18,7 +18,7 @@ interface xPickerSelectedListyType {
     | --- | --- | --- | --- |
     | ☑️| ☑️ | ☑️ | ☑️ | ☑️ | 1.0.0 |
  */
-defineOptions({ name: 'TmPickerSelected' });
+defineOptions({ name: 'TmPickerSelected', options: { styleIsolation: 'apply-shared', virtualHost: true, addGlobalClass: true, multipleSlots: true } });
 
 const { config } = useTmConfig()
 
@@ -358,16 +358,7 @@ onBeforeUnmount(() => {
     clearTimeout(tid.value)
 })
 </script>
-<script lang="ts">
-export default {
-    options: {
-        styleIsolation: "apply-shared",
-        virtualHost: true,
-        addGlobalClass: true,
-        multipleSlots: true,
-    },
-};
-</script>
+
 <template>
     <view @click="openShow">
         <!--

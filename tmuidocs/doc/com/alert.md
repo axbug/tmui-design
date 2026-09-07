@@ -37,7 +37,7 @@ import headertips from '../components/headertips.vue'
 | :--: | :--: | :--: | :-- |
 | status | string | "primary" | 类型warn:警告success:成功error:错误info:信息primary:正常主题 | 
 | icon | string | "" | 警告图标,不填写取status默认图标填写以填写为准 | 
-| iconSize | string | "28" | 警告图标大小 | 
+| iconSize | string | "32" | 警告图标大小 | 
 | closeIcon | string | "close-line" | - | 
 | showClose | boolean | true | 显示还是隐藏关闭按钮 | 
 | showIcon | boolean | true | 显示左边按钮 | 

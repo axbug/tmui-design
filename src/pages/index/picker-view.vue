@@ -2,7 +2,7 @@
     <view>
         <tm-sheet>
             <tm-text font-size="36" class=" text-weight-b mb-16 d-block">选择器容器 PickerView</tm-text>
-            <tm-text color="#999999" class="text-size-b">
+            <tm-text color="#999999" class="text-size-b ">
                 组件采用数组id式选择，非索引。考虑到实际实用中多以id为交互提交数据。因此摒弃了传统的索引选项
             </tm-text>
         </tm-sheet>

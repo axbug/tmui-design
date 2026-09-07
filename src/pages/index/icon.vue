@@ -1,6 +1,6 @@
 <template>
     <tm-sheet>
-        <tm-text font-size="36" class="text-weight-b mb-16 d-block">文本 TmText</tm-text>
+        <tm-text font-size="36" class="text-weight-b d-block">文本 TmText</tm-text>
         <view>
             <tm-text>可以自定义图标,也可以使用内置图标库.</tm-text>
         </view>
@@ -13,7 +13,7 @@
         <tm-icon name="printer-fill"></tm-icon>
     </tm-sheet>
     <tm-sheet>
-        <tm-text font-size="36" class="text-weight-b mb-16 d-block">定义大小及颜色</tm-text>
+        <tm-text font-size="36" class="text-weight-b mb-n8 d-block">定义大小及颜色</tm-text>
         <view class="gap-16 flex">
             <tm-icon size="42" color="error" name="home-4-fill"></tm-icon>
             <tm-icon size="42" color="success" name="ancient-gate-fill"></tm-icon>
@@ -23,7 +23,7 @@
     </tm-sheet>
 
     <tm-sheet>
-        <tm-text font-size="36" class="text-weight-b mb-16 d-block">角度</tm-text>
+        <tm-text font-size="36" class="text-weight-b mb-n8 d-block">角度</tm-text>
         <view class="gap-16 flex">
             <tm-icon size="42" name="arrow-right-line"></tm-icon>
             <tm-icon size="42" rotate="90deg" name="arrow-right-line"></tm-icon>
@@ -33,14 +33,14 @@
     </tm-sheet>
 
     <tm-sheet>
-        <tm-text font-size="36" class="text-weight-b mb-16 d-block">旋转</tm-text>
+        <tm-text font-size="36" class="text-weight-b mb-n8 d-block">旋转</tm-text>
         <view class="gap-16 flex">
             <tm-icon size="42" color="error" spin name="loader-line"></tm-icon>
         </view>
     </tm-sheet>
 
     <tm-sheet>
-        <tm-text font-size="36" class="text-weight-b mb-16 d-block">图片图标</tm-text>
+        <tm-text font-size="36" class="text-weight-b mb-n8 d-block">图片图标</tm-text>
         <view class="gap-16 flex">
             <tm-icon size="42" color="error" name="https://tmui.design/images/logoGreat.png"></tm-icon>
             <tm-icon size="42" color="error" spin name="https://tmui.design/images/logoGreat.png"></tm-icon>
@@ -48,7 +48,7 @@
     </tm-sheet>
 
     <tm-sheet>
-        <tm-text font-size="36" class="text-weight-b mb-16 d-block">自定义图标</tm-text>
+        <tm-text font-size="36" class="text-weight-b mb-n8 d-block">自定义图标</tm-text>
         <view class="gap-16 flex">
             <tm-icon font-family="myicon" prefix="myicon-" size="42" name="camera"></tm-icon>
 

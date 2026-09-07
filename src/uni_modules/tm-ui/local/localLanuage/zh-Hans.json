@@ -7,6 +7,7 @@
 		"warn": "警告",
 		"info": "提醒",
 		"clear":"清空",
+		"pickerTitle":"请选择",
 		"tmBetweenTime":{
 			"title": "请选择时间",
 			"startText": "开始时间",
@@ -17,7 +18,8 @@
 			"thisWeekText": "本周",
 			"thisMonthText": "本月",
 			"thisYearText": "本年",
-			"thisQuarterText": "本季度"
+			"thisQuarterText": "本季度",
+			"lastDaysText": "最近{count}天"
 		},
 		"tmMore":{
 			"off": "展开更多",

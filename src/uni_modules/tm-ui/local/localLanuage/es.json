@@ -1,0 +1,95 @@
+{
+	"tmui32x": {
+		"cancel": "Cancelar",
+		"confirm": "Confirmar",
+		"success": "Correcto",
+		"fail": "Error",
+		"warn": "Advertencia",
+		"info": "Info",
+		"clear":"Limpiar",
+		"pickerTitle":"Seleccionar",
+		"tmBetweenTime":{
+			"title": "Seleccionar hora",
+			"startText": "Inicio",
+			"endText": "Fin",
+			"betweenText": "a",
+			"clearText": "Limpiar",
+			"nowText": "Hoy",
+			"thisWeekText": "Esta semana",
+			"thisMonthText": "Este mes",
+			"thisYearText": "Este año",
+			"thisQuarterText": "Este trimestre",
+			"lastDaysText": "Últimos {count} días"
+		},
+		"tmMore":{
+			"off": "Ver más",
+			"on": "Contraer"
+		},
+		"tmSku":{
+			"buyBtnText": "Comprar ahora",
+			"noSelectedText": "Ningún producto seleccionado",
+			"noStockText": "Sin stock",
+			"queHuo": "Agotado",
+			"selectedText": "Seleccionado:",
+			"numberText": "Cantidad: {count}",
+			"addText": "Añadir al carrito",
+			"addSuccessText": "Añadido",
+			"originalPriceText": "Precio original {count}"
+		},
+		"tmNavbar":{
+			"title": "Título"
+		},
+		"tmForm":{
+			"ruleMessage": "Seleccione/rellene correctamente"
+		},
+		"cancelText": "Cancelar",
+		"confirmText": "Confirmar",
+		"tmModal":{
+			"title": "Título"
+		},
+		"tmDrawer":{
+			"title": "Título"
+		},
+		"tmUploadPhoto":{
+			"statusText":{
+				"0": "Pendiente",
+				"1": "Subiendo",
+				"2": "Subido",
+				"3": "Error al subir",
+				"4": "Cancelado",
+				"5": "Supera el límite"
+			}
+		},
+		"tmPicker":{
+			"title": "Seleccionar"
+		},
+		"tmPickerDate":{
+			"title": "Seleccionar hora"
+		},
+		"tmDateView":{
+			"cellUnits":{
+				"year": "Año",
+				"month": "Mes",
+				"day": "Día",
+				"hour": "Hora",
+				"minute": "Min",
+				"second": "Seg"
+			}
+		},
+		"tmCalendar":{
+			"year": "Año",
+			"month": "Mes",
+			"day": "Día",
+			"hour": "Hora",
+			"minute": "Min",
+			"second": "Seg",
+			"titleCurrentMonth":"{0}/{1}",
+			"monthCountSelected":"{count} meses",
+			"selectedStatus":"{count} días seleccionados | Sin fecha | Seleccionado | Fecha final no seleccionada",
+			"rangStatus":"Inicio | Fin | Hoy",
+			"tips":"Máx. {count} días",
+			"currentMonthTitle":"Este mes",
+			"week":"Lun | Mar | Mié | Jue | Vie | Sáb | Dom"
+		}
+	}
+}

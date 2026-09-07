@@ -2,7 +2,7 @@
     <view>
         <tm-sheet>
             <tm-text font-size="36" class=" text-weight-b mb-16 d-block">验证表单</tm-text>
-            <tm-text color="#999999">
+            <tm-text class="mb-n8" color="#999999">
                 为了高效验证和使用表单,现将校验规则统一在form上管理,集中化处理方便模拟模块化.动态表单，vif formitem字段时也会动态启用和关闭校验。
             </tm-text>
             <tm-form @submit="onsubmit" v-model="form" :rules="rules">
@@ -65,11 +65,20 @@
                     </view>
                 </tm-form-item>
                 <tm-form-item name="textarea" label="备注">
-                    <tm-input v-model="form.textarea" align="right" :maxlength="100" placeholder="请输入" type="textarea" show-char-count color="transparent">
+                    <tm-input
+                    v-model="form.textarea"
+                    align="right"
+                    height="150"
+                    :maxlength="100"
+                    placeholder="请输入"
+                    type="textarea"
+                    show-char-count
+                    color="transparent"
+                    >
                     </tm-input>
                 </tm-form-item>
 
-                
+
                 <view class="flex flex-row flex-row-center-center mb-20 mt-n10">
                     <view class="flex-1">
 						<tm-button block form-type="reset" skin="thin">重置</tm-button>
@@ -82,7 +91,7 @@
         </tm-sheet>
 
         <tm-sheet>
-            <tm-text font-size="36" class=" text-weight-b mb-16 d-block">欢迎登陆</tm-text>
+            <tm-text font-size="36" class=" text-weight-b mb-n8 d-block">欢迎登陆</tm-text>
 
             <tm-form @submit="onsubmit" v-model="logindata" :rules="rules2" direction="vertical" gap="24">
                 <tm-form-item name="username" :show-bottom="false" :required="false">

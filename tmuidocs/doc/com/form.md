@@ -64,7 +64,5 @@ import headertips from '../components/headertips.vue'
 | submit | - | - | - | 
 | validate | - | - | - | 
 | reset | - | - | - | 
-| _validate | - | - | - | 
-| _setMarker | - | - | - | 
 
 

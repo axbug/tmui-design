@@ -17,7 +17,8 @@
 			"thisWeekText": "本週",
 			"thisMonthText": "本月",
 			"thisYearText": "本年",
-			"thisQuarterText": "本季度"
+			"thisQuarterText": "本季度",
+			"lastDaysText": "最近{count}天"
 		},
 		"tmMore":{
 			"off": "展開更多",

@@ -1,8 +1,8 @@
 <template>
 	<view>
 		<tm-sheet>
-			<tm-text font-size="32" class=" text-weight-b mb-16 d-block">列表 tmCell</tm-text>
-			<tm-text color="#999999">
+			<tm-text font-size="32" class=" text-weight-b d-block">列表 tmCell</tm-text>
+			<tm-text class="" color="#999999">
 				承载通用列表使用
 			</tm-text>
 		</tm-sheet>
@@ -14,7 +14,7 @@
 
 		<tm-sheet :margin="['24']">
 			<tm-text font-size="32" class=" text-weight-b d-block">非卡片模式 Cell</tm-text>
-			<tm-text color="#999999">
+			<tm-text class="" color="#999999">
 				底边线可以左对齐或者右内对齐。
 			</tm-text>
 		</tm-sheet>

@@ -20,7 +20,7 @@ type SLIDER_TREE_ITEM = {
 	| --- | --- | --- | --- |
 	| ☑️| ☑️ | ☑️ | ☑️ | ☑️ | 1.0.0 |
  */
-defineOptions({ name: 'TmSliderMenu' });
+defineOptions({ name: 'TmSliderMenu', options: { styleIsolation: 'apply-shared', virtualHost: true, addGlobalClass: true, multipleSlots: true } });
 const { config } = useTmConfig()
 const props = defineProps({
 	/**
@@ -322,16 +322,7 @@ onBeforeUnmount(() => {
 
 
 </script>
-<script lang="ts">
-export default {
-	options: {
-		styleIsolation: "apply-shared",
-		virtualHost: true,
-		addGlobalClass: true,
-		multipleSlots: true,
-	},
-};
-</script>
+
 <template>
 
 	<view ref="tmSliderTree" class="tmSliderTree" :style="{width:_width,height:_height}">

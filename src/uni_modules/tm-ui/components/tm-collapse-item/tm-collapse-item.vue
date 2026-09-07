@@ -128,7 +128,7 @@ const props = defineProps({
 })
 
 const emit = defineEmits(['click'])
-
+const toggleActivate:((name: Array<string | number> | string | number, isEmits?: boolean) => void) | null = inject('tmCollapseToggleActivate', null)
 const tmCollapseDefaultName = inject('tmCollapseDefaultName', computed((): Array<string | number> => []))
 const _disabled = computed(() => props.disabled)
 const _titleFontSize = computed(() => {
@@ -182,18 +182,11 @@ function itemClick() {
      */
     emit('click', props.name)
     if(_disabled.value) return;
-    let parent: InstanceType<typeof tmCollapse> | null = findParent(proxy)
-    if (parent == null) return
-    parent.toggleActivate(props.name, true)
+    toggleActivate?.(props.name, true)
+
 }
 
-function findParent(parent: any): any {
-    if (parent == null) return null;
-    if (parent.$parent?.$options?.name == "TmCollapse") return parent.$parent;
-    let parents = findParent(parent.$parent);
-    if (parents?.$options?.name == "TmCollapse") return parents;
-    return null;
-}
+
 </script>
 
 <template>
@@ -235,8 +228,8 @@ function findParent(parent: any): any {
         </view>
         <view class="tmCollapseItemWrap" :class="[!_isActive ? 'tmCollapseItemWrapOff' : 'tmCollapseItemWrapOn']">
             <view class="tmCollapseItemContent">
-                <!-- 
-                @slot 默认内容插槽。 
+                <!--
+                @slot 默认内容插槽。
                 -->
                 <slot></slot>
             </view>
@@ -259,6 +252,7 @@ function findParent(parent: any): any {
     display: -webkit-box;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 2;
+    line-clamp: 2;
     overflow: hidden;
     word-break: break-all;
 }

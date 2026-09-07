@@ -55,7 +55,7 @@ import headertips from '../components/headertips.vue'
 | 事件名 | 参数 | 返回数据 | 描述 |
 | --- | --- | --- | --- |
 | cancel | - | - | 取消时触发 | 
-| confirm | 名称：date,当前选中时间, | - | 确认触发 | 
+| confirm | 名称：date,当前选中的开始与结束时间, | - | 确认触发 | 
 | change | 名称：date,当前选中时间, | - | 滑动变换时触发 | 
 | update:modelShow | - | - | 变量控制打开状态
 等同v-model:model-show | 

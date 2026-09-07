@@ -14,7 +14,7 @@ const  onChange = (index:number)=>{
 <template>
 	<tm-sheet>
 		<tm-text class=" text-weight-b  d-block" font-size="32">步骤条 tmSteps</tm-text>
-		<tm-text color="#999999">
+		<tm-text class="" color="#999999">
 			子组件独立，方便灵活自定义。
 		</tm-text>
 	</tm-sheet>

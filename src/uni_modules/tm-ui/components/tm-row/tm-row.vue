@@ -1,13 +1,5 @@
 <template>
-    <!-- @vue-ignore -->
-    <view @click="onClick" class="tmRow" :style="[
-        {
-            'flex-wrap': attrs.wrap ? 'wrap' : 'nowrap',
-            'justify-content': attrs.justify,
-            'align-items': attrs.align,
-            'gap': _gap
-        }
-    ]">
+    <view @click="onClick" class="tmRow" :style="_style">
         <!-- @slot 默认插槽,请允许放置tmCol组件 -->
         <slot></slot>
     </view>
@@ -15,7 +7,8 @@
 <script setup lang="ts">
 import { computed, PropType, provide } from 'vue';
 import {
-    arrayNumber
+    arrayNumber,
+    getUnit
 } from "../../libs/tool";
 /**
  * @displayName 布局Row
@@ -27,17 +20,18 @@ import {
     | --- | --- | --- | --- |
     | ☑️| ☑️ | ☑️ | ☑️ | ☑️ | 1.0.0 |
  */
-defineOptions({ name: "TmRow" });
+defineOptions({ name: "TmRow", options: { styleIsolation: 'apply-shared', virtualHost: true, addGlobalClass: true, multipleSlots: true } });
 const emits = defineEmits([
     /**
      * 点击事件
+     * @property {object} evt 事件参数
      */
     'click',
 
 ])
 const attrs = defineProps({
     /**
-     * 默认列数,请不要动态修改此值。
+     * 默认列数
      */
     column: {
         type: [Number, String],
@@ -66,40 +60,50 @@ const attrs = defineProps({
         default: true
     },
     /**
-     * 上下左右间隙.
-     * [row,col]:x表示纵向间隙,y表示横向间隙
-     * col,[col]:表示横向和纵向之间的间隙.
+     * 列间距。[纵向, 横向]，单项表示两个方向相同。
      */
     gutter: {
         type: [String, Number, Array<string | number>],
         default: '0'
     }
 })
-const tmRowColWidth = computed((): number => {
-    return typeof attrs.column === 'string' ? parseInt(attrs.column) : attrs.column
-})
-const _gutter = computed(() => arrayNumber(attrs.gutter))
-const _gap = computed(() => {
 
-    return _gutter.value.join(' ')
+const halfUnit = (val: string): string => {
+    const n = parseFloat(val)
+    if (!n) return '0px'
+    return `${n / 2}${getUnit(val, 'px')}`
+}
+
+const tmRowColWidth = computed((): number => {
+    const n = typeof attrs.column === 'string' ? parseInt(attrs.column, 10) : Number(attrs.column)
+    return Number.isFinite(n) && n > 0 ? n : 5
 })
-const onClick = ()=>{
-    emits('click');
+const _gutterPad = computed(() => arrayNumber(attrs.gutter).map(halfUnit))
+const _style = computed(() => {
+    const [padY, padX] = _gutterPad.value
+    const style: Record<string, string> = {
+        'flex-wrap': attrs.wrap ? 'wrap' : 'nowrap',
+        'justify-content': attrs.justify,
+        'align-items': attrs.align,
+    }
+    if (padY !== '0px') {
+        style['margin-top'] = `-${padY}`
+        style['margin-bottom'] = `-${padY}`
+    }
+    if (padX !== '0px') {
+        style['margin-left'] = `-${padX}`
+        style['margin-right'] = `-${padX}`
+    }
+    return style
+})
+const onClick = (evt: MouseEvent) => {
+    emits('click', evt);
 }
 
 provide("tmRowColWidth", tmRowColWidth)
-provide("tmRowColGutter", _gutter)
+provide("tmRowColGutter", _gutterPad)
 </script>
-<script lang="ts">
-export default {
-  options: {
-    styleIsolation: "apply-shared",
-    virtualHost: true,
-    addGlobalClass: true,
-    multipleSlots: true,
-  },
-};
-</script>
+
 <style lang="scss" scoped>
 .tmRow {
     display: flex;

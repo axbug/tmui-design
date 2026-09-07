@@ -57,7 +57,5 @@ import headertips from '../components/headertips.vue'
 ## :green_salad: ref方法
 | 方法名 | 参数 | 返回值 | 描述 |
 | :--: | :--: | :--: | :-- |
-| addItem | - | - | - | 
-| removeItem | - | - | - | 
 
 

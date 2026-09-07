@@ -2,7 +2,7 @@
 	<view>
 		<tm-sheet>
 			<tm-text font-size="32" class=" text-weight-b mb-16 d-block">日历 tmCalendarMultiple</tm-text>
-			<tm-text color="#999999">
+			<tm-text class="" color="#999999">
 				可以多选，单选，同天不可选（酒店）模式
 			</tm-text>
 		</tm-sheet>
@@ -18,7 +18,7 @@
 		</tm-sheet>
 		<tm-sheet>
 			<tm-text font-size="32" class=" text-weight-b mb-16 d-block">单选模式</tm-text>
-			<tm-text color="#999999">
+			<tm-text class="mb-n8" color="#999999">
 				{{days}}
 			</tm-text>
 		</tm-sheet>

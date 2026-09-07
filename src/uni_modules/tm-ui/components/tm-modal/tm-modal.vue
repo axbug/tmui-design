@@ -24,7 +24,7 @@
 		| --- | --- | --- | --- |
 		| ☑️| ☑️ | ☑️ | ☑️ | ☑️ | 1.0.0 |
 	 */
-	defineOptions({ name: "TmModal" });
+	defineOptions({ name: "TmModal", options: { styleIsolation: 'apply-shared', virtualHost: true, addGlobalClass: true, multipleSlots: true } });
 	const { config } = useTmConfig();
 
 	const props = defineProps({
@@ -482,16 +482,7 @@
 		evt.preventDefault();
 	};
 </script>
-<script lang="ts">
-	export default {
-		options: {
-			styleIsolation: "apply-shared",
-			virtualHost: true,
-			addGlobalClass: true,
-			multipleSlots: true,
-		},
-	};
-</script>
+
 <template>
 	<view>
 		<view @click="openDrawer">
@@ -557,9 +548,9 @@
 							<view>
 								<view v-if="_showTitle" class="tmModalTitleBox">
 									<!-- 
-                    @slot 标题插槽
-                    @binding {Boolean} show - 当前是否已显示
-                    -->
+									@slot 标题插槽
+									@binding {Boolean} show - 当前是否已显示
+									-->
 									<slot name="title" :show="show">
 										<tm-text font-size="34" class="tmModaltitleBoxTitle">{{
                         _title
@@ -574,27 +565,31 @@
 									:rebound="false">
 									<view :style="{ padding: `0px ${_contentPadding}  0px ${_contentPadding}` }">
 										<!--
-                    @slot 默认插槽
-                    -->
+										@slot 默认插槽
+										-->
 										<slot></slot>
 									</view>
 								</scroll-view>
 							</view>
 							<view v-else :style="{ height: '100%', padding: _contentPadding }">
 								<!--
-                @slot 默认插槽
-                -->
+								@slot 默认插槽
+								-->
 								<slot></slot>
 							</view>
 							<view v-if="showFooter" class="tmModalFooter" :style="{ backgroundColor: _bgColor }">
 								<!--
-                @slot 底部操作栏
-                -->
+								@slot 底部操作栏
+								-->
 								<slot name="footer">
-									<tm-button :loading="isLoading" :color="_btnColor" @click="cancelEvt"
+									<tm-button 
+									:round="config.modalActionsHalfRound?'50rpx':''"
+									:loading="isLoading" :color="_btnColor" @click="cancelEvt"
 										v-if="_showCancel" skin="thin"
 										style="margin-right: 16px; flex: 1">{{ _cancelText }}</tm-button>
-									<tm-button :loading="isLoading" :color="_btnColor" @click="confirmEvt"
+									<tm-button 
+									:round="config.modalActionsHalfRound?'50rpx':''"
+									:loading="isLoading" :color="_btnColor" @click="confirmEvt"
 										style="flex: 1">{{
                     _confirmText
                   }}</tm-button>

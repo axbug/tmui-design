@@ -1,0 +1,95 @@
+{
+	"tmui32x": {
+		"cancel": "Отмена",
+		"confirm": "Подтвердить",
+		"success": "Успешно",
+		"fail": "Ошибка",
+		"warn": "Внимание",
+		"info": "Инфо",
+		"clear":"Очистить",
+		"pickerTitle":"Выбрать",
+		"tmBetweenTime":{
+			"title": "Выберите время",
+			"startText": "Начало",
+			"endText": "Конец",
+			"betweenText": "до",
+			"clearText": "Очистить",
+			"nowText": "Сегодня",
+			"thisWeekText": "Эта неделя",
+			"thisMonthText": "Этот месяц",
+			"thisYearText": "Этот год",
+			"thisQuarterText": "Этот квартал",
+			"lastDaysText": "Последние {count} дней"
+		},
+		"tmMore":{
+			"off": "Показать больше",
+			"on": "Свернуть"
+		},
+		"tmSku":{
+			"buyBtnText": "Купить сейчас",
+			"noSelectedText": "Товар не выбран",
+			"noStockText": "Нет в наличии",
+			"queHuo": "Нет в наличии",
+			"selectedText": "Выбрано:",
+			"numberText": "Кол-во: {count}",
+			"addText": "В корзину",
+			"addSuccessText": "Добавлено",
+			"originalPriceText": "Исходная цена {count}"
+		},
+		"tmNavbar":{
+			"title": "Заголовок"
+		},
+		"tmForm":{
+			"ruleMessage": "Выберите/заполните корректно"
+		},
+		"cancelText": "Отмена",
+		"confirmText": "Подтвердить",
+		"tmModal":{
+			"title": "Заголовок"
+		},
+		"tmDrawer":{
+			"title": "Заголовок"
+		},
+		"tmUploadPhoto":{
+			"statusText":{
+				"0": "Ожидает",
+				"1": "Загрузка",
+				"2": "Загружено",
+				"3": "Ошибка загрузки",
+				"4": "Отменено",
+				"5": "Превышен лимит"
+			}
+		},
+		"tmPicker":{
+			"title": "Выбрать"
+		},
+		"tmPickerDate":{
+			"title": "Выберите время"
+		},
+		"tmDateView":{
+			"cellUnits":{
+				"year": "Год",
+				"month": "Мес",
+				"day": "День",
+				"hour": "Час",
+				"minute": "Мин",
+				"second": "Сек"
+			}
+		},
+		"tmCalendar":{
+			"year": "Год",
+			"month": "Мес",
+			"day": "День",
+			"hour": "Час",
+			"minute": "Мин",
+			"second": "Сек",
+			"titleCurrentMonth":"{0}/{1}",
+			"monthCountSelected":"{count} мес.",
+			"selectedStatus":"Выбрано дней: {count} | Дата не выбрана | Выбрано | Дата окончания не выбрана",
+			"rangStatus":"Начало | Конец | Сегодня",
+			"tips":"Макс. {count} дней",
+			"currentMonthTitle":"Этот месяц",
+			"week":"Пн | Вт | Ср | Чт | Пт | Сб | Вс"
+		}
+	}
+}

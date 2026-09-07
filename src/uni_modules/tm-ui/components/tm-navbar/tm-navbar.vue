@@ -14,7 +14,7 @@ import {$i18n} from "@/uni_modules/tm-ui"
     | --- | --- | --- | --- |
     | ☑️| ☑️ | ☑️ | ☑️ | ☑️ | 1.0.0 |
  */
-defineOptions({ name: 'TmNavbar' });
+defineOptions({ name: 'TmNavbar', options: { styleIsolation: 'apply-shared', virtualHost: true, addGlobalClass: true, multipleSlots: true } });
 const { config } = useTmConfig()
 
 const emits = defineEmits([
@@ -326,16 +326,7 @@ const backGo = () => {
     // #endif
 }
 </script>
-<script lang="ts">
-export default {
-    options: {
-        styleIsolation: "apply-shared",
-        virtualHost: true,
-        addGlobalClass: true,
-        multipleSlots: true
-    }
-}
-</script>
+
 <template>
     <view>
         <view class="tmNavbar" :style="{ zIndex: zIndex }">

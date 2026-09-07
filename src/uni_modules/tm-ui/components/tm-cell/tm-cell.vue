@@ -1,7 +1,7 @@
 <template>
     <!-- @vue-ignore -->
-    <view @click="onclick" :hover-start-time="attrs.link ? 50 : 0" :hover-stay-time="attrs.link ? 100 : 0"
-        :hover-class="attrs.link ? 'cellHover' : ''" class="tmCell "
+    <view @click="onclick" :hover-start-time="_clickable ? 50 : 0" :hover-stay-time="_clickable ? 100 : 0"
+        :hover-class="_clickable ? 'cellHover' : ''" class="tmCell "
         :class="[attrs.card ? 'cellCard' : 'cardInset']" :style="{
             backgroundColor: _color,
             borderRadius: _cardRadius,
@@ -10,24 +10,22 @@
             padding: `0px ${_lrPadding}`
         }">
 
-        <view v-if="attrs.icon != ''" class="tmCellAvatar"
-            :style="{ width: _leftSize, height: _leftSize, borderRadius: _avatarRound }">
-            <!-- 
+            <!--
             @slot 头像图标
             @binding {string} icon 图标名称
             -->
             <slot name="avatar" :icon="attrs.icon">
-                <tm-icon :color="_iconColor" :size="_iconSize" :name="attrs.icon"></tm-icon>
+                <view v-if="attrs.icon != ''" class="tmCellAvatar" :style="{ width: _leftSize, height: _leftSize, borderRadius: _avatarRound }">
+                   <tm-icon :color="_iconColor" :size="_iconSize" :name="attrs.icon"></tm-icon>
+                </view>
             </slot>
-        </view>
-
         <view class="tmCellWrap" :style="{
             padding: `${_tbPadding} 0px `,
             borderBottom: attrs.showBottomBorder && !attrs.card && bottomBorderInsert ? `1px solid ${_bottomBorderColor}` : 'none'
         }">
             <view class="center">
-                <!-- 
-                @slot 默认标题插槽 
+                <!--
+                @slot 默认标题插槽
                 -->
                 <slot>
                     <view class="title" :style="{ color: _titleColor, fontSize: _titleSize }">
@@ -39,7 +37,7 @@
                 @binding {string} desc 简介
                 -->
                 <slot name="desc" :desc="attrs.desc">
-                    <tm-text v-if="attrs.desc != ''" size="28" color='#bfbfbf' dark-color='#bfbfbf' class="desc">{{
+                    <tm-text v-if="attrs.desc != ''" size="28" :color="_descColor" class="desc">{{
                         attrs.desc }}</tm-text>
                 </slot>
             </view>
@@ -57,7 +55,7 @@
                 @slot 右插槽
                 -->
                 <slot name="right"></slot>
-                <tm-icon v-if="attrs.url != '' || attrs.link" color="#bfbfbf" size="36" :name="attrs.linkIcon"
+                <tm-icon v-if="attrs.url != '' || attrs.link" :color="_descColor" size="36" :name="attrs.linkIcon"
                     _style="paddingLeft:12rpx"></tm-icon>
             </view>
 
@@ -66,9 +64,9 @@
     </view>
 </template>
 <script lang="ts" setup>
-import { computed, PropType } from "vue"
+import { computed, getCurrentInstance, PropType } from "vue"
 import { arrayNumberValidByStyleMP, covetUniNumber, getUnit } from "../../libs/tool";
-import { getDefaultColor } from "../../libs/colors";
+import { getDefaultColor, setTextColorLightByDark } from "../../libs/colors";
 import { useTmConfig } from "../../libs/config";
 /**
  * @displayName 列表
@@ -80,8 +78,14 @@ import { useTmConfig } from "../../libs/config";
     | --- | --- | --- | --- |
     | ☑️| ☑️ | ☑️ | ☑️ | ☑️ | 1.0.0 |
  */
-defineOptions({ name: 'TmCell' });
+defineOptions({ name: 'TmCell',options: {
+    styleIsolation: "apply-shared",
+    virtualHost: true,
+    addGlobalClass: true,
+    multipleSlots: true,
+} });
 const { config } = useTmConfig()
+const instance = getCurrentInstance()
 const emits = defineEmits(
     [
         /**
@@ -229,7 +233,7 @@ const attrs = defineProps({
         default: ""
     },
     openType: {
-        type: String as PropType<"navigate" | "redirect" | "switchTab" | "reLaunch" | "navigateBack" | "exit">,
+        type: String as PropType<"navigate" | "redirect" | "switchTab" | "reLaunch" | "navigateBack">,
         default: "navigate"
     },
     /**
@@ -277,7 +281,7 @@ const attrs = defineProps({
      */
     tbPadding: {
         type: [String, Number],
-        default: "32"
+        default: "28"
     },
     /**
      * 右侧最大宽
@@ -320,56 +324,47 @@ const _bottomBorderColor = computed(() => {
 })
 
 const _iconColor = computed(() => getDefaultColor(attrs.iconColor || config.color))
-const _labelColor = computed(() => getDefaultColor(attrs.labelColor))
+const _labelColor = computed(() => {
+    if (config.mode === 'dark') return setTextColorLightByDark(attrs.labelColor)
+    return getDefaultColor(attrs.labelColor)
+})
+const _descColor = computed(() => config.mode === 'dark' ? setTextColorLightByDark('#bfbfbf') : '#bfbfbf')
 
 const _cardRadius = computed(() => {
     if (attrs.round === '') return arrayNumberValidByStyleMP(config.cellRadius)
     return arrayNumberValidByStyleMP(attrs.round, config.unit)
 })
 
-const _titleSize = computed(() => {
-    let fontSize = covetUniNumber(attrs.titleSize, config.unit);
+const scaledFontSize = (size: string | number, nanFallback: number): string => {
+    let fontSize = covetUniNumber(size, config.unit);
     if (config.fontSizeScale === 1) return fontSize;
     let sizeNumber = parseInt(fontSize)
     if (isNaN(sizeNumber)) {
-        sizeNumber = 16
+        sizeNumber = nanFallback
     }
     return (sizeNumber * config.fontSizeScale).toString() + getUnit(fontSize)
-})
+}
 
-const _iconSize = computed(() => {
-    let fontSize = covetUniNumber(attrs.iconSize, config.unit);
-    if (config.fontSizeScale === 1) return fontSize;
-    let sizeNumber = parseInt(fontSize)
-    if (isNaN(sizeNumber)) {
-        sizeNumber = 17
-    }
-    return (sizeNumber * config.fontSizeScale).toString() + getUnit(fontSize)
-})
+const _titleSize = computed(() => scaledFontSize(attrs.titleSize, 16))
+const _iconSize = computed(() => scaledFontSize(attrs.iconSize, 17))
+const _rightLableSize = computed(() => scaledFontSize(attrs.labelSize, 13))
 
-const _rightLableSize = computed(() => {
-    let fontSize = covetUniNumber(attrs.labelSize, config.unit);
-
-    if (config.fontSizeScale === 1) return fontSize;
-    let sizeNumber = parseInt(fontSize)
-    if (isNaN(sizeNumber)) {
-        sizeNumber = 13
-    }
-    return (sizeNumber * config.fontSizeScale).toString() + getUnit(fontSize)
-})
+const _clickable = computed(() => attrs.link || attrs.url != '' || !!instance?.vnode?.props?.onClick)
 
 const onclick = () => {
     /**
      * 整个列表被点击
      */
     emits("click");
+    if (attrs.openType == 'navigateBack') {
+        uni.navigateBack({})
+        return
+    }
     if (attrs.url != "") {
         if (attrs.openType == 'navigate') {
             uni.navigateTo({
                 url: attrs.url
             })
-        } else if (attrs.openType == 'navigateBack') {
-            uni.navigateBack({})
         } else if (attrs.openType == 'reLaunch') {
             uni.reLaunch({
                 url: attrs.url
@@ -389,16 +384,6 @@ const onclick = () => {
 
 
 </script>
-<script lang="ts">
-export default {
-    options: {
-        styleIsolation: "apply-shared",
-        virtualHost: true,
-        addGlobalClass: true,
-        multipleSlots: true,
-    },
-};
-</script>
 <style scoped lang="scss">
 .cellHover {
     filter: contrast(90%);
@@ -412,15 +397,19 @@ export default {
     align-items: center;
 }
 
-.cardInset {
-    // padding: 0 32rpx;
-}
+
 
 .cellCard {
     // padding: 0 32rpx;
     margin-bottom: 12rpx;
     margin-left: 24rpx;
     margin-right: 24rpx;
+}
+
+.cardInset {
+    margin-bottom: 0;
+    margin-left: 0;
+    margin-right: 0;
 }
 
 .tmCellWrap {
@@ -476,11 +465,14 @@ export default {
 }
 
 .rightLabel {
-    line-clamp: 1;
     display: -webkit-box;
+    -webkit-line-clamp: 1;
+    line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    word-break: break-all;
     text-overflow: ellipsis;
     font-size: 24rpx;
     text-align: right;
-    
 }
 </style>

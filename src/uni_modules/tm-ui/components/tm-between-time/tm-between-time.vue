@@ -1,7 +1,7 @@
 <script setup lang="ts">
 	import { ref, computed, onMounted, watch, PropType } from "vue";
 	import { useTmConfig } from "../../libs/config";
-	import { tmDate, type tmDateTypeTime, createDate } from "../../libs/tmDate";
+	import { tmDate, type tmDateTypeTime } from "../../libs/tmDate";
 	import { getDefaultColor } from "../../libs/colors";
 	import { $i18n } from "@/uni_modules/tm-ui";
 	type PICKER_ITEM_INFO = Record<string, any>;
@@ -169,7 +169,7 @@
 		"cancel",
 		/**
 		 * 确认触发
-		 * @param {string} date 当前选中时间
+		 * @param {string[]} date 当前选中的开始与结束时间
 		 */
 		"confirm",
 		/**
@@ -248,8 +248,6 @@
 	const yanchiDuration = ref(false);
 	const quicklist = ref<coverValue[]>([]);
 
-	const _lazyContent = computed(() => props.lazyContent);
-
 	const _start_date = computed(() => {
 		const optimizedStart =
 			props.start === "" ? startDate.value : new tmDate(optimizeStartTime(props.start));
@@ -288,7 +286,6 @@
 	);
 	const _fontColor = computed(() => (config.mode === "dark" ? "#efefef" : "#333"));
 	const _isDark = computed(() => config.mode === "dark");
-	const _disabled = computed(() => props.disabled);
 
 	let tid = 34;
 	watch(
@@ -319,7 +316,7 @@
 	);
 
 	onMounted(() => {
-		yanchiDuration.value = _lazyContent.value ? false : true;
+		yanchiDuration.value = !props.lazyContent;
 
 		let str = validTimeDate(props.modelValue);
 		nowValue.value = str;
@@ -363,6 +360,11 @@
 			}
 
 			nowValue.value = [strStart, strEnd];
+			/**
+			 * 滑动变换时触发
+			 * @param {string[]} date - 当前选中的开始与结束时间
+			 */
+			emit("change", nowValue.value.slice(0));
 		}, 50);
 	}
 
@@ -402,17 +404,23 @@
 		let list = props.quickDate;
 		for (let i = 0; i < list.length; i++) {
 			let item: string = list[i];
+			let startFDate = "YYYY/MM/DD 00:00:00";
+			let endFDate = "YYYY/MM/DD 23:59:59";
 			if (!isNaN(parseInt(item))) {
 				let dshi = parseInt(item)! as number;
-				let date = new tmDate();
-				let start = date.format();
-				date.subtraction(dshi, "d");
-				let end = date.format();
-				typelist.push({ value: [end, start], str: "最近" + item + "天" } as coverValue);
+				if (dshi < 1) dshi = 1;
+				let end = new tmDate()
+					.getBetweenDate(_start_date.value, _end_date.value, "max")
+					.format(endFDate);
+				let start = new tmDate()
+					.subtraction(dshi - 1, "d")
+					.getBetweenDate(_start_date.value, _end_date.value, "min")
+					.format(startFDate);
+				typelist.push({
+					value: [start, end],
+					str: $i18n.t("tmui32x.tmBetweenTime.lastDaysText", { count: item }),
+				} as coverValue);
 			} else {
-				let date = new tmDate();
-				let startFDate = "YYYY/MM/DD 00:00:00";
-				let endFDate = "YYYY/MM/DD 23:59:59";
 				let start = new tmDate()
 					.getBetweenDate(_start_date.value, _end_date.value, "min")
 					.format(startFDate);
@@ -420,7 +428,7 @@
 					.getBetweenDate(_start_date.value, _end_date.value, "max")
 					.format(endFDate);
 				let desc = $i18n.t("tmui32x.tmBetweenTime.nowText");
-				date = new tmDate(start);
+				let date = new tmDate(start);
 				if (item === "w") {
 					start = date
 						.getDateStartOf("w")
@@ -504,14 +512,17 @@
 
 	function sorDateVaild(str: string[]): string[] {
 		let types = getTypes();
-		str.sort((a: string, b: string): number => {
+		// 空串不参与比较(空串会被tmDate解析为当前时间导致排序错乱)，保持原槽位
+		let emptys = str.map((v) => v === "");
+		let reals = str.filter((v) => v !== "");
+		reals.sort((a: string, b: string): number => {
 			return new tmDate(a).getTime(types) - new tmDate(b).getTime(types);
 		});
-		return str;
+		return emptys.map((isEmpty) => (isEmpty ? "" : reals.shift()!));
 	}
 
 	function openShow() {
-		if (_disabled.value) return;
+		if (props.disabled) return;
 		show.value = true;
 		/**
 		 * 变量控制打开状态
@@ -527,7 +538,7 @@
 		 */
 		emit("update:modelShow", false);
 		cancelResetDataCol();
-		if (_lazyContent.value) {
+		if (props.lazyContent) {
 			yanchiDuration.value = false;
 		}
 	}
@@ -556,7 +567,7 @@
 	function onConfirm() {
 		let str = coverStrVal();
 		let tmdate: string[] = [];
-		if (nowValue.value[0] !== "" && nowValue.value[1] !== "") {
+		if (nowValue.value[0] !== "" || nowValue.value[1] !== "") {
 			tmdate = nowValue.value.slice(0);
 			nowModelValue.value = tmdate;
 		}
@@ -631,6 +642,7 @@
 				<view class="tmPickerDateWrapQuickInput">
 					<view @click="inputClick(0)" style="flex: 1; height: 40px">
 						<input
+							:placeholder="$i18n.t('tmui32x.tmBetweenTime.startText')"
 							:placeholder-style="_placeStyle"
 							:style="{
 								color: changeIndex == 0 ? _activeBorderColor : _fontColor,
@@ -646,6 +658,7 @@
 					}}</tm-text>
 					<view @click="inputClick(1)" style="flex: 1; height: 40px">
 						<input
+							:placeholder="$i18n.t('tmui32x.tmBetweenTime.endText')"
 							:placeholder-style="_placeStyle"
 							:style="{
 								color: changeIndex == 1 ? _activeBorderColor : _fontColor,
@@ -672,22 +685,6 @@
 	</view>
 </template>
 <style scoped>
-	.tmPickerDateText {
-		text-align: left;
-		transition-duration: 350ms;
-		transition-timing-function: linear;
-		transition-property: transform, opacity;
-		transform: translateY(100%) scale(0);
-		opacity: 0;
-	}
-
-	.tmPickerDateWrapQuickInputPlackeTips {
-		flex: 1;
-		display: flex;
-		flex-direction: row;
-		pointer-events: none;
-	}
-
 	.tmPickerInput {
 		border-radius: 80rpx;
 		height: 80rpx;

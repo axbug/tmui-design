@@ -1,12 +1,8 @@
 <script lang="ts" setup>
-import { ref, computed, onMounted, onBeforeUnmount, watch, PropType, getCurrentInstance, nextTick, inject } from 'vue';
+import { ref, computed, onMounted, onBeforeUnmount, watch, PropType, getCurrentInstance, inject } from 'vue';
 import { covetUniNumber, getUnit } from "../../libs/tool";
 import { getDefaultColor } from "../../libs/colors";
 import { useTmConfig } from "../../libs/config";
-import tmRadioGroup from '../tm-radio-group/tm-radio-group.vue';
-import tmRadio from './tm-radio.vue';
-const proxy = getCurrentInstance()?.proxy as InstanceType<typeof tmRadio> | null;
-
 /**
  * @displayName 单选框
  * @exportName tm-radio
@@ -17,7 +13,7 @@ const proxy = getCurrentInstance()?.proxy as InstanceType<typeof tmRadio> | null
     | --- | --- | --- | --- |
     | ☑️| ☑️ | ☑️ | ☑️ | ☑️ | 1.0.0 |
  */
-defineOptions({ name: 'TmRadio' });
+defineOptions({ name: 'TmRadio', options: { styleIsolation: 'apply-shared', virtualHost: true, addGlobalClass: true, multipleSlots: true } });
 const { config } = useTmConfig()
 
 const emit = defineEmits([
@@ -146,6 +142,10 @@ const props = defineProps({
 const nowValue = ref<string | number | boolean>('');
 const isDestroy = ref(false);
 const parentVal = inject("tmRadioGroupValue", computed((): string | number | boolean => ""))
+const addItem:((item: string | number | boolean, ischange: boolean)=>void)|null = inject("tmRadioAddItem", null)
+const removeItem:((item: string | number | boolean)=>void)|null = inject("tmRadioRemoveItem", null)
+
+
 const _color = computed(() => {
     if (props.color == "") return getDefaultColor(config.color);
     return getDefaultColor(props.color);
@@ -194,23 +194,18 @@ onBeforeUnmount(() => {
 
 onMounted(() => {
     isDestroy.value = false;
-    
-    nextTick(() => {
-        let parent = findParent(proxy)
-        if(!parent){
-            nowValue.value = props.modelValue;
-        }
-    });
+    if(addItem == null || removeItem == null) return;
+   nowValue.value = props.modelValue;
 });
 
 function boxClick() {
-    let pelement = findParent(proxy!);
+    let pelement = addItem != null && removeItem != null;
     /**
      * 点击事件
      */
     emit('click');
     if (_disabled.value) return;
-    if (parentVal.value === props.value && pelement != null) return;
+    if (parentVal.value === props.value && pelement) return;
     if (_isCheck.value) {
         nowValue.value = props.unCheckValue;
     } else {
@@ -238,49 +233,28 @@ function boxClick() {
 function setSelected(val: string | number | boolean) {
     if (props.value === val) {
         nowValue.value = props.value;
-        
+
     } else {
         nowValue.value = props.unCheckValue;
     }
 }
 
 function pushDataToParent(isChange: boolean) {
-    let pelement = findParent(proxy!);
-    if (pelement == null) return;
-    let parent: InstanceType<typeof tmRadioGroup> = pelement!;
-    if (typeof parent?.addItem != 'function') return;
-    parent.addItem(nowValue.value, isChange);
+    if(addItem == null || removeItem == null) return;
+    addItem(nowValue.value, isChange);
 }
 function removeValue() {
-    let pelement = findParent(proxy!);
-    if (pelement == null) return;
-    let parent: InstanceType<typeof tmRadioGroup> = pelement!;
-    if (typeof parent?.removeItem != 'function') return;
-    parent.removeItem(props.value);
+    if(addItem == null || removeItem == null) return;
+    removeItem(props.value);
 }
-function findParent(parent: any): any {
-    if (parent == null) return null;
-    if (parent.$parent?.$options?.name == "TmRadioGroup") return parent.$parent;
-    let parents = findParent(parent.$parent);
-    if (parents?.$options?.name == "TmRadioGroup") return parents;
-    return null;
-}
+
 
 watch(parentVal, (newvalue: string | number | boolean) => {
     setSelected(newvalue)
 }, { deep: true })
 
 </script>
-<script lang="ts">
-export default {
-    options: {
-        styleIsolation: "apply-shared",
-        virtualHost: true,
-        addGlobalClass: true,
-        multipleSlots: true,
-    },
-};
-</script>
+
 <template>
     <view :class="[_disabled ? 'checkboxDisabled' : '']" class="checkbox" @click="boxClick">
         <view class="checkboxBox" v-if="!hiddenCheckbox" :style="{
@@ -295,7 +269,7 @@ export default {
 
         </view>
         <view v-if="_showLabel" class="checkboxLabelBox" :class="[!hiddenCheckbox ? 'checkboxLabelBoxLeftSpace' : '']">
-            <!-- 
+            <!--
 			 默认文本插槽
 			 @binding {boolean} checked - 是否选中
 			 -->

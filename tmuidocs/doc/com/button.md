@@ -55,8 +55,8 @@ import headertips from '../components/headertips.vue'
 | darkBgColor | string | "" | - | 
 | fontColor | string | "" | - | 
 | darkFontColorColor | string | "" | - | 
-| linear | string[] | ()=\>[] | 渐变，前面的color,bgColor,darkBgColor失效 | 
-| shadow | string\|number\|Array\<string\> | '' | 数字或者字符串时自动计算投影,它会投影大小数组时(必须为4),第一个x,第二为y,第三个为大小,第四个为投影颜色空字符串时,取全局配置,如果不想投影设置为none即可. | 
+| linear | string[] | ()=\>[] | 渐变，前面的color,bgColor,darkBgColor失效[方向，颜色1，颜色2] | 
+| shadow | string\|number\|Array\<string\> | [] | 数字或者字符串时自动计算投影,它会投影大小数组时(必须为4),第一个x,第二为y,第三个为大小,第四个为投影颜色空字符串时,取全局配置,如果不想投影设置为none即可. | 
 | formType | string | "" | - | 
 | disableHover | boolean | false | 禁止hover效果，点按没有hover效果，有时可能不需要。 | 
 | url | string | "" | 跳转的地址链接，出现时点击click会跳转以/pages开头。 | 

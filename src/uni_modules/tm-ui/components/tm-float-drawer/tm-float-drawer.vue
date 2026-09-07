@@ -264,6 +264,40 @@ function getTouchY(e: TouchEvent | MouseEvent): number {
     return e.clientY;
 }
 
+function getCurrentTranslateY(target?: EventTarget | null): number {
+    // #ifdef H5
+    const element = target instanceof Element
+        ? target
+        : drawerRef.value instanceof Element
+            ? drawerRef.value
+            : null;
+
+    if (element && typeof window !== 'undefined') {
+        const transform = window.getComputedStyle(element).transform;
+        const match = transform.match(/^matrix(3d)?\((.+)\)$/);
+
+        if (match) {
+            const values = match[2].split(',').map((item) => Number(item.trim()));
+            return match[1] === '3d' ? values[13] || 0 : values[5] || 0;
+        }
+    }
+    // #endif
+
+    return translateY.value;
+}
+
+function startDrag(touchY: number, target?: EventTarget | null) {
+    const currentTranslateY = getCurrentTranslateY(target);
+
+    translateY.value = currentTranslateY;
+    isDragging.value = true;
+    hasMoved.value = false;
+    isAnimating.value = false;
+    startY.value = touchY;
+    startTranslateY.value = currentTranslateY;
+    emits('movestart');
+}
+
 // 头部点击切换
 function handleHeaderClick() {
     if (props.disabled) return;
@@ -293,12 +327,7 @@ function handleTouchStart(e: TouchEvent) {
             if (!inHeader) return;
         }
 
-        isDragging.value = true;
-        hasMoved.value = false;
-        isAnimating.value = false;
-        startY.value = touchY;
-        startTranslateY.value = translateY.value;
-        emits('movestart');
+        startDrag(touchY, e.currentTarget);
 
         // #endif
         // #ifndef H5
@@ -314,12 +343,7 @@ function handleTouchStart(e: TouchEvent) {
                     }
                 }
                 if (inHeader) {
-                    isDragging.value = true;
-                    hasMoved.value = false;
-                    isAnimating.value = false;
-                    startY.value = touchY;
-                    startTranslateY.value = translateY.value;
-                    emits('movestart');
+                    startDrag(touchY, e.currentTarget);
                 }
 
             })
@@ -329,12 +353,7 @@ function handleTouchStart(e: TouchEvent) {
 
 
     } else {
-        isDragging.value = true;
-        hasMoved.value = false;
-        isAnimating.value = false;
-        startY.value = touchY;
-        startTranslateY.value = translateY.value;
-        emits('movestart');
+        startDrag(touchY, e.currentTarget);
     }
 
 
@@ -469,12 +488,7 @@ function handleMouseDown(e: MouseEvent) {
         if (!inHeader) return;
     }
     // #endif
-    isDragging.value = true;
-    hasMoved.value = false;
-    isAnimating.value = false;
-    startY.value = e.clientY;
-    startTranslateY.value = translateY.value;
-    emits('movestart');
+    startDrag(e.clientY, e.currentTarget);
     e.preventDefault();
     e.stopPropagation();
 

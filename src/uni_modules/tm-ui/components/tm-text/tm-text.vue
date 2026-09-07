@@ -36,7 +36,7 @@ import { getDefaultColor, setTextColorLightByDark, getOutlineColorObj, getTextCo
 	| --- | --- | --- | --- |
 	| ☑️| ☑️ | ☑️ | ☑️ | ☑️ | 1.0.0 |
  */
-defineOptions({ name: 'TmText' });
+defineOptions({ name: 'TmText', options: { styleIsolation: 'apply-shared', virtualHost: true, addGlobalClass: true, multipleSlots: true } });
 
 const { config } = useTmConfig()
 const slots = useSlots()
@@ -63,7 +63,7 @@ const attrs = defineProps({
      * 文本自定样式
      */
     _style:{
-        type: [String, Object] as PropType<Partial<CSSStyleDeclaration>|string>,
+        type: [String, Object] as PropType<Record<string, any>|string>,
         default: ''
     },
 	/**
@@ -273,13 +273,4 @@ const __style = computed((): { [key: string]: any } => {
 })
 </script>
 
-<script lang="ts">
-export default {
-    options: {
-        styleIsolation: "apply-shared",
-        virtualHost: true,
-        addGlobalClass: true,
-        multipleSlots: true,
-    },
-};
-</script>
+

@@ -26,7 +26,7 @@
 import { PropType, computed } from "vue";
 import { arrayNumberValidByStyleMP, arrayNumberValidByBorderWidth, covetUniNumber, arrayNumberValidByStyleBorderColor, arrayNumberValidByStyleBorderStyle, linearValid } from "../../libs/tool";
 import { useTmConfig } from "../../libs/config";
-import { getDefaultColor, getOutlineColorObj, getTextColorObj, getThinColorObj,getDefaultColorObj } from "../../libs/colors";
+import { getDefaultColor, getOutlineColorObj, getTextColorObj, getThinColorObj,getDefaultColorObj, hexToRgb } from "../../libs/colors";
 
 /**
  * @displayName 标签
@@ -38,7 +38,7 @@ import { getDefaultColor, getOutlineColorObj, getTextColorObj, getThinColorObj,g
     | --- | --- | --- | --- |
     | ☑️| ☑️ | ☑️ | ☑️ | ☑️ | 1.0.0 |
  */
-defineOptions({ name: 'TmTag' });
+defineOptions({ name: 'TmTag', options: { styleIsolation: 'apply-shared', virtualHost: true, addGlobalClass: true, multipleSlots: true } });
 const { config } = useTmConfig()
 const emits = defineEmits([
     /**
@@ -160,15 +160,7 @@ const attrs = defineProps({
     /** 渐变，前面的color,bgColor,darkBgColor失效 */
     linear: {
         type: Array as PropType<string[]>,
-        default: () => [],
-        validator: (val: string[]) => {
-            if (val.length == 0) return true;
-            let pass = val.length == 3;
-            if (!pass) {
-                console.error("tmui提醒:linear 参数格式错误，请检查,必须长度为3");
-            }
-            return pass
-        }
+        default: () => []
     },
     /**
      * 数字或者字符串时自动计算投影,它会投影大小
@@ -177,16 +169,7 @@ const attrs = defineProps({
      */
     shadow: {
         type: [String, Number, Array<string>],
-        default: '',
-        validator: (val: string | number | string[]) => {
-            if (Array.isArray(val)) {
-                if (val.length != 4) {
-                    console.error("tmui提醒:shadow 第一个x,第二为y,第三个为大小 ,第四个为投影颜色");
-                    return false;
-                }
-            }
-            return true;
-        }
+        default: ''
     }
 })
 type PropsKeyType = keyof typeof attrs;
@@ -252,6 +235,8 @@ const buttonStyle = computed(() => {
         borderStyle = 'solid'
     }
 
+    
+
     if (obj) {
         let borderColor = arrayNumberValidByStyleBorderColor(attrs.borderColor||obj.default.borderColor)
 
@@ -261,14 +246,33 @@ const buttonStyle = computed(() => {
         style.borderColor =  borderColor.join(" ");
         style.borderWidth = linear ? '0px' : borderWidth.join(" ")
         style.borderRadius =  borderRadius.join(" ")
-        let shadow = 'none'
-        if (Array.isArray(attrs.shadow)) {
-            shadow = attrs.shadow.join(' ')
-        } else if (attrs.shadow !== '' && attrs.shadow != 'none') {
-            shadow = `0 2px ${covetUniNumber(attrs.shadow)} ${obj.default.shadow}`
+        
+
+        if (attrs.skin=='normal') {
+            let shadow = 'none';
+            let shadowColor = obj.default.background;
+            let linearColors = attrs.linear.length>=3?attrs.linear[1]:''
+            if (Array.isArray(attrs.shadow)&&attrs.shadow.length>=3) {
+                if(attrs.shadow.length>=4){
+                    shadowColor = attrs.shadow[3]
+                }else{
+                    shadowColor = linearColors||shadowColor
+                }
+                const rgb = hexToRgb(shadowColor)
+                shadow = `${attrs.shadow.join(' ')} rgba(${rgb.r},${rgb.g},${rgb.b},0.3)`;
+            } else if (attrs.shadow !== '' && attrs.shadow!=0 && attrs.shadow != 'none'&&(typeof attrs.shadow == 'number'||typeof attrs.shadow == 'string')) {
+                shadowColor = linearColors||shadowColor;
+                const rgb = hexToRgb(shadowColor)
+                shadow = `0 2px ${covetUniNumber(attrs.shadow,'px')} rgba(${rgb.r},${rgb.g},${rgb.b},0.3)`;
+            } else if (Array.isArray(config.tagShadow)&&config.tagShadow.length>=3) {
+                let shadowFix = config.tagShadow.map(el=>covetUniNumber(el,'px'))
+                shadowColor = linearColors||shadowColor
+                const rgb = hexToRgb(shadowColor)
+                shadow = `${shadowFix.join(' ')} rgba(${rgb.r},${rgb.g},${rgb.b},0.3)`;
+            }
+            style.boxShadow = shadow;
         }
 
-        style.boxShadow = shadow
     }
     // padding: 0px 10rpx;
     if(attrs.size === 'xs'||attrs.size === 's'){
@@ -286,16 +290,7 @@ const onClick = ()=>{
     emits('click');
 }
 </script>
-<script lang="ts">
-export default {
-    options: {
-        styleIsolation: "apply-shared",
-        virtualHost: true,
-        addGlobalClass: true,
-        multipleSlots: true,
-    },
-};
-</script>
+
 
 <style lang="scss" scoped>
 .tmTag {
